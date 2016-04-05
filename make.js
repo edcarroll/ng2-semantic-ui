@@ -34,3 +34,12 @@ builder
     .catch(function(err) {
         console.log('Error', err);
     });
+
+builder
+    .bundle(name, path.resolve(__dirname, 'bundles/', name + '.min.js'), { minify: true, sourceMaps: 'inline' })
+    .then(function() {
+        console.log('Minified build complete.');
+    })
+    .catch(function(err) {
+        console.log('Error', err);
+    });
