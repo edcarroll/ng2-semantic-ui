@@ -1,7 +1,10 @@
-import {DIRECTIVES} from './src/directives';
+// Import all directives
+import {DROPDOWN_DIRECTIVES} from './components/dropdown';
 
-export * from './src/directives';
+// Export all directives
+export * from './components/dropdown';
 
-export default {
-  directives: [DIRECTIVES],
-}
+// Export convenience property
+export const DIRECTIVES: any[] = [
+  DROPDOWN_DIRECTIVES
+];

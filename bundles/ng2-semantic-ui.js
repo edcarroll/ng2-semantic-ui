@@ -1,4 +1,4 @@
-System.registerDynamic("src/components/dropdown/dropdown.service", [], true, function($__require, exports, module) {
+System.registerDynamic("components/dropdown/dropdown.service", [], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -64,7 +64,7 @@ System.registerDynamic("src/components/dropdown/dropdown.service", [], true, fun
   return module.exports;
 });
 
-System.registerDynamic("src/components/dropdown/dropdown.directive", ["angular2/core", "./dropdown.service"], true, function($__require, exports, module) {
+System.registerDynamic("components/dropdown/dropdown.directive", ["angular2/core", "./dropdown.service"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -195,7 +195,7 @@ System.registerDynamic("src/components/dropdown/dropdown.directive", ["angular2/
   return module.exports;
 });
 
-System.registerDynamic("src/components/dropdown/dropdown-menu.directive", ["angular2/core", "./dropdown.directive"], true, function($__require, exports, module) {
+System.registerDynamic("components/dropdown/dropdown-menu.directive", ["angular2/core", "./dropdown.directive"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -247,7 +247,7 @@ System.registerDynamic("src/components/dropdown/dropdown-menu.directive", ["angu
   return module.exports;
 });
 
-System.registerDynamic("src/components/dropdown", ["./dropdown/dropdown.directive", "./dropdown/dropdown-menu.directive"], true, function($__require, exports, module) {
+System.registerDynamic("components/dropdown", ["./dropdown/dropdown.directive", "./dropdown/dropdown-menu.directive"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -263,7 +263,7 @@ System.registerDynamic("src/components/dropdown", ["./dropdown/dropdown.directiv
   return module.exports;
 });
 
-System.registerDynamic("src/directives", ["./components/dropdown"], true, function($__require, exports, module) {
+System.registerDynamic("ng2-semantic-ui", ["./components/dropdown"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -280,20 +280,4 @@ System.registerDynamic("src/directives", ["./components/dropdown"], true, functi
   return module.exports;
 });
 
-System.registerDynamic("ng2-semantic-ui", ["./src/directives"], true, function($__require, exports, module) {
-  "use strict";
-  ;
-  var define,
-      global = this,
-      GLOBAL = this;
-  function __export(m) {
-    for (var p in m)
-      if (!exports.hasOwnProperty(p))
-        exports[p] = m[p];
-  }
-  var directives_1 = $__require('./src/directives');
-  __export($__require('./src/directives'));
-  Object.defineProperty(exports, "__esModule", {value: true});
-  exports.default = {directives: [directives_1.DIRECTIVES]};
-  return module.exports;
-});
+//# sourceMappingURL=ng2-semantic-ui.js.map

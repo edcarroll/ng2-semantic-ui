@@ -27,7 +27,7 @@ var config = {
 builder.config(config);
 
 builder
-    .bundle(name, path.resolve(__dirname, 'bundles/', name + '.js'))
+    .bundle(name, path.resolve(__dirname, 'bundles/', name + '.js'), { minify: false, sourceMaps: true })
     .then(function() {
         console.log('Build complete.');
     })
@@ -36,7 +36,7 @@ builder
     });
 
 builder
-    .bundle(name, path.resolve(__dirname, 'bundles/', name + '.min.js'), { minify: true, sourceMaps: 'inline' })
+    .bundle(name, path.resolve(__dirname, 'bundles/', name + '.min.js'), { minify: true, sourceMaps: true })
     .then(function() {
         console.log('Minified build complete.');
     })

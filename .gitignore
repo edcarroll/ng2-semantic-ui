@@ -9,6 +9,7 @@ npm-debug.log
 *.d.ts
 typings
 !bundles/*.js
+!bundles/*.map
 
 # JetBrains
 .idea
