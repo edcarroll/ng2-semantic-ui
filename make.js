@@ -2,10 +2,11 @@ var pkg = require('./package.json');
 var path = require('path');
 var Builder = require('systemjs-builder');
 var name = pkg.name;
+var bundleName = [name, name].join("/");
 
 var builder = new Builder();
 var config = {
-    baseURL: '.',
+    baseURL: '..',
     transpiler: 'typescript',
     typescriptOptions: {
         module: 'cjs'
@@ -27,7 +28,7 @@ var config = {
 builder.config(config);
 
 builder
-    .bundle(name, path.resolve(__dirname, 'bundles/', name + '.js'), { minify: false, sourceMaps: true })
+    .bundle(bundleName, path.resolve(__dirname, 'bundles/', name + '.js'), { minify: false, sourceMaps: true })
     .then(function() {
         console.log('Build complete.');
     })
@@ -36,7 +37,7 @@ builder
     });
 
 builder
-    .bundle(name, path.resolve(__dirname, 'bundles/', name + '.min.js'), { minify: true, sourceMaps: true })
+    .bundle(bundleName, path.resolve(__dirname, 'bundles/', name + '.min.js'), { minify: true, sourceMaps: true })
     .then(function() {
         console.log('Minified build complete.');
     })
