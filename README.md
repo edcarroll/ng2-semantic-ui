@@ -59,10 +59,23 @@ And you're good to go!
 
 ## Development
 
-To generate all `*.js`, `*.js.map` and `*.d.ts` files:
+To generate all library `*.js`, `*.js.map` and `*.d.ts` files:
 
 ```bash
 $ npm run tsc
+```
+
+To run the demo app:
+
+```bash
+$ npm run demo
+```
+
+To compile the demo app without running the app:
+
+```bash
+$ npm run tsc-demo
+# use tsc-demo:w to watch for changes
 ```
 
 ## License

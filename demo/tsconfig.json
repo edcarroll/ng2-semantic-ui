@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "noImplicitAny": true,
-    "module": "commonjs",
+    "module": "system",
+    "moduleResolution": "node",
     "target": "ES5",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -9,11 +10,7 @@
     "declaration": true
   },
   "files": [
-    "typings/main.d.ts",
-    "ng2-semantic-ui.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "demo"
+    "../typings/browser.d.ts",
+    "app/main.ts"
   ]
 }

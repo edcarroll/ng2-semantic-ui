@@ -2,8 +2,12 @@
   "name": "ng2-semantic-ui",
   "version": "0.1.0",
   "scripts": {
-    "prepublish": "node_modules/.bin/typings install && node_modules/.bin/tsc && node make.js",
-    "tsc": "node_modules/.bin/tsc"
+    "typings": "typings install",
+    "tsc": "tsc",
+    "tsc-demo": "tsc -p demo",
+    "tsc-demo:w": "tsc -p demo -w",
+    "prepublish": "tsc && node make.js",
+    "demo": "tsc -p demo && lite-server -c demo/server-config.json"
   },
   "repository": {
     "type": "git",
@@ -29,6 +33,7 @@
     "zone.js": ">= 0.6.4"
   },
   "devDependencies": {
+    "lite-server": "^2.2.0",
     "systemjs-builder": "^0.15.14",
     "typescript": "^1.8.9",
     "typings": "^0.7.12"
