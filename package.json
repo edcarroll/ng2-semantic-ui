@@ -2,9 +2,8 @@
   "name": "ng2-semantic-ui",
   "version": "0.1.0",
   "scripts": {
-    "test": "tsc && karma start",
-    "prepublish": "typings install && tsc && node make.js",
-    "tsc": "tsc"
+    "prepublish": "node_modules/.bin/typings install && tsc && node make.js",
+    "tsc": "node_modules/.bin/tsc"
   },
   "repository": {
     "type": "git",
