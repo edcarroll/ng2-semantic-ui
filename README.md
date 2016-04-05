@@ -29,7 +29,7 @@ Clone the [angular2-quickstart](https://github.com/valor-software/angular2-quick
 Add the following lines to your `index.html`:
 ```html
 <script src="node_modules/ng2-semantic-ui/bundles/ng2-semantic-ui.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.css" type="text/css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.css">
 ```
 
 Update your `app.component.ts` to be the following:
