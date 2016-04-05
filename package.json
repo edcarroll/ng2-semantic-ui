@@ -1,0 +1,37 @@
+{
+  "name": "ng2-semantic-ui",
+  "version": "0.1.0",
+  "scripts": {
+    "test": "tsc && karma start",
+    "prepublish": "typings install && tsc && node make.js",
+    "tsc": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/edcarroll/ng2-semantic-ui/tree/master"
+  },
+  "author": "Edward Carroll",
+  "keywords": [
+    "angular",
+    "angular2",
+    "semantic-ui"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/edcarroll/ng2-semantic-ui/tree/master/issues"
+  },
+  "main": "ng2-semantic-ui.js",
+  "typings": "./ng2-semantic-ui.d.ts",
+  "peerDependencies": {
+    "angular2": ">= 2.0.0-beta.10",
+    "es6-shim": ">= 0.33.3",
+    "reflect-metadata": ">= 0.1.2",
+    "rxjs": ">= 5.0.0-beta.2",
+    "zone.js": ">= 0.6.4"
+  },
+  "devDependencies": {
+    "systemjs-builder": "^0.15.14",
+    "typescript": "^1.8.9",
+    "typings": "^0.7.12"
+  }
+}

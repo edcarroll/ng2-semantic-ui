@@ -1,0 +1,81 @@
+export const ALWAYS = 'always';
+export const DISABLED = 'disabled';
+export const OUTSIDECLICK = 'outsideClick';
+export const NONINPUT = 'nonInput';
+
+import {Dropdown} from './dropdown.directive';
+
+export class DropdownService {
+  private openScope:Dropdown;
+
+  private closeDropdownBind:EventListener = this.closeDropdown.bind(this);
+  private keybindFilterBind:EventListener = this.keybindFilter.bind(this);
+
+  public open(dropdownScope:Dropdown):void {
+    if (!this.openScope) {
+      window.document.addEventListener('click', this.closeDropdownBind, true);
+      window.document.addEventListener('keydown', this.keybindFilterBind);
+    }
+
+    // if (this.openScope && this.openScope !== dropdownScope) {
+    //   this.openScope.isOpen = false;
+    // }
+
+    this.openScope = dropdownScope;
+  }
+
+  public close(dropdownScope:Dropdown):void {
+    if (this.openScope !== dropdownScope) {
+      return;
+    }
+
+    this.openScope = void 0;
+    window.document.removeEventListener('click', this.closeDropdownBind, true);
+    window.document.removeEventListener('keydown', this.keybindFilterBind);
+  }
+
+  private closeDropdown(event:MouseEvent):void {
+    if (!this.openScope) {
+      return;
+    }
+
+    if (event && this.openScope.autoClose === DISABLED) {
+      return;
+    }
+
+    if (event && this.openScope.el.nativeElement.contains(event.target) &&
+      !this.openScope.menuEl.nativeElement.contains(event.target)) {
+      return;
+    }
+
+    if (event && this.openScope.autoClose === NONINPUT &&
+      this.openScope.menuEl &&
+      /input|textarea/i.test((<any> event.target).tagName) &&
+      this.openScope.menuEl.nativeElement.contains(event.target)) {
+      return;
+    }
+
+    if (event && this.openScope.autoClose === OUTSIDECLICK &&
+      this.openScope.menuEl &&
+      this.openScope.menuEl.nativeElement.contains(event.target)) {
+      return;
+    }
+
+    this.openScope.isOpen = false;
+  }
+
+  private keybindFilter(event:KeyboardEvent):void {
+    if (event.which === 27) {
+      this.openScope.focusToggleElement();
+      this.closeDropdown(void 0);
+      return;
+    }
+
+    if (this.openScope.keyboardNav && this.openScope.isOpen &&
+      (event.which === 38 || event.which === 40)) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.openScope.focusDropdownEntry(event.which);
+    }
+  }
+}

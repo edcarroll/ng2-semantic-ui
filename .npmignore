@@ -1,14 +1,13 @@
 # Node
-node_modules
+node_modules/*
 npm-debug.log
 
+# DO NOT IGNORE TYPESCRIPT FILES FOR NPM
 # TypeScript
-*.js
-!make.js
-*.map
-*.d.ts
+# *.js
+# *.map
+# *.d.ts
 typings
-!bundles/*.js
 
 # JetBrains
 .idea
