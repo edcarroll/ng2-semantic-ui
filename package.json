@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "lite-server": "^2.2.0",
+    "ng2-prism": "^2.2.2",
     "systemjs-builder": "^0.15.14",
     "typescript": "^1.8.9",
     "typings": "^0.7.12"

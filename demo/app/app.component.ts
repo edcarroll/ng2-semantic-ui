@@ -1,7 +1,24 @@
 import {Component} from 'angular2/core';
+import {ROUTER_DIRECTIVES, RouteConfig} from "angular2/router";
+import {GettingStartedPage} from './home/getting-started.page'
+import {DropdownComponentPage} from "./components/dropdown.page";
 
 @Component({
     selector: 'app',
-    template: '<h1>My First Angular 2 App</h1>'
+    directives: [ROUTER_DIRECTIVES],
+    templateUrl: './app/app.component.html'
 })
-export class AppComponent { }
+@RouteConfig([
+    {
+        path: '/',
+        name: 'GettingStarted',
+        component: GettingStartedPage,
+        useAsDefault: true
+    },
+    {
+        path: '/components/dropdown',
+        name: 'DropdownComponent',
+        component: DropdownComponentPage
+    }
+])
+export class AppComponent {}

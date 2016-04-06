@@ -1,0 +1,72 @@
+<div class="ui masthead vertical segment">
+    <div class="ui container">
+        <h1 class="ui header">
+            Getting Started
+            <div class="sub header">
+                <iframe class="github" src="https://ghbtns.com/github-btn.html?user=edcarroll&repo=ng2-semantic-ui&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+                <p>Semantic UI Angular 2 Integrations, written in pure AngularJS - <strong>no JQuery required</strong>.<br>
+                    Some components have been adapted from <a href="https://github.com/valor-software/ng2-bootstrap">ng2-bootstrap.</a></p>
+            </div>
+        </h1>
+    </div>
+</div>
+<div class="ui main container">
+    <div class="ui dividing right rail"></div>
+    <h2 class="ui dividing header">Installation</h2>
+    <p>To install this library, run:</p>
+    <div class="ui segment">
+        <codeblock shell="bash" prompt="$">
+            $ npm install ng2-semantic-ui --save
+        </codeblock>
+    </div>
+    <p>Add a reference to your <code>index.html</code> file: (also ensure you have a reference to the Semantic UI CSS file)</p>
+    <div class="ui segment">
+        <codeblock markup>
+            &lt;script src=&quot;node_modules/ng2-semantic-ui/bundles/ng2-semantic-ui.min.js&quot;&gt;&lt;/script&gt;
+        </codeblock>
+    </div>
+    <p>Start using the directives:</p>
+    <div class="ui segment">
+        <codeblock typescript>
+            import {DIRECTIVES} from 'ng2-semantic-ui/ng2-semantic-ui';
+        </codeblock>
+    </div>
+
+    <h2 class="ui dividing header">Quick Start (from scratch)</h2>
+    <p>Clone the <a href="https://github.com/valor-software/angular2-quickstart">angular2-quickstart</a> repository, and set everything up.</p>
+    <p>Add the following lines to your <code>index.html</code>:</p>
+    <div class="ui segment">
+        <codeblock markup>
+            &lt;script src=&quot;node_modules/ng2-semantic-ui/bundles/ng2-semantic-ui.min.js&quot;&gt;&lt;/script&gt;
+            &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.css&quot;&gt;
+        </codeblock>
+    </div>
+    <p>Update your <code>app.component.ts</code> to be the following:</p>
+    <div class="ui segment">
+        <codeblock typescript>
+            import {Component} from 'angular2/core';
+            import {DROPDOWN_DIRECTIVES} from 'ng2-semantic-ui/ng2-semantic-ui';
+
+            @Component({
+            selector: 'my-app',
+            directives: [DROPDOWN_DIRECTIVES],
+            template: `
+        </codeblock>
+        <codeblock markup>
+            &lt;div class=&quot;ui dropdown&quot; dropdown&gt;
+            Dropdown
+            &lt;i class=&quot;dropdown icon&quot;&gt;&lt;/i&gt;
+            &lt;div class=&quot;menu&quot; dropdownMenu&gt;
+            &lt;div class=&quot;item&quot;&gt;Choice 1&lt;/div&gt;
+            &lt;div class=&quot;item&quot;&gt;Choice 2&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;/div&gt;
+        </codeblock>
+        <codeblock typescript>
+            `
+            })
+            export class AppComponent {}
+        </codeblock>
+    </div>
+    <p>And you're good to go!</p>
+</div>

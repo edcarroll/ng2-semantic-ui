@@ -1,0 +1,23 @@
+<div class="sidebar">
+    <div class="ui vertical inverted fluid menu">
+        <div class="item">
+            <a class="ui mini images" href="/">
+                <img class="ui image" src="http://semantic-ui.com/images/logo.png">
+                <img class="ui image" src="https://angular.io/resources/images/logos/standard/shield-large.png">
+            </a>
+            <b class="logo">ng2-semantic-ui</b>
+        </div>
+        <a class="item" [routerLink]="['GettingStarted']">
+            <b>Getting Started</b>
+        </a>
+        <div class="item">
+            <div class="active header">Components</div>
+            <div class="menu">
+                <a class="item" [routerLink]="['DropdownComponent']">Dropdown</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="article">
+    <router-outlet></router-outlet>
+</div>

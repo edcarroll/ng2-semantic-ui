@@ -1,5 +1,5 @@
 # Node
-node_modules/*
+node_modules
 npm-debug.log
 
 # DO NOT IGNORE TYPESCRIPT FILES FOR NPM
@@ -8,6 +8,7 @@ npm-debug.log
 # *.map
 # *.d.ts
 typings
+demo
 
 # JetBrains
 .idea
