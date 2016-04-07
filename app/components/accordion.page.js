@@ -34,7 +34,7 @@ System.register(['angular2/core', "../internal/page-title.component", './../inte
                     core_1.Component({
                         selector: 'accordion-component-page',
                         directives: [page_title_component_1.PageTitle, example_component_1.Example, accordion_examples_1.ACCORDION_EXAMPLES],
-                        templateUrl: "/app/components/accordion.page.html"
+                        templateUrl: "app/components/accordion.page.html"
                     }), 
                     __metadata('design:paramtypes', [])
                 ], AccordionComponentPage);

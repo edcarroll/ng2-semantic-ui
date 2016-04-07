@@ -34,7 +34,7 @@ System.register(['angular2/core', "../internal/page-title.component", 'ng2-prism
                     core_1.Component({
                         selector: 'getting-started-page',
                         directives: [page_title_component_1.PageTitle, codeblock_1.Codeblock, languages_1.Typescript, languages_1.Markup],
-                        templateUrl: "/app/home/getting-started.page.html"
+                        templateUrl: "app/home/getting-started.page.html"
                     }), 
                     __metadata('design:paramtypes', [])
                 ], GettingStartedPage);

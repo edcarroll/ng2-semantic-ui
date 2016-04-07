@@ -28,7 +28,7 @@ System.register(['angular2/core', 'ng2-semantic-ui/ng2-semantic-ui'], function(e
                     core_1.Component({
                         selector: 'accordion-example-standard',
                         directives: [ng2_semantic_ui_1.ACCORDION_DIRECTIVES],
-                        templateUrl: "/app/components/accordion/standard.example.html"
+                        templateUrl: "app/components/accordion/standard.example.html"
                     }), 
                     __metadata('design:paramtypes', [])
                 ], AccordionExampleStandard);
@@ -42,7 +42,7 @@ System.register(['angular2/core', 'ng2-semantic-ui/ng2-semantic-ui'], function(e
                     core_1.Component({
                         selector: 'accordion-example-styled',
                         directives: [ng2_semantic_ui_1.ACCORDION_DIRECTIVES],
-                        templateUrl: "/app/components/accordion/styled.example.html"
+                        templateUrl: "app/components/accordion/styled.example.html"
                     }), 
                     __metadata('design:paramtypes', [])
                 ], AccordionExampleStyled);

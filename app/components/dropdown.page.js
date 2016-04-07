@@ -37,7 +37,7 @@ System.register(['angular2/core', "../internal/page-title.component", './../inte
                     core_1.Component({
                         selector: 'dropdown-component-page',
                         directives: [page_title_component_1.PageTitle, example_component_1.Example, codeblock_1.Codeblock, languages_1.Typescript],
-                        templateUrl: "/app/components/dropdown.page.html"
+                        templateUrl: "app/components/dropdown.page.html"
                     }), 
                     __metadata('design:paramtypes', [])
                 ], DropdownComponentPage);

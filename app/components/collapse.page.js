@@ -34,7 +34,7 @@ System.register(['angular2/core', "../internal/page-title.component", './../inte
                     core_1.Component({
                         selector: 'collapse-component-page',
                         directives: [page_title_component_1.PageTitle, example_component_1.Example, collapse_examples_1.COLLAPSE_EXAMPLES],
-                        templateUrl: "/app/components/collapse.page.html"
+                        templateUrl: "app/components/collapse.page.html"
                     }), 
                     __metadata('design:paramtypes', [])
                 ], CollapseComponentPage);
