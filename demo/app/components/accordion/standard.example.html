@@ -1,0 +1,31 @@
+<sui-accordion [closeOthers]="false">
+    <sui-accordion-panel [isOpen]="true">
+        <div title>
+            <i class="dropdown icon"></i>
+            Intially Expanded Panel
+        </div>
+        <div content>
+            <p>Using <code>[isOpen]</code> sets the panel to be expanded. Use <code>(isOpenChange)</code> to catch when the panel is toggled.</p>
+            <p>Supports <code>[(isOpen)]</code> syntax.</p>
+        </div>
+    </sui-accordion-panel>
+    <sui-accordion-panel [isDisabled]="true" [isOpen]="true">
+        <div title>
+            <i class="dropdown icon"></i>
+            Disabled Panel
+        </div>
+        <div content>
+            <p>Setting <code>[isDisabled]</code> to <code>true</code> stops the user from being able to toggle the panel.</p>
+        </div>
+    </sui-accordion-panel>
+    <sui-accordion-panel>
+        <div title>
+            <i class="dropdown icon"></i>
+            Final Panel
+        </div>
+        <div content>
+            <p>This is the final panel.</p>
+            <p>Opening this one doesn't affect the others as <code>[closeOthers]</code> is set to <code>false</code>.</p>
+        </div>
+    </sui-accordion-panel>
+</sui-accordion>

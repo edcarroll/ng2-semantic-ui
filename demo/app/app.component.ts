@@ -1,6 +1,9 @@
 import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES, RouteConfig} from "angular2/router";
 import {GettingStartedPage} from './home/getting-started.page'
+
+import {AccordionComponentPage} from "./components/accordion.page";
+import {CollapseComponentPage} from "./components/collapse.page";
 import {DropdownComponentPage} from "./components/dropdown.page";
 
 @Component({
@@ -14,6 +17,16 @@ import {DropdownComponentPage} from "./components/dropdown.page";
         name: 'GettingStarted',
         component: GettingStartedPage,
         useAsDefault: true
+    },
+    {
+        path: '/components/accordion',
+        name: 'AccordionComponent',
+        component: AccordionComponentPage
+    },
+    {
+        path: '/components/collapse',
+        name: 'CollapseComponent',
+        component: CollapseComponentPage
     },
     {
         path: '/components/dropdown',

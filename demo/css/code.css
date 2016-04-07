@@ -18,10 +18,11 @@ pre[class*="language-"] {
     line-height: 20px;
     direction: ltr;
     text-align: left;
-    white-space: pre;
+    white-space: pre-wrap;
     word-spacing: normal;
     word-break: normal;
     word-wrap: normal;
+    overflow: hidden;
     padding: 0;
     -moz-tab-size: 4;
     -o-tab-size: 4;
