@@ -2,6 +2,10 @@
 
 Semantic UI Angular 2 Integrations, written in pure AngularJS - **no JQuery required**. Some components have been adapted from [ng2-bootstrap](https://github.com/valor-software/ng2-bootstrap).
 
+## Demo & Usage
+
+[ng2-semantic-ui](http://edcarroll.github.io/ng2-semantic-ui/)
+
 ## Installation
 
 To install this library, run:
