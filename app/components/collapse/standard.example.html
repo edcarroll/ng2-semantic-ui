@@ -1,0 +1,15 @@
+<div class="ui segments">
+    <div class="ui segment">
+        <button class="ui primary button" (click)="collapse = !collapse">
+            Toggle Collapse
+        </button>
+    </div>
+    <div class="ui segment">
+        <div [suiCollapse]="collapse">
+            <div class="ui segment">
+                <h4 class="ui header">Collapsible Panel</h4>
+                <p>Content of the panel.</p>
+            </div>
+        </div>
+    </div>
+</div>

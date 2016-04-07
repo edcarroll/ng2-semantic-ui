@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>ng2-semantic-ui - Semantic UI Angular 2 Integrations</title>
+
+    <base href="/">
+
+    <link rel="icon" sizes="16x16" href="/favicon.ico">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="ng2-semantic-ui - Semantic UI Angular 2 Integrations">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.css">
+    <link rel="stylesheet" href="css/code.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/2.0.0-beta.13/angular2-polyfills.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.19.25/system.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/2.0.0-beta.13/Rx.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/2.0.0-beta.13/angular2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/2.0.0-beta.13/http.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/2.0.0-beta.13/router.js"></script>
+
+    <script src="js/ng2-prism.js"></script>
+    <script src="js/ng2-semantic-ui.js"></script>
+
+    <script>
+        // configure system loader
+        System.config({
+            packages: {
+                app: {
+                    format: 'register',
+                    defaultExtension: 'js'
+                }
+            },
+            map: {
+                prismjs: "ng2-prism/node_modules/prismjs"
+            }
+        });
+    </script>
+</head>
+<body>
+<app>
+    <div class="ui active inverted dimmer">
+        <div class="ui text large loader">Loading</div>
+    </div>
+</app>
+<script>
+    System.import('/app/main');
+</script>
+</body>
+</html>
