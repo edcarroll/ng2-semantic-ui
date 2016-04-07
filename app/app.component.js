@@ -40,7 +40,7 @@ System.register(['angular2/core', "angular2/router", './home/getting-started.pag
                     core_1.Component({
                         selector: 'app',
                         directives: [router_1.ROUTER_DIRECTIVES],
-                        templateUrl: './app/app.component.html'
+                        templateUrl: 'app/app.component.html'
                     }),
                     router_1.RouteConfig([
                         {
