@@ -6,6 +6,7 @@ import {DROPDOWN_DIRECTIVES} from './components/dropdown';
 
 // Export all directives
 export * from './components/accordion';
+export * from './components/checkbox';
 export * from './components/collapse';
 export * from './components/dropdown';
 

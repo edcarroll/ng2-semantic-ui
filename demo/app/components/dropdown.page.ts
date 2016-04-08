@@ -9,6 +9,6 @@ import {Typescript} from 'ng2-prism/languages';
 @Component({
     selector: 'dropdown-component-page',
     directives: [PageTitle, Example, Codeblock, Typescript],
-    templateUrl: "/app/components/dropdown.page.html"
+    templateUrl: "app/components/dropdown.page.html"
 })
 export class DropdownComponentPage { }

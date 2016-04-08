@@ -4,6 +4,7 @@
   "scripts": {
     "typings": "typings install",
     "tsc": "tsc",
+    "tsc:w": "tsc -w",
     "tsc-demo": "tsc -p demo",
     "tsc-demo:w": "tsc -p demo -w",
     "prepublish": "tsc && node make.js",

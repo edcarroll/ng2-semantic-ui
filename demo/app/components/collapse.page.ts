@@ -8,6 +8,6 @@ import {COLLAPSE_EXAMPLES} from "./collapse/collapse.examples";
 @Component({
     selector: 'collapse-component-page',
     directives: [PageTitle, Example, COLLAPSE_EXAMPLES],
-    templateUrl: "/app/components/collapse.page.html"
+    templateUrl: "app/components/collapse.page.html"
 })
 export class CollapseComponentPage { }

@@ -7,6 +7,6 @@ import {Markup, Typescript} from "ng2-prism/languages";
 @Component({
     selector: 'getting-started-page',
     directives: [PageTitle, Codeblock, Typescript, Markup],
-    templateUrl: "/app/home/getting-started.page.html"
+    templateUrl: "app/home/getting-started.page.html"
 })
 export class GettingStartedPage { }

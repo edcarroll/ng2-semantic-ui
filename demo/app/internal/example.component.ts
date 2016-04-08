@@ -1,5 +1,7 @@
 import {Component, Input} from 'angular2/core';
+
 import {Collapse} from "../../../components/collapse";
+// import {Collapse} from "ng2-semantic-ui/ng2-semantic-ui";
 
 import {Codeblock} from "ng2-prism/codeblock";
 import {Markup} from "ng2-prism/languages";
