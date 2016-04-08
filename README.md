@@ -33,6 +33,7 @@ The current list of available components with links to their docs is below:
 * [Accordion](http://edcarroll.github.io/ng2-semantic-ui/#/components/accordion)
 * [Checkbox](http://edcarroll.github.io/ng2-semantic-ui/#/components/checkbox)
 * [Collapse](http://edcarroll.github.io/ng2-semantic-ui/#/components/collapse)
+* [Dimmer](http://edcarroll.github.io/ng2-semantic-ui/#/components/dimmer)
 
 ## Quick start (from scratch)
 
