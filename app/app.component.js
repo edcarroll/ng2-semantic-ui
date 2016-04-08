@@ -1,4 +1,4 @@
-System.register(['angular2/core', "angular2/router", './home/getting-started.page', "./components/accordion.page", "./components/collapse.page", "./components/dropdown.page"], function(exports_1, context_1) {
+System.register(['angular2/core', "angular2/router", './home/getting-started.page', "./components/test.page", "./components/accordion.page", "./components/checkbox.page", "./components/collapse.page", "./components/dropdown.page"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', "angular2/router", './home/getting-started.pag
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, getting_started_page_1, accordion_page_1, collapse_page_1, dropdown_page_1;
+    var core_1, router_1, getting_started_page_1, test_page_1, accordion_page_1, checkbox_page_1, collapse_page_1, dropdown_page_1;
     var AppComponent;
     return {
         setters:[
@@ -23,8 +23,14 @@ System.register(['angular2/core', "angular2/router", './home/getting-started.pag
             function (getting_started_page_1_1) {
                 getting_started_page_1 = getting_started_page_1_1;
             },
+            function (test_page_1_1) {
+                test_page_1 = test_page_1_1;
+            },
             function (accordion_page_1_1) {
                 accordion_page_1 = accordion_page_1_1;
+            },
+            function (checkbox_page_1_1) {
+                checkbox_page_1 = checkbox_page_1_1;
             },
             function (collapse_page_1_1) {
                 collapse_page_1 = collapse_page_1_1;
@@ -35,6 +41,7 @@ System.register(['angular2/core', "angular2/router", './home/getting-started.pag
         execute: function() {
             AppComponent = (function () {
                 function AppComponent() {
+                    this.test = "hi";
                 }
                 AppComponent = __decorate([
                     core_1.Component({
@@ -50,9 +57,19 @@ System.register(['angular2/core', "angular2/router", './home/getting-started.pag
                             useAsDefault: true
                         },
                         {
+                            path: '/components/test',
+                            name: 'TestComponent',
+                            component: test_page_1.TestComponentPage
+                        },
+                        {
                             path: '/components/accordion',
                             name: 'AccordionComponent',
                             component: accordion_page_1.AccordionComponentPage
+                        },
+                        {
+                            path: '/components/checkbox',
+                            name: 'CheckboxComponent',
+                            component: checkbox_page_1.CheckboxComponentPage
                         },
                         {
                             path: '/components/collapse',

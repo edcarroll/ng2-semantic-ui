@@ -1,4 +1,4 @@
-System.register(['angular2/core', "../internal/page-title.component", './../internal/example.component', "./collapse/collapse.examples"], function(exports_1, context_1) {
+System.register(['angular2/core', "../internal/page-title.component", './../internal/example.component', "../internal/api.component", "./collapse/collapse.examples"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', "../internal/page-title.component", './../inte
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, page_title_component_1, example_component_1, collapse_examples_1;
+    var core_1, page_title_component_1, example_component_1, api_component_1, collapse_examples_1;
     var CollapseComponentPage;
     return {
         setters:[
@@ -23,17 +23,31 @@ System.register(['angular2/core', "../internal/page-title.component", './../inte
             function (example_component_1_1) {
                 example_component_1 = example_component_1_1;
             },
+            function (api_component_1_1) {
+                api_component_1 = api_component_1_1;
+            },
             function (collapse_examples_1_1) {
                 collapse_examples_1 = collapse_examples_1_1;
             }],
         execute: function() {
             CollapseComponentPage = (function () {
                 function CollapseComponentPage() {
+                    this.api = [
+                        {
+                            selector: "[suiCollapse]",
+                            properties: [
+                                {
+                                    name: "suiCollapse",
+                                    description: "Sets whether or not the element is collapsed."
+                                }
+                            ]
+                        }
+                    ];
                 }
                 CollapseComponentPage = __decorate([
                     core_1.Component({
                         selector: 'collapse-component-page',
-                        directives: [page_title_component_1.PageTitle, example_component_1.Example, collapse_examples_1.COLLAPSE_EXAMPLES],
+                        directives: [page_title_component_1.PageTitle, example_component_1.Example, api_component_1.Api, collapse_examples_1.COLLAPSE_EXAMPLES],
                         templateUrl: "app/components/collapse.page.html"
                     }), 
                     __metadata('design:paramtypes', [])

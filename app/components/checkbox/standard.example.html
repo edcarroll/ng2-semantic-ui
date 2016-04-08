@@ -1,0 +1,19 @@
+<div class="ui form">
+    <div class="grouped fields">
+        <label>Checkbox Example</label>
+        <div class="field">
+            <sui-checkbox [(ngModel)]="eCheck" [isDisabled]="eCheckDisabled" [isReadonly]="eCheckReadonly">
+                An example checkbox
+            </sui-checkbox>
+        </div>
+        <div class="field">
+            <sui-checkbox [(ngModel)]="eCheckDisabled">1st checkbox disabled?</sui-checkbox>
+        </div>
+        <div class="field">
+            <sui-checkbox [(ngModel)]="eCheckReadonly">1st checkbox read-only?</sui-checkbox>
+        </div>
+        <div class="field">
+            <sui-checkbox [(ngModel)]="eCheck">Mirrors value of 1st checkbox</sui-checkbox>
+        </div>
+    </div>
+</div>
