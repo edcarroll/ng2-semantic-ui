@@ -1,6 +1,6 @@
 # ng2-semantic-ui
 
-Semantic UI Angular 2 Integrations, written in pure AngularJS - **no JQuery required**. Some components have been adapted from [ng2-bootstrap](https://github.com/valor-software/ng2-bootstrap).
+Semantic UI Angular 2 Integrations, written in pure AngularJS - **no JQuery required**.
 
 ## Demo & Usage
 
@@ -26,6 +26,14 @@ Start using the directives:
 import {DIRECTIVES} from `ng2-semantic-ui/ng2-semantic-ui';
 ```
 
+## Components
+
+The current list of available components with links to their docs is below:
+
+* [Accordion](http://edcarroll.github.io/ng2-semantic-ui/#/components/accordion)
+* [Checkbox](http://edcarroll.github.io/ng2-semantic-ui/#/components/checkbox)
+* [Collapse](http://edcarroll.github.io/ng2-semantic-ui/#/components/collapse)
+
 ## Quick start (from scratch)
 
 Clone the [angular2-quickstart](https://github.com/valor-software/angular2-quickstart) repository, and set everything up.
@@ -40,20 +48,13 @@ Update your `app.component.ts` to be the following:
 
 ```ts
 import {Component} from 'angular2/core';
-import {DROPDOWN_DIRECTIVES} from 'ng2-semantic-ui/ng2-semantic-ui';
+import {CHECKBOX_DIRECTIVES} from 'ng2-semantic-ui/ng2-semantic-ui';
 
 @Component({
   selector: 'my-app',
-  directives: [DROPDOWN_DIRECTIVES],
+  directives: [CHECKBOX_DIRECTIVES],
   template: `
-<div class="ui dropdown" dropdown>
-    Dropdown
-    <i class="dropdown icon"></i>
-    <div class="menu" dropdownMenu>
-        <div class="item">Choice 1</div>
-        <div class="item">Choice 2</div>
-    </div>
-</div>
+<sui-checkbox>Checkbox example</sui-checkbox>
 `
 })
 export class AppComponent {}
@@ -81,6 +82,10 @@ To compile the demo app without running the app:
 $ npm run tsc-demo
 # use tsc-demo:w to watch for changes
 ```
+
+## Acknowledgements
+
+Some components have been adapted from [ng2-bootstrap](https://github.com/valor-software/ng2-bootstrap).
 
 ## License
 

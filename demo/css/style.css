@@ -182,7 +182,8 @@ p code, .description code {
 .example > .html.segment > .attached.label {
     display: block;
 }
-.example > .html.segment > .attached.label .copy {
+.example > .html.segment > .attached.label .edit {
+    cursor: pointer;
     float: right;
 }
 .example > .html.segment {

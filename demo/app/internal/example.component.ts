@@ -13,12 +13,13 @@ import {Markup} from "ng2-prism/languages";
 <div class="example">
     <div class="info">
         <ng-content select="[info]"></ng-content>
-        <i class="icon code" (click)="detail = !detail"></i>
+        <i class="icon code" (click)="detail = !detail" title="View code"></i>
     </div>
     <div class="html ui top attached segment">
         <ng-content select="[result]"></ng-content>
         <div class="ui top attached label">
             Example
+            <i class="edit icon visible" (click)="detail = !detail"></i>
         </div>
     </div>
     <div [suiCollapse]="!detail">

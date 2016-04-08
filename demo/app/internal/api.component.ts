@@ -7,7 +7,7 @@ import {Component, Input} from 'angular2/core';
 <div class="api-object" *ngFor="#object of api;">
     <h3 class="ui header">{{ object.selector }}</h3>
     <div class="ui segments">
-        <div class="ui segment" *ngIf="object.properties.length">
+        <div class="ui segment" *ngIf="object.properties">
             <h4 class="ui header">
                 <i class="options icon"></i>
                 <div class="content">Properties</div>
@@ -17,7 +17,7 @@ import {Component, Input} from 'angular2/core';
                     <div class="content">
                         <div class="header">
                             <code>{{ property.name }}</code>&nbsp;
-                            <div class="ui teal tiny horizontal label" *ngIf="property.defaultValue">{{ property.defaultValue }}</div>
+                            <div class="ui teal tiny horizontal label" *ngIf="property.defaultValue" title="Default Value">{{ property.defaultValue }}</div>
                             <div class="ui red tiny horizontal label" *ngIf="property.required">required</div>
                         </div>
                         <div class="description" [innerHTML]="property.description"></div>
@@ -25,7 +25,7 @@ import {Component, Input} from 'angular2/core';
                 </div>
             </div>
         </div>
-        <div class="ui segment" *ngIf="object.events.length">
+        <div class="ui segment" *ngIf="object.events">
             <h4 class="ui header">
                 <i class="lightning icon"></i>
                 <div class="content">Events</div>
