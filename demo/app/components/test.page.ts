@@ -2,11 +2,11 @@ import {Component} from 'angular2/core';
 
 import {PageTitle} from "../internal/page-title.component";
 
-// import {CHECKBOX_DIRECTIVES} from '../../../components/checkbox';
+import {DIMMER_DIRECTIVES} from '../../../components/dimmer';
 
 @Component({
     selector: 'test-component-page',
-    directives: [PageTitle],
+    directives: [PageTitle, DIMMER_DIRECTIVES],
     template: `
 <page-title>
     <div header>Test</div>
@@ -18,25 +18,18 @@ import {PageTitle} from "../internal/page-title.component";
     <div class="ui dividing right rail"></div>
     <h2 class="ui dividing header">Examples</h2>
 
-    <div class="ui segment">
-        <sui-radio-button name="test" value="a" [(ngModel)]="test">
-            Hello {{ test }}
-        </sui-radio-button>
-        <br>
-        <sui-radio-button name="test" value="b" [isReadonly]="checkbox" [(ngModel)]="test" class="slider">
-            Hello {{ test }}
-        </sui-radio-button>
+    <div class="ui blurring segment">
+        <h3 class="ui header">Hello!</h3>
+        
+        <p>This is some body content.</p>
     </div>
-    
-    <div class="ui compact segment">
-        <sui-checkbox name="test" [isDisabled]="test != 'a'" [(ngModel)]="checkbox" class="fitted">
-            
-        </sui-checkbox>
-    </div>
-    
-    <div class="ui segment">
-        <button class="ui primary button" (click)="test = 'b'">Set radio to 'b'</button>
-    </div>
+    <sui-dimmer [(isDimmed)]="dimmed" [isDisabled]="disabled" class="page">
+            <h5 class="ui inverted header">
+                Dimmed Message!
+            </h5>
+        </sui-dimmer>
+    <button class="ui primary button" (click)="dimmed = !dimmed">Dim</button>
+    <button class="ui primary button" (click)="disabled = !disabled">Disable</button>
 </div>
 `
 })

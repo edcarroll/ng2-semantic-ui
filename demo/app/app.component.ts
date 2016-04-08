@@ -7,6 +7,7 @@ import {TestComponentPage} from "./components/test.page";
 import {AccordionComponentPage} from "./components/accordion.page";
 import {CheckboxComponentPage} from "./components/checkbox.page";
 import {CollapseComponentPage} from "./components/collapse.page";
+import {DimmerComponentPage} from "./components/dimmer.page";
 import {DropdownComponentPage} from "./components/dropdown.page";
 
 @Component({
@@ -40,6 +41,11 @@ import {DropdownComponentPage} from "./components/dropdown.page";
         path: '/components/collapse',
         name: 'CollapseComponent',
         component: CollapseComponentPage
+    },
+    {
+        path: '/components/dimmer',
+        name: 'DimmerComponent',
+        component: DimmerComponentPage
     },
     {
         path: '/components/dropdown',

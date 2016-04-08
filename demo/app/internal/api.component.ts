@@ -36,7 +36,7 @@ import {Component, Input} from 'angular2/core';
                         <div class="header">
                             <code>{{ event.name }}</code>
                         </div>
-                        <div class="description">Sets the name on the <code>&lt;input&gt;</code> component.</div>
+                        <div class="description" [innerHTML]="event.description"></div>
                     </div>
                 </div>
             </div>
