@@ -272,7 +272,9 @@ System.registerDynamic("ng2-semantic-ui/components/collapse", ["./collapse/colla
       global = this,
       GLOBAL = this;
   var collapse_component_1 = $__require('./collapse/collapse.component');
-  exports.Collapse = collapse_component_1.Collapse;
+  exports.COLLAPSE_DIRECTIVES = collapse_component_1.Collapse;
+  var collapse_component_2 = $__require('./collapse/collapse.component');
+  exports.Collapse = collapse_component_2.Collapse;
   return module.exports;
 });
 
@@ -541,7 +543,244 @@ System.registerDynamic("ng2-semantic-ui/components/dropdown", ["./dropdown/dropd
   return module.exports;
 });
 
-System.registerDynamic("ng2-semantic-ui/ng2-semantic-ui", ["./components/accordion", "./components/collapse", "./components/dropdown"], true, function($__require, exports, module) {
+System.registerDynamic("ng2-semantic-ui/components/checkbox/checkbox.component", ["angular2/core", "angular2/common"], true, function($__require, exports, module) {
+  "use strict";
+  ;
+  var define,
+      global = this,
+      GLOBAL = this;
+  var __decorate = (this && this.__decorate) || function(decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
+      r = Reflect.decorate(decorators, target, key, desc);
+    else
+      for (var i = decorators.length - 1; i >= 0; i--)
+        if (d = decorators[i])
+          r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+  };
+  var __metadata = (this && this.__metadata) || function(k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
+      return Reflect.metadata(k, v);
+  };
+  var core_1 = $__require('angular2/core');
+  var common_1 = $__require('angular2/common');
+  var Checkbox = (function() {
+    function Checkbox() {
+      this.classes = true;
+      this.checked = false;
+      this.checkChange = new core_1.EventEmitter(false);
+      this.isDisabled = false;
+      this.isReadonly = false;
+    }
+    Object.defineProperty(Checkbox.prototype, "checkedAttribute", {
+      get: function() {
+        return this.checked ? "" : null;
+      },
+      enumerable: true,
+      configurable: true
+    });
+    Object.defineProperty(Checkbox.prototype, "isDisabledAttribute", {
+      get: function() {
+        return this.isDisabled ? "disabled" : null;
+      },
+      enumerable: true,
+      configurable: true
+    });
+    Checkbox.prototype.onClick = function() {
+      if (!this.isDisabled && !this.isReadonly) {
+        this.toggle();
+      }
+    };
+    Checkbox.prototype.toggle = function() {
+      this.checked = !this.checked;
+      this.checkChange.emit(this.checked);
+    };
+    Checkbox.prototype.writeValue = function(value) {
+      var _this = this;
+      setTimeout(function() {
+        _this.checked = value;
+      });
+    };
+    __decorate([core_1.HostBinding('class.ui'), core_1.HostBinding('class.checkbox'), __metadata('design:type', Object)], Checkbox.prototype, "classes", void 0);
+    __decorate([core_1.Input(), __metadata('design:type', String)], Checkbox.prototype, "name", void 0);
+    __decorate([core_1.HostBinding('class.checked'), __metadata('design:type', Boolean)], Checkbox.prototype, "checked", void 0);
+    __decorate([core_1.Output(), __metadata('design:type', core_1.EventEmitter)], Checkbox.prototype, "checkChange", void 0);
+    __decorate([core_1.Input(), __metadata('design:type', Boolean)], Checkbox.prototype, "isDisabled", void 0);
+    __decorate([core_1.HostBinding('class.read-only'), core_1.Input(), __metadata('design:type', Boolean)], Checkbox.prototype, "isReadonly", void 0);
+    __decorate([core_1.HostListener('click'), __metadata('design:type', Function), __metadata('design:paramtypes', []), __metadata('design:returntype', void 0)], Checkbox.prototype, "onClick", null);
+    Checkbox = __decorate([core_1.Component({
+      selector: 'sui-checkbox',
+      template: "\n<input class=\"hidden\" type=\"checkbox\" [attr.name]=\"name\" [attr.checked]=\"checkedAttribute\" [attr.disabled]=\"isDisabledAttribute\">\n<label>\n    <ng-content></ng-content>\n</label>\n"
+    }), __metadata('design:paramtypes', [])], Checkbox);
+    return Checkbox;
+  }());
+  exports.Checkbox = Checkbox;
+  var CUSTOM_VALUE_ACCESSOR = new core_1.Provider(common_1.NG_VALUE_ACCESSOR, {
+    useExisting: core_1.forwardRef(function() {
+      return CheckboxValueAccessor;
+    }),
+    multi: true
+  });
+  var CheckboxValueAccessor = (function() {
+    function CheckboxValueAccessor(host) {
+      this.host = host;
+      this.onChange = function() {};
+      this.onTouched = function() {};
+    }
+    CheckboxValueAccessor.prototype.writeValue = function(value) {
+      this.host.writeValue(!!value);
+    };
+    CheckboxValueAccessor.prototype.registerOnChange = function(fn) {
+      this.onChange = fn;
+    };
+    CheckboxValueAccessor.prototype.registerOnTouched = function(fn) {
+      this.onTouched = fn;
+    };
+    CheckboxValueAccessor = __decorate([core_1.Directive({
+      selector: 'sui-checkbox',
+      host: {'(checkChange)': 'onChange($event)'},
+      providers: [CUSTOM_VALUE_ACCESSOR]
+    }), __metadata('design:paramtypes', [Checkbox])], CheckboxValueAccessor);
+    return CheckboxValueAccessor;
+  }());
+  exports.CheckboxValueAccessor = CheckboxValueAccessor;
+  return module.exports;
+});
+
+System.registerDynamic("ng2-semantic-ui/components/checkbox/radiobutton.component", ["angular2/core", "angular2/common"], true, function($__require, exports, module) {
+  "use strict";
+  ;
+  var define,
+      global = this,
+      GLOBAL = this;
+  var __decorate = (this && this.__decorate) || function(decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
+      r = Reflect.decorate(decorators, target, key, desc);
+    else
+      for (var i = decorators.length - 1; i >= 0; i--)
+        if (d = decorators[i])
+          r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+  };
+  var __metadata = (this && this.__metadata) || function(k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
+      return Reflect.metadata(k, v);
+  };
+  var core_1 = $__require('angular2/core');
+  var common_1 = $__require('angular2/common');
+  var RadioButton = (function() {
+    function RadioButton() {
+      this.classes = true;
+      this.value = "";
+      this.isDisabled = false;
+      this.isReadonly = false;
+      this.checked = false;
+      this.currentValueChange = new core_1.EventEmitter(false);
+    }
+    Object.defineProperty(RadioButton.prototype, "checkedAttribute", {
+      get: function() {
+        return this.checked ? "" : null;
+      },
+      enumerable: true,
+      configurable: true
+    });
+    Object.defineProperty(RadioButton.prototype, "isDisabledAttribute", {
+      get: function() {
+        return this.isDisabled ? "disabled" : null;
+      },
+      enumerable: true,
+      configurable: true
+    });
+    RadioButton.prototype.onClick = function() {
+      if (!this.isDisabled && !this.isReadonly) {
+        this.currentValue = this.value;
+        this.currentValueChange.emit(this.currentValue);
+        this.update();
+      }
+    };
+    RadioButton.prototype.update = function() {
+      var _this = this;
+      setTimeout(function() {
+        _this.checked = _this.currentValue == _this.value;
+      });
+    };
+    RadioButton.prototype.writeValue = function(value) {
+      this.currentValue = value;
+      this.update();
+    };
+    __decorate([core_1.HostBinding('class.ui'), core_1.HostBinding('class.radio'), core_1.HostBinding('class.checkbox'), __metadata('design:type', Object)], RadioButton.prototype, "classes", void 0);
+    __decorate([core_1.Input(), __metadata('design:type', String)], RadioButton.prototype, "name", void 0);
+    __decorate([core_1.Input(), __metadata('design:type', Object)], RadioButton.prototype, "value", void 0);
+    __decorate([core_1.Input(), __metadata('design:type', Boolean)], RadioButton.prototype, "isDisabled", void 0);
+    __decorate([core_1.HostBinding('class.read-only'), core_1.Input(), __metadata('design:type', Boolean)], RadioButton.prototype, "isReadonly", void 0);
+    __decorate([core_1.HostBinding('class.checked'), __metadata('design:type', Boolean)], RadioButton.prototype, "checked", void 0);
+    __decorate([core_1.Output(), __metadata('design:type', core_1.EventEmitter)], RadioButton.prototype, "currentValueChange", void 0);
+    __decorate([core_1.HostListener('click'), __metadata('design:type', Function), __metadata('design:paramtypes', []), __metadata('design:returntype', void 0)], RadioButton.prototype, "onClick", null);
+    RadioButton = __decorate([core_1.Component({
+      selector: 'sui-radio-button[ngModel]',
+      directives: [],
+      template: "\n<input class=\"hidden\" type=\"checkbox\" [attr.name]=\"name\" [attr.value]=\"value\" [attr.checked]=\"checkedAttribute\" [attr.disabled]=\"isDisabledAttribute\">\n<label>\n    <ng-content></ng-content>\n</label>\n"
+    }), __metadata('design:paramtypes', [])], RadioButton);
+    return RadioButton;
+  }());
+  exports.RadioButton = RadioButton;
+  var CUSTOM_VALUE_ACCESSOR = new core_1.Provider(common_1.NG_VALUE_ACCESSOR, {
+    useExisting: core_1.forwardRef(function() {
+      return RadioButtonValueAccessor;
+    }),
+    multi: true
+  });
+  var RadioButtonValueAccessor = (function() {
+    function RadioButtonValueAccessor(host) {
+      this.host = host;
+      this.onChange = function() {};
+      this.onTouched = function() {};
+    }
+    RadioButtonValueAccessor.prototype.writeValue = function(value) {
+      this.host.writeValue(value);
+    };
+    RadioButtonValueAccessor.prototype.registerOnChange = function(fn) {
+      this.onChange = fn;
+    };
+    RadioButtonValueAccessor.prototype.registerOnTouched = function(fn) {
+      this.onTouched = fn;
+    };
+    RadioButtonValueAccessor = __decorate([core_1.Directive({
+      selector: 'sui-radio-button',
+      host: {'(currentValueChange)': 'onChange($event)'},
+      providers: [CUSTOM_VALUE_ACCESSOR]
+    }), __metadata('design:paramtypes', [RadioButton])], RadioButtonValueAccessor);
+    return RadioButtonValueAccessor;
+  }());
+  exports.RadioButtonValueAccessor = RadioButtonValueAccessor;
+  return module.exports;
+});
+
+System.registerDynamic("ng2-semantic-ui/components/checkbox", ["./checkbox/checkbox.component", "./checkbox/radiobutton.component"], true, function($__require, exports, module) {
+  "use strict";
+  ;
+  var define,
+      global = this,
+      GLOBAL = this;
+  var checkbox_component_1 = $__require('./checkbox/checkbox.component');
+  var radiobutton_component_1 = $__require('./checkbox/radiobutton.component');
+  var checkbox_component_2 = $__require('./checkbox/checkbox.component');
+  exports.Checkbox = checkbox_component_2.Checkbox;
+  exports.CheckboxValueAccessor = checkbox_component_2.CheckboxValueAccessor;
+  var radiobutton_component_2 = $__require('./checkbox/radiobutton.component');
+  exports.RadioButton = radiobutton_component_2.RadioButton;
+  exports.RadioButtonValueAccessor = radiobutton_component_2.RadioButtonValueAccessor;
+  exports.CHECKBOX_DIRECTIVES = [checkbox_component_1.Checkbox, checkbox_component_1.CheckboxValueAccessor, radiobutton_component_1.RadioButton, radiobutton_component_1.RadioButtonValueAccessor];
+  return module.exports;
+});
+
+System.registerDynamic("ng2-semantic-ui/ng2-semantic-ui", ["./components/accordion", "./components/collapse", "./components/dropdown", "./components/checkbox"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -556,6 +795,7 @@ System.registerDynamic("ng2-semantic-ui/ng2-semantic-ui", ["./components/accordi
   var collapse_1 = $__require('./components/collapse');
   var dropdown_1 = $__require('./components/dropdown');
   __export($__require('./components/accordion'));
+  __export($__require('./components/checkbox'));
   __export($__require('./components/collapse'));
   __export($__require('./components/dropdown'));
   exports.DIRECTIVES = [accordion_1.ACCORDION_DIRECTIVES, collapse_1.Collapse, dropdown_1.DROPDOWN_DIRECTIVES];
