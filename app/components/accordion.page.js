@@ -1,4 +1,4 @@
-System.register(['angular2/core', "../internal/page-title.component", './../internal/example.component', './../internal/Api.component', "./accordion/accordion.examples"], function(exports_1, context_1) {
+System.register(['angular2/core', "../internal/page-title.component", './../internal/example.component', './../internal/api.component', "./accordion/accordion.examples"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', "../internal/page-title.component", './../inte
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, page_title_component_1, example_component_1, Api_component_1, accordion_examples_1;
+    var core_1, page_title_component_1, example_component_1, api_component_1, accordion_examples_1;
     var AccordionComponentPage;
     return {
         setters:[
@@ -23,8 +23,8 @@ System.register(['angular2/core', "../internal/page-title.component", './../inte
             function (example_component_1_1) {
                 example_component_1 = example_component_1_1;
             },
-            function (Api_component_1_1) {
-                Api_component_1 = Api_component_1_1;
+            function (api_component_1_1) {
+                api_component_1 = api_component_1_1;
             },
             function (accordion_examples_1_1) {
                 accordion_examples_1 = accordion_examples_1_1;
@@ -69,7 +69,7 @@ System.register(['angular2/core', "../internal/page-title.component", './../inte
                 AccordionComponentPage = __decorate([
                     core_1.Component({
                         selector: 'accordion-component-page',
-                        directives: [page_title_component_1.PageTitle, example_component_1.Example, Api_component_1.Api, accordion_examples_1.ACCORDION_EXAMPLES],
+                        directives: [page_title_component_1.PageTitle, example_component_1.Example, api_component_1.Api, accordion_examples_1.ACCORDION_EXAMPLES],
                         templateUrl: "app/components/accordion.page.html"
                     }), 
                     __metadata('design:paramtypes', [])
