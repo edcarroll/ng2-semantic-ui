@@ -2,7 +2,7 @@ import {Component} from 'angular2/core';
 
 import {PageTitle} from "../internal/page-title.component";
 import {Example} from './../internal/example.component'
-import {Api} from './../internal/Api.component'
+import {Api} from './../internal/api.component'
 
 import {ACCORDION_EXAMPLES} from "./accordion/accordion.examples";
 

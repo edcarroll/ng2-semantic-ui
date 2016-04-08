@@ -2,11 +2,11 @@ import {Component} from 'angular2/core';
 
 import {PageTitle} from "../internal/page-title.component";
 
-import {CHECKBOX_DIRECTIVES} from '../../../components/checkbox';
+// import {CHECKBOX_DIRECTIVES} from '../../../components/checkbox';
 
 @Component({
     selector: 'test-component-page',
-    directives: [PageTitle, CHECKBOX_DIRECTIVES],
+    directives: [PageTitle],
     template: `
 <page-title>
     <div header>Test</div>
