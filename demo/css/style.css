@@ -204,3 +204,7 @@ p code, .description code {
 .example .transition.example .ui.button {
     margin-bottom: 0.5em;
 }
+
+api .api-object {
+    margin-top: 30px;
+}

@@ -20,7 +20,7 @@ export class RadioButton {
     @HostBinding('class.checkbox') classes = true;
 
     @Input() public name:string;
-    @Input() public value:any;
+    @Input() public value:any = "";
 
     @Input() public isDisabled:boolean = false;
     @HostBinding('class.read-only')

@@ -5,6 +5,7 @@ import {GettingStartedPage} from './home/getting-started.page'
 import {TestComponentPage} from "./components/test.page";
 
 import {AccordionComponentPage} from "./components/accordion.page";
+import {CheckboxComponentPage} from "./components/checkbox.page";
 import {CollapseComponentPage} from "./components/collapse.page";
 import {DropdownComponentPage} from "./components/dropdown.page";
 
@@ -29,6 +30,11 @@ import {DropdownComponentPage} from "./components/dropdown.page";
         path: '/components/accordion',
         name: 'AccordionComponent',
         component: AccordionComponentPage
+    },
+    {
+        path: '/components/checkbox',
+        name: 'CheckboxComponent',
+        component: CheckboxComponentPage
     },
     {
         path: '/components/collapse',

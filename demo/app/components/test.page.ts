@@ -28,9 +28,9 @@ import {CHECKBOX_DIRECTIVES} from '../../../components/checkbox';
         </sui-radio-button>
     </div>
     
-    <div class="ui segment">
-        <sui-checkbox name="test" [isDisabled]="test != 'a'" [(ngModel)]="checkbox" class="toggle">
-            Hello {{ checkbox }}
+    <div class="ui compact segment">
+        <sui-checkbox name="test" [isDisabled]="test != 'a'" [(ngModel)]="checkbox" class="fitted">
+            
         </sui-checkbox>
     </div>
     
