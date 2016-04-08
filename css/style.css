@@ -18,9 +18,10 @@ body {
 .article {
     position: fixed;
     top: 0;
-    left: 250px;
+    left: 0;
     right: 0;
     height: 100%;
+    padding-left: 250px;
     overflow-y: auto;
 }
 
