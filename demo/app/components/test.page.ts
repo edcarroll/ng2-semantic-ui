@@ -2,11 +2,11 @@ import {Component} from 'angular2/core';
 
 import {PageTitle} from "../internal/page-title.component";
 
-import {DIMMER_DIRECTIVES} from '../../../components/dimmer';
+// import {PROGRESS_DIRECTIVES} from '../../../components/progress';
 
 @Component({
     selector: 'test-component-page',
-    directives: [PageTitle, DIMMER_DIRECTIVES],
+    directives: [PageTitle],
     template: `
 <page-title>
     <div header>Test</div>
@@ -18,19 +18,15 @@ import {DIMMER_DIRECTIVES} from '../../../components/dimmer';
     <div class="ui dividing right rail"></div>
     <h2 class="ui dividing header">Examples</h2>
 
-    <div class="ui blurring segment">
-        <h3 class="ui header">Hello!</h3>
-        
-        <p>This is some body content.</p>
+    <div class="ui segment">
+        <sui-progress-bar [value]="value" [progress]="true" precision="2">Progress Bar</sui-progress-bar>
+        <div class="ui input">
+            <input type="number" [(ngModel)]="value">
+        </div>
     </div>
-    <sui-dimmer [(isDimmed)]="dimmed" [isDisabled]="disabled" class="page">
-            <h5 class="ui inverted header">
-                Dimmed Message!
-            </h5>
-        </sui-dimmer>
-    <button class="ui primary button" (click)="dimmed = !dimmed">Dim</button>
-    <button class="ui primary button" (click)="disabled = !disabled">Disable</button>
 </div>
 `
 })
-export class TestComponentPage { public test = "b"; public checkbox = true }
+export class TestComponentPage {
+    public value = 50;
+}

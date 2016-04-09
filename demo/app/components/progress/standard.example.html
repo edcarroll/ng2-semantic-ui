@@ -1,0 +1,34 @@
+<div class="ui segment">
+    <sui-progress [value]="value" [progress]="progress" [maximum]="maximum" [precision]="precision">
+        Progress Bar Label
+    </sui-progress>
+
+    <div class="ui small form">
+        <div class="four fields">
+            <div class="field">
+                <label>Value</label>
+                <div class="ui action input">
+                    <input type="number" [(ngModel)]="value">
+
+                    <button class="ui green icon button" (click)="value = value + 10">
+                        <i class="plus icon"></i>
+                    </button>
+                    <button class="ui red icon button" (click)="value = value - 10">
+                        <i class="minus icon"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="field">
+                <label>Maximum</label>
+                <input type="number" [(ngModel)]="maximum">
+            </div>
+            <div class="field">
+                <label>Precision</label>
+                <input type="number" [(ngModel)]="precision">
+            </div>
+        </div>
+        <div class="field">
+            <sui-checkbox [(ngModel)]="progress">Show Progress?</sui-checkbox>
+        </div>
+    </div>
+</div>

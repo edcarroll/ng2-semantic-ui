@@ -8,6 +8,8 @@ import {AccordionComponentPage} from "./components/accordion.page";
 import {CheckboxComponentPage} from "./components/checkbox.page";
 import {CollapseComponentPage} from "./components/collapse.page";
 import {DimmerComponentPage} from "./components/dimmer.page";
+import {ProgressComponentPage} from "./components/progress.page";
+
 import {DropdownComponentPage} from "./components/dropdown.page";
 
 @Component({
@@ -46,6 +48,11 @@ import {DropdownComponentPage} from "./components/dropdown.page";
         path: '/components/dimmer',
         name: 'DimmerComponent',
         component: DimmerComponentPage
+    },
+    {
+        path: '/components/progress',
+        name: 'ProgressComponent',
+        component: ProgressComponentPage
     },
     {
         path: '/components/dropdown',
