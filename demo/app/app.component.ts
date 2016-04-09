@@ -10,6 +10,7 @@ import {CollapseComponentPage} from "./components/collapse.page";
 import {DimmerComponentPage} from "./components/dimmer.page";
 import {DropdownComponentPage} from "./components/dropdown.page";
 import {ProgressComponentPage} from "./components/progress.page";
+import {MessageComponentPage} from "./components/message.page";
 
 @Component({
     selector: 'app',
@@ -28,6 +29,7 @@ import {ProgressComponentPage} from "./components/progress.page";
         name: 'TestComponent',
         component: TestComponentPage
     },
+
     {
         path: '/components/accordion',
         name: 'AccordionComponent',
@@ -57,6 +59,11 @@ import {ProgressComponentPage} from "./components/progress.page";
         path: '/components/progress',
         name: 'ProgressComponent',
         component: ProgressComponentPage
+    },
+    {
+        path: '/components/message',
+        name: 'MessageComponent',
+        component: MessageComponentPage
     }
 ])
 export class AppComponent { public test = "hi" }

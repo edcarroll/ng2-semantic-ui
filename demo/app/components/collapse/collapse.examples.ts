@@ -1,11 +1,11 @@
 import {Component} from 'angular2/core';
 
-import {Collapse} from '../../../../components/collapse';
-// import {Collapse} from 'ng2-semantic-ui/ng2-semantic-ui';
+import {COLLAPSE_DIRECTIVES} from '../../../../components/collapse';
+// import {COLLAPSE_DIRECTIVES} from 'ng2-semantic-ui/ng2-semantic-ui';
 
 @Component({
     selector: 'collapse-example-standard',
-    directives: [Collapse],
+    directives: [COLLAPSE_DIRECTIVES],
     templateUrl: "app/components/collapse/standard.example.html"
 })
 export class CollapseExampleStandard { }

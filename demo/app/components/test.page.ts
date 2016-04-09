@@ -2,11 +2,11 @@ import {Component} from 'angular2/core';
 
 import {PageTitle} from "../internal/page-title.component";
 
-// import {PROGRESS_DIRECTIVES} from '../../../components/progress';
+import {MESSAGE_DIRECTIVES} from '../../../components/message';
 
 @Component({
     selector: 'test-component-page',
-    directives: [PageTitle],
+    directives: [PageTitle, MESSAGE_DIRECTIVES],
     template: `
 <page-title>
     <div header>Test</div>
@@ -19,16 +19,14 @@ import {PageTitle} from "../internal/page-title.component";
     <h2 class="ui dividing header">Examples</h2>
 
     <div class="ui segment">
-<div class="ui inline cookie nag">
-  <span class="title">
-    We use cookies to ensure you get the best experience on our website
-  </span>
-  <i class="close icon"></i>
-</div>    
-</div>
+        <sui-message class="pink">
+            <div class="header">
+                Welcome back!
+            </div>
+            <p>This is a special notification which you can dismiss if you're bored with it.</p>
+        </sui-message>
+    </div>    
 </div>
 `
 })
-export class TestComponentPage {
-    public value = 50;
-}
+export class TestComponentPage { }

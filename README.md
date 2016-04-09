@@ -36,6 +36,7 @@ The current list of available components with links to their docs is below:
 * [Dimmer](http://edcarroll.github.io/ng2-semantic-ui/#/components/dimmer)
 * [Dropdown](http://edcarroll.github.io/ng2-semantic-ui/#/components/dropdown)
 * [Progress](http://edcarroll.github.io/ng2-semantic-ui/#/components/progress)
+* [Message](http://edcarroll.github.io/ng2-semantic-ui/#/components/message)
 
 ## Quick start (from scratch)
 
@@ -74,7 +75,6 @@ $ npm run tsc
 ```
 
 To run the demo app:
-
 ```bash
 $ npm run demo
 ```
