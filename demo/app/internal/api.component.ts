@@ -41,6 +41,12 @@ import {Component, Input} from 'angular2/core';
                 </div>
             </div>
         </div>
+        <div class="ui segment" *ngIf="!object.properties && !object.events">
+            <h4 class="ui header">
+                <i class="remove circle icon"></i>
+                <div class="content">No Properties</div>
+            </h4>
+        </div>
     </div>    
 </div>
 `

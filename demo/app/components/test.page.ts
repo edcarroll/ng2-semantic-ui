@@ -19,11 +19,13 @@ import {PageTitle} from "../internal/page-title.component";
     <h2 class="ui dividing header">Examples</h2>
 
     <div class="ui segment">
-        <sui-progress-bar [value]="value" [progress]="true" precision="2">Progress Bar</sui-progress-bar>
-        <div class="ui input">
-            <input type="number" [(ngModel)]="value">
-        </div>
-    </div>
+<div class="ui inline cookie nag">
+  <span class="title">
+    We use cookies to ensure you get the best experience on our website
+  </span>
+  <i class="close icon"></i>
+</div>    
+</div>
 </div>
 `
 })

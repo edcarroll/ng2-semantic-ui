@@ -8,7 +8,13 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from 'angular2/common';
     selector: 'sui-radio-button[ngModel]',
     directives: [],
     template: `
-<input class="hidden" type="checkbox" [attr.name]="name" [attr.value]="value" [attr.checked]="checkedAttribute" [attr.disabled]="isDisabledAttribute">
+<input class="hidden"
+       type="checkbox"
+       [attr.name]="name"
+       [attr.checked]="checkedAttribute"
+       [attr.disabled]="isDisabledAttribute"
+       [ngModel]="checked"
+       (ngModel)="currentValue = value">
 <label>
     <ng-content></ng-content>
 </label>

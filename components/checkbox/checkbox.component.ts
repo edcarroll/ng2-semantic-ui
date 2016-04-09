@@ -7,7 +7,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from 'angular2/common';
 @Component({
     selector: 'sui-checkbox',
     template: `
-<input class="hidden" type="checkbox" [attr.name]="name" [attr.checked]="checkedAttribute" [attr.disabled]="isDisabledAttribute">
+<input class="hidden" type="checkbox" [attr.name]="name" [attr.checked]="checkedAttribute" [attr.disabled]="isDisabledAttribute" [(ngModel)]="checked">
 <label>
     <ng-content></ng-content>
 </label>

@@ -1,81 +1,89 @@
-export const ALWAYS = 'always';
 export const DISABLED = 'disabled';
 export const OUTSIDECLICK = 'outsideClick';
-export const NONINPUT = 'nonInput';
+
+export const KEYCODE = {
+    LEFT: 37,
+    UP: 38,
+    RIGHT: 39,
+    DOWN: 40,
+
+    ESCAPE: 27,
+    ENTER: 13
+};
 
 import {Dropdown} from './dropdown.directive';
 
 export class DropdownService {
-  private openScope:Dropdown;
+    private dropdown:Dropdown;
 
-  private closeDropdownBind:EventListener = this.closeDropdown.bind(this);
-  private keybindFilterBind:EventListener = this.keybindFilter.bind(this);
+    private closeDropdownBind:EventListener = this.closeDropdown.bind(this);
+    private keybindFilterBind:EventListener = this.keybindFilter.bind(this);
 
-  public open(dropdownScope:Dropdown):void {
-    if (!this.openScope) {
-      window.document.addEventListener('click', this.closeDropdownBind, true);
-      window.document.addEventListener('keydown', this.keybindFilterBind);
+    public open(dropdown:Dropdown):void {
+        if (!this.dropdown) {
+            window.document.addEventListener('click', this.closeDropdownBind, true);
+            if (!dropdown.el.nativeElement.parentElement.hasAttribute("suiDropdownMenu")) {
+                window.document.addEventListener('keydown', this.keybindFilterBind);
+            }
+        }
+
+        this.dropdown = dropdown;
     }
 
-    // if (this.openScope && this.openScope !== dropdownScope) {
-    //   this.openScope.isOpen = false;
-    // }
-
-    this.openScope = dropdownScope;
-  }
-
-  public close(dropdownScope:Dropdown):void {
-    if (this.openScope !== dropdownScope) {
-      return;
+    public close():void {
+        this.dropdown = null;
+        window.document.removeEventListener('click', this.closeDropdownBind, true);
+        window.document.removeEventListener('keydown', this.keybindFilterBind);
     }
 
-    this.openScope = void 0;
-    window.document.removeEventListener('click', this.closeDropdownBind, true);
-    window.document.removeEventListener('keydown', this.keybindFilterBind);
-  }
+    private closeDropdown(event:MouseEvent):void {
+        console.log("Hi");
+        //Never close the dropdown if autoClose is disabled
+        if (event && this.dropdown.autoClose === DISABLED) {
+            return;
+        }
 
-  private closeDropdown(event:MouseEvent):void {
-    if (!this.openScope) {
-      return;
+        //Don't close the dropdown when clicking the toggle
+        if (event && this.dropdown.el.nativeElement.contains(event.target) &&
+            !this.dropdown.menuEl.nativeElement.contains(event.target)) {
+            return;
+        }
+
+        //Don't close the dropdown if expanding a nested dropdown
+        if (event && this.dropdown.menuEl.nativeElement.contains(event.target) &&
+            (<Element> event.target).hasAttribute("suiDropdown")) {
+            return;
+        }
+
+        //Don't close the dropdown if clicking on any input element
+        if (event && this.dropdown.menuEl &&
+            /input|textarea/i.test((<Element> event.target).tagName) &&
+            this.dropdown.menuEl.nativeElement.contains(event.target)) {
+            return;
+        }
+
+        //Don't close the dropdown when clicking inside if autoClose is outsideClick
+        if (event && this.dropdown.autoClose === OUTSIDECLICK &&
+            this.dropdown.menuEl &&
+            this.dropdown.menuEl.nativeElement.contains(event.target)) {
+            return;
+        }
+
+        //Close the dropdown
+        this.dropdown.isOpen = false;
     }
 
-    if (event && this.openScope.autoClose === DISABLED) {
-      return;
-    }
+    private keybindFilter(event:KeyboardEvent):void {
+        if (event.which === KEYCODE.ESCAPE) {
+            this.dropdown.isOpen = false;
+            return;
+        }
 
-    if (event && this.openScope.el.nativeElement.contains(event.target) &&
-      !this.openScope.menuEl.nativeElement.contains(event.target)) {
-      return;
+        if (this.dropdown.isOpen &&
+            ([KEYCODE.ENTER, KEYCODE.UP, KEYCODE.RIGHT, KEYCODE.DOWN, KEYCODE.LEFT].includes(event.which))) {
+            event.preventDefault();
+            event.stopPropagation();
+            this.dropdown.keyPress(event.which);
+        }
     }
-
-    if (event && this.openScope.autoClose === NONINPUT &&
-      this.openScope.menuEl &&
-      /input|textarea/i.test((<any> event.target).tagName) &&
-      this.openScope.menuEl.nativeElement.contains(event.target)) {
-      return;
-    }
-
-    if (event && this.openScope.autoClose === OUTSIDECLICK &&
-      this.openScope.menuEl &&
-      this.openScope.menuEl.nativeElement.contains(event.target)) {
-      return;
-    }
-
-    this.openScope.isOpen = false;
-  }
-
-  private keybindFilter(event:KeyboardEvent):void {
-    if (event.which === 27) {
-      this.openScope.focusToggleElement();
-      this.closeDropdown(void 0);
-      return;
-    }
-
-    if (this.openScope.keyboardNav && this.openScope.isOpen &&
-      (event.which === 38 || event.which === 40)) {
-      event.preventDefault();
-      event.stopPropagation();
-      this.openScope.focusDropdownEntry(event.which);
-    }
-  }
 }
