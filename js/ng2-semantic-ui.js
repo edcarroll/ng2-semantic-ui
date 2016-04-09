@@ -223,7 +223,7 @@ System.registerDynamic("ng2-semantic-ui/components/checkbox/checkbox.component",
     __decorate([core_1.HostListener('click'), __metadata('design:type', Function), __metadata('design:paramtypes', []), __metadata('design:returntype', void 0)], Checkbox.prototype, "onClick", null);
     Checkbox = __decorate([core_1.Component({
       selector: 'sui-checkbox',
-      template: "\n<input class=\"hidden\" type=\"checkbox\" [attr.name]=\"name\" [attr.checked]=\"checkedAttribute\" [attr.disabled]=\"isDisabledAttribute\">\n<label>\n    <ng-content></ng-content>\n</label>\n"
+      template: "\n<input class=\"hidden\" type=\"checkbox\" [attr.name]=\"name\" [attr.checked]=\"checkedAttribute\" [attr.disabled]=\"isDisabledAttribute\" [(ngModel)]=\"checked\">\n<label>\n    <ng-content></ng-content>\n</label>\n"
     }), __metadata('design:paramtypes', [])], Checkbox);
     return Checkbox;
   }());
@@ -335,7 +335,7 @@ System.registerDynamic("ng2-semantic-ui/components/checkbox/radiobutton.componen
     RadioButton = __decorate([core_1.Component({
       selector: 'sui-radio-button[ngModel]',
       directives: [],
-      template: "\n<input class=\"hidden\" type=\"checkbox\" [attr.name]=\"name\" [attr.value]=\"value\" [attr.checked]=\"checkedAttribute\" [attr.disabled]=\"isDisabledAttribute\">\n<label>\n    <ng-content></ng-content>\n</label>\n"
+      template: "\n<input class=\"hidden\"\n       type=\"checkbox\"\n       [attr.name]=\"name\"\n       [attr.checked]=\"checkedAttribute\"\n       [attr.disabled]=\"isDisabledAttribute\"\n       [ngModel]=\"checked\"\n       (ngModel)=\"currentValue = value\">\n<label>\n    <ng-content></ng-content>\n</label>\n"
     }), __metadata('design:paramtypes', [])], RadioButton);
     return RadioButton;
   }());
@@ -586,58 +586,65 @@ System.registerDynamic("ng2-semantic-ui/components/dropdown/dropdown.service", [
   var define,
       global = this,
       GLOBAL = this;
-  exports.ALWAYS = 'always';
   exports.DISABLED = 'disabled';
   exports.OUTSIDECLICK = 'outsideClick';
-  exports.NONINPUT = 'nonInput';
+  exports.KEYCODE = {
+    LEFT: 37,
+    UP: 38,
+    RIGHT: 39,
+    DOWN: 40,
+    ESCAPE: 27,
+    ENTER: 13
+  };
   var DropdownService = (function() {
     function DropdownService() {
       this.closeDropdownBind = this.closeDropdown.bind(this);
       this.keybindFilterBind = this.keybindFilter.bind(this);
     }
-    DropdownService.prototype.open = function(dropdownScope) {
-      if (!this.openScope) {
+    DropdownService.prototype.open = function(dropdown) {
+      if (!this.dropdown) {
         window.document.addEventListener('click', this.closeDropdownBind, true);
-        window.document.addEventListener('keydown', this.keybindFilterBind);
+        if (!dropdown.el.nativeElement.parentElement.hasAttribute("suiDropdownMenu")) {
+          window.document.addEventListener('keydown', this.keybindFilterBind);
+        }
       }
-      this.openScope = dropdownScope;
+      this.dropdown = dropdown;
     };
-    DropdownService.prototype.close = function(dropdownScope) {
-      if (this.openScope !== dropdownScope) {
-        return;
-      }
-      this.openScope = void 0;
+    DropdownService.prototype.close = function() {
+      this.dropdown = null;
       window.document.removeEventListener('click', this.closeDropdownBind, true);
       window.document.removeEventListener('keydown', this.keybindFilterBind);
     };
     DropdownService.prototype.closeDropdown = function(event) {
-      if (!this.openScope) {
+      console.log("Hi");
+      if (event && this.dropdown.autoClose === exports.DISABLED) {
         return;
       }
-      if (event && this.openScope.autoClose === exports.DISABLED) {
+      if (event && this.dropdown.el.nativeElement.contains(event.target) && !this.dropdown.menuEl.nativeElement.contains(event.target)) {
         return;
       }
-      if (event && this.openScope.el.nativeElement.contains(event.target) && !this.openScope.menuEl.nativeElement.contains(event.target)) {
+      if (event && this.dropdown.menuEl.nativeElement.contains(event.target) && event.target.hasAttribute("suiDropdown")) {
         return;
       }
-      if (event && this.openScope.autoClose === exports.NONINPUT && this.openScope.menuEl && /input|textarea/i.test(event.target.tagName) && this.openScope.menuEl.nativeElement.contains(event.target)) {
+      if (event && this.dropdown.menuEl && /input|textarea/i.test(event.target.tagName) && this.dropdown.menuEl.nativeElement.contains(event.target)) {
         return;
       }
-      if (event && this.openScope.autoClose === exports.OUTSIDECLICK && this.openScope.menuEl && this.openScope.menuEl.nativeElement.contains(event.target)) {
+      if (event && this.dropdown.autoClose === exports.OUTSIDECLICK && this.dropdown.menuEl && this.dropdown.menuEl.nativeElement.contains(event.target)) {
         return;
       }
-      this.openScope.isOpen = false;
+      this.dropdown.isOpen = false;
     };
     DropdownService.prototype.keybindFilter = function(event) {
-      if (event.which === 27) {
-        this.openScope.focusToggleElement();
-        this.closeDropdown(void 0);
+      if (event.which === exports.KEYCODE.ESCAPE) {
+        this.dropdown.isOpen = false;
         return;
       }
-      if (this.openScope.keyboardNav && this.openScope.isOpen && (event.which === 38 || event.which === 40)) {
+      if (this.dropdown.isOpen && ([exports.KEYCODE.ENTER, exports.KEYCODE.UP, exports.KEYCODE.RIGHT, exports.KEYCODE.DOWN, exports.KEYCODE.LEFT].find(function(keyCode) {
+        return event.which == keyCode;
+      }))) {
         event.preventDefault();
         event.stopPropagation();
-        this.openScope.focusDropdownEntry(event.which);
+        this.dropdown.keyPress(event.which);
       }
     };
     return DropdownService;
@@ -672,105 +679,128 @@ System.registerDynamic("ng2-semantic-ui/components/dropdown/dropdown.directive",
   var dropdown_service_1 = $__require('./dropdown.service');
   var Dropdown = (function() {
     function Dropdown(el) {
+      this.el = el;
       this.onToggle = new core_1.EventEmitter(false);
       this.isOpenChange = new core_1.EventEmitter(false);
+      this.isDisabled = false;
       this._dropdownService = new dropdown_service_1.DropdownService();
-      this.el = el;
+      this._selectedItem = null;
     }
     Object.defineProperty(Dropdown.prototype, "isOpen", {
       get: function() {
         return this._isOpen;
       },
       set: function(value) {
-        this._isOpen = !!value;
-        if (this.appendToBody && this.menuEl) {}
-        if (this.isOpen) {
-          this.focusToggleElement();
-          this._dropdownService.open(this);
-        } else {
-          this._dropdownService.close(this);
-          this.selectedOption = void 0;
+        var _this = this;
+        if (this.isDisabled) {
+          value = false;
         }
-        this.onToggle.emit(this.isOpen);
-        this.isOpenChange.emit(this.isOpen);
+        this._isOpen = !!value;
+        if (this.isOpen) {
+          this._dropdownService.open(this);
+          this.selectedItem = null;
+        } else {
+          this._dropdownService.close();
+        }
+        setTimeout(function() {
+          _this.onToggle.emit(_this._isOpen);
+          _this.isOpenChange.emit(_this._isOpen);
+        });
       },
       enumerable: true,
       configurable: true
     });
-    Dropdown.prototype.ngOnInit = function() {
-      this.autoClose = this.autoClose || dropdown_service_1.NONINPUT;
-      if (this.isOpen) {}
-    };
-    Dropdown.prototype.ngOnDestroy = function() {
-      if (this.appendToBody && this.menuEl) {
-        this.menuEl.nativeElement.remove();
-      }
-    };
     Object.defineProperty(Dropdown.prototype, "dropDownMenu", {
       set: function(dropdownMenu) {
         this.menuEl = dropdownMenu.el;
-        if (this.appendToBody) {
-          window.document.body.appendChild(this.menuEl.nativeElement);
-        }
       },
       enumerable: true,
       configurable: true
     });
-    Dropdown.prototype.toggle = function(open) {
-      return this.isOpen = arguments.length ? !!open : !this.isOpen;
+    Dropdown.prototype.toggle = function() {
+      this.isOpen = !this.isOpen;
     };
-    Dropdown.prototype.focusDropdownEntry = function(keyCode) {
-      var hostEl = this.menuEl ? this.menuEl.nativeElement : this.el.nativeElement.getElementsByTagName('ul')[0];
-      if (!hostEl) {
-        return;
-      }
-      var elems = hostEl.getElementsByTagName('a');
-      if (!elems || !elems.length) {
-        return;
-      }
-      switch (keyCode) {
-        case (40):
-          if (typeof this.selectedOption !== 'number') {
-            this.selectedOption = 0;
-            break;
-          }
-          if (this.selectedOption === elems.length - 1) {
-            break;
-          }
-          this.selectedOption++;
-          break;
-        case (38):
-          if (typeof this.selectedOption !== 'number') {
-            return;
-          }
-          if (this.selectedOption === 0) {
-            break;
-          }
-          this.selectedOption--;
-          break;
-        default:
-          break;
-      }
-      elems[this.selectedOption].focus();
-    };
-    Dropdown.prototype.focusToggleElement = function() {
-      this.el.nativeElement.focus();
-    };
-    Dropdown.prototype.toggleDropdown = function(event) {
+    Dropdown.prototype.click = function(event) {
       event.stopPropagation();
       if (!this.menuEl.nativeElement.contains(event.target)) {
         this.toggle();
       }
       return false;
     };
+    Dropdown.prototype.keyPress = function(keyCode) {
+      switch (keyCode) {
+        case dropdown_service_1.KEYCODE.DOWN:
+          this.selectNextItem();
+          break;
+        case dropdown_service_1.KEYCODE.UP:
+          this.selectPreviousItem();
+          break;
+        case dropdown_service_1.KEYCODE.ENTER:
+          if (!this.selectedItem.hasAttribute("suiDropdown")) {
+            this.selectedItem.click();
+            this.isOpen = false;
+            break;
+          }
+        case dropdown_service_1.KEYCODE.RIGHT:
+          if (this.selectedItem.hasAttribute("suiDropdown")) {
+            this.selectedItem.click();
+            this.selectedItem = this.selectedItem.querySelector(".item:not(.disabled)");
+          }
+          break;
+        case dropdown_service_1.KEYCODE.LEFT:
+          if (this.selectedItem.parentElement != this.menuEl.nativeElement) {
+            console.log(this.selectedItem.parentElement.parentElement);
+            this.selectedItem.parentElement.parentElement.click();
+            this.selectedItem = this.selectedItem.parentElement.parentElement;
+          }
+          break;
+      }
+    };
+    Object.defineProperty(Dropdown.prototype, "selectedItem", {
+      get: function() {
+        return this._selectedItem;
+      },
+      set: function(item) {
+        if (this._selectedItem) {
+          this._selectedItem.classList.remove("selected");
+        }
+        this._selectedItem = item;
+        if (item) {
+          item.classList.add("selected");
+        }
+      },
+      enumerable: true,
+      configurable: true
+    });
+    Dropdown.prototype.selectNextItem = function() {
+      if (!this.selectedItem) {
+        this.selectedItem = this.menuEl.nativeElement.querySelector(".item:not(.disabled)");
+        return;
+      }
+      var nextItem = this.selectedItem.nextElementSibling;
+      if (nextItem) {
+        this.selectedItem = nextItem;
+        if (this.selectedItem.classList.contains("disabled")) {
+          this.selectNextItem();
+        }
+      }
+    };
+    Dropdown.prototype.selectPreviousItem = function() {
+      var previousItem = this.selectedItem.previousElementSibling;
+      if (previousItem) {
+        this.selectedItem = previousItem;
+        if (this.selectedItem.classList.contains("disabled")) {
+          this.selectPreviousItem();
+        }
+      }
+    };
     __decorate([core_1.HostBinding('class.visible'), core_1.Input(), __metadata('design:type', Boolean)], Dropdown.prototype, "isOpen", null);
     __decorate([core_1.Input(), __metadata('design:type', String)], Dropdown.prototype, "autoClose", void 0);
-    __decorate([core_1.Input(), __metadata('design:type', Boolean)], Dropdown.prototype, "keyboardNav", void 0);
-    __decorate([core_1.Input(), __metadata('design:type', Boolean)], Dropdown.prototype, "appendToBody", void 0);
     __decorate([core_1.Output(), __metadata('design:type', core_1.EventEmitter)], Dropdown.prototype, "onToggle", void 0);
     __decorate([core_1.Output(), __metadata('design:type', core_1.EventEmitter)], Dropdown.prototype, "isOpenChange", void 0);
-    __decorate([core_1.HostListener('click', ['$event']), __metadata('design:type', Function), __metadata('design:paramtypes', [MouseEvent]), __metadata('design:returntype', Boolean)], Dropdown.prototype, "toggleDropdown", null);
-    Dropdown = __decorate([core_1.Directive({selector: '[dropdown]'}), __metadata('design:paramtypes', [core_1.ElementRef])], Dropdown);
+    __decorate([core_1.HostBinding('class.disabled'), core_1.Input(), __metadata('design:type', Boolean)], Dropdown.prototype, "isDisabled", void 0);
+    __decorate([core_1.HostListener('click', ['$event']), __metadata('design:type', Function), __metadata('design:paramtypes', [MouseEvent]), __metadata('design:returntype', Boolean)], Dropdown.prototype, "click", null);
+    Dropdown = __decorate([core_1.Directive({selector: '[suiDropdown]'}), __metadata('design:paramtypes', [core_1.ElementRef])], Dropdown);
     return Dropdown;
   }());
   exports.Dropdown = Dropdown;
@@ -822,7 +852,7 @@ System.registerDynamic("ng2-semantic-ui/components/dropdown/dropdown-menu.direct
       this.dropdown.dropDownMenu = this;
     };
     __decorate([core_1.HostBinding('class.visible'), core_1.HostBinding('class.transition'), __metadata('design:type', Boolean)], DropdownMenu.prototype, "isOpen", null);
-    DropdownMenu = __decorate([core_1.Directive({selector: '[dropdownMenu]'}), __param(0, core_1.Host()), __metadata('design:paramtypes', [dropdown_directive_1.Dropdown, core_1.ElementRef])], DropdownMenu);
+    DropdownMenu = __decorate([core_1.Directive({selector: '[suiDropdownMenu]'}), __param(0, core_1.Host()), __metadata('design:paramtypes', [dropdown_directive_1.Dropdown, core_1.ElementRef])], DropdownMenu);
     return DropdownMenu;
   }());
   exports.DropdownMenu = DropdownMenu;

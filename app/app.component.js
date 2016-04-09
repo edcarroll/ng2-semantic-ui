@@ -1,4 +1,4 @@
-System.register(['angular2/core', "angular2/router", './home/getting-started.page', "./components/test.page", "./components/accordion.page", "./components/checkbox.page", "./components/collapse.page", "./components/dimmer.page", "./components/progress.page", "./components/dropdown.page"], function(exports_1, context_1) {
+System.register(['angular2/core', "angular2/router", './home/getting-started.page', "./components/test.page", "./components/accordion.page", "./components/checkbox.page", "./components/collapse.page", "./components/dimmer.page", "./components/dropdown.page", "./components/progress.page"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', "angular2/router", './home/getting-started.pag
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, getting_started_page_1, test_page_1, accordion_page_1, checkbox_page_1, collapse_page_1, dimmer_page_1, progress_page_1, dropdown_page_1;
+    var core_1, router_1, getting_started_page_1, test_page_1, accordion_page_1, checkbox_page_1, collapse_page_1, dimmer_page_1, dropdown_page_1, progress_page_1;
     var AppComponent;
     return {
         setters:[
@@ -38,11 +38,11 @@ System.register(['angular2/core', "angular2/router", './home/getting-started.pag
             function (dimmer_page_1_1) {
                 dimmer_page_1 = dimmer_page_1_1;
             },
-            function (progress_page_1_1) {
-                progress_page_1 = progress_page_1_1;
-            },
             function (dropdown_page_1_1) {
                 dropdown_page_1 = dropdown_page_1_1;
+            },
+            function (progress_page_1_1) {
+                progress_page_1 = progress_page_1_1;
             }],
         execute: function() {
             AppComponent = (function () {
@@ -88,14 +88,14 @@ System.register(['angular2/core', "angular2/router", './home/getting-started.pag
                             component: dimmer_page_1.DimmerComponentPage
                         },
                         {
-                            path: '/components/progress',
-                            name: 'ProgressComponent',
-                            component: progress_page_1.ProgressComponentPage
-                        },
-                        {
                             path: '/components/dropdown',
                             name: 'DropdownComponent',
                             component: dropdown_page_1.DropdownComponentPage
+                        },
+                        {
+                            path: '/components/progress',
+                            name: 'ProgressComponent',
+                            component: progress_page_1.ProgressComponentPage
                         }
                     ]), 
                     __metadata('design:paramtypes', [])

@@ -1,4 +1,4 @@
-System.register(['angular2/core', "../internal/page-title.component", './../internal/example.component', 'ng2-prism/codeblock', 'ng2-prism/languages'], function(exports_1, context_1) {
+System.register(['angular2/core', "../internal/page-title.component", './../internal/example.component', './../internal/api.component', './dropdown/dropdown.examples'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', "../internal/page-title.component", './../inte
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, page_title_component_1, example_component_1, codeblock_1, languages_1;
+    var core_1, page_title_component_1, example_component_1, api_component_1, dropdown_examples_1;
     var DropdownComponentPage;
     return {
         setters:[
@@ -23,20 +23,55 @@ System.register(['angular2/core', "../internal/page-title.component", './../inte
             function (example_component_1_1) {
                 example_component_1 = example_component_1_1;
             },
-            function (codeblock_1_1) {
-                codeblock_1 = codeblock_1_1;
+            function (api_component_1_1) {
+                api_component_1 = api_component_1_1;
             },
-            function (languages_1_1) {
-                languages_1 = languages_1_1;
+            function (dropdown_examples_1_1) {
+                dropdown_examples_1 = dropdown_examples_1_1;
             }],
         execute: function() {
             DropdownComponentPage = (function () {
                 function DropdownComponentPage() {
+                    this.api = [
+                        {
+                            selector: "[suiDropdown]",
+                            properties: [
+                                {
+                                    name: "isOpen",
+                                    description: "Sets whether or not the dropdown is open.",
+                                    defaultValue: "false"
+                                },
+                                {
+                                    name: "isDisabled",
+                                    description: "Sets whether or not the dropdown is disabled",
+                                    defaultValue: "false"
+                                },
+                                {
+                                    name: "autoClose",
+                                    description: "Defines when the dropdown is closed. Options are: <code>itemClick</code>, <code>outsideClick</code> & <code>disabled</code>.",
+                                    defaultValue: "itemClick"
+                                }
+                            ],
+                            events: [
+                                {
+                                    name: "isOpenChange",
+                                    description: "Fires whenever the dropdown is toggled. <code>[(isOpen)]</code> syntax is supported."
+                                },
+                                {
+                                    name: "onToggle",
+                                    description: "Fires whenever the dropdown is toggled, as above."
+                                }
+                            ]
+                        },
+                        {
+                            selector: "[suiDropdownMenu]"
+                        }
+                    ];
                 }
                 DropdownComponentPage = __decorate([
                     core_1.Component({
                         selector: 'dropdown-component-page',
-                        directives: [page_title_component_1.PageTitle, example_component_1.Example, codeblock_1.Codeblock, languages_1.Typescript],
+                        directives: [page_title_component_1.PageTitle, example_component_1.Example, api_component_1.Api, dropdown_examples_1.DROPDOWN_EXAMPLES],
                         templateUrl: "app/components/dropdown.page.html"
                     }), 
                     __metadata('design:paramtypes', [])
