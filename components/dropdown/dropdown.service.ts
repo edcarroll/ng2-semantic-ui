@@ -80,7 +80,8 @@ export class DropdownService {
         }
 
         if (this.dropdown.isOpen &&
-            ([KEYCODE.ENTER, KEYCODE.UP, KEYCODE.RIGHT, KEYCODE.DOWN, KEYCODE.LEFT].includes(event.which))) {
+            ([KEYCODE.ENTER, KEYCODE.UP, KEYCODE.RIGHT, KEYCODE.DOWN, KEYCODE.LEFT]
+                .find(keyCode => event.which == keyCode))) {
             event.preventDefault();
             event.stopPropagation();
             this.dropdown.keyPress(event.which);
