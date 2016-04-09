@@ -845,7 +845,130 @@ System.registerDynamic("ng2-semantic-ui/components/dropdown", ["./dropdown/dropd
   return module.exports;
 });
 
-System.registerDynamic("ng2-semantic-ui/ng2-semantic-ui", ["./components/accordion", "./components/checkbox", "./components/collapse", "./components/dimmer", "./components/dropdown"], true, function($__require, exports, module) {
+System.registerDynamic("ng2-semantic-ui/components/progress/progress.component", ["angular2/core"], true, function($__require, exports, module) {
+  "use strict";
+  ;
+  var define,
+      global = this,
+      GLOBAL = this;
+  var __decorate = (this && this.__decorate) || function(decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
+      r = Reflect.decorate(decorators, target, key, desc);
+    else
+      for (var i = decorators.length - 1; i >= 0; i--)
+        if (d = decorators[i])
+          r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+  };
+  var __metadata = (this && this.__metadata) || function(k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
+      return Reflect.metadata(k, v);
+  };
+  var core_1 = $__require('angular2/core');
+  var Progress = (function() {
+    function Progress() {
+      this.classes = true;
+      this._value = 0;
+      this.unscaledValue = 0;
+      this._maximum = 100;
+      this.autoSuccess = true;
+      this.progress = true;
+      this.precision = 0;
+    }
+    Object.defineProperty(Progress.prototype, "reachedMaximum", {
+      get: function() {
+        return this.value == this.maximum && this.autoSuccess;
+      },
+      enumerable: true,
+      configurable: true
+    });
+    Object.defineProperty(Progress.prototype, "value", {
+      get: function() {
+        return this._value;
+      },
+      set: function(value) {
+        value = parseFloat(value);
+        if (Number.isNaN(value)) {
+          return;
+        }
+        value = Math.max(value, 0);
+        this.unscaledValue = value;
+        value = Math.min(value, this.maximum);
+        this._value = parseFloat((value / this.maximum * 100).toFixed(Math.min(20, Math.max(this.precision, 0))));
+      },
+      enumerable: true,
+      configurable: true
+    });
+    Object.defineProperty(Progress.prototype, "maximum", {
+      get: function() {
+        return this._maximum;
+      },
+      set: function(value) {
+        value = parseFloat(value);
+        if (Number.isNaN(value)) {
+          return;
+        }
+        value = Math.max(value, 0);
+        this._maximum = value;
+        this.value = this.unscaledValue;
+      },
+      enumerable: true,
+      configurable: true
+    });
+    Object.defineProperty(Progress.prototype, "percentage", {
+      get: function() {
+        return this._value.toString();
+      },
+      enumerable: true,
+      configurable: true
+    });
+    Object.defineProperty(Progress.prototype, "classValue", {
+      set: function(value) {
+        if (value.includes("attached") || value.includes("tiny")) {
+          this.progress = false;
+        }
+      },
+      enumerable: true,
+      configurable: true
+    });
+    __decorate([core_1.HostBinding('class.ui'), core_1.HostBinding('class.progress'), __metadata('design:type', Object)], Progress.prototype, "classes", void 0);
+    __decorate([core_1.HostBinding('class.success'), __metadata('design:type', Object)], Progress.prototype, "reachedMaximum", null);
+    __decorate([core_1.Input(), __metadata('design:type', Boolean)], Progress.prototype, "autoSuccess", void 0);
+    __decorate([core_1.Input(), __metadata('design:type', Boolean)], Progress.prototype, "progress", void 0);
+    __decorate([core_1.Input(), __metadata('design:type', Number)], Progress.prototype, "precision", void 0);
+    __decorate([core_1.Input(), __metadata('design:type', Object), __metadata('design:paramtypes', [Object])], Progress.prototype, "value", null);
+    __decorate([core_1.Input(), __metadata('design:type', Object), __metadata('design:paramtypes', [Object])], Progress.prototype, "maximum", null);
+    __decorate([core_1.HostBinding('attr.data-percent'), __metadata('design:type', String)], Progress.prototype, "percentage", null);
+    __decorate([core_1.Input('class'), __metadata('design:type', String), __metadata('design:paramtypes', [String])], Progress.prototype, "classValue", null);
+    Progress = __decorate([core_1.Component({
+      selector: 'sui-progress',
+      directives: [],
+      template: "\n<div class=\"bar\" [ngStyle]=\"{ width: percentage + '%' }\">\n    <div class=\"progress\" *ngIf=\"progress\">{{ percentage }}%</div>\n</div>\n<div class=\"label\">\n    <ng-content></ng-content>\n</div>\n",
+      styles: [".bar { transition-duration: 300ms !important; }"]
+    }), __metadata('design:paramtypes', [])], Progress);
+    return Progress;
+  }());
+  exports.Progress = Progress;
+  return module.exports;
+});
+
+System.registerDynamic("ng2-semantic-ui/components/progress", ["./progress/progress.component"], true, function($__require, exports, module) {
+  "use strict";
+  ;
+  var define,
+      global = this,
+      GLOBAL = this;
+  var progress_component_1 = $__require('./progress/progress.component');
+  var progress_component_2 = $__require('./progress/progress.component');
+  exports.Progress = progress_component_2.Progress;
+  exports.PROGRESS_DIRECTIVES = [progress_component_1.Progress];
+  return module.exports;
+});
+
+System.registerDynamic("ng2-semantic-ui/ng2-semantic-ui", ["./components/accordion", "./components/checkbox", "./components/collapse", "./components/dimmer", "./components/dropdown", "./components/progress"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -861,12 +984,14 @@ System.registerDynamic("ng2-semantic-ui/ng2-semantic-ui", ["./components/accordi
   var collapse_1 = $__require('./components/collapse');
   var dimmer_1 = $__require('./components/dimmer');
   var dropdown_1 = $__require('./components/dropdown');
+  var progress_1 = $__require('./components/progress');
   __export($__require('./components/accordion'));
   __export($__require('./components/checkbox'));
   __export($__require('./components/collapse'));
   __export($__require('./components/dimmer'));
   __export($__require('./components/dropdown'));
-  exports.DIRECTIVES = [accordion_1.ACCORDION_DIRECTIVES, checkbox_1.CHECKBOX_DIRECTIVES, collapse_1.COLLAPSE_DIRECTIVES, dimmer_1.DIMMER_DIRECTIVES, dropdown_1.DROPDOWN_DIRECTIVES];
+  __export($__require('./components/progress'));
+  exports.DIRECTIVES = [accordion_1.ACCORDION_DIRECTIVES, checkbox_1.CHECKBOX_DIRECTIVES, collapse_1.COLLAPSE_DIRECTIVES, dimmer_1.DIMMER_DIRECTIVES, dropdown_1.DROPDOWN_DIRECTIVES, progress_1.PROGRESS_DIRECTIVES];
   return module.exports;
 });
 
