@@ -65,7 +65,7 @@ export class Progress {
 
     @HostBinding('attr.data-percent')
     private get percentage():string {
-        return this._value;
+        return this._value.toString();
     }
 
     @Input('class')
