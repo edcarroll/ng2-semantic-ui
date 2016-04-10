@@ -57,14 +57,14 @@ import {TabComponentPage} from "./components/tab.page";
         component: DropdownComponentPage
     },
     {
-        path: '/components/progress',
-        name: 'ProgressComponent',
-        component: ProgressComponentPage
-    },
-    {
         path: '/components/message',
         name: 'MessageComponent',
         component: MessageComponentPage
+    },
+    {
+        path: '/components/progress',
+        name: 'ProgressComponent',
+        component: ProgressComponentPage
     },
     {
         path: '/components/tab',

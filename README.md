@@ -35,8 +35,8 @@ The current list of available components with links to their docs is below:
 * [Collapse](http://edcarroll.github.io/ng2-semantic-ui/#/components/collapse)
 * [Dimmer](http://edcarroll.github.io/ng2-semantic-ui/#/components/dimmer)
 * [Dropdown](http://edcarroll.github.io/ng2-semantic-ui/#/components/dropdown)
-* [Progress](http://edcarroll.github.io/ng2-semantic-ui/#/components/progress)
 * [Message](http://edcarroll.github.io/ng2-semantic-ui/#/components/message)
+* [Progress](http://edcarroll.github.io/ng2-semantic-ui/#/components/progress)
 * [Tab](http://edcarroll.github.io/ng2-semantic-ui/#/components/tab)
 
 ## Quick start (from scratch)
