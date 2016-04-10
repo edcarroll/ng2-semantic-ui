@@ -37,6 +37,7 @@ The current list of available components with links to their docs is below:
 * [Dropdown](http://edcarroll.github.io/ng2-semantic-ui/#/components/dropdown)
 * [Progress](http://edcarroll.github.io/ng2-semantic-ui/#/components/progress)
 * [Message](http://edcarroll.github.io/ng2-semantic-ui/#/components/message)
+* [Tab](http://edcarroll.github.io/ng2-semantic-ui/#/components/tab)
 
 ## Quick start (from scratch)
 
