@@ -1,22 +1,95 @@
-import {Directive, Input, HostBinding} from 'angular2/core';
-import {TabHeader} from './tab-header.directive';
+import {Directive, Input, Output, HostBinding, HostListener, EventEmitter} from 'angular2/core';
+import {Observable} from 'rxjs/Observable';
+import {Observer} from 'rxjs/Observer';
+import {TabContent} from "./tab-content.directive";
 
 @Directive({
-    selector: '[suiTab]'
+    selector: '[suiTabHeader]'
 })
 export class Tab {
     public id:string;
-    public tabHeader:TabHeader;
-
     @Input()
-    public set suiTab(value:string) {
+    public set suiTabHeader(value:string) {
         if (!this.id) {
             this.id = value;
         }
     }
 
-    @HostBinding('class.tab') tabClass = true;
-    
+    private _content:TabContent;
+
+    public set content(content:TabContent) {
+        this._content = content;
+        content.isActive = this.isActive;
+    }
+
+    public get content() { return this._content }
+
+    public stateChanged$: Observable<Tab>;
+    private _stateObserver: Observer<Tab>;
+
+    constructor() {
+        this.stateChanged$ = new Observable((observer:any) => this._stateObserver = observer);
+    }
+
+    private _isActive:boolean = false;
+    private _isDisabled:boolean = false;
+
     @HostBinding('class.active')
-    public isActive:boolean = false;
+    public get isActive() { return this._isActive; }
+
+    public set isActive(value:boolean) {
+        var change = this._isActive != value;
+        this._isActive = value;
+        this._content.isActive = value;
+        this.stateObserverNext(change);
+        this.isActiveChange.emit(this._isActive);
+        
+        if (value && change) {
+            this.onActivate.emit(this);
+        }
+    }
+
+    @HostBinding('class.disabled')
+    public get isDisabled() {
+        return this._isDisabled;
+    }
+
+    public set isDisabled(value:boolean) {
+        var change = this._isDisabled != value;
+
+        this._isDisabled = value;
+
+        this.stateObserverNext(change);
+    }
+
+    private stateObserverNext(change:boolean) {
+        if (change) {
+            this._stateObserver.next(this);
+        }
+    }
+
+    @Input('isActive')
+    public set manuallyActivate(value:boolean) {
+        setTimeout(() => {
+            this.isActive = this.isDisabled ? false : value;
+            this.isActiveChange.emit(this._isActive);
+        });
+    }
+
+    @Input('isDisabled')
+    public set manuallyDisable(value:boolean) {
+        setTimeout(() => {
+            this.isDisabled = value;
+        });
+    }
+
+    @Output() public isActiveChange:EventEmitter<boolean> = new EventEmitter(false);
+    @Output() public onActivate:EventEmitter<Tab> = new EventEmitter(false);
+
+    @HostListener('click')
+    private click() {
+        if (!this.isDisabled) {
+            this.isActive = true;
+        }
+    }
 }

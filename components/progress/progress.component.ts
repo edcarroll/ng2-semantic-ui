@@ -4,7 +4,7 @@ import {Component, Input, HostBinding} from 'angular2/core';
     selector: 'sui-progress',
     directives: [],
     template: `
-<div class="bar" [ngStyle]="{ width: percentage + '%' }">
+<div class="bar" [style.width.%]="percentage">
     <div class="progress" *ngIf="progress">{{ percentage }}%</div>
 </div>
 <div class="label">

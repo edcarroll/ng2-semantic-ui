@@ -11,6 +11,7 @@ import {DimmerComponentPage} from "./components/dimmer.page";
 import {DropdownComponentPage} from "./components/dropdown.page";
 import {ProgressComponentPage} from "./components/progress.page";
 import {MessageComponentPage} from "./components/message.page";
+import {TabComponentPage} from "./components/tab.page";
 
 @Component({
     selector: 'app',
@@ -64,6 +65,11 @@ import {MessageComponentPage} from "./components/message.page";
         path: '/components/message',
         name: 'MessageComponent',
         component: MessageComponentPage
+    },
+    {
+        path: '/components/tab',
+        name: 'TabComponent',
+        component: TabComponentPage
     }
 ])
 export class AppComponent { public test = "hi" }

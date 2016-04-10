@@ -1,0 +1,23 @@
+<sui-tabset>
+    <div class="ui top attached tabular menu">
+        <a class="item" suiTabHeader="1" [(isActive)]="firstActive">First</a>
+        <a class="item" suiTabHeader="2" [(isActive)]="secondActive" (onActivate)="alert()">
+            <i class="alarm icon"></i>
+            Second
+        </a>
+        <a class="item" suiTabHeader="3" [(isActive)]="thirdActive" [isDisabled]="thirdDisabled">Third</a>
+
+    </div>
+    <div class="ui bottom attached segment" suiTabContent="1">
+        <button class="ui blue button" (click)="secondActive = true">Activate 2nd Tab</button>
+    </div>
+    <div class="ui bottom attached segment" suiTabContent="2">
+        <button class="ui violet button" (click)="thirdActive = true">Activate 3rd Tab</button>
+    </div>
+    <div class="ui bottom attached segment" suiTabContent="3">
+        <button class="ui purple button" (click)="firstActive = true">Activate 1st Tab</button>
+    </div>
+</sui-tabset>
+<div class="ui segment">
+    <sui-checkbox [(ngModel)]="thirdDisabled">Third tab disabled?</sui-checkbox>
+</div>

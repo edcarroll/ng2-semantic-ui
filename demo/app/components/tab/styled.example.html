@@ -1,0 +1,19 @@
+<sui-tabset>
+    <div class="ui secondary menu">
+        <a class="item" suiTabHeader="1">First</a>
+        <a class="item" suiTabHeader="2">Second</a>
+        <a class="item" suiTabHeader="3">Third</a>
+    </div>
+    <div class="ui segment" suiTabContent="1">
+        <sui-tabset>
+            <div class="ui pointing secondary menu">
+                <a class="item" suiTabHeader="1">Nested 1</a>
+                <a class="item" suiTabHeader="2">Nested 2</a>
+            </div>
+            <div class="ui segment" suiTabContent="1">First nested tab!</div>
+            <div class="ui segment" suiTabContent="2">Second nested tab!</div>
+        </sui-tabset>
+    </div>
+    <div class="ui segment" suiTabContent="2">Second tab!</div>
+    <div class="ui segment" suiTabContent="3">Third tab!</div>
+</sui-tabset>

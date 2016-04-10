@@ -22,19 +22,21 @@ import {TAB_DIRECTIVES} from '../../../components/tab';
     <div class="ui segment">
         <sui-tabset>
             <div class="ui pointing secondary menu">
-                <!--<a class="item" *ngFor="#tab of tabs; #i = index" [suiTabHeader]="i">{{ tab?.header }}</a>-->
-                <a class="item" [suiTabHeader]="first">First</a>
-                <a class="item" [suiTabHeader]="third" [isDisabled]="secondTab">Second</a>
-                <a class="item" [suiTabHeader]="second" [isActive]="thirdTab">Third</a>
+                <a class="item" *ngFor="#tab of tabs; #i = index" [suiTabHeader]="i">{{ tab.header }}</a>
+                <a class="item" suiTabHeader="first" [isDisabled]="secondTab">First</a>
+                <a class="item" suiTabHeader="second" [isDisabled]="secondTab">Second</a>
+                <a class="item" suiTabHeader="third" [isDisabled]="secondTab" [(isActive)]="thirdTab">Third</a>
             </div>
-            <div class="ui segment" [suiTab]="first">first</div>
-            <div class="ui segment" [suiTab]="second">second</div>
-            <div class="ui segment" [suiTab]="third">third</div>
-            <!--<div class="ui segment" *ngFor="#tab of tabs; #i = index" [suiTab]="i">-->
-                <!--{{ tab?.content }}-->
-            <!--</div>-->
+            <div class="ui segment" suiTabContent="first">first</div>
+            <div class="ui segment" suiTabContent="second">second</div>
+            <div class="ui segment" suiTabContent="third">third</div>
+            <div class="ui segment" *ngFor="#tab of tabs; #i = index" [suiTabContent]="i">
+                {{ tab.content }}
+            </div>
         </sui-tabset>
-        <button class="ui primary button" (click)="tabs.push({ header: 'Another', content:'More Content' })">Add Tab</button>
+        <button class="ui primary button" (click)="tabs.push({ header: 'Another', content:'another' })">Add Tab</button>
+        <button class="ui primary button" (click)="tabs.pop()">Remove Tab</button>
+        <button class="ui secondary button" (click)="thirdTab = true">Activate 3rd</button>
         <sui-checkbox [(ngModel)]="thirdTab">Activate 3rd Tab?</sui-checkbox>
         <sui-checkbox [(ngModel)]="secondTab">Disable 2nd Tab?</sui-checkbox>
     </div>    
@@ -43,9 +45,9 @@ import {TAB_DIRECTIVES} from '../../../components/tab';
 })
 export class TestComponentPage {
     public tabs = [
-        { header: "First", content: "first" },
-        { header: "Second", content: "second" },
-        { header: "Third", content: "third" }
+        { header: "Fourth", content: "fourth" },
+        { header: "Fifth", content: "fifth" },
+        { header: "Sixth", content: "sixth" }
     ];
     public thirdTab = true;
 }
