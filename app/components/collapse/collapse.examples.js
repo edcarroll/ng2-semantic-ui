@@ -27,7 +27,7 @@ System.register(['angular2/core', 'ng2-semantic-ui/ng2-semantic-ui'], function(e
                 CollapseExampleStandard = __decorate([
                     core_1.Component({
                         selector: 'collapse-example-standard',
-                        directives: [ng2_semantic_ui_1.Collapse],
+                        directives: [ng2_semantic_ui_1.COLLAPSE_DIRECTIVES],
                         templateUrl: "app/components/collapse/standard.example.html"
                     }), 
                     __metadata('design:paramtypes', [])

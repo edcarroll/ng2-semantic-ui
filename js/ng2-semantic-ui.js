@@ -976,7 +976,7 @@ System.registerDynamic("ng2-semantic-ui/components/progress/progress.component",
     Progress = __decorate([core_1.Component({
       selector: 'sui-progress',
       directives: [],
-      template: "\n<div class=\"bar\" [ngStyle]=\"{ width: percentage + '%' }\">\n    <div class=\"progress\" *ngIf=\"progress\">{{ percentage }}%</div>\n</div>\n<div class=\"label\">\n    <ng-content></ng-content>\n</div>\n",
+      template: "\n<div class=\"bar\" [style.width.%]=\"percentage\">\n    <div class=\"progress\" *ngIf=\"progress\">{{ percentage }}%</div>\n</div>\n<div class=\"label\">\n    <ng-content></ng-content>\n</div>\n",
       styles: [".bar { transition-duration: 300ms !important; }"]
     }), __metadata('design:paramtypes', [])], Progress);
     return Progress;
@@ -998,7 +998,386 @@ System.registerDynamic("ng2-semantic-ui/components/progress", ["./progress/progr
   return module.exports;
 });
 
-System.registerDynamic("ng2-semantic-ui/ng2-semantic-ui", ["./components/accordion", "./components/checkbox", "./components/collapse", "./components/dimmer", "./components/dropdown", "./components/progress"], true, function($__require, exports, module) {
+System.registerDynamic("ng2-semantic-ui/components/message/message.component", ["angular2/core"], true, function($__require, exports, module) {
+  "use strict";
+  ;
+  var define,
+      global = this,
+      GLOBAL = this;
+  var __decorate = (this && this.__decorate) || function(decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
+      r = Reflect.decorate(decorators, target, key, desc);
+    else
+      for (var i = decorators.length - 1; i >= 0; i--)
+        if (d = decorators[i])
+          r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+  };
+  var __metadata = (this && this.__metadata) || function(k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
+      return Reflect.metadata(k, v);
+  };
+  var core_1 = $__require('angular2/core');
+  var Message = (function() {
+    function Message() {
+      this.dismissible = true;
+      this.onDismiss = new core_1.EventEmitter(false);
+      this.dismissed = false;
+      this.classes = "";
+    }
+    Message.prototype.dismiss = function() {
+      this.dismissed = true;
+      this.onDismiss.emit(this);
+    };
+    __decorate([core_1.Input(), __metadata('design:type', Boolean)], Message.prototype, "dismissible", void 0);
+    __decorate([core_1.Output(), __metadata('design:type', core_1.EventEmitter)], Message.prototype, "onDismiss", void 0);
+    __decorate([core_1.Input("class"), __metadata('design:type', String)], Message.prototype, "classes", void 0);
+    Message = __decorate([core_1.Component({
+      selector: 'sui-message',
+      directives: [],
+      template: "\n<div class=\"ui message {{ classes }}\" *ngIf=\"!dismissed\">\n    <i class=\"close icon\" *ngIf=\"dismissible\" (click)=\"dismiss()\"></i>\n    <ng-content></ng-content>\n</div>\n"
+    }), __metadata('design:paramtypes', [])], Message);
+    return Message;
+  }());
+  exports.Message = Message;
+  return module.exports;
+});
+
+System.registerDynamic("ng2-semantic-ui/components/message", ["./message/message.component"], true, function($__require, exports, module) {
+  "use strict";
+  ;
+  var define,
+      global = this,
+      GLOBAL = this;
+  var message_component_1 = $__require('./message/message.component');
+  var message_component_2 = $__require('./message/message.component');
+  exports.Message = message_component_2.Message;
+  exports.MESSAGE_DIRECTIVES = [message_component_1.Message];
+  return module.exports;
+});
+
+System.registerDynamic("ng2-semantic-ui/components/tab/tabset.component", ["angular2/core", "./tab-content.directive", "./tab.directive"], true, function($__require, exports, module) {
+  "use strict";
+  ;
+  var define,
+      global = this,
+      GLOBAL = this;
+  var __decorate = (this && this.__decorate) || function(decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
+      r = Reflect.decorate(decorators, target, key, desc);
+    else
+      for (var i = decorators.length - 1; i >= 0; i--)
+        if (d = decorators[i])
+          r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+  };
+  var __metadata = (this && this.__metadata) || function(k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
+      return Reflect.metadata(k, v);
+  };
+  var core_1 = $__require('angular2/core');
+  var tab_content_directive_1 = $__require('./tab-content.directive');
+  var tab_directive_1 = $__require('./tab.directive');
+  var Tabset = (function() {
+    function Tabset() {
+      this._loadedTabs = [];
+    }
+    Tabset.prototype.ngAfterContentInit = function() {
+      var _this = this;
+      this.loadTabs();
+      this._tabs.changes.subscribe(function(tabHeaders) {
+        return _this.loadTabs();
+      });
+    };
+    Tabset.prototype.loadTabs = function() {
+      var _this = this;
+      this._loadedTabs = this._tabs.toArray();
+      if (!this._loadedTabs.length) {
+        throw new Error("You cannot have no tabs!");
+      }
+      this._loadedTabs.forEach(function(t) {
+        if (!t.content) {
+          var possibleContents = _this._tabContents.filter(function(tC) {
+            return tC.id == t.id;
+          });
+          if (possibleContents.length == 0) {
+            throw new Error("A [suiTabHeader] must have a related [suiTabContent].");
+          }
+          if (possibleContents.length > 1) {
+            throw new Error("A [suiTabHeader] must not have more than 1 related [suiTabContent].");
+          }
+          t.content = possibleContents.pop();
+        }
+        t.stateChanged$.subscribe(function(t) {
+          return _this.tabStateChanged(t);
+        });
+      });
+      setTimeout(function() {
+        if ((_this._activeTab && !_this._loadedTabs.find(function(t) {
+          return t == _this._activeTab;
+        })) || !_this._activeTab) {
+          _this.activateFirstTab();
+        }
+      });
+    };
+    Tabset.prototype.tabStateChanged = function(tab) {
+      if (tab.isActive && this._activeTab != tab) {
+        this._loadedTabs.filter(function(tH) {
+          return tH != tab;
+        }).forEach(function(tH) {
+          return tH.isActive = false;
+        });
+        this._activeTab = tab;
+      } else if (this._activeTab && !this._loadedTabs.filter(function(tH) {
+        return tH.isActive;
+      }).length) {
+        this.activateClosestTab(tab);
+      }
+      if (tab.isDisabled && tab.isActive) {
+        tab.isActive = false;
+        this.activateClosestTab(tab);
+      }
+      if (tab.isDisabled && !this._loadedTabs.filter(function(tH) {
+        return !tH.isDisabled;
+      }).length) {
+        throw new Error("You cannot disable all of your tabs!");
+      }
+    };
+    Tabset.prototype.activateFirstTab = function() {
+      var firstAvailable = this._loadedTabs.filter(function(tH) {
+        return !tH.isDisabled;
+      })[0];
+      if (firstAvailable) {
+        firstAvailable.isActive = true;
+      }
+    };
+    Tabset.prototype.activateClosestTab = function(tab) {
+      var availableTabs = this._loadedTabs.filter(function(tH) {
+        return !tH.isDisabled || tH == tab;
+      });
+      var tabIndex = availableTabs.findIndex(function(tH) {
+        return tH == tab;
+      });
+      tabIndex += (tabIndex ? -1 : 1);
+      availableTabs[tabIndex].isActive = true;
+    };
+    __decorate([core_1.ContentChildren(tab_directive_1.Tab), __metadata('design:type', core_1.QueryList)], Tabset.prototype, "_tabs", void 0);
+    __decorate([core_1.ContentChildren(tab_content_directive_1.TabContent), __metadata('design:type', core_1.QueryList)], Tabset.prototype, "_tabContents", void 0);
+    Tabset = __decorate([core_1.Component({
+      selector: 'sui-tabset',
+      directives: [],
+      template: "<ng-content></ng-content>",
+      styles: ["\n:host .ui.segment {\n    margin-bottom: 0;\n}\n"]
+    }), __metadata('design:paramtypes', [])], Tabset);
+    return Tabset;
+  }());
+  exports.Tabset = Tabset;
+  return module.exports;
+});
+
+System.registerDynamic("ng2-semantic-ui/components/tab/tab.directive", ["angular2/core", "rxjs/Observable"], true, function($__require, exports, module) {
+  "use strict";
+  ;
+  var define,
+      global = this,
+      GLOBAL = this;
+  var __decorate = (this && this.__decorate) || function(decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
+      r = Reflect.decorate(decorators, target, key, desc);
+    else
+      for (var i = decorators.length - 1; i >= 0; i--)
+        if (d = decorators[i])
+          r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+  };
+  var __metadata = (this && this.__metadata) || function(k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
+      return Reflect.metadata(k, v);
+  };
+  var core_1 = $__require('angular2/core');
+  var Observable_1 = $__require('rxjs/Observable');
+  var Tab = (function() {
+    function Tab() {
+      var _this = this;
+      this._isActive = false;
+      this._isDisabled = false;
+      this.isActiveChange = new core_1.EventEmitter(false);
+      this.onActivate = new core_1.EventEmitter(false);
+      this.stateChanged$ = new Observable_1.Observable(function(observer) {
+        return _this._stateObserver = observer;
+      });
+    }
+    Object.defineProperty(Tab.prototype, "suiTabHeader", {
+      set: function(value) {
+        if (!this.id) {
+          this.id = value;
+        }
+      },
+      enumerable: true,
+      configurable: true
+    });
+    Object.defineProperty(Tab.prototype, "content", {
+      get: function() {
+        return this._content;
+      },
+      set: function(content) {
+        this._content = content;
+        content.isActive = this.isActive;
+      },
+      enumerable: true,
+      configurable: true
+    });
+    Object.defineProperty(Tab.prototype, "isActive", {
+      get: function() {
+        return this._isActive;
+      },
+      set: function(value) {
+        var change = this._isActive != value;
+        this._isActive = value;
+        this._content.isActive = value;
+        this.stateObserverNext(change);
+        this.isActiveChange.emit(this._isActive);
+        if (value && change) {
+          this.onActivate.emit(this);
+        }
+      },
+      enumerable: true,
+      configurable: true
+    });
+    Object.defineProperty(Tab.prototype, "isDisabled", {
+      get: function() {
+        return this._isDisabled;
+      },
+      set: function(value) {
+        var change = this._isDisabled != value;
+        this._isDisabled = value;
+        this.stateObserverNext(change);
+      },
+      enumerable: true,
+      configurable: true
+    });
+    Tab.prototype.stateObserverNext = function(change) {
+      if (change) {
+        this._stateObserver.next(this);
+      }
+    };
+    Object.defineProperty(Tab.prototype, "manuallyActivate", {
+      set: function(value) {
+        var _this = this;
+        setTimeout(function() {
+          _this.isActive = _this.isDisabled ? false : value;
+          _this.isActiveChange.emit(_this._isActive);
+        });
+      },
+      enumerable: true,
+      configurable: true
+    });
+    Object.defineProperty(Tab.prototype, "manuallyDisable", {
+      set: function(value) {
+        var _this = this;
+        setTimeout(function() {
+          _this.isDisabled = value;
+        });
+      },
+      enumerable: true,
+      configurable: true
+    });
+    Tab.prototype.click = function() {
+      if (!this.isDisabled) {
+        this.isActive = true;
+      }
+    };
+    __decorate([core_1.Input(), __metadata('design:type', String), __metadata('design:paramtypes', [String])], Tab.prototype, "suiTabHeader", null);
+    __decorate([core_1.HostBinding('class.active'), __metadata('design:type', Object)], Tab.prototype, "isActive", null);
+    __decorate([core_1.HostBinding('class.disabled'), __metadata('design:type', Object)], Tab.prototype, "isDisabled", null);
+    __decorate([core_1.Input('isActive'), __metadata('design:type', Boolean), __metadata('design:paramtypes', [Boolean])], Tab.prototype, "manuallyActivate", null);
+    __decorate([core_1.Input('isDisabled'), __metadata('design:type', Boolean), __metadata('design:paramtypes', [Boolean])], Tab.prototype, "manuallyDisable", null);
+    __decorate([core_1.Output(), __metadata('design:type', core_1.EventEmitter)], Tab.prototype, "isActiveChange", void 0);
+    __decorate([core_1.Output(), __metadata('design:type', core_1.EventEmitter)], Tab.prototype, "onActivate", void 0);
+    __decorate([core_1.HostListener('click'), __metadata('design:type', Function), __metadata('design:paramtypes', []), __metadata('design:returntype', void 0)], Tab.prototype, "click", null);
+    Tab = __decorate([core_1.Directive({selector: '[suiTabHeader]'}), __metadata('design:paramtypes', [])], Tab);
+    return Tab;
+  }());
+  exports.Tab = Tab;
+  return module.exports;
+});
+
+System.registerDynamic("ng2-semantic-ui/components/tab/tab-content.directive", ["angular2/core"], true, function($__require, exports, module) {
+  "use strict";
+  ;
+  var define,
+      global = this,
+      GLOBAL = this;
+  var __decorate = (this && this.__decorate) || function(decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
+      r = Reflect.decorate(decorators, target, key, desc);
+    else
+      for (var i = decorators.length - 1; i >= 0; i--)
+        if (d = decorators[i])
+          r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+  };
+  var __metadata = (this && this.__metadata) || function(k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
+      return Reflect.metadata(k, v);
+  };
+  var core_1 = $__require('angular2/core');
+  var TabContent = (function() {
+    function TabContent() {
+      this.tabClass = true;
+      this.isActive = false;
+    }
+    Object.defineProperty(TabContent.prototype, "suiTabContent", {
+      set: function(value) {
+        if (!this.id) {
+          this.id = value;
+        }
+      },
+      enumerable: true,
+      configurable: true
+    });
+    __decorate([core_1.Input(), __metadata('design:type', String), __metadata('design:paramtypes', [String])], TabContent.prototype, "suiTabContent", null);
+    __decorate([core_1.HostBinding('class.tab'), __metadata('design:type', Object)], TabContent.prototype, "tabClass", void 0);
+    __decorate([core_1.HostBinding('class.active'), __metadata('design:type', Boolean)], TabContent.prototype, "isActive", void 0);
+    TabContent = __decorate([core_1.Directive({selector: '[suiTabContent]'}), __metadata('design:paramtypes', [])], TabContent);
+    return TabContent;
+  }());
+  exports.TabContent = TabContent;
+  return module.exports;
+});
+
+System.registerDynamic("ng2-semantic-ui/components/tab", ["./tab/tabset.component", "./tab/tab.directive", "./tab/tab-content.directive"], true, function($__require, exports, module) {
+  "use strict";
+  ;
+  var define,
+      global = this,
+      GLOBAL = this;
+  var tabset_component_1 = $__require('./tab/tabset.component');
+  var tab_directive_1 = $__require('./tab/tab.directive');
+  var tab_content_directive_1 = $__require('./tab/tab-content.directive');
+  var tabset_component_2 = $__require('./tab/tabset.component');
+  exports.Tabset = tabset_component_2.Tabset;
+  var tab_directive_2 = $__require('./tab/tab.directive');
+  exports.Tab = tab_directive_2.Tab;
+  var tab_content_directive_2 = $__require('./tab/tab-content.directive');
+  exports.TabContent = tab_content_directive_2.TabContent;
+  exports.TAB_DIRECTIVES = [tabset_component_1.Tabset, tab_directive_1.Tab, tab_content_directive_1.TabContent];
+  return module.exports;
+});
+
+System.registerDynamic("ng2-semantic-ui/ng2-semantic-ui", ["./components/accordion", "./components/checkbox", "./components/collapse", "./components/dimmer", "./components/dropdown", "./components/progress", "./components/message", "./components/tab"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -1015,13 +1394,17 @@ System.registerDynamic("ng2-semantic-ui/ng2-semantic-ui", ["./components/accordi
   var dimmer_1 = $__require('./components/dimmer');
   var dropdown_1 = $__require('./components/dropdown');
   var progress_1 = $__require('./components/progress');
+  var message_1 = $__require('./components/message');
+  var tab_1 = $__require('./components/tab');
   __export($__require('./components/accordion'));
   __export($__require('./components/checkbox'));
   __export($__require('./components/collapse'));
   __export($__require('./components/dimmer'));
   __export($__require('./components/dropdown'));
   __export($__require('./components/progress'));
-  exports.DIRECTIVES = [accordion_1.ACCORDION_DIRECTIVES, checkbox_1.CHECKBOX_DIRECTIVES, collapse_1.COLLAPSE_DIRECTIVES, dimmer_1.DIMMER_DIRECTIVES, dropdown_1.DROPDOWN_DIRECTIVES, progress_1.PROGRESS_DIRECTIVES];
+  __export($__require('./components/message'));
+  __export($__require('./components/tab'));
+  exports.DIRECTIVES = [accordion_1.ACCORDION_DIRECTIVES, checkbox_1.CHECKBOX_DIRECTIVES, collapse_1.COLLAPSE_DIRECTIVES, dimmer_1.DIMMER_DIRECTIVES, dropdown_1.DROPDOWN_DIRECTIVES, progress_1.PROGRESS_DIRECTIVES, message_1.MESSAGE_DIRECTIVES, tab_1.TAB_DIRECTIVES];
   return module.exports;
 });
 
