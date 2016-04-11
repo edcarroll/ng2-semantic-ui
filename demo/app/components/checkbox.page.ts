@@ -17,8 +17,8 @@ export class CheckboxComponentPage {
             selector: "<sui-checkbox>",
             properties: [
                 {
-                    name: "id",
-                    description: "Sets the id on the <code>&lt;sui-checkbox&gt;</code> component."
+                    name: "name",
+                    description: "Sets the name on the internal <code>&lt;input&gt;</code> element."
                 },
                 {
                     name: "ngModel",
@@ -50,8 +50,8 @@ export class CheckboxComponentPage {
             selector: "<sui-radio-button>",
             properties: [
                 {
-                    name: "id",
-                    description: "Sets the id on the <code>&lt;sui-radio-button&gt;</code> component."
+                    name: "name",
+                    description: "Sets the name on the internal <code>&lt;input&gt;</code> component."
                 },
                 {
                     name: "value",

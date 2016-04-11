@@ -17,10 +17,30 @@ export class RatingComponentPage {
             selector: "<sui-rating>",
             properties: [
                 {
-                    name: "suiCollapse",
-                    description: "Sets whether or not the element is collapsed."
+                    name: "max",
+                    description: "Sets the highest value the rating allows as input.",
+                    defaultValue: "5"
+                },
+                {
+                    name: "ngModel",
+                    description: "Bind the rating value to the value of the provided variable."
+                },
+                {
+                    name: "isReadonly",
+                    description: "Sets whether or not the rating is read-only. This only affects the UI, <code>[ngModel]</code> changes will still display.",
+                    defaultValue: "false"
+                }
+            ],
+            events: [
+                {
+                    name: "ngModelChange",
+                    description: "Fires whenever the rating value is changed. <code>[(ngModel)]</code> syntax is supported."
+                },
+                {
+                    name: "valueChange",
+                    description: "Fires whenever the rating value is changed."
                 }
             ]
-        }
+        },
     ]
 }
