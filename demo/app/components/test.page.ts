@@ -3,11 +3,11 @@ import {Component} from 'angular2/core';
 import {PageTitle} from "../internal/page-title.component";
 
 import {CHECKBOX_DIRECTIVES} from '../../../components/checkbox';
-import {RATING_DIRECTIVES} from "../../../components/rating";
+import {Search} from "../../../components/search/search.component";
 
 @Component({
     selector: 'test-component-page',
-    directives: [PageTitle, CHECKBOX_DIRECTIVES, RATING_DIRECTIVES],
+    directives: [PageTitle, CHECKBOX_DIRECTIVES, Search],
     template: `
 <page-title>
     <div header>Test</div>
@@ -20,8 +20,8 @@ import {RATING_DIRECTIVES} from "../../../components/rating";
     <h2 class="ui dividing header">Examples</h2>
 
     <div class="ui segment">
-        <sui-rating class="star" max="8" [(ngModel)]="value" [isReadonly]="isReadonly"></sui-rating>
-        <sui-checkbox [(ngModel)]="isReadonly">Is readonly?</sui-checkbox>
+        <sui-search [(isOpen)]="open"></sui-search>
+        <button class="ui primary button" (click)="open = !open">Toggle</button>
     </div>    
 </div>
 `

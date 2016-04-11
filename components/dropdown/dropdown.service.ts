@@ -1,7 +1,9 @@
-export const DISABLED = 'disabled';
-export const OUTSIDECLICK = 'outsideClick';
+import {EventEmitter, ElementRef} from 'angular2/core';
 
-export const KEYCODE = {
+const DISABLED = 'disabled';
+const OUTSIDECLICK = 'outsideClick';
+
+const KEYCODE = {
     LEFT: 37,
     UP: 38,
     RIGHT: 39,
@@ -11,80 +13,190 @@ export const KEYCODE = {
     ENTER: 13
 };
 
-import {Dropdown} from './dropdown.directive';
-
 export class DropdownService {
-    private dropdown:Dropdown;
+    // State
+    private _isOpen:boolean;
+    public isDisabled:boolean;
+    public autoClose:string;
 
+    // State Events
+    public onToggle:EventEmitter<boolean> = new EventEmitter(false);
+    public isOpenChange:EventEmitter<boolean> = new EventEmitter(false);
+
+    // Important Elements
+    public dropdownElement:ElementRef;
+    public menuElement:ElementRef;
+
+    // Document Event Bindings
     private closeDropdownBind:EventListener = this.closeDropdown.bind(this);
     private keybindFilterBind:EventListener = this.keybindFilter.bind(this);
 
-    public open(dropdown:Dropdown):void {
-        if (!this.dropdown) {
-            window.document.addEventListener('click', this.closeDropdownBind, true);
-            if (!dropdown.el.nativeElement.parentElement.hasAttribute("suiDropdownMenu")) {
-                window.document.addEventListener('keydown', this.keybindFilterBind);
-            }
-        }
+    // Keyboard Navigation
+    private _selectedItem:Element = null;
 
-        this.dropdown = dropdown;
+    // Classes
+    public itemClass = "item";
+    public itemSelectedClass = "selected";
+    public itemDisabledClass = "disabled";
+
+    public get isOpen():boolean {
+        return this._isOpen;
     }
 
-    public close():void {
-        this.dropdown = null;
+    public set isOpen(value:boolean) {
+        if (this.isDisabled) { value = false; }
+
+        this._isOpen = value;
+
+        if (this.isOpen) {
+            this.bindDocumentEvents();
+
+            this.selectedItem = null;
+        }
+        else {
+            this.unbindDocumentEvents();
+        }
+
+        setTimeout(() => {
+            this.onToggle.emit(this._isOpen);
+            this.isOpenChange.emit(this._isOpen);
+        });
+    }
+
+    public toggle():void {
+        this.isOpen = !this.isOpen;
+    }
+
+    public bindDocumentEvents():void {
+        window.document.addEventListener('click', this.closeDropdownBind, true);
+        if (!this.dropdownElement.nativeElement.parentElement.hasAttribute("suiDropdownMenu")) {
+            window.document.addEventListener('keydown', this.keybindFilterBind);
+        }
+    }
+
+    public unbindDocumentEvents():void {
         window.document.removeEventListener('click', this.closeDropdownBind, true);
         window.document.removeEventListener('keydown', this.keybindFilterBind);
     }
 
+
     private closeDropdown(event:MouseEvent):void {
-        console.log("Hi");
         //Never close the dropdown if autoClose is disabled
-        if (event && this.dropdown.autoClose === DISABLED) {
+        if (event && this.autoClose === DISABLED) {
             return;
         }
 
         //Don't close the dropdown when clicking the toggle
-        if (event && this.dropdown.el.nativeElement.contains(event.target) &&
-            !this.dropdown.menuEl.nativeElement.contains(event.target)) {
+        if (event && this.dropdownElement.nativeElement.contains(event.target) &&
+            !this.menuElement.nativeElement.contains(event.target)) {
             return;
         }
 
         //Don't close the dropdown if expanding a nested dropdown
-        if (event && this.dropdown.menuEl.nativeElement.contains(event.target) &&
+        if (event && this.menuElement.nativeElement.contains(event.target) &&
             (<Element> event.target).hasAttribute("suiDropdown")) {
             return;
         }
 
         //Don't close the dropdown if clicking on any input element
-        if (event && this.dropdown.menuEl &&
+        if (event && this.menuElement &&
             /input|textarea/i.test((<Element> event.target).tagName) &&
-            this.dropdown.menuEl.nativeElement.contains(event.target)) {
+            this.menuElement.nativeElement.contains(event.target)) {
             return;
         }
 
         //Don't close the dropdown when clicking inside if autoClose is outsideClick
-        if (event && this.dropdown.autoClose === OUTSIDECLICK &&
-            this.dropdown.menuEl &&
-            this.dropdown.menuEl.nativeElement.contains(event.target)) {
+        if (event && this.autoClose === OUTSIDECLICK &&
+            this.menuElement &&
+            this.menuElement.nativeElement.contains(event.target)) {
             return;
         }
 
         //Close the dropdown
-        this.dropdown.isOpen = false;
+        this.isOpen = false;
     }
 
     private keybindFilter(event:KeyboardEvent):void {
         if (event.which === KEYCODE.ESCAPE) {
-            this.dropdown.isOpen = false;
+            this.isOpen = false;
             return;
         }
 
-        if (this.dropdown.isOpen &&
+        if (this.isOpen &&
             ([KEYCODE.ENTER, KEYCODE.UP, KEYCODE.RIGHT, KEYCODE.DOWN, KEYCODE.LEFT]
                 .find(keyCode => event.which == keyCode))) {
             event.preventDefault();
             event.stopPropagation();
-            this.dropdown.keyPress(event.which);
+            this.keyPress(event.which);
+        }
+    }
+
+    public set selectedItem(item:Element) {
+        if (this._selectedItem) {
+            this._selectedItem.classList.remove(this.itemSelectedClass);
+        }
+        this._selectedItem = item;
+        if (item) {
+            item.classList.add(this.itemSelectedClass);
+        }
+    }
+    public get selectedItem():Element {
+        return this._selectedItem;
+    }
+
+    public keyPress(keyCode:number):void {
+        //noinspection FallThroughInSwitchStatementJS
+        switch (keyCode) {
+            case KEYCODE.DOWN:
+                this.selectNextItem();
+                break;
+            case KEYCODE.UP:
+                this.selectPreviousItem();
+                break;
+            case KEYCODE.ENTER:
+                if (!this.selectedItem.hasAttribute("suiDropdown")) {
+                    (<HTMLElement> this.selectedItem).click();
+
+                    this.isOpen = false;
+                    break;
+                }
+                //Fall through on purpose! (So enter on a nested dropdown acts as right arrow)
+            case KEYCODE.RIGHT:
+                if (this.selectedItem.hasAttribute("suiDropdown")) {
+                    (<HTMLElement> this.selectedItem).click();
+                    this.selectedItem = this.selectedItem.querySelector(`.${this.itemClass}:not(.${this.itemDisabledClass})`);
+                }
+                break;
+            case KEYCODE.LEFT:
+                if (this.selectedItem.parentElement != this.menuElement.nativeElement) {
+                    (<HTMLElement> this.selectedItem.parentElement.parentElement).click();
+                    this.selectedItem = this.selectedItem.parentElement.parentElement;
+                }
+                break;
+        }
+    }
+
+    private selectNextItem():void {
+        if (!this.selectedItem) {
+            this.selectedItem = this.menuElement.nativeElement.querySelector(`.${this.itemClass}:not(.${this.itemDisabledClass})`);
+            return;
+        }
+        var nextItem = this.selectedItem.nextElementSibling;
+        if (nextItem) {
+            this.selectedItem = nextItem;
+            if (this.selectedItem.classList.contains(this.itemDisabledClass)) {
+                this.selectNextItem();
+            }
+        }
+    }
+
+    private selectPreviousItem():void {
+        var previousItem = this.selectedItem.previousElementSibling;
+        if (previousItem) {
+            this.selectedItem = previousItem;
+            if (this.selectedItem.classList.contains(this.itemDisabledClass)) {
+                this.selectPreviousItem();
+            }
         }
     }
 }

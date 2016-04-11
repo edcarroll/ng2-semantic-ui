@@ -1,22 +1,22 @@
-import {Directive, ElementRef, Host, OnInit, HostBinding} from 'angular2/core';
-import {Dropdown} from './dropdown.directive';
+import {Directive, ElementRef, HostBinding} from 'angular2/core';
+import {DropdownService} from './dropdown.directive';
 
-@Directive({selector: '[suiDropdownMenu]'})
-export class DropdownMenu implements OnInit {
-    public dropdown:Dropdown;
+@Directive({ selector: '[suiDropdownMenu]' })
+export class DropdownMenu {
+    private _service:DropdownService;
+    public set service(service:DropdownService) {
+        this._service = service;
+        this._service.menuElement = this.el;
+    }
+
     public el:ElementRef;
-    public constructor(@Host() dropdown:Dropdown, el:ElementRef) {
-        this.dropdown = dropdown;
+    public constructor(el:ElementRef) {
         this.el = el;
     }
 
     @HostBinding('class.visible')
     @HostBinding('class.transition')
     public get isOpen():boolean {
-        return this.dropdown.isOpen;
-    }
-
-    public ngOnInit():void {
-        this.dropdown.dropDownMenu = this;
+        return (this._service || {}).isOpen;
     }
 }
