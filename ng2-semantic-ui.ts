@@ -8,6 +8,7 @@ import {PROGRESS_DIRECTIVES} from './components/progress';
 import {MESSAGE_DIRECTIVES} from './components/message';
 import {RATING_DIRECTIVES} from './components/rating';
 import {TAB_DIRECTIVES} from './components/tab';
+import {TEMPLATE_DIRECTIVES} from './components/template';
 
 // Export all directives
 export * from './components/accordion';
@@ -19,6 +20,7 @@ export * from './components/progress';
 export * from './components/message';
 export * from './components/rating';
 export * from './components/tab';
+export * from './components/template';
 
 // Export convenience property
 export const DIRECTIVES: any[] = [
@@ -30,5 +32,6 @@ export const DIRECTIVES: any[] = [
     PROGRESS_DIRECTIVES,
     MESSAGE_DIRECTIVES,
     RATING_DIRECTIVES,
-    TAB_DIRECTIVES
+    TAB_DIRECTIVES,
+    TEMPLATE_DIRECTIVES
 ];
