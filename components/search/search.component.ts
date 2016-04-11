@@ -22,7 +22,7 @@ import {Dropdown, DropdownMenu} from '../dropdown';
 `
 })
 export class Search extends Dropdown implements AfterViewInit {
-    @ViewChild(DropdownMenu) private _menu:DropdownMenu;
+    @ViewChild(DropdownMenu) protected _menu:DropdownMenu;
 
     @HostBinding('class.ui')
     @HostBinding('class.search') searchClasses = true;

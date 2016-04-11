@@ -1,5 +1,5 @@
 import {Directive, ElementRef, HostBinding} from 'angular2/core';
-import {DropdownService} from './dropdown.directive';
+import {DropdownService} from './dropdown.service';
 
 @Directive({ selector: '[suiDropdownMenu]' })
 export class DropdownMenu {
@@ -17,6 +17,9 @@ export class DropdownMenu {
     @HostBinding('class.visible')
     @HostBinding('class.transition')
     public get isOpen():boolean {
-        return (this._service || {}).isOpen;
+        if (this._service) {
+            return this._service.isOpen;
+        }
+        return;
     }
 }

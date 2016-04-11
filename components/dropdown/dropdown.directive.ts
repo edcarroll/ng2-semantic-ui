@@ -7,7 +7,7 @@ import {DropdownMenu} from './dropdown-menu.directive';
 })
 export class Dropdown implements AfterContentInit {
     protected _service:DropdownService;
-    @ContentChild(DropdownMenu) private _menu:DropdownMenu;
+    @ContentChild(DropdownMenu) protected _menu:DropdownMenu;
 
     @HostBinding('class.visible')
     @Input()
