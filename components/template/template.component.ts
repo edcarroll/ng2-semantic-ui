@@ -75,7 +75,8 @@ export class TemplateComponent {
         @Component({
             selector: 'sui-template-generated',
             template: `<template suiTemplate="${url}" ${contextString}>${template}</template>`,
-            directives: [TemplateDirective]
+            directives: [TemplateDirective],
+            styles: [':host { display: none }']
         })
         class GeneratedTemplateComponent { }
         return GeneratedTemplateComponent;
