@@ -6,6 +6,7 @@ import {DIMMER_DIRECTIVES} from './components/dimmer';
 import {DROPDOWN_DIRECTIVES} from './components/dropdown';
 import {PROGRESS_DIRECTIVES} from './components/progress';
 import {MESSAGE_DIRECTIVES} from './components/message';
+import {RATING_DIRECTIVES} from './components/rating';
 import {TAB_DIRECTIVES} from './components/tab';
 
 // Export all directives
@@ -16,6 +17,7 @@ export * from './components/dimmer';
 export * from './components/dropdown';
 export * from './components/progress';
 export * from './components/message';
+export * from './components/rating';
 export * from './components/tab';
 
 // Export convenience property
@@ -27,5 +29,6 @@ export const DIRECTIVES: any[] = [
     DROPDOWN_DIRECTIVES,
     PROGRESS_DIRECTIVES,
     MESSAGE_DIRECTIVES,
+    RATING_DIRECTIVES,
     TAB_DIRECTIVES
 ];

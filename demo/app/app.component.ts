@@ -12,6 +12,7 @@ import {DropdownComponentPage} from "./components/dropdown.page";
 import {ProgressComponentPage} from "./components/progress.page";
 import {MessageComponentPage} from "./components/message.page";
 import {TabComponentPage} from "./components/tab.page";
+import {RatingComponentPage} from "./components/rating.page";
 
 @Component({
     selector: 'app',
@@ -65,6 +66,11 @@ import {TabComponentPage} from "./components/tab.page";
         path: '/components/progress',
         name: 'ProgressComponent',
         component: ProgressComponentPage
+    },
+    {
+        path: '/components/rating',
+        name: 'RatingComponent',
+        component: RatingComponentPage
     },
     {
         path: '/components/tab',

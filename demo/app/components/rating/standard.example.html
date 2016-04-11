@@ -1,0 +1,13 @@
+<div class="ui form">
+    <div class="field">
+        <label>Rating</label>
+        <sui-rating [(ngModel)]="rating" max="10" [isReadonly]="readonly"></sui-rating>
+    </div>
+    <div class="field">
+        <label>Value</label>
+        <input type="number" [(ngModel)]="rating">
+    </div>
+    <div class="field">
+        <sui-checkbox [(ngModel)]="readonly">Read Only?</sui-checkbox>
+    </div>
+</div>
