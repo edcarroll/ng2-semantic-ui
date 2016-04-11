@@ -1,4 +1,4 @@
-import {Component, HostBinding, Input, ViewContainerRef, EmbeddedViewRef, DynamicComponentLoader, ViewContainerRef, ElementRef} from 'angular2/core';
+import {Component, HostBinding, Input, ViewContainerRef, EmbeddedViewRef, DynamicComponentLoader, ElementRef} from 'angular2/core';
 import {Http, Response} from 'angular2/http';
 import {TemplateDirective} from './template.directive';
 import {templateStore} from './template-store.service'

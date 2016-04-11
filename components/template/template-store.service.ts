@@ -1,7 +1,7 @@
 import {TemplateRef} from 'angular2/core';
 
-class TemplateStore {
-    private templates = {};
+export class TemplateStore {
+    private templates:any = {};
 
     public storeTemplate(id:string, template:TemplateRef) {
         this.templates[id] = template;

@@ -41,7 +41,7 @@ export class Search extends Dropdown implements AfterViewInit {
     public selectedOptionChange:EventEmitter<any> = new EventEmitter(false);
 
     private _query:string = "";
-    private _queryTimer:number;
+    private _queryTimer:any;
 
     private get query():string {
         return this._query;
