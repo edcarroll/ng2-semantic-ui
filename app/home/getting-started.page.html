@@ -40,22 +40,15 @@
     <div class="ui segment">
         <codeblock typescript>
             import {Component} from 'angular2/core';
-            import {DROPDOWN_DIRECTIVES} from 'ng2-semantic-ui/ng2-semantic-ui';
+            import {CHECKBOX_DIRECTIVES} from 'ng2-semantic-ui/ng2-semantic-ui';
 
             @Component({
             selector: 'my-app',
-            directives: [DROPDOWN_DIRECTIVES],
+            directives: [CHECKBOX_DIRECTIVES],
             template: `
         </codeblock>
         <codeblock markup>
-            &lt;div class=&quot;ui dropdown&quot; dropdown&gt;
-                Dropdown
-                &lt;i class=&quot;dropdown icon&quot;&gt;&lt;/i&gt;
-                &lt;div class=&quot;menu&quot; dropdownMenu&gt;
-                    &lt;div class=&quot;item&quot;&gt;Choice 1&lt;/div&gt;
-                    &lt;div class=&quot;item&quot;&gt;Choice 2&lt;/div&gt;
-                &lt;/div&gt;
-            &lt;/div&gt;
+            &lt;sui-checkbox&gt;Checkbox example&lt;/sui-checkbox&gt;
         </codeblock>
         <codeblock typescript>
             `
