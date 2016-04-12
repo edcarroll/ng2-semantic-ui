@@ -48,20 +48,26 @@ export class TemplateComponent {
     @Input()
     public set url(url:string) {
         if (url) {
-            this._local = false;
-            this._http.get(url)
-                .map((res:Response) => res.text())
-                .subscribe(
-                    template => {
-                        this._dynamicComponentLoader.loadNextToLocation(TemplateComponent.generateComponent(template, url, this._context), this._elementRef);
-                        setTimeout(() => {
-                            this.id = url;
-                        });
-                    },
-                    err => {
-                        throw err
-                    }
-                );
+            templateStore.checkTemplateCached(url, (available:boolean) => {
+                if (available) {
+                    this.id = url;
+                    return;
+                }
+                this._local = false;
+                this._http.get(url)
+                    .map((res:Response) => res.text())
+                    .subscribe(
+                        template => {
+                            this._dynamicComponentLoader.loadNextToLocation(TemplateComponent.generateComponent(template, url, this._context), this._elementRef);
+                            setTimeout(() => {
+                                this.id = url;
+                            });
+                        },
+                        err => {
+                            throw err
+                        }
+                    );
+            });
         }
     }
 
