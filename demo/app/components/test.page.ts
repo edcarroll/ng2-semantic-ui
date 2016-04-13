@@ -20,18 +20,26 @@ import {TEMPLATE_DIRECTIVES} from "../../../components/template";
     <div class="ui dividing right rail"></div>
     <h2 class="ui dividing header">Examples</h2>
     <div class="ui segment">
-        <sui-search [placeholder]="placeholder" [options]="options" [(ngModel)]="selected" templateId="search"></sui-search>
+        <sui-search [placeholder]="placeholder" [options]="optionsSearch" optionsField="test" [(ngModel)]="selected"></sui-search>
     </div>
     <div class="ui segment">
-        <p>Selected option: {{ selected }}</p>    
+        <p>Selected option: {{ selected | json }}</p>
     </div>
 </div>
-<template suiTemplate="search" #result="result">
-    <div class="title">{{ result }}</div>
-</template>
 `
 })
 export class TestComponentPage {
-    public options:Array<string> = ["Example", "Test", "What", "No", "Benefit", "Oranges", "Artemis", "Teeeest"];
+    public options:Array<any> = [{ test: "Example"}, { test: "Test"}, { test: "What"}, { test: "No"}, { test: "Benefit"}, { test: "Oranges"}, { test: "Artemis"}, { test: "Teeeest"}];
     public placeholder:string = "Search weirdness...";
+    public optionsSearch(query:string):Promise<Array<any>> {
+        var options = [{ test: "Example"}, { test: "Test"}, { test: "What"}, { test: "No"}, { test: "Benefit"}, { test: "Oranges"}, { test: "Artemis"}, { test: "Teeeest"}];
+        return new Promise((resolve, reject) => {
+            var results = options.filter((o:any) => {
+                return o.test.slice(0, query.length).toLowerCase() == query.toLowerCase();
+            });
+            setTimeout(() => {
+                resolve(results);
+            }, 300);
+        });
+    }
 }

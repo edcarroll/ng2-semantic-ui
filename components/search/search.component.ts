@@ -6,17 +6,20 @@ import {TemplateComponent} from '../template/template.component';
 @Component({
     selector: 'sui-search',
     directives: [DropdownMenu, TemplateComponent],
-    inputs: ['placeholder', 'options', 'searchDelay', 'templateId', 'templateUrl'],
+    inputs: ['placeholder', 'options', 'optionsField', 'searchDelay', 'icon'],
     outputs: ['selectedOptionChange'],
     host: {
         '[class.visible]': 'isOpen',
         '[class.disabled]': 'isDisabled'
     },
     template: `
-<input class="prompt" type="text" [attr.placeholder]="placeholder" autocomplete="off" [(ngModel)]="query">
+<div class="ui icon input">
+    <input class="prompt" type="text" [attr.placeholder]="placeholder" autocomplete="off" [(ngModel)]="query">
+    <i *ngIf="icon" class="search icon"></i>
+  </div>
 <div class="results" suiDropdownMenu>
-    <a class="result" *ngFor="#result of results; #i = index" (click)="select(result)">
-        <sui-template *ngIf="templateId || templateUrl" [id]="templateId" [url]="templateUrl" [context]="{ result: result }"></sui-template>
+    <a class="result" *ngFor="#r of results; #i = index" (click)="select(r)">
+        <div class="title">{{ result(i) }}</div>
     </a>
     <div *ngIf="!results.length" class="message empty">
         <div class="header">No Results</div>
@@ -32,16 +35,32 @@ export class Search extends Dropdown implements AfterViewInit {
     @HostBinding('class.search') searchClasses = true;
 
     public placeholder:string = "Search...";
-    public options:Array<any> = [];
-    public searchDelay:number = 300;
-    public templateId:string;
-    public templateUrl:string;
+    public searchDelay:number = 200;
+    public icon:boolean = true;
+    public optionsField:string;
 
     public selectedOption:any;
     public selectedOptionChange:EventEmitter<any> = new EventEmitter(false);
 
+    private _options:Array<any> = [];
+    private _optionsLookup:((query:string) => Promise);
     private _query:string = "";
     private _queryTimer:any;
+    private _results:Array<any> = [];
+    @HostBinding('class.loading')
+    private _loading:boolean = false;
+
+    public get options():Array<any> {
+        return this._options;
+    }
+
+    public set options(value:any) {
+        if (typeof(value) == "function") {
+            this._optionsLookup = <((query:string) => Promise)>value;
+            return;
+        }
+        this._options = <Array<any>> value;
+    }
 
     private get query():string {
         return this._query;
@@ -51,14 +70,13 @@ export class Search extends Dropdown implements AfterViewInit {
         clearTimeout(this._queryTimer);
         if (value) {
             this._queryTimer = setTimeout(() => this.search(value), this.searchDelay);
+            return;
         }
-        else {
-            this.isOpen = false;
-        }
+        this.isOpen = false;
     }
 
     private get results():Array<any> {
-        return this.options.filter((o:string) => o.slice(0, this.query.length) == this.query);
+        return this._results;
     }
 
     constructor(el:ElementRef) {
@@ -68,14 +86,37 @@ export class Search extends Dropdown implements AfterViewInit {
     }
 
     private search(value:string):void {
+        this._loading = true;
         this._query = value;
+        if (this._optionsLookup) {
+            this._optionsLookup(this._query).then((results:Array<any>) => {
+                this._results = results;
+                this.isOpen = true;
+                this._loading = false;
+            });
+            return;
+        }
+        this._results = this.options.filter((o:string) => Search.deepValue(o, this.optionsField).slice(0, this.query.length) == this.query);
         this.isOpen = true;
+        this._loading = false;
+    }
+
+    private result(i:number):any {
+        return Search.deepValue(this._results[i], this.optionsField);
+    }
+
+    private static deepValue(object:any, path:string) {
+        if (!path) { return object; }
+        for (var i = 0, path = path.split('.'), len = path.length; i < len; i++){
+            object = object[path[i]];
+        }
+        return object;
     }
 
     private select(result:any):void {
         this.selectedOption = result;
         this.selectedOptionChange.emit(this.selectedOption);
-        this._query = this.selectedOption;
+        this._query = Search.deepValue(this.selectedOption, this.optionsField);
         this.isOpen = false;
     }
 
