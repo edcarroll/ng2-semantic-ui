@@ -6,16 +6,16 @@ import {DropdownMenu} from '../dropdown';
 @Component({
     selector: 'sui-select',
     directives: [DropdownMenu],
-    inputs: ['placeholder', 'options', 'optionsField', 'isSearchable', 'searchDelay', 'icon'],
+    inputs: ['placeholder', 'options', 'optionsField', 'isSearchable', 'searchDelay', 'isDisabled'],
     outputs: ['selectedOptionChange'],
     host: {
         '[class.visible]': 'isOpen',
         '[class.disabled]': 'isDisabled'
     },
     template: `
-<i *ngIf="icon" class="dropdown icon"></i>
-<input *ngIf="searchable" class="search" type="text" autocomplete="off" [(ngModel)]="query" #searchBox>
-<div *ngIf="!selectedOption" class="default text" [class.filtered]="query" (click)="focus(searchBox)">{{ placeholder }}</div>
+<i class="dropdown icon"></i>
+<input *ngIf="isSearchable" class="search" type="text" autocomplete="off" [(ngModel)]="query">
+<div *ngIf="!selectedOption" class="default text" [class.filtered]="query" (click)="focus()">{{ placeholder }}</div>
 <div *ngIf="selectedOption" class="text" [class.filtered]="query" [innerHTML]="selectedOptionHTML"></div>
 <div class="menu" suiDropdownMenu>
     <ng-content></ng-content>
@@ -32,6 +32,7 @@ export class Select extends Search {
 
     @HostBinding('class.search')
     public isSearchable:boolean = false;
+    protected searchDelay:number = 0;
     @HostBinding('class.loading')
     protected _loading:boolean = false;
     public placeholder:string = "Select one";
@@ -84,10 +85,9 @@ export class Select extends Search {
         this.selectedOptionHTML = valueHTML;
     }
 
-    //noinspection JSMethodCanBeStatic
-    private focus(el:HTMLElement) {
-        if (el) {
-            el.focus();
+    private focus() {
+        if (this.isSearchable) {
+            this._service.dropdownElement.nativeElement.querySelector("input").focus();
         }
     }
 
