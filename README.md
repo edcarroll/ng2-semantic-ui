@@ -80,7 +80,7 @@ To run the demo app:
 $ npm run demo
 ```
 
-To compile the demo app without running the app:
+To compile the demo app without running it:
 
 ```bash
 $ npm run tsc-demo

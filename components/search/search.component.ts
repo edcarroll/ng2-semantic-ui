@@ -5,7 +5,7 @@ import {Dropdown, DropdownMenu} from '../dropdown';
 @Component({
     selector: 'sui-search',
     directives: [DropdownMenu],
-    inputs: ['placeholder', 'options', 'optionsField', 'searchDelay', 'icon'],
+    inputs: ['placeholder', 'options', 'optionsField', 'searchDelay', 'icon', 'isDisabled'],
     outputs: ['selectedOptionChange'],
     host: {
         '[class.visible]': 'isOpen',
@@ -40,6 +40,7 @@ export class Search extends Dropdown implements AfterViewInit {
 
     public selectedOption:any;
     public selectedOptionChange:EventEmitter<any> = new EventEmitter(false);
+    public onItemSelected:EventEmitter<any> = new EventEmitter(false);
 
     protected _options:Array<any> = [];
     protected _optionsLookup:((query:string) => Promise<any>);
@@ -74,7 +75,6 @@ export class Search extends Dropdown implements AfterViewInit {
             this._queryTimer = setTimeout(() => {
                 this.search(() => {
                     this.isOpen = true;
-                    this._loading = false;
                 });
             }, this.searchDelay);
             return;
@@ -99,6 +99,7 @@ export class Search extends Dropdown implements AfterViewInit {
         if (this._optionsLookup) {
             if (this._resultsCache[this._query]) {
                 this._results = this._resultsCache[this._query];
+                this._loading = false;
                 callback();
                 return;
             }
@@ -110,6 +111,7 @@ export class Search extends Dropdown implements AfterViewInit {
             return;
         }
         this._results = this.options.filter((o:string) => this.deepValue(o, this.optionsField).slice(0, this.query.length).toLowerCase() == this.query.toLowerCase());
+        this._loading = false;
         callback();
     }
 
@@ -128,8 +130,9 @@ export class Search extends Dropdown implements AfterViewInit {
 
     public select(result:any):void {
         this.selectedOption = result;
-        this.selectedOptionChange.emit(this.selectedOption);
-        this._query = this.deepValue(this.selectedOption, this.optionsField);
+        this.selectedOptionChange.emit(result);
+        this.onItemSelected.emit(result);
+        this._query = this.deepValue(result, this.optionsField);
         this.isOpen = false;
     }
 

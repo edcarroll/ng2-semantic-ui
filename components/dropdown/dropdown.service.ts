@@ -3,14 +3,16 @@ import {EventEmitter, ElementRef} from 'angular2/core';
 const DISABLED = 'disabled';
 const OUTSIDECLICK = 'outsideClick';
 
-const KEYCODE = {
+export const KEYCODE = {
     LEFT: 37,
     UP: 38,
     RIGHT: 39,
     DOWN: 40,
 
     ESCAPE: 27,
-    ENTER: 13
+    ENTER: 13,
+
+    BACKSPACE: 	8
 };
 
 export class DropdownService {
@@ -154,15 +156,14 @@ export class DropdownService {
                 this.selectPreviousItem();
                 break;
             case KEYCODE.ENTER:
-                if (!this.selectedItem.hasAttribute("suiDropdown")) {
+                if (this.selectedItem && !this.selectedItem.hasAttribute("suiDropdown")) {
                     (<HTMLElement> this.selectedItem).click();
-
-                    this.isOpen = false;
+                    this.selectedItem = null;
                     break;
                 }
                 //Fall through on purpose! (So enter on a nested dropdown acts as right arrow)
             case KEYCODE.RIGHT:
-                if (this.selectedItem.hasAttribute("suiDropdown")) {
+                if (this.selectedItem && this.selectedItem.hasAttribute("suiDropdown")) {
                     (<HTMLElement> this.selectedItem).click();
                     this.selectedItem = this.selectedItem.querySelector(`.${this.itemClass}:not(.${this.itemDisabledClass})`);
                 }

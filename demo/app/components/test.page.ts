@@ -20,13 +20,20 @@ import {TEMPLATE_DIRECTIVES} from "../../../components/template";
     <div class="ui dividing right rail"></div>
     <h2 class="ui dividing header">Examples</h2>
     <div class="ui segment">
-        <sui-select [placeholder]="placeholder" [options]="options" optionsField="test" [(ngModel)]="selected" [isSearchable]="true" [isDisabled]="isDisabled" #select>
+        <sui-select [placeholder]="placeholder" [options]="options" optionsField="test" [(ngModel)]="selected" [isSearchable]="true" #select>
             <sui-select-option *ngFor="#result of select.results" [value]="result"><i class="af flag"></i>{{ result.test }}</sui-select-option>
         </sui-select>
     </div>
     <div class="ui segment">
-        <sui-checkbox [(ngModel)]="isDisabled">Disabled?</sui-checkbox>
         <p>Selected option: {{ selected | json }}</p>
+    </div>
+    <div class="ui segment">
+        <sui-select class="fluid" [options]="options" optionsField="test" [(ngModel)]="selectedItems" [isSearchable]="false" [allowMultiple]="true" #multiSelect>
+            <sui-select-option *ngFor="#result of multiSelect.results" [value]="result"><i class="af flag"></i>{{ result.test }}</sui-select-option>
+        </sui-select>
+    </div>
+    <div class="ui segment">
+        <p>Selected items: {{ selectedItems | json }}</p>
     </div>
 </div>
 `
