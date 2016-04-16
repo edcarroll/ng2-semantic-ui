@@ -87,10 +87,6 @@ $ npm run tsc-demo
 # use tsc-demo:w to watch for changes
 ```
 
-## Acknowledgements
-
-Some components have been adapted from [ng2-bootstrap](https://github.com/valor-software/ng2-bootstrap).
-
 ## License
 
 MIT © [Edward Carroll](https://github.com/edcarroll)
