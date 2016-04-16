@@ -1,4 +1,4 @@
-import {Component, Directive, Provider, Input, ViewChild, HostBinding, ElementRef, HostListener, forwardRef} from 'angular2/core';
+import {Component, Directive, Provider, ViewChild, HostBinding, ElementRef, HostListener, forwardRef} from 'angular2/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from 'angular2/common';
 import {Search, SearchValueAccessor} from '../search';
 import {DropdownMenu} from '../dropdown';
@@ -128,6 +128,10 @@ export class Select extends Search {
         this.selectedOptions.splice(index, 1);
         this.selectedOptionsHTML.splice(index, 1);
         this.selectedOptionChange.emit(this.selectedOptions);
+
+        if (this.isSearchable) {
+            this.focusFirstItem();
+        }
     }
 
     //noinspection JSMethodCanBeStatic
@@ -181,28 +185,9 @@ export class Select extends Search {
             var lastSelectedOption = selectedOptions[selectedOptions.length - 1];
             if (lastSelectedOption) {
                 this.deselectOption(lastSelectedOption);
+
             }
         }
-    }
-}
-
-@Component({
-    selector: 'sui-select-option',
-    template: `<ng-content></ng-content>`
-})
-export class SelectOption {
-    @HostBinding('class.item') itemClass = true;
-
-    @Input()
-    public value:any;
-
-    constructor(private host:Select, private el:ElementRef) { }
-
-    @HostListener('click', ['$event'])
-    public click(event):boolean {
-        event.stopPropagation();
-        this.host.selectOption(this.value, this.el.nativeElement.innerHTML);
-        return false;
     }
 }
 
