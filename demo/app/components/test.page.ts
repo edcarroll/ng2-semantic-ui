@@ -3,12 +3,12 @@ import {Component} from 'angular2/core';
 import {PageTitle} from "../internal/page-title.component";
 
 import {CHECKBOX_DIRECTIVES} from '../../../components/checkbox';
-import {Search, SearchValueAccessor} from "../../../components/search/search.component";
+import {Select, SelectValueAccessor, SelectOption} from "../../../components/select/select.component";
 import {TEMPLATE_DIRECTIVES} from "../../../components/template";
 
 @Component({
     selector: 'test-component-page',
-    directives: [PageTitle, CHECKBOX_DIRECTIVES, TEMPLATE_DIRECTIVES, Search, SearchValueAccessor],
+    directives: [PageTitle, CHECKBOX_DIRECTIVES, TEMPLATE_DIRECTIVES, Select, SelectValueAccessor, SelectOption],
     template: `
 <page-title>
     <div header>Test</div>
@@ -20,7 +20,9 @@ import {TEMPLATE_DIRECTIVES} from "../../../components/template";
     <div class="ui dividing right rail"></div>
     <h2 class="ui dividing header">Examples</h2>
     <div class="ui segment">
-        <sui-search [placeholder]="placeholder" [options]="optionsSearch" optionsField="test" [(ngModel)]="selected"></sui-search>
+        <sui-select [placeholder]="placeholder" [options]="optionsSearch" optionsField="test" [(ngModel)]="selected" #select>
+            <sui-select-option *ngFor="#result of select.results" [value]="result">{{ result.test }}</sui-select-option>
+        </sui-select>
     </div>
     <div class="ui segment">
         <p>Selected option: {{ selected | json }}</p>

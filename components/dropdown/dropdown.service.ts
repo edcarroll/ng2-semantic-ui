@@ -176,7 +176,7 @@ export class DropdownService {
         }
     }
 
-    private selectNextItem():void {
+    public selectNextItem():void {
         if (!this.selectedItem) {
             this.selectedItem = this.menuElement.nativeElement.querySelector(`.${this.itemClass}:not(.${this.itemDisabledClass})`);
             return;
@@ -190,7 +190,7 @@ export class DropdownService {
         }
     }
 
-    private selectPreviousItem():void {
+    public selectPreviousItem():void {
         var previousItem = this.selectedItem.previousElementSibling;
         if (previousItem) {
             this.selectedItem = previousItem;

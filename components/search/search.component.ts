@@ -1,11 +1,10 @@
 import {Component, Directive, Provider, HostBinding, ElementRef, AfterViewInit, ViewChild, EventEmitter, forwardRef} from 'angular2/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from 'angular2/common';
 import {Dropdown, DropdownMenu} from '../dropdown';
-import {TemplateComponent} from '../template/template.component';
 
 @Component({
     selector: 'sui-search',
-    directives: [DropdownMenu, TemplateComponent],
+    directives: [DropdownMenu],
     inputs: ['placeholder', 'options', 'optionsField', 'searchDelay', 'icon'],
     outputs: ['selectedOptionChange'],
     host: {
@@ -43,39 +42,49 @@ export class Search extends Dropdown implements AfterViewInit {
     public selectedOptionChange:EventEmitter<any> = new EventEmitter(false);
 
     private _options:Array<any> = [];
-    private _optionsLookup:((query:string) => Promise);
-    private _query:string = "";
+    private _optionsLookup:((query:string) => Promise<any>);
+    protected _allowEmptyQuery:boolean = false;
+    protected _query:string = "";
     private _queryTimer:any;
-    private _results:Array<any> = [];
+    protected _results:Array<any> = [];
+    protected _resultsCache:any = {};
     @HostBinding('class.loading')
-    private _loading:boolean = false;
+    protected _loading:boolean = false;
 
-    public get options():Array<any> {
+    public get options():any {
         return this._options;
     }
 
     public set options(value:any) {
         if (typeof(value) == "function") {
-            this._optionsLookup = <((query:string) => Promise)>value;
+            this._optionsLookup = <((query:string) => Promise<any>)>value;
             return;
         }
         this._options = <Array<any>> value;
     }
 
-    private get query():string {
+    protected get query():string {
         return this._query;
     }
 
-    private set query(value:string) {
+    protected set query(value:string) {
+        this._query = value;
         clearTimeout(this._queryTimer);
-        if (value) {
-            this._queryTimer = setTimeout(() => this.search(value), this.searchDelay);
+        if (value || this._allowEmptyQuery) {
+            this._queryTimer = setTimeout(() => {
+                this.search(() => {
+                    this.isOpen = true;
+                    this._loading = false;
+                });
+            }, this.searchDelay);
             return;
         }
-        this.isOpen = false;
+        if (!this._allowEmptyQuery) {
+            this.isOpen = false;
+        }
     }
 
-    private get results():Array<any> {
+    protected get results():Array<any> {
         return this._results;
     }
 
@@ -85,38 +94,42 @@ export class Search extends Dropdown implements AfterViewInit {
         this._service.itemSelectedClass = "active";
     }
 
-    private search(value:string):void {
+    protected search(callback:Function):void {
         this._loading = true;
-        this._query = value;
         if (this._optionsLookup) {
+            if (this._resultsCache[this._query]) {
+                this._results = this._resultsCache[this._query];
+                callback();
+                return;
+            }
+
             this._optionsLookup(this._query).then((results:Array<any>) => {
-                this._results = results;
-                this.isOpen = true;
-                this._loading = false;
+                this._resultsCache[this._query] = results;
+                this.search(callback);
             });
             return;
         }
-        this._results = this.options.filter((o:string) => Search.deepValue(o, this.optionsField).slice(0, this.query.length) == this.query);
-        this.isOpen = true;
-        this._loading = false;
+        this._results = this.options.filter((o:string) => this.deepValue(o, this.optionsField).slice(0, this.query.length).toLowerCase() == this.query.toLowerCase());
+        callback();
     }
 
     private result(i:number):any {
-        return Search.deepValue(this._results[i], this.optionsField);
+        return this.deepValue(this._results[i], this.optionsField);
     }
 
-    private static deepValue(object:any, path:string) {
+    //noinspection JSMethodCanBeStatic
+    protected deepValue(object:any, path:string) {
         if (!path) { return object; }
-        for (var i = 0, path = path.split('.'), len = path.length; i < len; i++){
-            object = object[path[i]];
+        for (var i = 0, p = path.split('.'), len = p.length; i < len; i++){
+            object = object[p[i]];
         }
         return object;
     }
 
-    private select(result:any):void {
+    public select(result:any):void {
         this.selectedOption = result;
         this.selectedOptionChange.emit(this.selectedOption);
-        this._query = Search.deepValue(this.selectedOption, this.optionsField);
+        this._query = this.deepValue(this.selectedOption, this.optionsField);
         this.isOpen = false;
     }
 
@@ -142,10 +155,14 @@ const CUSTOM_VALUE_ACCESSOR = new Provider(NG_VALUE_ACCESSOR, {useExisting: forw
     providers: [CUSTOM_VALUE_ACCESSOR]
 })
 export class SearchValueAccessor implements ControlValueAccessor {
+    protected host:Search;
+
     onChange = () => {};
     onTouched = () => {};
 
-    constructor(private host: Search) { }
+    constructor(host:Search) {
+        this.host = host;
+    }
 
     writeValue(value: any): void {
         this.host.writeValue(value);

@@ -7,6 +7,7 @@ import {DROPDOWN_DIRECTIVES} from './components/dropdown';
 import {PROGRESS_DIRECTIVES} from './components/progress';
 import {MESSAGE_DIRECTIVES} from './components/message';
 import {RATING_DIRECTIVES} from './components/rating';
+import {SEARCH_DIRECTIVES} from './components/search';
 import {TAB_DIRECTIVES} from './components/tab';
 import {TEMPLATE_DIRECTIVES} from './components/template';
 
@@ -19,6 +20,7 @@ export * from './components/dropdown';
 export * from './components/progress';
 export * from './components/message';
 export * from './components/rating';
+export * from './components/search';
 export * from './components/tab';
 export * from './components/template';
 
@@ -32,6 +34,7 @@ export const DIRECTIVES: any[] = [
     PROGRESS_DIRECTIVES,
     MESSAGE_DIRECTIVES,
     RATING_DIRECTIVES,
+    SEARCH_DIRECTIVES,
     TAB_DIRECTIVES,
     TEMPLATE_DIRECTIVES
 ];
