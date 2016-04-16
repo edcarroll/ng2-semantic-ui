@@ -6,7 +6,7 @@ import {DropdownMenu} from '../dropdown';
 @Component({
     selector: 'sui-select',
     directives: [DropdownMenu],
-    inputs: ['placeholder', 'options', 'optionsField', 'searchDelay', 'icon'],
+    inputs: ['placeholder', 'options', 'optionsField', 'isSearchable', 'searchDelay', 'icon'],
     outputs: ['selectedOptionChange'],
     host: {
         '[class.visible]': 'isOpen',
@@ -14,7 +14,7 @@ import {DropdownMenu} from '../dropdown';
     },
     template: `
 <i *ngIf="icon" class="dropdown icon"></i>
-<input class="search" type="text" autocomplete="off" [(ngModel)]="query" #searchBox>
+<input *ngIf="searchable" class="search" type="text" autocomplete="off" [(ngModel)]="query" #searchBox>
 <div *ngIf="!selectedOption" class="default text" [class.filtered]="query" (click)="focus(searchBox)">{{ placeholder }}</div>
 <div *ngIf="selectedOption" class="text" [class.filtered]="query" [innerHTML]="selectedOptionHTML"></div>
 <div class="menu" suiDropdownMenu>
@@ -27,12 +27,14 @@ export class Select extends Search {
     @ViewChild(DropdownMenu) protected _menu:DropdownMenu;
 
     @HostBinding('class.ui')
-    @HostBinding('class.search')
     @HostBinding('class.selection')
     @HostBinding('class.dropdown') searchClasses = true;
 
+    @HostBinding('class.search')
+    public isSearchable:boolean = false;
     @HostBinding('class.loading')
     protected _loading:boolean = false;
+    public placeholder:string = "Select one";
     public selectedOptionHTML:string;
 
     @HostBinding('class.active')
@@ -44,6 +46,13 @@ export class Select extends Search {
         this._service.isOpen = value;
     }
 
+    protected get results():Array<any> {
+        if (this.isSearchable || this._optionsLookup) {
+            return this._results;
+        }
+        return this.options;
+    }
+
     constructor(private el:ElementRef) {
         super(el);
         this._allowEmptyQuery = true;
@@ -53,21 +62,17 @@ export class Select extends Search {
 
         this._service.isOpenChange.subscribe((isOpen:boolean) => {
             if (isOpen) {
-                if (!this.query) {
-                    this.search(() => {
-                        this._loading = false;
-                    });
+                if (this.isSearchable) {
+                    this._service.selectNextItem();
                 }
-                this._service.selectNextItem();
             }
             else {
                 if (this.query) {
                     if (this._service.selectedItem) {
                         (<HTMLElement> this._service.selectedItem).click();
+                        return;
                     }
-                    else {
-                        this._query = "";
-                    }
+                    this._query = "";
                 }
             }
         });
@@ -81,12 +86,27 @@ export class Select extends Search {
 
     //noinspection JSMethodCanBeStatic
     private focus(el:HTMLElement) {
-        el.focus();
+        if (el) {
+            el.focus();
+        }
     }
 
     @HostListener('click', ['$event'])
     public click(event:MouseEvent):boolean {
-        return super.click(event);
+        event.stopPropagation();
+
+        if (!this._service.menuElement.nativeElement.contains(event.target)){
+            if (!this.isOpen) {
+                this.search(() => {
+                    this._loading = false;
+                    this.isOpen = true;
+                });
+            }
+            else if ((<Element> event.target).tagName != "INPUT") {
+                this.isOpen = false;
+            }
+        }
+        return false;
     }
 }
 

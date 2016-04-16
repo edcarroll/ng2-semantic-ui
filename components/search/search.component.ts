@@ -41,11 +41,11 @@ export class Search extends Dropdown implements AfterViewInit {
     public selectedOption:any;
     public selectedOptionChange:EventEmitter<any> = new EventEmitter(false);
 
-    private _options:Array<any> = [];
-    private _optionsLookup:((query:string) => Promise<any>);
+    protected _options:Array<any> = [];
+    protected _optionsLookup:((query:string) => Promise<any>);
     protected _allowEmptyQuery:boolean = false;
     protected _query:string = "";
-    private _queryTimer:any;
+    protected _queryTimer:any;
     protected _results:Array<any> = [];
     protected _resultsCache:any = {};
     @HostBinding('class.loading')

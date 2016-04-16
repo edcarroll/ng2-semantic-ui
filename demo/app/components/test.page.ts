@@ -20,8 +20,8 @@ import {TEMPLATE_DIRECTIVES} from "../../../components/template";
     <div class="ui dividing right rail"></div>
     <h2 class="ui dividing header">Examples</h2>
     <div class="ui segment">
-        <sui-select [placeholder]="placeholder" [options]="optionsSearch" optionsField="test" [(ngModel)]="selected" #select>
-            <sui-select-option *ngFor="#result of select.results" [value]="result">{{ result.test }}</sui-select-option>
+        <sui-select [placeholder]="placeholder" [options]="options" optionsField="test" [(ngModel)]="selected" #select>
+            <sui-select-option *ngFor="#result of select.results" [value]="result"><i class="af flag"></i>{{ result.test }}</sui-select-option>
         </sui-select>
     </div>
     <div class="ui segment">
@@ -32,7 +32,7 @@ import {TEMPLATE_DIRECTIVES} from "../../../components/template";
 })
 export class TestComponentPage {
     public options:Array<any> = [{ test: "Example"}, { test: "Test"}, { test: "What"}, { test: "No"}, { test: "Benefit"}, { test: "Oranges"}, { test: "Artemis"}, { test: "Teeeest"}];
-    public placeholder:string = "Search weirdness...";
+    public placeholder:string = "Select Weirdness";
     public optionsSearch(query:string):Promise<Array<any>> {
         var options = [{ test: "Example"}, { test: "Test"}, { test: "What"}, { test: "No"}, { test: "Benefit"}, { test: "Oranges"}, { test: "Artemis"}, { test: "Teeeest"}];
         return new Promise((resolve, reject) => {
