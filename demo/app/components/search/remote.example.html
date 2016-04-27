@@ -1,0 +1,5 @@
+<sui-search placeholder="Example Search..." [options]="optionsSearch" optionsField="title" [(ngModel)]="selectedItem"></sui-search>
+<div class="ui segment">
+    <p>Setting the <code>[options]</code> property to a function that takes a query and returns a Promise allows remote lookups.</p>
+    <p>Currently selected: {{ selectedItem | json }}</p>
+</div>

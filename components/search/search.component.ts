@@ -1,12 +1,12 @@
-import {Component, Directive, Provider, HostBinding, ElementRef, AfterViewInit, ViewChild, EventEmitter, forwardRef} from 'angular2/core';
+import {Component, Directive, Provider, HostListener, HostBinding, ElementRef, AfterViewInit, ViewChild, EventEmitter, forwardRef} from 'angular2/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from 'angular2/common';
 import {Dropdown, DropdownMenu} from '../dropdown';
 
 @Component({
     selector: 'sui-search',
     directives: [DropdownMenu],
-    inputs: ['placeholder', 'options', 'optionsField', 'searchDelay', 'icon', 'isDisabled'],
-    outputs: ['selectedOptionChange'],
+    inputs: ['placeholder', 'options', 'optionsField', 'searchDelay', 'icon'],
+    outputs: ['selectedOptionChange', 'onItemSelected'],
     host: {
         '[class.visible]': 'isOpen',
         '[class.disabled]': 'isDisabled'
@@ -125,6 +125,7 @@ export class Search extends Dropdown implements AfterViewInit {
 
     //noinspection JSMethodCanBeStatic
     protected deepValue(object:any, path:string) {
+        if (!object) { return; }
         if (!path) { return object; }
         for (var i = 0, p = path.split('.'), len = p.length; i < len; i++){
             object = object[p[i]];
@@ -142,6 +143,7 @@ export class Search extends Dropdown implements AfterViewInit {
 
     public writeValue(value:any) {
         this.selectedOption = value;
+        this._query = this.deepValue(value, this.optionsField);
     }
 
     public ngAfterContentInit():void {
@@ -151,6 +153,25 @@ export class Search extends Dropdown implements AfterViewInit {
 
     public ngAfterViewInit():void {
         this._menu.service = this._service;
+    }
+
+    @HostListener('click', ['$event'])
+    public click(event:MouseEvent):boolean {
+        event.stopPropagation();
+
+        if (!this._service.menuElement.nativeElement.contains(event.target)){
+            if (!this.isOpen && this.query) {
+                if (this.results.length) {
+                    this.isOpen = true;
+                }
+                this._loading = true;
+                this.search(() => {
+                    this.isOpen = true;
+                    this._loading = false;
+                });
+            }
+        }
+        return false;
     }
 }
 
