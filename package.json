@@ -1,6 +1,6 @@
 {
   "name": "ng2-semantic-ui",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "Angular 2 Semantic UI Components",
   "scripts": {
     "typings": "typings install",
