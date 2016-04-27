@@ -94,13 +94,15 @@ export class Search extends Dropdown implements AfterViewInit {
         this._service.itemSelectedClass = "active";
     }
 
-    protected search(callback:Function):void {
+    protected search(callback?:Function):void {
         this._loading = true;
         if (this._optionsLookup) {
             if (this._resultsCache[this._query]) {
                 this._results = this._resultsCache[this._query];
                 this._loading = false;
-                callback();
+                if (callback) {
+                    callback();
+                }
                 return;
             }
 
@@ -110,9 +112,11 @@ export class Search extends Dropdown implements AfterViewInit {
             });
             return;
         }
-        this._results = this.options.filter((o:string) => this.deepValue(o, this.optionsField).slice(0, this.query.length).toLowerCase() == this.query.toLowerCase());
+        this._results = this.options.filter((o:string) => this.deepValue(o, this.optionsField).toString().slice(0, this.query.length).toLowerCase() == this.query.toLowerCase());
         this._loading = false;
-        callback();
+        if (callback) {
+            callback();
+        }
     }
 
     private result(i:number):any {

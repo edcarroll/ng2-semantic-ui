@@ -1,13 +1,14 @@
-import {Component, Directive, Provider, ViewChild, HostBinding, ElementRef, HostListener, forwardRef} from 'angular2/core';
+import {Component, Directive, Provider, ViewChild, HostBinding, ElementRef, HostListener, OnInit, forwardRef} from 'angular2/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from 'angular2/common';
 import {Search, SearchValueAccessor} from '../search';
+import {SelectOption} from './select-option.component';
 import {DropdownMenu} from '../dropdown';
 import {KEYCODE} from '../dropdown/dropdown.service';
 
 @Component({
     selector: 'sui-select',
     directives: [DropdownMenu],
-    inputs: ['placeholder', 'options', 'optionsField', 'isSearchable', 'searchDelay', 'isDisabled', 'allowMultiple'],
+    inputs: ['placeholder', 'options', 'optionsField', 'isSearchable', 'searchDelay', 'isDisabled', 'allowMultiple', 'maxSelected'],
     outputs: ['selectedOptionChange'],
     host: {
         '[class.visible]': 'isOpen',
@@ -28,12 +29,13 @@ import {KEYCODE} from '../dropdown/dropdown.service';
 <!-- Select dropdown menu -->
 <div class="menu" suiDropdownMenu>
     <ng-content></ng-content>
-    <div *ngIf="!results.length" class="message">No Results</div>
+    <div *ngIf="!results.length && !maxSelectedReached" class="message">No Results</div>
+    <div *ngIf="!results.length && maxSelectedReached" class="message">Max {{ maxSelected }} selections</div>
 </div>
 `,
-    styles: [`:host input.search { width: 12em !important; }`]
+    styles: [`:host input.search { width: 12em !important; } .selected-results { display: none; }`]
 })
-export class Select extends Search {
+export class Select extends Search implements OnInit {
     @ViewChild(DropdownMenu) protected _menu:DropdownMenu;
 
     @HostBinding('class.ui')
@@ -44,7 +46,7 @@ export class Select extends Search {
     public isSearchable:boolean = false;
     @HostBinding('class.multiple')
     public allowMultiple:boolean = false;
-    protected searchDelay:number = 0;
+    public searchDelay:number = 0;
     @HostBinding('class.loading')
     protected _loading:boolean = false;
     public placeholder:string = "Select one";
@@ -52,6 +54,10 @@ export class Select extends Search {
 
     public selectedOptions:any = [];
     public selectedOptionsHTML:Array<string> = [];
+    public maxSelected:number;
+    private maxSelectedReached:boolean = false;
+
+    public renderedOptions:Array<SelectOption> = [];
 
     @HostBinding('class.active')
     public get isOpen():boolean {
@@ -63,12 +69,17 @@ export class Select extends Search {
     }
 
     protected get results():Array<any> {
+        this.maxSelectedReached = false;
         var results = this.options;
         if (this.isSearchable || this._optionsLookup) {
             results = this._results;
         }
         if (this.allowMultiple) {
-            results =  results.filter(r => (this.selectedOptions || []).indexOf(r) == -1);
+            results = results.filter((r:any) => (this.selectedOptions || []).indexOf(r) == -1);
+            if (this.selectedOptions && this.maxSelected == this.selectedOptions.length) {
+                this.maxSelectedReached = true;
+                results = [];
+            }
         }
         return results;
     }
@@ -100,18 +111,25 @@ export class Select extends Search {
         });
     }
 
-    public selectOption(option:any, valueHTML:string):void {
+    public ngOnInit():void {
+        if (this.isSearchable) {
+            //Initialise initial results
+            this.search();
+        }
+    }
+
+    public selectOption(selectOption:SelectOption):void {
         if (!this.allowMultiple) {
-            super.select(option);
-            this.selectedOptionHTML = valueHTML;
+            super.select(selectOption.value);
+            this.selectedOptionHTML = selectOption.HTML;
         }
         else {
             this.selectedOptions = this.selectedOptions || [];
-            this.selectedOptions.push(option);
-            this.selectedOptionsHTML.push(valueHTML);
+            this.selectedOptions.push(selectOption.value);
+            this.selectedOptionsHTML.push(selectOption.HTML);
 
             this.selectedOptionChange.emit(this.selectedOptions);
-            this.onItemSelected.emit(option);
+            this.onItemSelected.emit(selectOption.value);
         }
         if (this.isSearchable) {
             this.focusFirstItem();
@@ -119,7 +137,7 @@ export class Select extends Search {
         }
         this._query = "";
         if (this.isSearchable) {
-            this.search(() => {});
+            this.search();
         }
     }
 
@@ -135,7 +153,7 @@ export class Select extends Search {
     }
 
     //noinspection JSMethodCanBeStatic
-    private selectedOptionClick(event) {
+    private selectedOptionClick(event:MouseEvent) {
         event.stopPropagation();
     }
 
@@ -149,15 +167,24 @@ export class Select extends Search {
         setTimeout(() => {
             this._service.selectedItem = null;
             this._service.selectNextItem();
-        })
+        });
     }
 
     public writeValue(value:any) {
         if (this.allowMultiple) {
-            this.selectedOptions = value;
+            //This allows all of the possible results to load in first, so we can set the innerHTML correctly without using a template.
+            setTimeout(() => {
+                this.selectedOptions = value;
+                (this.selectedOptions || []).forEach((v:any, i:number) => {
+                    this.selectedOptionsHTML[i] = this.renderedOptions.find((rO:SelectOption) => rO.value == v).HTML
+                });
+            });
             return;
         }
         this.selectedOption = value;
+        if (value) {
+            setTimeout(() => this.selectedOptionHTML = this.renderedOptions.find((rO:SelectOption) => rO.value == value).HTML);
+        }
     }
 
     @HostListener('click', ['$event'])
@@ -179,7 +206,7 @@ export class Select extends Search {
         return false;
     }
 
-    public searchKeyDown(event) {
+    public searchKeyDown(event:KeyboardEvent) {
         if (event.which == KEYCODE.BACKSPACE && !this._query) {
             var selectedOptions = this.selectedOptions || [];
             var lastSelectedOption = selectedOptions[selectedOptions.length - 1];
