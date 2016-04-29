@@ -1,5 +1,5 @@
 <p>You can use the keyboard to navigate the dropdown.</p>
-<button class="ui primary dropdown button" suiDropdown [(isOpen)]="isOpen" [isDisabled]="isDisabled">
+<div class="ui primary dropdown button" suiDropdown [(isOpen)]="isOpen" [isDisabled]="isDisabled">
     <div class="text">Dropdown</div>
     <i class="dropdown icon"></i>
     <div class="menu" suiDropdownMenu>
@@ -15,6 +15,6 @@
         </div>
         <div class="item">Item 4</div>
     </div>
-</button>
+</div>
 <button class="ui secondary button" (click)="isOpen = !isOpen">Toggle Dropdown</button>
 <sui-checkbox [(ngModel)]="isDisabled != isDisabled">Disabled?</sui-checkbox>
