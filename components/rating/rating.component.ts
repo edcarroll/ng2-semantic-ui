@@ -1,11 +1,11 @@
-import {Component, Directive, Provider, Input, Output, EventEmitter, HostBinding, HostListener, forwardRef} from 'angular2/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from 'angular2/common';
+import {Component, Directive, Provider, Input, Output, EventEmitter, HostBinding, HostListener, forwardRef} from '@angular/core';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/common';
 
 @Component({
     selector: 'sui-rating',
     template: `
 <i class="icon"
-   *ngFor="#icon of icons; #i = index"
+   *ngFor="let icon of icons; let i = index"
    (mouseover)="mouseover(i)"
    (click)="click(i)"
    [class.selected]="_hoveredIndex >= i && !isReadonly"

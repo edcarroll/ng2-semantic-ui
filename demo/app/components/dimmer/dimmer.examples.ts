@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 
 import {CHECKBOX_DIRECTIVES} from '../../../../components/checkbox';
 import {DIMMER_DIRECTIVES} from '../../../../components/dimmer';

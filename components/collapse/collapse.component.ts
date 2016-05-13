@@ -1,5 +1,5 @@
-import {Directive, OnInit, ElementRef, Input, HostBinding} from 'angular2/core';
-import {AnimationBuilder} from 'angular2/src/animate/animation_builder';
+import {Directive, OnInit, ElementRef, Input, HostBinding, Renderer} from '@angular/core';
+// import {AnimationBuilder} from '@angular/core/src/animate/animation_builder';
 
 @Directive({
     selector: '[suiCollapse]'
@@ -7,7 +7,7 @@ import {AnimationBuilder} from 'angular2/src/animate/animation_builder';
 export class Collapse implements OnInit {
     private animation:any;
 
-    @HostBinding('style.display')
+    // @HostBinding('style.display')
     private display:string = "none";
     // shown
     @HostBinding('class.expanded')
@@ -32,17 +32,19 @@ export class Collapse implements OnInit {
         return this.isExpanded;
     }
 
-    private _ab:AnimationBuilder;
+    // private _ab:AnimationBuilder;
     private _el:ElementRef;
+    private _renderer:Renderer;
 
-    public constructor(_ab:AnimationBuilder, _el:ElementRef) {
-        this._ab = _ab;
+    public constructor(/*_ab:AnimationBuilder,*/ _el:ElementRef, _renderer: Renderer) {
+        // this._ab = _ab;
         this._el = _el;
+        this._renderer = _renderer;
     }
 
     public ngOnInit():void {
-        this.animation = this._ab.css();
-        this.animation.setDuration(this.transitionDuration);
+        // this.animation = this._ab.css();
+        // this.animation.setDuration(this.transitionDuration);
     }
 
     public toggle():void {
@@ -58,32 +60,38 @@ export class Collapse implements OnInit {
 
         this.isExpanded = false;
 
-        setTimeout(() => {
-            // this.height = '0';
-            // this.isCollapse = true;
-            // this.isCollapsing = false;
-            this.animation
-                .setFromStyles({
-                    height: this._el.nativeElement.scrollHeight + 'px',
-                    //This is to fix the border issue
-                    padding: "0 1px 0 1px",
-                    margin: "0 -1px 0 -1px"
-                })
-                .setToStyles({
-                    height: '0',
-                    overflow: 'hidden'
-                });
+        this._renderer.setElementStyle(this._el.nativeElement, 'overflow', 'hidden');
+        this._renderer.setElementStyle(this._el.nativeElement, 'height', '0');
 
-            this.animation.start(this._el.nativeElement)
-                .onComplete(() => {
-                    if (this._el.nativeElement.offsetHeight === 0) {
-                        this.display = 'none';
-                    }
+        this.isCollapsing = false;
+        this.isCollapsed = true;
 
-                    this.isCollapsing = false;
-                    this.isCollapsed = true;
-                });
-        }, 4);
+        // setTimeout(() => {
+        //     // this.height = '0';
+        //     // this.isCollapse = true;
+        //     // this.isCollapsing = false;
+        //     this.animation
+        //         .setFromStyles({
+        //             height: this._el.nativeElement.scrollHeight + 'px',
+        //             //This is to fix the border issue
+        //             padding: "0 1px 0 1px",
+        //             margin: "0 -1px 0 -1px"
+        //         })
+        //         .setToStyles({
+        //             height: '0',
+        //             overflow: 'hidden'
+        //         });
+        //
+        //     this.animation.start(this._el.nativeElement)
+        //         .onComplete(() => {
+        //             if (this._el.nativeElement.offsetHeight === 0) {
+        //                 this.display = 'none';
+        //             }
+        //
+        //             this.isCollapsing = false;
+        //             this.isCollapsed = true;
+        //         });
+        // }, 4);
     }
 
     public show():void {
@@ -93,27 +101,33 @@ export class Collapse implements OnInit {
 
         this.display = '';
 
-        setTimeout(() => {
-            // this.height = 'auto';
-            // this.isCollapse = true;
-            // this.isCollapsing = false;
-            this.animation
-                .setFromStyles({
-                    height: this._el.nativeElement.offsetHeight,
-                    overflow: 'hidden'
-                })
-                .setToStyles({
-                    height: this._el.nativeElement.scrollHeight + 'px',
-                    //This is to fix the border issue
-                    padding: "0 1px 0 1px",
-                    margin: "0 -1px 0 -1px"
-                });
+        this._renderer.setElementStyle(this._el.nativeElement, 'overflow', 'visible');
+        this._renderer.setElementStyle(this._el.nativeElement, 'height', 'auto');
 
-            this.animation.start(this._el.nativeElement)
-                .onComplete(() => {
-                    this.isCollapsing = false;
-                    this.isExpanded = true;
-                });
-        }, 4);
+        this.isCollapsing = false;
+        this.isExpanded = true;
+
+        // setTimeout(() => {
+        //     // this.height = 'auto';
+        //     // this.isCollapse = true;
+        //     // this.isCollapsing = false;
+        //     this.animation
+        //         .setFromStyles({
+        //             height: this._el.nativeElement.offsetHeight,
+        //             overflow: 'hidden'
+        //         })
+        //         .setToStyles({
+        //             height: this._el.nativeElement.scrollHeight + 'px',
+        //             //This is to fix the border issue
+        //             padding: "0 1px 0 1px",
+        //             margin: "0 -1px 0 -1px"
+        //         });
+        //
+        //     this.animation.start(this._el.nativeElement)
+        //         .onComplete(() => {
+        //             this.isCollapsing = false;
+        //             this.isExpanded = true;
+        //         });
+        // }, 4);
     }
 }

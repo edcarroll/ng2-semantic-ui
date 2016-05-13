@@ -1,4 +1,4 @@
-import {Directive, Input, Output, HostBinding, EventEmitter, ElementRef, HostListener, AfterContentInit, ContentChild} from 'angular2/core';
+import {Directive, Input, Output, HostBinding, EventEmitter, ElementRef, HostListener, AfterContentInit, ContentChild} from '@angular/core';
 import {DropdownService} from './dropdown.service';
 import {DropdownMenu} from './dropdown-menu.directive';
 

@@ -1,5 +1,5 @@
-import {Component, Directive, Provider, ViewChild, HostBinding, ElementRef, HostListener, OnInit, forwardRef} from 'angular2/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from 'angular2/common';
+import {Component, Directive, Provider, ViewChild, HostBinding, ElementRef, HostListener, OnInit, forwardRef} from '@angular/core';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/common';
 import {Search, SearchValueAccessor} from '../search';
 import {SelectOption} from './select-option.component';
 import {DropdownMenu} from '../dropdown';
@@ -17,7 +17,7 @@ import {KEYCODE} from '../dropdown/dropdown.service';
     template: `
 <i class="dropdown icon"></i>
 <!-- Multi-select labels -->
-<a *ngFor="#selected of selectedOptions; #i = index" class="ui label" (click)="selectedOptionClick($event)">
+<a *ngFor="let selected of selectedOptions; let i = index" class="ui label" (click)="selectedOptionClick($event)">
     <content [innerHTML]="selectedOptionsHTML[i]"></content>
     <i class="delete icon" (click)="deselectOption(selected); selectedOptionClick($event)"></i>
 </a>

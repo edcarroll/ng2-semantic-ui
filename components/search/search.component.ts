@@ -1,5 +1,5 @@
-import {Component, Directive, Provider, HostListener, HostBinding, ElementRef, AfterViewInit, ViewChild, EventEmitter, forwardRef} from 'angular2/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from 'angular2/common';
+import {Component, Directive, Provider, HostListener, HostBinding, ElementRef, AfterViewInit, ViewChild, EventEmitter, forwardRef} from '@angular/core';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/common';
 import {Dropdown, DropdownMenu} from '../dropdown';
 
 @Component({
@@ -17,7 +17,7 @@ import {Dropdown, DropdownMenu} from '../dropdown';
     <i *ngIf="icon" class="search icon"></i>
   </div>
 <div class="results" suiDropdownMenu>
-    <a class="result" *ngFor="#r of results; #i = index" (click)="select(r)">
+    <a class="result" *ngFor="let r of results; let i = index" (click)="select(r)">
         <div class="title">{{ result(i) }}</div>
     </a>
     <div *ngIf="!results.length" class="message empty">

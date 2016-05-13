@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 
 import {MESSAGE_DIRECTIVES} from '../../../../components/message';
 // import {MESSAGE_DIRECTIVES} from 'ng2-semantic-ui/ng2-semantic-ui';

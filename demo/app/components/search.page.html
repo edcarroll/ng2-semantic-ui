@@ -19,7 +19,11 @@
             <h4 class="ui header">Remote</h4>
             <p>A search can display a set of remote results</p>
         </div>
-        <search-example-remote result></search-example-remote>
+        <div result>
+            <search-example-remote></search-example-remote>
+            <br>
+            <p>Setting the <code>[options]</code> property to a function that takes a query and returns a Promise allows remote lookups.</p>
+        </div>
     </example>
     <h2 id="api" class="ui dividing header">API</h2>
     <api [api]="api"></api>

@@ -1,8 +1,8 @@
 import {
     Component, Directive, Provider, Input, Output, HostListener, HostBinding, EventEmitter, forwardRef
-} from 'angular2/core';
+} from '@angular/core';
 
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from 'angular2/common';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/common';
 
 @Component({
     selector: 'sui-radio-button[ngModel]',

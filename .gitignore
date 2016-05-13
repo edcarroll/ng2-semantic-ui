@@ -5,11 +5,13 @@ npm-debug.log
 # TypeScript
 *.js
 !make.js
+!demo/make-demo.js
 *.map
 *.d.ts
 typings
 bundles
-!demo/js/*.js
+!demo/js/**/*.js
+demo/js/**/*.json
 
 # JetBrains
 .idea

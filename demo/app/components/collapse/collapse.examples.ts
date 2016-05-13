@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 
 import {COLLAPSE_DIRECTIVES} from '../../../../components/collapse';
 // import {COLLAPSE_DIRECTIVES} from 'ng2-semantic-ui/ng2-semantic-ui';

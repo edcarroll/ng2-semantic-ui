@@ -1,4 +1,4 @@
-import {Directive, Input, Output, HostBinding, HostListener, EventEmitter} from 'angular2/core';
+import {Directive, Input, Output, HostBinding, HostListener, EventEmitter} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Observer} from 'rxjs/Observer';
 import {TabContent} from "./tab-content.directive";

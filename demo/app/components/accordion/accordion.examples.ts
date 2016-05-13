@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 
 import {ACCORDION_DIRECTIVES} from '../../../../components/accordion';
 // import {ACCORDION_DIRECTIVES} from 'ng2-semantic-ui/ng2-semantic-ui';

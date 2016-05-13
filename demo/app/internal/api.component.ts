@@ -1,10 +1,10 @@
-import {Component, Input} from 'angular2/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
     selector: 'api',
     directives: [],
     template: `
-<div class="api-object" *ngFor="#object of api;">
+<div class="api-object" *ngFor="let object of api;">
     <h3 class="ui header">{{ object.selector }}</h3>
     <div class="ui segments">
         <div class="ui segment" *ngIf="object.properties">
@@ -13,7 +13,7 @@ import {Component, Input} from 'angular2/core';
                 <div class="content">Properties</div>
             </h4>
             <div class="ui list">
-                <div class="item" *ngFor="#property of object.properties">
+                <div class="item" *ngFor="let property of object.properties">
                     <div class="content">
                         <div class="header">
                             <code>{{ property.name }}</code>&nbsp;
@@ -31,7 +31,7 @@ import {Component, Input} from 'angular2/core';
                 <div class="content">Events</div>
             </h4>
             <div class="ui list">
-                <div class="item" *ngFor="#event of object.events">
+                <div class="item" *ngFor="let event of object.events">
                     <div class="content">
                         <div class="header">
                             <code>{{ event.name }}</code>

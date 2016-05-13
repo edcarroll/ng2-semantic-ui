@@ -1,4 +1,4 @@
-import {Directive, ElementRef, HostBinding} from 'angular2/core';
+import {Directive, ElementRef, HostBinding} from '@angular/core';
 import {DropdownService} from './dropdown.service';
 
 @Directive({ selector: '[suiDropdownMenu]' })

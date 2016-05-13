@@ -1,7 +1,7 @@
 import {
     Component, OnInit, OnDestroy, Input, Inject, Output, EventEmitter
-} from 'angular2/core';
-import {NgClass} from 'angular2/common';
+} from '@angular/core';
+import {NgClass} from '@angular/common';
 import {Accordion} from './accordion.component';
 import {Collapse} from "./../collapse";
 

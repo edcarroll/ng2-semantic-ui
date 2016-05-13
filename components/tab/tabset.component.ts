@@ -1,4 +1,4 @@
-import {Component, AfterContentInit, ContentChildren, QueryList} from 'angular2/core';
+import {Component, AfterContentInit, ContentChildren, QueryList} from '@angular/core';
 import {TabContent} from './tab-content.directive';
 import {Tab} from "./tab.directive";
 

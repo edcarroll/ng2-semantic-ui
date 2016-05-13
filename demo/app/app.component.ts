@@ -1,5 +1,5 @@
-import {Component} from 'angular2/core';
-import {ROUTER_DIRECTIVES, RouteConfig} from "angular2/router";
+import {Component} from '@angular/core';
+import {ROUTER_DIRECTIVES, RouteConfig} from "@angular/router-deprecated";
 import {GettingStartedPage} from './home/getting-started.page'
 
 import {TestComponentPage} from "./components/test.page";

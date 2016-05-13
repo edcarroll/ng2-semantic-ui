@@ -15,13 +15,13 @@
     </div>
     <p>Add a reference to your <code>index.html</code> file: (also ensure you have a reference to the Semantic UI CSS file)</p>
     <div class="ui segment">
-        <codeblock markup>
+        <codeblock language="markup">
             &lt;script src=&quot;node_modules/ng2-semantic-ui/bundles/ng2-semantic-ui.min.js&quot;&gt;&lt;/script&gt;
         </codeblock>
     </div>
     <p>Start using the directives:</p>
     <div class="ui segment">
-        <codeblock typescript>
+        <codeblock language="typescript">
             import {DIRECTIVES} from 'ng2-semantic-ui/ng2-semantic-ui';
         </codeblock>
     </div>
@@ -30,14 +30,14 @@
     <p>Clone the <a href="https://github.com/valor-software/angular2-quickstart">angular2-quickstart</a> repository, and set everything up.</p>
     <p>Add the following lines to your <code>index.html</code>:</p>
     <div class="ui segment">
-        <codeblock markup>
+        <codeblock language="markup">
             &lt;script src=&quot;node_modules/ng2-semantic-ui/bundles/ng2-semantic-ui.min.js&quot;&gt;&lt;/script&gt;
             &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.css&quot;&gt;
         </codeblock>
     </div>
     <p>Update your <code>app.component.ts</code> to be the following:</p>
     <div class="ui segment">
-        <codeblock typescript>
+        <codeblock language="typescript">
             import {Component} from 'angular2/core';
             import {CHECKBOX_DIRECTIVES} from 'ng2-semantic-ui/ng2-semantic-ui';
 
@@ -46,10 +46,10 @@
                 directives: [CHECKBOX_DIRECTIVES],
                 template: `
         </codeblock>
-        <codeblock markup>
+        <codeblock language="markup">
             &lt;sui-checkbox&gt;Checkbox example&lt;/sui-checkbox&gt;
         </codeblock>
-        <codeblock typescript>
+        <codeblock language="typescript">
             `
             })
             export class AppComponent {}

@@ -1,4 +1,4 @@
-import {EventEmitter, ElementRef} from 'angular2/core';
+import {EventEmitter, ElementRef} from '@angular/core';
 
 const DISABLED = 'disabled';
 const OUTSIDECLICK = 'outsideClick';

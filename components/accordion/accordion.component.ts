@@ -1,4 +1,4 @@
-import {Component, Input, HostBinding} from 'angular2/core';
+import {Component, Input, HostBinding} from '@angular/core';
 import {AccordionPanel} from './accordion-panel.component';
 
 @Component({

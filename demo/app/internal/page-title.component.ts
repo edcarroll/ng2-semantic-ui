@@ -1,4 +1,4 @@
-import {Component, HostBinding} from 'angular2/core';
+import {Component, HostBinding} from '@angular/core';
 
 @Component({
     selector: 'page-title',

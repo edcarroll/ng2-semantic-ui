@@ -1,4 +1,4 @@
-import {Component, Input, HostBinding, ElementRef, HostListener, AfterContentInit} from 'angular2/core';
+import {Component, Input, HostBinding, ElementRef, HostListener, AfterContentInit} from '@angular/core';
 import {Select} from '../select';
 
 @Component({

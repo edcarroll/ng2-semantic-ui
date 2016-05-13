@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 
 import {PageTitle} from "../internal/page-title.component";
 
@@ -19,17 +19,17 @@ import {TEMPLATE_DIRECTIVES} from "../../../components/template";
 <div class="ui main container">
     <div class="ui dividing right rail"></div>
     <h2 class="ui dividing header">Examples</h2>
-    <!--<div class="ui segment">-->
-        <!--<sui-select [placeholder]="placeholder" [options]="testOptions" [(ngModel)]="selected" [isSearchable]="true" #select>-->
-            <!--<sui-select-option *ngFor="#result of select.results" [value]="result"><i class="af flag"></i>{{ result }}</sui-select-option>-->
-        <!--</sui-select>-->
-    <!--</div>-->
-    <!--<div class="ui segment">-->
-        <!--<p>Selected option: {{ selected | json }}</p>-->
-    <!--</div>-->
+    <div class="ui segment">
+        <sui-select [placeholder]="placeholder" [options]="testOptions" [(ngModel)]="selected" [isSearchable]="true" #select>
+            <sui-select-option *ngFor="let result of select.results" [value]="result"><i class="af flag"></i>{{ result }}</sui-select-option>
+        </sui-select>
+    </div>
+    <div class="ui segment">
+        <p>Selected option: {{ selected | json }}</p>
+    </div>
     <div class="ui segment">
         <sui-select class="fluid" [options]="testOptions" [(ngModel)]="selectedItems" [isSearchable]="true" [allowMultiple]="true" [maxSelected]="3" #multiSelect>
-            <sui-select-option *ngFor="#result of multiSelect.results" [value]="result"><i class="af flag"></i>{{ result }}</sui-select-option>
+            <sui-select-option *ngFor="let result of multiSelect.results" [value]="result"><i class="af flag"></i>{{ result }}</sui-select-option>
         </sui-select>
     </div>
     <div class="ui segment">

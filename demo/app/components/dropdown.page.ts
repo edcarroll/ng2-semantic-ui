@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 
 import {PageTitle} from "../internal/page-title.component";
 import {Example} from './../internal/example.component';

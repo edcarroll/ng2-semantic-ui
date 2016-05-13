@@ -1,4 +1,4 @@
-import {Component, Input, Output, HostBinding, HostListener, EventEmitter} from 'angular2/core';
+import {Component, Input, Output, HostBinding, HostListener, EventEmitter} from '@angular/core';
 
 @Component({
     selector: 'sui-dimmer',
