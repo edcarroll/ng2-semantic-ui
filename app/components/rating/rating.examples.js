@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'ng2-semantic-ui/ng2-semantic-ui'], function(exports_1, context_1) {
+System.register(['@angular/core', '../../../../components/checkbox', '../../../../components/rating'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,17 +10,21 @@ System.register(['angular2/core', 'ng2-semantic-ui/ng2-semantic-ui'], function(e
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, ng2_semantic_ui_1;
+    var core_1, checkbox_1, rating_1;
     var RatingExampleStandard, RatingExampleStyled, RATING_EXAMPLES;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (ng2_semantic_ui_1_1) {
-                ng2_semantic_ui_1 = ng2_semantic_ui_1_1;
+            function (checkbox_1_1) {
+                checkbox_1 = checkbox_1_1;
+            },
+            function (rating_1_1) {
+                rating_1 = rating_1_1;
             }],
         execute: function() {
+            // import {CHECKBOX_DIRECTIVES, RATING_DIRECTIVES} from 'ng2-semantic-ui/ng2-semantic-ui';
             RatingExampleStandard = (function () {
                 function RatingExampleStandard() {
                     this.rating = 3;
@@ -28,7 +32,7 @@ System.register(['angular2/core', 'ng2-semantic-ui/ng2-semantic-ui'], function(e
                 RatingExampleStandard = __decorate([
                     core_1.Component({
                         selector: 'rating-example-standard',
-                        directives: [ng2_semantic_ui_1.CHECKBOX_DIRECTIVES, ng2_semantic_ui_1.RATING_DIRECTIVES],
+                        directives: [checkbox_1.CHECKBOX_DIRECTIVES, rating_1.RATING_DIRECTIVES],
                         templateUrl: "app/components/rating/standard.example.html"
                     }), 
                     __metadata('design:paramtypes', [])
@@ -42,7 +46,7 @@ System.register(['angular2/core', 'ng2-semantic-ui/ng2-semantic-ui'], function(e
                 RatingExampleStyled = __decorate([
                     core_1.Component({
                         selector: 'rating-example-styled',
-                        directives: [ng2_semantic_ui_1.RATING_DIRECTIVES],
+                        directives: [rating_1.RATING_DIRECTIVES],
                         templateUrl: "app/components/rating/styled.example.html"
                     }), 
                     __metadata('design:paramtypes', [])

@@ -1,4 +1,4 @@
-System.register(['angular2/core', "../internal/page-title.component", './../internal/example.component', './../internal/api.component', "./accordion/accordion.examples"], function(exports_1, context_1) {
+System.register(['@angular/core', "../internal/page-title.component", './../internal/example.component', './../internal/api.component', "./accordion/accordion.examples"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {

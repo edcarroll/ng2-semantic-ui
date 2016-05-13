@@ -1,4 +1,4 @@
-System.register(['angular2/core', "../internal/page-title.component"], function(exports_1, context_1) {
+System.register(['@angular/core', "../internal/page-title.component", '../../../components/checkbox', "../../../components/select", "../../../components/template"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', "../internal/page-title.component"], function(
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, page_title_component_1;
+    var core_1, page_title_component_1, checkbox_1, select_1, template_1;
     var TestComponentPage;
     return {
         setters:[
@@ -19,19 +19,41 @@ System.register(['angular2/core', "../internal/page-title.component"], function(
             },
             function (page_title_component_1_1) {
                 page_title_component_1 = page_title_component_1_1;
+            },
+            function (checkbox_1_1) {
+                checkbox_1 = checkbox_1_1;
+            },
+            function (select_1_1) {
+                select_1 = select_1_1;
+            },
+            function (template_1_1) {
+                template_1 = template_1_1;
             }],
         execute: function() {
-            // import {CHECKBOX_DIRECTIVES} from '../../../components/checkbox';
             TestComponentPage = (function () {
                 function TestComponentPage() {
-                    this.test = "b";
-                    this.checkbox = true;
+                    this.options = [{ test: "Example" }, { test: "Test" }, { test: "What" }, { test: "No" }, { test: "Benefit" }, { test: "Oranges" }, { test: "Artemis" }, { test: "Teeeest" }];
+                    this.placeholder = "Select Weirdness";
+                    this.testOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+                    this.selected = 6;
+                    this.selectedItems = [3, 6];
                 }
+                TestComponentPage.prototype.optionsSearch = function (query) {
+                    var options = [{ test: "Example" }, { test: "Test" }, { test: "What" }, { test: "No" }, { test: "Benefit" }, { test: "Oranges" }, { test: "Artemis" }, { test: "Teeeest" }];
+                    return new Promise(function (resolve, reject) {
+                        var results = options.filter(function (o) {
+                            return o.test.slice(0, query.length).toLowerCase() == query.toLowerCase();
+                        });
+                        setTimeout(function () {
+                            resolve(results);
+                        }, 300);
+                    });
+                };
                 TestComponentPage = __decorate([
                     core_1.Component({
                         selector: 'test-component-page',
-                        directives: [page_title_component_1.PageTitle],
-                        template: "\n<page-title>\n    <div header>Test</div>\n    <div sub-header>\n        <p>Test component!</p>\n    </div>\n</page-title>\n<div class=\"ui main container\">\n    <div class=\"ui dividing right rail\"></div>\n    <h2 class=\"ui dividing header\">Examples</h2>\n\n    <div class=\"ui segment\">\n        <sui-radio-button name=\"test\" value=\"a\" [(ngModel)]=\"test\">\n            Hello {{ test }}\n        </sui-radio-button>\n        <br>\n        <sui-radio-button name=\"test\" value=\"b\" [isReadonly]=\"checkbox\" [(ngModel)]=\"test\" class=\"slider\">\n            Hello {{ test }}\n        </sui-radio-button>\n    </div>\n    \n    <div class=\"ui compact segment\">\n        <sui-checkbox name=\"test\" [isDisabled]=\"test != 'a'\" [(ngModel)]=\"checkbox\" class=\"fitted\">\n            \n        </sui-checkbox>\n    </div>\n    \n    <div class=\"ui segment\">\n        <button class=\"ui primary button\" (click)=\"test = 'b'\">Set radio to 'b'</button>\n    </div>\n</div>\n"
+                        directives: [page_title_component_1.PageTitle, checkbox_1.CHECKBOX_DIRECTIVES, template_1.TEMPLATE_DIRECTIVES, select_1.SELECT_DIRECTIVES],
+                        template: "\n<page-title>\n    <div header>Test</div>\n    <div sub-header>\n        <p>Test component!</p>\n    </div>\n</page-title>\n<div class=\"ui main container\">\n    <div class=\"ui dividing right rail\"></div>\n    <h2 class=\"ui dividing header\">Examples</h2>\n    <div class=\"ui segment\">\n        <sui-select [placeholder]=\"placeholder\" [options]=\"testOptions\" [(ngModel)]=\"selected\" [isSearchable]=\"true\" #select>\n            <sui-select-option *ngFor=\"let result of select.results\" [value]=\"result\"><i class=\"af flag\"></i>{{ result }}</sui-select-option>\n        </sui-select>\n    </div>\n    <div class=\"ui segment\">\n        <p>Selected option: {{ selected | json }}</p>\n    </div>\n    <div class=\"ui segment\">\n        <sui-select class=\"fluid\" [options]=\"testOptions\" [(ngModel)]=\"selectedItems\" [isSearchable]=\"true\" [allowMultiple]=\"true\" [maxSelected]=\"3\" #multiSelect>\n            <sui-select-option *ngFor=\"let result of multiSelect.results\" [value]=\"result\"><i class=\"af flag\"></i>{{ result }}</sui-select-option>\n        </sui-select>\n    </div>\n    <div class=\"ui segment\">\n        <p>Selected items: {{ selectedItems | json }}</p>\n    </div>\n</div>\n"
                     }), 
                     __metadata('design:paramtypes', [])
                 ], TestComponentPage);

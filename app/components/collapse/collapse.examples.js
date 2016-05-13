@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'ng2-semantic-ui/ng2-semantic-ui'], function(exports_1, context_1) {
+System.register(['@angular/core', '../../../../components/collapse'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,24 +10,25 @@ System.register(['angular2/core', 'ng2-semantic-ui/ng2-semantic-ui'], function(e
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, ng2_semantic_ui_1;
+    var core_1, collapse_1;
     var CollapseExampleStandard, COLLAPSE_EXAMPLES;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (ng2_semantic_ui_1_1) {
-                ng2_semantic_ui_1 = ng2_semantic_ui_1_1;
+            function (collapse_1_1) {
+                collapse_1 = collapse_1_1;
             }],
         execute: function() {
+            // import {COLLAPSE_DIRECTIVES} from 'ng2-semantic-ui/ng2-semantic-ui';
             CollapseExampleStandard = (function () {
                 function CollapseExampleStandard() {
                 }
                 CollapseExampleStandard = __decorate([
                     core_1.Component({
                         selector: 'collapse-example-standard',
-                        directives: [ng2_semantic_ui_1.COLLAPSE_DIRECTIVES],
+                        directives: [collapse_1.COLLAPSE_DIRECTIVES],
                         templateUrl: "app/components/collapse/standard.example.html"
                     }), 
                     __metadata('design:paramtypes', [])

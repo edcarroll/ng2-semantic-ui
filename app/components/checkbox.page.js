@@ -1,4 +1,4 @@
-System.register(['angular2/core', "../internal/page-title.component", "../internal/example.component", "../internal/api.component", './checkbox/checkbox.examples'], function(exports_1, context_1) {
+System.register(['@angular/core', "../internal/page-title.component", "../internal/example.component", "../internal/api.component", './checkbox/checkbox.examples'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -38,7 +38,7 @@ System.register(['angular2/core', "../internal/page-title.component", "../intern
                             properties: [
                                 {
                                     name: "name",
-                                    description: "Sets the name on the <code>&lt;sui-checkbox&gt;</code> component."
+                                    description: "Sets the name on the internal <code>&lt;input&gt;</code> element."
                                 },
                                 {
                                     name: "ngModel",
@@ -71,7 +71,7 @@ System.register(['angular2/core', "../internal/page-title.component", "../intern
                             properties: [
                                 {
                                     name: "name",
-                                    description: "Sets the name on the <code>&lt;sui-radio-button&gt;</code> component."
+                                    description: "Sets the name on the internal <code>&lt;input&gt;</code> component."
                                 },
                                 {
                                     name: "value",

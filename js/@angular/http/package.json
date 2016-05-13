@@ -1,0 +1,43 @@
+{
+  "name": "@angular/http",
+  "version": "2.0.0-rc.1",
+  "description": "",
+  "main": "index.js",
+  "jsnext:main": "esm/index.js",
+  "typings": "index.d.ts",
+  "author": {
+    "name": "angular"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "rxjs": "5.0.0-beta.6",
+    "@angular/core": "2.0.0-rc.1"
+  },
+  "_id": "@angular/http@2.0.0-rc.1",
+  "scripts": {},
+  "_shasum": "9be6485e74f4edbcdc856f04235d9b467fc6cdeb",
+  "_from": "@angular/http@2.0.0-rc.1",
+  "_resolved": "https://registry.npmjs.org/@angular/http/-/http-2.0.0-rc.1.tgz",
+  "_npmVersion": "3.8.7",
+  "_nodeVersion": "5.4.1",
+  "_npmUser": {
+    "name": "angular",
+    "email": "angular-core+npm@google.com"
+  },
+  "dist": {
+    "shasum": "9be6485e74f4edbcdc856f04235d9b467fc6cdeb",
+    "tarball": "https://registry.npmjs.org/@angular/http/-/http-2.0.0-rc.1.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "angular",
+      "email": "angular-core+npm@google.com"
+    }
+  ],
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/http-2.0.0-rc.1.tgz_1462310721571_0.5386864563915879"
+  },
+  "directories": {},
+  "readme": "ERROR: No README data found!"
+}

@@ -1,4 +1,4 @@
-System.registerDynamic("ng2-semantic-ui/components/accordion/accordion.component", ["angular2/core"], true, function($__require, exports, module) {
+System.registerDynamic("ng2-semantic-ui/components/accordion/accordion.component", ["@angular/core"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -20,7 +20,7 @@ System.registerDynamic("ng2-semantic-ui/components/accordion/accordion.component
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
       return Reflect.metadata(k, v);
   };
-  var core_1 = $__require('angular2/core');
+  var core_1 = $__require('@angular/core');
   var Accordion = (function() {
     function Accordion() {
       this.closeOthers = true;
@@ -59,7 +59,7 @@ System.registerDynamic("ng2-semantic-ui/components/accordion/accordion.component
   return module.exports;
 });
 
-System.registerDynamic("ng2-semantic-ui/components/accordion/accordion-panel.component", ["angular2/core", "angular2/common", "./accordion.component", "./../collapse"], true, function($__require, exports, module) {
+System.registerDynamic("ng2-semantic-ui/components/accordion/accordion-panel.component", ["@angular/core", "@angular/common", "./accordion.component", "./../collapse"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -86,8 +86,8 @@ System.registerDynamic("ng2-semantic-ui/components/accordion/accordion-panel.com
       decorator(target, key, paramIndex);
     };
   };
-  var core_1 = $__require('angular2/core');
-  var common_1 = $__require('angular2/common');
+  var core_1 = $__require('@angular/core');
+  var common_1 = $__require('@angular/common');
   var accordion_component_1 = $__require('./accordion.component');
   var collapse_1 = $__require('./../collapse');
   var AccordionPanel = (function() {
@@ -153,7 +153,7 @@ System.registerDynamic("ng2-semantic-ui/components/accordion", ["./accordion/acc
   return module.exports;
 });
 
-System.registerDynamic("ng2-semantic-ui/components/checkbox/checkbox.component", ["angular2/core", "angular2/common"], true, function($__require, exports, module) {
+System.registerDynamic("ng2-semantic-ui/components/checkbox/checkbox.component", ["@angular/core", "@angular/common"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -175,8 +175,8 @@ System.registerDynamic("ng2-semantic-ui/components/checkbox/checkbox.component",
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
       return Reflect.metadata(k, v);
   };
-  var core_1 = $__require('angular2/core');
-  var common_1 = $__require('angular2/common');
+  var core_1 = $__require('@angular/core');
+  var common_1 = $__require('@angular/common');
   var Checkbox = (function() {
     function Checkbox() {
       this.classes = true;
@@ -260,7 +260,7 @@ System.registerDynamic("ng2-semantic-ui/components/checkbox/checkbox.component",
   return module.exports;
 });
 
-System.registerDynamic("ng2-semantic-ui/components/checkbox/radiobutton.component", ["angular2/core", "angular2/common"], true, function($__require, exports, module) {
+System.registerDynamic("ng2-semantic-ui/components/checkbox/radiobutton.component", ["@angular/core", "@angular/common"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -282,8 +282,8 @@ System.registerDynamic("ng2-semantic-ui/components/checkbox/radiobutton.componen
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
       return Reflect.metadata(k, v);
   };
-  var core_1 = $__require('angular2/core');
-  var common_1 = $__require('angular2/common');
+  var core_1 = $__require('@angular/core');
+  var common_1 = $__require('@angular/common');
   var RadioButton = (function() {
     function RadioButton() {
       this.classes = true;
@@ -390,7 +390,7 @@ System.registerDynamic("ng2-semantic-ui/components/checkbox", ["./checkbox/check
   return module.exports;
 });
 
-System.registerDynamic("ng2-semantic-ui/components/collapse/collapse.component", ["angular2/core", "angular2/src/animate/animation_builder"], true, function($__require, exports, module) {
+System.registerDynamic("ng2-semantic-ui/components/collapse/collapse.component", ["@angular/core"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -412,17 +412,16 @@ System.registerDynamic("ng2-semantic-ui/components/collapse/collapse.component",
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
       return Reflect.metadata(k, v);
   };
-  var core_1 = $__require('angular2/core');
-  var animation_builder_1 = $__require('angular2/src/animate/animation_builder');
+  var core_1 = $__require('@angular/core');
   var Collapse = (function() {
-    function Collapse(_ab, _el) {
+    function Collapse(_el, _renderer) {
       this.display = "none";
       this.isExpanded = true;
       this.isCollapsed = false;
       this.isCollapsing = false;
       this.transitionDuration = 300;
-      this._ab = _ab;
       this._el = _el;
+      this._renderer = _renderer;
     }
     Object.defineProperty(Collapse.prototype, "suiCollapse", {
       get: function() {
@@ -436,10 +435,7 @@ System.registerDynamic("ng2-semantic-ui/components/collapse/collapse.component",
       enumerable: true,
       configurable: true
     });
-    Collapse.prototype.ngOnInit = function() {
-      this.animation = this._ab.css();
-      this.animation.setDuration(this.transitionDuration);
-    };
+    Collapse.prototype.ngOnInit = function() {};
     Collapse.prototype.toggle = function() {
       if (this.isExpanded) {
         this.hide();
@@ -448,54 +444,28 @@ System.registerDynamic("ng2-semantic-ui/components/collapse/collapse.component",
       }
     };
     Collapse.prototype.hide = function() {
-      var _this = this;
       this.isCollapsing = true;
       this.isExpanded = false;
-      setTimeout(function() {
-        _this.animation.setFromStyles({
-          height: _this._el.nativeElement.scrollHeight + 'px',
-          padding: "0 1px 0 1px",
-          margin: "0 -1px 0 -1px"
-        }).setToStyles({
-          height: '0',
-          overflow: 'hidden'
-        });
-        _this.animation.start(_this._el.nativeElement).onComplete(function() {
-          if (_this._el.nativeElement.offsetHeight === 0) {
-            _this.display = 'none';
-          }
-          _this.isCollapsing = false;
-          _this.isCollapsed = true;
-        });
-      }, 4);
+      this._renderer.setElementStyle(this._el.nativeElement, 'overflow', 'hidden');
+      this._renderer.setElementStyle(this._el.nativeElement, 'height', '0');
+      this.isCollapsing = false;
+      this.isCollapsed = true;
     };
     Collapse.prototype.show = function() {
-      var _this = this;
       this.isCollapsing = true;
       this.isCollapsed = false;
       this.display = '';
-      setTimeout(function() {
-        _this.animation.setFromStyles({
-          height: _this._el.nativeElement.offsetHeight,
-          overflow: 'hidden'
-        }).setToStyles({
-          height: _this._el.nativeElement.scrollHeight + 'px',
-          padding: "0 1px 0 1px",
-          margin: "0 -1px 0 -1px"
-        });
-        _this.animation.start(_this._el.nativeElement).onComplete(function() {
-          _this.isCollapsing = false;
-          _this.isExpanded = true;
-        });
-      }, 4);
+      this._renderer.setElementStyle(this._el.nativeElement, 'overflow', 'visible');
+      this._renderer.setElementStyle(this._el.nativeElement, 'height', 'auto');
+      this.isCollapsing = false;
+      this.isExpanded = true;
     };
-    __decorate([core_1.HostBinding('style.display'), __metadata('design:type', String)], Collapse.prototype, "display", void 0);
     __decorate([core_1.HostBinding('class.expanded'), __metadata('design:type', Boolean)], Collapse.prototype, "isExpanded", void 0);
     __decorate([core_1.HostBinding('class.collapsed'), __metadata('design:type', Boolean)], Collapse.prototype, "isCollapsed", void 0);
     __decorate([core_1.HostBinding('class.collapsing'), __metadata('design:type', Boolean)], Collapse.prototype, "isCollapsing", void 0);
     __decorate([core_1.Input(), __metadata('design:type', Number)], Collapse.prototype, "transitionDuration", void 0);
     __decorate([core_1.Input(), __metadata('design:type', Boolean), __metadata('design:paramtypes', [Boolean])], Collapse.prototype, "suiCollapse", null);
-    Collapse = __decorate([core_1.Directive({selector: '[suiCollapse]'}), __metadata('design:paramtypes', [animation_builder_1.AnimationBuilder, core_1.ElementRef])], Collapse);
+    Collapse = __decorate([core_1.Directive({selector: '[suiCollapse]'}), __metadata('design:paramtypes', [core_1.ElementRef, core_1.Renderer])], Collapse);
     return Collapse;
   }());
   exports.Collapse = Collapse;
@@ -515,7 +485,7 @@ System.registerDynamic("ng2-semantic-ui/components/collapse", ["./collapse/colla
   return module.exports;
 });
 
-System.registerDynamic("ng2-semantic-ui/components/dimmer/dimmer.component", ["angular2/core"], true, function($__require, exports, module) {
+System.registerDynamic("ng2-semantic-ui/components/dimmer/dimmer.component", ["@angular/core"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -537,7 +507,7 @@ System.registerDynamic("ng2-semantic-ui/components/dimmer/dimmer.component", ["a
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
       return Reflect.metadata(k, v);
   };
-  var core_1 = $__require('angular2/core');
+  var core_1 = $__require('@angular/core');
   var Dimmer = (function() {
     function Dimmer() {
       this.classes = true;
@@ -580,7 +550,7 @@ System.registerDynamic("ng2-semantic-ui/components/dimmer", ["./dimmer/dimmer.co
   return module.exports;
 });
 
-System.registerDynamic("ng2-semantic-ui/components/progress/progress.component", ["angular2/core"], true, function($__require, exports, module) {
+System.registerDynamic("ng2-semantic-ui/components/progress/progress.component", ["@angular/core"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -602,7 +572,7 @@ System.registerDynamic("ng2-semantic-ui/components/progress/progress.component",
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
       return Reflect.metadata(k, v);
   };
-  var core_1 = $__require('angular2/core');
+  var core_1 = $__require('@angular/core');
   var Progress = (function() {
     function Progress() {
       this.classes = true;
@@ -703,7 +673,7 @@ System.registerDynamic("ng2-semantic-ui/components/progress", ["./progress/progr
   return module.exports;
 });
 
-System.registerDynamic("ng2-semantic-ui/components/message/message.component", ["angular2/core"], true, function($__require, exports, module) {
+System.registerDynamic("ng2-semantic-ui/components/message/message.component", ["@angular/core"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -725,7 +695,7 @@ System.registerDynamic("ng2-semantic-ui/components/message/message.component", [
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
       return Reflect.metadata(k, v);
   };
-  var core_1 = $__require('angular2/core');
+  var core_1 = $__require('@angular/core');
   var Message = (function() {
     function Message() {
       this.dismissible = true;
@@ -764,7 +734,7 @@ System.registerDynamic("ng2-semantic-ui/components/message", ["./message/message
   return module.exports;
 });
 
-System.registerDynamic("ng2-semantic-ui/components/rating/rating.component", ["angular2/core", "angular2/common"], true, function($__require, exports, module) {
+System.registerDynamic("ng2-semantic-ui/components/rating/rating.component", ["@angular/core", "@angular/common"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -786,8 +756,8 @@ System.registerDynamic("ng2-semantic-ui/components/rating/rating.component", ["a
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
       return Reflect.metadata(k, v);
   };
-  var core_1 = $__require('angular2/core');
-  var common_1 = $__require('angular2/common');
+  var core_1 = $__require('@angular/core');
+  var common_1 = $__require('@angular/common');
   var Rating = (function() {
     function Rating() {
       this.ratingClasses = true;
@@ -833,7 +803,7 @@ System.registerDynamic("ng2-semantic-ui/components/rating/rating.component", ["a
     __decorate([core_1.HostBinding('class.read-only'), core_1.Input(), __metadata('design:type', Boolean)], Rating.prototype, "isReadonly", void 0);
     Rating = __decorate([core_1.Component({
       selector: 'sui-rating',
-      template: "\n<i class=\"icon\"\n   *ngFor=\"#icon of icons; #i = index\"\n   (mouseover)=\"mouseover(i)\"\n   (click)=\"click(i)\"\n   [class.selected]=\"_hoveredIndex >= i && !isReadonly\"\n   [class.active]=\"_value > i\">\n</i>\n",
+      template: "\n<i class=\"icon\"\n   *ngFor=\"let icon of icons; let i = index\"\n   (mouseover)=\"mouseover(i)\"\n   (click)=\"click(i)\"\n   [class.selected]=\"_hoveredIndex >= i && !isReadonly\"\n   [class.active]=\"_value > i\">\n</i>\n",
       styles: [":host.read-only .icon { cursor: auto }"]
     }), __metadata('design:paramtypes', [])], Rating);
     return Rating;
@@ -885,7 +855,7 @@ System.registerDynamic("ng2-semantic-ui/components/rating", ["./rating/rating.co
   return module.exports;
 });
 
-System.registerDynamic("ng2-semantic-ui/components/search/search.component", ["angular2/core", "angular2/common", "../dropdown"], true, function($__require, exports, module) {
+System.registerDynamic("ng2-semantic-ui/components/search/search.component", ["@angular/core", "@angular/common", "../dropdown"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -916,8 +886,8 @@ System.registerDynamic("ng2-semantic-ui/components/search/search.component", ["a
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
       return Reflect.metadata(k, v);
   };
-  var core_1 = $__require('angular2/core');
-  var common_1 = $__require('angular2/common');
+  var core_1 = $__require('@angular/core');
+  var common_1 = $__require('@angular/common');
   var dropdown_1 = $__require('../dropdown');
   var Search = (function(_super) {
     __extends(Search, _super);
@@ -1072,7 +1042,7 @@ System.registerDynamic("ng2-semantic-ui/components/search/search.component", ["a
         '[class.visible]': 'isOpen',
         '[class.disabled]': 'isDisabled'
       },
-      template: "\n<div class=\"ui icon input\">\n    <input class=\"prompt\" type=\"text\" [attr.placeholder]=\"placeholder\" autocomplete=\"off\" [(ngModel)]=\"query\">\n    <i *ngIf=\"icon\" class=\"search icon\"></i>\n  </div>\n<div class=\"results\" suiDropdownMenu>\n    <a class=\"result\" *ngFor=\"#r of results; #i = index\" (click)=\"select(r)\">\n        <div class=\"title\">{{ result(i) }}</div>\n    </a>\n    <div *ngIf=\"!results.length\" class=\"message empty\">\n        <div class=\"header\">No Results</div>\n        <div class=\"description\">Your search returned no results.</div>\n    </div>\n</div>\n"
+      template: "\n<div class=\"ui icon input\">\n    <input class=\"prompt\" type=\"text\" [attr.placeholder]=\"placeholder\" autocomplete=\"off\" [(ngModel)]=\"query\">\n    <i *ngIf=\"icon\" class=\"search icon\"></i>\n  </div>\n<div class=\"results\" suiDropdownMenu>\n    <a class=\"result\" *ngFor=\"let r of results; let i = index\" (click)=\"select(r)\">\n        <div class=\"title\">{{ result(i) }}</div>\n    </a>\n    <div *ngIf=\"!results.length\" class=\"message empty\">\n        <div class=\"header\">No Results</div>\n        <div class=\"description\">Your search returned no results.</div>\n    </div>\n</div>\n"
     }), __metadata('design:paramtypes', [core_1.ElementRef])], Search);
     return Search;
   }(dropdown_1.Dropdown));
@@ -1123,7 +1093,7 @@ System.registerDynamic("ng2-semantic-ui/components/search", ["./search/search.co
   return module.exports;
 });
 
-System.registerDynamic("ng2-semantic-ui/components/dropdown/dropdown.directive", ["angular2/core", "./dropdown.service", "./dropdown-menu.directive"], true, function($__require, exports, module) {
+System.registerDynamic("ng2-semantic-ui/components/dropdown/dropdown.directive", ["@angular/core", "./dropdown.service", "./dropdown-menu.directive"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -1145,7 +1115,7 @@ System.registerDynamic("ng2-semantic-ui/components/dropdown/dropdown.directive",
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
       return Reflect.metadata(k, v);
   };
-  var core_1 = $__require('angular2/core');
+  var core_1 = $__require('@angular/core');
   var dropdown_service_1 = $__require('./dropdown.service');
   var dropdown_menu_directive_1 = $__require('./dropdown-menu.directive');
   var Dropdown = (function() {
@@ -1221,7 +1191,7 @@ System.registerDynamic("ng2-semantic-ui/components/dropdown/dropdown.directive",
   return module.exports;
 });
 
-System.registerDynamic("ng2-semantic-ui/components/dropdown/dropdown-menu.directive", ["angular2/core"], true, function($__require, exports, module) {
+System.registerDynamic("ng2-semantic-ui/components/dropdown/dropdown-menu.directive", ["@angular/core"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -1243,7 +1213,7 @@ System.registerDynamic("ng2-semantic-ui/components/dropdown/dropdown-menu.direct
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
       return Reflect.metadata(k, v);
   };
-  var core_1 = $__require('angular2/core');
+  var core_1 = $__require('@angular/core');
   var DropdownMenu = (function() {
     function DropdownMenu(el) {
       this.el = el;
@@ -1290,13 +1260,13 @@ System.registerDynamic("ng2-semantic-ui/components/dropdown", ["./dropdown/dropd
   return module.exports;
 });
 
-System.registerDynamic("ng2-semantic-ui/components/dropdown/dropdown.service", ["angular2/core"], true, function($__require, exports, module) {
+System.registerDynamic("ng2-semantic-ui/components/dropdown/dropdown.service", ["@angular/core"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
       global = this,
       GLOBAL = this;
-  var core_1 = $__require('angular2/core');
+  var core_1 = $__require('@angular/core');
   var DISABLED = 'disabled';
   var OUTSIDECLICK = 'outsideClick';
   exports.KEYCODE = {
@@ -1459,7 +1429,7 @@ System.registerDynamic("ng2-semantic-ui/components/dropdown/dropdown.service", [
   return module.exports;
 });
 
-System.registerDynamic("ng2-semantic-ui/components/select/select.component", ["angular2/core", "angular2/common", "../search", "../dropdown", "../dropdown/dropdown.service"], true, function($__require, exports, module) {
+System.registerDynamic("ng2-semantic-ui/components/select/select.component", ["@angular/core", "@angular/common", "../search", "../dropdown", "../dropdown/dropdown.service"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -1490,8 +1460,8 @@ System.registerDynamic("ng2-semantic-ui/components/select/select.component", ["a
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
       return Reflect.metadata(k, v);
   };
-  var core_1 = $__require('angular2/core');
-  var common_1 = $__require('angular2/common');
+  var core_1 = $__require('@angular/core');
+  var common_1 = $__require('@angular/common');
   var search_1 = $__require('../search');
   var dropdown_1 = $__require('../dropdown');
   var dropdown_service_1 = $__require('../dropdown/dropdown.service');
@@ -1675,7 +1645,7 @@ System.registerDynamic("ng2-semantic-ui/components/select/select.component", ["a
         '[class.visible]': 'isOpen',
         '[class.disabled]': 'isDisabled'
       },
-      template: "\n<i class=\"dropdown icon\"></i>\n<!-- Multi-select labels -->\n<a *ngFor=\"#selected of selectedOptions; #i = index\" class=\"ui label\" (click)=\"selectedOptionClick($event)\">\n    <content [innerHTML]=\"selectedOptionsHTML[i]\"></content>\n    <i class=\"delete icon\" (click)=\"deselectOption(selected); selectedOptionClick($event)\"></i>\n</a>\n<!-- Search input box -->\n<input *ngIf=\"isSearchable\" class=\"search\" type=\"text\" autocomplete=\"off\" [(ngModel)]=\"query\" (keydown)=\"searchKeyDown($event)\">\n<!-- Single-select label -->\n<div *ngIf=\"!selectedOption\" class=\"default text\" [class.filtered]=\"query\">{{ placeholder }}</div>\n<div *ngIf=\"selectedOption\" class=\"text\" [class.filtered]=\"query\" [innerHTML]=\"selectedOptionHTML\"></div>\n<!-- Select dropdown menu -->\n<div class=\"menu\" suiDropdownMenu>\n    <ng-content></ng-content>\n    <div *ngIf=\"!results.length && !maxSelectedReached\" class=\"message\">No Results</div>\n    <div *ngIf=\"!results.length && maxSelectedReached\" class=\"message\">Max {{ maxSelected }} selections</div>\n</div>\n",
+      template: "\n<i class=\"dropdown icon\"></i>\n<!-- Multi-select labels -->\n<a *ngFor=\"let selected of selectedOptions; let i = index\" class=\"ui label\" (click)=\"selectedOptionClick($event)\">\n    <content [innerHTML]=\"selectedOptionsHTML[i]\"></content>\n    <i class=\"delete icon\" (click)=\"deselectOption(selected); selectedOptionClick($event)\"></i>\n</a>\n<!-- Search input box -->\n<input *ngIf=\"isSearchable\" class=\"search\" type=\"text\" autocomplete=\"off\" [(ngModel)]=\"query\" (keydown)=\"searchKeyDown($event)\">\n<!-- Single-select label -->\n<div *ngIf=\"!selectedOption\" class=\"default text\" [class.filtered]=\"query\">{{ placeholder }}</div>\n<div *ngIf=\"selectedOption\" class=\"text\" [class.filtered]=\"query\" [innerHTML]=\"selectedOptionHTML\"></div>\n<!-- Select dropdown menu -->\n<div class=\"menu\" suiDropdownMenu>\n    <ng-content></ng-content>\n    <div *ngIf=\"!results.length && !maxSelectedReached\" class=\"message\">No Results</div>\n    <div *ngIf=\"!results.length && maxSelectedReached\" class=\"message\">Max {{ maxSelected }} selections</div>\n</div>\n",
       styles: [":host input.search { width: 12em !important; } .selected-results { display: none; }"]
     }), __metadata('design:paramtypes', [core_1.ElementRef])], Select);
     return Select;
@@ -1703,7 +1673,7 @@ System.registerDynamic("ng2-semantic-ui/components/select/select.component", ["a
   return module.exports;
 });
 
-System.registerDynamic("ng2-semantic-ui/components/select/select-option.component", ["angular2/core", "../select"], true, function($__require, exports, module) {
+System.registerDynamic("ng2-semantic-ui/components/select/select-option.component", ["@angular/core", "../select"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -1725,7 +1695,7 @@ System.registerDynamic("ng2-semantic-ui/components/select/select-option.componen
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
       return Reflect.metadata(k, v);
   };
-  var core_1 = $__require('angular2/core');
+  var core_1 = $__require('@angular/core');
   var select_1 = $__require('../select');
   var SelectOption = (function() {
     function SelectOption(host, el) {
@@ -1780,7 +1750,7 @@ System.registerDynamic("ng2-semantic-ui/components/select", ["./select/select.co
   return module.exports;
 });
 
-System.registerDynamic("ng2-semantic-ui/components/tab/tabset.component", ["angular2/core", "./tab-content.directive", "./tab.directive"], true, function($__require, exports, module) {
+System.registerDynamic("ng2-semantic-ui/components/tab/tabset.component", ["@angular/core", "./tab-content.directive", "./tab.directive"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -1802,7 +1772,7 @@ System.registerDynamic("ng2-semantic-ui/components/tab/tabset.component", ["angu
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
       return Reflect.metadata(k, v);
   };
-  var core_1 = $__require('angular2/core');
+  var core_1 = $__require('@angular/core');
   var tab_content_directive_1 = $__require('./tab-content.directive');
   var tab_directive_1 = $__require('./tab.directive');
   var Tabset = (function() {
@@ -1902,7 +1872,7 @@ System.registerDynamic("ng2-semantic-ui/components/tab/tabset.component", ["angu
   return module.exports;
 });
 
-System.registerDynamic("ng2-semantic-ui/components/tab/tab.directive", ["angular2/core", "rxjs/Observable"], true, function($__require, exports, module) {
+System.registerDynamic("ng2-semantic-ui/components/tab/tab.directive", ["@angular/core", "rxjs/Observable"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -1924,7 +1894,7 @@ System.registerDynamic("ng2-semantic-ui/components/tab/tab.directive", ["angular
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
       return Reflect.metadata(k, v);
   };
-  var core_1 = $__require('angular2/core');
+  var core_1 = $__require('@angular/core');
   var Observable_1 = $__require('rxjs/Observable');
   var Tab = (function() {
     function Tab() {
@@ -2032,7 +2002,7 @@ System.registerDynamic("ng2-semantic-ui/components/tab/tab.directive", ["angular
   return module.exports;
 });
 
-System.registerDynamic("ng2-semantic-ui/components/tab/tab-content.directive", ["angular2/core"], true, function($__require, exports, module) {
+System.registerDynamic("ng2-semantic-ui/components/tab/tab-content.directive", ["@angular/core"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -2054,7 +2024,7 @@ System.registerDynamic("ng2-semantic-ui/components/tab/tab-content.directive", [
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
       return Reflect.metadata(k, v);
   };
-  var core_1 = $__require('angular2/core');
+  var core_1 = $__require('@angular/core');
   var TabContent = (function() {
     function TabContent() {
       this.tabClass = true;
@@ -2098,224 +2068,7 @@ System.registerDynamic("ng2-semantic-ui/components/tab", ["./tab/tabset.componen
   return module.exports;
 });
 
-System.registerDynamic("ng2-semantic-ui/components/template/template.component", ["angular2/core", "angular2/http", "./template.directive", "./template-store.service"], true, function($__require, exports, module) {
-  "use strict";
-  ;
-  var define,
-      global = this,
-      GLOBAL = this;
-  var __decorate = (this && this.__decorate) || function(decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
-      r = Reflect.decorate(decorators, target, key, desc);
-    else
-      for (var i = decorators.length - 1; i >= 0; i--)
-        if (d = decorators[i])
-          r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-  };
-  var __metadata = (this && this.__metadata) || function(k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
-      return Reflect.metadata(k, v);
-  };
-  var core_1 = $__require('angular2/core');
-  var http_1 = $__require('angular2/http');
-  var template_directive_1 = $__require('./template.directive');
-  var template_store_service_1 = $__require('./template-store.service');
-  var TemplateComponent = (function() {
-    function TemplateComponent(el, vc, dcl, http) {
-      this._local = true;
-      this._elementRef = el;
-      this._viewContainer = vc;
-      this._dynamicComponentLoader = dcl;
-      this._http = http;
-    }
-    Object.defineProperty(TemplateComponent.prototype, "context", {
-      set: function(bindable) {
-        this._context = bindable;
-      },
-      enumerable: true,
-      configurable: true
-    });
-    Object.defineProperty(TemplateComponent.prototype, "id", {
-      set: function(id) {
-        if (id) {
-          this._local = true;
-          this._view = this._viewContainer.createEmbeddedView(template_store_service_1.templateStore.retrieveTemplate(id));
-          for (var key in this._context) {
-            this._view.setLocal(key, this._context[key]);
-          }
-        }
-      },
-      enumerable: true,
-      configurable: true
-    });
-    Object.defineProperty(TemplateComponent.prototype, "url", {
-      set: function(url) {
-        var _this = this;
-        if (url) {
-          template_store_service_1.templateStore.checkTemplateCached(url, function(available) {
-            if (available) {
-              _this.id = url;
-              return;
-            }
-            _this._local = false;
-            _this._http.get(url).map(function(res) {
-              return res.text();
-            }).subscribe(function(template) {
-              _this._dynamicComponentLoader.loadNextToLocation(TemplateComponent.generateComponent(template, url, _this._context), _this._elementRef);
-              setTimeout(function() {
-                _this.id = url;
-              });
-            }, function(err) {
-              throw err;
-            });
-          });
-        }
-      },
-      enumerable: true,
-      configurable: true
-    });
-    TemplateComponent.generateComponent = function(template, url, context) {
-      var contextString = "";
-      for (var key in context) {
-        contextString += "#" + key + "=\"" + key + "\" ";
-      }
-      var GeneratedTemplateComponent = (function() {
-        function GeneratedTemplateComponent() {}
-        GeneratedTemplateComponent = __decorate([core_1.Component({
-          selector: 'sui-template-generated',
-          template: "<template suiTemplate=\"" + url + "\" " + contextString + ">" + template + "</template>",
-          directives: [template_directive_1.TemplateDirective],
-          styles: [':host { display: none }']
-        }), __metadata('design:paramtypes', [])], GeneratedTemplateComponent);
-        return GeneratedTemplateComponent;
-      }());
-      return GeneratedTemplateComponent;
-    };
-    __decorate([core_1.HostBinding('class.local'), __metadata('design:type', Boolean)], TemplateComponent.prototype, "_local", void 0);
-    __decorate([core_1.Input(), __metadata('design:type', Object), __metadata('design:paramtypes', [Object])], TemplateComponent.prototype, "context", null);
-    __decorate([core_1.Input(), __metadata('design:type', String), __metadata('design:paramtypes', [String])], TemplateComponent.prototype, "id", null);
-    __decorate([core_1.Input(), __metadata('design:type', String), __metadata('design:paramtypes', [String])], TemplateComponent.prototype, "url", null);
-    TemplateComponent = __decorate([core_1.Component({
-      selector: 'sui-template',
-      template: '',
-      styles: [":host.local { display: none; }"]
-    }), __metadata('design:paramtypes', [core_1.ElementRef, core_1.ViewContainerRef, core_1.DynamicComponentLoader, http_1.Http])], TemplateComponent);
-    return TemplateComponent;
-  }());
-  exports.TemplateComponent = TemplateComponent;
-  return module.exports;
-});
-
-System.registerDynamic("ng2-semantic-ui/components/template/template-store.service", [], true, function($__require, exports, module) {
-  "use strict";
-  ;
-  var define,
-      global = this,
-      GLOBAL = this;
-  var TemplateStore = (function() {
-    function TemplateStore() {
-      this.templates = {};
-      this.caching = {};
-      this.cachingUpdates = {};
-    }
-    TemplateStore.prototype.storeTemplate = function(id, template) {
-      this.templates[id] = template;
-      if (this.caching[id]) {
-        this.cachingUpdates[id].forEach(function(callback) {
-          return callback(true);
-        });
-        delete this.caching[id];
-        delete this.cachingUpdates[id];
-      }
-    };
-    TemplateStore.prototype.retrieveTemplate = function(id) {
-      return this.templates[id];
-    };
-    TemplateStore.prototype.checkTemplateCached = function(id, callback) {
-      var cached = !!this.templates[id];
-      if (!cached) {
-        if (!this.caching[id]) {
-          this.caching[id] = true;
-          callback(false);
-        } else {
-          this.cachingUpdates[id] = this.cachingUpdates[id] || [];
-          this.cachingUpdates[id].push(callback);
-        }
-        return;
-      }
-      callback(true);
-    };
-    return TemplateStore;
-  }());
-  exports.TemplateStore = TemplateStore;
-  exports.templateStore = new TemplateStore();
-  return module.exports;
-});
-
-System.registerDynamic("ng2-semantic-ui/components/template/template.directive", ["angular2/core", "./template-store.service"], true, function($__require, exports, module) {
-  "use strict";
-  ;
-  var define,
-      global = this,
-      GLOBAL = this;
-  var __decorate = (this && this.__decorate) || function(decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
-      r = Reflect.decorate(decorators, target, key, desc);
-    else
-      for (var i = decorators.length - 1; i >= 0; i--)
-        if (d = decorators[i])
-          r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-  };
-  var __metadata = (this && this.__metadata) || function(k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
-      return Reflect.metadata(k, v);
-  };
-  var core_1 = $__require('angular2/core');
-  var template_store_service_1 = $__require('./template-store.service');
-  var TemplateDirective = (function() {
-    function TemplateDirective(templateRef) {
-      this._templateRef = templateRef;
-    }
-    Object.defineProperty(TemplateDirective.prototype, "suiTemplate", {
-      set: function(value) {
-        template_store_service_1.templateStore.storeTemplate(value, this._templateRef);
-      },
-      enumerable: true,
-      configurable: true
-    });
-    __decorate([core_1.Input(), __metadata('design:type', String), __metadata('design:paramtypes', [String])], TemplateDirective.prototype, "suiTemplate", null);
-    TemplateDirective = __decorate([core_1.Directive({selector: '[suiTemplate]'}), __metadata('design:paramtypes', [core_1.TemplateRef])], TemplateDirective);
-    return TemplateDirective;
-  }());
-  exports.TemplateDirective = TemplateDirective;
-  return module.exports;
-});
-
-System.registerDynamic("ng2-semantic-ui/components/template", ["./template/template.component", "./template/template.directive"], true, function($__require, exports, module) {
-  "use strict";
-  ;
-  var define,
-      global = this,
-      GLOBAL = this;
-  var template_component_1 = $__require('./template/template.component');
-  var template_directive_1 = $__require('./template/template.directive');
-  var template_component_2 = $__require('./template/template.component');
-  exports.TemplateComponent = template_component_2.TemplateComponent;
-  var template_directive_2 = $__require('./template/template.directive');
-  exports.TemplateDirective = template_directive_2.TemplateDirective;
-  exports.TEMPLATE_DIRECTIVES = [template_component_1.TemplateComponent, template_directive_1.TemplateDirective];
-  return module.exports;
-});
-
-System.registerDynamic("ng2-semantic-ui/ng2-semantic-ui", ["./components/accordion", "./components/checkbox", "./components/collapse", "./components/dimmer", "./components/dropdown", "./components/progress", "./components/message", "./components/rating", "./components/search", "./components/select", "./components/tab", "./components/template"], true, function($__require, exports, module) {
+System.registerDynamic("ng2-semantic-ui/ng2-semantic-ui", ["./components/accordion", "./components/checkbox", "./components/collapse", "./components/dimmer", "./components/dropdown", "./components/progress", "./components/message", "./components/rating", "./components/search", "./components/select", "./components/tab"], true, function($__require, exports, module) {
   "use strict";
   ;
   var define,
@@ -2337,7 +2090,6 @@ System.registerDynamic("ng2-semantic-ui/ng2-semantic-ui", ["./components/accordi
   var search_1 = $__require('./components/search');
   var select_1 = $__require('./components/select');
   var tab_1 = $__require('./components/tab');
-  var template_1 = $__require('./components/template');
   __export($__require('./components/accordion'));
   __export($__require('./components/checkbox'));
   __export($__require('./components/collapse'));
@@ -2349,8 +2101,7 @@ System.registerDynamic("ng2-semantic-ui/ng2-semantic-ui", ["./components/accordi
   __export($__require('./components/search'));
   __export($__require('./components/select'));
   __export($__require('./components/tab'));
-  __export($__require('./components/template'));
-  exports.DIRECTIVES = [accordion_1.ACCORDION_DIRECTIVES, checkbox_1.CHECKBOX_DIRECTIVES, collapse_1.COLLAPSE_DIRECTIVES, dimmer_1.DIMMER_DIRECTIVES, dropdown_1.DROPDOWN_DIRECTIVES, progress_1.PROGRESS_DIRECTIVES, message_1.MESSAGE_DIRECTIVES, rating_1.RATING_DIRECTIVES, search_1.SEARCH_DIRECTIVES, select_1.SELECT_DIRECTIVES, tab_1.TAB_DIRECTIVES, template_1.TEMPLATE_DIRECTIVES];
+  exports.DIRECTIVES = [accordion_1.ACCORDION_DIRECTIVES, checkbox_1.CHECKBOX_DIRECTIVES, collapse_1.COLLAPSE_DIRECTIVES, dimmer_1.DIMMER_DIRECTIVES, dropdown_1.DROPDOWN_DIRECTIVES, progress_1.PROGRESS_DIRECTIVES, message_1.MESSAGE_DIRECTIVES, rating_1.RATING_DIRECTIVES, search_1.SEARCH_DIRECTIVES, select_1.SELECT_DIRECTIVES, tab_1.TAB_DIRECTIVES];
   return module.exports;
 });
 

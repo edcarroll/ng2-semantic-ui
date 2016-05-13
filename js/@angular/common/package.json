@@ -1,0 +1,42 @@
+{
+  "name": "@angular/common",
+  "version": "2.0.0-rc.1",
+  "description": "",
+  "main": "index.js",
+  "jsnext:main": "esm/index.js",
+  "typings": "index.d.ts",
+  "author": {
+    "name": "angular"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@angular/core": "2.0.0-rc.1"
+  },
+  "_id": "@angular/common@2.0.0-rc.1",
+  "scripts": {},
+  "_shasum": "7f3f7622eb9af94da3f5ebff305de662a5d5942e",
+  "_from": "@angular/common@2.0.0-rc.1",
+  "_resolved": "https://registry.npmjs.org/@angular/common/-/common-2.0.0-rc.1.tgz",
+  "_npmVersion": "3.8.7",
+  "_nodeVersion": "5.4.1",
+  "_npmUser": {
+    "name": "angular",
+    "email": "angular-core+npm@google.com"
+  },
+  "dist": {
+    "shasum": "7f3f7622eb9af94da3f5ebff305de662a5d5942e",
+    "tarball": "https://registry.npmjs.org/@angular/common/-/common-2.0.0-rc.1.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "angular",
+      "email": "angular-core+npm@google.com"
+    }
+  ],
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/common-2.0.0-rc.1.tgz_1462310715436_0.10616690199822187"
+  },
+  "directories": {},
+  "readme": "ERROR: No README data found!"
+}

@@ -1,0 +1,43 @@
+{
+  "name": "@angular/router-deprecated",
+  "version": "2.0.0-rc.1",
+  "description": "",
+  "main": "index.js",
+  "jsnext:main": "esm/index.js",
+  "typins": "index.d.ts",
+  "author": {
+    "name": "angular"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@angular/core": "2.0.0-rc.1",
+    "@angular/common": "2.0.0-rc.1",
+    "@angular/platform-browser": "2.0.0-rc.1"
+  },
+  "_id": "@angular/router-deprecated@2.0.0-rc.1",
+  "scripts": {},
+  "_shasum": "d87e0ae97d62a9ecc63279ead33fbbd1476ea572",
+  "_from": "@angular/router-deprecated@2.0.0-rc.1",
+  "_resolved": "https://registry.npmjs.org/@angular/router-deprecated/-/router-deprecated-2.0.0-rc.1.tgz",
+  "_npmVersion": "3.8.7",
+  "_nodeVersion": "5.4.1",
+  "_npmUser": {
+    "name": "angular",
+    "email": "angular-core+npm@google.com"
+  },
+  "dist": {
+    "shasum": "d87e0ae97d62a9ecc63279ead33fbbd1476ea572",
+    "tarball": "https://registry.npmjs.org/@angular/router-deprecated/-/router-deprecated-2.0.0-rc.1.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "angular",
+      "email": "angular-core+npm@google.com"
+    }
+  ],
+  "_npmOperationalInternal": {
+    "host": "packages-16-east.internal.npmjs.com",
+    "tmp": "tmp/router-deprecated-2.0.0-rc.1.tgz_1462310748378_0.2659478015266359"
+  },
+  "directories": {}
+}

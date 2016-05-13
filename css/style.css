@@ -23,6 +23,7 @@ body {
     height: 100%;
     padding-left: 250px;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .main.container {

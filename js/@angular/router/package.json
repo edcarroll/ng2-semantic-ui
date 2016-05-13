@@ -1,0 +1,44 @@
+{
+  "name": "@angular/router",
+  "version": "2.0.0-rc.1",
+  "description": "",
+  "main": "index.js",
+  "jsnext:main": "esm/index.js",
+  "typins": "index.d.ts",
+  "author": {
+    "name": "angular"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@angular/core": "2.0.0-rc.1",
+    "@angular/common": "2.0.0-rc.1",
+    "@angular/platform-browser": "2.0.0-rc.1"
+  },
+  "_id": "@angular/router@2.0.0-rc.1",
+  "scripts": {},
+  "_shasum": "96f3868884e151fe8bac07ac7e1b4ec0ad07db77",
+  "_from": "@angular/router@2.0.0-rc.1",
+  "_resolved": "https://registry.npmjs.org/@angular/router/-/router-2.0.0-rc.1.tgz",
+  "_npmVersion": "3.8.7",
+  "_nodeVersion": "5.4.1",
+  "_npmUser": {
+    "name": "angular",
+    "email": "angular-core+npm@google.com"
+  },
+  "dist": {
+    "shasum": "96f3868884e151fe8bac07ac7e1b4ec0ad07db77",
+    "tarball": "https://registry.npmjs.org/@angular/router/-/router-2.0.0-rc.1.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "angular",
+      "email": "angular-core+npm@google.com"
+    }
+  ],
+  "_npmOperationalInternal": {
+    "host": "packages-16-east.internal.npmjs.com",
+    "tmp": "tmp/router-2.0.0-rc.1.tgz_1462310744425_0.4073680811561644"
+  },
+  "directories": {},
+  "readme": "ERROR: No README data found!"
+}

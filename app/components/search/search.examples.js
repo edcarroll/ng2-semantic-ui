@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'ng2-semantic-ui/ng2-semantic-ui'], function(exports_1, context_1) {
+System.register(['@angular/core', '../../../../components/checkbox', '../../../../components/search'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __extends = (this && this.__extends) || function (d, b) {
@@ -15,17 +15,21 @@ System.register(['angular2/core', 'ng2-semantic-ui/ng2-semantic-ui'], function(e
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, ng2_semantic_ui_1;
+    var core_1, checkbox_1, search_1;
     var SearchExampleStandard, SearchExampleRemote, SEARCH_EXAMPLES;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (ng2_semantic_ui_1_1) {
-                ng2_semantic_ui_1 = ng2_semantic_ui_1_1;
+            function (checkbox_1_1) {
+                checkbox_1 = checkbox_1_1;
+            },
+            function (search_1_1) {
+                search_1 = search_1_1;
             }],
         execute: function() {
+            // import {CHECKBOX_DIRECTIVES, SEARCH_DIRECTIVES} from 'ng2-semantic-ui/ng2-semantic-ui';
             SearchExampleStandard = (function () {
                 function SearchExampleStandard() {
                     this.icon = true;
@@ -48,7 +52,7 @@ System.register(['angular2/core', 'ng2-semantic-ui/ng2-semantic-ui'], function(e
                 SearchExampleStandard = __decorate([
                     core_1.Component({
                         selector: 'search-example-standard',
-                        directives: [ng2_semantic_ui_1.CHECKBOX_DIRECTIVES, ng2_semantic_ui_1.SEARCH_DIRECTIVES],
+                        directives: [checkbox_1.CHECKBOX_DIRECTIVES, search_1.SEARCH_DIRECTIVES],
                         templateUrl: "app/components/search/standard.example.html"
                     }), 
                     __metadata('design:paramtypes', [])
@@ -75,7 +79,7 @@ System.register(['angular2/core', 'ng2-semantic-ui/ng2-semantic-ui'], function(e
                 SearchExampleRemote = __decorate([
                     core_1.Component({
                         selector: 'search-example-remote',
-                        directives: [ng2_semantic_ui_1.SEARCH_DIRECTIVES],
+                        directives: [search_1.SEARCH_DIRECTIVES],
                         templateUrl: "app/components/search/remote.example.html"
                     }), 
                     __metadata('design:paramtypes', [])

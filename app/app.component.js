@@ -1,4 +1,4 @@
-System.register(['angular2/core', "angular2/router", './home/getting-started.page', "./components/test.page", "./components/accordion.page", "./components/checkbox.page", "./components/collapse.page", "./components/dimmer.page", "./components/dropdown.page", "./components/progress.page", "./components/message.page", "./components/tab.page", "./components/search.page", "./components/rating.page"], function(exports_1, context_1) {
+System.register(['@angular/core', "@angular/router-deprecated", './home/getting-started.page', "./components/test.page", "./components/accordion.page", "./components/checkbox.page", "./components/collapse.page", "./components/dimmer.page", "./components/dropdown.page", "./components/progress.page", "./components/message.page", "./components/tab.page", "./components/search.page", "./components/rating.page"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,15 +10,15 @@ System.register(['angular2/core', "angular2/router", './home/getting-started.pag
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, getting_started_page_1, test_page_1, accordion_page_1, checkbox_page_1, collapse_page_1, dimmer_page_1, dropdown_page_1, progress_page_1, message_page_1, tab_page_1, search_page_1, rating_page_1;
+    var core_1, router_deprecated_1, getting_started_page_1, test_page_1, accordion_page_1, checkbox_page_1, collapse_page_1, dimmer_page_1, dropdown_page_1, progress_page_1, message_page_1, tab_page_1, search_page_1, rating_page_1;
     var AppComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (router_1_1) {
-                router_1 = router_1_1;
+            function (router_deprecated_1_1) {
+                router_deprecated_1 = router_deprecated_1_1;
             },
             function (getting_started_page_1_1) {
                 getting_started_page_1 = getting_started_page_1_1;
@@ -64,10 +64,10 @@ System.register(['angular2/core', "angular2/router", './home/getting-started.pag
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'app',
-                        directives: [router_1.ROUTER_DIRECTIVES],
+                        directives: [router_deprecated_1.ROUTER_DIRECTIVES],
                         templateUrl: 'app/app.component.html'
                     }),
-                    router_1.RouteConfig([
+                    router_deprecated_1.RouteConfig([
                         {
                             path: '/',
                             name: 'GettingStarted',

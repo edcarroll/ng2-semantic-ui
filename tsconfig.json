@@ -10,7 +10,10 @@
     "declaration": true
   },
   "files": [
-    "typings/browser.d.ts",
+    "../typings/browser.d.ts",
     "app/main.ts"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }
