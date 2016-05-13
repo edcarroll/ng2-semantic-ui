@@ -1,4 +1,4 @@
-System.register(['@angular/core', "../internal/page-title.component", '../../../components/checkbox', "../../../components/select", "../../../components/template"], function(exports_1, context_1) {
+System.register(['@angular/core', "../internal/page-title.component"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', "../internal/page-title.component", '../../../
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, page_title_component_1, checkbox_1, select_1, template_1;
+    var core_1, page_title_component_1;
     var TestComponentPage;
     return {
         setters:[
@@ -19,17 +19,11 @@ System.register(['@angular/core', "../internal/page-title.component", '../../../
             },
             function (page_title_component_1_1) {
                 page_title_component_1 = page_title_component_1_1;
-            },
-            function (checkbox_1_1) {
-                checkbox_1 = checkbox_1_1;
-            },
-            function (select_1_1) {
-                select_1 = select_1_1;
-            },
-            function (template_1_1) {
-                template_1 = template_1_1;
             }],
         execute: function() {
+            // import {CHECKBOX_DIRECTIVES} from '../../../components/checkbox';
+            // import {SELECT_DIRECTIVES} from "../../../components/select";
+            // import {TEMPLATE_DIRECTIVES} from "../../../components/template";
             TestComponentPage = (function () {
                 function TestComponentPage() {
                     this.options = [{ test: "Example" }, { test: "Test" }, { test: "What" }, { test: "No" }, { test: "Benefit" }, { test: "Oranges" }, { test: "Artemis" }, { test: "Teeeest" }];
@@ -52,7 +46,7 @@ System.register(['@angular/core', "../internal/page-title.component", '../../../
                 TestComponentPage = __decorate([
                     core_1.Component({
                         selector: 'test-component-page',
-                        directives: [page_title_component_1.PageTitle, checkbox_1.CHECKBOX_DIRECTIVES, template_1.TEMPLATE_DIRECTIVES, select_1.SELECT_DIRECTIVES],
+                        directives: [page_title_component_1.PageTitle,],
                         template: "\n<page-title>\n    <div header>Test</div>\n    <div sub-header>\n        <p>Test component!</p>\n    </div>\n</page-title>\n<div class=\"ui main container\">\n    <div class=\"ui dividing right rail\"></div>\n    <h2 class=\"ui dividing header\">Examples</h2>\n    <div class=\"ui segment\">\n        <sui-select [placeholder]=\"placeholder\" [options]=\"testOptions\" [(ngModel)]=\"selected\" [isSearchable]=\"true\" #select>\n            <sui-select-option *ngFor=\"let result of select.results\" [value]=\"result\"><i class=\"af flag\"></i>{{ result }}</sui-select-option>\n        </sui-select>\n    </div>\n    <div class=\"ui segment\">\n        <p>Selected option: {{ selected | json }}</p>\n    </div>\n    <div class=\"ui segment\">\n        <sui-select class=\"fluid\" [options]=\"testOptions\" [(ngModel)]=\"selectedItems\" [isSearchable]=\"true\" [allowMultiple]=\"true\" [maxSelected]=\"3\" #multiSelect>\n            <sui-select-option *ngFor=\"let result of multiSelect.results\" [value]=\"result\"><i class=\"af flag\"></i>{{ result }}</sui-select-option>\n        </sui-select>\n    </div>\n    <div class=\"ui segment\">\n        <p>Selected items: {{ selectedItems | json }}</p>\n    </div>\n</div>\n"
                     }), 
                     __metadata('design:paramtypes', [])
