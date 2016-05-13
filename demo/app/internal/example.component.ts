@@ -1,4 +1,4 @@
-import {Component, Input} from 'angular2/core';
+import {Component, Input} from '@angular/core';
 
 import {Collapse} from "../../../components/collapse";
 // import {Collapse} from "ng2-semantic-ui/ng2-semantic-ui";
@@ -25,7 +25,7 @@ import {Markup} from "ng2-prism/languages";
     <div [suiCollapse]="!detail">
         <div class="annotation transition visible">
             <div class="ui instructive bottom attached segment">
-                <codeblock markup [src]="code"></codeblock>
+                <codeblock [src]="code"></codeblock>
             </div>
         </div>
     </div>
