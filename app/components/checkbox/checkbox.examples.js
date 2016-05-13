@@ -1,4 +1,4 @@
-System.register(['@angular/core', '../../../../components/checkbox'], function(exports_1, context_1) {
+System.register(['@angular/core', 'ng2-semantic-ui/ng2-semantic-ui'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,18 +10,17 @@ System.register(['@angular/core', '../../../../components/checkbox'], function(e
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, checkbox_1;
+    var core_1, ng2_semantic_ui_1;
     var CheckboxExampleStandard, CheckboxExampleRadioButton, CheckboxExampleStyled, CHECKBOX_EXAMPLES;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (checkbox_1_1) {
-                checkbox_1 = checkbox_1_1;
+            function (ng2_semantic_ui_1_1) {
+                ng2_semantic_ui_1 = ng2_semantic_ui_1_1;
             }],
         execute: function() {
-            // import {CHECKBOX_DIRECTIVES} from 'ng2-semantic-ui/ng2-semantic-ui';
             CheckboxExampleStandard = (function () {
                 function CheckboxExampleStandard() {
                     this.eCheck = true;
@@ -29,7 +28,7 @@ System.register(['@angular/core', '../../../../components/checkbox'], function(e
                 CheckboxExampleStandard = __decorate([
                     core_1.Component({
                         selector: 'checkbox-example-standard',
-                        directives: [checkbox_1.CHECKBOX_DIRECTIVES],
+                        directives: [ng2_semantic_ui_1.CHECKBOX_DIRECTIVES],
                         templateUrl: "app/components/checkbox/standard.example.html"
                     }), 
                     __metadata('design:paramtypes', [])
@@ -44,7 +43,7 @@ System.register(['@angular/core', '../../../../components/checkbox'], function(e
                 CheckboxExampleRadioButton = __decorate([
                     core_1.Component({
                         selector: 'checkbox-example-radio-button',
-                        directives: [checkbox_1.CHECKBOX_DIRECTIVES],
+                        directives: [ng2_semantic_ui_1.CHECKBOX_DIRECTIVES],
                         templateUrl: "app/components/checkbox/radio.example.html"
                     }), 
                     __metadata('design:paramtypes', [])
@@ -58,7 +57,7 @@ System.register(['@angular/core', '../../../../components/checkbox'], function(e
                 CheckboxExampleStyled = __decorate([
                     core_1.Component({
                         selector: 'checkbox-example-styled',
-                        directives: [checkbox_1.CHECKBOX_DIRECTIVES],
+                        directives: [ng2_semantic_ui_1.CHECKBOX_DIRECTIVES],
                         templateUrl: "app/components/checkbox/styled.example.html"
                     }), 
                     __metadata('design:paramtypes', [])

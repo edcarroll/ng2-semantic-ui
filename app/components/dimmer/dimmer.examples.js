@@ -1,4 +1,4 @@
-System.register(['@angular/core', '../../../../components/checkbox', '../../../../components/dimmer'], function(exports_1, context_1) {
+System.register(['@angular/core', 'ng2-semantic-ui/ng2-semantic-ui'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,21 +10,17 @@ System.register(['@angular/core', '../../../../components/checkbox', '../../../.
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, checkbox_1, dimmer_1;
+    var core_1, ng2_semantic_ui_1;
     var DimmerExampleStandard, DimmerExampleVariations, DIMMER_EXAMPLES;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (checkbox_1_1) {
-                checkbox_1 = checkbox_1_1;
-            },
-            function (dimmer_1_1) {
-                dimmer_1 = dimmer_1_1;
+            function (ng2_semantic_ui_1_1) {
+                ng2_semantic_ui_1 = ng2_semantic_ui_1_1;
             }],
         execute: function() {
-            // import {CHECKBOX_DIRECTIVES, DIMMER_DIRECTIVES} from 'ng2-semantic-ui/ng2-semantic-ui';
             DimmerExampleStandard = (function () {
                 function DimmerExampleStandard() {
                     this.isClickable = true;
@@ -32,7 +28,7 @@ System.register(['@angular/core', '../../../../components/checkbox', '../../../.
                 DimmerExampleStandard = __decorate([
                     core_1.Component({
                         selector: 'dimmer-example-standard',
-                        directives: [checkbox_1.CHECKBOX_DIRECTIVES, dimmer_1.DIMMER_DIRECTIVES],
+                        directives: [ng2_semantic_ui_1.CHECKBOX_DIRECTIVES, ng2_semantic_ui_1.DIMMER_DIRECTIVES],
                         templateUrl: "app/components/dimmer/standard.example.html"
                     }), 
                     __metadata('design:paramtypes', [])
@@ -47,7 +43,7 @@ System.register(['@angular/core', '../../../../components/checkbox', '../../../.
                 DimmerExampleVariations = __decorate([
                     core_1.Component({
                         selector: 'dimmer-example-variations',
-                        directives: [dimmer_1.DIMMER_DIRECTIVES],
+                        directives: [ng2_semantic_ui_1.DIMMER_DIRECTIVES],
                         templateUrl: "app/components/dimmer/variations.example.html"
                     }), 
                     __metadata('design:paramtypes', [])
