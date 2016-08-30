@@ -6,7 +6,7 @@ import {CHECKBOX_DIRECTIVES} from '../../../../components/checkbox';
 @Component({
     selector: 'checkbox-example-standard',
     directives: [CHECKBOX_DIRECTIVES],
-    templateUrl: "app/components/checkbox/standard.example.html"
+    templateUrl: "../../../../demo/app/pages/checkbox/examples/standard.example.html"
 })
 export class CheckboxExampleStandard {
     public eCheck:boolean = true;
@@ -15,7 +15,7 @@ export class CheckboxExampleStandard {
 @Component({
     selector: 'checkbox-example-radio-button',
     directives: [CHECKBOX_DIRECTIVES],
-    templateUrl: "app/components/checkbox/radio.example.html"
+    templateUrl: "../../../../demo/app/pages/checkbox/examples/radio.example.html"
 })
 export class CheckboxExampleRadioButton {
     public eRadio:any = "world";
@@ -24,7 +24,7 @@ export class CheckboxExampleRadioButton {
 @Component({
     selector: 'checkbox-example-styled',
     directives: [CHECKBOX_DIRECTIVES],
-    templateUrl: "app/components/checkbox/styled.example.html"
+    templateUrl: "../../../../demo/app/pages/checkbox/examples/styled.example.html"
 })
 export class CheckboxExampleStyled { }
 

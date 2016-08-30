@@ -1,32 +1,32 @@
 {
-  "project": {
-    "version": "1.0.0-beta.11-webpack.2",
-    "name": "ng2-semantic-ui"
-  },
-  "apps": [
-    {
-      "main": "demo/main.ts",
-      "tsconfig": "demo/tsconfig.json",
-      "mobile": false
+    "project": {
+        "version": "1.0.0-beta.11-webpack.2",
+        "name": "ng2-semantic-ui"
+    },
+    "apps": [
+        {
+            "main": "demo/main.ts",
+            "tsconfig": "demo/tsconfig.json",
+            "mobile": false
+        }
+    ],
+    "addons": [],
+    "packages": [],
+    "e2e": {
+        "protractor": {
+            "config": "demo/config/protractor.conf.js"
+        }
+    },
+    "test": {
+        "karma": {
+            "config": "demo/config/karma.conf.js"
+        }
+    },
+    "defaults": {
+        "prefix": "demo",
+        "sourceDir": "demo",
+        "styleExt": "css",
+        "prefixInterfaces": false,
+        "lazyRoutePrefix": "+"
     }
-  ],
-  "addons": [],
-  "packages": [],
-  "e2e": {
-    "protractor": {
-      "config": "demo/config/protractor.conf.js"
-    }
-  },
-  "test": {
-    "karma": {
-      "config": "demo/config/karma.conf.js"
-    }
-  },
-  "defaults": {
-    "prefix": "app",
-    "sourceDir": "demo",
-    "styleExt": "css",
-    "prefixInterfaces": false,
-    "lazyRoutePrefix": "+"
-  }
 }

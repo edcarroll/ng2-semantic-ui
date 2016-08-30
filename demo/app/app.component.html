@@ -1,3 +1,37 @@
-<h1>
-  {{title}}
-</h1>
+<div class="article">
+    <div class="sidebar">
+        <div class="ui vertical inverted fluid menu">
+            <div class="item">
+                <a class="ui mini images" href="/">
+                    <img class="ui image" src="http://semantic-ui.com/images/logo.png">
+                    <img class="ui image" src="https://angular.io/resources/images/logos/standard/shield-large.png">
+                </a>
+                <b class="logo">ng2-semantic-ui</b>
+            </div>
+            <a class="item" routerLink="/getting-started" routerLinkActive="active">
+                <b>Getting Started</b>
+            </a>
+            <a class="item" href="https://github.com/edcarroll/ng2-semantic-ui">
+                <b>Github Repository</b>
+            </a>
+            <div class="item">
+                <div class="active header">Components</div>
+                <div class="menu">
+                    <a class="item" routerLink="/accordion" routerLinkActive="active">Accordion</a>
+                    <a class="item" routerLink="/checkbox" routerLinkActive="active">Checkbox</a>
+                    <a class="item" routerLink="/collapse" routerLinkActive="active">Collapse</a>
+                    <a class="item">Dimmer</a>
+                    <a class="item">Dropdown</a>
+                    <a class="item">Message</a>
+                    <a class="item">Progress</a>
+                    <a class="item">Rating</a>
+                    <a class="item">Search</a>
+                    <a class="item">Tab</a>
+
+                    <a class="item">Test</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <router-outlet></router-outlet>
+</div>
