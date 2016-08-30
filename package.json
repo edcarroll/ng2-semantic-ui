@@ -5,7 +5,7 @@
   "angular-cli": {},
   "scripts": {
     "start": "ng serve",
-    "lint": "tslint \"src/**/*.ts\"",
+    "lint": "tslint \"demo/**/*.ts\"",
     "test": "ng test",
     "pree2e": "webdriver-manager update",
     "e2e": "protractor"
@@ -40,6 +40,6 @@
     "protractor": "3.3.0",
     "ts-node": "1.2.1",
     "tslint": "3.13.0",
-    "typescript": "^2.0.0"
+    "typescript": "2.0.0"
   }
 }
