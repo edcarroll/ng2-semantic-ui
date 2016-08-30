@@ -1,27 +1,41 @@
-# Node
-node_modules
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/dist
+/tmp
+
+# dependencies
+/node_modules
+/bower_components
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+*.launch
+.settings/
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage/*
+/libpeerconnection.log
 npm-debug.log
+testem.log
+/typings
+
+# e2e
+/e2e/*.js
+/e2e/*.map
+
+#System Files
+.DS_Store
+Thumbs.db
 
 # TypeScript
 *.js
-!make.js
-!demo/make-demo.js
+!old-demo/make-demo.js
 *.map
 *.d.ts
-typings
-bundles
-!demo/js/**/*.js
-demo/js/**/*.json
-
-# JetBrains
-.idea
-.project
-.settings
-
-# Windows
-Thumbs.db
-Desktop.ini
-
-# Mac
-.DS_Store
-**/.DS_Store
+!old-demo/js/**/*.js
+old-demo/js/**/*.json
