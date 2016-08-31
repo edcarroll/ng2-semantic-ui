@@ -22,3 +22,6 @@ Desktop.ini
 # Mac
 .DS_Store
 **/.DS_Store
+
+components
+demo
