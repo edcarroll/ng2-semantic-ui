@@ -1,0 +1,54 @@
+<demo-page-title>
+    <div header>Select</div>
+    <div sub-header>
+        <p>A select allows a user to select one or more values from a series of values</p>
+    </div>
+</demo-page-title>
+<div class="ui main container">
+    <div class="ui dividing right rail"></div>
+    <h2 id="examples" class="ui dividing header">Examples</h2>
+    <demo-example [code]="exampleStandardTemplate">
+        <div info>
+            <h4 class="ui header">Selection</h4>
+            <p>A select can be used to select between choices in a form</p>
+        </div>
+        <select-example-standard result></select-example-standard>
+    </demo-example>
+    <demo-example [code]="exampleOptionsTemplate">
+        <div info>
+            <h4 class="ui header">Dynamic Options</h4>
+            <p>Providing an options array allows dynamic sets of options</p>
+        </div>
+        <select-example-options result></select-example-options>
+    </demo-example>
+    <demo-example [code]="exampleSearchTemplate">
+        <div info>
+            <h4 class="ui header">Search Selection</h4>
+            <p>A select can allow a user to search through a large list of choices</p>
+        </div>
+        <select-example-search result></select-example-search>
+    </demo-example>
+    <demo-example [code]="exampleMultipleTemplate">
+        <div info>
+            <h4 class="ui header">Multiple Selection</h4>
+            <p>A select is able to select multiple different values</p>
+        </div>
+        <select-example-multiple result></select-example-multiple>
+    </demo-example>
+    <demo-example [code]="exampleMultipleSearchTemplate">
+        <div info>
+            <h4 class="ui header">Multiple Search Selection</h4>
+            <p>Searching is also possible with a multi-select</p>
+        </div>
+        <select-example-multiple-search result></select-example-multiple-search>
+    </demo-example>
+    <demo-example [code]="exampleTemplateSearchTemplate">
+        <div info>
+            <h4 class="ui header">Templates</h4>
+            <p>You can use a custom template for options</p>
+        </div>
+        <select-example-template-search result></select-example-template-search>
+    </demo-example>
+    <h2 id="api" class="ui dividing header">API</h2>
+    <demo-api [api]="api"></demo-api>
+</div>

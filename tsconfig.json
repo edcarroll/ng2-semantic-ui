@@ -1,19 +1,23 @@
 {
-  "compilerOptions": {
-    "noImplicitAny": true,
-    "module": "commonjs",
-    "target": "ES5",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "sourceMap": true,
-    "declaration": true
-  },
-  "files": [
-    "typings/main.d.ts",
-    "ng2-semantic-ui.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "demo"
-  ]
+    "compilerOptions": {
+        "declaration": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "lib": ["es6", "dom"],
+        "mapRoot": "./",
+        "module": "es6",
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "target": "es5",
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "types": [
+            "jasmine"
+        ]
+    },
+    "files": [
+        "index.ts",
+        "components/index.ts"
+    ]
 }

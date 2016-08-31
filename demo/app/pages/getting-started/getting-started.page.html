@@ -1,0 +1,32 @@
+<demo-page-title>
+    <div header>Getting Started</div>
+    <div sub-header>
+        <p>Semantic UI Angular 2 Integrations, written in pure AngularJS - <strong>no JQuery required</strong>.</p>
+    </div>
+</demo-page-title>
+<div class="ui main container" id="getting-started">
+    <div class="ui dividing right rail"></div>
+    <h2 class="ui dividing header">Installation</h2>
+    <p>To install this library, run:</p>
+    <div class="ui segment">
+        <demo-codeblock language="bash" [src]="installCode"></demo-codeblock>
+    </div>
+    <p>Next include the Semantic UI CSS file in your <code>index.html</code> (you can include a manually compiled one if you use themes):</p>
+    <div class="ui segment">
+        <demo-codeblock language="markup" [src]="includeCssCode"></demo-codeblock>
+    </div>
+    <p>Once installed you need to import the main module:</p>
+    <div class="ui segment">
+        <demo-codeblock language="typescript" [src]="importCode"></demo-codeblock>
+    </div>
+    <p>Finally import the main module into your application module:</p>
+    <div class="ui segment">
+        <demo-codeblock language="typescript" [src]="moduleImportCode"></demo-codeblock>
+    </div>
+    <p>Now you're good to go!</p>
+    <h2 class="ui dividing header">Dependencies</h2>
+    <div class="ui bulleted list">
+        <div class="item"><a href="https://angular.io">Angular 2</a> (2.0.0-rc.5)</div>
+        <div class="item"><a href="http://semantic-ui.com/">Semantic UI CSS</a> (jQuery is <strong>not</strong> required)</div>
+    </div>
+</div>

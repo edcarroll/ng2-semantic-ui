@@ -1,0 +1,29 @@
+<demo-page-title>
+    <div header>Test</div>
+    <div sub-header>
+        <p>Test component!</p>
+    </div>
+</demo-page-title>
+<div class="ui main container">
+    <div class="ui dividing right rail"></div>
+    <h2 class="ui dividing header">Examples</h2>
+    <div class="ui segment">
+        <sui-select [placeholder]="placeholder" [options]="testOptions" [(ngModel)]="selected" [isSearchable]="false" #searchSelect>
+            <sui-select-option *ngFor="let result of searchSelect.results" [value]="result"></sui-select-option>
+        </sui-select>
+    </div>
+    <div class="ui segment">
+        <p>Selected option: {{ selected | json }}</p>
+    </div>
+    <div class="ui segment">
+        <template #optionTemplate let-option="option">
+            <i class="af flag"></i>{{ option }}
+        </template>
+        <sui-select class="fluid" [options]="testOptions" [(ngModel)]="selectedItems" [isSearchable]="true" [allowMultiple]="true" [maxSelected]="maxOptions" [optionTemplate]="optionTemplate" #multiSelect>
+            <sui-select-option *ngFor="let result of multiSelect.results" [value]="result"></sui-select-option>
+        </sui-select>
+    </div>
+    <div class="ui segment">
+        <p>Selected items: {{ selectedItems | json }}</p>
+    </div>
+</div>

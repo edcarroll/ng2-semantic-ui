@@ -15,15 +15,15 @@ export const KEYCODE = {
     BACKSPACE: 	8
 };
 
-export class DropdownService {
+export class SuiDropdownService {
     // State
     private _isOpen:boolean;
     public isDisabled:boolean;
     public autoClose:string;
 
     // State Events
-    public onToggle:EventEmitter<boolean> = new EventEmitter(false);
-    public isOpenChange:EventEmitter<boolean> = new EventEmitter(false);
+    public onToggle:EventEmitter<boolean> = new EventEmitter<boolean>(false);
+    public isOpenChange:EventEmitter<boolean> = new EventEmitter<boolean>(false);
 
     // Important Elements
     public dropdownElement:ElementRef;
@@ -124,6 +124,7 @@ export class DropdownService {
             return;
         }
 
+        //noinspection TypeScriptUnresolvedFunction
         if (this.isOpen &&
             ([KEYCODE.ENTER, KEYCODE.UP, KEYCODE.RIGHT, KEYCODE.DOWN, KEYCODE.LEFT]
                 .find(keyCode => event.which == keyCode))) {

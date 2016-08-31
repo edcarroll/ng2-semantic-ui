@@ -1,19 +1,21 @@
 {
-  "compilerOptions": {
-    "noImplicitAny": true,
-    "module": "system",
-    "moduleResolution": "node",
-    "target": "ES5",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "sourceMap": true,
-    "declaration": true
-  },
-  "files": [
-    "../typings/browser.d.ts",
-    "app/main.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+    "compilerOptions": {
+        "declaration": false,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "lib": ["es6", "dom"],
+        "mapRoot": "./",
+        "module": "es6",
+        "moduleResolution": "node",
+        "outDir": "../dist/out-tsc",
+        "sourceMap": true,
+        "target": "es5",
+        "typeRoots": [
+            "../node_modules/@types"
+        ],
+        "types": [
+            "jasmine",
+            "prismjs"
+        ]
+    }
 }
