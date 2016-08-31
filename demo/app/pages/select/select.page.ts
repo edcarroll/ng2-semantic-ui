@@ -147,7 +147,7 @@ export class SelectExampleMultiple {
 @Component({
     selector: 'select-example-multiple-search',
     template: `
-<sui-select class="fluid" [(ngModel)]="selectedOptions" [options]="options" [isSearchable]="true" [allowMultiple]="true" [maxSelected]="5" #searchSelect>
+<sui-select class="fluid" [(ngModel)]="selectedOptions" [options]="options" [isSearchable]="true" [allowMultiple]="true" [maxSelected]="5" placeholder="Select..." #searchSelect>
     <sui-select-option *ngFor="let option of searchSelect.availableOptions" [value]="option"></sui-select-option>
 </sui-select>
 <div class="ui segment">
@@ -169,11 +169,16 @@ export class SelectExampleMultipleSearch {
 <div class="ui form">
     <div class="field">
         <sui-select [(ngModel)]="selectedOption" [options]="options" optionsField="name" [optionTemplate]="optionTemplate" [isSearchable]="true" #select>
+            <div class="header">
+                <i class="users icon"></i>
+                You can also have custom markup inside the menu!
+                </div>
+                <div class="divider"></div>
             <sui-select-option *ngFor="let option of select.availableOptions" [value]="option"></sui-select-option>
         </sui-select>
     </div>
     <div class="field">
-        <sui-select class="fluid" [(ngModel)]="selectedOptions" [options]="options" optionsField="name" [optionTemplate]="optionTemplate" [allowMultiple]="true" #multiSelect>
+        <sui-select class="fluid" [(ngModel)]="selectedOptions" [options]="options" optionsField="name" [optionTemplate]="optionTemplate" [allowMultiple]="true" placeholder="Select..." #multiSelect>
             <sui-select-option *ngFor="let option of multiSelect.availableOptions" [value]="option"></sui-select-option>
         </sui-select>
     </div>
