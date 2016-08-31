@@ -9,22 +9,38 @@ Semantic UI Angular 2 Integrations, written in pure AngularJS - **no JQuery requ
 ## Installation
 
 To install this library, run:
-
 ```bash
 $ npm install ng2-semantic-ui --save
 ```
 
-Add a reference to your `index.html` file: (also ensure you have a reference to the Semantic UI CSS file)
-
+Next include the Semantic UI CSS file in your `index.html` (you can include a manually compiled one if you use themes):
 ```html
-<script src="node_modules/ng2-semantic-ui/bundles/ng2-semantic-ui.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.css">
 ```
 
-Start using the directives:
-
+Once installed you need to import the main module:
 ```ts
-import {DIRECTIVES} from `ng2-semantic-ui/ng2-semantic-ui';
+import {SuiModule} from 'ng2-semantic-ui';
 ```
+
+Finally import the main module into your application module:
+```ts
+import {SuiModule} from 'ng2-semantic-ui';
+
+@NgModule({
+    declarations: [AppComponent, ...],
+    imports: [SuiModule, ...],  
+    bootstrap: [AppComponent]
+})
+export class AppModule {}
+```
+
+Now you're good to go!
+
+## Dependencies
+
+* [Angular 2](https://angular.io) (2.0.0-rc.5)
+* [Semantic UI CSS](http://semantic-ui.com/) (jQuery is **not** required)
 
 ## Components
 
@@ -39,54 +55,21 @@ The current list of available components with links to their docs is below:
 * [Progress](http://edcarroll.github.io/ng2-semantic-ui/#/components/progress)
 * [Rating](http://edcarroll.github.io/ng2-semantic-ui/#/components/rating)
 * [Search](http://edcarroll.github.io/ng2-semantic-ui/#/components/search)
+* [Select](http://edcarroll.github.io/ng2-semantic-ui/#/components/select)
 * [Tab](http://edcarroll.github.io/ng2-semantic-ui/#/components/tab)
-
-## Quick start (from scratch)
-
-Clone the [angular2-quickstart](https://github.com/valor-software/angular2-quickstart) repository, and set everything up.
-
-Add the following lines to your `index.html`:
-```html
-<script src="node_modules/ng2-semantic-ui/bundles/ng2-semantic-ui.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.css">
-```
-
-Update your `app.component.ts` to be the following:
-
-```ts
-import {Component} from 'angular2/core';
-import {CHECKBOX_DIRECTIVES} from 'ng2-semantic-ui/ng2-semantic-ui';
-
-@Component({
-  selector: 'my-app',
-  directives: [CHECKBOX_DIRECTIVES],
-  template: `
-<sui-checkbox>Checkbox example</sui-checkbox>
-`
-})
-export class AppComponent {}
-```
-
-And you're good to go!
 
 ## Development
 
 To generate all library `*.js`, `*.js.map` and `*.d.ts` files:
 
 ```bash
-$ npm run tsc
+$ npm run compile
+# use compile:w to watch for changes
 ```
 
-To run the demo app:
+To run the demo app (you must have [Angular-CLI](https://github.com/angular/angular-cli) installed):
 ```bash
-$ npm run demo
-```
-
-To compile the demo app without running it:
-
-```bash
-$ npm run tsc-demo
-# use tsc-demo:w to watch for changes
+$ ng serve
 ```
 
 ## License

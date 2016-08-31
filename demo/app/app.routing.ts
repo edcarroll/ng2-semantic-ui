@@ -21,47 +21,47 @@ const appRoutes: Routes = [
         component: GettingStartedPage,
     },
     {
-        path: 'accordion',
+        path: 'components/accordion',
         component: AccordionPage
     },
     {
-        path: 'checkbox',
+        path: 'components/checkbox',
         component: CheckboxPage
     },
     {
-        path: 'collapse',
+        path: 'components/collapse',
         component: CollapsePage
     },
     {
-        path: 'dimmer',
+        path: 'components/dimmer',
         component: DimmerPage
     },
     {
-        path: 'dropdown',
+        path: 'components/dropdown',
         component: DropdownPage
     },
     {
-        path: 'message',
+        path: 'components/message',
         component: MessagePage
     },
     {
-        path: 'progress',
+        path: 'components/progress',
         component: ProgressPage
     },
     {
-        path: 'rating',
+        path: 'components/rating',
         component: RatingPage
     },
     {
-        path: 'search',
+        path: 'components/search',
         component: SearchPage
     },
     {
-        path: 'select',
+        path: 'components/select',
         component: SelectPage
     },
     {
-        path: 'tabs',
+        path: 'components/tabs',
         component: TabsPage
     },
     {
@@ -75,8 +75,6 @@ const appRoutes: Routes = [
     }
 ];
 
-export const appRoutingProviders: any[] = [
-
-];
+export const appRoutingProviders: any[] = [];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);
