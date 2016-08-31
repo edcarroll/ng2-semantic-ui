@@ -78,12 +78,8 @@ export class CheckboxPage {
                 }
             ]
         }
-    ]
-}
-
-@Component({
-    selector: 'checkbox-example-standard',
-    template: `
+    ];
+    public exampleStandardTemplate:string = `
 <div class="ui form">
     <div class="grouped fields">
         <label>Checkbox Example</label>
@@ -102,16 +98,8 @@ export class CheckboxPage {
             <sui-checkbox [(ngModel)]="eCheck">Mirrors value of 1st checkbox</sui-checkbox>
         </div>
     </div>
-</div>
-`
-})
-export class CheckboxExampleStandard {
-    public eCheck:boolean = true;
-}
-
-@Component({
-    selector: 'checkbox-example-radio-button',
-    template: `
+</div>`;
+    public exampleRadioButtonTemplate:string = `
 <div class="ui form">
     <div class="grouped fields">
         <label>Radio Button Example</label>
@@ -132,15 +120,8 @@ export class CheckboxExampleStandard {
     </div>
 </div>
 <p>The currently selected value is {{ eRadio | json }}</p>
-`
-})
-export class CheckboxExampleRadioButton {
-    public eRadio:any = "world";
-}
-
-@Component({
-    selector: 'checkbox-example-styled',
-    template: `
+`;
+    public exampleStyledTemplate:string = `
 <div class="ui form">
     <div class="grouped fields">
         <label>Checkbox Style Examples</label>
@@ -166,9 +147,29 @@ export class CheckboxExampleRadioButton {
             </sui-radio-button>
         </div>
     </div>
-</div>
-`
+</div>`;
+}
+
+@Component({
+    selector: 'checkbox-example-standard',
+    template: new CheckboxPage().exampleStandardTemplate
+})
+export class CheckboxExampleStandard {
+    public eCheck:boolean = true;
+}
+
+@Component({
+    selector: 'checkbox-example-radio-button',
+    template: new CheckboxPage().exampleRadioButtonTemplate
+})
+export class CheckboxExampleRadioButton {
+    public eRadio:any = "world";
+}
+
+@Component({
+    selector: 'checkbox-example-styled',
+    template: new CheckboxPage().exampleStyledTemplate
 })
 export class CheckboxExampleStyled { }
 
-export const CHECKBOX_EXAMPLES:Array<any> = [CheckboxExampleStandard, CheckboxExampleRadioButton, CheckboxExampleStyled];
+export const CheckboxPageComponents:Array<any> = [CheckboxPage, CheckboxExampleStandard, CheckboxExampleRadioButton, CheckboxExampleStyled];

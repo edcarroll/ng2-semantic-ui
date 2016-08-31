@@ -7,28 +7,28 @@
 <div class="ui main container">
     <div class="ui dividing right rail"></div>
     <h2 id="examples" class="ui dividing header">Examples</h2>
-    <demo-example code="app/components/tab/standard.example.html">
+    <demo-example [code]="exampleStandardTemplate">
         <div info>
             <h4 class="ui header">Basic Tabs</h4>
             <p>Tab Headers and Tab Contents are connected using a unique identifer, as shown in the example below.</p>
         </div>
         <tab-example-standard result></tab-example-standard>
     </demo-example>
-    <demo-example code="app/components/tab/properties.example.html">
+    <demo-example [code]="examplePropertiesTemplate">
         <div info>
             <h4 class="ui header">Properties & Events</h4>
             <p>Binding to properties & events of the Tab Header allows you to manipulate the tabset.</p>
         </div>
         <tab-example-properties result></tab-example-properties>
     </demo-example>
-    <demo-example code="app/components/tab/dynamic.example.html">
+    <demo-example [code]="exampleDynamicTemplate">
         <div info>
             <h4 class="ui header">Dynamic tabs</h4>
             <p>Generating tabs using <code>*ngFor</code> is fully supported.</p>
         </div>
         <tab-example-dynamic result></tab-example-dynamic>
     </demo-example>
-    <demo-example code="app/components/tab/styled.example.html">
+    <demo-example [code]="exampleStyledTemplate">
         <div info>
             <h4 class="ui header">Styled & nested tabs</h4>
             <p>Since the tab headers and contents are separate, tabs can be styled as menus. Tabsets can also be nested as shown.</p>

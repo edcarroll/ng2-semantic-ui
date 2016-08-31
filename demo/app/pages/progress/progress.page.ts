@@ -37,12 +37,8 @@ export class ProgressPage {
                 },
             ]
         }
-    ]
-}
-
-@Component({
-    selector: 'progress-example-standard',
-    template: `
+    ];
+    public exampleStandardTemplate:string = `
 <div class="ui segment">
     <sui-progress [value]="value" [progress]="progress" [maximum]="maximum" [precision]="precision">
         Progress Bar Label
@@ -77,18 +73,8 @@ export class ProgressPage {
         </div>
     </div>
 </div>
-`
-})
-export class ProgressExampleStandard {
-    public value:number = 55;
-    public progress:boolean = true;
-    public maximum:number = 100;
-    public precision:number = 0;
-}
-
-@Component({
-    selector: 'progress-example-variations',
-    template: `
+`;
+    public exampleVariationsTemplate:string = `
 <div class="ui segment">
     <sui-progress class="top attached purple active" [value]="changingValue" [autoSuccess]="false"></sui-progress>
     <sui-progress class="indicating" [value]="changingValue">Indicating</sui-progress>
@@ -99,7 +85,23 @@ export class ProgressExampleStandard {
     <sui-progress class="tiny" [value]="changingValue">Tiny (autohides progress)</sui-progress>
     <sui-progress class="bottom attached indicating active" [value]="changingValue"></sui-progress>
 </div>
-`
+`;
+}
+
+@Component({
+    selector: 'progress-example-standard',
+    template: new ProgressPage().exampleStandardTemplate
+})
+export class ProgressExampleStandard {
+    public value:number = 55;
+    public progress:boolean = true;
+    public maximum:number = 100;
+    public precision:number = 0;
+}
+
+@Component({
+    selector: 'progress-example-variations',
+    template: new ProgressPage().exampleVariationsTemplate
 })
 export class ProgressExampleVariations {
     public value:number = 55;
@@ -125,4 +127,4 @@ export class ProgressExampleVariations {
     public randomValue = 0;
 }
 
-export const PROGRESS_EXAMPLES:Array<any> = [ProgressExampleStandard, ProgressExampleVariations];
+export const ProgressPageComponents:Array<any> = [ProgressPage, ProgressExampleStandard, ProgressExampleVariations];

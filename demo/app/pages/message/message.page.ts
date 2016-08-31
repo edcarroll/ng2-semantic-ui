@@ -23,25 +23,16 @@ export class MessagePage {
                 }
             ]
         }
-    ]
-}
-
-@Component({
-    selector: 'message-example-standard',
-    template: `
+    ];
+    public exampleStandardTemplate:string = `
 <sui-message class="success">
     <div class="header">
         This is a message!
     </div>
     <p>This message can be styled (as shown) and dismissed with the close icon in the top right.</p>
 </sui-message>
-`
-})
-export class MessageExampleStandard { }
-
-@Component({
-    selector: 'message-example-no-dismiss',
-    template: `
+`;
+    public exampleNoDismissTemplate:string = `
 <sui-message class="attached warning" [dismissible]="false">
     <div class="header">
         Attached message!
@@ -51,8 +42,19 @@ export class MessageExampleStandard { }
 <div class="ui bottom attached segment">
     <p>Example content</p>
 </div>
-`
+`;
+}
+
+@Component({
+    selector: 'message-example-standard',
+    template: new MessagePage().exampleStandardTemplate
+})
+export class MessageExampleStandard { }
+
+@Component({
+    selector: 'message-example-no-dismiss',
+    template: new MessagePage().exampleNoDismissTemplate
 })
 export class MessageExampleNoDismiss { }
 
-export const MESSAGE_EXAMPLES:Array<any> = [MessageExampleStandard, MessageExampleNoDismiss];
+export const MessagePageComponents:Array<any> = [MessagePage, MessageExampleStandard, MessageExampleNoDismiss];

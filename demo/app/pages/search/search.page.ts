@@ -49,17 +49,24 @@ export class SearchPage {
                 }
             ]
         }
-    ]
-}
-
-@Component({
-    selector: 'search-example-standard',
-    template: `
+    ];
+    public exampleStandardTemplate:string = `
 <sui-search placeholder="Example Search..." [icon]="icon" [options]="options" [searchDelay]="0" (onItemSelected)="alertSelected($event)"></sui-search>
 <div class="ui segment">
     <sui-checkbox [(ngModel)]="icon">Has icon?</sui-checkbox>
 </div>
-`
+`;
+    public exampleRemoteTemplate:string = `
+<sui-search [options]="optionsSearch" optionsField="title" [(ngModel)]="selectedItem"></sui-search>
+<div class="ui segment">
+    <p>Currently selected: {{ selectedItem | json }}</p>
+</div>
+`;
+}
+
+@Component({
+    selector: 'search-example-standard',
+    template: new SearchPage().exampleStandardTemplate
 })
 export class SearchExampleStandard {
     public icon:boolean = true;
@@ -78,12 +85,7 @@ export class SearchExampleStandard {
 
 @Component({
     selector: 'search-example-remote',
-    template: `
-<sui-search [options]="optionsSearch" optionsField="title" [(ngModel)]="selectedItem"></sui-search>
-<div class="ui segment">
-    <p>Currently selected: {{ selectedItem | json }}</p>
-</div>
-`
+    template: new SearchPage().exampleRemoteTemplate
 })
 export class SearchExampleRemote extends SearchExampleStandard {
     //noinspection TypeScriptUnresolvedVariable
@@ -101,4 +103,4 @@ export class SearchExampleRemote extends SearchExampleStandard {
     }
 }
 
-export const SEARCH_EXAMPLES:Array<any> = [SearchExampleStandard, SearchExampleRemote];
+export const SearchPageComponents:Array<any> = [SearchPage, SearchExampleStandard, SearchExampleRemote];

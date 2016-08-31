@@ -40,12 +40,8 @@ export class DropdownPage {
         {
             selector: "[suiDropdownMenu]"
         }
-    ]
-}
-
-@Component({
-    selector: 'dropdown-example-standard',
-    template: `
+    ];
+    public exampleStandardTemplate:string = `
 <p>You can use the keyboard to navigate the dropdown.</p>
 <div class="ui primary dropdown button" suiDropdown [(isOpen)]="isOpen" [isDisabled]="isDisabled">
     <div class="text">Dropdown</div>
@@ -66,13 +62,8 @@ export class DropdownPage {
 </div>
 <button class="ui secondary button" (click)="isOpen = !isOpen">Toggle Dropdown</button>
 <sui-checkbox [(ngModel)]="isDisabled != isDisabled">Disabled?</sui-checkbox>
-`
-})
-export class DropdownExampleStandard { }
-
-@Component({
-    selector: 'dropdown-example-styled',
-    template: `
+`;
+    public exampleStyledTemplate:string = `
 <p>(autoClose set to <code>disabled</code>)</p>
 <div class="ui primary pointing dropdown button" suiDropdown autoClose="disabled">
     <div class="text">Pointing</div>
@@ -101,8 +92,19 @@ export class DropdownExampleStandard { }
         </div>
     </div>
 </div>
-`
+`;
+}
+
+@Component({
+    selector: 'dropdown-example-standard',
+    template: new DropdownPage().exampleStandardTemplate
+})
+export class DropdownExampleStandard { }
+
+@Component({
+    selector: 'dropdown-example-styled',
+    template: new DropdownPage().exampleStyledTemplate
 })
 export class DropdownExampleStyled { }
 
-export const DROPDOWN_EXAMPLES:Array<any> = [DropdownExampleStandard, DropdownExampleStyled];
+export const DropdownPageComponents:Array<any> = [DropdownPage, DropdownExampleStandard, DropdownExampleStyled];

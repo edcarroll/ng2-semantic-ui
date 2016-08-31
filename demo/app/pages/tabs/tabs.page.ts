@@ -50,12 +50,8 @@ export class TabsPage {
                 }
             ]
         }
-    ]
-}
-
-@Component({
-    selector: 'tab-example-standard',
-    template: `
+    ];
+    public exampleStandardTemplate:string = `
 <sui-tabset>
     <div class="ui top attached tabular menu">
         <a class="item" suiTabHeader="1">First</a>
@@ -66,13 +62,8 @@ export class TabsPage {
     <div class="ui bottom attached segment" suiTabContent="2">Second tab!</div>
     <div class="ui bottom attached segment" suiTabContent="3">Third tab!</div>
 </sui-tabset>
-`
-})
-export class TabExampleStandard { }
-
-@Component({
-    selector: 'tab-example-properties',
-    template: `
+`;
+    public examplePropertiesTemplate:string = `
 <sui-tabset>
     <div class="ui top attached tabular menu">
         <a class="item" suiTabHeader="1" [(isActive)]="firstActive">First</a>
@@ -96,17 +87,8 @@ export class TabExampleStandard { }
 <div class="ui segment">
     <sui-checkbox [(ngModel)]="thirdDisabled">Third tab disabled?</sui-checkbox>
 </div>
-`
-})
-export class TabExampleProperties {
-    public alert = function() {
-        window.alert("You've chosen the alert tab!");
-    }
-}
-
-@Component({
-    selector: 'tab-example-dynamic',
-    template: `
+`;
+    public exampleDynamicTemplate:string = `
 <sui-tabset>
     <div class="ui top attached tabular menu">
         <a class="item" suiTabHeader="static">Static</a>
@@ -122,7 +104,49 @@ export class TabExampleProperties {
     <button class="ui primary button" (click)="addTab()">Add Tab</button>
     <button class="ui secondary button" (click)="removeTab()">Remove Tab</button>
 </div>
-`
+`;
+    public exampleStyledTemplate:string = `
+<sui-tabset>
+    <div class="ui secondary menu">
+        <a class="item" suiTabHeader="1">First</a>
+        <a class="item" suiTabHeader="2">Second</a>
+        <a class="item" suiTabHeader="3">Third</a>
+    </div>
+    <div class="ui segment" suiTabContent="1">
+        <sui-tabset>
+            <div class="ui pointing secondary menu">
+                <a class="item" suiTabHeader="1">Nested 1</a>
+                <a class="item" suiTabHeader="2">Nested 2</a>
+            </div>
+            <div class="ui segment" suiTabContent="1">First nested tab!</div>
+            <div class="ui segment" suiTabContent="2">Second nested tab!</div>
+        </sui-tabset>
+    </div>
+    <div class="ui segment" suiTabContent="2">Second tab!</div>
+    <div class="ui segment" suiTabContent="3">Third tab!</div>
+</sui-tabset>
+`;
+}
+
+@Component({
+    selector: 'tab-example-standard',
+    template: new TabsPage().exampleStandardTemplate
+})
+export class TabExampleStandard { }
+
+@Component({
+    selector: 'tab-example-properties',
+    template: new TabsPage().examplePropertiesTemplate
+})
+export class TabExampleProperties {
+    public alert = function() {
+        window.alert("You've chosen the alert tab!");
+    }
+}
+
+@Component({
+    selector: 'tab-example-dynamic',
+    template: new TabsPage().exampleDynamicTemplate
 })
 export class TabExampleDynamic {
     public tabs = [
@@ -143,30 +167,10 @@ export class TabExampleDynamic {
 
 @Component({
     selector: 'tab-example-styled',
-    template: `
-<sui-tabset>
-    <div class="ui secondary menu">
-        <a class="item" suiTabHeader="1">First</a>
-        <a class="item" suiTabHeader="2">Second</a>
-        <a class="item" suiTabHeader="3">Third</a>
-    </div>
-    <div class="ui segment" suiTabContent="1">
-        <sui-tabset>
-            <div class="ui pointing secondary menu">
-                <a class="item" suiTabHeader="1">Nested 1</a>
-                <a class="item" suiTabHeader="2">Nested 2</a>
-            </div>
-            <div class="ui segment" suiTabContent="1">First nested tab!</div>
-            <div class="ui segment" suiTabContent="2">Second nested tab!</div>
-        </sui-tabset>
-    </div>
-    <div class="ui segment" suiTabContent="2">Second tab!</div>
-    <div class="ui segment" suiTabContent="3">Third tab!</div>
-</sui-tabset>
-`
+    template: new TabsPage().exampleStyledTemplate
 })
 export class TabExampleStyled {
     public pointing = true;
 }
 
-export const TABS_EXAMPLES:Array<any> = [TabExampleStandard, TabExampleProperties, TabExampleDynamic, TabExampleStyled];
+export const TabsPageComponents:Array<any> = [TabsPage, TabExampleStandard, TabExampleProperties, TabExampleDynamic, TabExampleStyled];

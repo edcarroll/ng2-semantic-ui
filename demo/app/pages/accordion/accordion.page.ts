@@ -38,12 +38,8 @@ export class AccordionPage {
                 }
             ]
         }
-    ]
-}
-
-@Component({
-    selector: 'accordion-example-standard',
-    template: `
+    ];
+    public exampleStandardTemplate:string = `
 <sui-accordion [closeOthers]="false">
     <sui-accordion-panel [isOpen]="true">
         <div title>
@@ -75,13 +71,8 @@ export class AccordionPage {
         </div>
     </sui-accordion-panel>
 </sui-accordion>
-`
-})
-export class AccordionExampleStandard { }
-
-@Component({
-    selector: 'accordion-example-styled',
-    template: `
+`;
+    public exampleStyledTemplate:string = `
 <sui-accordion class="styled fluid">
     <sui-accordion-panel [isOpen]="true">
         <div title>
@@ -102,9 +93,20 @@ export class AccordionExampleStandard { }
         </div>
     </sui-accordion-panel>
 </sui-accordion>
-`
+`;
+}
+
+@Component({
+    selector: 'accordion-example-standard',
+    template: new AccordionPage().exampleStandardTemplate
+})
+export class AccordionExampleStandard { }
+
+@Component({
+    selector: 'accordion-example-styled',
+    template: new AccordionPage().exampleStyledTemplate
 })
 export class AccordionExampleStyled { }
 
-export const ACCORDION_EXAMPLES:Array<any> = [AccordionExampleStandard, AccordionExampleStyled];
+export const AccordionPageComponents:Array<any> = [AccordionPage, AccordionExampleStandard, AccordionExampleStyled];
 

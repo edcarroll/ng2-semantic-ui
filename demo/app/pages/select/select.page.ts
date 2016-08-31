@@ -72,16 +72,12 @@ export class SelectPage {
             properties: [
                 {
                     name: "value",
-                    description: "Sets the value of the options."
+                    description: "Sets the value of the option."
                 }
             ]
         }
-    ]
-}
-
-@Component({
-    selector: 'select-example-standard',
-    template: `
+    ];
+    public exampleStandardTemplate:string = `
 <sui-select [(ngModel)]="selectedGender" placeholder="Gender">
     <sui-select-option value="Male"></sui-select-option>
     <sui-select-option value="Female"></sui-select-option>
@@ -89,13 +85,8 @@ export class SelectPage {
 <div class="ui segment">
     <p>Currently selected: {{ selectedGender | json }}</p>
 </div>
-`
-})
-export class SelectExampleStandard {}
-
-@Component({
-    selector: 'select-example-options',
-    template: `
+`;
+    public exampleOptionsTemplate:string = `
 <sui-select [(ngModel)]="selectedOption" [options]="options" optionsField="name" #select>
     <sui-select-option *ngFor="let option of select.availableOptions" [value]="option"></sui-select-option>
 </sui-select>
@@ -103,18 +94,8 @@ export class SelectExampleStandard {}
     <p>Currently selected: {{ selectedOption | json }}</p>
     <button class="ui button" (click)="addOption()">Add Option</button>
 </div>
-`
-})
-export class SelectExampleOptions {
-    public options:Array<any> = [{ name: "Example"}, { name: "Test"}, { name: "What"}, { name: "No"}, { name: "Benefit"}, { name: "Oranges"}, { name: "Artemis"}, { name: "Another"}];
-    public addOption() {
-        this.options.push({ name: "Dynamic Option" });
-    }
-}
-
-@Component({
-    selector: 'select-example-search',
-    template: `
+`;
+    public exampleSearchTemplate:string = `
 <p>You can also use the keyboard to navigate.</p>
 <sui-select [(ngModel)]="selectedOption" [options]="options" optionsField="name" [isSearchable]="true" #searchSelect>
     <sui-select-option *ngFor="let option of searchSelect.availableOptions" [value]="option"></sui-select-option>
@@ -122,47 +103,24 @@ export class SelectExampleOptions {
 <div class="ui segment">
     <p>Currently selected: {{ selectedOption | json }}</p>
 </div>
-`
-})
-export class SelectExampleSearch {
-    public options:Array<any> = [{ name: "Example"}, { name: "Test"}, { name: "What"}, { name: "No"}, { name: "Benefit"}, { name: "Oranges"}, { name: "Artemis"}, { name: "Another"}];
-}
-
-@Component({
-    selector: 'select-example-multiple',
-    template: `
-<sui-select class="fluid" [(ngModel)]="selectedOptions" [options]="options" [allowMultiple]="true" #multiSelect>
+`;
+    public exampleMultipleTemplate:string = `
+<sui-select class="fluid" [(ngModel)]="selectedOptions" [options]="options" [allowMultiple]="true" placeholder="Select..." #multiSelect>
     <sui-select-option *ngFor="let option of multiSelect.availableOptions" [value]="option"></sui-select-option>
 </sui-select>
 <div class="ui segment">
     <p>Currently selected: {{ selectedOptions | json }}</p>
 </div>
-`
-})
-export class SelectExampleMultiple {
-    public options:Array<any> = ["Example", "Test", "What", "No", "Benefit", "Oranges", "Artemis", "Another"];
-    public selectedOptions = ["What", "Oranges"];
-}
-
-@Component({
-    selector: 'select-example-multiple-search',
-    template: `
+`;
+    public exampleMultipleSearchTemplate:string = `
 <sui-select class="fluid" [(ngModel)]="selectedOptions" [options]="options" [isSearchable]="true" [allowMultiple]="true" [maxSelected]="5" placeholder="Select..." #searchSelect>
     <sui-select-option *ngFor="let option of searchSelect.availableOptions" [value]="option"></sui-select-option>
 </sui-select>
 <div class="ui segment">
     <p>Currently selected: {{ selectedOptions | json }}</p>
 </div>
-`
-})
-export class SelectExampleMultipleSearch {
-    public options:Array<any> = ["Example", "Test", "What", "No", "Benefit", "Oranges", "Artemis", "Another"];
-    public selectedOptions = ["What", "Oranges"];
-}
-
-@Component({
-    selector: 'select-example-template-search',
-    template: `
+`;
+    public exampleTemplateSearchTemplate:string = `
 <template let-option="option" #optionTemplate>
     <i class="child icon"></i>{{ option.name }}
 </template>
@@ -171,7 +129,7 @@ export class SelectExampleMultipleSearch {
         <sui-select [(ngModel)]="selectedOption" [options]="options" optionsField="name" [optionTemplate]="optionTemplate" [isSearchable]="true" #select>
             <div class="header">
                 <i class="users icon"></i>
-                You can also have custom markup inside the menu!
+                Custom Menu Markup!
                 </div>
                 <div class="divider"></div>
             <sui-select-option *ngFor="let option of select.availableOptions" [value]="option"></sui-select-option>
@@ -187,10 +145,58 @@ export class SelectExampleMultipleSearch {
     <p>Singly selected: {{ selectedOption | json }}</p>
     <p>Multi selected: {{ selectedOptions | json }}</p>
 </div>
-`
+`;
+}
+
+@Component({
+    selector: 'select-example-standard',
+    template: new SelectPage().exampleStandardTemplate
+})
+export class SelectExampleStandard {}
+
+@Component({
+    selector: 'select-example-options',
+    template: new SelectPage().exampleOptionsTemplate
+})
+export class SelectExampleOptions {
+    public options:Array<any> = [{ name: "Example"}, { name: "Test"}, { name: "What"}, { name: "No"}, { name: "Benefit"}, { name: "Oranges"}, { name: "Artemis"}, { name: "Another"}];
+    public addOption() {
+        this.options.push({ name: "Dynamic Option" });
+    }
+}
+
+@Component({
+    selector: 'select-example-search',
+    template: new SelectPage().exampleSearchTemplate
+})
+export class SelectExampleSearch {
+    public options:Array<any> = [{ name: "Example"}, { name: "Test"}, { name: "What"}, { name: "No"}, { name: "Benefit"}, { name: "Oranges"}, { name: "Artemis"}, { name: "Another"}];
+}
+
+@Component({
+    selector: 'select-example-multiple',
+    template: new SelectPage().exampleMultipleTemplate
+})
+export class SelectExampleMultiple {
+    public options:Array<any> = ["Example", "Test", "What", "No", "Benefit", "Oranges", "Artemis", "Another"];
+    public selectedOptions = ["What", "Oranges"];
+}
+
+@Component({
+    selector: 'select-example-multiple-search',
+    template: new SelectPage().exampleMultipleSearchTemplate
+})
+export class SelectExampleMultipleSearch {
+    public options:Array<any> = ["Example", "Test", "What", "No", "Benefit", "Oranges", "Artemis", "Another"];
+    public selectedOptions = ["What", "Oranges"];
+}
+
+@Component({
+    selector: 'select-example-template-search',
+    template: new SelectPage().exampleTemplateSearchTemplate
 })
 export class SelectExampleTemplateSearch {
     public options:Array<any> = [{ name: "Example"}, { name: "Test"}, { name: "What"}, { name: "No"}, { name: "Benefit"}, { name: "Oranges"}, { name: "Artemis"}, { name: "Another"}];
 }
 
-export const SELECT_EXAMPLES:Array<any> = [SelectExampleStandard, SelectExampleOptions, SelectExampleSearch, SelectExampleMultiple, SelectExampleMultipleSearch, SelectExampleTemplateSearch];
+export const SelectPageComponents:Array<any> = [SelectPage, SelectExampleStandard, SelectExampleOptions, SelectExampleSearch, SelectExampleMultiple, SelectExampleMultipleSearch, SelectExampleTemplateSearch];

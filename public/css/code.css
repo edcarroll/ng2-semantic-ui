@@ -4,10 +4,6 @@
  * @author Lea Verou
  */
 
-.codeblock-content {
-    display: none;
-}
-
 code[class*="language-"],
 pre[class*="language-"] {
     color: #444;

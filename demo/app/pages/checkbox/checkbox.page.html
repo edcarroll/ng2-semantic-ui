@@ -7,7 +7,7 @@
 <div class="ui main container">
     <div class="ui dividing right rail"></div>
     <h2 id="examples" class="ui dividing header">Examples</h2>
-    <demo-example code="app/components/checkbox/standard.example.html">
+    <demo-example [code]="exampleStandardTemplate">
         <div info>
             <h4 class="ui header">Checkbox</h4>
             <p>A standard checkbox</p>
@@ -16,7 +16,7 @@
             <checkbox-example-standard></checkbox-example-standard>
         </div>
     </demo-example>
-    <demo-example code="app/components/checkbox/radio.example.html">
+    <demo-example [code]="exampleRadioButtonTemplate">
         <div info>
             <h4 class="ui header">Radio button</h4>
             <p>A standard radio button</p>
@@ -25,7 +25,7 @@
             <checkbox-example-radio-button></checkbox-example-radio-button>
         </div>
     </demo-example>
-    <demo-example code="app/components/checkbox/styled.example.html">
+    <demo-example [code]="exampleStyledTemplate">
         <div info>
             <h4 class="ui header">Styled variations</h4>
             <p>Checkboxes and Radio Buttons can be styled</p>

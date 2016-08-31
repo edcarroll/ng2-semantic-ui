@@ -16,12 +16,8 @@ export class CollapsePage {
                 }
             ]
         }
-    ]
-}
-
-@Component({
-    selector: 'collapse-example-standard',
-    template: `
+    ];
+    public exampleStandardTemplate:string = `
 <div class="ui segments">
     <div class="ui segment">
         <button class="ui primary button" (click)="collapse = !collapse">
@@ -37,11 +33,15 @@ export class CollapsePage {
         </div>
     </div>
 </div>
-
 `
+}
+
+@Component({
+    selector: 'collapse-example-standard',
+    template: new CollapsePage().exampleStandardTemplate
 })
 export class CollapseExampleStandard {
     private collapse:boolean = false;
 }
 
-export const COLLAPSE_EXAMPLES:Array<any> = [CollapseExampleStandard];
+export const CollapsePageComponents:Array<any> = [CollapsePage, CollapseExampleStandard];

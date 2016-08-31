@@ -28,12 +28,8 @@ export class DimmerPage {
                 }
             ]
         }
-    ]
-}
-
-@Component({
-    selector: 'dimmer-example-standard',
-    template: `
+    ];
+    public exampleStandardTemplate:string = `
 <div class="ui segment">
     <h4 class="ui header">Example segment</h4>
     <sui-dimmer [(isDimmed)]="isDimmed" [isClickable]="isClickable">
@@ -44,15 +40,8 @@ export class DimmerPage {
 </div>
 <button class="ui primary button" (click)="isDimmed = !isDimmed">Toggle Dimmer</button>
 <sui-checkbox [(ngModel)]="isClickable">Click to close?</sui-checkbox>
-`
-})
-export class DimmerExampleStandard {
-    public isClickable:boolean = true;
-}
-
-@Component({
-    selector: 'dimmer-example-variations',
-    template: `
+`;
+    public exampleVariationsTemplate:string = `
 <div class="ui segment">
     <sui-dimmer class="page" [(isDimmed)]="pageDimmed">
         <h2 class="ui inverted icon header">
@@ -67,10 +56,23 @@ export class DimmerExampleStandard {
     <button class="ui primary button" (click)="pageDimmed = !pageDimmed">Dim Page</button>
     <button class="ui primary button" (click)="segmentDimmed = !segmentDimmed">Dim Segment</button>
 </div>
-`
+`;
+}
+
+@Component({
+    selector: 'dimmer-example-standard',
+    template: new DimmerPage().exampleStandardTemplate
+})
+export class DimmerExampleStandard {
+    public isClickable:boolean = true;
+}
+
+@Component({
+    selector: 'dimmer-example-variations',
+    template: new DimmerPage().exampleVariationsTemplate
 })
 export class DimmerExampleVariations {
     public isClickable:boolean = true;
 }
 
-export const DIMMER_EXAMPLES:Array<any> = [DimmerExampleStandard, DimmerExampleVariations];
+export const DimmerPageComponents:Array<any> = [DimmerPage, DimmerExampleStandard, DimmerExampleVariations];

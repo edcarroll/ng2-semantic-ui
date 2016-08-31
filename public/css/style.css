@@ -92,6 +92,11 @@ p code, .description code {
     margin-top: 0;
 }
 
+#getting-started .dividing.header {
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
+
 .example {
     margin-bottom: 40px;
 }

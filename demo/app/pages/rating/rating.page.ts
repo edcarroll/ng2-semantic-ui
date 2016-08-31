@@ -36,12 +36,8 @@ export class RatingPage {
                 }
             ]
         },
-    ]
-}
-
-@Component({
-    selector: 'rating-example-standard',
-    template: `
+    ];
+    public exampleStandardTemplate:string = `
 <div class="ui form">
     <div class="field">
         <label>Rating</label>
@@ -55,15 +51,8 @@ export class RatingPage {
         <sui-checkbox [(ngModel)]="readonly">Read Only?</sui-checkbox>
     </div>
 </div>
-`
-})
-export class RatingExampleStandard {
-    public rating = 3;
-}
-
-@Component({
-    selector: 'rating-example-styled',
-    template: `
+`;
+    public exampleStyledTemplate:string = `
 <h5 class="ui top attached header">Stars</h5>
 <div class="ui attached segment">
     <sui-rating class="star" [ngModel]="3" max="5"></sui-rating>
@@ -72,9 +61,21 @@ export class RatingExampleStandard {
 <div class="ui bottom attached segment">
     <sui-rating class="heart" [ngModel]="3" max="5"></sui-rating>
 </div>
+`;
+}
 
-`
+@Component({
+    selector: 'rating-example-standard',
+    template: new RatingPage().exampleStandardTemplate
+})
+export class RatingExampleStandard {
+    public rating = 3;
+}
+
+@Component({
+    selector: 'rating-example-styled',
+    template: new RatingPage().exampleStyledTemplate
 })
 export class RatingExampleStyled { }
 
-export const RATING_EXAMPLES:Array<any> = [RatingExampleStandard, RatingExampleStyled];
+export const RatingPageComponents:Array<any> = [RatingPage, RatingExampleStandard, RatingExampleStyled];

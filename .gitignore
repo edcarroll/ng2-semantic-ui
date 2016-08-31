@@ -34,8 +34,5 @@ Thumbs.db
 
 # TypeScript
 *.js
-!old-demo/make-demo.js
 *.map
 *.d.ts
-!old-demo/js/**/*.js
-old-demo/js/**/*.json

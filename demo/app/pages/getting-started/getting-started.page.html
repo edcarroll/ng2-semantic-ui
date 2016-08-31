@@ -4,56 +4,32 @@
         <p>Semantic UI Angular 2 Integrations, written in pure AngularJS - <strong>no JQuery required</strong>.</p>
     </div>
 </demo-page-title>
-<div class="ui main container">
+<div class="ui main container" id="getting-started">
     <div class="ui dividing right rail"></div>
     <h2 class="ui dividing header">Installation</h2>
     <p>To install this library, run:</p>
     <div class="ui segment">
-        <!--<codeblock shell="bash" prompt="$">-->
-            <!--$ npm install ng2-semantic-ui &#45;&#45;save-->
-        <!--</codeblock>-->
+        <demo-codeblock language="bash" [src]="installCode"></demo-codeblock>
     </div>
-    <p>Add a reference to your <code>index.html</code> file: (also ensure you have a reference to the Semantic UI CSS file)</p>
+    <p>Next include the Semantic UI CSS file in your <code>index.html</code> (you can include a manually compiled one if you use themes):</p>
     <div class="ui segment">
-        <!--<codeblock language="markup">-->
-            <!--&lt;script src=&quot;node_modules/ng2-semantic-ui/bundles/ng2-semantic-ui.min.js&quot;&gt;&lt;/script&gt;-->
-        <!--</codeblock>-->
+        <demo-codeblock language="markup" [src]="includeCssCode"></demo-codeblock>
     </div>
-    <p>Start using the directives:</p>
+    <p>Once installed you need to import the main module:</p>
     <div class="ui segment">
-        <!--<codeblock language="typescript">-->
-            <!--import {DIRECTIVES} from 'ng2-semantic-ui/ng2-semantic-ui';-->
-        <!--</codeblock>-->
+        <demo-codeblock language="typescript" [src]="importCode"></demo-codeblock>
     </div>
-
-    <h2 class="ui dividing header">Quick Start (from scratch)</h2>
-    <p>Clone the <a href="https://github.com/valor-software/angular2-quickstart">angular2-quickstart</a> repository, and set everything up.</p>
-    <p>Add the following lines to your <code>index.html</code>:</p>
+    <p>Finally import the main module into your application module:</p>
     <div class="ui segment">
-        <!--<codeblock language="markup">-->
-            <!--&lt;script src=&quot;node_modules/ng2-semantic-ui/bundles/ng2-semantic-ui.min.js&quot;&gt;&lt;/script&gt;-->
-            <!--&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.css&quot;&gt;-->
-        <!--</codeblock>-->
+        <demo-codeblock language="typescript" [src]="moduleImportCode"></demo-codeblock>
     </div>
-    <p>Update your <code>app.component.ts</code> to be the following:</p>
-    <div class="ui segment">
-        <!--<codeblock language="typescript">-->
-            <!--import {Component} from 'angular2/core';-->
-            <!--import {CHECKBOX_DIRECTIVES} from 'ng2-semantic-ui/ng2-semantic-ui';-->
-<!---->
-            <!--@Component({-->
-            <!--selector: 'my-app',-->
-            <!--directives: [CHECKBOX_DIRECTIVES],-->
-            <!--template: `-->
-        <!--</codeblock>-->
-        <!--<codeblock language="markup">-->
-            <!--&lt;sui-checkbox&gt;Checkbox example&lt;/sui-checkbox&gt;-->
-        <!--</codeblock>-->
-        <!--<codeblock language="typescript">-->
-            <!--`-->
-            <!--})-->
-            <!--export class AppComponent {}-->
-        <!--</codeblock>-->
+    <p>Now you're good to go!</p>
+    <h2 class="ui dividing header">Dependencies</h2>
+    <div class="ui bulleted list">
+        <!--## Dependencies-->
+        <!--* [Angular 2](https://angular.io) (tested with 2.0-rc.5)-->
+        <!--* [Bootstrap 4](https://v4-alpha.getbootstrap.com) (tested with 4.0 alpha V3)-->
+        <div class="item"><a href="https://angular.io">Angular 2</a> (2.0.0-rc.5)</div>
+        <div class="item"><a href="http://semantic-ui.com/">Semantic UI CSS</a> (jQuery is <strong>not</strong> required)</div>
     </div>
-    <p>And you're good to go!</p>
 </div>
