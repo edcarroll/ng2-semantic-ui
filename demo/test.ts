@@ -18,6 +18,7 @@ declare var __karma__: any;
 __karma__.loaded = function () {};
 
 
+//noinspection TypeScriptUnresolvedVariable,TypeScriptUnresolvedFunction
 Promise.all([
   System.import('@angular/core/testing'),
   System.import('@angular/platform-browser-dynamic/testing')

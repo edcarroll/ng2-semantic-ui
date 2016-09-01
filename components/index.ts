@@ -1,8 +1,8 @@
 import {NgModule} from "@angular/core";
 
-import {SuiCollapseModule} from "./collapse/collapse.module";
 import {SuiAccordionModule} from "./accordion/accordion.module";
 import {SuiCheckboxModule} from "./checkbox/checkbox.module";
+import {SuiCollapseModule} from "./collapse/collapse.module";
 import {SuiDimmerModule} from "./dimmer/dimmer.module";
 import {SuiDropdownModule} from "./dropdown/dropdown.module";
 import {SuiMessageModule} from "./message/message.module";
@@ -28,3 +28,15 @@ import {SuiSelectModule} from "./select/select.module";
     ]
 })
 export class SuiModule {}
+
+export {SuiAccordionModule};
+export {SuiCheckboxModule};
+export {SuiCollapseModule};
+export {SuiDimmerModule};
+export {SuiDropdownModule};
+export {SuiMessageModule};
+export {SuiProgressModule};
+export {SuiRatingModule};
+export {SuiSearchModule};
+export {SuiTabsModule};
+export {SuiSelectModule};

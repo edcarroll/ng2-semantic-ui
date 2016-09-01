@@ -18,5 +18,6 @@ import {SuiModule} from 'ng2-semantic-ui/ng2-semantic-ui';
     bootstrap: [AppComponent]
 })
 export class AppModule {}
-`
+`;
+    public individualImportCode:string = `import {SuiCheckboxModule, SuiRatingModule} from 'ng2-semantic-ui/ng2-semantic-ui';`;
 }

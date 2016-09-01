@@ -53,8 +53,8 @@ import {CodeblockComponent} from './components/codeblock/codeblock.component';
         BrowserModule,
         CommonModule,
         FormsModule,
-        routing,
-        SuiModule
+        SuiModule,
+        routing
     ],
     providers: [],
     entryComponents: [AppComponent],
