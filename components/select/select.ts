@@ -14,7 +14,6 @@ import {Subscription} from "rxjs";
 @Component({
     selector: 'sui-select',
     exportAs: 'suiSelect',
-    directives: [SuiSelectMultiLabel],
     inputs: ['placeholder', 'options', 'optionsField', 'isSearchable', 'searchDelay', 'isDisabled', 'allowMultiple', 'maxSelected', 'optionTemplate'],
     outputs: ['selectedOptionChange'],
     host: {
@@ -315,4 +314,4 @@ export class SuiSelectValueAccessor extends SuiSearchValueAccessor implements Co
     }
 }
 
-export const SUI_SELECT_DIRECTIVES = [SuiSelect, SuiSelectOption, SuiSelectValueAccessor];
+export const SUI_SELECT_DIRECTIVES = [SuiSelect, SuiSelectOption, SuiSelectValueAccessor, SuiSelectMultiLabel];
