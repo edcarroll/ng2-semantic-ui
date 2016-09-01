@@ -44,7 +44,7 @@ Now you're good to go!
 
 ## Dependencies
 
-* [Angular 2](https://angular.io) (2.0.0-rc.5)
+* [Angular 2](https://angular.io) (2.0.0-rc.5 **or higher**)
 * [Semantic UI CSS](http://semantic-ui.com/) (jQuery is **not** required)
 
 ## Components
