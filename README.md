@@ -35,6 +35,11 @@ import {SuiModule} from 'ng2-semantic-ui/ng2-semantic-ui';
 export class AppModule {}
 ```
 
+N.B. you can import individual component modules:
+```ts
+import {SuiCheckboxModule, SuiRatingModule} from 'ng2-semantic-ui/ng2-semantic-ui';
+```
+
 Now you're good to go!
 
 ## Dependencies
@@ -56,7 +61,7 @@ The current list of available components with links to their docs is below:
 * [Rating](http://edcarroll.github.io/ng2-semantic-ui/#/components/rating)
 * [Search](http://edcarroll.github.io/ng2-semantic-ui/#/components/search)
 * [Select](http://edcarroll.github.io/ng2-semantic-ui/#/components/select)
-* [Tab](http://edcarroll.github.io/ng2-semantic-ui/#/components/tab)
+* [Tabs](http://edcarroll.github.io/ng2-semantic-ui/#/components/tabs)
 
 ## Development
 

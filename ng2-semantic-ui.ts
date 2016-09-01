@@ -1,3 +1,1 @@
-import {SuiModule} from './components';
-
-export {SuiModule} from './components';
+export * from './components';
