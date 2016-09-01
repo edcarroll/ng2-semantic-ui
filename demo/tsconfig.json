@@ -14,7 +14,7 @@
             "../node_modules/@types"
         ],
         "types": [
-            "jasmine",
+            "requirejs",
             "prismjs"
         ]
     }
