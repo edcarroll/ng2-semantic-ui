@@ -38,13 +38,14 @@ export class SuiSearchService {
         this._query = value;
 
         if (search) {
-            clearTimeout(this._queryTimer);
-            if (value || this.allowEmptyQuery) {
-                this._queryTimer = setTimeout(() => {
-                    this.search();
-                }, this.searchDelay);
-                return;
+            if (this.searchDelay > 0) {
+                clearTimeout(this._queryTimer);
+                if (value || this.allowEmptyQuery) {
+                    this._queryTimer = setTimeout(() => this.search(), this.searchDelay);
+                    return;
+                }
             }
+            this.search();
         }
     }
 
@@ -77,7 +78,7 @@ export class SuiSearchService {
     }
 
     //noinspection JSMethodCanBeStatic
-    private deepValue(object:any, path:string) {
+    public deepValue(object:any, path:string) {
         if (!object) { return; }
         if (!path) { return object; }
         for (var i = 0, p = path.split('.'), len = p.length; i < len; i++){

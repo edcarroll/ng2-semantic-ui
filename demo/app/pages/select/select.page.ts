@@ -78,18 +78,18 @@ export class SelectPage {
         }
     ];
     public exampleStandardTemplate:string = `
-<!--<sui-select [(ngModel)]="selectedGender" placeholder="Gender">-->
-    <!--<sui-select-option value="Male"></sui-select-option>-->
-    <!--<sui-select-option value="Female"></sui-select-option>-->
-<!--</sui-select>-->
+<sui-select [(ngModel)]="selectedGender" placeholder="Gender">
+    <sui-select-option value="Male"></sui-select-option>
+    <sui-select-option value="Female"></sui-select-option>
+</sui-select>
 <div class="ui segment">
     <p>Currently selected: {{ selectedGender | json }}</p>
 </div>
 `;
     public exampleOptionsTemplate:string = `
-<!--<sui-select [(ngModel)]="selectedOption" [options]="options" optionsField="name" #select>-->
-    <!--<sui-select-option *ngFor="let option of select.availableOptions" [value]="option"></sui-select-option>-->
-<!--</sui-select>-->
+<sui-select [(ngModel)]="selectedOption" [options]="options" displayField="name" #select>
+    <sui-select-option *ngFor="let option of select.availableOptions" [value]="option"></sui-select-option>
+</sui-select>
 <div class="ui segment">
     <p>Currently selected: {{ selectedOption | json }}</p>
     <button class="ui button" (click)="addOption()">Add Option</button>
@@ -97,7 +97,7 @@ export class SelectPage {
 `;
     public exampleSearchTemplate:string = `
 <p>You can also use the keyboard to navigate.</p>
-<!--<sui-select [(ngModel)]="selectedOption" [options]="options" optionsField="name" [isSearchable]="true" #searchSelect>-->
+<!--<sui-select [(ngModel)]="selectedOption" [options]="options" displayField="name" [isSearchable]="true" #searchSelect>-->
     <!--<sui-select-option *ngFor="let option of searchSelect.availableOptions" [value]="option"></sui-select-option>-->
 <!--</sui-select>-->
 <div class="ui segment">
@@ -152,17 +152,20 @@ export class SelectPage {
     selector: 'select-example-standard',
     template: new SelectPage().exampleStandardTemplate
 })
-export class SelectExampleStandard {}
+export class SelectExampleStandard {
+    public selectedGender = "Female";
+}
 
 @Component({
     selector: 'select-example-options',
     template: new SelectPage().exampleOptionsTemplate
 })
 export class SelectExampleOptions {
-    public options:Array<any> = [{ name: "Example"}, { name: "Test"}, { name: "What"}, { name: "No"}, { name: "Benefit"}, { name: "Oranges"}, { name: "Artemis"}, { name: "Another"}];
+    public options:Array<any> = [{ name: "Example" }, { name: "Test" }, { name: "What" }, { name: "No" }, { name: "Benefit" }, { name: "Oranges" }, { name: "Artemis" }, { name: "Another" }];
     public addOption() {
         this.options.push({ name: "Dynamic Option" });
     }
+    public selectedOption = this.options[0];
 }
 
 @Component({
@@ -170,7 +173,7 @@ export class SelectExampleOptions {
     template: new SelectPage().exampleSearchTemplate
 })
 export class SelectExampleSearch {
-    public options:Array<any> = [{ name: "Example"}, { name: "Test"}, { name: "What"}, { name: "No"}, { name: "Benefit"}, { name: "Oranges"}, { name: "Artemis"}, { name: "Another"}];
+    public options:Array<any> = [{ name: "Example" }, { name: "Test"}, { name: "What"}, { name: "No"}, { name: "Benefit"}, { name: "Oranges"}, { name: "Artemis"}, { name: "Another"}];
 }
 
 @Component({

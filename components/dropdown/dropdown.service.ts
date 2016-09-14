@@ -193,12 +193,16 @@ export class SuiDropdownService {
     }
 
     public selectPreviousItem():void {
-        var previousItem = this.selectedItem.previousElementSibling;
-        if (previousItem) {
-            this.selectedItem = previousItem;
-            if (this.selectedItem.classList.contains(this.itemDisabledClass)) {
-                this.selectPreviousItem();
+        if (this.selectedItem) {
+            var previousItem = this.selectedItem.previousElementSibling;
+            if (previousItem) {
+                this.selectedItem = previousItem;
+                if (this.selectedItem.classList.contains(this.itemDisabledClass)) {
+                    this.selectPreviousItem();
+                }
             }
+            return;
         }
+        this.selectNextItem();
     }
 }
