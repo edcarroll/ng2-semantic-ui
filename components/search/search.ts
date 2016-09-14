@@ -2,17 +2,12 @@ import {Component, Directive, HostListener, HostBinding, ElementRef, AfterViewIn
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 
 import {SuiDropdownMenu} from "../dropdown/dropdown-menu";
-import {SuiDropdown} from "../dropdown/dropdown";
+import {Input, Output} from "@angular/core";
+import {SuiSearchService} from "./search.service";
 
 @Component({
     selector: 'sui-search',
     exportAs: 'suiSearch',
-    inputs: ['placeholder', 'options', 'optionsField', 'searchDelay', 'icon'],
-    outputs: ['selectedOptionChange', 'onItemSelected'],
-    host: {
-        '[class.visible]': 'isOpen',
-        '[class.disabled]': 'isDisabled'
-    },
     template: `
 <div class="ui icon input">
     <input class="prompt" type="text" [attr.placeholder]="placeholder" autocomplete="off" [(ngModel)]="query">
@@ -29,151 +24,136 @@ import {SuiDropdown} from "../dropdown/dropdown";
 </div>
 `
 })
-export class SuiSearch extends SuiDropdown implements AfterViewInit {
-    @ViewChild(SuiDropdownMenu) protected _menu:SuiDropdownMenu;
+export class SuiSearch implements AfterViewInit {
+    @ViewChild(SuiDropdownMenu)
+    private _dropdownMenu:SuiDropdownMenu;
+    private _searchService:SuiSearchService = new SuiSearchService();
 
     @HostBinding('class.ui')
-    @HostBinding('class.search') searchClasses = true;
+    @HostBinding('class.search')
+    public searchClasses = true;
 
+    @Input()
     public placeholder:string = "Search...";
-    public searchDelay:number = 200;
+
+    @Input()
+    public get searchDelay() {
+        return this._searchService.searchDelay;
+    }
+
+    public set searchDelay(value:number) {
+        this._searchService.searchDelay = value;
+    }
+
+    @Input()
     public icon:boolean = true;
-    public optionsField:string;
 
-    public selectedOption:any;
-    public selectedOptionChange:EventEmitter<any> = new EventEmitter(false);
-    public onItemSelected:EventEmitter<any> = new EventEmitter(false);
+    @Input()
+    public get optionsField() {
+        return this._searchService.optionsField;
+    }
 
-    protected _options:Array<any> = [];
-    protected _optionsLookup:((query:string) => Promise<any>);
-    protected _allowEmptyQuery:boolean = false;
-    protected _query:string = "";
-    protected _queryTimer:any;
-    protected _results:Array<any> = [];
-    protected _resultsCache:any = {};
+    public set optionsField(value:string) {
+        this._searchService.optionsField = value;
+    }
+
+    @Output()
+    public get selectedOptionChange() {
+        return this._searchService.selectedOptionChange;
+    }
+
+    @Output()
+    public get onItemSelected() {
+        return this._searchService.onItemSelected;
+    }
+
     @HostBinding('class.loading')
-    protected _loading:boolean = false;
+    public get loading() {
+        return this._searchService.loading;
+    }
 
+    @HostBinding('class.visible')
+    @Input()
+    public get isOpen():boolean {
+        return this._searchService.dropdown.isOpen;
+    }
+
+    public set isOpen(value:boolean) {
+        this._searchService.dropdown.isOpen = value;
+    }
+
+    @HostBinding('class.disabled')
+    @Input()
+    public get isDisabled():boolean {
+        return this._searchService.dropdown.isDisabled;
+    }
+
+    public set isDisabled(value:boolean) {
+        this._searchService.dropdown.isDisabled = value;
+    }
+
+    @Input()
     public get options():any {
-        return this._options;
+        return this._searchService.options;
     }
 
     public set options(value:any) {
-        if (typeof(value) == "function") {
-            this._optionsLookup = <((query:string) => Promise<any>)>value;
-            return;
-        }
-        this._options = <Array<any>> value;
+        this._searchService.options = value;
     }
 
-    protected get query():string {
-        return this._query;
+
+    private get query():string {
+        return this._searchService.query;
     }
 
-    protected set query(value:string) {
-        this._query = value;
-        clearTimeout(this._queryTimer);
-        if (value || this._allowEmptyQuery) {
-            this._queryTimer = setTimeout(() => {
-                this.search(() => {
-                    this.isOpen = true;
-                });
-            }, this.searchDelay);
-            return;
-        }
-        if (!this._allowEmptyQuery) {
-            this.isOpen = false;
-        }
+    private set query(value:string) {
+        this._searchService.query = value;
     }
 
-    protected get results():Array<any> {
-        return this._results;
+    private get results():Array<any> {
+        return this._searchService.results;
     }
 
     constructor(el:ElementRef) {
-        super(el);
-        this._service.itemClass = "result";
-        this._service.itemSelectedClass = "active";
+        this._searchService.dropdown.dropdownElement = el;
+        this._searchService.dropdown.itemClass = "result";
+        this._searchService.dropdown.itemSelectedClass = "active";
     }
 
-    protected search(callback?:Function):void {
-        this._loading = true;
-        if (this._optionsLookup) {
-            if (this._resultsCache[this._query]) {
-                this._results = this._resultsCache[this._query];
-                this._loading = false;
-                if (callback) {
-                    callback();
-                }
-                return;
-            }
-
-            this._optionsLookup(this._query).then((results:Array<any>) => {
-                this._resultsCache[this._query] = results;
-                this.search(callback);
-            });
-            return;
-        }
-        this._results = this.options.filter((o:string) => this.readValue(o).toString().slice(0, this.query.length).toLowerCase() == this.query.toLowerCase());
-        this._loading = false;
-        if (callback) {
-            callback();
-        }
+    private search(callback?:Function):void {
+        this._searchService.search(callback);
     }
 
     private result(i:number):any {
-        return this.readValue(this._results[i]);
-    }
-
-    //noinspection JSMethodCanBeStatic
-    protected deepValue(object:any, path:string) {
-        if (!object) { return; }
-        if (!path) { return object; }
-        for (var i = 0, p = path.split('.'), len = p.length; i < len; i++){
-            object = object[p[i]];
-        }
-        return object;
-    }
-
-    public readValue(object:any) {
-        return this.deepValue(object, this.optionsField);
+        return this._searchService.readValue(this.results[i]);
     }
 
     public select(result:any):void {
-        this.selectedOption = result;
-        this.selectedOptionChange.emit(result);
-        this.onItemSelected.emit(result);
-        this._query = this.readValue(result);
-        this.isOpen = false;
+        this._searchService.select(result);
     }
 
     public writeValue(value:any) {
-        this.selectedOption = value;
-        this._query = this.readValue(value);
-    }
-
-    public ngAfterContentInit():void {
-        //Override this
-        return;
+        this._searchService.selectedOption = value;
+        this.query = this._searchService.readValue(value);
     }
 
     public ngAfterViewInit():void {
-        this._menu.service = this._service;
+        this._dropdownMenu.service = this._searchService.dropdown;
     }
 
     @HostListener('click', ['$event'])
     public click(event:MouseEvent):boolean {
         event.stopPropagation();
 
-        if (!this._service.menuElement.nativeElement.contains(event.target)){
+        if (!this._searchService.dropdown.menuElement.nativeElement.contains(event.target)){
             if (!this.isOpen && this.query) {
                 if (this.results.length) {
                     this.isOpen = true;
                 }
-                this._loading = true;
+                this._searchService.loading = true;
                 this.search(() => {
                     this.isOpen = true;
-                    this._loading = false;
+                    this._searchService.loading = false;
                 });
             }
         }

@@ -22,6 +22,6 @@ export class SuiDropdownMenu {
         if (this._service) {
             return this._service.isOpen;
         }
-        return;
+        return false;
     }
 }
