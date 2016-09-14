@@ -13,24 +13,23 @@ import {Subscription} from "rxjs";
 import {SuiDropdownService} from "../dropdown/dropdown.service";
 import {Input, Output} from "@angular/core/src/metadata/directives";
 import {SuiSearchService} from "../search/search.service";
-import {SuiMultiSelect, SuiMultiSelectValueAccessor} from "./multi-select";
 
 @Component({
-    selector: 'sui-select',
-    exportAs: 'suiSelect',
+    selector: 'sui-multi-select',
+    exportAs: 'suiMultiSelect',
     template: `
 <i class="dropdown icon"></i>
-<input *ngIf="isSearchable" class="search" type="text" autocomplete="off" [(ngModel)]="query">
+<!-- Multi-select labels -->
+<sui-select-multi-label *ngFor="let selected of selectedOptions;" [value]="selected"></sui-select-multi-label>
+<!-- Search input box -->
+<input *ngIf="isSearchable" class="search" type="text" autocomplete="off" [(ngModel)]="query" (keydown)="searchKeyDown($event)">
 <!-- Single-select label -->
 <div *ngIf="!selectedOption" class="default text" [class.filtered]="query">{{ placeholder }}</div>
-<div [hidden]="!selectedOption" class="text" [class.filtered]="query">
-    <span #selectedOptionRenderTarget></span>
-    <span *ngIf="!optionTemplate">{{ _searchService.readValue(selectedOption) }}</span>
-</div>
 <!-- Select dropdown menu -->
 <div class="menu" suiDropdownMenu>
     <ng-content></ng-content>
-    <div *ngIf="isSearchable && !results.length" class="message">No Results</div>
+    <div *ngIf="!results.length && !maxSelectedReached" class="message">No Results</div>
+    <div *ngIf="!results.length && maxSelectedReached" class="message">Max {{ maxSelected }} selections</div>
 </div>
 `,
     styles: [`
@@ -42,22 +41,28 @@ import {SuiMultiSelect, SuiMultiSelectValueAccessor} from "./multi-select";
 }
 `]
 })
-export class SuiSelect implements AfterContentInit, AfterViewInit {
+export class SuiMultiSelect implements AfterContentInit, AfterViewInit {
     @ViewChild(SuiDropdownMenu)
     private _dropdownMenu:SuiDropdownMenu;
     private _dropdownService:SuiDropdownService = new SuiDropdownService();
     private _searchService:SuiSearchService = new SuiSearchService();
 
-    @ViewChild('selectedOptionRenderTarget', { read: ViewContainerRef })
-    private selectedOptionContainer:ViewContainerRef;
-
     @ContentChildren(SuiSelectOption)
     private renderedOptions:QueryList<SuiSelectOption>;
     private renderedOptionsSubscriptions:Subscription[] = [];
 
-    public selectedOption:any;
+    @ViewChildren(SuiSelectMultiLabel)
+    private renderedSelectedOptions:QueryList<SuiSelectMultiLabel>;
+    private renderedSelectedOptionsSubscriptions:Subscription[] = [];
+
+    public selectedOptions:any[] = [];
+
+    @Input()
+    public maxSelected:number;
+    private maxSelectedReached:boolean = false;
 
     @HostBinding('class.ui')
+    @HostBinding('class.multiple')
     @HostBinding('class.selection')
     @HostBinding('class.dropdown')
     searchClasses = true;
@@ -70,7 +75,7 @@ export class SuiSelect implements AfterContentInit, AfterViewInit {
     public isSearchable:boolean = false;
 
     @Input()
-    public placeholder:string = "Select one";
+    public placeholder:string = "Select...";
 
     @Input()
     public get options():any {
@@ -103,7 +108,7 @@ export class SuiSelect implements AfterContentInit, AfterViewInit {
     }
 
     @Output()
-    public selectedOptionChange:EventEmitter<any> = new EventEmitter<any>();
+    public selectedOptionsChange:EventEmitter<any> = new EventEmitter<any>();
 
     @Output()
     public onItemSelected:EventEmitter<any> = new EventEmitter<any>();
@@ -132,7 +137,7 @@ export class SuiSelect implements AfterContentInit, AfterViewInit {
     }
 
     private get results():Array<any> {
-        return this._searchService.results;
+        return this._searchService.results.filter(r => this.selectedOptions.indexOf(r) == -1);
     }
 
     private get availableOptions():Array<any> {
@@ -166,6 +171,9 @@ export class SuiSelect implements AfterContentInit, AfterViewInit {
 
     public ngAfterViewInit():void {
         this._dropdownMenu.service = this._dropdownService;
+
+        this.renderedSelectedOptionsSubscribe();
+        this.renderedSelectedOptions.changes.subscribe(() => this.renderedSelectedOptionsSubscribe());
     }
 
     private renderedOptionsSubscribe() {
@@ -189,24 +197,48 @@ export class SuiSelect implements AfterContentInit, AfterViewInit {
         });
     }
 
-    private renderSelectedItem() {
-        if (this.selectedOption && this.optionTemplate) {
-            this.selectedOptionContainer.clear();
-            this.selectedOptionContainer.createEmbeddedView(this.optionTemplate, { option: this.selectedOption });
-        }
+    private renderedSelectedOptionsSubscribe() {
+        this.renderedSelectedOptionsSubscriptions.forEach((s) => s.unsubscribe());
+        this.renderedSelectedOptionsSubscriptions = [];
+
+        this.renderedSelectedOptions.forEach((label:SuiSelectMultiLabel) => {
+            this.renderedSelectedOptionsSubscriptions.push(label.selected.subscribe((value:any) => {
+                this.deselectOption(value);
+            }));
+
+            setTimeout(() => {
+                label.useTemplate = !!this.optionTemplate;
+                label.readValue = v => this._searchService.readValue(v);
+
+                if (label.useTemplate) {
+                    label.viewContainerRef.clear();
+                    label.viewContainerRef.createEmbeddedView(this.optionTemplate, { option: label.value });
+                }
+            });
+        });
     }
 
     public selectOption(option:any):void {
-        this.selectedOption = option;
+        this.selectedOptions = this.selectedOptions || [];
+        this.selectedOptions.push(option);
+        this.selectedOptionsChange.emit(this.selectedOptions.map(so => this._searchService.deepValue(so, this.keyField)));
+        this.onItemSelected.emit(this._searchService.deepValue(option, this.keyField));
 
-        let keyed = this._searchService.deepValue(option, this.keyField);
-        this.selectedOptionChange.emit(keyed);
-        this.onItemSelected.emit(keyed);
-
-        this._searchService.updateQuery(this._searchService.readValue(option), false);
-        this._dropdownService.isOpen = false;
-        this.renderSelectedItem();
         this._searchService.updateQuery("");
+        // }
+        // if (this.isSearchable) {
+        //     this.focusFirstItem();
+        //     this.focusSearch();
+        // }
+
+    }
+
+    public deselectOption(option:any) {
+        var index = this.selectedOptions.indexOf(option);
+        this.selectedOptions.splice(index, 1);
+        this.selectedOptionsChange.emit(this.selectedOptions.map(so => this._searchService.deepValue(so, this.keyField)));
+
+        this.focusFirstItem();
     }
 
     private focusSearch() {
@@ -215,15 +247,23 @@ export class SuiSelect implements AfterContentInit, AfterViewInit {
         }
     }
 
+    private focusFirstItem() {
+        setTimeout(() => {
+            this._dropdownService.selectedItem = null;
+            this._dropdownService.selectNextItem();
+        });
+    }
+
     public writeValue(value:any) {
         if (value) {
-            this.selectedOption = value;
+            this.selectedOptions = value;
             if (this.options.length > 0) {
-                let compareValue = this._searchService.deepValue(value, this.keyField);
-                this.selectedOption = this.options.find(o => compareValue == o);
+                this.selectedOptions = this.selectedOptions.map(so => {
+                    let compareValue = this._searchService.deepValue(so, this.keyField);
+                    return this.options.find(o => compareValue == o);
+                });
             }
         }
-        this.renderSelectedItem();
     }
 
     @HostListener('click', ['$event'])
@@ -250,31 +290,39 @@ export class SuiSelect implements AfterContentInit, AfterViewInit {
             event.preventDefault();
         }
     }
+
+    public searchKeyDown(event:KeyboardEvent) {
+        if (event.which == KeyCode.Backspace && !this.query) {
+            var selectedOptions = this.selectedOptions || [];
+            var lastSelectedOption = selectedOptions[selectedOptions.length - 1];
+            if (lastSelectedOption) {
+                this.deselectOption(lastSelectedOption);
+            }
+        }
+    }
 }
 
 export const CUSTOM_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => SuiSelectValueAccessor),
+    useExisting: forwardRef(() => SuiMultiSelectValueAccessor),
     multi: true
 };
 
 @Directive({
-    selector: 'sui-select',
-    host: {'(selectedOptionChange)': 'onChange($event)'},
+    selector: 'sui-multi-select',
+    host: {'(selectedOptionsChange)': 'onChange($event)'},
     providers: [CUSTOM_VALUE_ACCESSOR]
 })
-export class SuiSelectValueAccessor implements ControlValueAccessor {
+export class SuiMultiSelectValueAccessor implements ControlValueAccessor {
     onChange = () => {};
     onTouched = () => {};
 
-    constructor(private host:SuiSelect) {}
+    constructor(private host:SuiMultiSelect) {}
 
-    writeValue(value: any): void {
+    writeValue(value: any[]): void {
         this.host.writeValue(value);
     }
 
     registerOnChange(fn: () => void): void { this.onChange = fn; }
     registerOnTouched(fn: () => void): void { this.onTouched = fn; }
 }
-
-export const SUI_SELECT_DIRECTIVES = [SuiSelect, SuiSelectOption, SuiSelectValueAccessor, SuiMultiSelect, SuiSelectMultiLabel, SuiMultiSelectValueAccessor];
