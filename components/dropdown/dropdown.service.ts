@@ -1,18 +1,19 @@
 import {EventEmitter, ElementRef} from '@angular/core';
 
-const DISABLED = 'disabled';
-const OUTSIDECLICK = 'outsideClick';
+const Disabled = 'disabled';
+const OutsideClick = 'outsideClick';
 
-export const KEYCODE = {
-    LEFT: 37,
-    UP: 38,
-    RIGHT: 39,
-    DOWN: 40,
+export const KeyCode = {
+    Left: 37,
+    Up: 38,
+    Right: 39,
+    Down: 40,
 
-    ESCAPE: 27,
-    ENTER: 13,
+    Escape: 27,
+    Enter: 13,
 
-    BACKSPACE: 	8
+    Space: 32,
+    Backspace: 8
 };
 
 export class SuiDropdownService {
@@ -84,7 +85,7 @@ export class SuiDropdownService {
 
     private closeDropdown(event:MouseEvent):void {
         //Never close the dropdown if autoClose is disabled
-        if (event && this.autoClose === DISABLED) {
+        if (event && this.autoClose === Disabled) {
             return;
         }
 
@@ -108,7 +109,7 @@ export class SuiDropdownService {
         }
 
         //Don't close the dropdown when clicking inside if autoClose is outsideClick
-        if (event && this.autoClose === OUTSIDECLICK &&
+        if (event && this.autoClose === OutsideClick &&
             this.menuElement &&
             this.menuElement.nativeElement.contains(event.target)) {
             return;
@@ -119,14 +120,14 @@ export class SuiDropdownService {
     }
 
     private keybindFilter(event:KeyboardEvent):void {
-        if (event.which === KEYCODE.ESCAPE) {
+        if (event.which === KeyCode.Escape) {
             this.isOpen = false;
             return;
         }
 
         //noinspection TypeScriptUnresolvedFunction
         if (this.isOpen &&
-            ([KEYCODE.ENTER, KEYCODE.UP, KEYCODE.RIGHT, KEYCODE.DOWN, KEYCODE.LEFT]
+            ([KeyCode.Enter, KeyCode.Up, KeyCode.Right, KeyCode.Down, KeyCode.Left]
                 .find(keyCode => event.which == keyCode))) {
             event.preventDefault();
             event.stopPropagation();
@@ -150,26 +151,26 @@ export class SuiDropdownService {
     public keyPress(keyCode:number):void {
         //noinspection FallThroughInSwitchStatementJS
         switch (keyCode) {
-            case KEYCODE.DOWN:
+            case KeyCode.Down:
                 this.selectNextItem();
                 break;
-            case KEYCODE.UP:
+            case KeyCode.Up:
                 this.selectPreviousItem();
                 break;
-            case KEYCODE.ENTER:
+            case KeyCode.Enter:
                 if (this.selectedItem && !this.selectedItem.hasAttribute("suiDropdown")) {
                     (<HTMLElement> this.selectedItem).click();
                     this.selectedItem = null;
                     break;
                 }
                 //Fall through on purpose! (So enter on a nested dropdown acts as right arrow)
-            case KEYCODE.RIGHT:
+            case KeyCode.Right:
                 if (this.selectedItem && this.selectedItem.hasAttribute("suiDropdown")) {
                     (<HTMLElement> this.selectedItem).click();
                     this.selectedItem = this.selectedItem.querySelector(`.${this.itemClass}:not(.${this.itemDisabledClass})`);
                 }
                 break;
-            case KEYCODE.LEFT:
+            case KeyCode.Left:
                 if (this.selectedItem.parentElement != this.menuElement.nativeElement) {
                     (<HTMLElement> this.selectedItem.parentElement.parentElement).click();
                     this.selectedItem = this.selectedItem.parentElement.parentElement;

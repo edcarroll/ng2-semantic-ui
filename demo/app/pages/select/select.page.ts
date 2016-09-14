@@ -97,9 +97,9 @@ export class SelectPage {
 `;
     public exampleSearchTemplate:string = `
 <p>You can also use the keyboard to navigate.</p>
-<!--<sui-select [(ngModel)]="selectedOption" [options]="options" displayField="name" [isSearchable]="true" #searchSelect>-->
-    <!--<sui-select-option *ngFor="let option of searchSelect.availableOptions" [value]="option"></sui-select-option>-->
-<!--</sui-select>-->
+<sui-select [(ngModel)]="selectedOption" [options]="options" displayField="name" [isSearchable]="true" #searchSelect>
+    <sui-select-option *ngFor="let option of searchSelect.availableOptions" [value]="option"></sui-select-option>
+</sui-select>
 <div class="ui segment">
     <p>Currently selected: {{ selectedOption | json }}</p>
 </div>
@@ -126,14 +126,14 @@ export class SelectPage {
 </template>
 <div class="ui form">
     <div class="field">
-        <!--<sui-select [(ngModel)]="selectedOption" [options]="options" optionsField="name" [optionTemplate]="optionTemplate" [isSearchable]="true" #select>-->
-            <!--<div class="header">-->
-                <!--<i class="users icon"></i>-->
-                <!--Custom Menu Markup!-->
-                <!--</div>-->
-                <!--<div class="divider"></div>-->
-            <!--<sui-select-option *ngFor="let option of select.availableOptions" [value]="option"></sui-select-option>-->
-        <!--</sui-select>-->
+        <sui-select [(ngModel)]="selectedOption" [options]="options" displayField="name" [optionTemplate]="optionTemplate" [isSearchable]="true" #select>
+            <div class="header">
+                <i class="users icon"></i>
+                Custom Menu Markup!
+                </div>
+                <div class="divider"></div>
+            <sui-select-option *ngFor="let option of select.availableOptions" [value]="option"></sui-select-option>
+        </sui-select>
     </div>
     <div class="field">
         <!--<sui-select class="fluid" [(ngModel)]="selectedOptions" [options]="options" optionsField="name" [optionTemplate]="optionTemplate" [allowMultiple]="true" placeholder="Select..." #multiSelect>-->
@@ -200,6 +200,7 @@ export class SelectExampleMultipleSearch {
 })
 export class SelectExampleTemplateSearch {
     public options:Array<any> = [{ name: "Example"}, { name: "Test"}, { name: "What"}, { name: "No"}, { name: "Benefit"}, { name: "Oranges"}, { name: "Artemis"}, { name: "Another"}];
+    public selectedOption = this.options[5];
 }
 
 export const SelectPageComponents:Array<any> = [SelectPage, SelectExampleStandard, SelectExampleOptions, SelectExampleSearch, SelectExampleMultiple, SelectExampleMultipleSearch, SelectExampleTemplateSearch];

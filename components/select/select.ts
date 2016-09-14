@@ -8,7 +8,7 @@ import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 import {SuiDropdownMenu} from "../dropdown/dropdown-menu";
 import {SuiSearch, SuiSearchValueAccessor} from "../search/search";
 import {SuiSelectOption, SuiSelectMultiLabel} from "./select-option";
-import {KEYCODE} from '../../components/dropdown/dropdown.service';
+import {KeyCode} from '../../components/dropdown/dropdown.service';
 import {Subscription} from "rxjs";
 import {SuiDropdownService} from "../dropdown/dropdown.service";
 import {Input, Output} from "@angular/core/src/metadata/directives";
@@ -68,6 +68,9 @@ export class SuiSelect implements AfterContentInit, AfterViewInit {
     @HostBinding('class.selection')
     @HostBinding('class.dropdown')
     searchClasses = true;
+
+    @HostBinding('attr.tabindex')
+    tabIndex = 0;
 
     @HostBinding('class.search')
     @Input()
@@ -306,10 +309,14 @@ export class SuiSelect implements AfterContentInit, AfterViewInit {
         //     return;
         // }
 
-        this.selectedOption = value;
-        if (this.options.length > 0) {
-            this.selectedOption = this.options.find(o => this._searchService.deepValue(value, this.keyField) == value);
+        if (value) {
+            this.selectedOption = value;
+            if (this.options.length > 0) {
+                let compareValue = this._searchService.deepValue(value, this.keyField);
+                this.selectedOption = this.options.find(o => compareValue == o);
+            }
         }
+        this.renderSelectedItem();
     }
 
     @HostListener('click', ['$event'])
@@ -327,6 +334,14 @@ export class SuiSelect implements AfterContentInit, AfterViewInit {
             }
         }
         return false;
+    }
+
+    @HostListener('keypress', ['$event'])
+    public keypress(event:KeyboardEvent) {
+        if ((event.which == KeyCode.Enter || event.which == KeyCode.Space) && !this.isOpen) {
+            this.click(<MouseEvent>event);
+            event.preventDefault();
+        }
     }
 
     public searchKeyDown(event:KeyboardEvent) {
