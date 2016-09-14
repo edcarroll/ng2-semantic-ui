@@ -10,20 +10,22 @@ import {SuiSearch, SuiSearchValueAccessor} from "../search/search";
 import {SuiSelectOption, SuiSelectMultiLabel} from "./select-option";
 import {KEYCODE} from '../../components/dropdown/dropdown.service';
 import {Subscription} from "rxjs";
+import {SuiDropdownService} from "../dropdown/dropdown.service";
+import {Input} from "@angular/core/src/metadata/directives";
+import {SuiSearchService} from "../search/search.service";
 
 @Component({
     selector: 'sui-select',
     exportAs: 'suiSelect',
-    inputs: ['placeholder', 'options', 'optionsField', 'isSearchable', 'searchDelay', 'isDisabled', 'allowMultiple', 'maxSelected', 'optionTemplate'],
+    inputs: ['options', 'optionsField', 'isSearchable', 'searchDelay', 'isDisabled', 'allowMultiple', 'maxSelected', 'optionTemplate'],
     outputs: ['selectedOptionChange'],
     host: {
-        '[class.visible]': 'isOpen',
         '[class.disabled]': 'isDisabled'
     },
     template: `
 <i class="dropdown icon"></i>
 <!-- Multi-select labels -->
-<sui-select-multi-label *ngFor="let selected of selectedOptions;" [value]="selected"></sui-select-multi-label>
+<!--<sui-select-multi-label *ngFor="let selected of selectedOptions;" [value]="selected"></sui-select-multi-label>-->
 <!-- Search input box -->
 <input *ngIf="isSearchable" class="search" type="text" autocomplete="off" [(ngModel)]="query" (keydown)="searchKeyDown($event)">
 <!-- Single-select label -->
@@ -35,8 +37,8 @@ import {Subscription} from "rxjs";
 <!-- Select dropdown menu -->
 <div class="menu" suiDropdownMenu>
     <ng-content></ng-content>
-    <div *ngIf="isSearchable && !results.length && !maxSelectedReached" class="message">No Results</div>
-    <div *ngIf="!results.length && maxSelectedReached" class="message">Max {{ maxSelected }} selections</div>
+    <div *ngIf="isSearchable && !results.length" class="message">No Results</div>
+    <!--<div *ngIf="!results.length && maxSelectedReached" class="message">Max {{ maxSelected }} selections</div>-->
 </div>
 `,
     styles: [`
@@ -48,9 +50,11 @@ import {Subscription} from "rxjs";
 }
 `]
 })
-export class SuiSelect implements AfterContentInit, AfterViewInit {
+export class SuiSelect /*implements AfterContentInit, AfterViewInit*/ {
     // @ViewChild(SuiDropdownMenu)
-    // protected _menu:SuiDropdownMenu;
+    // protected _dropdownMenu:SuiDropdownMenu;
+    // protected _dropdownService:SuiDropdownService = new SuiDropdownService();
+    // private _searchService:SuiSearchService = new SuiSearchService();
     //
     // @ViewChild('selectedOptionRenderTarget', { read: ViewContainerRef })
     // protected selectedOptionContainer:ViewContainerRef;
@@ -59,50 +63,52 @@ export class SuiSelect implements AfterContentInit, AfterViewInit {
     // protected renderedOptions:QueryList<SuiSelectOption>;
     // private renderedOptionsSubscriptions:Subscription[] = [];
     //
-    // @ViewChildren(SuiSelectMultiLabel)
-    // protected renderedSelectedOptions:QueryList<SuiSelectMultiLabel>;
-    // private renderedSelectedOptionsSubscriptions:Subscription[] = [];
+    // // @ViewChildren(SuiSelectMultiLabel)
+    // // protected renderedSelectedOptions:QueryList<SuiSelectMultiLabel>;
+    // // private renderedSelectedOptionsSubscriptions:Subscription[] = [];
     //
     // @HostBinding('class.ui')
     // @HostBinding('class.selection')
-    // @HostBinding('class.dropdown') searchClasses = true;
+    // @HostBinding('class.dropdown')
+    // searchClasses = true;
     //
     // @HostBinding('class.search')
+    // @Input()
     // public isSearchable:boolean = false;
-    // @HostBinding('class.multiple')
-    // public allowMultiple:boolean = false;
+    //
+    // // @HostBinding('class.multiple')
+    // // public allowMultiple:boolean = false;
+    //
+    // @Input()
     // public searchDelay:number = 0;
-    // @HostBinding('class.loading')
-    // protected _loading:boolean = false;
+    //
+    // @Input()
     // public placeholder:string = "Select one";
     //
-    // public selectedOptions:any[] = [];
-    // public maxSelected:number;
-    // private maxSelectedReached:boolean = false;
+    // @Input()
+    // public options:any[] = [];
     //
+    // // public selectedOptions:any[] = [];
+    // // public maxSelected:number;
+    // // private maxSelectedReached:boolean = false;
+    //
+    // @Input()
     // public optionTemplate: TemplateRef<any>;
     //
+    // @HostBinding('class.visible')
     // @HostBinding('class.active')
     // public get isOpen():boolean {
-    //     return this._service.isOpen;
+    //     return this._dropdownService.isOpen;
     // }
     //
     // public set isOpen(value:boolean) {
-    //     this._service.isOpen = value;
+    //     this._dropdownService.isOpen = value;
     // }
     //
     // protected get results():Array<any> {
-    //     this.maxSelectedReached = false;
     //     var results = this.options;
-    //     if (this.isSearchable || this._optionsLookup) {
-    //         results = this._results;
-    //     }
-    //     if (this.allowMultiple) {
-    //         results = results.filter((r:any) => (this.selectedOptions || []).indexOf(r) == -1);
-    //         if (this.selectedOptions && this.maxSelected == this.selectedOptions.length) {
-    //             this.maxSelectedReached = true;
-    //             results = [];
-    //         }
+    //     if (this.isSearchable) {
+    //         // results = this._results;
     //     }
     //     return results;
     // }
@@ -112,56 +118,55 @@ export class SuiSelect implements AfterContentInit, AfterViewInit {
     // }
     //
     // constructor(private el:ElementRef) {
-    //     super(el);
-    //     this._allowEmptyQuery = true;
+    //     this._dropdownService.dropdownElement = el;
+    //     this._dropdownService.autoClose = "outsideClick";
+    //     this._dropdownService.itemClass = "item";
+    //     this._dropdownService.itemSelectedClass = "selected";
     //
-    //     this._service.autoClose = "outsideClick";
-    //
-    //     this._service.itemClass = "item";
-    //     this._service.itemSelectedClass = "selected";
-    //
-    //     this._service.isOpenChange.subscribe((isOpen:boolean) => {
-    //         if (isOpen) {
-    //             if (this.isSearchable && !this._service.selectedItem) {
-    //                 this._service.selectNextItem();
-    //             }
-    //         }
-    //         else {
-    //             if (this.query && !this.allowMultiple) {
-    //                 if (this._service.selectedItem) {
-    //                     (<HTMLElement> this._service.selectedItem).click();
-    //                     return;
+    //     this._dropdownService.isOpenChange
+    //         .subscribe(isOpen => {
+    //             if (isOpen) {
+    //                 if (this.isSearchable && !this._dropdownService.selectedItem) {
+    //                     this._dropdownService.selectNextItem();
     //                 }
-    //                 this._query = "";
     //             }
+    //             else {
+    //                 // ????????
+    //                 // if (this.query) {
+    //                 //     if (this._dropdownService.selectedItem) {
+    //                 //         (<HTMLElement> this._dropdownService.selectedItem).click();
+    //                 //         return;
+    //                 //     }
+    //                 //     this._query = "";
+    //                 // }
+    //             }
+    //     });
+    // }
+    //
+    // public ngAfterContentInit():void {
+    //     if (this.isSearchable) {
+    //         //Initialise initial results
+    //         this.search();
+    //     }
+    //
+    //     this.renderedOptionsSubscribe();
+    //
+    //     this.renderedOptions.changes.subscribe(() => this.renderedOptionsSubscribe());
+    //
+    //     setTimeout(() => {
+    //         if (!this.allowMultiple) {
+    //             this.renderSelectedItem();
     //         }
     //     });
     // }
-
-    public ngAfterContentInit():void {
-        // if (this.isSearchable) {
-        //     //Initialise initial results
-        //     this.search();
-        // }
-        //
-        // this.renderedOptionsSubscribe();
-        //
-        // this.renderedOptions.changes.subscribe(() => this.renderedOptionsSubscribe());
-        //
-        // setTimeout(() => {
-        //     if (!this.allowMultiple) {
-        //         this.renderSelectedItem();
-        //     }
-        // });
-    }
-
-    public ngAfterViewInit():void {
-        // super.ngAfterViewInit();
-        //
-        // this.renderedSelectedOptionsSubscribe();
-        // this.renderedSelectedOptions.changes.subscribe(() => this.renderedSelectedOptionsSubscribe());
-    }
-
+    //
+    // public ngAfterViewInit():void {
+    //     super.ngAfterViewInit();
+    //
+    //     this.renderedSelectedOptionsSubscribe();
+    //     this.renderedSelectedOptions.changes.subscribe(() => this.renderedSelectedOptionsSubscribe());
+    // }
+    //
     // private renderedOptionsSubscribe() {
     //     this.renderedOptionsSubscriptions.forEach((s) => s.unsubscribe());
     //     this.renderedOptionsSubscriptions = [];
@@ -308,10 +313,18 @@ export const CUSTOM_VALUE_ACCESSOR: any = {
     host: {'(selectedOptionChange)': 'onChange($event)'},
     providers: [CUSTOM_VALUE_ACCESSOR]
 })
-export class SuiSelectValueAccessor extends SuiSearchValueAccessor implements ControlValueAccessor {
-    constructor(host:SuiSelect) {
-        super(<SuiSearch> host);
-    }
+export class SuiSelectValueAccessor /*implements ControlValueAccessor*/ {
+    onChange = () => {};
+    onTouched = () => {};
+
+    constructor(private host:SuiSelect) {}
+
+    // writeValue(value: any): void {
+    //     this.host.writeValue(value);
+    // }
+
+    registerOnChange(fn: () => void): void { this.onChange = fn; }
+    registerOnTouched(fn: () => void): void { this.onTouched = fn; }
 }
 
 export const SUI_SELECT_DIRECTIVES = [SuiSelect, SuiSelectOption, SuiSelectValueAccessor, SuiSelectMultiLabel];

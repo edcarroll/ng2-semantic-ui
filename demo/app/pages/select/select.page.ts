@@ -78,18 +78,18 @@ export class SelectPage {
         }
     ];
     public exampleStandardTemplate:string = `
-<sui-select [(ngModel)]="selectedGender" placeholder="Gender">
-    <sui-select-option value="Male"></sui-select-option>
-    <sui-select-option value="Female"></sui-select-option>
-</sui-select>
+<!--<sui-select [(ngModel)]="selectedGender" placeholder="Gender">-->
+    <!--<sui-select-option value="Male"></sui-select-option>-->
+    <!--<sui-select-option value="Female"></sui-select-option>-->
+<!--</sui-select>-->
 <div class="ui segment">
     <p>Currently selected: {{ selectedGender | json }}</p>
 </div>
 `;
     public exampleOptionsTemplate:string = `
-<sui-select [(ngModel)]="selectedOption" [options]="options" optionsField="name" #select>
-    <sui-select-option *ngFor="let option of select.availableOptions" [value]="option"></sui-select-option>
-</sui-select>
+<!--<sui-select [(ngModel)]="selectedOption" [options]="options" optionsField="name" #select>-->
+    <!--<sui-select-option *ngFor="let option of select.availableOptions" [value]="option"></sui-select-option>-->
+<!--</sui-select>-->
 <div class="ui segment">
     <p>Currently selected: {{ selectedOption | json }}</p>
     <button class="ui button" (click)="addOption()">Add Option</button>
@@ -97,25 +97,25 @@ export class SelectPage {
 `;
     public exampleSearchTemplate:string = `
 <p>You can also use the keyboard to navigate.</p>
-<sui-select [(ngModel)]="selectedOption" [options]="options" optionsField="name" [isSearchable]="true" #searchSelect>
-    <sui-select-option *ngFor="let option of searchSelect.availableOptions" [value]="option"></sui-select-option>
-</sui-select>
+<!--<sui-select [(ngModel)]="selectedOption" [options]="options" optionsField="name" [isSearchable]="true" #searchSelect>-->
+    <!--<sui-select-option *ngFor="let option of searchSelect.availableOptions" [value]="option"></sui-select-option>-->
+<!--</sui-select>-->
 <div class="ui segment">
     <p>Currently selected: {{ selectedOption | json }}</p>
 </div>
 `;
     public exampleMultipleTemplate:string = `
-<sui-select class="fluid" [(ngModel)]="selectedOptions" [options]="options" [allowMultiple]="true" placeholder="Select..." #multiSelect>
-    <sui-select-option *ngFor="let option of multiSelect.availableOptions" [value]="option"></sui-select-option>
-</sui-select>
+<!--<sui-select class="fluid" [(ngModel)]="selectedOptions" [options]="options" [allowMultiple]="true" placeholder="Select..." #multiSelect>-->
+    <!--<sui-select-option *ngFor="let option of multiSelect.availableOptions" [value]="option"></sui-select-option>-->
+<!--</sui-select>-->
 <div class="ui segment">
     <p>Currently selected: {{ selectedOptions | json }}</p>
 </div>
 `;
     public exampleMultipleSearchTemplate:string = `
-<sui-select class="fluid" [(ngModel)]="selectedOptions" [options]="options" [isSearchable]="true" [allowMultiple]="true" [maxSelected]="5" placeholder="Select..." #searchSelect>
-    <sui-select-option *ngFor="let option of searchSelect.availableOptions" [value]="option"></sui-select-option>
-</sui-select>
+<!--<sui-select class="fluid" [(ngModel)]="selectedOptions" [options]="options" [isSearchable]="true" [allowMultiple]="true" [maxSelected]="5" placeholder="Select..." #searchSelect>-->
+    <!--<sui-select-option *ngFor="let option of searchSelect.availableOptions" [value]="option"></sui-select-option>-->
+<!--</sui-select>-->
 <div class="ui segment">
     <p>Currently selected: {{ selectedOptions | json }}</p>
 </div>
@@ -126,19 +126,19 @@ export class SelectPage {
 </template>
 <div class="ui form">
     <div class="field">
-        <sui-select [(ngModel)]="selectedOption" [options]="options" optionsField="name" [optionTemplate]="optionTemplate" [isSearchable]="true" #select>
-            <div class="header">
-                <i class="users icon"></i>
-                Custom Menu Markup!
-                </div>
-                <div class="divider"></div>
-            <sui-select-option *ngFor="let option of select.availableOptions" [value]="option"></sui-select-option>
-        </sui-select>
+        <!--<sui-select [(ngModel)]="selectedOption" [options]="options" optionsField="name" [optionTemplate]="optionTemplate" [isSearchable]="true" #select>-->
+            <!--<div class="header">-->
+                <!--<i class="users icon"></i>-->
+                <!--Custom Menu Markup!-->
+                <!--</div>-->
+                <!--<div class="divider"></div>-->
+            <!--<sui-select-option *ngFor="let option of select.availableOptions" [value]="option"></sui-select-option>-->
+        <!--</sui-select>-->
     </div>
     <div class="field">
-        <sui-select class="fluid" [(ngModel)]="selectedOptions" [options]="options" optionsField="name" [optionTemplate]="optionTemplate" [allowMultiple]="true" placeholder="Select..." #multiSelect>
-            <sui-select-option *ngFor="let option of multiSelect.availableOptions" [value]="option"></sui-select-option>
-        </sui-select>
+        <!--<sui-select class="fluid" [(ngModel)]="selectedOptions" [options]="options" optionsField="name" [optionTemplate]="optionTemplate" [allowMultiple]="true" placeholder="Select..." #multiSelect>-->
+            <!--<sui-select-option *ngFor="let option of multiSelect.availableOptions" [value]="option"></sui-select-option>-->
+        <!--</sui-select>-->
     </div>
 </div>
 <div class="ui segment">

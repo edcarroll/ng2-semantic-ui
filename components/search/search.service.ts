@@ -2,20 +2,16 @@ import {SuiDropdownService} from "../dropdown/dropdown.service";
 import {EventEmitter} from "@angular/core";
 
 export class SuiSearchService {
-    public dropdown:SuiDropdownService = new SuiDropdownService();
-
     public searchDelay:number = 200;
     public optionsField:string;
     public loading:boolean = false;
 
-    public selectedOptionChange:EventEmitter<any> = new EventEmitter(false);
-    public onItemSelected:EventEmitter<any> = new EventEmitter(false);
+    public onSearchCompleted:EventEmitter<any[]> = new EventEmitter<any[]>();
 
-    public selectedOption:any;
     private _options:any[] = [];
     private _optionsLookup:((query:string) => Promise<any>);
 
-    private _allowEmptyQuery:boolean = false;
+    public allowEmptyQuery:boolean = false;
     private _query:string = "";
     private _queryTimer:any;
 
@@ -38,19 +34,17 @@ export class SuiSearchService {
         return this._query;
     }
 
-    public set query(value:string) {
+    public updateQuery(value:string, search:boolean = true) {
         this._query = value;
-        clearTimeout(this._queryTimer);
-        if (value || this._allowEmptyQuery) {
-            this._queryTimer = setTimeout(() => {
-                this.search(() => {
-                    this.dropdown.isOpen = true;
-                });
-            }, this.searchDelay);
-            return;
-        }
-        if (!this._allowEmptyQuery) {
-            this.dropdown.isOpen = false;
+
+        if (search) {
+            clearTimeout(this._queryTimer);
+            if (value || this.allowEmptyQuery) {
+                this._queryTimer = setTimeout(() => {
+                    this.search();
+                }, this.searchDelay);
+                return;
+            }
         }
     }
 
@@ -58,41 +52,32 @@ export class SuiSearchService {
         return this._results;
     }
 
-    public search(callback?:Function):void {
-        this.loading = true;
+    public search():void {
         if (this._optionsLookup) {
+            this.loading = true;
             if (this._resultsCache[this._query]) {
-                this._results = this._resultsCache[this._query];
                 this.loading = false;
-                if (callback) {
-                    callback();
-                }
+
+                this._results = this._resultsCache[this._query];
+                this.onSearchCompleted.emit(this.results);
                 return;
             }
 
             this._optionsLookup(this._query).then((results:Array<any>) => {
+                this.loading = false;
+
                 this._resultsCache[this._query] = results;
-                this.search(callback);
+                this._results = results;
+                this.onSearchCompleted.emit(this.results);
             });
             return;
         }
         this._results = this.options.filter((o:string) => this.readValue(o).toString().slice(0, this.query.length).toLowerCase() == this.query.toLowerCase());
-        this.loading = false;
-        if (callback) {
-            callback();
-        }
-    }
-
-    public select(result:any):void {
-        this.selectedOption = result;
-        this.selectedOptionChange.emit(result);
-        this.onItemSelected.emit(result);
-        this._query = this.readValue(result);
-        this.dropdown.isOpen = false;
+        this.onSearchCompleted.emit(this.results);
     }
 
     //noinspection JSMethodCanBeStatic
-    protected deepValue(object:any, path:string) {
+    private deepValue(object:any, path:string) {
         if (!object) { return; }
         if (!path) { return object; }
         for (var i = 0, p = path.split('.'), len = p.length; i < len; i++){

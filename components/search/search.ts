@@ -4,6 +4,7 @@ import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 import {SuiDropdownMenu} from "../dropdown/dropdown-menu";
 import {Input, Output} from "@angular/core";
 import {SuiSearchService} from "./search.service";
+import {SuiDropdownService} from "../dropdown/dropdown.service";
 
 @Component({
     selector: 'sui-search',
@@ -27,7 +28,30 @@ import {SuiSearchService} from "./search.service";
 export class SuiSearch implements AfterViewInit {
     @ViewChild(SuiDropdownMenu)
     private _dropdownMenu:SuiDropdownMenu;
+    private _dropdownService:SuiDropdownService = new SuiDropdownService();
     private _searchService:SuiSearchService = new SuiSearchService();
+
+    public selectedOption:any;
+
+    constructor(el:ElementRef) {
+        this._dropdownService.dropdownElement = el;
+        this._dropdownService.itemClass = "result";
+        this._dropdownService.itemSelectedClass = "active";
+
+        this._dropdownService.isOpenChange
+            .subscribe(isOpen => {
+                if (isOpen) {
+                    if (!this._dropdownService.selectedItem) {
+                        this._dropdownService.selectNextItem();
+                    }
+                }
+            });
+
+        this._searchService.onSearchCompleted
+            .subscribe(() => {
+                this._dropdownService.isOpen = true;
+            });
+    }
 
     @HostBinding('class.ui')
     @HostBinding('class.search')
@@ -58,14 +82,10 @@ export class SuiSearch implements AfterViewInit {
     }
 
     @Output()
-    public get selectedOptionChange() {
-        return this._searchService.selectedOptionChange;
-    }
+    public selectedOptionChange:EventEmitter<any> = new EventEmitter<any>();
 
     @Output()
-    public get onItemSelected() {
-        return this._searchService.onItemSelected;
-    }
+    public onItemSelected:EventEmitter<any> = new EventEmitter<any>();
 
     @HostBinding('class.loading')
     public get loading() {
@@ -75,21 +95,21 @@ export class SuiSearch implements AfterViewInit {
     @HostBinding('class.visible')
     @Input()
     public get isOpen():boolean {
-        return this._searchService.dropdown.isOpen;
+        return this._dropdownService.isOpen;
     }
 
     public set isOpen(value:boolean) {
-        this._searchService.dropdown.isOpen = value;
+        this._dropdownService.isOpen = value;
     }
 
     @HostBinding('class.disabled')
     @Input()
     public get isDisabled():boolean {
-        return this._searchService.dropdown.isDisabled;
+        return this._dropdownService.isDisabled;
     }
 
     public set isDisabled(value:boolean) {
-        this._searchService.dropdown.isDisabled = value;
+        this._dropdownService.isDisabled = value;
     }
 
     @Input()
@@ -101,27 +121,20 @@ export class SuiSearch implements AfterViewInit {
         this._searchService.options = value;
     }
 
-
     private get query():string {
         return this._searchService.query;
     }
 
     private set query(value:string) {
-        this._searchService.query = value;
+        this._searchService.updateQuery(value);
     }
 
     private get results():Array<any> {
         return this._searchService.results;
     }
 
-    constructor(el:ElementRef) {
-        this._searchService.dropdown.dropdownElement = el;
-        this._searchService.dropdown.itemClass = "result";
-        this._searchService.dropdown.itemSelectedClass = "active";
-    }
-
-    private search(callback?:Function):void {
-        this._searchService.search(callback);
+    private search():void {
+        this._searchService.search();
     }
 
     private result(i:number):any {
@@ -129,32 +142,32 @@ export class SuiSearch implements AfterViewInit {
     }
 
     public select(result:any):void {
-        this._searchService.select(result);
+        this.selectedOption = result;
+        this.selectedOptionChange.emit(result);
+        this.onItemSelected.emit(result);
+        this._searchService.updateQuery(this._searchService.readValue(result), false);
+        this._dropdownService.isOpen = false;
     }
 
     public writeValue(value:any) {
-        this._searchService.selectedOption = value;
-        this.query = this._searchService.readValue(value);
+        this.selectedOption = value;
+        this._searchService.updateQuery(this._searchService.readValue(value), false);
     }
 
     public ngAfterViewInit():void {
-        this._dropdownMenu.service = this._searchService.dropdown;
+        this._dropdownMenu.service = this._dropdownService;
     }
 
     @HostListener('click', ['$event'])
     public click(event:MouseEvent):boolean {
         event.stopPropagation();
 
-        if (!this._searchService.dropdown.menuElement.nativeElement.contains(event.target)){
+        if (!this._dropdownService.menuElement.nativeElement.contains(event.target)){
             if (!this.isOpen && this.query) {
                 if (this.results.length) {
                     this.isOpen = true;
                 }
-                this._searchService.loading = true;
-                this.search(() => {
-                    this.isOpen = true;
-                    this._searchService.loading = false;
-                });
+                this.search();
             }
         }
         return false;
