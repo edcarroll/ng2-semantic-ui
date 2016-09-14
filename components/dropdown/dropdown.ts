@@ -69,4 +69,3 @@ export class SuiDropdown implements AfterContentInit {
 }
 
 export const SUI_DROPDOWN_DIRECTIVES = [SuiDropdown, SuiDropdownMenu];
-export const SUI_DROPDOWN_PROVIDERS = [SuiDropdownService];

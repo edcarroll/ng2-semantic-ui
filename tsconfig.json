@@ -18,7 +18,6 @@
     },
     "files": [
         "ng2-semantic-ui.ts",
-        "components/index.ts",
-        "node_modules/typescript/lib/lib.es2015.promise.d.ts"
+        "components/index.ts"
     ]
 }

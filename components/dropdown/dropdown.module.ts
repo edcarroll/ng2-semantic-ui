@@ -1,9 +1,8 @@
 import {NgModule} from '@angular/core';
-import {SUI_DROPDOWN_DIRECTIVES, SUI_DROPDOWN_PROVIDERS} from "./dropdown";
+import {SUI_DROPDOWN_DIRECTIVES} from "./dropdown";
 
 @NgModule({
     declarations: SUI_DROPDOWN_DIRECTIVES,
-    exports: SUI_DROPDOWN_DIRECTIVES,
-    providers: SUI_DROPDOWN_PROVIDERS
+    exports: SUI_DROPDOWN_DIRECTIVES
 })
 export class SuiDropdownModule {}

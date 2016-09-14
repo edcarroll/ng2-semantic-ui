@@ -1,4 +1,3 @@
-import {SuiDropdownService} from "../dropdown/dropdown.service";
 import {EventEmitter} from "@angular/core";
 
 export class SuiSearchService {

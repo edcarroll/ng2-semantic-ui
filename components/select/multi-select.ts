@@ -1,12 +1,11 @@
 import {
     Component, Directive, ViewChild, HostBinding, ElementRef, HostListener, forwardRef,
-    TemplateRef, ViewContainerRef, AfterContentInit, QueryList, ContentChildren,
+    TemplateRef, AfterContentInit, QueryList, ContentChildren,
     ViewChildren, AfterViewInit, EventEmitter,
 } from '@angular/core';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 
 import {SuiDropdownMenu} from "../dropdown/dropdown-menu";
-import {SuiSearch, SuiSearchValueAccessor} from "../search/search";
 import {SuiSelectOption, SuiSelectMultiLabel} from "./select-option";
 import {KeyCode} from '../../components/dropdown/dropdown.service';
 import {Subscription} from "rxjs";

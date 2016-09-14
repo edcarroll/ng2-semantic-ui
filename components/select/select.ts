@@ -6,7 +6,6 @@ import {
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 
 import {SuiDropdownMenu} from "../dropdown/dropdown-menu";
-import {SuiSearch, SuiSearchValueAccessor} from "../search/search";
 import {SuiSelectOption, SuiSelectMultiLabel} from "./select-option";
 import {KeyCode} from '../../components/dropdown/dropdown.service';
 import {Subscription} from "rxjs";
