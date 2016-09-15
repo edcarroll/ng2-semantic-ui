@@ -69,6 +69,7 @@ export class SuiTransition {
     }
 
     public animate(animation:ISuiAnimation) {
+        animation = Object.assign({}, animation);
         animation.classes = animation.name.split(" ");
         if (!animation.duration) {
             animation.duration = 250;
@@ -101,6 +102,7 @@ export class SuiTransition {
         }
 
         this.isAnimating = true;
+        this.isVisible = true;
         this.isHidden = false;
 
         animation.classes.forEach(c => this.renderer.setElementClass(this.el.nativeElement, c, true));
