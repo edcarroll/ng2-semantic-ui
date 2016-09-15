@@ -37,7 +37,7 @@ export class SuiTransition {
         this.renderer.setElementClass(this.el.nativeElement, "animating", value);
     }
 
-    private animationTimeout:number;
+    private animationTimeout:any;
 
     private _isVisible = null;
 
