@@ -16,6 +16,13 @@ export interface ISuiAnimation {
 export class SuiTransition {
     constructor(private el:ElementRef, private renderer:Renderer) {
         this.renderer.setElementClass(this.el.nativeElement, "transition", true);
+
+        setTimeout(() => {
+            let style = window.getComputedStyle(this.el.nativeElement);
+            if (this.isVisible === null) {
+                this.isVisible = style.display !== 'none';
+            }
+        });
     }
 
     private _isAnimating = false;
@@ -90,7 +97,6 @@ export class SuiTransition {
         }
 
         this.isAnimating = true;
-        this.isVisible = false;
         this.isHidden = false;
 
         animation.classes.forEach(c => this.renderer.setElementClass(this.el.nativeElement, c, true));
