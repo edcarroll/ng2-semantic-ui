@@ -11,6 +11,7 @@ import {SuiRatingModule} from "./rating/rating.module";
 import {SuiSearchModule} from "./search/search.module";
 import {SuiTabsModule} from "./tabs/tab.module";
 import {SuiSelectModule} from "./select/select.module";
+import {SuiTransitionModule} from "./transition/transition.module";
 
 @NgModule({
     exports: [
@@ -24,7 +25,8 @@ import {SuiSelectModule} from "./select/select.module";
         SuiRatingModule,
         SuiSearchModule,
         SuiSelectModule,
-        SuiTabsModule
+        SuiTabsModule,
+        SuiTransitionModule
     ]
 })
 export class SuiModule {}
@@ -38,5 +40,7 @@ export {SuiMessageModule};
 export {SuiProgressModule};
 export {SuiRatingModule};
 export {SuiSearchModule};
-export {SuiTabsModule};
 export {SuiSelectModule};
+export {SuiTabsModule};
+export {SuiTransitionModule};
+

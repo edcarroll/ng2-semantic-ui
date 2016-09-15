@@ -9,5 +9,6 @@ import {Component, Input} from '@angular/core';
 export class ExampleComponent {
     private detail:boolean = false;
 
-    @Input() public code:string;
+    @Input()
+    public code:string;
 }

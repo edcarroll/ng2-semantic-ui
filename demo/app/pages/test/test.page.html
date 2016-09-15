@@ -8,22 +8,10 @@
     <div class="ui dividing right rail"></div>
     <h2 class="ui dividing header">Examples</h2>
     <div class="ui segment">
-        <sui-select [placeholder]="placeholder" [options]="testOptions" [(ngModel)]="selected" [isSearchable]="false" #searchSelect>
-            <sui-select-option *ngFor="let result of searchSelect.results" [value]="result"></sui-select-option>
-        </sui-select>
-    </div>
-    <div class="ui segment">
-        <p>Selected option: {{ selected | json }}</p>
-    </div>
-    <div class="ui segment">
-        <template #optionTemplate let-option="option">
-            <i class="af flag"></i>{{ option }}
-        </template>
-        <sui-select class="fluid" [options]="testOptions" [(ngModel)]="selectedItems" [isSearchable]="true" [allowMultiple]="true" [maxSelected]="maxOptions" [optionTemplate]="optionTemplate" #multiSelect>
-            <sui-select-option *ngFor="let result of multiSelect.results" [value]="result"></sui-select-option>
-        </sui-select>
-    </div>
-    <div class="ui segment">
-        <p>Selected items: {{ selectedItems | json }}</p>
+        <img id="testImage" src="http://semantic-ui.com/images/leaves/1.png" class="ui autumn leaf image" suiTransition #transition="transition">
+        <button class="ui button" (click)="test(transition)">Animate!</button>
+        <button class="ui button" (click)="test2(transition)">Stop!</button>
+        <button class="ui button" (click)="test3(transition)">Stop all!</button>
+        <p>{{ transition.isVisible }}</p>
     </div>
 </div>

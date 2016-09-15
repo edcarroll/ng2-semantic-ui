@@ -1,27 +1,25 @@
-import {Directive, ElementRef, HostBinding} from '@angular/core';
+import {Directive, ElementRef, HostBinding, Renderer} from '@angular/core';
 import {SuiDropdownService} from './dropdown.service';
+import {SuiTransition} from "../transition/transition";
 
 @Directive({
     selector: '[suiDropdownMenu]'
 })
 export class SuiDropdownMenu {
     private _service:SuiDropdownService;
+    private _transition:SuiTransition;
+
     public set service(service:SuiDropdownService) {
         this._service = service;
         this._service.menuElement = this.el;
-    }
-
-    public el:ElementRef;
-    public constructor(el:ElementRef) {
-        this.el = el;
-    }
-
-    @HostBinding('class.visible')
-    @HostBinding('class.transition')
-    public get isOpen():boolean {
-        if (this._service) {
-            return this._service.isOpen;
+        this._service.transition = this._transition;
+        if (service.isOpen) {
+            this._transition.isVisible = true;
         }
-        return;
+    }
+
+    public constructor(public el:ElementRef, public renderer:Renderer) {
+        this._transition = new SuiTransition(el, renderer);
+        this._transition.isVisible = false;
     }
 }

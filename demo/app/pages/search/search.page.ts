@@ -101,6 +101,8 @@ export class SearchExampleRemote extends SearchExampleStandard {
             }, 300);
         });
     }
+
+    public selectedItem = { title: "Apple" };
 }
 
 export const SearchPageComponents:Array<any> = [SearchPage, SearchExampleStandard, SearchExampleRemote];

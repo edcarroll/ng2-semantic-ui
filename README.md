@@ -44,7 +44,7 @@ Now you're good to go!
 
 ## Dependencies
 
-* [Angular 2](https://angular.io) (2.0.0-rc.5 **or higher**)
+* [Angular 2](https://angular.io) (2.0.0-rc.7)
 * [Semantic UI CSS](http://semantic-ui.com/) (jQuery is **not** required)
 
 ## Components
@@ -62,6 +62,7 @@ The current list of available components with links to their docs is below:
 * [Search](http://edcarroll.github.io/ng2-semantic-ui/#/components/search)
 * [Select](http://edcarroll.github.io/ng2-semantic-ui/#/components/select)
 * [Tabs](http://edcarroll.github.io/ng2-semantic-ui/#/components/tabs)
+* [Transition](http://edcarroll.github.io/ng2-semantic-ui/#/components/transition)
 
 ## Development
 
