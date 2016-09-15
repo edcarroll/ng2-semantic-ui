@@ -107,7 +107,6 @@ export class SuiTransition {
             return;
         }
         let animation = this.queue.slice(0, 1).pop();
-        console.log(animation);
         if (!animation) {
             return;
         }
