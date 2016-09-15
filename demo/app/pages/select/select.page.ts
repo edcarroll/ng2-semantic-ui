@@ -20,8 +20,12 @@ export class SelectPage {
                     description: "Sets the options available to the select component."
                 },
                 {
-                    name: "optionsField",
+                    name: "displayField",
                     description: "Sets the property name that the select element uses to display each option. Supports dot notation for nested properties."
+                },
+                {
+                    name: "keyField",
+                    description: "Sets the property name that the select element uses to bind to ngModel. Leaving this blank uses the entire object. Supports dot notation for nested properties."
                 },
                 {
                     name: "isDisabled",
@@ -66,8 +70,12 @@ export class SelectPage {
                     description: "Sets the options available to the select component."
                 },
                 {
-                    name: "optionsField",
+                    name: "displayField",
                     description: "Sets the property name that the select element uses to display each option. Supports dot notation for nested properties."
+                },
+                {
+                    name: "keyField",
+                    description: "Sets the property name that the select element uses to bind to ngModel. Leaving this blank uses the entire object. Supports dot notation for nested properties."
                 },
                 {
                     name: "isDisabled",
@@ -189,7 +197,7 @@ export class SelectPage {
     template: new SelectPage().exampleStandardTemplate
 })
 export class SelectExampleStandard {
-    public selectedGender = "Female";
+
 }
 
 @Component({

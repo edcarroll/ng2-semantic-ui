@@ -6,12 +6,13 @@ import {
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 
 import {SuiDropdownMenu} from "../dropdown/dropdown-menu";
-import {SuiSelectOption, SuiSelectMultiLabel} from "./select-option";
+import {SuiSelectOption} from "./select-option";
 import {KeyCode} from '../../components/dropdown/dropdown.service';
 import {Subscription} from "rxjs";
 import {SuiDropdownService} from "../dropdown/dropdown.service";
 import {Input, Output} from "@angular/core/src/metadata/directives";
 import {SuiSearchService} from "../search/search.service";
+import {SuiSelectMultiLabel} from "./multi-select-label";
 
 @Component({
     selector: 'sui-multi-select',

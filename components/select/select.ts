@@ -6,13 +6,14 @@ import {
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 
 import {SuiDropdownMenu} from "../dropdown/dropdown-menu";
-import {SuiSelectOption, SuiSelectMultiLabel} from "./select-option";
+import {SuiSelectOption} from "./select-option";
 import {KeyCode} from '../../components/dropdown/dropdown.service';
 import {Subscription} from "rxjs";
 import {SuiDropdownService} from "../dropdown/dropdown.service";
 import {Input, Output} from "@angular/core/src/metadata/directives";
 import {SuiSearchService} from "../search/search.service";
 import {SuiMultiSelect, SuiMultiSelectValueAccessor} from "./multi-select";
+import {SuiSelectMultiLabel} from "./multi-select-label";
 
 @Component({
     selector: 'sui-select',
@@ -209,6 +210,7 @@ export class SuiSelect implements AfterContentInit, AfterViewInit {
         this._searchService.updateQuery(this._searchService.readValue(option), false);
         this._dropdownService.isOpen = false;
         this.renderSelectedItem();
+
         this._searchService.updateQuery("");
     }
 
