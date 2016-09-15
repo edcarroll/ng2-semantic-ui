@@ -116,11 +116,11 @@ export class SuiMultiSelect implements AfterContentInit, AfterViewInit {
     public optionTemplate: TemplateRef<any>;
 
     @HostBinding('class.visible')
-    @HostBinding('class.active')
     public get isActive() {
-        return this._dropdownService.isActive;
+        return this._dropdownService.isVisible;
     }
 
+    @HostBinding('class.active')
     public get isOpen():boolean {
         return this._dropdownService.isOpen;
     }
@@ -228,12 +228,6 @@ export class SuiMultiSelect implements AfterContentInit, AfterViewInit {
         this.onItemSelected.emit(this._searchService.deepValue(option, this.keyField));
 
         this._searchService.updateQuery("");
-        // }
-        // if (this.isSearchable) {
-        //     this.focusFirstItem();
-        //     this.focusSearch();
-        // }
-
     }
 
     public deselectOption(option:any) {

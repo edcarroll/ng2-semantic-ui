@@ -4,6 +4,7 @@ export interface ISuiAnimation {
     name:string;
     classes?:string[];
     duration?:number;
+    display?:string;
     direction?:string;
     callback?:() => any;
 }
@@ -12,16 +13,9 @@ export interface ISuiAnimation {
     selector: '[suiTransition]',
     exportAs: 'transition'
 })
-export class SuiTransition implements AfterViewInit {
+export class SuiTransition {
     constructor(private el:ElementRef, private renderer:Renderer) {
         this.renderer.setElementClass(this.el.nativeElement, "transition", true);
-    }
-
-    ngAfterViewInit() {
-        let style = window.getComputedStyle(this.el.nativeElement);
-        if (this.isVisible === null) {
-            this.isVisible = style.display !== 'none';
-        }
     }
 
     private _isAnimating = false;
@@ -66,24 +60,27 @@ export class SuiTransition implements AfterViewInit {
         return this.queue.slice(0, 1).pop();
     }
 
-    public transition(transition:ISuiAnimation) {
-        transition.classes = transition.name.split(" ");
-        if (!transition.duration) {
-            transition.duration = 500;
+    public animate(animation:ISuiAnimation) {
+        animation.classes = animation.name.split(" ");
+        if (!animation.duration) {
+            animation.duration = 250;
         }
-        if (!transition.direction) {
-            transition.direction = this.isVisible ? "out" : "in";
+        if (!animation.display) {
+            animation.display = 'block';
+        }
+        if (!animation.direction) {
+            animation.direction = this.isVisible ? "out" : "in";
             let queueLast = this.queueFirst();
             if (queueLast) {
-                transition.direction = queueLast.direction == "in" ? "out" : "in"
+                animation.direction = queueLast.direction == "in" ? "out" : "in"
             }
         }
 
-        this.queue.push(transition);
-        this.animate();
+        this.queue.push(animation);
+        this.performAnimation();
     }
 
-    private animate() {
+    private performAnimation() {
         if (this.isAnimating) {
             return;
         }
@@ -91,11 +88,17 @@ export class SuiTransition implements AfterViewInit {
         if (!animation) {
             return;
         }
+
         this.isAnimating = true;
+        this.isVisible = false;
+        this.isHidden = false;
+
         animation.classes.forEach(c => this.renderer.setElementClass(this.el.nativeElement, c, true));
         this.renderer.setElementClass(this.el.nativeElement, animation.direction, true);
         this.renderer.setElementStyle(this.el.nativeElement, `animationDuration`, `${animation.duration}ms`);
-        this.renderer.setElementStyle(this.el.nativeElement, `display`, `block`);
+        if (animation.direction == "in") {
+            this.renderer.setElementStyle(this.el.nativeElement, `display`, animation.display);
+        }
 
         this.animationTimeout = setTimeout(() => this.finishAnimation(animation), animation.duration);
     }
@@ -115,7 +118,7 @@ export class SuiTransition implements AfterViewInit {
 
         this.queue.shift();
 
-        this.animate();
+        this.performAnimation();
     }
 
     public stop() {
@@ -127,7 +130,6 @@ export class SuiTransition implements AfterViewInit {
 
     public stopAll() {
         if (this.isAnimating) {
-            console.log("Here");
             clearTimeout(this.animationTimeout);
             this.finishAnimation(this.queueFirst());
         }

@@ -45,7 +45,7 @@ export class SuiDropdownService {
 
     // Transitions
     public transition:SuiTransition;
-    public isActive:boolean;
+    public isVisible:boolean;
 
     public get isOpen():boolean {
         return this._isOpen;
@@ -57,12 +57,12 @@ export class SuiDropdownService {
 
         this._isOpen = value;
         if (this.transition) {
-            this.isActive = true;
+            this.isVisible = true;
             this.transition.stopAll();
-            this.transition.transition({
+            this.transition.animate({
                 name: "slide down",
                 duration: 200,
-                callback: () => this.isActive = this.isOpen
+                callback: () => this.isVisible = this.isOpen
             });
         }
 

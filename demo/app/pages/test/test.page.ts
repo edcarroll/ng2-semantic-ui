@@ -8,7 +8,7 @@ import {SuiTransition} from "../../../../components/transition/transition";
 })
 export class TestPage {
     public test(transition:SuiTransition) {
-        transition.transition({
+        transition.animate({
             name: "scale",
             duration: 2000
         });
