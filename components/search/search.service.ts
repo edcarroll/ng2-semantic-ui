@@ -44,7 +44,9 @@ export class SuiSearchService {
                     return;
                 }
             }
-            this.search();
+            if (value || this.allowEmptyQuery) {
+                this.search();
+            }
         }
     }
 

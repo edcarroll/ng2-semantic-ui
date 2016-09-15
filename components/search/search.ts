@@ -93,6 +93,11 @@ export class SuiSearch implements AfterViewInit {
     }
 
     @HostBinding('class.visible')
+    @HostBinding('class.active')
+    public get isActive() {
+        return this._dropdownService.isActive;
+    }
+
     @Input()
     public get isOpen():boolean {
         return this._dropdownService.isOpen;

@@ -112,6 +112,10 @@ export class SuiSelect implements AfterContentInit, AfterViewInit {
 
     @HostBinding('class.visible')
     @HostBinding('class.active')
+    public get isActive() {
+        return this._dropdownService.isActive;
+    }
+
     public get isOpen():boolean {
         return this._dropdownService.isOpen;
     }

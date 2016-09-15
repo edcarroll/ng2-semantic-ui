@@ -1,4 +1,5 @@
 import {EventEmitter, ElementRef} from '@angular/core';
+import {SuiTransition} from "../transition/transition";
 
 const Disabled = 'disabled';
 const OutsideClick = 'outsideClick';
@@ -42,14 +43,28 @@ export class SuiDropdownService {
     public itemSelectedClass = "selected";
     public itemDisabledClass = "disabled";
 
+    // Transitions
+    public transition:SuiTransition;
+    public isActive:boolean;
+
     public get isOpen():boolean {
         return this._isOpen;
     }
 
     public set isOpen(value:boolean) {
+        if (value == this._isOpen) { return; }
         if (this.isDisabled) { value = false; }
 
         this._isOpen = value;
+        if (this.transition) {
+            this.isActive = true;
+            this.transition.stopAll();
+            this.transition.transition({
+                name: "slide down",
+                duration: 200,
+                callback: () => this.isActive = this.isOpen
+            });
+        }
 
         if (this.isOpen) {
             this.bindDocumentEvents();

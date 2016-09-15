@@ -9,7 +9,6 @@ export class SuiDropdown implements AfterContentInit {
     protected _service:SuiDropdownService;
     @ContentChild(SuiDropdownMenu) protected _menu:SuiDropdownMenu;
 
-    @HostBinding('class.visible')
     @Input()
     public get isOpen():boolean {
         return this._service.isOpen;
@@ -36,6 +35,11 @@ export class SuiDropdown implements AfterContentInit {
     @Output()
     public get isOpenChange():EventEmitter<boolean> {
         return this._service.isOpenChange;
+    }
+
+    @HostBinding('class.active')
+    public get isActive() {
+        return this._service.isActive;
     }
 
     @HostBinding('class.disabled')
