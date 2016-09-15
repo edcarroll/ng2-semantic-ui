@@ -92,7 +92,7 @@ export class TabsPage {
 <sui-tabset>
     <div class="ui top attached tabular menu">
         <a class="item" suiTabHeader="static">Static</a>
-        <a class="item" *ngFor="let tab of tabs; let i = index" [suiTabHeader]="i">{{ tab.header }}</a>
+        <a class="item" *ngFor="let tab of tabs; let i = index" [suiTabHeader]="i" [(isActive)]="active[i]">{{ tab.header }}</a>
     </div>
     <div class="ui bottom attached segment" *ngFor="let tab of tabs; let i = index" [suiTabContent]="i">{{ tab.content }}</div>
     <div class="ui bottom attached segment" suiTabContent="static">
@@ -149,18 +149,21 @@ export class TabExampleProperties {
     template: new TabsPage().exampleDynamicTemplate
 })
 export class TabExampleDynamic {
+    public active:boolean[] = [];
     public tabs = [
         { header: "1st", content: "Dynamic content" },
         { header: "2nd", content: "More content" },
         { header: "3rd", content: "Even more content" }
     ];
     public addTab() {
+        this.active.push(true);
         this.tabs.push({
             header: "New",
             content: "Another dynamic tab"
         });
     };
     public removeTab() {
+        this.active.pop();
         this.tabs.pop();
     }
 }

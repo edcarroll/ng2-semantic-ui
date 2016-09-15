@@ -14,6 +14,8 @@ export class SuiTab {
         }
     }
 
+    public index:number;
+
     private _content:SuiTabContent;
 
     public set content(content:SuiTabContent) {
@@ -27,7 +29,10 @@ export class SuiTab {
     private _stateObserver: Observer<SuiTab>;
 
     constructor() {
-        this.stateChanged$ = new Observable<SuiTab>((observer:any) => this._stateObserver = observer);
+        this.stateChanged$ = new Observable<SuiTab>((observer:any) => {
+            this._stateObserver = observer;
+            this._stateObserver.next(this);
+        });
     }
 
     private _isActive:boolean = false;
@@ -39,7 +44,9 @@ export class SuiTab {
     public set isActive(value:boolean) {
         var change = this._isActive != value;
         this._isActive = value;
-        this._content.isActive = value;
+        if (this._content) {
+            this._content.isActive = value;
+        }
         this.stateObserverNext(change);
         this.isActiveChange.emit(this._isActive);
 
@@ -62,7 +69,7 @@ export class SuiTab {
     }
 
     private stateObserverNext(change:boolean) {
-        if (change) {
+        if (change && this._stateObserver) {
             this._stateObserver.next(this);
         }
     }
