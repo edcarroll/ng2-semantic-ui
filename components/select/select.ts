@@ -212,7 +212,7 @@ export class SuiSelect implements AfterContentInit, AfterViewInit {
         this._dropdownService.isOpen = false;
         this.renderSelectedItem();
 
-        this._searchService.updateQuery("");
+        this._searchService.updateQuery("", false)
     }
 
     private focusSearch() {
@@ -229,11 +229,10 @@ export class SuiSelect implements AfterContentInit, AfterViewInit {
     }
 
     public writeValue(value:any) {
-        if (value) {
+        if (value !== null && value !== undefined) {
             this.selectedOption = value;
             if (this.options.length > 0) {
-                let compareValue = this._searchService.deepValue(value, this.keyField);
-                this.selectedOption = this.options.find(o => compareValue == o);
+                this.selectedOption = this.options.find(o => value == this._searchService.deepValue(o, this.keyField));
             }
         }
         this.renderSelectedItem();

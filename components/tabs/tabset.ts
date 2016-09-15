@@ -29,7 +29,7 @@ export class SuiTabset implements AfterContentInit {
 
         this._tabs.changes.subscribe(tabHeaders => {
             setTimeout(() => {
-                this.loadTabs()
+                this.loadTabs();
             });
         });
     }
@@ -41,7 +41,7 @@ export class SuiTabset implements AfterContentInit {
             throw new Error("You cannot have no tabs!");
         }
         //For every content header we have managed to find,
-        this._loadedTabs.forEach((t:SuiTab) => {
+        this._loadedTabs.forEach((t:SuiTab, i:number) => {
             //Assuming they have an associated content
             if (!t.content) {
                 //Link the content header with the content with the same ID excluding ones that are already linked
@@ -55,6 +55,8 @@ export class SuiTabset implements AfterContentInit {
 
                 t.content = possibleContents.pop();
             }
+
+            t.index = i;
 
             //Next observe the content's state to catch any changes made anywhere
             t.stateChanged$.subscribe((t:SuiTab) => this.tabStateChanged(t));
@@ -81,8 +83,8 @@ export class SuiTabset implements AfterContentInit {
             this._activeTab = tab;
         }
         //Otherwise check there are no active tabs
-        else if (this._activeTab && !this._loadedTabs.filter((tH:SuiTab) => tH.isActive).length) {
-            this.activateClosestTab(tab);
+        else if (this._activeTab && !this._loadedTabs.find((tH:SuiTab) => tH.isActive)) {
+            this.activateClosestTab(this._activeTab);
         }
 
         //Check if the content is now disabled, and if so if is currently active
@@ -114,13 +116,14 @@ export class SuiTabset implements AfterContentInit {
     private activateClosestTab(tab:SuiTab) {
         //Grab a list of all of the loaded tabs that aren't disabled (excluding the one we are leaving)
         var availableTabs = this._loadedTabs
-            .filter((tH:SuiTab) => !tH.isDisabled || tH == tab);
+            .filter((tH:SuiTab) => !tH.isDisabled);
 
-        var tabIndex = availableTabs
-            .findIndex((tH:SuiTab) => tH == tab);
+        var tabIndex = tab.index;
 
-        //Go to the previous content, unless it is the 1st content.
-        tabIndex += (tabIndex ? -1 : 1);
+        // Only change the tabIndex if we have to.
+        if (tabIndex >= availableTabs.length) {
+            tabIndex = availableTabs.length - 1;
+        }
 
         availableTabs[tabIndex].isActive = true;
         //This if we just activated a disabled content, not to worry as it will bubble through
