@@ -10,7 +10,7 @@ import {SuiSelectOption} from "./select-option";
 import {KeyCode} from '../../components/dropdown/dropdown.service';
 import {Subscription} from "rxjs";
 import {SuiDropdownService} from "../dropdown/dropdown.service";
-import {Input, Output} from "@angular/core/src/metadata/directives";
+import {Input, Output} from "@angular/core";
 import {SuiSearchService} from "../search/search.service";
 import {SuiSelectMultiLabel} from "./multi-select-label";
 
