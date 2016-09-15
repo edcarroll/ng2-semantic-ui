@@ -10,7 +10,7 @@
             <i class="edit icon visible" (click)="detail = !detail"></i>
         </div>
     </div>
-    <div [suiCollapse]="!detail">
+    <div [suiCollapse]="!detail" *ngIf="code">
         <div class="annotation transition visible">
             <div class="ui instructive bottom attached segment">
                 <demo-codeblock language="markup" [src]="code"></demo-codeblock>

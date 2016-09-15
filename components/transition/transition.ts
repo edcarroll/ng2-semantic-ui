@@ -4,6 +4,7 @@ export interface ISuiAnimation {
     name:string;
     classes?:string[];
     duration?:number;
+    static?:boolean;
     display?:string;
     direction?:string;
     callback?:() => any;
@@ -75,6 +76,9 @@ export class SuiTransition {
         if (!animation.display) {
             animation.display = 'block';
         }
+        if (!animation.static) {
+            animation.static = ["jiggle", "flash", "shake", "pulse", "tada", "bounce"].indexOf(animation.name) != -1;
+        }
         if (!animation.direction) {
             animation.direction = this.isVisible ? "out" : "in";
             let queueLast = this.queueFirst();
@@ -117,6 +121,9 @@ export class SuiTransition {
         this.renderer.setElementStyle(this.el.nativeElement, `display`, null);
 
         this.isVisible = animation.direction == "in" ? true : false;
+        if (animation.static) {
+            this.isVisible = !this.isVisible;
+        }
 
         if (animation.callback) {
             animation.callback();

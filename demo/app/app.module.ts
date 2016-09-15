@@ -23,6 +23,7 @@ import { TabsPageComponents } from "./pages/tabs/tabs.page";
 import { TestPage } from "./pages/test/test.page";
 
 import {CodeblockComponent} from './components/codeblock/codeblock.component';
+import {TransitionPageComponents} from "./pages/transition/transition.page";
 
 @NgModule({
     declarations: [
@@ -46,6 +47,7 @@ import {CodeblockComponent} from './components/codeblock/codeblock.component';
         SearchPageComponents,
         SelectPageComponents,
         TabsPageComponents,
+        TransitionPageComponents,
 
         TestPage
     ],

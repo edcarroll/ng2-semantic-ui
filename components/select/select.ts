@@ -100,6 +100,7 @@ export class SuiSelect implements AfterContentInit, AfterViewInit {
     private set query(value:string) {
         this._searchService.updateQuery(value);
         this.isOpen = true;
+        this.focusFirstItem();
     }
 
     @Output()
@@ -218,6 +219,13 @@ export class SuiSelect implements AfterContentInit, AfterViewInit {
         if (this.isSearchable) {
             this._dropdownService.dropdownElement.nativeElement.querySelector("input").focus();
         }
+    }
+
+    private focusFirstItem() {
+        setTimeout(() => {
+            this._dropdownService.selectedItem = null;
+            this._dropdownService.selectNextItem();
+        });
     }
 
     public writeValue(value:any) {

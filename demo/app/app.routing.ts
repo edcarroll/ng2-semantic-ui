@@ -14,6 +14,7 @@ import {SearchPage} from "./pages/search/search.page";
 import {TabsPage} from "./pages/tabs/tabs.page";
 import {TestPage} from "./pages/test/test.page";
 import {SelectPage} from "./pages/select/select.page";
+import {TransitionPage} from "./pages/transition/transition.page";
 
 const appRoutes: Routes = [
     {
@@ -63,6 +64,10 @@ const appRoutes: Routes = [
     {
         path: 'components/tabs',
         component: TabsPage
+    },
+    {
+        path: 'components/transition',
+        component: TransitionPage
     },
     {
         path: 'test',
