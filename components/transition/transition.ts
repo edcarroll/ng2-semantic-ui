@@ -2,12 +2,15 @@ import {Directive, HostBinding, ElementRef, AfterViewInit, Renderer} from "@angu
 
 export interface ISuiAnimation {
     name:string;
-    classes?:string[];
     duration?:number;
-    static?:boolean;
     display?:string;
     direction?:string;
     callback?:() => any;
+}
+
+interface ISuiConfiguredAnimation extends ISuiAnimation {
+    classes?:string[];
+    static?:boolean;
 }
 
 @Directive({
@@ -62,33 +65,40 @@ export class SuiTransition {
         this.renderer.setElementClass(this.el.nativeElement, "hidden", value);
     }
 
-    private queue:ISuiAnimation[] = [];
+    private queue:ISuiConfiguredAnimation[] = [];
 
     private queueFirst() {
         return this.queue.slice(0, 1).pop();
     }
 
+    private queueLast() {
+        return this.queue.slice(-1).pop();
+    }
+
     public animate(animation:ISuiAnimation) {
         animation = Object.assign({}, animation);
-        animation.classes = animation.name.split(" ");
-        if (!animation.duration) {
-            animation.duration = 250;
+        let anim = animation as ISuiConfiguredAnimation;
+
+        anim.classes = animation.name.split(" ");
+        if (!anim.duration) {
+            anim.duration = 250;
         }
-        if (!animation.display) {
-            animation.display = 'block';
+        if (!anim.display) {
+            anim.display = 'block';
         }
-        if (!animation.static) {
-            animation.static = ["jiggle", "flash", "shake", "pulse", "tada", "bounce"].indexOf(animation.name) != -1;
+        if (!anim.static) {
+            anim.static = ["jiggle", "flash", "shake", "pulse", "tada", "bounce"].indexOf(anim.name) != -1;
         }
-        if (!animation.direction) {
-            animation.direction = this.isVisible ? "out" : "in";
-            let queueLast = this.queueFirst();
+        if (!anim.direction) {
+            anim.direction = this.isVisible ? "out" : "in";
+            let queueLast = this.queueLast();
             if (queueLast) {
-                animation.direction = queueLast.direction == "in" ? "out" : "in"
+                anim.direction = queueLast.direction == "in" ? "out" : "in"
             }
         }
 
         this.queue.push(animation);
+
         this.performAnimation();
     }
 
@@ -97,6 +107,7 @@ export class SuiTransition {
             return;
         }
         let animation = this.queue.slice(0, 1).pop();
+        console.log(animation);
         if (!animation) {
             return;
         }
@@ -115,7 +126,7 @@ export class SuiTransition {
         this.animationTimeout = setTimeout(() => this.finishAnimation(animation), animation.duration);
     }
 
-    private finishAnimation(animation:ISuiAnimation) {
+    private finishAnimation(animation:ISuiConfiguredAnimation) {
         this.isAnimating = false;
         animation.classes.forEach(c => this.renderer.setElementClass(this.el.nativeElement, c, false));
         this.renderer.setElementClass(this.el.nativeElement, animation.direction, false);

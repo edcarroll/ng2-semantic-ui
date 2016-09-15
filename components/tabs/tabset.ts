@@ -29,7 +29,7 @@ export class SuiTabset implements AfterContentInit {
 
         this._tabs.changes.subscribe(tabHeaders => {
             setTimeout(() => {
-                this.loadTabs()
+                this.loadTabs();
             });
         });
     }
