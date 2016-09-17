@@ -141,7 +141,7 @@ export class SelectPage {
 `;
     public exampleSearchTemplate:string = `
 <p>You can also use the keyboard to navigate.</p>
-<sui-select [(ngModel)]="selectedOption" [options]="options" displayField="name" [isSearchable]="true" #searchSelect>
+<sui-select [(ngModel)]="selectedOption" [options]="options" displayField="name" keyField="id" [isSearchable]="true" #searchSelect>
     <sui-select-option *ngFor="let option of searchSelect.availableOptions" [value]="option"></sui-select-option>
 </sui-select>
 <div class="ui segment">
@@ -217,7 +217,7 @@ export class SelectExampleOptions {
     template: new SelectPage().exampleSearchTemplate
 })
 export class SelectExampleSearch {
-    public options:Array<any> = [{ name: "Example" }, { name: "Test"}, { name: "What"}, { name: "No"}, { name: "Benefit"}, { name: "Oranges"}, { name: "Artemis"}, { name: "Another"}];
+    public options:Array<any> = [{ name: "Example" }, { name: "Test" }, { name: "What" }, { name: "No" }, { name: "Benefit" }, { name: "Oranges" }, { name: "Artemis" }, { name: "Another" }];
 }
 
 @Component({

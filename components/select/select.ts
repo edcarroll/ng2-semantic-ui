@@ -73,12 +73,15 @@ export class SuiSelect implements AfterContentInit, AfterViewInit {
     public placeholder:string = "Select one";
 
     @Input()
-    public get options():any {
+    public get options():any[] {
         return this._searchService.options;
     }
 
-    public set options(value:any) {
+    public set options(value:any[]) {
         this._searchService.options = value;
+        if (this.options.length > 0 && !this.options.find(o => o == this.selectedOption)) {
+            this.selectedOption = this.options.find(o => this.selectedOption == this._searchService.deepValue(o, this.keyField));
+        }
     }
 
     @Input()
