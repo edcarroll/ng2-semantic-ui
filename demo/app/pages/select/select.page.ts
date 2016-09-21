@@ -106,7 +106,7 @@ export class SelectPage {
                     description: "Fires whenever the select's selected item is changed. <code>[(ngModel)]</code> syntax is supported."
                 },
                 {
-                    name: "selectedOptionChange",
+                    name: "selectedOptionsChange",
                     description: "Fires whenever the select's selected item is changed. The selected value is passed as <code>$event</code>."
                 }
             ]
