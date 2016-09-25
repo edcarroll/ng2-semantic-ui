@@ -35,7 +35,7 @@ import {SuiSelectMultiLabel} from "./multi-select-label";
     styles: [`
 :host input.search {
     width: 12em !important;
-} 
+}
 .selected-results {
     display: none;
 }
@@ -166,7 +166,7 @@ export class SuiMultiSelect implements AfterContentInit, AfterViewInit {
         this._searchService.searchDelay = 0;
 
         this._dropdownService.isOpenChange
-            .subscribe(isOpen => {
+            .subscribe((isOpen: boolean) => {
                 if (isOpen) {
                     if (this.isSearchable && !this._dropdownService.selectedItem) {
                         this._dropdownService.selectNextItem();
