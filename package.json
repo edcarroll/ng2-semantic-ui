@@ -49,7 +49,7 @@
     "@types/prismjs": "^1.4.17",
     "@types/protractor": "^1.5.16",
     "@types/requirejs": "^2.1.26",
-    "angular-cli": "1.0.0-beta.11-webpack.8",
+    "angular-cli": "1.0.0-beta.15",
     "codelyzer": "0.0.26",
     "jasmine-core": "2.4.1",
     "jasmine-spec-reporter": "2.5.0",
@@ -61,6 +61,6 @@
     "protractor": "3.3.0",
     "ts-node": "1.2.1",
     "tslint": "3.13.0",
-    "typescript": "^2.0.0"
+    "typescript": "^2.0.3"
   }
 }
