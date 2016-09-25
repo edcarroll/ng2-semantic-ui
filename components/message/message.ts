@@ -1,6 +1,6 @@
 import {Component, Input, Output, EventEmitter, ElementRef, Renderer, AfterViewInit} from '@angular/core';
 import {SuiTransition} from "../transition/transition";
-import {ViewChild} from "@angular/core/src/metadata/di";
+import {ViewChild} from "@angular/core";
 
 @Component({
     selector: 'sui-message',

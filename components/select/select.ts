@@ -10,7 +10,7 @@ import {SuiSelectOption} from "./select-option";
 import {KeyCode} from '../../components/dropdown/dropdown.service';
 import {Subscription} from "rxjs";
 import {SuiDropdownService} from "../dropdown/dropdown.service";
-import {Input, Output} from "@angular/core/src/metadata/directives";
+import {Input, Output} from "@angular/core";
 import {SuiSearchService} from "../search/search.service";
 import {SuiMultiSelect, SuiMultiSelectValueAccessor} from "./multi-select";
 import {SuiSelectMultiLabel} from "./multi-select-label";
@@ -73,12 +73,15 @@ export class SuiSelect implements AfterContentInit, AfterViewInit {
     public placeholder:string = "Select one";
 
     @Input()
-    public get options():any {
+    public get options():any[] {
         return this._searchService.options;
     }
 
-    public set options(value:any) {
+    public set options(value:any[]) {
         this._searchService.options = value;
+        if (this.options.length > 0 && !this.options.find(o => o == this.selectedOption)) {
+            this.selectedOption = this.options.find(o => this.selectedOption == this._searchService.deepValue(o, this.keyField));
+        }
     }
 
     @Input()

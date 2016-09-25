@@ -10,7 +10,7 @@ import {SuiSelectOption} from "./select-option";
 import {KeyCode} from '../../components/dropdown/dropdown.service';
 import {Subscription} from "rxjs";
 import {SuiDropdownService} from "../dropdown/dropdown.service";
-import {Input, Output} from "@angular/core/src/metadata/directives";
+import {Input, Output} from "@angular/core";
 import {SuiSearchService} from "../search/search.service";
 import {SuiSelectMultiLabel} from "./multi-select-label";
 
@@ -78,12 +78,20 @@ export class SuiMultiSelect implements AfterContentInit, AfterViewInit {
     public placeholder:string = "Select...";
 
     @Input()
-    public get options():any {
+    public get options():any[] {
         return this._searchService.options;
     }
 
-    public set options(value:any) {
+    public set options(value:any[]) {
         this._searchService.options = value;
+        if (this.options.length > 0 && this.selectedOptions) {
+            this.selectedOptions = this.selectedOptions.map(so => {
+                if (!this.options.find(o => o == so)) {
+                    return this.options.find(o => so == this._searchService.deepValue(o, this.keyField));
+                }
+                return so;
+            });
+        }
     }
 
     @Input()
@@ -257,8 +265,7 @@ export class SuiMultiSelect implements AfterContentInit, AfterViewInit {
             this.selectedOptions = value;
             if (this.options.length > 0) {
                 this.selectedOptions = this.selectedOptions.map(so => {
-                    let compareValue = this._searchService.deepValue(so, this.keyField);
-                    return this.options.find( (o:any) => compareValue == o);
+                    return this.options.find(o => so == this._searchService.deepValue(o, this.keyField));
                 });
             }
         }
