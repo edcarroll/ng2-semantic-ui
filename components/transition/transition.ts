@@ -42,7 +42,7 @@ export class SuiTransition {
 
     private animationTimeout:any;
 
-    private _isVisible = null;
+    private _isVisible:boolean = null;
 
     public get isVisible() {
         return this._isVisible;
@@ -54,7 +54,7 @@ export class SuiTransition {
         this.isHidden = this.isVisible !== null && !this.isVisible && !this.isAnimating;
     }
 
-    private _isHidden;
+    private _isHidden: boolean;
 
     public get isHidden() {
         return this._isHidden;

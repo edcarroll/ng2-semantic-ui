@@ -39,7 +39,7 @@ export class SuiSearch implements AfterViewInit {
         this._dropdownService.itemSelectedClass = "active";
 
         this._dropdownService.isOpenChange
-            .subscribe(isOpen => {
+            .subscribe( (isOpen: boolean) => {
                 if (isOpen) {
                     if (!this._dropdownService.selectedItem) {
                         this._dropdownService.selectNextItem();
