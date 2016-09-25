@@ -36,7 +36,7 @@ import {SuiSelectMultiLabel} from "./multi-select-label";
     styles: [`
 :host input.search {
     width: 12em !important;
-} 
+}
 .selected-results {
     display: none;
 }
@@ -154,7 +154,7 @@ export class SuiSelect implements AfterContentInit, AfterViewInit {
         this._searchService.searchDelay = 0;
 
         this._dropdownService.isOpenChange
-            .subscribe(isOpen => {
+            .subscribe( (isOpen: boolean) => {
                 if (isOpen) {
                     if (this.isSearchable && !this._dropdownService.selectedItem) {
                         this._dropdownService.selectNextItem();
@@ -232,7 +232,8 @@ export class SuiSelect implements AfterContentInit, AfterViewInit {
         if (value !== null && value !== undefined) {
             this.selectedOption = value;
             if (this.options.length > 0) {
-                this.selectedOption = this.options.find(o => value == this._searchService.deepValue(o, this.keyField));
+                this.selectedOption = this.options.find(
+                    (o:any) => value == this._searchService.deepValue(o, this.keyField));
             }
         }
         this.renderSelectedItem();
