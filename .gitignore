@@ -32,7 +32,7 @@ testem.log
 .DS_Store
 Thumbs.db
 
-# TypeScript
-*.js
-*.map
+# Non TS files
 *.d.ts
+*.js
+*.js.map
