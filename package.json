@@ -25,9 +25,9 @@
   "scripts": {
     "start": "ng serve",
     "lint": "tslint \"demo/**/*.ts\"",
-    "compile": "tsc",
-    "compile:w": "tsc -w",
-    "prepublish": "tsc"
+    "compile": "ngc",
+    "compile:w": "ngc -w",
+    "prepublish": "ngc"
   },
   "dependencies": {
     "@angular/common": "^2.0.0",

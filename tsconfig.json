@@ -19,5 +19,8 @@
     "files": [
         "ng2-semantic-ui.ts",
         "components/index.ts"
-    ]
+    ],
+    "angularCompilerOptions": {
+        "genDir": "factories"
+    }
 }
