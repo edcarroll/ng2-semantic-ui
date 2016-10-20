@@ -36,3 +36,7 @@ Thumbs.db
 *.js
 *.map
 *.d.ts
+
+factories
+
+/**/*.metadata.json
