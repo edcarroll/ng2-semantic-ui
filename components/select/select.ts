@@ -238,9 +238,8 @@ export class SuiSelect implements AfterContentInit, AfterViewInit {
         if (value !== null && value !== undefined) {
             this.selectedOption = value;
             if (this.options.length > 0) {
-                let findValue = this.keyField ? this._searchService.deepValue(value, this.keyField) : value;
                 this.selectedOption = this.options.find(
-                    (o:any) => findValue == this._searchService.deepValue(o, this.keyField));
+                    (o:any) => value == this._searchService.deepValue(o, this.keyField));
             }
         }
         this.renderSelectedItem();
