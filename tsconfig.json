@@ -2,7 +2,7 @@
     "compilerOptions": {
         "baseUrl": ".",
         "declaration": true,
-        "skipInternal": true,
+        "stripInternal": true,
         "experimentalDecorators": true,
         "strictNullChecks": true,
         "noImplicitAny": true,
