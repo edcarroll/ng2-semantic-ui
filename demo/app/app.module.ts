@@ -7,7 +7,7 @@ import { routing } from "./app.routing";
 import { GettingStartedPage } from './pages/getting-started/getting-started.page';
 import { PageTitleComponent } from './components/page-title/page-title.component';
 import { ExampleComponent } from './components/example/example.component';
-import { SuiModule } from "../../components";
+import { SuiModule } from "../../dist/ng2-semantic-ui";
 import { ApiComponent } from './components/api/api.component';
 import { CollapsePageComponents } from './pages/collapse/collapse.page';
 import { AccordionPageComponents } from "./pages/accordion/accordion.page";
