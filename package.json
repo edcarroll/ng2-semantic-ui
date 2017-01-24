@@ -27,7 +27,11 @@
     "lint": "tslint \"demo/**/*.ts\"",
     "compile": "tsc",
     "compile:w": "tsc -w",
-    "prepublish": "tsc"
+    "prepublish": "tsc",
+    "transpile": "ngc",
+    "package": "rollup -c",
+    "minify": "uglifyjs ng2.semantic-ui.umd.js --screw-ie8 --compress --mangle --comments --output ng2.semantic-ui.umd.min.js",
+    "build": "npm run transpile && npm run package && npm run minify"
   },
   "dependencies": {
     "@angular/common": "^2.0.0",
