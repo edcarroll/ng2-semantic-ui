@@ -45,6 +45,8 @@
     "zone.js": "^0.6.21"
   },
   "devDependencies": {
+    "@angular/compiler": "^2.4.4",
+    "@angular/compiler-cli": "^2.4.4",
     "@types/jasmine": "^2.2.30",
     "@types/prismjs": "^1.4.17",
     "@types/protractor": "^1.5.16",
@@ -59,8 +61,10 @@
     "karma-remap-istanbul": "^0.2.1",
     "prismjs": "^1.5.1",
     "protractor": "3.3.0",
+    "rollup": "^0.41.4",
     "ts-node": "1.2.1",
     "tslint": "3.13.0",
-    "typescript": "^2.0.3"
+    "typescript": "^2.1.5",
+    "uglify-js": "^2.7.5"
   }
 }
