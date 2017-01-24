@@ -30,8 +30,7 @@
     "prepublish": "tsc",
     "transpile": "ngc",
     "package": "rollup -c",
-    "minify": "uglifyjs dist/bundles/ng2-semantic-ui.umd.js --screw-ie8 --compress --mangle --comments --output dist/bundles/ng2-semantic-ui.umd.min.js",
-    "build": "npm run transpile && npm run package && npm run minify"
+    "build": "npm run transpile && npm run package"
   },
   "dependencies": {
     "@angular/common": "^2.4.4",
@@ -66,9 +65,11 @@
     "prismjs": "^1.5.1",
     "protractor": "3.3.0",
     "rollup": "^0.41.4",
+    "rollup-plugin-commonjs": "^7.0.0",
+    "rollup-plugin-node-resolve": "^2.0.0",
+    "rollup-plugin-uglify": "^1.0.1",
     "ts-node": "1.2.1",
     "tslint": "3.13.0",
-    "typescript": "^2.1.5",
-    "uglify-js": "^2.7.5"
+    "typescript": "^2.1.5"
   }
 }
