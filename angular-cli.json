@@ -1,13 +1,16 @@
 {
   "project": {
-    "version": "1.0.0-beta.11-webpack.8",
+    "version": "1.0.0-beta.26",
     "name": "ng2-semantic-ui"
   },
   "apps": [
     {
       "root": "demo",
       "outDir": "dist",
-      "assets": "assets",
+      "assets": [
+        "assets",
+        "favicon.ico"
+      ],
       "index": "index.html",
       "main": "main.ts",
       "test": "test.ts",
@@ -15,19 +18,17 @@
       "prefix": "app",
       "mobile": false,
       "styles": [
-          "css/style.css",
-          "css/code.css"
+        "css/style.css",
+        "css/code.css"
       ],
       "scripts": [],
       "environments": {
         "source": "environments/environment.ts",
-        "prod": "environments/environment.prod.ts",
-        "dev": "environments/environment.dev.ts"
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts"
       }
     }
   ],
-  "addons": [],
-  "packages": [],
   "e2e": {
     "protractor": {
       "config": "./protractor.conf.js"
@@ -41,6 +42,17 @@
   "defaults": {
     "styleExt": "css",
     "prefixInterfaces": false,
-    "lazyRoutePrefix": "+"
+    "inline": {
+      "style": false,
+      "template": false
+    },
+    "spec": {
+      "class": false,
+      "component": true,
+      "directive": true,
+      "module": false,
+      "pipe": true,
+      "service": true
+    }
   }
 }
