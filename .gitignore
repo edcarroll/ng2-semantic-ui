@@ -4,6 +4,11 @@
 /dist
 /tmp
 
+## ngc logs
+
+*.ngfactory.ts
+*.ngsummary.json
+
 # dependencies
 /node_modules
 /bower_components
