@@ -7,10 +7,10 @@
 <demo-page-content>
     <h2 class="ui dividing header">Examples</h2>
     <div class="ui segment">
-        <img id="testImage" src="http://semantic-ui.com/images/leaves/1.png" class="ui autumn leaf image" suiTransition #transition="transition">
-        <button class="ui button" (click)="test(transition)">Animate!</button>
-        <button class="ui button" (click)="test2(transition)">Stop!</button>
-        <button class="ui button" (click)="test3(transition)">Stop all!</button>
-        <p>{{ transition.isVisible }}</p>
+        <img id="testImage" src="http://semantic-ui.com/images/leaves/1.png" class="ui autumn leaf image" [newSuiTransition]="transition">
+        <button class="ui button" (click)="animate()">Animate!</button>
+        <button class="ui button" (click)="stop()">Stop!</button>
+        <button class="ui button" (click)="stopAll()">Stop all!</button>
+        <p>{{ transition.isVisible }} {{ transition.isAnimating }}</p>
     </div>
 </demo-page-content>

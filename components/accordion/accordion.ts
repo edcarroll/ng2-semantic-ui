@@ -17,7 +17,6 @@ import {SuiAccordionService} from "./accordion.service";
 :host.styled sui-accordion-panel:first-child .title {
     border-top: none
 }
-
 `]
 })
 export class SuiAccordion implements AfterContentInit {
@@ -31,9 +30,11 @@ export class SuiAccordion implements AfterContentInit {
     }
 
     @HostBinding('class.ui')
-    @HostBinding('class.accordion') classes = true;
+    @HostBinding('class.accordion')
+    private _suiClasses = true;
 
     protected _service:SuiAccordionService;
+    
     @ContentChildren(SuiAccordionPanel)
     protected panels:QueryList<SuiAccordionPanel>;
 

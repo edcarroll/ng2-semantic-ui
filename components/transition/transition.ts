@@ -18,17 +18,6 @@ interface ISuiConfiguredAnimation extends ISuiAnimation {
     exportAs: 'transition'
 })
 export class SuiTransition {
-    constructor(private el:ElementRef, private renderer:Renderer) {
-        this.renderer.setElementClass(this.el.nativeElement, "transition", true);
-
-        setTimeout(() => {
-            let style = window.getComputedStyle(this.el.nativeElement);
-            if (this.isVisible === null) {
-                this.isVisible = style.display !== 'none';
-            }
-        });
-    }
-
     private _isAnimating = false;
 
     public get isAnimating() {
@@ -66,6 +55,18 @@ export class SuiTransition {
     }
 
     private queue:ISuiConfiguredAnimation[] = [];
+
+    constructor(private el:ElementRef, private renderer:Renderer) {
+        this.renderer.setElementClass(this.el.nativeElement, "transition", true);
+
+        // Set initial state to visible / invisible
+        setTimeout(() => {
+            let style = window.getComputedStyle(this.el.nativeElement);
+            if (this.isVisible === null) {
+                this.isVisible = style.display !== 'none';
+            }
+        });
+    }
 
     private queueFirst() {
         return this.queue.slice(0, 1).pop();

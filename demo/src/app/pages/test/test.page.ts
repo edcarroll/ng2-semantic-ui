@@ -1,23 +1,27 @@
 import { Component } from '@angular/core';
 import {SuiTransition} from "../../../../../components/transition/transition";
+import {TransitionController, Transition} from '../../../../../components/transition/new-transition';
 
 @Component({
   selector: 'demo-page-test',
   templateUrl: './test.page.html'
 })
 export class TestPage {
-    public test(transition:SuiTransition) {
-        transition.animate({
-            name: "scale",
-            duration: 2000
-        });
+    public transition:TransitionController;
+
+    constructor() {
+        this.transition = new TransitionController(false);
     }
 
-    public test2(transition:SuiTransition) {
-        transition.stop();
+    public animate() {
+        this.transition.animate(new Transition("fade in", 1000));
     }
 
-    public test3(transition:SuiTransition) {
-        transition.stopAll();
+    public stop() {
+        this.transition.stop();
     }
+
+    public stopAll() {
+        this.transition.stopAll();
+    }    
 }

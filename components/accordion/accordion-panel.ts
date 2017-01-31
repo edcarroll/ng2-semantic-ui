@@ -26,17 +26,20 @@ import {SuiAccordionService} from "./accordion.service";
 })
 export class SuiAccordionPanel {
     private _service:SuiAccordionService;
+    
     public set service(service:SuiAccordionService) {
         this._service = service;
     }
 
-    @Input() public isDisabled:boolean;
+    @Input()
+    public isDisabled:boolean;
 
     @Input()
-    public get isOpen():boolean {
+    public get isOpen() {
         return this._isOpen;
     }
-    @Output() public isOpenChange:EventEmitter<boolean> = new EventEmitter<boolean>(false);
+    @Output()
+    public isOpenChange:EventEmitter<boolean> = new EventEmitter<boolean>(false);
 
     public set isOpen(value:boolean) {
         this._isOpen = value;
