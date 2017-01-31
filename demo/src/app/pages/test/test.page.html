@@ -1,0 +1,17 @@
+<demo-page-title>
+    <div header>Test</div>
+    <div sub-header>
+        <p>Test component!</p>
+    </div>
+</demo-page-title>
+<div class="ui main container">
+    <div class="ui dividing right rail"></div>
+    <h2 class="ui dividing header">Examples</h2>
+    <div class="ui segment">
+        <img id="testImage" src="http://semantic-ui.com/images/leaves/1.png" class="ui autumn leaf image" suiTransition #transition="transition">
+        <button class="ui button" (click)="test(transition)">Animate!</button>
+        <button class="ui button" (click)="test2(transition)">Stop!</button>
+        <button class="ui button" (click)="test3(transition)">Stop all!</button>
+        <p>{{ transition.isVisible }}</p>
+    </div>
+</div>
