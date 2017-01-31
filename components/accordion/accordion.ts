@@ -1,7 +1,4 @@
-import {
-    Component, Input, HostBinding, ContentChildren, QueryList,
-    AfterContentInit
-} from "@angular/core";
+import {Component, Input, HostBinding, ContentChildren, QueryList, AfterContentInit} from "@angular/core";
 import {SuiAccordionPanel} from "./accordion-panel";
 import {SuiAccordionService} from "./accordion.service";
 

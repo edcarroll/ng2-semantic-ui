@@ -14,7 +14,7 @@
         ]
     },
     "files": [
-        "ng2-semantic-ui.ts",
-        "components/index.ts"
+        "index.ts",
+        "ng2-semantic-ui.ts"
     ]
 }
