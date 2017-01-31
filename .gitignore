@@ -13,6 +13,7 @@ bundles
 .idea
 .project
 .settings
+.vscode
 
 # Windows
 Thumbs.db
