@@ -4,7 +4,8 @@ import {Component, AfterViewInit, Input, ChangeDetectorRef} from '@angular/core'
     selector: "demo-codeblock",
     template: `
 <pre [ngClass]="languageClass" [innerHTML]="html"></pre>
-`
+`,
+    styleUrls: ['./codeblock.component.css']
 })
 export class CodeblockComponent implements AfterViewInit {
     @Input()

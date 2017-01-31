@@ -1,0 +1,18 @@
+:host.ui.main.container {
+    margin-left: 3em !important;
+    margin-right: 387px !important;
+    max-width: 960px !important;
+    padding: 2em 0 7em;
+    position: relative;
+}
+
+:host.ui.main.container > h2 {
+    position: relative;
+    margin: 5rem 0rem 3rem;
+}
+
+:host.ui.main.container > .rail + h2,
+:host.ui.main.container > h2:first-child {
+    margin-top: 0;
+}
+

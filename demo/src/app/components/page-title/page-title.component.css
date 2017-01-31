@@ -1,0 +1,32 @@
+:host.ui.masthead.segment > .container, .main.container, .fixed.menu > .container {
+    margin-left: 3em !important;
+    margin-right: 3em !important;
+    width: auto !important;
+    max-width: 960px !important;
+}
+
+:host.ui.masthead.segment {
+    display: block;
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    padding: 3em 0;
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #DDDDDD;
+    box-shadow: none;
+}
+
+:host > .container {
+    margin-right: 387px !important;
+}
+
+:host > .container, .main.container, .fixed.menu > .container {
+    margin-left: 3em !important;
+    margin-right: 3em !important;
+    width: auto !important;
+    max-width: 960px !important;
+}
+
+.github {
+    float: right;
+}

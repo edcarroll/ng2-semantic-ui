@@ -16,10 +16,7 @@
       "tsconfig": "tsconfig.json",
       "prefix": "demo",
       "mobile": false,
-      "styles": [
-        "css/styles.css",
-        "css/code.css"
-      ],
+      "styles": ["styles.css"],
       "scripts": [],
       "environments": {
         "source": "environments/environment.ts",

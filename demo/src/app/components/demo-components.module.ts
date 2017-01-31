@@ -5,6 +5,7 @@ import {ApiComponent} from './api/api.component';
 import {CodeblockComponent} from './codeblock/codeblock.component';
 import {ExampleComponent} from './example/example.component';
 import {PageTitleComponent} from './page-title/page-title.component';
+import {PageContentComponent} from './page-content/page-content.component';
 
 @NgModule({
     imports: [
@@ -15,13 +16,15 @@ import {PageTitleComponent} from './page-title/page-title.component';
         ApiComponent,
         CodeblockComponent,
         ExampleComponent,
-        PageTitleComponent
+        PageTitleComponent,
+        PageContentComponent
     ],
     exports: [
         ApiComponent,
         CodeblockComponent,
         ExampleComponent,
-        PageTitleComponent
+        PageTitleComponent,
+        PageContentComponent
     ]
 })
 export class DemoComponentsModule {}

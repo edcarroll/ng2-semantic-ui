@@ -1,3 +1,49 @@
+body {
+    font-size: 15px;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+}
+
+.sidebar > .menu {
+    height: 100%;
+    border-radius: 0;
+}
+
+.article {
+    position: fixed;
+    top: 0;
+    left: 250px;
+    right: 0;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.ui.image {
+    margin: -0.25rem 0.25rem 0 0.25rem !important;
+}
+
+.logo {
+    margin-left: 10px;
+    font-size: 16px;
+    vertical-align: sub;
+}
+
+p code, .description code {
+    padding: 2px 4px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+    font-size: 90%;
+    color: #008C79;
+    background-color: rgba(0,0,0,0.04);
+    border-radius: 4px;
+}
+
 /**
  * prism.js default theme for JavaScript, CSS and HTML
  * Based on dabblet (http://dabblet.com)
@@ -89,7 +135,7 @@ pre[class*="language-"] {
 .token.constant,
 .token.symbol,
 .token.deleted {
-    color: #892A6F;
+    color: #892A6F !important;
 }
 
 .token.selector,
@@ -98,7 +144,7 @@ pre[class*="language-"] {
 .token.char,
 .token.builtin,
 .token.inserted {
-    color: #934E4E;
+    color: #934E4E !important;
 }
 
 .token.operator,
@@ -106,24 +152,24 @@ pre[class*="language-"] {
 .token.url,
 .language-css .token.string,
 .style .token.string {
-    color: #a67f59;
-    background: hsla(0, 0%, 100%, .5);
+    color: #a67f59 !important;
+    background: hsla(0, 0%, 100%, .5) !important;
 }
 
 .token.atrule,
 .token.attr-value,
 .token.keyword {
-    color: #008C79;
+    color: #008C79 !important;
 }
 
 .token.function {
-    color: #DD4A68;
+    color: #DD4A68 !important;
 }
 
 .token.regex,
 .token.important,
 .token.variable {
-    color: #e90;
+    color: #ee9900 !important;
 }
 
 .token.important,
