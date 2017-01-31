@@ -107,5 +107,5 @@ export class AccordionExampleStandard { }
 })
 export class AccordionExampleStyled { }
 
-export const AccordionPageComponents:Array<any> = [AccordionPage, AccordionExampleStandard, AccordionExampleStyled];
+export const AccordionPageComponents = [AccordionPage, AccordionExampleStandard, AccordionExampleStyled];
 

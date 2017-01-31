@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {AppComponent} from './app.component';
-import {routing} from "./app.routing";
+import {DemoRoutingModule} from './app.routing';
 import {GettingStartedPage} from './pages/getting-started/getting-started.page';
 import {SuiModule} from "../../../components";
 
@@ -20,45 +20,20 @@ import {SelectPageComponents} from "./pages/select/select.page";
 import {TabsPageComponents} from "./pages/tabs/tabs.page";
 import {TestPage} from "./pages/test/test.page";
 
-import {CodeblockComponent} from './components/codeblock/codeblock.component';
 import {TransitionPageComponents} from "./pages/transition/transition.page";
-import {PageTitleComponent} from './components/page-title/page-title.component';
-import {ExampleComponent} from './components/example/example.component';
-import {ApiComponent} from './components/api/api.component';
+import {DemoComponentsModule} from './components/demo-components.module';
+import {DemoPagesModule} from './pages/demo-pages.module';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-
-        PageTitleComponent,
-        ExampleComponent,
-        ApiComponent,
-        CodeblockComponent,
-
-        GettingStartedPage,
-
-        AccordionPageComponents,
-        CheckboxPageComponents,
-        CollapsePageComponents,
-        DimmerPageComponents,
-        DropdownPageComponents,
-        MessagePageComponents,
-        ProgressPageComponents,
-        RatingPageComponents,
-        SearchPageComponents,
-        SelectPageComponents,
-        TabsPageComponents,
-        TransitionPageComponents,
-
-        TestPage
-    ],
     imports: [
         BrowserModule,
         CommonModule,
-        FormsModule,
-        SuiModule,
-        routing
+
+        DemoRoutingModule,
+        DemoComponentsModule,
+        DemoPagesModule
     ],
+    declarations: [AppComponent],
     providers: [],
     entryComponents: [AppComponent],
     bootstrap: [AppComponent]

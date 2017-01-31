@@ -5,5 +5,6 @@ import {Component, Input} from '@angular/core';
     templateUrl: './api.component.html'
 })
 export class ApiComponent {
-    @Input() public api:any;
+    @Input()
+    public api:any;
 }

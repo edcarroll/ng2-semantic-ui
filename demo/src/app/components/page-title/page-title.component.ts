@@ -13,5 +13,6 @@ export class PageTitleComponent {
     @HostBinding('class.ui')
     @HostBinding('class.masthead')
     @HostBinding('class.vertical')
-    @HostBinding('class.segment') classes = true;
+    @HostBinding('class.segment')
+    classes = true;
 }

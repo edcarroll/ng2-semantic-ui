@@ -6,7 +6,7 @@ import {Component, AfterViewInit, Input, ChangeDetectorRef} from '@angular/core'
 <pre [ngClass]="languageClass" [innerHTML]="html"></pre>
 `
 })
-export class CodeblockComponent implements AfterViewInit{
+export class CodeblockComponent implements AfterViewInit {
     @Input()
     public language:string;
 
@@ -19,7 +19,7 @@ export class CodeblockComponent implements AfterViewInit{
 
     constructor(private changeDetectorRef:ChangeDetectorRef) {}
 
-    ngAfterViewInit(): any {
+    ngAfterViewInit() {
         if (this.src[0] == "\n") {
             this.src = this.src.replace("\n", "");
         }
