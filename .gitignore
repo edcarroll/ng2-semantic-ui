@@ -33,3 +33,5 @@ Thumbs.db
 *.d.ts
 *.js
 *.js.map
+
+demo/dist
