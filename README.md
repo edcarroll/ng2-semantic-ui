@@ -20,12 +20,12 @@ Next include the Semantic UI CSS file in your `index.html` (you can include a ma
 
 Once installed you need to import the main module:
 ```ts
-import {SuiModule} from 'ng2-semantic-ui/ng2-semantic-ui';
+import {SuiModule} from 'ng2-semantic-ui';
 ```
 
 Finally import the main module into your application module:
 ```ts
-import {SuiModule} from 'ng2-semantic-ui/ng2-semantic-ui';
+import {SuiModule} from 'ng2-semantic-ui';
 
 @NgModule({
     declarations: [AppComponent, ...],
