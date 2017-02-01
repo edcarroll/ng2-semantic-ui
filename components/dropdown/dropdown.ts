@@ -40,7 +40,7 @@ export class SuiDropdown implements AfterContentInit {
 
     @HostBinding('class.visible')
     public get isVisible() {
-        return this._service.isVisible;
+        return this._service.transition.isVisible;
     }
 
     @HostBinding('class.disabled')

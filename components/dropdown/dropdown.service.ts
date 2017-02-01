@@ -1,5 +1,5 @@
 import {EventEmitter, ElementRef} from '@angular/core';
-import {SuiTransition} from "../transition/transition";
+import {SuiTransition, TransitionController, Transition, TransitionDirection} from '../transition/transition';
 
 const Disabled = 'disabled';
 const OutsideClick = 'outsideClick';
@@ -44,8 +44,7 @@ export class SuiDropdownService {
     public itemDisabledClass = "disabled";
 
     // Transitions
-    public transition:SuiTransition;
-    public isVisible:boolean;
+    public transition:TransitionController = new TransitionController(false);
 
     public get isOpen():boolean {
         return this._isOpen;
@@ -57,13 +56,8 @@ export class SuiDropdownService {
 
         this._isOpen = value;
         if (this.transition) {
-            this.isVisible = true;
             this.transition.stopAll();
-            this.transition.animate({
-                name: "slide down",
-                duration: 200,
-                callback: () => this.isVisible = this.isOpen
-            });
+            this.transition.animate(new Transition("slide down", 200));
         }
 
         if (this.isOpen) {

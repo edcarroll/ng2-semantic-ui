@@ -126,7 +126,7 @@ export class SuiMultiSelect implements AfterContentInit, AfterViewInit {
 
     @HostBinding('class.visible')
     public get isActive() {
-        return this._dropdownService.isVisible;
+        return this._dropdownService.transition.isVisible;
     }
 
     @HostBinding('class.active')

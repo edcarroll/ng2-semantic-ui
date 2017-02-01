@@ -1,5 +1,5 @@
 import {Component, HostBinding, ElementRef, Renderer, HostListener, Input, ViewContainerRef, EventEmitter, ViewChild} from "@angular/core";
-import {SuiTransition} from "../transition/transition";
+import {SuiTransition, TransitionController, Transition, TransitionDirection} from '../transition/transition';
 
 @Component({
     selector: 'sui-select-multi-label',
@@ -9,19 +9,19 @@ import {SuiTransition} from "../transition/transition";
 <i class="delete icon" (click)="deselectOption()"></i>
 `
 })
-export class SuiSelectMultiLabel {
+export class SuiSelectMultiLabel extends SuiTransition {
     @HostBinding('class.ui')
     @HostBinding('class.label') classes = true;
 
-    private _transition:SuiTransition;
-    constructor(private el:ElementRef, private renderer:Renderer) {
-        this._transition = new SuiTransition(el, renderer);
-        this._transition.animate({
-            name: "scale",
-            direction: "in",
-            display: "inline-block",
-            duration: 100
-        });
+    private _transition:TransitionController;
+
+    constructor(renderer:Renderer, el:ElementRef) {
+        super(renderer, el);
+        
+        this._transition = new TransitionController(false, "inline-block");
+        this.setTransitionController(this._transition);
+
+        this._transition.animate(new Transition("scale", 100, TransitionDirection.In));
     }
 
     public useTemplate:boolean = false;
@@ -44,12 +44,9 @@ export class SuiSelectMultiLabel {
 
     public deselectOption() {
         event.stopPropagation();
-        this._transition.animate({
-            name: "scale",
-            direction: "out",
-            duration: 100,
-            callback: () => this.selected.emit(this.value)
-        });
+
+        this._transition.animate(new Transition("scale", 100, TransitionDirection.Out, () => this.selected.emit(this.value)));
+
         return false;
     }
 }

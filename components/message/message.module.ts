@@ -1,11 +1,18 @@
 import {NgModule} from '@angular/core';
-import {SUI_MESSAGE_DIRECTIVES} from "./message";
 import {CommonModule} from "@angular/common";
+import {SuiMessage} from './message';
 import {SuiTransitionModule} from "../transition/transition.module";
 
 @NgModule({
-    imports: [CommonModule, SuiTransitionModule],
-    declarations: SUI_MESSAGE_DIRECTIVES,
-    exports: SUI_MESSAGE_DIRECTIVES
+    imports: [
+        CommonModule,
+        SuiTransitionModule
+    ],
+    declarations: [
+        SuiMessage
+    ],
+    exports: [
+        SuiMessage
+    ]
 })
 export class SuiMessageModule {}

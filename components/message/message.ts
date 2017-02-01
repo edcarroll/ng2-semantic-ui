@@ -1,47 +1,35 @@
 import {Component, Input, Output, EventEmitter, ElementRef, Renderer, AfterViewInit} from '@angular/core';
-import {SuiTransition} from "../transition/transition";
+import {SuiTransition, TransitionController, Transition, TransitionDirection} from '../transition/transition';
 import {ViewChild} from "@angular/core";
 
 @Component({
     selector: 'sui-message',
-    exportAs: 'suiMessage',
+    exportAs: 'message',
     template: `
-<div class="ui message {{ classes }}" *ngIf="!dismissed" #message>
+<div class="ui message {{ classes }}" *ngIf="!isDismissed" [suiTransition]="transition">
     <i class="close icon" *ngIf="dismissible" (click)="dismiss()"></i>
     <ng-content></ng-content>
 </div>
 `
 })
-export class SuiMessage implements AfterViewInit {
-    @Input() public dismissible:boolean = true;
+export class SuiMessage {
+    @Input()
+    public dismissible:boolean = true;
 
-    @Output() public onDismiss:EventEmitter<SuiMessage> = new EventEmitter<SuiMessage>(false);
+    @Output()
+    public onDismiss:EventEmitter<SuiMessage> = new EventEmitter<SuiMessage>(false);
 
-    @ViewChild('message')
-    private messageComponent:ElementRef;
+    private transition:TransitionController = new TransitionController();
 
-    private _transition:SuiTransition;
-    constructor(private renderer:Renderer) {}
-
-    ngAfterViewInit() {
-        this._transition = new SuiTransition(this.messageComponent, this.renderer);
-    }
-
-    private dismissed:boolean = false;
+    private isDismissed:boolean = false;
 
     private dismiss():void {
-        this._transition.animate({
-            name: "fade",
-            duration: 400,
-            callback: () => {
-                this.dismissed = true;
-                this.onDismiss.emit(this)
-            }
-        });
+        this.transition.animate(new Transition("fade", 300, TransitionDirection.Out, () => {
+            this.isDismissed = true;
+            this.onDismiss.emit(this);
+        }))
     }
 
     @Input("class")
     private classes:string = "";
 }
-
-export const SUI_MESSAGE_DIRECTIVES = [SuiMessage];

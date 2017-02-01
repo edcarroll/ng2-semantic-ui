@@ -1,18 +1,17 @@
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
-import {SUI_TRANSITION_DIRECTIVES} from './transition';
-import {NewSuiTransition} from './new-transition';
+import {SuiTransition, Transition, TransitionDirection, TransitionController} from './transition';
 
 @NgModule({
     imports: [CommonModule],
     declarations: [
-        SUI_TRANSITION_DIRECTIVES,
-        NewSuiTransition
+        SuiTransition
     ],
     exports: [
-        SUI_TRANSITION_DIRECTIVES,
-        NewSuiTransition
+        SuiTransition
     ],
     providers: []
 })
 export class SuiTransitionModule {}
+
+export {Transition, TransitionDirection, TransitionController};
