@@ -189,7 +189,7 @@ export class TransitionController {
     exportAs: 'transition'
 })
 export class SuiTransition {
-    private _transitionController:TransitionController;
+    private _controller:TransitionController;
 
     @Input()
     public set suiTransition(tC:TransitionController) {
@@ -201,16 +201,16 @@ export class SuiTransition {
 
     @HostBinding('class.visible')
     public get isVisible() {
-        if (this._transitionController) {
-            return this._transitionController.isVisible;
+        if (this._controller) {
+            return this._controller.isVisible;
         }
         return false;
     }
 
     @HostBinding('class.hidden')
     public get isHidden() {
-        if (this._transitionController) {
-            return this._transitionController.isHidden;
+        if (this._controller) {
+            return this._controller.isHidden;
         }
         return false;
     }
@@ -218,8 +218,8 @@ export class SuiTransition {
     constructor(public renderer:Renderer, public element:ElementRef) {}
 
     public setTransitionController(transitionController:TransitionController) {
-        this._transitionController = transitionController;
-        this._transitionController.registerRenderer(this.renderer);
-        this._transitionController.registerElement(this.element.nativeElement);
+        this._controller = transitionController;
+        this._controller.registerRenderer(this.renderer);
+        this._controller.registerElement(this.element.nativeElement);
     }
 }

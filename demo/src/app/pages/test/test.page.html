@@ -7,10 +7,26 @@
 <demo-page-content>
     <h2 class="ui dividing header">Examples</h2>
     <div class="ui segment">
-        <img id="testImage" src="http://semantic-ui.com/images/leaves/1.png" class="ui autumn leaf image" [suiTransition]="transition">
-        <button class="ui button" (click)="animate()">Animate!</button>
-        <button class="ui button" (click)="stop()">Stop!</button>
-        <button class="ui button" (click)="stopAll()">Stop all!</button>
-        <p>{{ transition.isVisible }} {{ transition.isAnimating }}</p>
+        <div class="ui dropdown" newSuiDropdown>
+            <div class="text">File</div>
+            <i class="dropdown icon"></i>
+            <div class="menu" newSuiDropdownMenu>
+                <div class="item">New</div>
+                <div class="item" newSuiDropdown>
+                    <i class="dropdown icon"></i>
+                    Nested
+                    <div class="menu" newSuiDropdownMenu>
+                        <div class="item">Nested Item</div>
+                        <div class="item" newSuiDropdown>
+                            <i class="dropdown icon"></i>
+                            Nested
+                            <div class="menu" newSuiDropdownMenu>
+                                <div class="item">Nested Item</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </demo-page-content>

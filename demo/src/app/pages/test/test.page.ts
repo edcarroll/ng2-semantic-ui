@@ -7,21 +7,9 @@ import {TransitionController, Transition} from '../../../../../components/transi
   templateUrl: './test.page.html'
 })
 export class TestPage {
-    public transition:TransitionController;
 
     constructor() {
-        this.transition = new TransitionController(false);
-    }
 
-    public animate() {
-        this.transition.animate(new Transition("fade in", 1000));
     }
-
-    public stop() {
-        this.transition.stop();
-    }
-
-    public stopAll() {
-        this.transition.stopAll();
-    }    
+ 
 }
