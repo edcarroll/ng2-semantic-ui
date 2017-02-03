@@ -7,6 +7,7 @@ export class NewDropdownService {
 
     public isDisabled:boolean;
 
+    public parent:NewDropdownService;
     public children:NewDropdownService[];
     public isNested:boolean;
 
@@ -20,13 +21,17 @@ export class NewDropdownService {
         this.isNested = false;
     }
 
-    public setOpenState(isOpen:boolean) {
+    public setOpenState(isOpen:boolean, reflectInParent:boolean = false) {
         if (this.isOpen != isOpen && !this.isDisabled) {
             this.isOpen = !!isOpen;
             this.delay(() => this.isOpenChange.emit(this.isOpen));
 
             if (!this.isOpen) {
                 this.children.forEach(c => c.setOpenState(this.isOpen));
+            }
+
+            if (this.parent && reflectInParent) {
+                this.parent.setOpenState(this.isOpen, true);
             }
         }
         else if (this.isOpen != isOpen && this.isDisabled) {
@@ -52,20 +57,22 @@ export class NewDropdownService {
     public registerChild(child:NewDropdownService) {
         if (!this.isChildRegistered(child)) {
             this.children.push(child);
+            child.parent = this;
             child.isNested = true;
         }
     }
 
     public isChildRegistered(child:NewDropdownService):boolean {
-        return this.children
-            .map(c => (c == child || child.children
-                .map(c => c.isChildRegistered(child))
-                .reduce((a, b) => a || b, false)))
-            .reduce((a, b) => a || b, false);
+        return this === child || !!this.children
+            .find(c => !!c.children
+                .find(c => c.isChildRegistered(child)));
     }
 
     public clearChildren() {
-        this.children.forEach(c => c.isNested = false);
+        this.children.forEach(c => {
+            c.parent = null;
+            c.isNested = false
+        });
         this.children = [];
     }
 
@@ -143,7 +150,7 @@ export class NewSuiDropdown implements AfterContentInit {
     }
 
     public set isOpen(value:boolean) {
-        this.service.setOpenState(value);
+        this.service.setOpenState(value, !!value);
     }
 
     @HostBinding('class.disabled')

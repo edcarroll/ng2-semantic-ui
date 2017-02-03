@@ -192,7 +192,7 @@ export class SuiTransition {
     private _controller:TransitionController;
 
     @Input()
-    public set suiTransition(tC:TransitionController) {
+    private set suiTransition(tC:TransitionController) {
         this.setTransitionController(tC);
     }
 

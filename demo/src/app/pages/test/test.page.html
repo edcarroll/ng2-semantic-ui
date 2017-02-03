@@ -12,17 +12,17 @@
         <sui-checkbox [(ngModel)]="isOpen">Open?</sui-checkbox>
         <br>
         <br>
-        <div class="ui dropdown" newSuiDropdown [(isOpen)]="isOpen" [isDisabled]="isDisabled">
+        <div class="ui dropdown" newSuiDropdown>
             <div class="text">File</div>
             <i class="dropdown icon"></i>
             <div class="menu" newSuiDropdownMenu>
                 <div class="item">New</div>
-                <div class="item" newSuiDropdown>
+                <div class="item" newSuiDropdown [isDisabled]="isDisabled">
                     <i class="dropdown icon"></i>
                     Nested
                     <div class="menu" newSuiDropdownMenu>
                         <div class="item">Nested Item</div>
-                        <div class="item" newSuiDropdown>
+                        <div class="item" newSuiDropdown [(isOpen)]="isOpen">
                             <i class="dropdown icon"></i>
                             Nested
                             <div class="menu" newSuiDropdownMenu>
