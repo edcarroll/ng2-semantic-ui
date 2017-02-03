@@ -5,6 +5,8 @@ export class NewDropdownService {
     public isOpen:boolean;
     public isOpenChange:EventEmitter<boolean>;
 
+    public isDisabled:boolean;
+
     public children:NewDropdownService[];
     public isNested:boolean;
 
@@ -12,18 +14,34 @@ export class NewDropdownService {
         this.isOpen = false;
         this.isOpenChange = new EventEmitter<boolean>();
 
+        this.isDisabled = false;
+
         this.children = [];
         this.isNested = false;
     }
 
     public setOpenState(isOpen:boolean) {
-        if (this.isOpen != isOpen) {
-            this.isOpen = isOpen;
-            this.isOpenChange.emit(isOpen);
+        if (this.isOpen != isOpen && !this.isDisabled) {
+            this.isOpen = !!isOpen;
+            this.delay(() => this.isOpenChange.emit(this.isOpen));
 
-            if (!isOpen) {
-                this.children.forEach(c => c.setOpenState(isOpen));
+            if (!this.isOpen) {
+                this.children.forEach(c => c.setOpenState(this.isOpen));
             }
+        }
+        else if (this.isOpen != isOpen && this.isDisabled) {
+            this.delay(() => this.isOpenChange.emit(this.isOpen));
+        }
+    }
+
+    public setDisabledState(isDisabled:boolean) {
+        if (this.isDisabled != isDisabled) {
+            if (!!isDisabled) {
+                // Close the dropdown as it is now disabled
+                this.setOpenState(false);
+            }
+
+            this.isDisabled = !!isDisabled;
         }
     }
 
@@ -50,6 +68,10 @@ export class NewDropdownService {
         this.children.forEach(c => c.isNested = false);
         this.children = [];
     }
+
+    private delay(callback:() => any) {
+        setTimeout(() => callback());
+    }
 }
 
 @Directive({
@@ -62,9 +84,13 @@ export class NewSuiDropdownMenu extends SuiTransition {
     public set service(value:NewDropdownService) {
         this._service = value;
 
+        let previousIsOpen = this._service.isOpen;
         this._service.isOpenChange.subscribe(isOpen => {
-            this._transitionController.stopAll();
-            this._transitionController.animate(new Transition("slide down", 200));
+            if (isOpen != previousIsOpen) {
+                this._transitionController.stopAll();
+                this._transitionController.animate(new Transition("slide down", 200));
+            }
+            previousIsOpen = isOpen;
         });
     }
 
@@ -118,6 +144,16 @@ export class NewSuiDropdown implements AfterContentInit {
 
     public set isOpen(value:boolean) {
         this.service.setOpenState(value);
+    }
+
+    @HostBinding('class.disabled')
+    @Input()
+    public get isDisabled() {
+        return this.service.isDisabled;
+    }
+
+    public set isDisabled(value:boolean) {
+        this.service.setDisabledState(value);
     }
 
     constructor() {
