@@ -1,11 +1,21 @@
 import {Directive, Input, HostBinding, EventEmitter, Output, AfterContentInit, ContentChild, Renderer, ElementRef, HostListener, QueryList, ContentChildren, forwardRef} from '@angular/core';
 import {SuiTransition, TransitionController, Transition} from '../transition/transition';
 
+export type NewDropdownAutoCloseType = "itemClick" | "outsideClick" | "disabled";
+
+export const NewDropdownAutoCloseType = {
+    ItemClick: "itemClick" as NewDropdownAutoCloseType,
+    OutsideClick: "outsideClick" as NewDropdownAutoCloseType,
+    Disabled: "disabled" as NewDropdownAutoCloseType
+}
+
 export class NewDropdownService {
     public isOpen:boolean;
     public isOpenChange:EventEmitter<boolean>;
 
     public isDisabled:boolean;
+
+    public autoCloseMode:NewDropdownAutoCloseType;
 
     public parent:NewDropdownService;
     public children:NewDropdownService[];
@@ -16,6 +26,8 @@ export class NewDropdownService {
         this.isOpenChange = new EventEmitter<boolean>();
 
         this.isDisabled = false;
+
+        this.autoCloseMode = NewDropdownAutoCloseType.ItemClick;
 
         this.children = [];
         this.isNested = false;
@@ -88,6 +100,8 @@ export class NewSuiDropdownMenu extends SuiTransition {
     private _service:NewDropdownService;
     private _transitionController:TransitionController;
 
+    private _isOpenOnMousedown:boolean;
+
     public set service(value:NewDropdownService) {
         this._service = value;
 
@@ -106,14 +120,32 @@ export class NewSuiDropdownMenu extends SuiTransition {
 
         this._transitionController = new TransitionController(false);
         this.setTransitionController(this._transitionController);       
+
+        this._isOpenOnMousedown = false;
     }
 
-    @HostListener("click", ['$event'])
+    @HostListener("click", ["$event"])
     public onClick(e:MouseEvent) {
         e.stopPropagation();
 
-        // We have selected a dropdown item
-        console.log("clicked item");
+        // We have selected a dropdown item.
+        console.log(e);
+    }
+
+    @HostListener("document:mousedown")
+    public onDocumentMousedown(e:MouseEvent) {
+        // This is to ensure that we don't immediately close a dropdown as it is being opened programmatically
+        this._isOpenOnMousedown = this._service.isOpen;
+    }
+
+    @HostListener("document:click", ["$event"])
+    public onDocumentClick(e:MouseEvent) {
+        if (this._isOpenOnMousedown) {
+            if (this._service.autoCloseMode == NewDropdownAutoCloseType.ItemClick || NewDropdownAutoCloseType.OutsideClick) {
+                // No need to reflect in parent since they are also bound to document.
+                this._service.setOpenState(false);
+            }
+        }
     }
 }
 
@@ -161,6 +193,15 @@ export class NewSuiDropdown implements AfterContentInit {
 
     public set isDisabled(value:boolean) {
         this.service.setDisabledState(value);
+    }
+
+    @Input()
+    public get autoClose() {
+        return this.service.autoCloseMode;
+    }
+
+    public set autoClose(value:NewDropdownAutoCloseType) {
+        this.service.autoCloseMode = value;
     }
 
     constructor() {
