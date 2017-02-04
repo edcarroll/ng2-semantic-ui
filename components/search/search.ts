@@ -16,8 +16,8 @@ import {SuiDropdownService} from "../dropdown/dropdown.service";
   </div>
 <div class="results" suiDropdownMenu>
     <a class="result" *ngFor="let r of results; let i = index" (click)="select(r)">
-        <div *ngIf=hightlightMatch class="title" [innerHTML]="highlight(result(i))"></div>
-        <div *ngIf=!hightlightMatch class="title">{{ result(i) }}</div>
+        <div *ngIf=highlightMatch class="title" [innerHTML]="highlight(result(i))"></div>
+        <div *ngIf=!highlightMatch class="title">{{ result(i) }}</div>
     </a>
     <div *ngIf="!results.length" class="message empty">
         <div class="header">No Results</div>
@@ -74,7 +74,7 @@ export class SuiSearch implements AfterViewInit {
     public icon:boolean = true;
 
     @Input()
-    public hightlightMatch:boolean = true;
+    public highlightMatch:boolean = true;
 
     @Input()
     public get optionsField() {
