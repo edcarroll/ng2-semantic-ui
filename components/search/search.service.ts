@@ -74,7 +74,8 @@ export class SuiSearchService {
             });
             return;
         }
-        this._results = this.options.filter((o:string) => this.readValue(o).toString().slice(0, this.query.length).toLowerCase() == this.query.toLowerCase());
+        this._results = this.options.filter((o:string) => 
+            this.readValue(o).toString().toLowerCase().match(this.query.toLowerCase()));
         this.onSearchCompleted.emit(this.results);
     }
 
