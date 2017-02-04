@@ -215,11 +215,11 @@ export class SuiTransition {
         return false;
     }
 
-    constructor(public renderer:Renderer, public element:ElementRef) {}
+    constructor(private _renderer:Renderer, private _element:ElementRef) {}
 
     public setTransitionController(transitionController:TransitionController) {
         this._controller = transitionController;
-        this._controller.registerRenderer(this.renderer);
-        this._controller.registerElement(this.element.nativeElement);
+        this._controller.registerRenderer(this._renderer);
+        this._controller.registerElement(this._element.nativeElement);
     }
 }

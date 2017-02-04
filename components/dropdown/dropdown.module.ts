@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {SUI_DROPDOWN_DIRECTIVES} from "./dropdown";
 import {CommonModule} from "@angular/common";
 import {SuiTransitionModule} from "../transition/transition.module";
-import {NewSuiDropdown, NewSuiDropdownMenu} from './new-dropdown';
+import {NewSuiDropdown, NewSuiDropdownMenu, NewSuiDropdownMenuItem} from './new-dropdown';
 
 @NgModule({
     imports: [
@@ -12,12 +12,14 @@ import {NewSuiDropdown, NewSuiDropdownMenu} from './new-dropdown';
     declarations: [
         SUI_DROPDOWN_DIRECTIVES,
         NewSuiDropdown,
-        NewSuiDropdownMenu
+        NewSuiDropdownMenu,
+        NewSuiDropdownMenuItem
     ],
     exports: [
         SUI_DROPDOWN_DIRECTIVES,
         NewSuiDropdown,
-        NewSuiDropdownMenu
+        NewSuiDropdownMenu,
+        NewSuiDropdownMenuItem
     ]
 })
 export class SuiDropdownModule {}
