@@ -76,6 +76,7 @@ export class SuiSearchService {
         }
         this._results = this.options.filter((o:string) => 
             this.readValue(o).toString().toLowerCase().match(this.query.toLowerCase()));
+            
         this.onSearchCompleted.emit(this.results);
     }
 
