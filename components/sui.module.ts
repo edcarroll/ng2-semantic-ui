@@ -23,8 +23,8 @@ import {SuiTransitionModule} from "./transition/transition.module";
         SuiMessageModule,
         SuiProgressModule,
         SuiRatingModule,
-        SuiSearchModule,
-        SuiSelectModule,
+        // SuiSearchModule,
+        // SuiSelectModule,
         SuiTabsModule,
         SuiTransitionModule
     ]

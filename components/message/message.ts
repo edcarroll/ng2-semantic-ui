@@ -1,20 +1,19 @@
 import {Component, Input, Output, EventEmitter, ElementRef, Renderer, AfterViewInit} from '@angular/core';
-import {SuiTransition, TransitionController, Transition, TransitionDirection} from '../transition/transition';
-import {ViewChild} from "@angular/core";
+import {SuiTransition, Transition, TransitionDirection} from '../transition/transition';
+import {TransitionController} from '../transition/transition-controller';
 
 @Component({
     selector: 'sui-message',
-    exportAs: 'message',
     template: `
 <div class="ui message {{ classes }}" *ngIf="!isDismissed" [suiTransition]="transition">
-    <i class="close icon" *ngIf="dismissible" (click)="dismiss()"></i>
+    <i class="close icon" *ngIf="isDismissable" (click)="dismiss()"></i>
     <ng-content></ng-content>
 </div>
 `
 })
 export class SuiMessage {
     @Input()
-    public dismissible:boolean = true;
+    public isDismissable:boolean = true;
 
     @Output()
     public onDismiss:EventEmitter<SuiMessage> = new EventEmitter<SuiMessage>(false);
