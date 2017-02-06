@@ -1,5 +1,7 @@
 import {Renderer, ElementRef, Directive, Input, HostBinding} from '@angular/core';
+import {TransitionController} from './transition-controller';
 
+// Possible directions for a transition.
 export enum TransitionDirection {
     In,
     Out,
@@ -14,6 +16,7 @@ export class Transition {
 
     public direction:TransitionDirection;
 
+    // Converts TransitionDirection to class name.
     public get directionClass() {
         switch (this.direction) {
             case TransitionDirection.In: return "in";
@@ -21,6 +24,7 @@ export class Transition {
         }
     }
 
+    // Stores the individual classes for the transition, e.g. "fade out" -> ["fade", "out"].
     public readonly classes:string[];
 
     public onComplete:() => any;
@@ -34,165 +38,17 @@ export class Transition {
     }
 }
 
-export class TransitionController {
-    private _renderer:Renderer;
-
-    private _element:ElementRef;
-
-    private get _isReady() {
-        return this._renderer != null && this._element != null;
-    }
-
-    private _display:string;
-
-    private _queue:Transition[];
-
-    private _isAnimating:boolean;
-
-    public get isAnimating() {
-        return this._isAnimating;
-    }
-
-    private _isVisible:boolean;
-
-    public get isVisible() {
-        return this._isVisible;
-    }
-
-    private _isHidden:boolean;
-
-    public get isHidden() {
-        return this._isHidden;
-    }
-    
-    private get _queueFirst() {
-        return this._queue[0];
-    }
-
-    private get _queueLast() {
-        return this._queue[this._queue.length - 1];
-    }
-
-    private _animationTimeout:any;
-
-    constructor(isInitiallyVisible:boolean = true, display:string = "block") {
-        this._isVisible = isInitiallyVisible;
-        this._isHidden = !this._isVisible;
-
-        this._display = display;
-        this._queue = [];
-
-        this._isAnimating = false;
-    }
-
-    public registerRenderer(renderer:Renderer) {
-        this._renderer = renderer;
-        this.performTransition();
-    }
-
-    public registerElement(element:ElementRef) {
-        this._element = element;
-        this.performTransition();
-    }
-
-    public animate(transition:Transition) {
-        let isDirectionless = ["jiggle", "flash", "shake", "pulse", "tada", "bounce"].indexOf(transition.type) != -1;
-        if (isDirectionless) {
-            transition.direction = TransitionDirection.Static;
-        }
-        else if (!transition.direction || transition.direction == TransitionDirection.Either) {
-            transition.direction = this._isVisible ? TransitionDirection.Out : TransitionDirection.In;
-            if (this._queueLast) {
-                transition.direction = this._queueLast.direction == TransitionDirection.In ? TransitionDirection.Out : TransitionDirection.In;
-            }
-        }
-
-        this._queue.push(transition);
-
-        this.performTransition();
-    }
-
-    private performTransition() {
-        if (!this._isReady || this._isAnimating || !this._queueFirst) {
-            return;
-        }
-
-        this._isAnimating = true;
-
-        let transition = this._queueFirst;
-
-        transition.classes.forEach(c => this._renderer.setElementClass(this._element, c, true));
-        this._renderer.setElementClass(this._element, `animating`, true);
-        this._renderer.setElementClass(this._element, transition.directionClass, true);
-
-        this._renderer.setElementStyle(this._element, `animationDuration`, `${transition.duration}ms`);
-        this._renderer.setElementStyle(this._element, `display`, this._display);
-
-        if (transition.direction == TransitionDirection.In) {
-            this._isHidden = false;
-        }
-    
-        this._animationTimeout = setTimeout(() => this.finishTransition(transition), transition.duration);
-    }
-
-    private finishTransition(transition:Transition) {
-        transition.classes.forEach(c => this._renderer.setElementClass(this._element, c, false));
-        this._renderer.setElementClass(this._element, `animating`, false);
-        this._renderer.setElementClass(this._element, transition.directionClass, false);
-
-        this._renderer.setElementStyle(this._element, `animationDuration`, null);
-        this._renderer.setElementStyle(this._element, `display`, null);
-
-        if (transition.direction == TransitionDirection.In) {
-            this._isVisible = true;
-        }
-        else if (transition.direction == TransitionDirection.Out) {
-            this._isVisible = false;
-            this._isHidden = true;
-        }
-
-        if (transition.onComplete) {
-            transition.onComplete();
-        }
-
-        this._queue.shift();
-        this._isAnimating = false;
-
-        this.performTransition();
-    }
-
-    public stop(transition:Transition = this._queueFirst) {
-        if (!transition || !this._isAnimating) {
-            return;
-        }
-
-        clearTimeout(this._animationTimeout);
-        this.finishTransition(transition);
-    }
-
-    public stopAll() {
-        this.clearQueue();
-        this.stop();
-    }
-
-    public clearQueue() {
-        if (this.isAnimating) {
-            this._queue = [this._queueFirst];
-            return;
-        }
-        this._queue = [];
-    }
-}
-
 @Directive({
     selector: '[suiTransition]',
     exportAs: 'transition'
 })
 export class SuiTransition {
+    // Each transition must have a controller associated that dispatches the transitions.
     private _controller:TransitionController;
 
     @Input()
     private set suiTransition(tC:TransitionController) {
+        // Set the transition controller (e.g. '<div [suiTransition]="transitionController"></div>').
         this.setTransitionController(tC);
     }
 
@@ -217,6 +73,7 @@ export class SuiTransition {
 
     constructor(private _renderer:Renderer, private _element:ElementRef) {}
 
+    // Initialises the controller with the injected renderer and elementRef.
     public setTransitionController(transitionController:TransitionController) {
         this._controller = transitionController;
         this._controller.registerRenderer(this._renderer);

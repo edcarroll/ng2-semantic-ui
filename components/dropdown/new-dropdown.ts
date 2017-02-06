@@ -1,5 +1,6 @@
 import {Directive, Input, HostBinding, EventEmitter, Output, AfterContentInit, ContentChild, Renderer, ElementRef, HostListener, QueryList, ContentChildren, forwardRef} from '@angular/core';
-import {SuiTransition, TransitionController, Transition} from '../transition/transition';
+import {SuiTransition, Transition} from '../transition/transition';
+import {TransitionController} from '../transition/transition-controller';
 
 export type NewDropdownAutoCloseType = "itemClick" | "outsideClick" | "disabled";
 
