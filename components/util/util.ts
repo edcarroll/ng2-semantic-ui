@@ -12,7 +12,7 @@ export enum KeyCode {
     Backspace = 8
 };
 
-export type RecursiveObject = { [name:string]:RecursiveObject };
+export type RecursiveObject = { [name:string]:RecursiveObject } | string | number | boolean;
 
 export function deepValue<T extends RecursiveObject>(object:RecursiveObject, path:string):T {
     if (!object) {

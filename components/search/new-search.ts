@@ -1,4 +1,4 @@
-import {Component, ViewChild, HostBinding, Input, AfterViewInit, HostListener} from '@angular/core';
+import {Component, ViewChild, HostBinding, Input, AfterViewInit, HostListener, EventEmitter, Output} from '@angular/core';
 import {DropdownService} from '../dropdown/dropdown.service';
 import {SuiDropdownMenu} from '../dropdown/dropdown-menu';
 import {readValue, RecursiveObject} from '../util/util';
@@ -15,6 +15,10 @@ export class SearchService<T extends RecursiveObject> {
         this._options = options || [];
         this._optionsLookup = null;
         this.reset();
+    }
+
+    public get optionsLookup() {
+        return this._optionsLookup;
     }
 
     public set optionsLookup(lookupFn:LookupFn<T>) {
@@ -146,7 +150,10 @@ export class SearchService<T extends RecursiveObject> {
     <i *ngIf="hasIcon" class="search icon"></i>
   </div>
 <div class="results" suiDropdownMenu transition="scale" selectedItemClass="active">
-    <a class="result item" *ngFor="let r of results" [innerHTML]="searchService.highlightMatches(r)"></a>
+    <a class="result item" *ngFor="let r of results" (click)="select(r)">
+        <span *ngIf="!searchService.optionsLookup" [innerHTML]="searchService.highlightMatches(r)"></span>
+        <span *ngIf="searchService.optionsLookup">{{ readValue(r) }}</span>
+    </a>
     <div *ngIf="results.length == 0" class="message empty">
         <div class="header">No Results</div>
         <div class="description">Your search returned no results.</div>
@@ -181,8 +188,13 @@ export class SuiSearch<T extends RecursiveObject> implements AfterViewInit {
     @Input()
     public placeholder:string;
 
+    public get query() {
+        return this.searchService.query;
+    }
+
     public set query(query:string) {
-        this.searchService.updateQueryDelayed(query, (err) => this.dropdownService.setOpenState(this.searchService.query.length > 0));
+        this.selectedItem = null;
+        this.searchService.updateQueryDelayed(query, () => this.dropdownService.setOpenState(this.searchService.query.length > 0));
     }
 
     @Input()
@@ -213,6 +225,15 @@ export class SuiSearch<T extends RecursiveObject> implements AfterViewInit {
         return this.searchService.results;
     }
 
+    public selectedItem:T;
+
+    @Output()
+    public onItemSelected:EventEmitter<T>;
+
+    public get ngModelChange() {
+        return this.onItemSelected;
+    }
+
     constructor() {
         this.dropdownService = new DropdownService();
         this.searchService = new SearchService<T>();
@@ -222,10 +243,17 @@ export class SuiSearch<T extends RecursiveObject> implements AfterViewInit {
         this.placeholder = "Search...";
 
         this.searchDelay = 200;
+
+        this.onItemSelected = new EventEmitter<T>();
     }
 
     public ngAfterViewInit() {
         this._menu.service = this.dropdownService;
+    }
+
+    public select(item:T) {
+        this.searchService.updateQuery(readValue(item, this.searchService.optionsField) as string, () => {});
+        this.onItemSelected.emit(item);
     }
 
     @HostListener("click", ['$event'])
@@ -238,6 +266,7 @@ export class SuiSearch<T extends RecursiveObject> implements AfterViewInit {
     }
 
     public readValue(object:T) {
-        return readValue<T>(object, this.searchService.optionsField);
+        return readValue(object, this.searchService.optionsField);
     }
 }
+

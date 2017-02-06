@@ -172,7 +172,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
                     break;
                 // Enter : if the item doesn't contain a nested dropdown, 'click' it. Otherwise, fall through to 'Right' action.
                 case KeyCode.Enter:
-                    if (!selected.hasChildDropdown) {
+                    if (selected && !selected.hasChildDropdown) {
                         selected.performClick();
                         break;
                     }
