@@ -15,7 +15,9 @@ export class TestPage {
             setTimeout(() => 
                 resolve(this.more
                     .filter(o => o.test
-                        .match(query.toLowerCase()))), 200);
+                        .match(query.toLowerCase()))), 500);
         });
     }
+
+    public selected = this.more[0];
 }

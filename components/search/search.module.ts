@@ -3,7 +3,7 @@ import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {SuiDropdownModule} from "../dropdown/dropdown.module";
 import {SuiTransitionModule} from "../transition/transition.module";
-import {SuiSearch} from './new-search';
+import {SuiSearch, SuiSearchValueAccessor} from './new-search';
 
 @NgModule({
     imports: [
@@ -12,10 +12,12 @@ import {SuiSearch} from './new-search';
         SuiDropdownModule
     ],
     declarations: [
-        SuiSearch
+        SuiSearch,
+        SuiSearchValueAccessor
     ],
     exports: [
-        SuiSearch
+        SuiSearch,
+        SuiSearchValueAccessor
     ]
 })
 export class SuiSearchModule {}

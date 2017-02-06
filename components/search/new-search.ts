@@ -1,7 +1,8 @@
-import {Component, ViewChild, HostBinding, Input, AfterViewInit, HostListener, EventEmitter, Output} from '@angular/core';
+import {Component, ViewChild, HostBinding, Input, AfterViewInit, HostListener, EventEmitter, Output, forwardRef, Directive} from '@angular/core';
 import {DropdownService} from '../dropdown/dropdown.service';
 import {SuiDropdownMenu} from '../dropdown/dropdown-menu';
 import {readValue, RecursiveObject} from '../util/util';
+import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 
 export type LookupFn<T> = (query:string) => Promise<T[]>
 type CachedArray<T> = { [query:string]:T[] };
@@ -252,7 +253,7 @@ export class SuiSearch<T extends RecursiveObject> implements AfterViewInit {
     }
 
     public select(item:T) {
-        this.searchService.updateQuery(readValue(item, this.searchService.optionsField) as string, () => {});
+        this.writeValue(item);
         this.onItemSelected.emit(item);
     }
 
@@ -268,5 +269,42 @@ export class SuiSearch<T extends RecursiveObject> implements AfterViewInit {
     public readValue(object:T) {
         return readValue(object, this.searchService.optionsField);
     }
+
+    public writeValue(item:T) {
+        if (item) {
+            this.selectedItem = item;
+            this.searchService.updateQuery(this.readValue(item) as string, () => {});
+        }
+    }
 }
 
+export const SELECT_VALUE_ACCESSOR:any = {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => SuiSearchValueAccessor),
+    multi: true
+};
+
+@Directive({
+    selector: 'sui-search',
+    host: {
+        '(onItemSelected)': 'onChange($event)'
+    },
+    providers: [SELECT_VALUE_ACCESSOR]
+})
+export class SuiSearchValueAccessor<T extends RecursiveObject> implements ControlValueAccessor {
+    onChange = () => {};
+    onTouched = () => {};
+
+    constructor(private host:SuiSearch<T>) {}
+
+    writeValue(value:T) {
+        this.host.writeValue(value);
+    }
+
+    registerOnChange(fn:() => void) {
+        this.onChange = fn;
+    }
+    registerOnTouched(fn:() => void) {
+        this.onTouched = fn;
+    }
+}
