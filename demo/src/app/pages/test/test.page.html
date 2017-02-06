@@ -7,31 +7,7 @@
 <demo-page-content>
     <h2 class="ui dividing header">Examples</h2>
     <div class="ui segment">
-        <sui-checkbox [(ngModel)]="isDisabled">Disabled?</sui-checkbox>
-        <br>
-        <sui-checkbox [(ngModel)]="isOpen">Open?</sui-checkbox>
-        <br>
-        <br>
-        <div class="ui dropdown" newSuiDropdown>
-            <div class="text">File</div>
-            <i class="dropdown icon"></i>
-            <div class="menu" newSuiDropdownMenu>
-                <div class="item">New</div>
-                <div class="item" newSuiDropdown [isDisabled]="isDisabled">
-                    <i class="dropdown icon"></i>
-                    Nested
-                    <div class="menu" newSuiDropdownMenu>
-                        <div class="item">Nested Item</div>
-                        <div class="item" newSuiDropdown [(isOpen)]="isOpen">
-                            <i class="dropdown icon"></i>
-                            Nested
-                            <div class="menu" newSuiDropdownMenu>
-                                <div class="item">Nested Item</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <sui-search [options]="options"></sui-search>
+        <sui-search [options]="optionsLookup"></sui-search>
     </div>
 </demo-page-content>

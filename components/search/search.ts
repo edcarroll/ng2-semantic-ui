@@ -4,11 +4,9 @@ import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 import {SuiDropdownMenu} from "../dropdown/dropdown-menu";
 import {Input, Output} from "@angular/core";
 import {SuiSearchService} from "./search.service";
-import {SuiDropdownService} from "../dropdown/dropdown.service";
 
 @Component({
     selector: 'sui-search',
-    exportAs: 'suiSearch',
     template: `
 <div class="ui icon input">
     <input class="prompt" type="text" [attr.placeholder]="placeholder" autocomplete="off" [(ngModel)]="query">
@@ -29,29 +27,29 @@ import {SuiDropdownService} from "../dropdown/dropdown.service";
 export class SuiSearch implements AfterViewInit {
     @ViewChild(SuiDropdownMenu)
     private _dropdownMenu:SuiDropdownMenu;
-    private _dropdownService:SuiDropdownService = new SuiDropdownService();
+    // private _dropdownService:SuiDropdownService = new SuiDropdownService();
     private _searchService:SuiSearchService = new SuiSearchService();
 
     public selectedOption:any;
 
     constructor(el:ElementRef) {
-        this._dropdownService.dropdownElement = el;
-        this._dropdownService.itemClass = "result";
-        this._dropdownService.itemSelectedClass = "active";
+        // this._dropdownService.dropdownElement = el;
+        // this._dropdownService.itemClass = "result";
+        // this._dropdownService.itemSelectedClass = "active";
 
-        this._dropdownService.isOpenChange
-            .subscribe( (isOpen: boolean) => {
-                if (isOpen) {
-                    if (!this._dropdownService.selectedItem) {
-                        this._dropdownService.selectNextItem();
-                    }
-                }
-            });
+        // this._dropdownService.isOpenChange
+        //     .subscribe( (isOpen: boolean) => {
+        //         if (isOpen) {
+        //             if (!this._dropdownService.selectedItem) {
+        //                 this._dropdownService.selectNextItem();
+        //             }
+        //         }
+        //     });
 
-        this._searchService.onSearchCompleted
-            .subscribe(() => {
-                this._dropdownService.isOpen = true;
-            });
+        // this._searchService.onSearchCompleted
+        //     .subscribe(() => {
+        //         this._dropdownService.isOpen = true;
+        //     });
     }
 
     @HostBinding('class.ui')
@@ -96,30 +94,30 @@ export class SuiSearch implements AfterViewInit {
         return this._searchService.loading;
     }
 
-    @HostBinding('class.visible')
-    public get isVisible() {
-        return this._dropdownService.transition.isVisible;
-    }
+    // @HostBinding('class.visible')
+    // public get isVisible() {
+    //     return this._dropdownService.transition.isVisible;
+    // }
 
-    @HostBinding('class.active')
-    @Input()
-    public get isOpen():boolean {
-        return this._dropdownService.isOpen;
-    }
+    // @HostBinding('class.active')
+    // @Input()
+    // public get isOpen():boolean {
+    //     return this._dropdownService.isOpen;
+    // }
 
-    public set isOpen(value:boolean) {
-        this._dropdownService.isOpen = value;
-    }
+    // public set isOpen(value:boolean) {
+    //     this._dropdownService.isOpen = value;
+    // }
 
-    @HostBinding('class.disabled')
-    @Input()
-    public get isDisabled():boolean {
-        return this._dropdownService.isDisabled;
-    }
+    // @HostBinding('class.disabled')
+    // @Input()
+    // public get isDisabled():boolean {
+    //     return this._dropdownService.isDisabled;
+    // }
 
-    public set isDisabled(value:boolean) {
-        this._dropdownService.isDisabled = value;
-    }
+    // public set isDisabled(value:boolean) {
+    //     this._dropdownService.isDisabled = value;
+    // }
 
     @Input()
     public get options():any {
@@ -159,7 +157,7 @@ export class SuiSearch implements AfterViewInit {
         this.selectedOptionChange.emit(result);
         this.onItemSelected.emit(result);
         this._searchService.updateQuery(this._searchService.readValue(result), false);
-        this._dropdownService.isOpen = false;
+        // this._dropdownService.isOpen = false;
     }
 
     public writeValue(value:any) {
@@ -168,21 +166,21 @@ export class SuiSearch implements AfterViewInit {
     }
 
     public ngAfterViewInit():void {
-        this._dropdownMenu.service = this._dropdownService;
+        // this._dropdownMenu.service = this._dropdownService;
     }
 
     @HostListener('click', ['$event'])
     public click(event:MouseEvent):boolean {
         event.stopPropagation();
 
-        if (!this._dropdownService.menuElement.nativeElement.contains(event.target)){
-            if (!this.isOpen && this.query) {
-                if (this.results.length) {
-                    this.isOpen = true;
-                }
-                this.search();
-            }
-        }
+        // if (!this._dropdownService.menuElement.nativeElement.contains(event.target)){
+        //     if (!this.isOpen && this.query) {
+        //         if (this.results.length) {
+        //             this.isOpen = true;
+        //         }
+        //         this.search();
+        //     }
+        // }
         return false;
     }
 }

@@ -7,12 +7,11 @@ import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 
 import {SuiDropdownMenu} from "../dropdown/dropdown-menu";
 import {SuiSelectOption} from "./select-option";
-import {KeyCode} from '../../components/dropdown/dropdown.service';
 import {Subscription} from "rxjs";
-import {SuiDropdownService} from "../dropdown/dropdown.service";
 import {Input, Output} from "@angular/core";
 import {SuiSearchService} from "../search/search.service";
 import {SuiSelectMultiLabel} from "./multi-select-label";
+import {KeyCode} from '../util/util';
 
 @Component({
     selector: 'sui-multi-select',
@@ -44,7 +43,7 @@ import {SuiSelectMultiLabel} from "./multi-select-label";
 export class SuiMultiSelect implements AfterContentInit, AfterViewInit {
     @ViewChild(SuiDropdownMenu)
     private _dropdownMenu:SuiDropdownMenu;
-    private _dropdownService:SuiDropdownService = new SuiDropdownService();
+    private _dropdownService:any = {};
     private _searchService:SuiSearchService = new SuiSearchService();
 
     @ContentChildren(SuiSelectOption)

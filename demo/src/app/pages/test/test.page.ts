@@ -1,15 +1,20 @@
-import { Component } from '@angular/core';
-import {SuiTransition} from "../../../../../components/transition/transition";
-import {TransitionController, Transition} from '../../../../../components/transition/transition';
+import {Component} from '@angular/core';
 
 @Component({
-  selector: 'demo-page-test',
-  templateUrl: './test.page.html'
+    selector: 'demo-page-test',
+    templateUrl: './test.page.html'
 })
 export class TestPage {
+    constructor() {}
 
-    constructor() {
+    public options = ["this", "is", "a", "test"];
 
+    public optionsLookup = (query:string) => {
+        return new Promise<string[]>(resolve => {
+            setTimeout(() => 
+                resolve(this.options
+                    .filter(o => o
+                        .match(query.toLowerCase()))), 200);
+        });
     }
- 
 }

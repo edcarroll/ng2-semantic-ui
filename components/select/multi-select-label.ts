@@ -1,5 +1,6 @@
 import {Component, HostBinding, ElementRef, Renderer, HostListener, Input, ViewContainerRef, EventEmitter, ViewChild} from "@angular/core";
-import {SuiTransition, TransitionController, Transition, TransitionDirection} from '../transition/transition';
+import {SuiTransition, Transition, TransitionDirection} from '../transition/transition';
+import {TransitionController} from '../transition/transition-controller';
 
 @Component({
     selector: 'sui-select-multi-label',

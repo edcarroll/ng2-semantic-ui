@@ -32,7 +32,7 @@ export class MessagePage {
 </sui-message>
 `;
     public exampleNoDismissTemplate:string = `
-<sui-message class="attached warning" [dismissible]="false">
+<sui-message class="attached warning" [isDismissable]="false">
     <div class="header">
         Attached message!
     </div>
