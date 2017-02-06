@@ -9,7 +9,6 @@ import {SuiDropdownMenu} from "../dropdown/dropdown-menu";
 import {SuiSelectOption} from "./select-option";
 import {Subscription} from "rxjs";
 import {Input, Output} from "@angular/core";
-import {SuiSearchService} from "../search/search.service";
 import {SuiMultiSelect, SuiMultiSelectValueAccessor} from "./multi-select";
 import {SuiSelectMultiLabel} from "./multi-select-label";
 import {KeyCode} from '../util/util';
@@ -45,7 +44,7 @@ export class SuiSelect implements AfterContentInit, AfterViewInit {
     @ViewChild(SuiDropdownMenu)
     private _dropdownMenu:SuiDropdownMenu;
     private _dropdownService:any = {};
-    private _searchService:SuiSearchService = new SuiSearchService();
+    private _searchService:any = {};
 
     @ViewChild('selectedOptionRenderTarget', { read: ViewContainerRef })
     private selectedOptionContainer:ViewContainerRef;

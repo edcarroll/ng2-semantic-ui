@@ -1,96 +1,140 @@
-import {EventEmitter} from "@angular/core";
+import {RecursiveObject, readValue} from '../util/util';
 
-export class SuiSearchService {
-    public searchDelay:number = 200;
-    public optionsField:string;
-    public loading:boolean = false;
+export type LookupFn<T> = (query:string) => Promise<T[]>
+type CachedArray<T> = { [query:string]:T[] };
 
-    public onSearchCompleted:EventEmitter<any[]> = new EventEmitter<any[]>();
-
-    private _options:any[] = [];
-    private _optionsLookup:((query:string) => Promise<any>);
-
-    public allowEmptyQuery:boolean = false;
-    private _query:string = "";
-    private _queryTimer:any;
-
-    private _results:Array<any> = [];
-    private _resultsCache:any = {};
-
-    public get options():any {
-        return this._options;
+export class SearchService<T extends RecursiveObject> {
+    private _options:T[];
+    private _optionsLookup:LookupFn<T>;
+    private _optionsField:string;
+    
+    public set options(options:T[]) {
+        this._options = options || [];
+        this._optionsLookup = null;
+        this.reset();
     }
 
-    public set options(value:any) {
-        if (typeof(value) == "function") {
-            this._optionsLookup = <((query:string) => Promise<any>)>value;
-            return;
-        }
-        this._options = <Array<any>> value;
+    public get optionsLookup() {
+        return this._optionsLookup;
     }
 
-    public get query():string {
-        return this._query;
+    public set optionsLookup(lookupFn:LookupFn<T>) {
+        this._optionsLookup = lookupFn;
+        this._options = [];
+        this.reset();
     }
 
-    public updateQuery(value:string, search:boolean = true) {
-        this._query = value;
-
-        if (search) {
-            if (this.searchDelay > 0) {
-                clearTimeout(this._queryTimer);
-                if (value || this.allowEmptyQuery) {
-                    this._queryTimer = setTimeout(() => this.search(), this.searchDelay);
-                    return;
-                }
-            }
-            if (value || this.allowEmptyQuery) {
-                this.search();
-            }
-        }
+    public get optionsField() {
+        return this._optionsField
     }
+
+    public set optionsField(field:string) {
+        this._optionsField = field;
+        this.reset();
+    }
+
+    private _results:T[];
+    private _resultsCache:CachedArray<T>;
 
     public get results() {
         return this._results;
     }
 
-    public search():void {
+    private _query:string;
+    public allowEmptyQuery:boolean;
+    public searchDelay:number;
+    private _searchDelayTimeout:any;
+    private _isSearching:boolean;
+
+    public get query() {
+        return this._query;
+    }
+
+    public get isSearching() {
+        return this._isSearching;
+    }
+
+    constructor() {
+        this._options = [];
+
+        this.allowEmptyQuery = false;
+        this.searchDelay = 0;
+        this.reset();
+    }
+
+    public updateQueryDelayed(query:string, callback:(err?:Error) => void) {
+        clearTimeout(this._searchDelayTimeout);
+        this._searchDelayTimeout = setTimeout(() => {
+            this.updateQuery(query, callback);
+        }, this.searchDelay);
+    }
+
+    public updateQuery(query:string, callback:(err?:Error) => void) {
+        this._query = query;
+
+        if (this._query == "" && !this.allowEmptyQuery) {
+            return callback(null);
+        }
+
+        if (this._resultsCache.hasOwnProperty(this._query)) {
+            this._results = this._resultsCache[this._query];
+
+            return callback(null);
+        }
+
         if (this._optionsLookup) {
-            this.loading = true;
-            if (this._resultsCache[this._query]) {
-                this.loading = false;
+            this._isSearching = true;
 
-                this._results = this._resultsCache[this._query];
-                this.onSearchCompleted.emit(this.results);
-                return;
-            }
-
-            this._optionsLookup(this._query).then((results:Array<any>) => {
-                this.loading = false;
-
-                this._resultsCache[this._query] = results;
-                this._results = results;
-                this.onSearchCompleted.emit(this.results);
-            });
-            return;
+            return this._optionsLookup(this._query)
+                .then(results => {
+                    this._isSearching = false;
+                    this.updateResults(results);
+                    return callback(null);
+                })
+                .catch(error => {
+                    this._isSearching = false;
+                    return callback(error);
+                });
         }
-        this._results = this.options.filter((o:string) => 
-            this.readValue(o).toString().toLowerCase().match(this.query.toLowerCase()));
-            
-        this.onSearchCompleted.emit(this.results);
+
+        const regex = this.toRegex(this._query);
+
+        if (regex instanceof RegExp) {
+            this.updateResults(this._options
+                .filter(o => readValue(o, this._optionsField)
+                    .toString()
+                    .match(regex)));
+        }
+
+        return callback(null);
     }
 
-    //noinspection JSMethodCanBeStatic
-    public deepValue(object:any, path:string) {
-        if (!object) { return; }
-        if (!path) { return object; }
-        for (var i = 0, p = path.split('.'), len = p.length; i < len; i++){
-            object = object[p[i]];
-        }
-        return object;
+    private updateResults(results:T[]) {
+        this._resultsCache[this._query] = results;
+        this._results = results;
     }
 
-    public readValue(object:any) {
-        return this.deepValue(object, this.optionsField);
+    private toRegex(query:string) {
+        try {
+            return new RegExp(query, 'i');
+        }
+        catch (e) {
+            return query;
+        }
+    }
+
+    public highlightMatches(text:string) {
+        let regex = this.toRegex(this._query);
+        if (regex instanceof RegExp) {
+            return text.replace(regex, (match) => `<b>${match}</b>`);
+        }
+        return text;
+    }
+
+    private reset() {
+        this._query = "";
+        this._results = [];
+        this._resultsCache = {};
+        this._isSearching = false;
     }
 }
