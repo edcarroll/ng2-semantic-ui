@@ -3,12 +3,14 @@ import {SuiTransition, TransitionController, Transition} from '../transition/tra
 
 export type NewDropdownAutoCloseType = "itemClick" | "outsideClick" | "disabled";
 
+// Creates essentially a 'string' enum.
 export const NewDropdownAutoCloseType = {
     ItemClick: "itemClick" as NewDropdownAutoCloseType,
     OutsideClick: "outsideClick" as NewDropdownAutoCloseType,
     Disabled: "disabled" as NewDropdownAutoCloseType
 }
 
+// Keyboard keycodes in use by the dropdown.
 export enum KeyCode {
     Left = 37,
     Up = 38,
@@ -23,14 +25,20 @@ export enum KeyCode {
 };
 
 export class NewDropdownService {
+    // Open state of the dropdown
     public isOpen:boolean;
+    // Emitter for when dropdown open state changes.
     public isOpenChange:EventEmitter<boolean>;
 
     public isDisabled:boolean;
 
+    // Sets the "autoclose" mode of the dropdown - i.e. what user action causes it to autoclose.
+    // Options are itemClick (close when choosing an item or clicking outside) [default], outsideClick (choose only when clicking outside) & disabled (never autoclose).
     public autoCloseMode:NewDropdownAutoCloseType;
 
+    // Keep track of the containing dropdown so we can open it as necessary.
     public parent:NewDropdownService;
+    // Also keep track of dropdowns nested in this one so we can close them as necessary.
     public children:NewDropdownService[];
     public get isNested() {
         return !!this.parent;
@@ -49,18 +57,23 @@ export class NewDropdownService {
 
     public setOpenState(isOpen:boolean, reflectInParent:boolean = false) {
         if (this.isOpen != isOpen && !this.isDisabled) {
+            // Only update the state if it has changed, and the dropdown isn't disabled.
             this.isOpen = !!isOpen;
+            // We must delay the emitting to avoid the 'changed after checked' Angular errors.
             this.delay(() => this.isOpenChange.emit(this.isOpen));
 
             if (!this.isOpen) {
+                // Close the child dropdowns when this one closes.
                 this.children.forEach(c => c.setOpenState(this.isOpen));
             }
 
             if (this.parent && reflectInParent) {
+                // Open the parent dropdowns when this one opens.
                 this.parent.setOpenState(this.isOpen, true);
             }
         }
         else if (this.isOpen != isOpen && this.isDisabled) {
+            // If the state has changed, but the dropdown is disabled, re-emit the original isOpen value.
             this.delay(() => this.isOpenChange.emit(this.isOpen));
         }
     }
@@ -80,6 +93,7 @@ export class NewDropdownService {
         this.setOpenState(!this.isOpen);
     }
 
+    // Registers a dropdown service as a child of this service.
     public registerChild(child:NewDropdownService) {
         if (!this.isChildRegistered(child)) {
             this.children.push(child);
@@ -87,12 +101,14 @@ export class NewDropdownService {
         }
     }
 
+    // Recursive method to check if the provided dropdown is already registered as a child, or is a descendant of a child.
     public isChildRegistered(child:NewDropdownService):boolean {
         return this === child || !!this.children
             .find(c => !!c.children
                 .find(c => c.isChildRegistered(child)));
     }
 
+    // Wipes any nested data, so all services can be cleanly reattached.
     public clearChildren() {
         this.children.forEach(c => {
             c.parent = null;
@@ -100,6 +116,7 @@ export class NewDropdownService {
         this.children = [];
     }
 
+    // Method for delaying an event into the next tick, to avoid Angular "changed after checked" error.
     private delay(callback:() => any) {
         setTimeout(() => callback());
     }
@@ -130,6 +147,7 @@ export class NewSuiDropdownMenuItem {
     }
 
     public performClick() {
+        // Manually click the element. Done via renderer so as to avoid nativeElement changes directly.
         this._renderer.invokeElementMethod(this._element.nativeElement, "click");
     }
 }
@@ -355,6 +373,7 @@ export class NewSuiDropdown implements AfterContentInit {
     private _children:QueryList<NewSuiDropdown>;
 
     public get children() {
+        // @ContentChildren includes the current element by default.
         return this._children.filter(c => c !== this);
     }
 
@@ -365,6 +384,7 @@ export class NewSuiDropdown implements AfterContentInit {
 
     @HostBinding('class.active')
     public get isActive() {
+        // This is to ensure nested dropdowns don't get made bold.
         return this.service.isOpen && !this.service.isNested;
     }
 
@@ -374,6 +394,7 @@ export class NewSuiDropdown implements AfterContentInit {
     }
 
     public set isOpen(value:boolean) {
+        // If we are opening the dropdown, we want to always open its parents.
         this.service.setOpenState(value, !!value);
     }
 
@@ -412,6 +433,7 @@ export class NewSuiDropdown implements AfterContentInit {
     }
 
     private childrenUpdated() {
+        // Reregister child dropdowns each time the menu content changes.
         this.children
             .map(c => c.service)
             .forEach(s => this.service.registerChild(s))
@@ -419,6 +441,7 @@ export class NewSuiDropdown implements AfterContentInit {
 
     @HostListener("click", ['$event'])
     public onClick(e:MouseEvent) {
+        // Block the click event from being fired on parent dropdowns.
         e.stopPropagation();
 
         this.service.toggleOpenState();
