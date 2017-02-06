@@ -15,8 +15,17 @@ export class SuiDropdownMenuItem {
         return element.classList.contains("disabled");
     }
 
-    @HostBinding('class.selected')
-    public isSelected:boolean;
+    private _isSelected:boolean;
+
+    public get isSelected() {
+        return this._isSelected;
+    }
+
+    public set isSelected(value:boolean) {
+        this._renderer.setElementClass(this._element.nativeElement, this.selectedClass, value)
+    }
+
+    public selectedClass:string;
 
     @ContentChild(forwardRef(() => SuiDropdownMenu))
     public childDropdownMenu:SuiDropdownMenu;
@@ -27,6 +36,8 @@ export class SuiDropdownMenuItem {
 
     constructor(private _renderer:Renderer, private _element:ElementRef) {
         this.isSelected = false;
+
+        this.selectedClass = "selected";
     }
 
     public performClick() {
@@ -41,6 +52,9 @@ export class SuiDropdownMenuItem {
 export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
     private _service:DropdownService;
     private _transitionController:TransitionController;
+
+    @Input()
+    public transition:string;
 
     // Allows the dropdown to be programmatically opened without being immediately closed by a mouse event.
     private _isOpenOnMousedown:boolean;
@@ -57,7 +71,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
             if (isOpen != previousIsOpen) {
                 // Only run transitions if the open state has changed.
                 this._transitionController.stopAll();
-                this._transitionController.animate(new Transition("slide down", 200));
+                this._transitionController.animate(new Transition(this.transition, 200));
             }
 
             if (!isOpen) {
@@ -84,16 +98,22 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
     @Input()
     public autoSelectFirst:boolean;
 
+    @Input()
+    public selectedItemClass:string;
+
     constructor(renderer:Renderer, element:ElementRef) {
         super(renderer, element);
 
         // Initialise transition functionality.
         this._transitionController = new TransitionController(false);
-        this.setTransitionController(this._transitionController);       
+        this.setTransitionController(this._transitionController);
+
+        this.transition = "slide down";
 
         this._isOpenOnMousedown = false;
 
         this.autoSelectFirst = false;
+        this.selectedItemClass = "selected";
     }
 
     @HostListener("click", ["$event"])
@@ -180,7 +200,10 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
 
     public resetSelection() {
         this.selectedItems = [];
-        this.items.forEach(i => i.isSelected = false);
+        this.items.forEach(i => {
+            i.selectedClass = this.selectedItemClass;
+            i.isSelected = false;
+        });
     }
 
     // Determines the item to next be selected, based on the keyboard input & the currently selected item.
@@ -231,8 +254,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
 
     private itemsChanged() {
         // We use `_items` rather than `items` in case one or more have become disabled.
-        this._items.forEach(i => i.isSelected = false);
-        this.selectedItems = [];
+        this.resetSelection();
         if (this.autoSelectFirst && this.items.length > 0) {
             // Autoselect 1st item if required & possible.
             this.items[0].isSelected = true;

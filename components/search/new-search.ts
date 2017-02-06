@@ -120,7 +120,7 @@ export class SearchService<T extends RecursiveObject> {
     <input class="prompt" type="text" [attr.placeholder]="placeholder" autocomplete="off" [(ngModel)]="query">
     <i *ngIf="hasIcon" class="search icon"></i>
   </div>
-<div class="results" suiDropdownMenu>
+<div class="results" suiDropdownMenu transition="scale" selectedItemClass="active">
     <a class="result item" *ngFor="let r of results; let i = index">
         <!-- <div *ngIf="highlightMatch" class="title" [innerHTML]="highlight(result(i))"></div>
         <div *ngIf="!highlightMatch" class="title">{{ result(i) }}</div> -->
