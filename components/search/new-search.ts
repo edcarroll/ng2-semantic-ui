@@ -41,6 +41,8 @@ export class SearchService<T extends RecursiveObject> {
 
     private _query:string;
     public allowEmptyQuery:boolean;
+    public searchDelay:number;
+    private _searchDelayTimeout:any;
     private _isSearching:boolean;
 
     public get query() {
@@ -55,7 +57,15 @@ export class SearchService<T extends RecursiveObject> {
         this._options = [];
 
         this.allowEmptyQuery = false;
+        this.searchDelay = 0;
         this.reset();
+    }
+
+    public updateQueryDelayed(query:string, callback:(err?:Error) => void) {
+        clearTimeout(this._searchDelayTimeout);
+        this._searchDelayTimeout = setTimeout(() => {
+            this.updateQuery(query, callback);
+        }, this.searchDelay);
     }
 
     public updateQuery(query:string, callback:(err?:Error) => void) {
@@ -86,23 +96,38 @@ export class SearchService<T extends RecursiveObject> {
                 });
         }
 
-        try {
+        const regex = this.toRegex(this._query);
+
+        if (regex instanceof RegExp) {
             this.updateResults(this._options
                 .filter(o => readValue(o, this._optionsField)
                     .toString()
-                    .toLowerCase()
-                    .match(this._query.toLowerCase())));
+                    .match(regex)));
+        }
 
-            return callback(null);
-        }
-        catch (e) {
-            return callback(e);
-        }
+        return callback(null);
     }
 
     private updateResults(results:T[]) {
         this._resultsCache[this._query] = results;
         this._results = results;
+    }
+
+    private toRegex(query:string) {
+        try {
+            return new RegExp(query, 'i');
+        }
+        catch (e) {
+            return query;
+        }
+    }
+
+    public highlightMatches(text:string) {
+        let regex = this.toRegex(this._query);
+        if (regex instanceof RegExp) {
+            return text.replace(regex, (match) => `<b>${match}</b>`);
+        }
+        return text;
     }
 
     private reset() {
@@ -121,11 +146,7 @@ export class SearchService<T extends RecursiveObject> {
     <i *ngIf="hasIcon" class="search icon"></i>
   </div>
 <div class="results" suiDropdownMenu transition="scale" selectedItemClass="active">
-    <a class="result item" *ngFor="let r of results; let i = index">
-        <!-- <div *ngIf="highlightMatch" class="title" [innerHTML]="highlight(result(i))"></div>
-        <div *ngIf="!highlightMatch" class="title">{{ result(i) }}</div> -->
-        {{ readValue(r) }}
-    </a>
+    <a class="result item" *ngFor="let r of results" [innerHTML]="searchService.highlightMatches(r)"></a>
     <div *ngIf="results.length == 0" class="message empty">
         <div class="header">No Results</div>
         <div class="description">Your search returned no results.</div>
@@ -161,13 +182,7 @@ export class SuiSearch<T extends RecursiveObject> implements AfterViewInit {
     public placeholder:string;
 
     public set query(query:string) {
-        clearTimeout(this._searchDelayTimeout);
-
-        this._searchDelayTimeout = setTimeout(() => {
-            this.searchService.updateQuery(query, (err) => {
-                this.dropdownService.setOpenState(this.searchService.query.length > 0);
-            });
-        }, this.searchDelay);
+        this.searchService.updateQueryDelayed(query, (err) => this.dropdownService.setOpenState(this.searchService.query.length > 0));
     }
 
     @Input()
@@ -185,9 +200,9 @@ export class SuiSearch<T extends RecursiveObject> implements AfterViewInit {
     }
 
     @Input()
-    public searchDelay:number;
-
-    private _searchDelayTimeout:any;
+    public set searchDelay(delay:number) {
+        this.searchService.searchDelay = delay;
+    }
 
     @HostBinding('class.loading')
     public get isSearching() {
