@@ -26,7 +26,10 @@
     "start": "ng serve",
     "compile": "tsc",
     "compile:w": "tsc -w",
-    "prepublish": "tsc"
+    "prepublish": "tsc",
+    "transpile": "ngc",
+    "package": "rollup -c",
+    "build": "npm run transpile && npm run package"
   },
   "dependencies": {
     "@angular/common": "^2.4.1",
@@ -41,16 +44,29 @@
     "zone.js": "^0.7.0"
   },
   "devDependencies": {
-    "@angular/compiler": "^2.4.0",
+    "@angular/compiler": "^2.4.1",
+    "@angular/compiler-cli": "^2.4.1",
     "@angular/platform-browser-dynamic": "^2.4.0",
     "@angular/router": "^3.4.0",
-    "@types/prismjs": "^1.4.17",
-    "@types/requirejs": "^2.1.26",
+    "@types/prismjs": "~1.4.18",
+    "@types/protractor": "~4.0.0",
+    "@types/requirejs": "~2.1.28",
     "angular-cli": "1.0.0-beta.26",
-    "codelyzer": "0.0.26",
-    "prismjs": "^1.5.1",
-    "ts-node": "1.2.1",
-    "tslint": "3.13.0",
-    "typescript": "^2.0.3"
+    "codelyzer": "~2.0.0-beta.4",
+    "jasmine-core": "~2.5.2",
+    "jasmine-spec-reporter": "~3.2.0",
+    "karma": "~1.4.0",
+    "karma-chrome-launcher": "~2.0.0",
+    "karma-jasmine": "~1.1.0",
+    "karma-remap-istanbul": "~0.4.0",
+    "prismjs": "~1.6.0",
+    "protractor": "~5.0.0",
+    "rollup": "~0.41.4",
+    "rollup-plugin-commonjs": "~7.0.0",
+    "rollup-plugin-node-resolve": "~2.0.0",
+    "rollup-plugin-uglify": "~1.0.1",
+    "ts-node": "~2.0.0",
+    "tslint": "~4.3.1",
+    "typescript": "~2.1.5"
   }
 }

@@ -1,20 +1,35 @@
 {
     "compilerOptions": {
+        "baseUrl": ".",
         "declaration": true,
+        "stripInternal": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "lib": ["es6", "dom"],
-        "mapRoot": "./",
-        "module": "es6",
+        "strictNullChecks": false,
+        "noImplicitAny": true,
+        "module": "es2015",
         "moduleResolution": "node",
+        "paths": {
+            "@angular/core": ["node_modules/@angular/core"],
+            "@angular/common": ["node_modules/@angular/common"],
+            "@angular/forms": ["node_modules/@angular/form"],
+            "rxjs": ["node_modules/rxjs"]
+        },
+        "rootDir": ".",
         "sourceMap": true,
+        "inlineSources": true,
         "target": "es5",
-        "typeRoots": [
-            "node_modules/@types"
+        "skipLibCheck": true,
+        "lib": [
+            "es2015",
+            "dom"
         ]
     },
     "files": [
         "index.ts",
-        "ng2-semantic-ui.ts"
-    ]
+        "ng2-semantic-ui"
+    ],
+    "angularCompilerOptions": {
+        "strictMetadataEmit": true
+    }
 }

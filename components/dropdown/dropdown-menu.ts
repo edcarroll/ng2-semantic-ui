@@ -67,7 +67,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
         this._service = value;
 
         let previousIsOpen = this._service.isOpen;
-        this._service.isOpenChange.subscribe(isOpen => {
+        this._service.isOpenChange.subscribe((isOpen:boolean) => {
             if (isOpen != previousIsOpen) {
                 // Only run transitions if the open state has changed.
                 this._transitionController.stopAll();

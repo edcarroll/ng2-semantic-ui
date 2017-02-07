@@ -1,9 +1,9 @@
-import {RecursiveObject, readValue} from '../util/util';
+import {readValue, JavascriptObject} from '../util/util';
 
 export type LookupFn<T> = (query:string) => Promise<T[]>
 type CachedArray<T> = { [query:string]:T[] };
 
-export class SearchService<T extends RecursiveObject> {
+export class SearchService<T extends JavascriptObject> {
     private _options:T[];
     private _optionsLookup:LookupFn<T>;
     private _optionsField:string;

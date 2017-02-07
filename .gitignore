@@ -4,6 +4,11 @@
 /dist
 /tmp
 
+## ngc logs
+
+*.ngfactory.ts
+*.ngsummary.json
+
 # dependencies
 /node_modules
 /bower_components
@@ -25,13 +30,18 @@ npm-debug.log
 testem.log
 /typings
 
-#System Files
+# System Files
 .DS_Store
 Thumbs.db
 
 # Non TS files
 *.d.ts
+*.metadata.json
 *.js
 *.js.map
 
+# Config Files
+!*.config.js
+
+# Output Files
 demo/dist

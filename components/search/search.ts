@@ -3,7 +3,7 @@ import {DropdownService} from '../dropdown/dropdown.service';
 import {SuiDropdownMenu} from '../dropdown/dropdown-menu';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 import {SearchService, LookupFn} from './search.service';
-import {RecursiveObject, readValue} from '../util/util';
+import {readValue, JavascriptObject} from '../util/util';
 
 @Component({
     selector: 'sui-search',
@@ -29,7 +29,7 @@ import {RecursiveObject, readValue} from '../util/util';
 }
 `]
 })
-export class SuiSearch<T extends RecursiveObject> implements AfterViewInit {
+export class SuiSearch<T extends JavascriptObject> implements AfterViewInit {
     public dropdownService:DropdownService;
     public searchService:SearchService<T>;
 
@@ -153,7 +153,7 @@ export const SELECT_VALUE_ACCESSOR:any = {
     },
     providers: [SELECT_VALUE_ACCESSOR]
 })
-export class SuiSearchValueAccessor<T extends RecursiveObject> implements ControlValueAccessor {
+export class SuiSearchValueAccessor<T extends JavascriptObject> implements ControlValueAccessor {
     onChange = () => {};
     onTouched = () => {};
 

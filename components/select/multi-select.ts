@@ -147,7 +147,7 @@ export class SuiMultiSelect implements AfterContentInit, AfterViewInit {
     }
 
     private get results():Array<any> {
-        return this._searchService.results.filter(r => this.selectedOptions.indexOf(r) == -1);
+        return this._searchService.results.filter((r:any) => this.selectedOptions.indexOf(r) == -1);
     }
 
     private get availableOptions():Array<any> {

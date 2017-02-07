@@ -12,9 +12,10 @@ export enum KeyCode {
     Backspace = 8
 };
 
-export type RecursiveObject = { [name:string]:RecursiveObject } | string | number | boolean;
+export type RecursiveObject = { [name:string]:RecursiveObject };
+export type JavascriptObject = RecursiveObject | string | boolean | number;
 
-export function deepValue<T extends RecursiveObject>(object:RecursiveObject, path:string):T {
+export function deepValue<T extends JavascriptObject>(object:JavascriptObject, path:string):T {
     if (!object) {
         return;
     }
@@ -24,12 +25,12 @@ export function deepValue<T extends RecursiveObject>(object:RecursiveObject, pat
     }
 
     for (let i = 0, p = path.split('.'), len = p.length; i < len; i++){
-        object = object[p[i]];
+        object = (object as RecursiveObject)[p[i]];
     }
 
     return object as T;
 }
 
-export function readValue<T extends RecursiveObject>(object:RecursiveObject, field:string):T {
+export function readValue<T extends JavascriptObject>(object:JavascriptObject, field:string):T {
     return deepValue<T>(object, field);
 }
