@@ -39,7 +39,7 @@ import {TransitionPageComponents} from './transition/transition.page';
         MessagePageComponents,
         ProgressPageComponents,
         RatingPageComponents,
-        // SearchPageComponents,
+        SearchPageComponents,
         // SelectPageComponents,
         TabsPageComponents,
         TransitionPageComponents

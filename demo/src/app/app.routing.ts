@@ -53,10 +53,10 @@ const appRoutes: Routes = [
         path: 'components/rating',
         component: RatingPage
     },
-    // {
-    //     path: 'components/search',
-    //     component: SearchPage
-    // },
+    {
+        path: 'components/search',
+        component: SearchPage
+    },
     // {
     //     path: 'components/select',
     //     component: SelectPage

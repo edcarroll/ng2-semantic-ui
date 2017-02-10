@@ -50,9 +50,9 @@ export class SearchPage {
         }
     ];
     public exampleStandardTemplate:string = `
-<sui-search placeholder="Example Search..." [icon]="icon" [options]="options" [searchDelay]="0" (onItemSelected)="alertSelected($event)"></sui-search>
+<sui-search placeholder="Example Search..." [hasIcon]="hasIcon" [options]="options" [searchDelay]="0" (onItemSelected)="alertSelected($event)"></sui-search>
 <div class="ui segment">
-    <sui-checkbox [(ngModel)]="icon">Has icon?</sui-checkbox>
+    <sui-checkbox [(ngModel)]="hasIcon">Has icon?</sui-checkbox>
 </div>
 `;
     public exampleRemoteTemplate:string = `
