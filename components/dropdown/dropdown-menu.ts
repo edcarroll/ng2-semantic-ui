@@ -47,7 +47,15 @@ export class SuiDropdownMenuItem {
 }
 
 @Directive({
-    selector: '[suiDropdownMenu]'
+    selector: '[suiDropdownMenu]',
+    host: {
+        // Override for button min-width (100% doesn't work with position: fixed).
+        '[style.min-width]': '"max-content"',
+        // Width fix - 0 makes the menu too wide.
+        '[style.right]': '"auto"',
+        
+        '[style.bottom]': '"auto"'
+    }
 })
 export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
     private _service:DropdownService;
@@ -55,6 +63,9 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
 
     @Input()
     public transition:string;
+
+    @Input()
+    public transitionDuration:number;
 
     // Allows the dropdown to be programmatically opened without being immediately closed by a mouse event.
     private _isOpenOnMousedown:boolean;
@@ -71,7 +82,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
             if (isOpen != previousIsOpen) {
                 // Only run transitions if the open state has changed.
                 this._transitionController.stopAll();
-                this._transitionController.animate(new Transition(this.transition, 200));
+                this._transitionController.animate(new Transition(this.transition, this.transitionDuration));
             }
 
             if (!isOpen) {
@@ -101,7 +112,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
     @Input()
     public selectedItemClass:string;
 
-    constructor(renderer:Renderer, element:ElementRef) {
+    constructor(renderer:Renderer, public element:ElementRef) {
         super(renderer, element);
 
         // Initialise transition functionality.
@@ -109,6 +120,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
         this.setTransitionController(this._transitionController);
 
         this.transition = "slide down";
+        this.transitionDuration = 200;
 
         this._isOpenOnMousedown = false;
 

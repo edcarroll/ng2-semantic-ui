@@ -7,8 +7,28 @@
 <demo-page-content>
     <h2 class="ui dividing header">Examples</h2>
     <div class="ui segment">
-        <sui-search [options]="options"></sui-search>
-        <sui-search [options]="optionsLookup" optionsField="test" [(ngModel)]="selected"></sui-search>
-        <p>{{ selected | json }}</p>
+        <div class="ui right pointing dropdown icon button" suiDropdown>
+            <i class="settings icon"></i>
+            Hello
+            <div class="menu" suiDropdownMenu transition="slide up">
+                <div class="item">New</div>
+                <div class="item">Open</div>
+                <div class="item">Save</div>
+                <div class="item" suiDropdown>
+                    <i class="dropdown icon"></i>
+                    Nested
+                    <div class="menu" suiDropdownMenu>
+                        <div class="item">Nested Item</div>
+                        <div class="item" suiDropdown>
+                            <i class="dropdown icon"></i>
+                            Nested
+                            <div class="menu" suiDropdownMenu>
+                                <div class="item">Nested Item</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </demo-page-content>
