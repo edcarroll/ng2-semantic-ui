@@ -7,28 +7,11 @@
 <demo-page-content>
     <h2 class="ui dividing header">Examples</h2>
     <div class="ui segment">
-        <div class="ui top left pointing dropdown icon button" suiDropdown>
-            <i class="settings icon"></i>
-            Hello
-            <div class="menu" suiDropdownMenu transition="slide down">
-                <div class="item">New</div>
-                <div class="item">Open</div>
-                <div class="item">Save</div>
-                <div class="item" suiDropdown>
-                    <i class="dropdown icon"></i>
-                    Nested
-                    <div class="menu" suiDropdownMenu>
-                        <div class="item">Nested Item</div>
-                        <div class="item" suiDropdown>
-                            <i class="dropdown icon"></i>
-                            Nested
-                            <div class="menu" suiDropdownMenu>
-                                <div class="item">Nested Item</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <template let-popup #example>
+            <div class="content">
+                Hello!
             </div>
-        </div>
+        </template>
+        <button class="ui button" suiPopup [popupTemplate]="example">Hello</button>
     </div>
 </demo-page-content>

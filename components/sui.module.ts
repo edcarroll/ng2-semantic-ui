@@ -6,6 +6,7 @@ import {SuiCollapseModule} from "./collapse/collapse.module";
 import {SuiDimmerModule} from "./dimmer/dimmer.module";
 import {SuiDropdownModule} from "./dropdown/dropdown.module";
 import {SuiMessageModule} from "./message/message.module";
+import {SuiPopupModule} from './popup/popup.module';
 import {SuiProgressModule} from "./progress/progress.module";
 import {SuiRatingModule} from "./rating/rating.module";
 import {SuiSearchModule} from "./search/search.module";
@@ -21,6 +22,7 @@ import {SuiTransitionModule} from "./transition/transition.module";
         SuiDimmerModule,
         SuiDropdownModule,
         SuiMessageModule,
+        SuiPopupModule,
         SuiProgressModule,
         SuiRatingModule,
         SuiSearchModule,

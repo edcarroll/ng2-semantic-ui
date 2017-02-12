@@ -4,11 +4,12 @@ export * from "./collapse/collapse.module";
 export * from "./dimmer/dimmer.module";
 export * from "./dropdown/dropdown.module";
 export * from "./message/message.module";
+export * from "./popup/popup.module";
 export * from "./progress/progress.module";
 export * from "./rating/rating.module";
 export * from "./search/search.module";
-export * from "./tabs/tab.module";
 export * from "./select/select.module";
+export * from "./tabs/tab.module";
 export * from "./transition/transition.module";
 
 export * from "./sui.module";
