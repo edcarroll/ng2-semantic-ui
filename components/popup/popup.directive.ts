@@ -9,7 +9,7 @@ import {PositioningService, PositioningPlacement} from '../util/positioning.serv
 export class SuiPopupDirective {
     private _header:string;
     private _text:string;
-    private _template:TemplateRef<Object>;
+    private _template:TemplateRef<any>;
     
     @Input()
     public set popupHeader(header:string) {
@@ -24,7 +24,7 @@ export class SuiPopupDirective {
     }
 
     @Input()
-    public set popupTemplate(template:TemplateRef<Object>) {
+    public set popupTemplate(template:TemplateRef<any>) {
         this._template = template;
         this.copyConfig();
     }
@@ -65,6 +65,6 @@ export class SuiPopupDirective {
 
     @HostListener("mouseleave")
     public close() {
-        this._popup.close();
+        // this._popup.close();
     }
 }

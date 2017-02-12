@@ -23,9 +23,11 @@ import {PositioningService} from '../util/positioning.service';
 export class SuiPopup {
     public transitionController:TransitionController;
 
+    public template:TemplateRef<any>;
+    private _templateInjected:boolean;
+    
     public header:string;
     public text:string;
-    public template:TemplateRef<Object>;
     public transition:string;
     public transitionDuration:number;
 
@@ -48,19 +50,22 @@ export class SuiPopup {
     constructor(public elementRef:ElementRef) {
         this.transitionController = new TransitionController(false);
 
-        this._isOpen = false;
-        this.onClose = new EventEmitter<void>();
+        this._templateInjected = false;
 
         this.transition = "scale in";
         this.transitionDuration = 200;
+
+        this._isOpen = false;
+        this.onClose = new EventEmitter<void>();
     }
 
     public open() {
         if (!this._isOpen) {
             clearTimeout(this._closingTimeout);
 
-            if (this.template) {
-                this.templateSibling.createEmbeddedView(this.template, this);
+            if (this.template && !this._templateInjected) {
+                this.templateSibling.createEmbeddedView(this.template, { '$implicit': this });
+                this._templateInjected = true;
             }
             
             this.transitionController.stopAll();

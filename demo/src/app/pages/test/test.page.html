@@ -9,7 +9,7 @@
     <div class="ui segment">
         <template let-popup #example>
             <div class="content">
-                Hello!
+                <button class="ui orange button" (click)="popup.close()">x</button>
             </div>
         </template>
         <button class="ui button" suiPopup [popupTemplate]="example">Hello</button>
