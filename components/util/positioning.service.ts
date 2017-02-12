@@ -49,11 +49,8 @@ export class PositioningService {
                     applyStyle: {
                         gpuAcceleration: false
                     },
-                    flip: {
-                        boundariesElement: document.body
-                    },
                     preventOverflow: {
-                        // boundariesElement: window
+                        boundariesElement: document.body
                     }
                 }
             });

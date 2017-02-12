@@ -10,7 +10,6 @@ import {PositioningService, PositioningPlacement} from '../util/positioning.serv
 })
 export class SuiDropdown implements AfterContentInit {
     public service:DropdownService;
-    public position:PositioningService;
 
     @ContentChild(SuiDropdownMenu)
     private _menu:SuiDropdownMenu;
@@ -63,7 +62,7 @@ export class SuiDropdown implements AfterContentInit {
         this.service.autoCloseMode = value;
     }
 
-    constructor(private _element:ElementRef) {
+    constructor() {
         this.service = new DropdownService();
     }
 
@@ -72,45 +71,6 @@ export class SuiDropdown implements AfterContentInit {
             throw new Error("You must set [suiDropdownMenu] on the menu element.");
         }
         this._menu.service = this.service;
-
-        let elem = this._element.nativeElement as Element;
-        let top = elem.classList.contains("top");
-        let bottom = elem.classList.contains("bottom");
-        let left = elem.classList.contains("left");
-        let right = elem.classList.contains("right");
-
-        let placement = PositioningPlacement.Inherit;
-
-        if (top) {
-            if (left) {
-                placement = PositioningPlacement.BottomLeft;
-            }
-            else if (right) {
-                placement = PositioningPlacement.BottomRight;
-            }
-            else {
-                placement = PositioningPlacement.BottomCenter;
-            }
-        }
-        else if (bottom) {
-            if (left) {
-                placement = PositioningPlacement.TopLeft;
-            }
-            else if (right) {
-                placement = PositioningPlacement.TopRight;
-            }
-            else {
-                placement = PositioningPlacement.TopCenter;
-            }
-        }
-        else if (left) {
-            placement = PositioningPlacement.RightTop;
-        }
-        else if (right) {
-            placement = PositioningPlacement.LeftTop;
-        }
-
-        this.position = new PositioningService(this._element, this._menu.element, placement);
 
         this.childrenUpdated();
         this._children.changes
@@ -122,10 +82,6 @@ export class SuiDropdown implements AfterContentInit {
         this.children
             .map(c => c.service)
             .forEach(s => this.service.registerChild(s))
-
-        this.children
-            .filter(c => c.position.placement == PositioningPlacement.Inherit)
-            .forEach(c => c.position.placement = this.position.placement);
     }
 
     @HostListener("click", ['$event'])
@@ -134,9 +90,5 @@ export class SuiDropdown implements AfterContentInit {
         e.stopPropagation();
 
         this.service.toggleOpenState();
-
-        if (!this.service.isNested) {
-            this.position.update();
-        }
     }
 }
