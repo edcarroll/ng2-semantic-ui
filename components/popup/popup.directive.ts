@@ -7,10 +7,17 @@ import {PositioningService, PositioningPlacement} from '../util/positioning.serv
     exportAs: 'popup'
 })
 export class SuiPopupDirective {
+    private _template:TemplateRef<any>;
     private _header:string;
     private _text:string;
-    private _template:TemplateRef<any>;
+    private _inverted:boolean;
     
+    @Input()
+    public set popupTemplate(template:TemplateRef<any>) {
+        this._template = template;
+        this.copyConfig();
+    }
+
     @Input()
     public set popupHeader(header:string) {
         this._header = header;
@@ -24,8 +31,11 @@ export class SuiPopupDirective {
     }
 
     @Input()
-    public set popupTemplate(template:TemplateRef<any>) {
-        this._template = template;
+    public set popupInverted(inverted:boolean) {
+        if (typeof inverted == "string") {
+            inverted = true;
+        }
+        this._inverted = inverted;
         this.copyConfig();
     }
 
@@ -42,6 +52,7 @@ export class SuiPopupDirective {
             this._popup.header = this._header;
             this._popup.text = this._text;
             this._popup.template = this._template;
+            this._popup.inverted = this._inverted;
         }
     }
 
@@ -51,7 +62,7 @@ export class SuiPopupDirective {
             const factory = this._componentFactoryResolver.resolveComponentFactory(SuiPopup);
             this._popupComponentRef = this._viewContainerRef.createComponent(factory);
 
-            this._popup.position = new PositioningService(this._element, this._popup.container.element, PositioningPlacement.TopLeft);
+            this._popup.position = new PositioningService(this._element, this._popup.container.element, PositioningPlacement.BottomLeft);
             this._popup.onClose.subscribe(() => {
                 this._popupComponentRef.destroy();
                 this._popupComponentRef = null;

@@ -50,6 +50,9 @@ export class PositioningService {
                     },
                     preventOverflow: {
                         boundariesElement: document.body
+                    },
+                    arrow: {
+                        element: '.arrow'
                     }
                 }
             });
