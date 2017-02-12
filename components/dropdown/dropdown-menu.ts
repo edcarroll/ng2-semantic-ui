@@ -22,9 +22,11 @@ export class SuiDropdownMenuItem {
     }
 
     public set isSelected(value:boolean) {
+        // Renderer is used to enable a dynamic class name.
         this._renderer.setElementClass(this._element.nativeElement, this.selectedClass, value)
     }
 
+    // Stores the class name used for a 'selected' item.
     public selectedClass:string;
 
     @ContentChild(forwardRef(() => SuiDropdownMenu))
@@ -47,15 +49,7 @@ export class SuiDropdownMenuItem {
 }
 
 @Directive({
-    selector: '[suiDropdownMenu]',
-    host: {
-        // Override for button min-width (100% doesn't work with position: fixed).
-        '[style.min-width]': '"max-content"',
-        // Width fix - 0 makes the menu too wide.
-        '[style.right]': '"auto"',
-        
-        '[style.bottom]': '"auto"'
-    }
+    selector: '[suiDropdownMenu]'
 })
 export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
     private _service:DropdownService;

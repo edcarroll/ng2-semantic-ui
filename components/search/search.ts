@@ -26,10 +26,12 @@ import {element} from 'protractor';
 </div>
 `,
     styles: [`
+/* Ensures results div has margin. */
 :host {
     display: inline-block;
 }
 
+/* Fixes positioning when results are pushed above the search. */
 .results {
     margin-bottom: .5em;
 }
@@ -43,6 +45,8 @@ export class SuiSearch<T extends JavascriptObject> implements AfterViewInit {
     @ViewChild(SuiDropdownMenu)
     private _menu:SuiDropdownMenu;
 
+    // Sets the Semantic UI classes on the host element.
+    // Doing it on the host enables use in menus etc.
     @HostBinding('class.ui')
     @HostBinding('class.search')
     private _searchClasses:boolean;
@@ -52,9 +56,11 @@ export class SuiSearch<T extends JavascriptObject> implements AfterViewInit {
         return this.dropdownService.isOpen;
     }
 
+    // Sets whether the search element has a visible search icon.
     @Input()
     public hasIcon:boolean;
 
+    // Sets the placeholder text displayed inside the text input.
     @Input()
     public placeholder:string;
 
@@ -64,9 +70,13 @@ export class SuiSearch<T extends JavascriptObject> implements AfterViewInit {
 
     public set query(query:string) {
         this.selectedItem = null;
-        this.searchService.updateQueryDelayed(query, () => this.dropdownService.setOpenState(this.searchService.query.length > 0));
+        // Initialise a delayed search.
+        this.searchService.updateQueryDelayed(query, () =>
+            // Set the results open state depending on whether a query has been entered.
+            this.dropdownService.setOpenState(this.searchService.query.length > 0));
     }
 
+    // Sets local or remote options by determining whether a function is passed.
     @Input()
     public set options(options:T[] | LookupFn<T>) {
         if (typeof(options) == "function") {
@@ -95,11 +105,14 @@ export class SuiSearch<T extends JavascriptObject> implements AfterViewInit {
         return this.searchService.results;
     }
 
+    // Stores the currently selected item.
     public selectedItem:T;
 
+    // Emits whenever a new item is selected.
     @Output()
     public onItemSelected:EventEmitter<T>;
 
+    // Alias onItemSelected as ngModelChange for [(ngModel)] support.
     public get ngModelChange() {
         return this.onItemSelected;
     }
@@ -120,9 +133,12 @@ export class SuiSearch<T extends JavascriptObject> implements AfterViewInit {
     public ngAfterViewInit() {
         this._menu.service = this.dropdownService;
 
+        // Initialse the positioning service to correctly display the results.
+        // This adds support for repositioning the results above the search when there isn't enough space below.
         this.position = new PositioningService(this._element, this._menu.element, PositioningPlacement.BottomLeft);
     }
 
+    // Selects an item.
     public select(item:T) {
         this.writeValue(item);
         this.onItemSelected.emit(item);
@@ -133,14 +149,17 @@ export class SuiSearch<T extends JavascriptObject> implements AfterViewInit {
         e.stopPropagation();
 
         if (this.searchService.query.length > 0) {
+            // Only open on click when there is a query entered.
             this.dropdownService.setOpenState(true);
         }
     }
 
+    // Reads the specified field from an item.
     public readValue(object:T) {
         return readValue(object, this.searchService.optionsField);
     }
 
+    // Sets a specific item to be selected, updating the query automatically.
     public writeValue(item:T) {
         if (item) {
             this.selectedItem = item;
@@ -149,18 +168,20 @@ export class SuiSearch<T extends JavascriptObject> implements AfterViewInit {
     }
 }
 
-export const SELECT_VALUE_ACCESSOR:any = {
+// Value accessor for the search.
+export const SEARCH_VALUE_ACCESSOR:any = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => SuiSearchValueAccessor),
     multi: true
 };
 
+// Value accessor directive for the search to support ngModel.
 @Directive({
     selector: 'sui-search',
     host: {
         '(onItemSelected)': 'onChange($event)'
     },
-    providers: [SELECT_VALUE_ACCESSOR]
+    providers: [SEARCH_VALUE_ACCESSOR]
 })
 export class SuiSearchValueAccessor<T extends JavascriptObject> implements ControlValueAccessor {
     onChange = () => {};
