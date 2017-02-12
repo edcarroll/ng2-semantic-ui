@@ -1,9 +1,11 @@
-import {Component, ViewChild, HostBinding, Input, AfterViewInit, HostListener, EventEmitter, Output, forwardRef, Directive} from '@angular/core';
+import {Component, ViewChild, HostBinding, Input, AfterViewInit, HostListener, EventEmitter, Output, forwardRef, Directive, ElementRef} from '@angular/core';
 import {DropdownService} from '../dropdown/dropdown.service';
 import {SuiDropdownMenu} from '../dropdown/dropdown-menu';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 import {SearchService, LookupFn} from './search.service';
 import {readValue, JavascriptObject} from '../util/util';
+import {PositioningService, PositioningPlacement} from '../util/positioning.service';
+import {element} from 'protractor';
 
 @Component({
     selector: 'sui-search',
@@ -27,11 +29,16 @@ import {readValue, JavascriptObject} from '../util/util';
 :host {
     display: inline-block;
 }
+
+.results {
+    margin-bottom: .5em;
+}
 `]
 })
 export class SuiSearch<T extends JavascriptObject> implements AfterViewInit {
     public dropdownService:DropdownService;
     public searchService:SearchService<T>;
+    public position:PositioningService;
 
     @ViewChild(SuiDropdownMenu)
     private _menu:SuiDropdownMenu;
@@ -97,7 +104,7 @@ export class SuiSearch<T extends JavascriptObject> implements AfterViewInit {
         return this.onItemSelected;
     }
 
-    constructor() {
+    constructor(private _element:ElementRef) {
         this.dropdownService = new DropdownService();
         this.searchService = new SearchService<T>();
 
@@ -112,6 +119,8 @@ export class SuiSearch<T extends JavascriptObject> implements AfterViewInit {
 
     public ngAfterViewInit() {
         this._menu.service = this.dropdownService;
+
+        this.position = new PositioningService(this._element, this._menu.element, PositioningPlacement.BottomLeft);
     }
 
     public select(item:T) {

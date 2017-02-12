@@ -44,7 +44,6 @@ export class PositioningService {
             subject.nativeElement,
             {
                 placement,
-                gpuAcceleration: false,
                 modifiers: {
                     applyStyle: {
                         gpuAcceleration: false
