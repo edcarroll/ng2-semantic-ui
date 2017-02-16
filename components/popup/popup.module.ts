@@ -3,6 +3,7 @@ import {CommonModule} from "@angular/common";
 import {SuiTransitionModule} from "../transition/transition.module";
 import {SuiPopupDirective} from './popup.directive';
 import {SuiPopup} from './popup';
+import {SuiPopupArrow} from './popup-arrow';
 
 @NgModule({
     imports: [
@@ -11,6 +12,7 @@ import {SuiPopup} from './popup';
     ],
     declarations: [
         SuiPopupDirective,
+        SuiPopupArrow,
         SuiPopup
     ],
     exports: [

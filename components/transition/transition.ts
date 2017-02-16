@@ -31,6 +31,10 @@ export class Transition {
 
     constructor(name:string, duration:number = 250, direction:TransitionDirection = TransitionDirection.Either, onComplete:(() => any) = () => {}) {
         this.type = name;
+        if (duration < 1) {
+            // We set a minimum duration of 1ms, to give the appearance of an immediate transition whilst allowing positioning calculations to happen without a visible flicker.
+            duration = 1;
+        }
         this.duration = duration;
         this.direction = direction;
         this.classes = this.type.split(" ");

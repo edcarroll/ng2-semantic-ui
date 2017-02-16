@@ -1,18 +1,18 @@
 import {Component, ViewChild, ViewContainerRef, ElementRef, Renderer, EventEmitter, TemplateRef} from '@angular/core';
 import {SuiTransition, Transition, TransitionDirection} from '../transition/transition';
 import {TransitionController} from '../transition/transition-controller';
-import {PositioningService} from '../util/positioning.service';
+import {PositioningService, PositioningPlacement, IPosition} from '../util/positioning.service';
 
 @Component({
     selector: 'sui-popup',
     template: `
-<div class="ui popup" [class.inverted]="inverted" [suiTransition]="transitionController" #container>
+<div class="ui popup" [class.inverted]="inverted" [suiTransition]="transitionController" [attr.direction]="direction" #container>
     <ng-container *ngIf="!template">
         <div class="header" *ngIf="header">{{ header }}</div>
         <div class="content">{{ text }}</div>
     </ng-container>
-    <div #template></div>
-    <div class="arrow"></div>
+    <div #templateSibling></div>
+    <sui-popup-arrow [position]="position" [inverted]="inverted"></sui-popup-arrow>
 </div>
 `,
     styles: [`
@@ -20,51 +20,27 @@ import {PositioningService} from '../util/positioning.service';
     right: auto;
 }
 
-.ui.inverted.popup .arrow {
-    background: #1B1C1D;
-}
-
-[x-placement^="top"],
-[x-placement^="bottom"] {
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-
-[x-placement^="left"],
-[x-placement^="right"] {
-    margin-left: 1em;
-    margin-right: 1em;
-}
-
-.arrow {
-    position: absolute;
-    content: '';
-    width: .71428571em;
-    height: .71428571em;
-    background: #FFF;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-    z-index: 2;
-    box-shadow: 1px 1px 0 0 #bababc;
-}
-
-[x-placement="top-start"] .arrow,
-[x-placement="bottom-start"] .arrow {
-    /* How to make this work? */
-    /* margin-left: -2em; */
-}
-
-[x-placement^="top"] .arrow {
-    bottom: -.30714286em;
-}
-
-[x-placement^="bottom"] .arrow {
-    top: -.30714286em;
+.ui.animating.popup {
+    /* When the popup is animating, it may not initially be in the correct position.
+       This fires a mouse event, causing the anchor's mouseleave to fire - making the popup flicker.
+       Setting pointer-events to none while animating fixes this bug. */
+    pointer-events: none;
 }
 
 .ui.popup::before {
     display: none;
+}
+
+.ui.popup[direction="top"],
+.ui.popup[direction="bottom"] {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.ui.popup[direction="left"],
+.ui.popup[direction="right"] {
+    margin-left: 1em;
+    margin-right: 1em;
 }
 `]
 })
@@ -80,7 +56,22 @@ export class SuiPopup {
     public transition:string;
     public transitionDuration:number;
 
-    public position:PositioningService;
+    private _position:PositioningService;
+    public placement:PositioningPlacement;
+    public set anchor(anchor:ElementRef) {
+        this._position = new PositioningService(anchor, this._container.element, this.placement, ".dynamic.arrow");
+    }
+    public get position() {
+        if (this._position) {
+            return this._position.state;
+        }
+        return null;
+    }
+    public get direction() {
+        if (this.position) {
+            return this.position.placement.split("-").shift();
+        }
+    }
 
     private _isOpen:boolean;
     private _closingTimeout:any;
@@ -91,9 +82,9 @@ export class SuiPopup {
     }
 
     @ViewChild('container', { read: ViewContainerRef })
-    public container:ViewContainerRef;
+    private _container:ViewContainerRef;
 
-    @ViewChild('template', { read: ViewContainerRef })
+    @ViewChild('templateSibling', { read: ViewContainerRef })
     private _templateSibling:ViewContainerRef;
 
     constructor(public elementRef:ElementRef) {
@@ -102,8 +93,10 @@ export class SuiPopup {
         this._templateInjected = false;
 
         this.inverted = false;
-        this.transition = "scale in";
+        this.transition = "scale";
         this.transitionDuration = 200;
+
+        this.placement = PositioningPlacement.BottomLeft;
 
         this._isOpen = false;
         this.onClose = new EventEmitter<void>();
@@ -120,6 +113,8 @@ export class SuiPopup {
             
             this.transitionController.stopAll();
             this.transitionController.animate(new Transition(this.transition, this.transitionDuration, TransitionDirection.In));
+
+            setTimeout(() => this._position.update());
 
             this._isOpen = true;
         }

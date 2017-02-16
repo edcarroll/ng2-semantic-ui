@@ -1,6 +1,6 @@
-import {Directive, Input, ElementRef, ComponentFactoryResolver, ViewContainerRef, ComponentRef, HostListener, TemplateRef} from '@angular/core';
+import {Directive, Input, ElementRef, ComponentFactoryResolver, ViewContainerRef, ComponentRef, HostListener, TemplateRef, Renderer} from '@angular/core';
 import {SuiPopup} from './popup';
-import {PositioningService, PositioningPlacement} from '../util/positioning.service';
+import {PositioningPlacement} from '../util/positioning.service';
 
 @Directive({
     selector: '[suiPopup]',
@@ -11,6 +11,7 @@ export class SuiPopupDirective {
     private _header:string;
     private _text:string;
     private _inverted:boolean;
+    private _placement:PositioningPlacement;
     
     @Input()
     public set popupTemplate(template:TemplateRef<any>) {
@@ -39,6 +40,26 @@ export class SuiPopupDirective {
         this.copyConfig();
     }
 
+    @Input()
+    public set popupPlacement(placement:PositioningPlacement) {
+        const [direction, alignment] = placement.split(" ");
+
+        let chosenPlacement = [direction];
+        switch (alignment) {
+            case "top":
+            case "left":
+                chosenPlacement.push("start");
+                break;
+            case "bottom":
+            case "right":
+                chosenPlacement.push("end");
+                break;
+        }
+
+        this._placement = chosenPlacement.join("-") as PositioningPlacement;
+        this.copyConfig();
+    }
+
     private _popupComponentRef:ComponentRef<SuiPopup>;
 
     private get _popup() {
@@ -49,10 +70,21 @@ export class SuiPopupDirective {
 
     private copyConfig() {
         if (this._popupComponentRef) {
-            this._popup.header = this._header;
-            this._popup.text = this._text;
-            this._popup.template = this._template;
-            this._popup.inverted = this._inverted;
+            if (this.hasOwnProperty("_header")) {
+                this._popup.header = this._header;
+            }
+            if (this.hasOwnProperty("_text")) {
+                this._popup.text = this._text;
+            }
+            if (this.hasOwnProperty("_template")) {
+                this._popup.template = this._template;
+            }
+            if (this.hasOwnProperty("_inverted")) {
+                this._popup.inverted = this._inverted;
+            }
+            if (this.hasOwnProperty("_placement")) {
+                this._popup.placement = this._placement;
+            }
         }
     }
 
@@ -62,13 +94,14 @@ export class SuiPopupDirective {
             const factory = this._componentFactoryResolver.resolveComponentFactory(SuiPopup);
             this._popupComponentRef = this._viewContainerRef.createComponent(factory);
 
-            this._popup.position = new PositioningService(this._element, this._popup.container.element, PositioningPlacement.BottomLeft);
             this._popup.onClose.subscribe(() => {
                 this._popupComponentRef.destroy();
                 this._popupComponentRef = null;
             });
 
             this.copyConfig();
+
+            this._popup.anchor = this._element;
         }
 
         this._popup.open();
@@ -76,6 +109,6 @@ export class SuiPopupDirective {
 
     @HostListener("mouseleave")
     public close() {
-        // this._popup.close();
+        this._popup.close();
     }
 }
