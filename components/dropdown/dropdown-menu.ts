@@ -56,10 +56,10 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
     private _transitionController:TransitionController;
 
     @Input()
-    public transition:string;
+    public menuTransition:string;
 
     @Input()
-    public transitionDuration:number;
+    public menuTransitionDuration:number;
 
     // Allows the dropdown to be programmatically opened without being immediately closed by a mouse event.
     private _isOpenOnMousedown:boolean;
@@ -76,7 +76,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
             if (isOpen != previousIsOpen) {
                 // Only run transitions if the open state has changed.
                 this._transitionController.stopAll();
-                this._transitionController.animate(new Transition(this.transition, this.transitionDuration));
+                this._transitionController.animate(new Transition(this.menuTransition, this.menuTransitionDuration));
             }
 
             if (!isOpen) {
@@ -101,10 +101,10 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
 
     // Sets whether or not to automatically select the 1st item when the dropdown is opened.
     @Input()
-    public autoSelectFirst:boolean;
+    public menuAutoSelectFirst:boolean;
 
     @Input()
-    public selectedItemClass:string;
+    public menuSelectedItemClass:string;
 
     constructor(renderer:Renderer, public element:ElementRef) {
         super(renderer, element);
@@ -113,13 +113,13 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
         this._transitionController = new TransitionController(false);
         this.setTransitionController(this._transitionController);
 
-        this.transition = "slide down";
-        this.transitionDuration = 200;
+        this.menuTransition = "slide down";
+        this.menuTransitionDuration = 200;
 
         this._isOpenOnMousedown = false;
 
-        this.autoSelectFirst = false;
-        this.selectedItemClass = "selected";
+        this.menuAutoSelectFirst = false;
+        this.menuSelectedItemClass = "selected";
     }
 
     @HostListener("click", ["$event"])
@@ -154,6 +154,8 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
     public onDocumentKeydown(e:KeyboardEvent) {
         // Only the root dropdown (i.e. not nested dropdowns) is responsible for keeping track of the currently selected item.
         if (this._service.isOpen && !this._service.isNested) {
+            // Stop document events like scrolling while open.
+            e.preventDefault();
 
             // Gets the top selected item from the stack.
             let [selected] = this.selectedItems.slice(-1);
@@ -207,7 +209,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
     public resetSelection() {
         this.selectedItems = [];
         this.items.forEach(i => {
-            i.selectedClass = this.selectedItemClass;
+            i.selectedClass = this.menuSelectedItemClass;
             i.isSelected = false;
         });
     }
@@ -261,7 +263,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
     private itemsChanged() {
         // We use `_items` rather than `items` in case one or more have become disabled.
         this.resetSelection();
-        if (this.autoSelectFirst && this.items.length > 0) {
+        if (this.menuAutoSelectFirst && this.items.length > 0) {
             // Autoselect 1st item if required & possible.
             this.items[0].isSelected = true;
             this.selectedItems.push(this._items.first);

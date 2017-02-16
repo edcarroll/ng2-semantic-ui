@@ -12,6 +12,7 @@
                 This is a really really really really long tooltip tooltip
             </div>
         </template>
-        <button class="ui button" suiPopup [popupTemplate]="example" popupPlacement="bottom left" popupTransition="fade">Hello, world!</button>
+        <button class="ui button" suiPopup [popupTemplate]="example" popupPlacement="bottom left" popupTransition="fade" popupTrigger="focus" #popup="suiPopup">Hello, world!</button>
+        <button class="ui teal button" (click)="popup.toggle()">Toggle</button>
     </div>
 </demo-page-content>

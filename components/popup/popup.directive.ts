@@ -2,9 +2,19 @@ import {Directive, Input, ElementRef, ComponentFactoryResolver, ViewContainerRef
 import {SuiPopup} from './popup';
 import {PositioningPlacement} from '../util/positioning.service';
 
+export type PopupTrigger = "hover" | "click" | "focus" | "manual";
+
+// Creates essentially a 'string' enum.
+export const PopupTrigger = {
+    Hover: "hover" as PopupTrigger,
+    Click: "click" as PopupTrigger,
+    Focus: "focus" as PopupTrigger,
+    Manual: "manual" as PopupTrigger
+}
+
 @Directive({
     selector: '[suiPopup]',
-    exportAs: 'popup'
+    exportAs: 'suiPopup'
 })
 export class SuiPopupDirective {
     private _template:TemplateRef<any>;
@@ -74,13 +84,18 @@ export class SuiPopupDirective {
         this.copyConfig();
     }
 
+    @Input()
+    public popupTrigger:PopupTrigger;
+
     private _popupComponentRef:ComponentRef<SuiPopup>;
 
     private get _popup() {
         return this._popupComponentRef.instance;
     }
 
-    constructor(private _element:ElementRef, private _viewContainerRef:ViewContainerRef, private _componentFactoryResolver:ComponentFactoryResolver) {}
+    constructor(private _element:ElementRef, private _viewContainerRef:ViewContainerRef, private _componentFactoryResolver:ComponentFactoryResolver) {
+        this.popupTrigger = "hover";
+    }
 
     private copyConfig() {
         if (this._popupComponentRef) {
@@ -108,7 +123,6 @@ export class SuiPopupDirective {
         }
     }
 
-    @HostListener("mouseenter")
     public open() {
         if (!this._popupComponentRef) {
             const factory = this._componentFactoryResolver.resolveComponentFactory(SuiPopup);
@@ -127,8 +141,49 @@ export class SuiPopupDirective {
         this._popup.open();
     }
 
-    @HostListener("mouseleave")
     public close() {
         this._popup.close();
+    }
+
+    public toggle() {
+        if (!this._popupComponentRef || (this._popupComponentRef && !this._popup.isOpen)) {
+            return this.open();
+        }
+        return this.close();
+    }
+
+    @HostListener("mouseenter")
+    private onMouseEnter() {
+        if (this.popupTrigger == PopupTrigger.Hover) {
+            this.open();
+        }
+    }
+
+    @HostListener("mouseleave")
+    private onMouseLeave() {
+        if (this.popupTrigger == PopupTrigger.Hover) {
+            this.close();
+        }
+    }
+
+    @HostListener("click")
+    private onClick() {
+        if (this.popupTrigger == PopupTrigger.Click) {
+            this.toggle();
+        }
+    }
+
+    @HostListener("focusin")
+    private onFocusIn() {
+        if (this.popupTrigger == PopupTrigger.Focus) {
+            this.open();
+        }
+    }
+
+    @HostListener("focusout")
+    private onFocusOut() {
+        if (this.popupTrigger == PopupTrigger.Focus) {
+            this.close();
+        }
     }
 }

@@ -14,7 +14,7 @@ import {element} from 'protractor';
     <input class="prompt" type="text" [attr.placeholder]="placeholder" autocomplete="off" [(ngModel)]="query">
     <i *ngIf="hasIcon" class="search icon"></i>
   </div>
-<div class="results" suiDropdownMenu transition="scale" selectedItemClass="active">
+<div class="results" suiDropdownMenu menuTransition="scale" menuSelectedItemClass="active">
     <a class="result item" *ngFor="let r of results" (click)="select(r)">
         <span *ngIf="!searchService.optionsLookup" [innerHTML]="searchService.highlightMatches(r)"></span>
         <span *ngIf="searchService.optionsLookup">{{ readValue(r) }}</span>
