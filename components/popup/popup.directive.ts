@@ -12,6 +12,8 @@ export class SuiPopupDirective {
     private _text:string;
     private _inverted:boolean;
     private _placement:PositioningPlacement;
+    private _transition:string;
+    private _transitionDuration:number;
     
     @Input()
     public set popupTemplate(template:TemplateRef<any>) {
@@ -37,6 +39,18 @@ export class SuiPopupDirective {
             inverted = true;
         }
         this._inverted = inverted;
+        this.copyConfig();
+    }
+
+    @Input()
+    public set popupTransition(transition:string) {
+        this._transition = transition;
+        this.copyConfig();
+    }
+
+    @Input()
+    public set popupTransitionDuration(duration:number) {
+        this._transitionDuration = duration;
         this.copyConfig();
     }
 
@@ -84,6 +98,12 @@ export class SuiPopupDirective {
             }
             if (this.hasOwnProperty("_placement")) {
                 this._popup.placement = this._placement;
+            }
+            if (this.hasOwnProperty("_transition")) {
+                this._popup.transition = this._transition;
+            }
+            if (this.hasOwnProperty("_transitionDuration")) {
+                this._popup.transitionDuration = this._transitionDuration;
             }
         }
     }
