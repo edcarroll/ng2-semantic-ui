@@ -43,7 +43,6 @@ export class SuiSelectMultiLabel {
     public viewContainerRef:ViewContainerRef;
 
     public deselectOption() {
-        event.stopPropagation();
         this._transition.animate({
             name: "scale",
             direction: "out",
