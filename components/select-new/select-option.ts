@@ -5,7 +5,7 @@ import {SuiDropdownMenuItem} from '../dropdown/dropdown-menu';
 @Component({
     selector: 'new-sui-select-option',
     template: `
-<span>{{ readLabel(value) }}</span>
+<span [innerHTML]="readLabel(value)"></span>
 `
 })
 export class SuiSelectOption<T extends RecursiveObject> extends SuiDropdownMenuItem {
@@ -24,7 +24,7 @@ export class SuiSelectOption<T extends RecursiveObject> extends SuiDropdownMenuI
 
     constructor(renderer:Renderer, element:ElementRef) {
         super(renderer, element);
-        
+
         this._optionClasses = true;
         this.onSelected = new EventEmitter<T>();
 

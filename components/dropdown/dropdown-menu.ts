@@ -88,7 +88,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
         });
     }
 
-    @ContentChildren(SuiDropdownMenuItem, { descendants: true })
+    @ContentChildren(SuiDropdownMenuItem)
     private _itemsQueryInternal:QueryList<SuiDropdownMenuItem>;
 
     private _itemsQueryOverride:QueryList<SuiDropdownMenuItem>;
@@ -153,7 +153,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
     @HostListener("document:click", ["$event"])
     public onDocumentClick(e:MouseEvent) {
         if (this._isOpenOnMousedown) {
-            if (this._service.autoCloseMode == DropdownAutoCloseType.ItemClick || DropdownAutoCloseType.OutsideClick) {
+            if (this._service.autoCloseMode == DropdownAutoCloseType.ItemClick || this._service.autoCloseMode == DropdownAutoCloseType.OutsideClick) {
                 // No need to reflect in parent since they are also bound to document.
                 this._service.setOpenState(false);
             }
@@ -165,7 +165,9 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
         // Only the root dropdown (i.e. not nested dropdowns) is responsible for keeping track of the currently selected item.
         if (this._service.isOpen && !this._service.isNested) {
             // Stop document events like scrolling while open.
-            e.preventDefault();
+            if ((e.target as Element).tagName != "INPUT") {
+                e.preventDefault();
+            }
 
             // Gets the top selected item from the stack.
             let [selected] = this.selectedItems.slice(-1);
@@ -187,6 +189,8 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
                 case KeyCode.Up:
                     this.selectedItems.pop();
                     this.selectedItems.push(selectedContainer.updateSelection(selected, e.keyCode));
+                    // Prevent default regardless of whether we are in an input, to stop jumping to the start or end of the query string.
+                    e.preventDefault();
                     break;
                 // Enter : if the item doesn't contain a nested dropdown, 'click' it. Otherwise, fall through to 'Right' action.
                 case KeyCode.Enter:

@@ -7,7 +7,7 @@
 <demo-page-content>
     <h2 class="ui dividing header">Examples</h2>
     <div class="ui segment">
-        <new-sui-select [options]="options" #select>
+        <new-sui-select [options]="options" [isSearchable]="true" #select>
             <new-sui-select-option *ngFor="let option of select.availableOptions" [value]="option"></new-sui-select-option>
         </new-sui-select>
     </div>

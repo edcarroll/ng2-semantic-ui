@@ -80,6 +80,8 @@ export class SearchService<T extends JavascriptObject> {
 
     // Updates the query after the specified search delay.
     public updateQueryDelayed(query:string, callback:(err?:Error) => void) {
+        this._query = query;
+        
         clearTimeout(this._searchDelayTimeout);
         this._searchDelayTimeout = setTimeout(() => {
             this.updateQuery(query, callback);

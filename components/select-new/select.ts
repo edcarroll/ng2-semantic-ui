@@ -1,4 +1,4 @@
-import {Component, ViewChild, HostBinding, ElementRef, HostListener, Input, ContentChildren, QueryList, ViewChildren, AfterContentInit, EventEmitter, Output} from '@angular/core';
+import {Component, ViewChild, HostBinding, ElementRef, HostListener, Input, ContentChildren, QueryList, ViewChildren, AfterContentInit, EventEmitter, Output, Renderer} from '@angular/core';
 import {DropdownService} from '../dropdown/dropdown.service';
 import {SearchService} from '../search/search.service';
 import {RecursiveObject, readValue} from '../util/util';
@@ -11,13 +11,18 @@ import {Subscription} from 'rxjs';
     selector: 'new-sui-select',
     template: `
 <i class="dropdown icon"></i>
-<div *ngIf="selectedOption" class="text">
+<!-- Query input -->
+<input [hidden]="!isSearchable" class="search" type="text" autocomplete="off" [(ngModel)]="query" #queryInput>
+<!-- Placeholder text -->
+<div *ngIf="!selectedOption" class="default text" [class.filtered]="!!query">{{ placeholder }}</div>
+<!-- Selected item -->
+<div *ngIf="selectedOption" class="text" [class.filtered]="!!query">
     <span>{{ labelGetter(selectedOption) }}</span>
 </div>
 <!-- Select dropdown menu -->
 <div class="menu" suiDropdownMenu>
     <ng-content></ng-content>
-    <!-- <div class="message">No Results</div> -->
+    <div *ngIf="isSearchable && availableOptions.length == 0" class="message">No results</div>
 </div>
 `
 })
@@ -45,6 +50,16 @@ export class SuiSelect<T extends RecursiveObject> implements AfterContentInit {
         return this.dropdownService.isOpen;
     }
 
+    @HostBinding('class.search')
+    @Input()
+    public isSearchable:boolean;
+
+    @ViewChild('queryInput')
+    private _queryInput:ElementRef;
+
+    @Input()
+    public placeholder:string;
+
     @Input()
     public set options(options:T[]) {
         this.searchService.options = options;
@@ -52,6 +67,16 @@ export class SuiSelect<T extends RecursiveObject> implements AfterContentInit {
 
     public get availableOptions() {
         return this.searchService.results;
+    }
+
+    public get query() {
+        return this.searchService.query;
+    }
+
+    public set query(query:string) {
+        this.selectedOption = null;
+        this.searchService.updateQuery(query, () =>
+            this.dropdownService.setOpenState(true));
     }
 
     @Input()
@@ -66,12 +91,14 @@ export class SuiSelect<T extends RecursiveObject> implements AfterContentInit {
     @Output()
     public selectedOptionChange:EventEmitter<T>;
 
-    constructor(private _element:ElementRef) {
+    constructor(private _element:ElementRef, private _renderer:Renderer) {
         this.dropdownService = new DropdownService();
         this.searchService = new SearchService<T>(true);
 
-        this._renderedSubscriptions = [];
+        this.isSearchable = false;
+        this.placeholder = "Select one";
 
+        this._renderedSubscriptions = [];
         this.selectedOptionChange = new EventEmitter<T>();
 
         this._selectClasses = true;
@@ -88,15 +115,19 @@ export class SuiSelect<T extends RecursiveObject> implements AfterContentInit {
     private onAvailableOptionsRendered() {
         this._renderedSubscriptions.forEach(rs => rs.unsubscribe());
         this._renderedSubscriptions = [];
-        this._renderedOptions.forEach(ro => {
-            ro.readLabel = this.labelGetter;
-            this._renderedSubscriptions.push(ro.onSelected.subscribe(() => this.selectOption(ro.value)));
+        setTimeout(() => {
+            this._renderedOptions.forEach(ro => {
+                ro.readLabel = this.labelGetter;
+                this._renderedSubscriptions.push(ro.onSelected.subscribe(() => this.selectOption(ro.value)));
+            });
         });
     }
 
     @HostListener("click", ['$event'])
     public onClick(e:MouseEvent) {
         e.stopPropagation();
+        
+        this._renderer.invokeElementMethod(this._queryInput.nativeElement, "focus");
 
         this.dropdownService.toggleOpenState();
     }
@@ -106,5 +137,8 @@ export class SuiSelect<T extends RecursiveObject> implements AfterContentInit {
         this.selectedOptionChange.emit(option);
 
         this.dropdownService.setOpenState(false);
+
+        this.searchService.searchDelay = this._menu.menuTransitionDuration;
+        this.searchService.updateQueryDelayed("", () => {});
     }
 }
