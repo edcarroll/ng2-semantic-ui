@@ -27,7 +27,7 @@
     },
     "files": [
         "index.ts",
-        "ng2-semantic-ui"
+        "ng2-semantic-ui.ts"
     ],
     "angularCompilerOptions": {
         "strictMetadataEmit": true

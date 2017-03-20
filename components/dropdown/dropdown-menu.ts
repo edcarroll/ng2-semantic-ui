@@ -88,12 +88,22 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
         });
     }
 
-    @ContentChildren(SuiDropdownMenuItem)
-    private _items:QueryList<SuiDropdownMenuItem>;
+    @ContentChildren(SuiDropdownMenuItem, { descendants: true })
+    private _itemsQueryInternal:QueryList<SuiDropdownMenuItem>;
+
+    private _itemsQueryOverride:QueryList<SuiDropdownMenuItem>;
+
+    public set items(items:QueryList<SuiDropdownMenuItem>) {
+        this._itemsQueryOverride = items;
+    }
+
+    private get _itemsQuery() {
+        return this._itemsQueryOverride || this._itemsQueryInternal;
+    }
 
     // Get the list of items, ignoring those that are disabled.
-    public get items() {
-        return this._items.filter(i => !i.isDisabled);
+    private get _items() {
+        return this._itemsQuery.filter(i => !i.isDisabled);
     }
 
     // Stack that keeps track of the currently selected item. Selected items lower in the stack are necessarily the parent of the item one higher.
@@ -208,7 +218,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
 
     public resetSelection() {
         this.selectedItems = [];
-        this.items.forEach(i => {
+        this._items.forEach(i => {
             i.selectedClass = this.menuSelectedItemClass;
             i.isSelected = false;
         });
@@ -221,7 +231,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
             selectedItem.isSelected = false;
         }
 
-        let selectedIndex = this.items
+        let selectedIndex = this._items
             .findIndex(i => i === selectedItem);
 
         let newSelection:SuiDropdownMenuItem;
@@ -245,7 +255,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
         }
 
         // Select the item at the updated index. The || is to stop us selecting past the start or end of the item list.
-        newSelection = this.items[selectedIndex] || selectedItem;
+        newSelection = this._items[selectedIndex] || selectedItem;
 
         if (newSelection) {
             // Set the selected status on the newly selected item.
@@ -256,18 +266,18 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
     }
 
     public ngAfterContentInit() {
-        this.itemsChanged();
-        this._items.changes.subscribe(() => this.itemsChanged());
+        this.onItemsChanged();
+        this._itemsQuery.changes.subscribe(() => this.onItemsChanged());
     }
 
-    private itemsChanged() {
+    private onItemsChanged() {
         // We use `_items` rather than `items` in case one or more have become disabled.
         this.resetSelection();
-        if (this.menuAutoSelectFirst && this.items.length > 0) {
+
+        if (this.menuAutoSelectFirst && this._items.length > 0) {
             // Autoselect 1st item if required & possible.
-            this.items[0].isSelected = true;
-            this.selectedItems.push(this._items.first);
+            this._items[0].isSelected = true;
+            this.selectedItems.push(this._itemsQuery.first);
         }
-        
     }
 }

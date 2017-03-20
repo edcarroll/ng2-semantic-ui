@@ -7,12 +7,8 @@
 <demo-page-content>
     <h2 class="ui dividing header">Examples</h2>
     <div class="ui segment">
-        <template let-popup #example>
-            <div class="content">
-                This is a really really really really long tooltip tooltip
-            </div>
-        </template>
-        <button class="ui button" suiPopup [popupTemplate]="example" popupPlacement="bottom left" popupTransition="fade" popupTrigger="focus" #popup="suiPopup">Hello, world!</button>
-        <button class="ui teal button" (click)="popup.toggle()">Toggle</button>
+        <new-sui-select [options]="options" #select>
+            <new-sui-select-option *ngFor="let option of select.availableOptions" [value]="option"></new-sui-select-option>
+        </new-sui-select>
     </div>
 </demo-page-content>

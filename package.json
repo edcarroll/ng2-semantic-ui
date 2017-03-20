@@ -2,7 +2,7 @@
   "name": "ng2-semantic-ui",
   "main": "index.js",
   "typings": "index.d.ts",
-  "version": "0.4.7",
+  "version": "0.5.0",
   "description": "Angular 2 Semantic UI Components",
   "repository": {
     "type": "git",
@@ -45,7 +45,7 @@
     "zone.js": "^0.7.0"
   },
   "devDependencies": {
-    "@angular/cli": "1.0.0-beta.31",
+    "@angular/cli": "1.0.0-rc.2",
     "@angular/compiler": "^2.4.1",
     "@angular/compiler-cli": "^2.4.1",
     "@angular/platform-browser-dynamic": "^2.4.0",

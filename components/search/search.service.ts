@@ -69,11 +69,11 @@ export class SearchService<T extends JavascriptObject> {
         return this._isSearching;
     }
 
-    constructor() {
+    constructor(allowEmptyQuery:boolean = false) {
         this._options = [];
 
         // Set default values and reset.
-        this.allowEmptyQuery = false;
+        this.allowEmptyQuery = allowEmptyQuery;
         this.searchDelay = 0;
         this.reset();
     }
@@ -165,6 +165,9 @@ export class SearchService<T extends JavascriptObject> {
     private reset() {
         this._query = "";
         this._results = [];
+        if (this.allowEmptyQuery) {
+            this._results = this._options;
+        }
         this._resultsCache = {};
         this._isSearching = false;
     }
