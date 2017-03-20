@@ -1,5 +1,6 @@
-import {Component, ViewContainerRef, ViewChild, Output, EventEmitter, ElementRef, Renderer} from '@angular/core';
+import {Component, ViewContainerRef, ViewChild, Output, EventEmitter, ElementRef, Renderer, forwardRef, Directive} from '@angular/core';
 import {SuiSelectBase} from './select-base';
+import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 
 @Component({
     selector: 'sui-select',
@@ -21,8 +22,9 @@ import {SuiSelectBase} from './select-base';
 </div>
 `
 })
-export class SuiSelect<T> extends SuiSelectBase<T> {
+export class SuiSelect<T, U> extends SuiSelectBase<T, U> {
     public selectedOption:T;
+    private _writtenOption:U;
     
     @ViewChild('optionTemplateSibling', { read: ViewContainerRef })
     private _optionTemplateSibling:ViewContainerRef;
@@ -30,11 +32,22 @@ export class SuiSelect<T> extends SuiSelectBase<T> {
     @Output()
     public selectedOptionChange:EventEmitter<T>;
 
-    public set query(query:string) {
+    @Output()
+    public get ngModelChange() {
+        return this.selectedOptionChange;
+    }
+
+    protected optionsUpdateHook() {
+        if (this._writtenOption && this.options.length > 0) {
+            this.selectedOption = this.options.find(o => this._writtenOption == this.valueGetter(o));
+        }
+        if (this.selectedOption) {
+            this._writtenOption = null;
+        }
+    }
+
+    protected queryUpdateHook() {
         this.selectedOption = null;
-        // We cannot call the super setter yet. Seems to be coming, see @Microsoft/Typescript#338
-        this.searchService.updateQuery(query, () =>
-            this.dropdownService.setOpenState(true));
     }
 
     constructor(element:ElementRef, renderer:Renderer) {
@@ -52,8 +65,58 @@ export class SuiSelect<T> extends SuiSelectBase<T> {
         this.searchService.searchDelay = this._menu.menuTransitionDuration;
         this.searchService.updateQueryDelayed("", () => {});
 
+        this.drawSelectedItem();
+    }
+
+    public writeValue(value:U) {
+        if (value != null) {
+            if (this.options.length > 0) {
+                this.selectedOption = this.options.find(o => value == this.valueGetter(o));
+            }
+            if (!this.selectedOption) {
+                this._writtenOption = value;
+            }
+        }
+
+        this.drawSelectedItem();
+    }
+
+    private drawSelectedItem() {
         if (this.selectedOption && this.optionTemplate) {
             this.drawTemplate(this._optionTemplateSibling, this.selectedOption);
         }
+    }
+}
+
+// Value accessor for the select.
+export const SELECT_VALUE_ACCESSOR:any = {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => SuiSelectValueAccessor),
+    multi: true
+};
+
+// Value accessor directive for the search to support ngModel.
+@Directive({
+    selector: 'sui-select',
+    host: {
+        '(selectedOptionChange)': 'onChange($event)'
+    },
+    providers: [SELECT_VALUE_ACCESSOR]
+})
+export class SuiSelectValueAccessor<T, U> implements ControlValueAccessor {
+    onChange = () => {};
+    onTouched = () => {};
+
+    constructor(private host:SuiSelect<T, U>) {}
+
+    writeValue(value:U) {
+        this.host.writeValue(value);
+    }
+
+    registerOnChange(fn:() => void) {
+        this.onChange = fn;
+    }
+    registerOnTouched(fn:() => void) {
+        this.onTouched = fn;
     }
 }

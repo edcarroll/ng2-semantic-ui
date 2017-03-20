@@ -8,7 +8,7 @@ import {SuiSelectOption} from './select-option';
 import {Subscription} from 'rxjs';
 import {element} from 'protractor';
 
-export abstract class SuiSelectBase<T> implements AfterContentInit {
+export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     public dropdownService:DropdownService;
     public searchService:SearchService<T>;
 
@@ -29,7 +29,7 @@ export abstract class SuiSelectBase<T> implements AfterContentInit {
 
     @HostBinding('class.active')
     public get isActive() {
-        return this.dropdownService.isOpen;
+        return this.dropdownService.isOpen || this._menu.isVisible;
     }
 
     @HostBinding('class.search')
@@ -43,9 +43,16 @@ export abstract class SuiSelectBase<T> implements AfterContentInit {
     public placeholder:string;
 
     @Input()
+    public get options() {
+        return this.searchService.options;
+    }
+
     public set options(options:T[]) {
         this.searchService.options = options;
+        this.optionsUpdateHook();
     }
+
+    protected optionsUpdateHook() {}
 
     public get availableOptions() {
         return this.searchService.results;
@@ -56,15 +63,31 @@ export abstract class SuiSelectBase<T> implements AfterContentInit {
     }
 
     public set query(query:string) {
+        this.queryUpdateHook();
         this.searchService.updateQuery(query, () =>
             this.dropdownService.setOpenState(true));
     }
 
+    protected queryUpdateHook() {}
+
     @Input()
-    public labelField:string;
+    public get labelField() {
+        return this.searchService.optionsField;
+    }
+
+    public set labelField(field:string) {
+        this.searchService.optionsField = field;
+    }
 
     private get labelGetter() {
         return (obj:T) => readValue<T, string>(obj, this.labelField);
+    }
+
+    @Input()
+    public valueField:string;
+
+    protected get valueGetter() {
+        return (obj:T) => readValue<T, U>(obj, this.valueField);
     }
 
     @Input()

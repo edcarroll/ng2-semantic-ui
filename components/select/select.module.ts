@@ -6,7 +6,7 @@ import {SuiSearchModule} from "../search/search.module";
 import {SUI_SELECT_DIRECTIVES} from "./select";
 import {SuiTransitionModule} from "../transition/transition.module";
 
-import {SuiSelect} from '../select-new/select';
+import {SuiSelect, SuiSelectValueAccessor} from '../select-new/select';
 import {SuiSelectOption} from '../select-new/select-option';
 
 @NgModule({
@@ -18,10 +18,12 @@ import {SuiSelectOption} from '../select-new/select-option';
     declarations: [
         SuiSelect,
         SuiSelectOption,
+        SuiSelectValueAccessor
     ],
     exports: [
         SuiSelect,
         SuiSelectOption,
+        SuiSelectValueAccessor
     ]
 })
 export class SuiSelectModule {}

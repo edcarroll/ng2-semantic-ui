@@ -130,7 +130,7 @@ export class SelectPage {
 </div>
 `;
     public exampleOptionsTemplate:string = `
-<sui-select [(ngModel)]="selectedOption" [options]="options" displayField="name" #select>
+<sui-select [(ngModel)]="selectedOption" [options]="options" labelField="name" #select>
     <sui-select-option *ngFor="let option of select.availableOptions" [value]="option"></sui-select-option>
 </sui-select>
 <div class="ui segment">
@@ -140,7 +140,7 @@ export class SelectPage {
 `;
     public exampleSearchTemplate:string = `
 <p>You can also use the keyboard to navigate.</p>
-<sui-select [(ngModel)]="selectedOption" [options]="options" displayField="name" keyField="id" [isSearchable]="true" #searchSelect>
+<sui-select [(ngModel)]="selectedOption" [options]="options" labelField="name" valueField="id" [isSearchable]="true" #searchSelect>
     <sui-select-option *ngFor="let option of searchSelect.availableOptions" [value]="option"></sui-select-option>
 </sui-select>
 <div class="ui segment">
@@ -164,12 +164,12 @@ export class SelectPage {
 </div>
 `;
     public exampleTemplateSearchTemplate:string = `
-<template let-option="option" #optionTemplate>
+<template let-option #optionTemplate>
     <i class="child icon"></i>{{ option.name }}
 </template>
 <div class="ui form">
     <div class="field">
-        <sui-select [(ngModel)]="selectedOption" [options]="options" displayField="name" [optionTemplate]="optionTemplate" [isSearchable]="true" #select>
+        <sui-select [(ngModel)]="selectedOption" [options]="options" labelField="name" [optionTemplate]="optionTemplate" [isSearchable]="true" #select>
             <div class="header">
                 <i class="users icon"></i>
                 Custom Menu Markup!

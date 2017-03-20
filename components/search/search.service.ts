@@ -13,6 +13,10 @@ export class SearchService<T> {
     // Field that options are searched & displayed on.
     private _optionsField:string;
     
+    public get options() {
+        return this._options;
+    }
+    
     public set options(options:T[]) {
         this._options = options || [];
         // We cannot use both local & remote options simultaneously.
