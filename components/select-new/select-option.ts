@@ -2,7 +2,7 @@ import {Component, Input, HostBinding, HostListener, EventEmitter, ViewContainer
 import {SuiDropdownMenuItem} from '../dropdown/dropdown-menu';
 
 @Component({
-    selector: 'new-sui-select-option',
+    selector: 'sui-select-option',
     template: `
 <span #templateSibling></span>
 <span *ngIf="!usesTemplate" [innerHTML]="readLabel(value)"></span>

@@ -21,7 +21,7 @@ import {KeyCode} from '../util/util';
 <input *ngIf="isSearchable" class="search" type="text" autocomplete="off" [(ngModel)]="query">
 <!-- Single-select label -->
 <div *ngIf="!selectedOption" class="default text" [class.filtered]="query">{{ placeholder }}</div>
-<div class="text" [class.filtered]="query || !selectedOption">
+<div [hidden]="!selectedOption" class="text" [class.filtered]="query || !selectedOption">
     <span #selectedOptionRenderTarget></span>
     <span *ngIf="!optionTemplate">{{ _searchService.readValue(selectedOption) }}</span>
 </div>

@@ -13,21 +13,15 @@ import {SuiSelectOption} from '../select-new/select-option';
     imports: [
         CommonModule,
         FormsModule,
-        SuiDropdownModule,
-        SuiSearchModule,
-        SuiTransitionModule
+        SuiDropdownModule
     ],
     declarations: [
         SuiSelect,
         SuiSelectOption,
-
-        SUI_SELECT_DIRECTIVES
     ],
     exports: [
         SuiSelect,
         SuiSelectOption,
-
-        SUI_SELECT_DIRECTIVES
     ]
 })
 export class SuiSelectModule {}
