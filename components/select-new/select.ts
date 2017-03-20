@@ -1,7 +1,7 @@
 import {Component, ViewChild, HostBinding, ElementRef, HostListener, Input, ContentChildren, QueryList, ViewChildren, AfterContentInit, EventEmitter, Output, Renderer, TemplateRef, ViewContainerRef} from '@angular/core';
 import {DropdownService} from '../dropdown/dropdown.service';
 import {SearchService} from '../search/search.service';
-import {RecursiveObject, readValue} from '../util/util';
+import {readValue} from '../util/util';
 import {PositioningService, PositioningPlacement} from '../util/positioning.service';
 import {SuiDropdownMenu, SuiDropdownMenuItem} from '../dropdown/dropdown-menu';
 import {SuiSelectOption} from './select-option';
@@ -27,7 +27,7 @@ import {Subscription} from 'rxjs';
 </div>
 `
 })
-export class SuiSelect<T extends RecursiveObject> implements AfterContentInit {
+export class SuiSelect<T> implements AfterContentInit {
     public dropdownService:DropdownService;
     public searchService:SearchService<T>;
 
@@ -84,7 +84,7 @@ export class SuiSelect<T extends RecursiveObject> implements AfterContentInit {
     public labelField:string;
 
     private get labelGetter() {
-        return (obj:T) => readValue(obj, this.labelField) as string;
+        return (obj:T) => readValue<T, string>(obj, this.labelField);
     }
 
     @Input()

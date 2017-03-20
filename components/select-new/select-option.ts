@@ -1,5 +1,4 @@
 import {Component, Input, HostBinding, HostListener, EventEmitter, ViewContainerRef, ViewChild, Renderer, ElementRef, Output} from '@angular/core';
-import {RecursiveObject} from '../util/util';
 import {SuiDropdownMenuItem} from '../dropdown/dropdown-menu';
 
 @Component({
@@ -9,7 +8,7 @@ import {SuiDropdownMenuItem} from '../dropdown/dropdown-menu';
 <span *ngIf="!usesTemplate" [innerHTML]="readLabel(value)"></span>
 `
 })
-export class SuiSelectOption<T extends RecursiveObject> extends SuiDropdownMenuItem {
+export class SuiSelectOption<T> extends SuiDropdownMenuItem {
     // Sets the Semantic UI classes on the host element.
     // Doing it on the host enables use in menus etc.
     @HostBinding('class.item')

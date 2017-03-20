@@ -12,25 +12,28 @@ export enum KeyCode {
     Backspace = 8
 };
 
-export type RecursiveObject = { [name:string]:RecursiveObject };
-export type JavascriptObject = RecursiveObject | string | boolean | number;
+type RecursiveObject = { [name:string]:RecursiveObject };
 
-export function deepValue<T extends JavascriptObject>(object:JavascriptObject, path:string):T {
+// This involves some fun type fuckery - this is essentially a function to retrive the value at a given path.
+// If anyone has a better way, please do let me know :)
+export function deepValue<T, U>(object:T, path:string):U {
     if (!object) {
         return;
     }
 
     if (!path) {
-        return object as T;
+        return object as any as U;
     }
+
+    let recursed:RecursiveObject;
 
     for (let i = 0, p = path.split('.'), len = p.length; i < len; i++){
-        object = (object as RecursiveObject)[p[i]];
+        recursed = (object as any as RecursiveObject)[p[i]];
     }
 
-    return object as T;
+    return recursed as any as U;
 }
 
-export function readValue<T extends JavascriptObject>(object:JavascriptObject, field:string):T {
-    return deepValue<T>(object, field);
+export function readValue<T, U>(object:T, field:string):U {
+    return deepValue<T, U>(object, field);
 }

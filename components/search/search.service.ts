@@ -1,11 +1,11 @@
-import {readValue, JavascriptObject} from '../util/util';
+import {readValue} from '../util/util';
 
 // Define useful types to avoid any.
 export type LookupFn<T> = (query:string) => Promise<T[]>
 type CachedArray<T> = { [query:string]:T[] };
 
 // T extends JavascriptObject so we can do a recursive search on the object.
-export class SearchService<T extends JavascriptObject> {
+export class SearchService<T> {
     // Stores the available options.
     private _options:T[];
     // Converts a query string into an array of options. Must be a function returning a promise.
@@ -81,7 +81,7 @@ export class SearchService<T extends JavascriptObject> {
     // Updates the query after the specified search delay.
     public updateQueryDelayed(query:string, callback:(err?:Error) => void) {
         this._query = query;
-        
+
         clearTimeout(this._searchDelayTimeout);
         this._searchDelayTimeout = setTimeout(() => {
             this.updateQuery(query, callback);
@@ -130,7 +130,7 @@ export class SearchService<T extends JavascriptObject> {
             // This avoids the results suddenly becoming empty if an invalid regex string is inputted.
             this.updateResults(this._options
                 // Filter on the options with a string match on the field we are testing.
-                .filter(o => readValue(o, this._optionsField)
+                .filter(o => readValue<T, string>(o, this._optionsField)
                     .toString()
                     .match(regex)));
         }

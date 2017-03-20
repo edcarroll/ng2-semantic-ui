@@ -3,7 +3,7 @@ import {DropdownService} from '../dropdown/dropdown.service';
 import {SuiDropdownMenu} from '../dropdown/dropdown-menu';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 import {SearchService, LookupFn} from './search.service';
-import {readValue, JavascriptObject} from '../util/util';
+import {readValue} from '../util/util';
 import {PositioningService, PositioningPlacement} from '../util/positioning.service';
 import {element} from 'protractor';
 
@@ -37,7 +37,7 @@ import {element} from 'protractor';
 }
 `]
 })
-export class SuiSearch<T extends JavascriptObject> implements AfterViewInit {
+export class SuiSearch<T> implements AfterViewInit {
     public dropdownService:DropdownService;
     public searchService:SearchService<T>;
     public position:PositioningService;
@@ -156,7 +156,7 @@ export class SuiSearch<T extends JavascriptObject> implements AfterViewInit {
 
     // Reads the specified field from an item.
     public readValue(object:T) {
-        return readValue(object, this.searchService.optionsField);
+        return readValue<T, string>(object, this.searchService.optionsField);
     }
 
     // Sets a specific item to be selected, updating the query automatically.
@@ -183,7 +183,7 @@ export const SEARCH_VALUE_ACCESSOR:any = {
     },
     providers: [SEARCH_VALUE_ACCESSOR]
 })
-export class SuiSearchValueAccessor<T extends JavascriptObject> implements ControlValueAccessor {
+export class SuiSearchValueAccessor<T> implements ControlValueAccessor {
     onChange = () => {};
     onTouched = () => {};
 
