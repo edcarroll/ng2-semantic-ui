@@ -1,4 +1,4 @@
-import {Component, ViewChild, HostBinding, ElementRef, HostListener, Input, ContentChildren, QueryList, ViewChildren, AfterContentInit, EventEmitter, Output, Renderer} from '@angular/core';
+import {Component, ViewChild, HostBinding, ElementRef, HostListener, Input, ContentChildren, QueryList, ViewChildren, AfterContentInit, EventEmitter, Output, Renderer, TemplateRef, ViewContainerRef} from '@angular/core';
 import {DropdownService} from '../dropdown/dropdown.service';
 import {SearchService} from '../search/search.service';
 import {RecursiveObject, readValue} from '../util/util';
@@ -16,8 +16,9 @@ import {Subscription} from 'rxjs';
 <!-- Placeholder text -->
 <div *ngIf="!selectedOption" class="default text" [class.filtered]="!!query">{{ placeholder }}</div>
 <!-- Selected item -->
-<div *ngIf="selectedOption" class="text" [class.filtered]="!!query">
-    <span>{{ labelGetter(selectedOption) }}</span>
+<div class="text" [class.filtered]="!!query || !selectedOption">
+    <span #optionTemplateSibling></span>
+    <span *ngIf="!optionTemplate">{{ labelGetter(selectedOption) }}</span>
 </div>
 <!-- Select dropdown menu -->
 <div class="menu" suiDropdownMenu>
@@ -83,8 +84,14 @@ export class SuiSelect<T extends RecursiveObject> implements AfterContentInit {
     public labelField:string;
 
     private get labelGetter() {
-        return (obj:T) => readValue(obj, this.labelField).toString();
+        return (obj:T) => readValue(obj, this.labelField) as string;
     }
+
+    @Input()
+    public optionTemplate:TemplateRef<any>;
+
+    @ViewChild('optionTemplateSibling', { read: ViewContainerRef })
+    private _optionTemplateSibling:ViewContainerRef;
 
     public selectedOption:T;
 
@@ -117,7 +124,13 @@ export class SuiSelect<T extends RecursiveObject> implements AfterContentInit {
         this._renderedSubscriptions = [];
         setTimeout(() => {
             this._renderedOptions.forEach(ro => {
+                ro.usesTemplate = !!this.optionTemplate;
                 ro.readLabel = this.labelGetter;
+
+                if (ro.usesTemplate) {
+                    this.drawTemplate(ro.templateSibling, ro.value);
+                }
+
                 this._renderedSubscriptions.push(ro.onSelected.subscribe(() => this.selectOption(ro.value)));
             });
         });
@@ -140,5 +153,14 @@ export class SuiSelect<T extends RecursiveObject> implements AfterContentInit {
 
         this.searchService.searchDelay = this._menu.menuTransitionDuration;
         this.searchService.updateQueryDelayed("", () => {});
+
+        if (this.selectedOption && this.optionTemplate) {
+            this.drawTemplate(this._optionTemplateSibling, this.selectedOption);
+        }
+    }
+
+    private drawTemplate(siblingRef:ViewContainerRef, value:T) {
+        siblingRef.clear();
+        siblingRef.createEmbeddedView(this.optionTemplate, { '$implicit': value });
     }
 }

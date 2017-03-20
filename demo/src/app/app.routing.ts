@@ -57,10 +57,10 @@ const appRoutes: Routes = [
         path: 'components/search',
         component: SearchPage
     },
-    // {
-    //     path: 'components/select',
-    //     component: SelectPage
-    // },
+    {
+        path: 'components/select',
+        component: SelectPage
+    },
     {
         path: 'components/tabs',
         component: TabsPage

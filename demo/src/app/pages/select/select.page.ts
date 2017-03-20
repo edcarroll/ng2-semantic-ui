@@ -148,17 +148,17 @@ export class SelectPage {
 </div>
 `;
     public exampleMultipleTemplate:string = `
-<sui-multi-select class="fluid" [(ngModel)]="selectedOptions" [options]="options" #multiSelect>
+<!-- <sui-multi-select class="fluid" [(ngModel)]="selectedOptions" [options]="options" #multiSelect>
     <sui-select-option *ngFor="let option of multiSelect.availableOptions" [value]="option"></sui-select-option>
-</sui-multi-select>
+</sui-multi-select> -->
 <div class="ui segment">
     <p>Currently selected: {{ selectedOptions | json }}</p>
 </div>
 `;
     public exampleMultipleSearchTemplate:string = `
-<sui-multi-select class="fluid" [(ngModel)]="selectedOptions" [options]="options" [isSearchable]="true" [maxSelected]="5" #searchSelect>
+<!-- <sui-multi-select class="fluid" [(ngModel)]="selectedOptions" [options]="options" [isSearchable]="true" [maxSelected]="5" #searchSelect>
     <sui-select-option *ngFor="let option of searchSelect.availableOptions" [value]="option"></sui-select-option>
-</sui-multi-select>
+</sui-multi-select> -->
 <div class="ui segment">
     <p>Currently selected: {{ selectedOptions | json }}</p>
 </div>
@@ -179,9 +179,9 @@ export class SelectPage {
         </sui-select>
     </div>
     <div class="field">
-        <sui-multi-select class="fluid" [(ngModel)]="selectedOptions" [options]="options" optionsField="name" [optionTemplate]="optionTemplate" #multiSelect>
+        <!-- <sui-multi-select class="fluid" [(ngModel)]="selectedOptions" [options]="options" optionsField="name" [optionTemplate]="optionTemplate" #multiSelect>
             <sui-select-option *ngFor="let option of multiSelect.availableOptions" [value]="option"></sui-select-option>
-        </sui-multi-select>
+        </sui-multi-select> -->
     </div>
 </div>
 <div class="ui segment">

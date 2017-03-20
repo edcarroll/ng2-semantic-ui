@@ -5,7 +5,8 @@ import {SuiDropdownMenuItem} from '../dropdown/dropdown-menu';
 @Component({
     selector: 'new-sui-select-option',
     template: `
-<span [innerHTML]="readLabel(value)"></span>
+<span #templateSibling></span>
+<span *ngIf="!usesTemplate" [innerHTML]="readLabel(value)"></span>
 `
 })
 export class SuiSelectOption<T extends RecursiveObject> extends SuiDropdownMenuItem {
@@ -22,6 +23,11 @@ export class SuiSelectOption<T extends RecursiveObject> extends SuiDropdownMenuI
 
     public readLabel:(obj:T) => string;
 
+    public usesTemplate:boolean;
+
+    @ViewChild('templateSibling', { read: ViewContainerRef })
+    public templateSibling:ViewContainerRef;
+
     constructor(renderer:Renderer, element:ElementRef) {
         super(renderer, element);
 
@@ -29,6 +35,8 @@ export class SuiSelectOption<T extends RecursiveObject> extends SuiDropdownMenuI
         this.onSelected = new EventEmitter<T>();
 
         this.readLabel = (value:T) => "";
+
+        this.usesTemplate = false;
     }
 
     @HostListener('click', ['$event'])

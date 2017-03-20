@@ -40,7 +40,7 @@ import {TransitionPageComponents} from './transition/transition.page';
         ProgressPageComponents,
         RatingPageComponents,
         SearchPageComponents,
-        // SelectPageComponents,
+        SelectPageComponents,
         TabsPageComponents,
         TransitionPageComponents
     ],
