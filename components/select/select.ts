@@ -28,7 +28,7 @@ import {KeyCode} from '../util/util';
 <!-- Select dropdown menu -->
 <div class="menu" suiDropdownMenu>
     <ng-content></ng-content>
-    <div *ngIf="isSearchable && !results.length" class="message">No Results</div>
+    <div *ngIf="isSearchable && !results.length && noResultsMessage" class="message">{{ noResultsMessage }}</div>
 </div>
 `,
     styles: [`
@@ -66,6 +66,9 @@ export class SuiSelect implements AfterContentInit, AfterViewInit {
     @HostBinding('class.search')
     @Input()
     public isSearchable:boolean = false;
+
+    @Input()
+    public noResultsMessage:string = "No Results";
 
     @Input()
     public placeholder:string = "Select one";
