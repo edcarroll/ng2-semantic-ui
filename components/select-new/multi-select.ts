@@ -19,7 +19,7 @@ import {KeyCode} from '../util/util';
 <div class="menu" suiDropdownMenu [menuAutoSelectFirst]="true">
     <ng-content></ng-content>
     <ng-container *ngIf="availableOptions.length == 0 ">
-        <div *ngIf="!maxSelectedReached" class="message">No results</div>
+        <div *ngIf="!maxSelectedReached" class="message">{{ noResultsMessage }}</div>
         <div *ngIf="maxSelectedReached" class="message">Max {{ maxSelected }} selections</div>
     </ng-container>
 </div>
@@ -80,6 +80,8 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
 
     constructor(element:ElementRef, renderer:Renderer) {
         super(element, renderer);
+
+        this.placeholder = "Select...";
 
         this.selectedOptions = [];
         this.selectedOptionsChange = new EventEmitter<U[]>();

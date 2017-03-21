@@ -43,7 +43,17 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
 
     @HostBinding('attr.tabindex')
     public get tabIndex() {
-        return this.isSearchable ? -1 : 0;
+        return this.isSearchable || this.isDisabled ? -1 : 0;
+    }
+
+    @HostBinding('class.disabled')
+    @Input()
+    public get isDisabled():boolean {
+        return this.dropdownService.isDisabled;
+    }
+
+    public set isDisabled(value:boolean) {
+        this.dropdownService.isDisabled = !!value;
     }
 
     @ViewChild('queryInput')
@@ -103,12 +113,15 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     @Input()
     public optionTemplate:TemplateRef<any>;
 
+    @Input()
+    public noResultsMessage:string;
+
     constructor(private _element:ElementRef, private _renderer:Renderer) {
         this.dropdownService = new DropdownService();
         this.searchService = new SearchService<T>(true);
 
         this.isSearchable = false;
-        this.placeholder = "Select one";
+        this.noResultsMessage = "No results";
 
         this._renderedSubscriptions = [];
 
@@ -145,7 +158,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     }
 
     public selectOption(option:T) {
-        throw new Error("Extend me!");
+        throw new Error("Not implemented");
     }
 
     @HostListener("click", ['$event'])

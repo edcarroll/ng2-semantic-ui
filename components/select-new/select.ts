@@ -18,7 +18,7 @@ import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 <!-- Select dropdown menu -->
 <div class="menu" suiDropdownMenu [menuAutoSelectFirst]="isSearchable">
     <ng-content></ng-content>
-    <div *ngIf="isSearchable && availableOptions.length == 0" class="message">No results</div>
+    <div *ngIf="isSearchable && availableOptions.length == 0" class="message">{{ noResultsMessage }}</div>
 </div>
 `
 })
@@ -53,6 +53,8 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> {
 
     constructor(element:ElementRef, renderer:Renderer) {
         super(element, renderer);
+
+        this.placeholder = "Select one";
 
         this.selectedOptionChange = new EventEmitter<U>();
     }

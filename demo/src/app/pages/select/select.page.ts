@@ -16,15 +16,16 @@ export class SelectPage {
                 },
                 {
                     name: "options",
-                    description: "Sets the options available to the select component."
+                    description: "Sets the options available to the select component.",
+                    required: true
                 },
                 {
-                    name: "displayField",
-                    description: "Sets the property name that the select element uses to display each option. Supports dot notation for nested properties."
+                    name: "labelField",
+                    description: "Sets the property name that is used as a label for each option. Supports dot notation for nested properties."
                 },
                 {
-                    name: "keyField",
-                    description: "Sets the property name that the select element uses to bind to ngModel. Leaving this blank uses the entire object. Supports dot notation for nested properties."
+                    name: "valueField",
+                    description: "Sets the property name that is used to bind to ngModel. Leaving this blank uses the entire object. Supports dot notation for nested properties."
                 },
                 {
                     name: "isDisabled",
@@ -41,18 +42,23 @@ export class SelectPage {
                     description: "Sets the template to use when displaying options."
                 },
                 {
+                    name: "noResultsMessage",
+                    description: "Sets the message displayed when there are no available options",
+                    defaultValue: "No results"
+                },
+                {
                     name: "ngModel",
-                    description: "Bind the search selected item to the value of the provided variable."
+                    description: "Bind the selected item to the value of the provided variable."
                 }
             ],
             events: [
                 {
-                    name: "ngModelChange",
-                    description: "Fires whenever the select's selected item is changed. <code>[(ngModel)]</code> syntax is supported."
+                    name: "selectedOptionChange",
+                    description: "Fires whenever the selected item is changed. The selected item is passed as <code>$event</code>."
                 },
                 {
-                    name: "selectedOptionChange",
-                    description: "Fires whenever the select's selected item is changed. The selected value is passed as <code>$event</code>."
+                    name: "ngModelChange",
+                    description: "Fires whenever the selected item is changed. <code>[(ngModel)]</code> syntax is supported."
                 }
             ]
         },
@@ -66,47 +72,53 @@ export class SelectPage {
                 },
                 {
                     name: "options",
-                    description: "Sets the options available to the select component."
+                    description: "Sets the options available to the multi select component.",
+                    required: true
                 },
                 {
-                    name: "displayField",
-                    description: "Sets the property name that the select element uses to display each option. Supports dot notation for nested properties."
+                    name: "labelField",
+                    description: "Sets the property name that is used as a label for each option. Supports dot notation for nested properties."
                 },
                 {
-                    name: "keyField",
-                    description: "Sets the property name that the select element uses to bind to ngModel. Leaving this blank uses the entire object. Supports dot notation for nested properties."
+                    name: "valueField",
+                    description: "Sets the property name that is used to bind to ngModel. Leaving this blank uses the entire object. Supports dot notation for nested properties."
                 },
                 {
                     name: "isDisabled",
-                    description: "Sets whether or not the select is disabled",
+                    description: "Sets whether or not the multi select is disabled",
                     defaultValue: "false"
                 },
                 {
                     name: "isSearchable",
-                    description: "Sets whether the select is searchable. If set to <code>true</code> the <code>options</code> property must be used.",
+                    description: "Sets whether the multi select is searchable. If set to <code>true</code> the <code>options</code> property must be used.",
                     defaultValue: "false"
                 },
                 {
                     name: "maxSelected",
-                    description: "If multiple selection is enabled, this sets the maximum number of values that can be selected at any one time."
+                    description: "Sets the maximum number of values that can be selected at any one time."
                 },
                 {
                     name: "optionTemplate",
                     description: "Sets the template to use when displaying options."
                 },
                 {
+                    name: "noResultsMessage",
+                    description: "Sets the message displayed when there are no available options",
+                    defaultValue: "No results"
+                },
+                {
                     name: "ngModel",
-                    description: "Bind the search selected item to the value of the provided variable."
+                    description: "Bind the selected items to the value of the provided variable."
                 }
             ],
             events: [
                 {
-                    name: "ngModelChange",
-                    description: "Fires whenever the select's selected item is changed. <code>[(ngModel)]</code> syntax is supported."
+                    name: "selectedOptionsChange",
+                    description: "Fires whenever the selected items are changed. The selected items are passed as <code>$event</code>."
                 },
                 {
-                    name: "selectedOptionsChange",
-                    description: "Fires whenever the select's selected item is changed. The selected value is passed as <code>$event</code>."
+                    name: "ngModelChange",
+                    description: "Fires whenever the selected items are changed. <code>[(ngModel)]</code> syntax is supported."
                 }
             ]
         },
@@ -115,7 +127,8 @@ export class SelectPage {
             properties: [
                 {
                     name: "value",
-                    description: "Sets the value of the option."
+                    description: "Sets the value of the option.",
+                    required: true
                 }
             ]
         }
@@ -140,7 +153,7 @@ export class SelectPage {
 `;
     public exampleSearchTemplate:string = `
 <p>You can also use the keyboard to navigate.</p>
-<sui-select [(ngModel)]="selectedOption" [options]="options" labelField="name" valueField="id" [isSearchable]="true" #searchSelect>
+<sui-select [(ngModel)]="selectedOption" [options]="options" labelField="name" [isSearchable]="true" #searchSelect>
     <sui-select-option *ngFor="let option of searchSelect.availableOptions" [value]="option"></sui-select-option>
 </sui-select>
 <div class="ui segment">
@@ -179,7 +192,7 @@ export class SelectPage {
         </sui-select>
     </div>
     <div class="field">
-        <sui-multi-select class="fluid" [(ngModel)]="selectedOptions" [options]="options" optionsField="name" [optionTemplate]="optionTemplate" #multiSelect>
+        <sui-multi-select class="fluid" [(ngModel)]="selectedOptions" [options]="options" valueField="name" [optionTemplate]="optionTemplate" #multiSelect>
             <sui-select-option *ngFor="let option of multiSelect.availableOptions" [value]="option"></sui-select-option>
         </sui-multi-select>
     </div>
