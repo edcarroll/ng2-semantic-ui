@@ -1,10 +1,10 @@
 import {Component, ViewChild, HostBinding, ElementRef, HostListener, Input, ContentChildren, QueryList, ViewChildren, AfterContentInit, EventEmitter, Output, Renderer, TemplateRef, ViewContainerRef} from '@angular/core';
 import {DropdownService} from '../dropdown/dropdown.service';
 import {SearchService} from '../search/search.service';
-import {readValue} from '../util/util';
+import {readValue, KeyCode} from '../util/util';
 import {PositioningService, PositioningPlacement} from '../util/positioning.service';
 import {SuiDropdownMenu, SuiDropdownMenuItem} from '../dropdown/dropdown-menu';
-import {SuiSelectOption} from './select-option';
+import {SuiSelectOption, ISelectRenderedOption} from './select-option';
 import {Subscription} from 'rxjs';
 import {element} from 'protractor';
 
@@ -29,12 +29,22 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
 
     @HostBinding('class.active')
     public get isActive() {
-        return this.dropdownService.isOpen || this._menu.isVisible;
+        return this.dropdownService.isOpen;
+    }
+
+    @HostBinding('class.visible')
+    public get isVisible() {
+        return this._menu.isVisible;
     }
 
     @HostBinding('class.search')
     @Input()
     public isSearchable:boolean;
+
+    @HostBinding('attr.tabindex')
+    public get tabIndex() {
+        return this.isSearchable ? -1 : 0;
+    }
 
     @ViewChild('queryInput')
     private _queryInput:ElementRef;
@@ -116,18 +126,22 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     private onAvailableOptionsRendered() {
         this._renderedSubscriptions.forEach(rs => rs.unsubscribe());
         this._renderedSubscriptions = [];
-        setTimeout(() => {
-            this._renderedOptions.forEach(ro => {
-                ro.usesTemplate = !!this.optionTemplate;
-                ro.readLabel = this.labelGetter;
 
-                if (ro.usesTemplate) {
-                    this.drawTemplate(ro.templateSibling, ro.value);
-                }
-
-                this._renderedSubscriptions.push(ro.onSelected.subscribe(() => this.selectOption(ro.value)));
-            });
+        this._renderedOptions.forEach(ro => {
+            setTimeout(() => this.initialiseRenderedOption(ro));
+            
+            this._renderedSubscriptions.push(ro.onSelected.subscribe(() => this.selectOption(ro.value)));
         });
+        
+    }
+
+    protected initialiseRenderedOption(option:ISelectRenderedOption<T>) {
+        option.usesTemplate = !!this.optionTemplate;
+        option.readLabel = this.labelGetter;
+
+        if (option.usesTemplate) {
+            this.drawTemplate(option.templateSibling, option.value);
+        }
     }
 
     public selectOption(option:T) {
@@ -138,9 +152,22 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     public onClick(e:MouseEvent) {
         e.stopPropagation();
         
-        this._renderer.invokeElementMethod(this._queryInput.nativeElement, "focus");
+        this.focusInput();
 
-        this.dropdownService.toggleOpenState();
+        this.dropdownService.setOpenState(this.isSearchable ? true : !this.dropdownService.isOpen);
+    }
+
+    @HostListener("keypress", ['$event'])
+    public onKeypress(e:KeyboardEvent) {
+        if (e.keyCode == KeyCode.Enter) {
+            this._renderer.invokeElementMethod(this._element.nativeElement, "click");
+        }
+    }
+
+    protected focusInput() {
+        if (this.isSearchable) {
+            this._renderer.invokeElementMethod(this._queryInput.nativeElement, "focus");
+        }
     }
 
     protected drawTemplate(siblingRef:ViewContainerRef, value:T) {

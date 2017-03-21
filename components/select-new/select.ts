@@ -16,7 +16,7 @@ import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
     <span *ngIf="!optionTemplate">{{ labelGetter(selectedOption) }}</span>
 </div>
 <!-- Select dropdown menu -->
-<div class="menu" suiDropdownMenu>
+<div class="menu" suiDropdownMenu [menuAutoSelectFirst]="isSearchable">
     <ng-content></ng-content>
     <div *ngIf="isSearchable && availableOptions.length == 0" class="message">No results</div>
 </div>
@@ -30,7 +30,7 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> {
     private _optionTemplateSibling:ViewContainerRef;
 
     @Output()
-    public selectedOptionChange:EventEmitter<T>;
+    public selectedOptionChange:EventEmitter<U>;
 
     @Output()
     public get ngModelChange() {
@@ -40,9 +40,10 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> {
     protected optionsUpdateHook() {
         if (this._writtenOption && this.options.length > 0) {
             this.selectedOption = this.options.find(o => this._writtenOption == this.valueGetter(o));
-        }
-        if (this.selectedOption) {
-            this._writtenOption = null;
+            if (this.selectedOption) {
+                this._writtenOption = null;
+                this.drawSelectedItem();
+            }
         }
     }
 
@@ -53,19 +54,21 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> {
     constructor(element:ElementRef, renderer:Renderer) {
         super(element, renderer);
 
-        this.selectedOptionChange = new EventEmitter<T>();
+        this.selectedOptionChange = new EventEmitter<U>();
     }
 
     public selectOption(option:T) {
         this.selectedOption = option;
-        this.selectedOptionChange.emit(option);
+        this.selectedOptionChange.emit(this.valueGetter(option));
 
         this.dropdownService.setOpenState(false);
 
         this.searchService.searchDelay = this._menu.menuTransitionDuration;
-        this.searchService.updateQueryDelayed("", () => {});
+        this.searchService.updateQueryDelayed("");
 
         this.drawSelectedItem();
+
+        this.focusInput();
     }
 
     public writeValue(value:U) {
@@ -95,7 +98,7 @@ export const SELECT_VALUE_ACCESSOR:any = {
     multi: true
 };
 
-// Value accessor directive for the search to support ngModel.
+// Value accessor directive for the select to support ngModel.
 @Directive({
     selector: 'sui-select',
     host: {

@@ -165,7 +165,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
         // Only the root dropdown (i.e. not nested dropdowns) is responsible for keeping track of the currently selected item.
         if (this._service.isOpen && !this._service.isNested) {
             // Stop document events like scrolling while open.
-            if ((e.target as Element).tagName != "INPUT") {
+            if ((e.target as Element).tagName != "INPUT" || e.keyCode == KeyCode.Enter) {
                 e.preventDefault();
             }
 
@@ -226,6 +226,12 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
             i.selectedClass = this.menuSelectedItemClass;
             i.isSelected = false;
         });
+
+        if (this.menuAutoSelectFirst && this._items.length > 0) {
+            // Autoselect 1st item if required & possible.
+            this._items[0].isSelected = true;
+            this.selectedItems.push(this._itemsQuery.first);
+        }
     }
 
     // Determines the item to next be selected, based on the keyboard input & the currently selected item.
@@ -277,11 +283,5 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
     private onItemsChanged() {
         // We use `_items` rather than `items` in case one or more have become disabled.
         this.resetSelection();
-
-        if (this.menuAutoSelectFirst && this._items.length > 0) {
-            // Autoselect 1st item if required & possible.
-            this._items[0].isSelected = true;
-            this.selectedItems.push(this._itemsQuery.first);
-        }
     }
 }

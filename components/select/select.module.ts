@@ -8,6 +8,8 @@ import {SuiTransitionModule} from "../transition/transition.module";
 
 import {SuiSelect, SuiSelectValueAccessor} from '../select-new/select';
 import {SuiSelectOption} from '../select-new/select-option';
+import {SuiMultiSelect, SuiMultiSelectValueAccessor} from '../select-new/multi-select';
+import {SuiMultiSelectLabel} from '../select-new/multi-select-label';
 
 @NgModule({
     imports: [
@@ -18,12 +20,17 @@ import {SuiSelectOption} from '../select-new/select-option';
     declarations: [
         SuiSelect,
         SuiSelectOption,
-        SuiSelectValueAccessor
+        SuiSelectValueAccessor,
+        SuiMultiSelect,
+        SuiMultiSelectLabel,
+        SuiMultiSelectValueAccessor
     ],
     exports: [
         SuiSelect,
         SuiSelectOption,
-        SuiSelectValueAccessor
+        SuiSelectValueAccessor,
+        SuiMultiSelect,
+        SuiMultiSelectValueAccessor
     ]
 })
 export class SuiSelectModule {}

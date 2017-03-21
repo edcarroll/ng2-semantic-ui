@@ -83,7 +83,7 @@ export class SearchService<T> {
     }
 
     // Updates the query after the specified search delay.
-    public updateQueryDelayed(query:string, callback:(err?:Error) => void) {
+    public updateQueryDelayed(query:string, callback:(err?:Error) => void = () => {}) {
         this._query = query;
 
         clearTimeout(this._searchDelayTimeout);
@@ -93,7 +93,7 @@ export class SearchService<T> {
     }
 
     // Updates the current search query.
-    public updateQuery(query:string, callback:(err?:Error) => void) {
+    public updateQuery(query:string, callback:(err?:Error) => void = () => {}) {
         this._query = query;
 
         if (this._query == "" && !this.allowEmptyQuery) {
