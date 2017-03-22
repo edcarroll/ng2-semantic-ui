@@ -20,6 +20,7 @@ import {SelectPageComponents} from './select/select.page';
 import {TabsPageComponents} from './tabs/tabs.page';
 import {TransitionPageComponents} from './transition/transition.page';
 import {RouterModule} from '@angular/router';
+import {PopupPageComponents} from './popup/popup.page';
 
 @NgModule({
     imports: [
@@ -39,6 +40,7 @@ import {RouterModule} from '@angular/router';
         DimmerPageComponents,
         DropdownPageComponents,
         MessagePageComponents,
+        PopupPageComponents,
         ProgressPageComponents,
         RatingPageComponents,
         SearchPageComponents,

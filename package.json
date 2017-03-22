@@ -34,7 +34,7 @@
   "dependencies": {
     "@angular/common": "^2.4.1",
     "@angular/core": "^2.4.1",
-    "@angular/forms": "^2.4.0",
+    "@angular/forms": "^2.4.1",
     "@angular/http": "^2.4.1",
     "@angular/platform-browser": "^2.4.1",
     "core-js": "^2.4.1",
@@ -68,6 +68,6 @@
     "rollup-plugin-uglify": "~1.0.1",
     "ts-node": "~2.0.0",
     "tslint": "~4.3.1",
-    "typescript": "~2.1.5"
+    "typescript": "~2.0.5"
   }
 }

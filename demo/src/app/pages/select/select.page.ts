@@ -16,8 +16,7 @@ export class SelectPage {
                 },
                 {
                     name: "options",
-                    description: "Sets the options available to the select component.",
-                    required: true
+                    description: "Sets the options available to the select component."
                 },
                 {
                     name: "labelField",

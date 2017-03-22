@@ -1,11 +1,12 @@
 import {Component, Input, Renderer, ElementRef, HostBinding} from '@angular/core';
-import {IPosition} from '../util/positioning.service';
 
 @Component({
     selector: 'sui-popup-arrow',
     template: `
-<div class="dynamic arrow" [attr.direction]="direction" *ngIf="alignment == 'center'"></div>
-<div class="static arrow" [attr.direction]="direction" [attr.alignment]="alignment" *ngIf="alignment != 'center'"></div>
+<ng-container *ngIf="!basic">
+    <div class="dynamic arrow" [attr.direction]="direction" *ngIf="alignment == 'center'"></div>
+    <div class="static arrow" [attr.direction]="direction" [attr.alignment]="alignment" *ngIf="alignment != 'center'"></div>
+</ng-container>
 `,
     styles: [`
 .arrow {
@@ -70,11 +71,15 @@ import {IPosition} from '../util/positioning.service';
 })
 export class SuiPopupArrow {
     @Input()
-    public position:IPosition;
+    // This should be an IPosition but for some reason Angular CLI isn't able to find it and warns you about it.
+    public position:any;
 
     @HostBinding("class.inverted")
     @Input()
     public inverted:boolean;
+
+    @Input()
+    public basic:boolean;
 
     public get direction() {
         if (this.position) {

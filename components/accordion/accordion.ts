@@ -22,7 +22,7 @@ import {SuiAccordionService} from "./accordion.service";
 export class SuiAccordion implements AfterContentInit {
     @HostBinding('class.ui')
     @HostBinding('class.accordion')
-    public accordionClasses;
+    public accordionClasses:boolean;
     
     @Input()
     public get closeOthers():boolean {

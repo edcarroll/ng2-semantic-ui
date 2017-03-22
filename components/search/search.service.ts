@@ -93,7 +93,7 @@ export class SearchService<T> {
     }
 
     // Updates the current search query.
-    public updateQuery(query:string, callback:(err?:Error) => void = () => {}) {
+    public updateQuery(query:string, callback:(err?:Error) => void = () => {}):void {
         this._query = query;
 
         if (this._query == "" && !this.allowEmptyQuery) {
@@ -112,7 +112,7 @@ export class SearchService<T> {
         if (this._optionsLookup) {
             this._isSearching = true;
 
-            return this._optionsLookup(this._query)
+            this._optionsLookup(this._query)
                 .then(results => {
                     // Unset 'loading' state, and display & cache the results.
                     this._isSearching = false;
@@ -124,6 +124,7 @@ export class SearchService<T> {
                     this._isSearching = false;
                     return callback(error);
                 });
+            return;
         }
 
         // Convert the query string to a RegExp.
@@ -149,7 +150,7 @@ export class SearchService<T> {
     }
 
     // Converts a query string to regex without throwing an error.
-    private toRegex(query:string) {
+    private toRegex(query:string):RegExp | string {
         try {
             return new RegExp(query, 'i');
         }

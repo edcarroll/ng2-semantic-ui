@@ -1,3 +1,4 @@
+import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {GettingStartedPage} from "./pages/getting-started/getting-started.page";
 
@@ -7,6 +8,7 @@ import {CollapsePage} from "./pages/collapse/collapse.page";
 import {DimmerPage} from "./pages/dimmer/dimmer.page";
 import {DropdownPage} from "./pages/dropdown/dropdown.page";
 import {MessagePage} from "./pages/message/message.page";
+import {PopupPage} from './pages/popup/popup.page';
 import {ProgressPage} from "./pages/progress/progress.page";
 import {RatingPage} from "./pages/rating/rating.page";
 import {SearchPage} from "./pages/search/search.page";
@@ -14,7 +16,6 @@ import {TabsPage} from "./pages/tabs/tabs.page";
 import {TestPage} from "./pages/test/test.page";
 import {SelectPage} from "./pages/select/select.page";
 import {TransitionPage} from "./pages/transition/transition.page";
-import {NgModule} from '@angular/core';
 
 const appRoutes: Routes = [
     {
@@ -44,6 +45,10 @@ const appRoutes: Routes = [
     {
         path: 'components/message',
         component: MessagePage
+    },
+    {
+        path: 'components/popup',
+        component: PopupPage
     },
     {
         path: 'components/progress',

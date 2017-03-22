@@ -1,18 +1,28 @@
-import {Component, ViewChild, ViewContainerRef, ElementRef, Renderer, EventEmitter, TemplateRef} from '@angular/core';
+import {Component, ViewChild, ViewContainerRef, ElementRef, Renderer, EventEmitter, TemplateRef, HostListener} from '@angular/core';
 import {SuiTransition, Transition, TransitionDirection} from '../transition/transition';
 import {TransitionController} from '../transition/transition-controller';
 import {PositioningService, PositioningPlacement, IPosition} from '../util/positioning.service';
 
+export interface IPopupConfiguration {
+    template?:TemplateRef<any>;
+    header?:string;
+    text?:string;
+    inverted?:boolean;
+    basic?:boolean;
+    transition?:string;
+    transitionDuration?:number;
+}
+
 @Component({
     selector: 'sui-popup',
     template: `
-<div class="ui popup" [class.inverted]="inverted" [suiTransition]="transitionController" [attr.direction]="direction" #container>
-    <ng-container *ngIf="!template">
-        <div class="header" *ngIf="header">{{ header }}</div>
-        <div class="content">{{ text }}</div>
+<div class="ui popup" [class.inverted]="config.inverted" [class.basic]="config.basic" [suiTransition]="transitionController" [attr.direction]="direction" #container>
+    <ng-container *ngIf="!config.template">
+        <div class="header" *ngIf="config.header">{{ config.header }}</div>
+        <div class="content">{{ config.text }}</div>
     </ng-container>
     <div #templateSibling></div>
-    <sui-popup-arrow [position]="position" [inverted]="inverted"></sui-popup-arrow>
+    <sui-popup-arrow [position]="position" [inverted]="config.inverted" [basic]="config.basic"></sui-popup-arrow>
 </div>
 `,
     styles: [`
@@ -47,21 +57,16 @@ import {PositioningService, PositioningPlacement, IPosition} from '../util/posit
 export class SuiPopup {
     public transitionController:TransitionController;
 
-    public template:TemplateRef<any>;
     private _templateInjected:boolean;
     
-    public header:string;
-    public text:string;
-    public inverted:boolean;
-    public transition:string;
-    public transitionDuration:number;
+    public config:IPopupConfiguration;
 
     private _position:PositioningService;
     public placement:PositioningPlacement;
     public set anchor(anchor:ElementRef) {
         this._position = new PositioningService(anchor, this._container.element, this.placement, ".dynamic.arrow");
     }
-    public get position() {
+    public get position():IPosition {
         if (this._position) {
             return this._position.state;
         }
@@ -92,11 +97,11 @@ export class SuiPopup {
 
         this._templateInjected = false;
 
-        this.inverted = false;
-        this.transition = "scale";
-        this.transitionDuration = 200;
-
-        this.placement = PositioningPlacement.BottomLeft;
+        this.config = {
+            inverted: false,
+            transition: "scale",
+            transitionDuration: 200
+        };
 
         this._isOpen = false;
         this.onClose = new EventEmitter<void>();
@@ -106,13 +111,13 @@ export class SuiPopup {
         if (!this._isOpen) {
             clearTimeout(this._closingTimeout);
 
-            if (this.template && !this._templateInjected) {
-                this._templateSibling.createEmbeddedView(this.template, { '$implicit': this });
+            if (this.config.template && !this._templateInjected) {
+                this._templateSibling.createEmbeddedView(this.config.template, { '$implicit': this });
                 this._templateInjected = true;
             }
             
             this.transitionController.stopAll();
-            this.transitionController.animate(new Transition(this.transition, this.transitionDuration, TransitionDirection.In));
+            this.transitionController.animate(new Transition(this.config.transition, this.config.transitionDuration, TransitionDirection.In));
 
             setTimeout(() => this._position.update());
 
@@ -123,12 +128,17 @@ export class SuiPopup {
     public close() {
         if (this._isOpen) {
             this.transitionController.stopAll();
-            this.transitionController.animate(new Transition(this.transition, this.transitionDuration, TransitionDirection.Out));
+            this.transitionController.animate(new Transition(this.config.transition, this.config.transitionDuration, TransitionDirection.Out));
 
             clearTimeout(this._closingTimeout);
-            this._closingTimeout = setTimeout(() => this.onClose.emit(), this.transitionDuration);
+            this._closingTimeout = setTimeout(() => this.onClose.emit(), this.config.transitionDuration);
 
             this._isOpen = false;
         }
+    }
+
+    @HostListener("click", ["$event"])
+    public onClick(event:MouseEvent) {
+        event.stopPropagation();
     }
 }
