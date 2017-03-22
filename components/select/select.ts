@@ -1,6 +1,7 @@
 import {Component, ViewContainerRef, ViewChild, Output, EventEmitter, ElementRef, Renderer, forwardRef, Directive} from '@angular/core';
 import {SuiSelectBase} from './select-base';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
+import {ISelectRenderedOption} from './select-option';
 
 @Component({
     selector: 'sui-select',
@@ -75,6 +76,8 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> {
         this.searchService.updateQueryDelayed("");
 
         this.drawSelectedOption();
+        // Adds the active property to the items.
+        this.onAvailableOptionsRendered();
 
         // Automatically refocus the search input for better keyboard accessibility.
         this.focusInput();
@@ -93,6 +96,13 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> {
         }
 
         this.drawSelectedOption();
+    }
+
+    protected initialiseRenderedOption(option:ISelectRenderedOption<T>) {
+        super.initialiseRenderedOption(option);
+
+        // Boldens the item so it appears selected in the dropdown.
+        option.isActive = option.value == this.selectedOption;
     }
 
     private drawSelectedOption() {

@@ -5,6 +5,7 @@ export type PropertyReader<T> = (obj:T) => string;
 
 export interface ISelectRenderedOption<T> {
     value:T;
+    isActive?:boolean;
     readLabel:PropertyReader<T>;
     usesTemplate:boolean;
     templateSibling:ViewContainerRef;
@@ -29,6 +30,9 @@ export class SuiSelectOption<T> extends SuiDropdownMenuItem implements ISelectRe
     @Output()
     public onSelected:EventEmitter<T>;
 
+    @HostBinding('class.active')
+    public isActive:boolean;
+
     // Returns the label from a given value.
     public readLabel:(obj:T) => string;
 
@@ -44,6 +48,7 @@ export class SuiSelectOption<T> extends SuiDropdownMenuItem implements ISelectRe
         super(renderer, element);
 
         this._optionClasses = true;
+        this.isActive = false;
         this.onSelected = new EventEmitter<T>();
 
         // By default we make this function return an empty string, for the brief moment when it isn't displaying the correct label.

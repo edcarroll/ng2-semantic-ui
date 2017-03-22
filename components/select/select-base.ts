@@ -146,7 +146,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         this._renderedOptions.changes.subscribe(() => this.onAvailableOptionsRendered());
     }
 
-    private onAvailableOptionsRendered() {
+    protected onAvailableOptionsRendered() {
         // Unsubscribe from all previous subscriptions to avoid memory leaks on large selects.
         this._renderedSubscriptions.forEach(rs => rs.unsubscribe());
         this._renderedSubscriptions = [];
