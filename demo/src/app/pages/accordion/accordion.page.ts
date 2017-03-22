@@ -13,6 +13,11 @@ export class AccordionPage {
                     name: "closeOthers",
                     description: "Limits the number of open panels to 1 when <code>true</code>.",
                     defaultValue: "true"
+                },
+                {
+                    name: "transitionDuration",
+                    description: "Duration for the accordion animations.",
+                    defaultValue: "350"
                 }
             ]
         },

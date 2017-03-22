@@ -4,7 +4,6 @@ import {SuiAccordionService} from "./accordion.service";
 
 @Component({
     selector: 'sui-accordion',
-    exportAs: 'suiAccordion',
     template: `
 <ng-content></ng-content>
 `,
@@ -13,6 +12,7 @@ import {SuiAccordionService} from "./accordion.service";
 :host {
     display: block;
 }
+
 /* Fix for styled border issue */
 :host.styled sui-accordion-panel:first-child .title {
     border-top: none
@@ -20,6 +20,10 @@ import {SuiAccordionService} from "./accordion.service";
 `]
 })
 export class SuiAccordion implements AfterContentInit {
+    @HostBinding('class.ui')
+    @HostBinding('class.accordion')
+    public accordionClasses;
+    
     @Input()
     public get closeOthers():boolean {
         return this._service.closeOthers;
@@ -29,9 +33,10 @@ export class SuiAccordion implements AfterContentInit {
         this._service.closeOthers = value;
     }
 
-    @HostBinding('class.ui')
-    @HostBinding('class.accordion')
-    private _suiClasses = true;
+    @Input()
+    public set transitionDuration(duration:number) {
+        this._service.transitionDuration = duration;
+    }
 
     protected _service:SuiAccordionService;
     
@@ -39,7 +44,10 @@ export class SuiAccordion implements AfterContentInit {
     protected panels:QueryList<SuiAccordionPanel>;
 
     constructor() {
+        // Accordion service is unique to each set of panels.
         this._service = new SuiAccordionService();
+
+        this.accordionClasses = true;
     }
 
     ngAfterContentInit() {
