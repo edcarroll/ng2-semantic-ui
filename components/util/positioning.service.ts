@@ -65,22 +65,27 @@ export class PositioningService {
         this.anchor = anchor;
         this.subject = subject;
 
+        let modifiers:any = {
+            applyStyle: {
+                gpuAcceleration: false
+            },
+            preventOverflow: {
+                boundariesElement: document.body
+            }
+        };
+
+        if (arrowSelector) {
+            modifiers.arrow = {
+                element: arrowSelector
+            };
+        }
+
         this._popper = new Popper(
             anchor.nativeElement,
             subject.nativeElement,
             {
                 placement,
-                modifiers: {
-                    applyStyle: {
-                        gpuAcceleration: false
-                    },
-                    preventOverflow: {
-                        boundariesElement: document.body
-                    },
-                    arrow: {
-                        element: arrowSelector
-                    }
-                },
+                modifiers,
                 onCreate: (initial:IPosition) => this._popperState = initial,
                 onUpdate: (update:IPosition) => this._popperState = update
             });
