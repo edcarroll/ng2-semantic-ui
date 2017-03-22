@@ -4,6 +4,7 @@ import {TransitionController} from '../transition/transition-controller';
 import {DropdownService, DropdownAutoCloseType} from './dropdown.service';
 import {SuiDropdownMenu} from './dropdown-menu';
 import {PositioningService, PositioningPlacement} from '../util/positioning.service';
+import {KeyCode} from '../util/util';
 
 @Directive({
     selector: '[suiDropdown]'
@@ -53,6 +54,11 @@ export class SuiDropdown implements AfterContentInit {
         this.service.setDisabledState(value);
     }
 
+    @HostBinding('attr.tabindex')
+    public get tabIndex() {
+        return this.isDisabled ? -1 : 0;
+    }
+
     @Input()
     public get autoClose() {
         return this.service.autoCloseMode;
@@ -90,5 +96,15 @@ export class SuiDropdown implements AfterContentInit {
         e.stopPropagation();
 
         this.service.toggleOpenState();
+    }
+
+    @HostListener("keypress", ['$event'])
+    public onKeypress(e:KeyboardEvent) {
+        // Block the keyboard event from being fired on parent dropdowns.
+        if (e.keyCode == KeyCode.Enter) {
+            e.stopPropagation();
+
+            this.service.setOpenState(true);
+        }
     }
 }

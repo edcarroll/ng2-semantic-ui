@@ -1,53 +1,58 @@
-import {Component, HostBinding, ElementRef, Renderer, HostListener, Input, ViewContainerRef, EventEmitter, ViewChild} from "@angular/core";
+import {Component, Input, HostBinding, HostListener, EventEmitter, ViewContainerRef, ViewChild, Renderer, ElementRef, Output} from '@angular/core';
 import {SuiTransition, Transition, TransitionDirection} from '../transition/transition';
 import {TransitionController} from '../transition/transition-controller';
+import {ISelectRenderedOption} from './select-option';
 
 @Component({
-    selector: 'sui-select-multi-label',
+    selector: 'sui-multi-select-label',
     template: `
-<span #optionRenderTarget></span>
-<span *ngIf="!useTemplate">{{ readValue(value) }}</span>
-<i class="delete icon" (click)="deselectOption()"></i>
+<span #templateSibling></span>
+<span *ngIf="!usesTemplate">{{ readLabel(value) }}</span>
+<i class="delete icon" (click)="deselectOption($event)"></i>
 `
 })
-export class SuiSelectMultiLabel extends SuiTransition {
+export class SuiMultiSelectLabel<T> extends SuiTransition implements ISelectRenderedOption<T> {
+    // Sets the Semantic UI classes on the host element.
+    // Doing it on the host enables use in menus etc.
     @HostBinding('class.ui')
-    @HostBinding('class.label') classes = true;
+    @HostBinding('class.label')
+    private _labelClasses:boolean;
 
-    private _transition:TransitionController;
-
-    constructor(renderer:Renderer, el:ElementRef) {
-        super(renderer, el);
-        
-        this._transition = new TransitionController(false, "inline-block");
-        this.setTransitionController(this._transition);
-
-        this._transition.animate(new Transition("scale", 100, TransitionDirection.In));
-    }
-
-    public useTemplate:boolean = false;
-
-    @HostListener('click', ['$event'])
-    public click(event:MouseEvent):boolean {
-        event.stopPropagation();
-        return false;
-    }
-
-    public readValue = (value:any) => "";
+    private _transitionController:TransitionController;
 
     @Input()
-    public value:any;
+    public value:T;
 
-    public selected:EventEmitter<any> = new EventEmitter<any>();
+    @Output()
+    public onDeselected:EventEmitter<T>;
 
-    @ViewChild('optionRenderTarget', { read: ViewContainerRef })
-    public viewContainerRef:ViewContainerRef;
+    public readLabel:(obj:T) => string;
 
-    public deselectOption() {
+    public usesTemplate:boolean;
+
+    @ViewChild('templateSibling', { read: ViewContainerRef })
+    public templateSibling:ViewContainerRef;
+
+    constructor(renderer:Renderer, element:ElementRef) {
+        super(renderer, element);
+
+        // Initialise transition functionality.
+        this._transitionController = new TransitionController(false, "inline-block");
+        this.setTransitionController(this._transitionController);
+        
+        this.onDeselected = new EventEmitter<T>();
+        this.readLabel = (value:T) => "";
+        this.usesTemplate = false;
+
+        this._labelClasses = true;
+
+        this._transitionController.animate(new Transition("scale", 100, TransitionDirection.In));
+    }
+
+    public deselectOption(event:MouseEvent) {
         event.stopPropagation();
 
-        this._transition.animate(new Transition("scale", 100, TransitionDirection.Out, () => this.selected.emit(this.value)));
-
-        return false;
+        this._transitionController.animate(new Transition("scale", 100, TransitionDirection.Out, () =>
+            this.onDeselected.emit(this.value)));
     }
 }

@@ -3,13 +3,11 @@ import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {SuiDropdownModule} from "../dropdown/dropdown.module";
 import {SuiSearchModule} from "../search/search.module";
-import {SUI_SELECT_DIRECTIVES} from "./select";
 import {SuiTransitionModule} from "../transition/transition.module";
-
-import {SuiSelect, SuiSelectValueAccessor} from '../select-new/select';
-import {SuiSelectOption} from '../select-new/select-option';
-import {SuiMultiSelect, SuiMultiSelectValueAccessor} from '../select-new/multi-select';
-import {SuiMultiSelectLabel} from '../select-new/multi-select-label';
+import {SuiSelect, SuiSelectValueAccessor} from './select';
+import {SuiSelectOption} from './select-option';
+import {SuiMultiSelect, SuiMultiSelectValueAccessor} from './multi-select';
+import {SuiMultiSelectLabel} from './multi-select-label';
 
 @NgModule({
     imports: [

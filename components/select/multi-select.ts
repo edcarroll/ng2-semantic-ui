@@ -1,331 +1,176 @@
-import {
-    Component, Directive, ViewChild, HostBinding, ElementRef, HostListener, forwardRef,
-    TemplateRef, AfterContentInit, QueryList, ContentChildren,
-    ViewChildren, AfterViewInit, EventEmitter,
-} from '@angular/core';
+import {Component, HostBinding, ElementRef, Renderer, EventEmitter, Output, Input, QueryList, AfterViewInit, ViewChildren, forwardRef, Directive} from '@angular/core';
+import {SuiSelectBase} from './select-base';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
-
-import {SuiDropdownMenu} from "../dropdown/dropdown-menu";
-import {SuiSelectOption} from "./select-option";
-import {Subscription} from "rxjs";
-import {Input, Output} from "@angular/core";
-import {SuiSelectMultiLabel} from "./multi-select-label";
+import {SuiMultiSelectLabel} from './multi-select-label';
+import {Subscription} from 'rxjs';
 import {KeyCode} from '../util/util';
 
 @Component({
     selector: 'sui-multi-select',
-    exportAs: 'suiMultiSelect',
     template: `
 <i class="dropdown icon"></i>
 <!-- Multi-select labels -->
-<sui-select-multi-label *ngFor="let selected of selectedOptions;" [value]="selected"></sui-select-multi-label>
-<!-- Search input box -->
-<input *ngIf="isSearchable" class="search" type="text" autocomplete="off" [(ngModel)]="query" (keydown)="searchKeyDown($event)">
-<!-- Single-select label -->
-<div *ngIf="!selectedOption" class="default text" [class.filtered]="query">{{ placeholder }}</div>
+<sui-multi-select-label *ngFor="let selected of selectedOptions;" [value]="selected"></sui-multi-select-label>
+<!-- Query input -->
+<input [hidden]="!isSearchable" class="search" type="text" autocomplete="off" [(ngModel)]="query" (keydown)="onQueryInputKeydown($event)" #queryInput>
+<!-- Placeholder text -->
+<div *ngIf="!selectedOption" class="default text" [class.filtered]="!!query">{{ placeholder }}</div>
 <!-- Select dropdown menu -->
-<div class="menu" suiDropdownMenu>
+<div class="menu" suiDropdownMenu [menuAutoSelectFirst]="true">
     <ng-content></ng-content>
-    <div *ngIf="!results.length && !maxSelectedReached" class="message">No Results</div>
-    <div *ngIf="!results.length && maxSelectedReached" class="message">Max {{ maxSelected }} selections</div>
+    <ng-container *ngIf="availableOptions.length == 0 ">
+        <div *ngIf="!maxSelectedReached" class="message">{{ noResultsMessage }}</div>
+        <div *ngIf="maxSelectedReached" class="message">Max {{ maxSelected }} selections</div>
+    </ng-container>
 </div>
 `,
     styles: [`
 :host input.search {
     width: 12em !important;
 }
-.selected-results {
-    display: none;
-}
-`]
+    `]
 })
-export class SuiMultiSelect implements AfterContentInit, AfterViewInit {
-    @ViewChild(SuiDropdownMenu)
-    private _dropdownMenu:SuiDropdownMenu;
-    private _dropdownService:any = {};
-    private _searchService:any = {};
+export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterViewInit {
+    public selectedOptions:T[];
+    private _writtenOptions:U[];
 
-    @ContentChildren(SuiSelectOption)
-    private renderedOptions:QueryList<SuiSelectOption>;
-    private renderedOptionsSubscriptions:Subscription[] = [];
+    @ViewChildren(SuiMultiSelectLabel)
+    private _renderedSelectedOptions:QueryList<SuiMultiSelectLabel<T>>;
 
-    @ViewChildren(SuiSelectMultiLabel)
-    private renderedSelectedOptions:QueryList<SuiSelectMultiLabel>;
-    private renderedSelectedOptionsSubscriptions:Subscription[] = [];
+    private _renderedSelectedSubscriptions:Subscription[];
+    
+    @Output()
+    public selectedOptionsChange:EventEmitter<U[]>;
 
-    public selectedOptions:any[] = [];
+    @Output()
+    public get ngModelChange() {
+        return this.selectedOptionsChange;
+    }
+
+    protected optionsUpdateHook() {
+        if (this._writtenOptions && this.options.length > 0) {
+            this.selectedOptions = this._writtenOptions.map(v => this.options.find(o => v == this.valueGetter(o)));
+            
+            if (this.selectedOptions.length == this._writtenOptions.length) {
+                this._writtenOptions = null;
+            }
+        }
+    }
+
+    public get availableOptions() {
+        if (this.maxSelectedReached) {
+            return [];
+        }
+        return this.searchService.results
+            .filter(r => !this.selectedOptions.find(o => r == o));
+    }
 
     @Input()
     public maxSelected:number;
-    private maxSelectedReached:boolean = false;
 
-    @HostBinding('class.ui')
+    public get maxSelectedReached() {
+        if (this.maxSelected == null) {
+            return false;
+        }
+        return this.selectedOptions.length == this.maxSelected;
+    }
+
     @HostBinding('class.multiple')
-    @HostBinding('class.selection')
-    @HostBinding('class.dropdown')
-    searchClasses = true;
+    private _multiSelectClasses:boolean;
 
-    @HostBinding('attr.tabindex')
-    tabIndex = 0;
+    constructor(element:ElementRef, renderer:Renderer) {
+        super(element, renderer);
 
-    @HostBinding('class.search')
-    @Input()
-    public isSearchable:boolean = false;
+        this.placeholder = "Select...";
 
-    @Input()
-    public placeholder:string = "Select...";
+        this.selectedOptions = [];
+        this.selectedOptionsChange = new EventEmitter<U[]>();
 
-    @Input()
-    public get options():any[] {
-        return this._searchService.options;
+        this._renderedSelectedSubscriptions = [];
+
+        this._multiSelectClasses = true;
     }
 
-    public set options(value:any[]) {
-        this._searchService.options = value;
-        if (this.options.length > 0 && this.selectedOptions) {
-            this.selectedOptions = this.selectedOptions.map(so => {
-                if (!this.options.find(o => o == so)) {
-                    return this.options.find(o => so == this._searchService.deepValue(o, this.keyField));
-                }
-                return so;
-            });
-        }
-    }
-
-    @Input()
-    public get displayField() {
-        return this._searchService.optionsField;
-    }
-
-    public set displayField(value:string) {
-        this._searchService.optionsField = value;
-    }
-
-    @Input()
-    public keyField:string;
-
-    private get query():string {
-        return this._searchService.query;
-    }
-
-    private set query(value:string) {
-        this._searchService.updateQuery(value);
-        this.isOpen = true;
-    }
-
-    @Output()
-    public selectedOptionsChange:EventEmitter<any> = new EventEmitter<any>();
-
-    @Output()
-    public onItemSelected:EventEmitter<any> = new EventEmitter<any>();
-
-    @Input()
-    public optionTemplate: TemplateRef<any>;
-
-    @HostBinding('class.visible')
-    public get isActive() {
-        return this._dropdownService.transition.isVisible;
-    }
-
-    @HostBinding('class.active')
-    public get isOpen():boolean {
-        return this._dropdownService.isOpen;
-    }
-
-    public set isOpen(value:boolean) {
-        this._dropdownService.isOpen = value;
-    }
-
-    @HostBinding('class.disabled')
-    @Input()
-    public get isDisabled():boolean {
-        return this._dropdownService.isDisabled;
-    }
-
-    public set isDisabled(value:boolean) {
-        this._dropdownService.isDisabled = value;
-    }
-
-    private get results():Array<any> {
-        return this._searchService.results.filter((r:any) => this.selectedOptions.indexOf(r) == -1);
-    }
-
-    private get availableOptions():Array<any> {
-        return this.results;
-    }
-
-    constructor(private el:ElementRef) {
-        this._dropdownService.dropdownElement = el;
-        this._dropdownService.autoClose = "outsideClick";
-        this._dropdownService.itemClass = "item";
-        this._dropdownService.itemSelectedClass = "selected";
-
-        this._searchService.allowEmptyQuery = true;
-        this._searchService.searchDelay = 0;
-
-        this._dropdownService.isOpenChange
-            .subscribe((isOpen: boolean) => {
-                if (isOpen) {
-                    if (this.isSearchable && !this._dropdownService.selectedItem) {
-                        this._dropdownService.selectNextItem();
-                    }
-                }
-        });
-    }
-
-    public ngAfterContentInit():void {
-        //Initialise initial results
-        this.renderedOptionsSubscribe();
-        this.renderedOptions.changes.subscribe(() => this.renderedOptionsSubscribe());
-    }
-
-    public ngAfterViewInit():void {
-        this._dropdownMenu.service = this._dropdownService;
-
-        this.renderedSelectedOptionsSubscribe();
-        this.renderedSelectedOptions.changes.subscribe(() => this.renderedSelectedOptionsSubscribe());
-    }
-
-    private renderedOptionsSubscribe() {
-        this.renderedOptionsSubscriptions.forEach((s) => s.unsubscribe());
-        this.renderedOptionsSubscriptions = [];
-
-        this.renderedOptions.forEach((option:SuiSelectOption) => {
-            this.renderedOptionsSubscriptions.push(option.selected.subscribe((value:any) => {
-                this.selectOption(value);
-            }));
-
-            setTimeout(() => {
-                option.useTemplate = !!this.optionTemplate;
-                option.readValue = v => this._searchService.readValue(v);
-
-                if (option.useTemplate) {
-                    option.viewContainerRef.clear();
-                    option.viewContainerRef.createEmbeddedView(this.optionTemplate, { option: option.value });
-                }
-            });
-        });
-    }
-
-    private renderedSelectedOptionsSubscribe() {
-        this.renderedSelectedOptionsSubscriptions.forEach((s) => s.unsubscribe());
-        this.renderedSelectedOptionsSubscriptions = [];
-
-        this.renderedSelectedOptions.forEach((label:SuiSelectMultiLabel) => {
-            this.renderedSelectedOptionsSubscriptions.push(label.selected.subscribe((value:any) => {
-                this.deselectOption(value);
-            }));
-
-            setTimeout(() => {
-                label.useTemplate = !!this.optionTemplate;
-                label.readValue = v => this._searchService.readValue(v);
-
-                if (label.useTemplate) {
-                    label.viewContainerRef.clear();
-                    label.viewContainerRef.createEmbeddedView(this.optionTemplate, { option: label.value });
-                }
-            });
-        });
-    }
-
-    public selectOption(option:any):void {
-        this.selectedOptions = this.selectedOptions || [];
+    public selectOption(option:T) {
         this.selectedOptions.push(option);
-        this.selectedOptionsChange.emit(this.selectedOptions.map(so => this._searchService.deepValue(so, this.keyField)));
-        this.onItemSelected.emit(this._searchService.deepValue(option, this.keyField));
+        this.selectedOptionsChange.emit(this.selectedOptions.map(o => this.valueGetter(o)));
 
-        this._searchService.updateQuery("");
+        this.searchService.searchDelay = this._menu.menuTransitionDuration;
+        this.searchService.updateQuery("");
+
+        this.focusInput();
     }
 
-    public deselectOption(option:any) {
-        var index = this.selectedOptions.indexOf(option);
-        this.selectedOptions.splice(index, 1);
-        this.selectedOptionsChange.emit(this.selectedOptions.map(so => this._searchService.deepValue(so, this.keyField)));
-
-        this.focusFirstItem();
-    }
-
-    private focusSearch() {
-        if (this.isSearchable) {
-            this._dropdownService.dropdownElement.nativeElement.querySelector("input").focus();
-        }
-    }
-
-    private focusFirstItem() {
-        setTimeout(() => {
-            this._dropdownService.selectedItem = null;
-            this._dropdownService.selectNextItem();
-        });
-    }
-
-    public writeValue(value:any) {
-        if (value) {
-            this.selectedOptions = value;
+    public writeValues(values:U[]) {
+        if (values instanceof Array) {
             if (this.options.length > 0) {
-                this.selectedOptions = this.selectedOptions.map(so => {
-                    return this.options.find(o => so == this._searchService.deepValue(o, this.keyField));
-                });
+                this.selectedOptions = values.map(v => this.options.find(o => v == this.valueGetter(o)));
+            }
+            if (values != [] && this.selectedOptions.length == 0) {
+                this._writtenOptions = values;
             }
         }
     }
 
-    @HostListener('click', ['$event'])
-    public click(event:MouseEvent):boolean {
-        event.stopPropagation();
+    public deselectOption(option:T) {
+        this.selectedOptions = this.selectedOptions.filter(so => so != option);
+        this.selectedOptionsChange.emit(this.selectedOptions.map(o => this.valueGetter(o)));
 
-        if (!this._dropdownService.menuElement.nativeElement.contains(event.target)){
-            if (!this.isOpen) {
-                this.isOpen = true;
-                this._searchService.search();
-                this.focusSearch();
-            }
-            else if ((<Element> event.target).tagName != "INPUT") {
-                this.isOpen = false;
-            }
-        }
-        return false;
+        this.focusInput();
     }
 
-    @HostListener('keypress', ['$event'])
-    public keypress(event:KeyboardEvent) {
-        if ((event.which == KeyCode.Enter || event.which == KeyCode.Space) && !this.isOpen) {
-            this.click(<any>event);
-            event.preventDefault();
+    public onQueryInputKeydown(event:KeyboardEvent) {
+        if (event.keyCode == KeyCode.Backspace && this.query == "" && this.selectedOptions.length > 0) {
+            this.deselectOption(this.selectedOptions[this.selectedOptions.length - 1]);
         }
     }
 
-    public searchKeyDown(event:KeyboardEvent) {
-        if (event.which == KeyCode.Backspace && !this.query) {
-            var selectedOptions = this.selectedOptions || [];
-            var lastSelectedOption = selectedOptions[selectedOptions.length - 1];
-            if (lastSelectedOption) {
-                this.deselectOption(lastSelectedOption);
-            }
-        }
+    public ngAfterViewInit() {
+        this.onSelectedOptionsRendered();
+        this._renderedSelectedOptions.changes.subscribe(() => this.onSelectedOptionsRendered());
+    }
+
+    private onSelectedOptionsRendered() {
+        this._renderedSelectedSubscriptions.forEach(rs => rs.unsubscribe());
+        this._renderedSelectedSubscriptions = [];
+
+        this._renderedSelectedOptions.forEach(ro => {
+            setTimeout(() => this.initialiseRenderedOption(ro));
+
+            this._renderedSelectedSubscriptions.push(ro.onDeselected.subscribe(() => this.deselectOption(ro.value)));
+        });
     }
 }
 
-export const CUSTOM_VALUE_ACCESSOR: any = {
+// Value accessor for the multi select.
+export const MULTI_SELECT_VALUE_ACCESSOR:any = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => SuiMultiSelectValueAccessor),
     multi: true
 };
 
+// Value accessor directive for the select to support ngModel.
 @Directive({
     selector: 'sui-multi-select',
-    host: {'(selectedOptionsChange)': 'onChange($event)'},
-    providers: [CUSTOM_VALUE_ACCESSOR]
+    host: {
+        '(selectedOptionsChange)': 'onChange($event)'
+    },
+    providers: [MULTI_SELECT_VALUE_ACCESSOR]
 })
-export class SuiMultiSelectValueAccessor implements ControlValueAccessor {
+export class SuiMultiSelectValueAccessor<T, U> implements ControlValueAccessor {
     onChange = () => {};
     onTouched = () => {};
 
-    constructor(private host:SuiMultiSelect) {}
+    constructor(private host:SuiMultiSelect<T, U>) {}
 
-    writeValue(value: any[]): void {
-        this.host.writeValue(value);
+    writeValue(value:U[]) {
+        this.host.writeValues(value);
     }
 
-    registerOnChange(fn: () => void): void { this.onChange = fn; }
-    registerOnTouched(fn: () => void): void { this.onTouched = fn; }
+    registerOnChange(fn:() => void) {
+        this.onChange = fn;
+    }
+    registerOnTouched(fn:() => void) {
+        this.onTouched = fn;
+    }
 }
