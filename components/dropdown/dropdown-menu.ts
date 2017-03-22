@@ -137,7 +137,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
         e.stopPropagation();
 
         if (this._service.autoCloseMode == DropdownAutoCloseType.ItemClick) {
-            if (e.srcElement.classList.contains("item")) {
+            if ((e.target as Element).classList.contains("item")) {
                 // Once an item is selected, we can close the entire dropdown.
                 this._service.setOpenState(false, true);
             }
