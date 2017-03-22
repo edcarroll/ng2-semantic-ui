@@ -29,15 +29,28 @@ export class DropdownPage {
                 {
                     name: "isOpenChange",
                     description: "Fires whenever the dropdown is toggled. <code>[(isOpen)]</code> syntax is supported."
-                },
-                {
-                    name: "onToggle",
-                    description: "Fires whenever the dropdown is toggled, as above."
                 }
             ]
         },
         {
-            selector: "[suiDropdownMenu]"
+            selector: "[suiDropdownMenu]",
+            properties: [
+                {
+                    name: "menuAutoSelectFirst",
+                    description: "Sets whether or not the first item in the dropdown is highlighted.",
+                    defaultValue: "false"
+                },
+                {
+                    name: "menuTransition",
+                    description: "Sets the transition used when displaying the dropdown menu.",
+                    defaultValue: "slide down"
+                },
+                {
+                    name: "menuTransitionDuration",
+                    description: "Sets the duration for the menu transition.",
+                    defaultValue: "200"
+                }
+            ]
         }
     ];
     public exampleStandardTemplate:string = `
