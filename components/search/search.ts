@@ -155,10 +155,8 @@ export class SuiSearch<T> implements AfterViewInit {
 
     // Sets a specific item to be selected, updating the query automatically.
     public writeValue(item:T) {
-        if (item) {
-            this.selectedItem = item;
-            this.searchService.updateQuery(this.readValue(item) as string, () => {});
-        }
+        this.selectedItem = item;
+        this.searchService.updateQuery(item ? this.readValue(item) as string : "");
     }
 }
 
