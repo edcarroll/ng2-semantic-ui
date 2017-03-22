@@ -29,7 +29,7 @@ export class Transition {
 
     public onComplete:() => any;
 
-    constructor(name:string, duration:number = 250, direction:TransitionDirection = TransitionDirection.Either, onComplete:(() => any) = () => {}) {
+    constructor(name:string, duration:number = 250, direction:TransitionDirection = TransitionDirection.Either, onComplete:(() => void) = () => {}) {
         this.type = name;
         if (duration < 1) {
             // We set a minimum duration of 1ms, to give the appearance of an immediate transition whilst allowing positioning calculations to happen without a visible flicker.

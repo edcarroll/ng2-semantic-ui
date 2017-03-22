@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import {SuiTransition} from "../../../../../components/transition/transition";
+import {Component} from '@angular/core';
+import {SuiTransition, Transition, TransitionDirection} from "../../../../../components/transition/transition";
+import {TransitionController} from "../../../../../components/transition/transition-controller";
 
 @Component({
   selector: 'demo-page-transition',
@@ -8,48 +9,101 @@ import {SuiTransition} from "../../../../../components/transition/transition";
 export class TransitionPage {
     public api = [
         {
-            selector: "[suiTransition]"
+            selector: "[suiTransition]",
+            properties: [
+                {
+                    name: "suiTransition",
+                    description: "Sets the transition controller.",
+                    required: true
+                },
+            ]
         }
     ];
 
+    public transitionControllerCode = `
+import {TransitionController} from "ng2-semantic-ui";
+
+@Component({})
+export class MyComponent {
+    public transitionController = new TransitionController();
+}
+`;
+
+    public transitionElementCode = `
+<div class="ui segment">
+    <img src="http://u.to/7GvODw" class="ui image" [suiTransition]="transitionController">
+</div>
+`;
+
+    public transitionExampleCode = `
+import {TransitionController, Transition, TransitionDirection} from "ng2-semantic-ui";
+
+@Component({})
+export class MyComponent {
+    public transitionController = new TransitionController();
+    
+    public animate(transitionName:string = "scale") {
+        this.transitionController.animate(
+            new Transition(transitionName, 500, TransitionDirection.In, () => console.log("Completed transition.")));
+    }
+}
+`;
+
     public exampleStandardTemplate:string = `
 <div class="ui segment">
-    <img src="https://lerebooks.files.wordpress.com/2012/11/eye.jpg?w=150" class="ui image" suiTransition #transition="transition">
+    <img src="http://u.to/7GvODw" class="ui image" [suiTransition]="transitionController">
 </div>
-<sui-select [(ngModel)]="selectedTransition" [options]="transitions" [isSearchable]="true" #animSelect>
+<sui-select [(ngModel)]="transitionName" [options]="transitions" [isSearchable]="true" #animSelect>
     <sui-select-option *ngFor="let a of animSelect.availableOptions" [value]="a"></sui-select-option>
 </sui-select>
-<button class="ui button" (click)="transition.animate({ name: selectedTransition, duration: 500 })">Animate</button>
+<button class="ui button" (click)="animate(transitionName)">Animate</button>
+`;
+
+    public transitionControllerInterface = `
+this.ctrl = new TransitionController(isInitiallyVisible:boolean = false, display:string = "block");
+// isInitiallyVisible sets whether the element being animated starts off visible.
+// display sets the 'display' style set on the animated element when it is visible.
+
+this.ctrl.animate(transition:Transition);
+// Adds a transition to the queue.
+
+/* Example */
+const t = new Transition(
+    name:string, // Name of the transition. See the above select for the available options.
+    duration:number = 250, // Duration of the transition in milliseconds.
+    direction:TransitionDirection = TransitionDirection.Either, // Transition direction (In, Out, Either, Static).
+    onComplete:(() => void) = () => {}) // Callback function run when the transition has completed.
+
+this.ctrl.animate(t);
+
+this.ctrl.stop(transition?:Transition);
+// Stops the current or provided transition, but continues with the queued transitions.
+
+this.ctrl.stopAll();
+// Stops the current transition, and empties the queue.
+
+this.ctrl.clearQueue();
+// Continues with the current transition, but empties the queue.
 `;
 
     public advancedExampleCode:string = `
-@Component()
-export class MyComponent {
-    private transition:SuiTransition;
-    constructor(el:ElementRef, renderer:Renderer) {
-        //You can use a @ViewChild() to use a different element than the root.
-        this.transition = new SuiTransition(el, renderer);
+import {SuiTransition, TransitionController, Transition} from "ng2-semantic-ui";
+
+@Component({})
+export class MyComponent extends SuiTransition {
+    private _transitionController:TransitionController;
+
+    constructor(renderer:Renderer, element:ElementRef) {
+        super(renderer, element);
+
+        this._transitionController = new TransitionController(false);
+        this.setTransitionController(this._transitionController);
+        // setTransitionController is a method inherited from SuiTransition.
     }
-    
-    public animate() {
-        this.transition.animate({
-            name: /* Transition Name */,
-            duration?: /* Duration in ms (default 250)*/,
-            direction?: /* Direction (in or out), leave blank for automatic */,
-            display?: /* Which display styling to use when animating (default 'block') */,
-            callback?: /* Callback called when the animation is finished */
-        });
-    }
-    
-    public otherPropertiesMethods() {
-        // Whether an animation is currently running
-        this.transition.isAnimating;
-        // Stop the currently running transition
-        this.transition.stop();
-        // Stop the currently running transition and all queued transitions
-        this.transition.stopAll();
-        // Stop all animations not including the current one
-        this.transition.clearQueue();
+
+    public exampleMethod() {
+        // You can now animate the host element using the transition controller:
+        this._transitionController.animate(new Transition(...));
     }
 }
 `
@@ -60,10 +114,17 @@ export class MyComponent {
     template: new TransitionPage().exampleStandardTemplate
 })
 export class TransitionExampleStandard {
+    public transitionController = new TransitionController();
+
     public transitions = ["scale", "fade", "fade up", "fade down", "fade left", "fade right", "horizontal flip", "vertical flip",
         "drop", "fly left", "fly right", "fly up", "fly down", "swing left", "swing right", "swing up", "swing down", "browse", "browse right",
         "slide left", "slide right", "slide up", "slide down", "jiggle", "flash", "shake", "pulse", "tada", "bounce"];
-    public selectedTransition = "fade";
+    public transitionName = "scale";
+
+    public animate(transitionName:string = "scale") {
+        this.transitionController.animate(
+            new Transition(transitionName, 500, TransitionDirection.In, () => console.log("Completed transition.")));
+    }
 }
 
 export const TransitionPageComponents:Array<any> = [TransitionPage, TransitionExampleStandard];

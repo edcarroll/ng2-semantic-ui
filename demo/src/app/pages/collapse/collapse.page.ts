@@ -11,7 +11,8 @@ export class CollapsePage {
             properties: [
                 {
                     name: "suiCollapse",
-                    description: "Sets whether or not the element is collapsed."
+                    description: "Sets whether or not the element is collapsed.",
+                    required: true
                 },
                 {
                     name: "collapseDuration",
