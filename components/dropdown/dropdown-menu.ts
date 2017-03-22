@@ -3,6 +3,8 @@ import {SuiTransition, Transition} from '../transition/transition';
 import {DropdownService, DropdownAutoCloseType} from './dropdown.service';
 import {TransitionController} from '../transition/transition-controller';
 import {KeyCode} from '../util/util';
+// Polyfill for IE
+import "element-closest";
 
 @Directive({
     // We must attach to every '.item' as Angular doesn't support > selectors.
@@ -137,7 +139,8 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
         e.stopPropagation();
 
         if (this._service.autoCloseMode == DropdownAutoCloseType.ItemClick) {
-            if (e.srcElement.classList.contains("item")) {
+            const target = e.target as Element;
+            if (this.element.nativeElement.contains(target.closest(".item")) && !/input|textarea/i.test(target.tagName)) {
                 // Once an item is selected, we can close the entire dropdown.
                 this._service.setOpenState(false, true);
             }
