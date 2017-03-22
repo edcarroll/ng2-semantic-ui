@@ -6,7 +6,7 @@ import uglify from 'rollup-plugin-uglify'
 export default {
     moduleName: 'ng2-semantic-ui',
     entry: 'index.js',
-    dest: 'build.js', // output a single application bundle
+    dest: 'ng2-semantic-ui.dist.js', // output a single application bundle
     sourceMap: false,
     format: 'iife',
     onwarn: function(warning) {

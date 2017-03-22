@@ -5,7 +5,6 @@ import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 import {SearchService, LookupFn} from './search.service';
 import {readValue} from '../util/util';
 import {PositioningService, PositioningPlacement} from '../util/positioning.service';
-import {element} from 'protractor';
 
 @Component({
     selector: 'sui-search',

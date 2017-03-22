@@ -15,4 +15,4 @@ import {TransitionController} from './transition-controller';
 })
 export class SuiTransitionModule {}
 
-export {Transition, TransitionDirection, TransitionController};
+export {SuiTransition, Transition, TransitionDirection, TransitionController};
