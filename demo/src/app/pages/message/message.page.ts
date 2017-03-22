@@ -10,7 +10,7 @@ export class MessagePage {
             selector: "<sui-message>",
             properties: [
                 {
-                    name: "dismissible",
+                    name: "isDismissable",
                     description: "Sets whether or not the message has a dismiss button.",
                     defaultValue: "true"
                 }
@@ -48,12 +48,12 @@ export class MessagePage {
     selector: 'message-example-standard',
     template: new MessagePage().exampleStandardTemplate
 })
-export class MessageExampleStandard { }
+export class MessageExampleStandard {}
 
 @Component({
     selector: 'message-example-no-dismiss',
     template: new MessagePage().exampleNoDismissTemplate
 })
-export class MessageExampleNoDismiss { }
+export class MessageExampleNoDismiss {}
 
 export const MessagePageComponents:Array<any> = [MessagePage, MessageExampleStandard, MessageExampleNoDismiss];
