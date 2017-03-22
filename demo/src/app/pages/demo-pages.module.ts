@@ -19,11 +19,13 @@ import {SearchPageComponents} from './search/search.page';
 import {SelectPageComponents} from './select/select.page';
 import {TabsPageComponents} from './tabs/tabs.page';
 import {TransitionPageComponents} from './transition/transition.page';
+import {RouterModule} from '@angular/router';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
+        RouterModule,
         SuiModule,
         DemoComponentsModule
     ],
