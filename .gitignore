@@ -4,6 +4,11 @@
 /dist
 /tmp
 
+## ngc logs
+
+*.ngfactory.ts
+*.ngsummary.json
+
 # dependencies
 /node_modules
 /bower_components
@@ -14,6 +19,7 @@
 .classpath
 *.launch
 .settings/
+.vscode
 
 # misc
 /.sass-cache
@@ -24,15 +30,18 @@ npm-debug.log
 testem.log
 /typings
 
-# e2e
-/e2e/*.js
-/e2e/*.map
-
-#System Files
+# System Files
 .DS_Store
 Thumbs.db
 
-# TypeScript
-*.js
-*.map
+# Non TS files
 *.d.ts
+*.metadata.json
+*.js
+*.js.map
+
+# Config Files
+!*.config.js
+
+# Output Files
+demo/dist

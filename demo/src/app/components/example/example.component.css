@@ -1,0 +1,115 @@
+.example {
+    margin-bottom: 40px;
+}
+
+.example .info {
+    position: relative;
+}
+
+.example i.code {
+    cursor: pointer;
+    position: absolute;
+
+    top: 0;
+    right: 0;
+    margin: 0;
+    opacity: 0.5;
+
+    font-size: 20px;
+    color: #000000;
+
+    -webkit-transition: opacity 0.3s ease-out;
+    -moz-transition: opacity 0.3s ease-out;
+    -o-transition: opacity 0.3s ease-out;
+    -ms-transition: opacity 0.3s ease-out;
+    transition: opacity 0.3s ease-out;
+}
+
+.example:hover i.code {
+    opacity: 0.85;
+}
+.example:hover i.code:hover {
+    opacity: 1;
+}
+.example .grid i.code {
+    right: 25%;
+}
+
+/* Description */
+.example > .info .header + p {
+    margin-top: 0;
+    padding-bottom: 1em;
+}
+
+.example > .info p {
+    color: rgba(0, 0, 0, 0.8);
+}
+
+/* Header */
+.example > .info h4:first-child {
+    font-size: 18px;
+    margin: 0em 0em 0em;
+}
+
+/* HTML Wrapper */
+.example > .html {
+    padding: 0em;
+    transition:
+            box-shadow 0.2s ease,
+            padding 0.2s ease
+;
+    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
+}
+.example > .html > .top.attached.label {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    display: none;
+    background-color: #F8F8F8;
+    box-shadow: 0px 0px 0px 1px #DDDDDD;
+}
+.example > .html > .top.attached.label .copy {
+    position: absolute;
+    top: 9px;
+    right: 8px;
+    color: #AAAAAA;
+}
+.example > .html > .top.attached.label .copy:hover {
+    color: #666666;
+}
+.example > .empty.html.segment {
+    padding: 1.15em 1em 1em;
+}
+.example > .html.segment:after {
+    content: '';
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+.example > .html.segment > .attached.label {
+    display: block;
+}
+.example > .html.segment > .attached.label .edit {
+    cursor: pointer;
+    float: right;
+}
+.example > .html.segment {
+    padding: 3.5em 1em 1em;
+}
+.example .instructive.segment {
+    margin-top: -1px !important;
+}
+
+/* Fixes for UI */
+.example .segment > .dimmer {
+    z-index: 800;
+}
+.example .circular.segment {
+    width: 175px;
+    height: 175px;
+}
+
+.example .transition.example .ui.button {
+    margin-bottom: 0.5em;
+}

@@ -1,13 +1,9 @@
-import {
-    Component, Input, HostBinding, ContentChildren, QueryList,
-    AfterContentInit
-} from "@angular/core";
+import {Component, Input, HostBinding, ContentChildren, QueryList, AfterContentInit} from "@angular/core";
 import {SuiAccordionPanel} from "./accordion-panel";
 import {SuiAccordionService} from "./accordion.service";
 
 @Component({
     selector: 'sui-accordion',
-    exportAs: 'suiAccordion',
     template: `
 <ng-content></ng-content>
 `,
@@ -16,14 +12,18 @@ import {SuiAccordionService} from "./accordion.service";
 :host {
     display: block;
 }
+
 /* Fix for styled border issue */
 :host.styled sui-accordion-panel:first-child .title {
     border-top: none
 }
-
 `]
 })
 export class SuiAccordion implements AfterContentInit {
+    @HostBinding('class.ui')
+    @HostBinding('class.accordion')
+    public accordionClasses:boolean;
+    
     @Input()
     public get closeOthers():boolean {
         return this._service.closeOthers;
@@ -33,21 +33,24 @@ export class SuiAccordion implements AfterContentInit {
         this._service.closeOthers = value;
     }
 
-    @HostBinding('class.ui')
-    @HostBinding('class.accordion') classes = true;
+    @Input()
+    public set transitionDuration(duration:number) {
+        this._service.transitionDuration = duration;
+    }
 
     protected _service:SuiAccordionService;
+    
     @ContentChildren(SuiAccordionPanel)
     protected panels:QueryList<SuiAccordionPanel>;
 
     constructor() {
+        // Accordion service is unique to each set of panels.
         this._service = new SuiAccordionService();
+
+        this.accordionClasses = true;
     }
 
     ngAfterContentInit() {
         this.panels.forEach(p => this._service.addPanel(p));
     }
 }
-
-export const SUI_ACCORDION_DIRECTIVES = [SuiAccordion, SuiAccordionPanel];
-export const SUI_ACCORDION_PROVIDERS = [SuiAccordionService];

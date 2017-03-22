@@ -1,0 +1,27 @@
+<demo-page-title>
+    <div header>Accordion</div>
+    <div sub-header>
+        <p>An accordion allows users to toggle the display of sections of content</p>
+    </div>
+</demo-page-title>
+<demo-page-content>
+    <h2 class="ui dividing header">Examples</h2>
+    <demo-example [code]="exampleStandardTemplate">
+        <div info>
+            <h4 class="ui header">Accordion</h4>
+            <p>Standard accordion</p>
+        </div>
+        <accordion-example-standard result></accordion-example-standard>
+    </demo-example>
+    <demo-example [code]="exampleStyledTemplate">
+        <div info>
+            <h4 class="ui header">Styled</h4>
+            <p>Adding classes to the root element applies styles</p>
+        </div>
+        <accordion-example-styled result></accordion-example-styled>
+    </demo-example>
+    <h4 class="ui header">Important note</h4>
+    <p>The accordion component makes use of the collapse component, which itself leverages the Web Animations API, which isn't supported in all browsers. Please see the <a routerLink="/components/collapse">Collapse</a> docs for more information.</p>
+    <h2 id="api" class="ui dividing header">API</h2>
+    <demo-api [api]="api"></demo-api>
+</demo-page-content>

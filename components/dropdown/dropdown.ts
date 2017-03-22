@@ -1,76 +1,110 @@
-import {Directive, Input, Output, HostBinding, EventEmitter, ElementRef, HostListener, AfterContentInit, ContentChild} from '@angular/core';
-import {SuiDropdownService} from './dropdown.service';
+import {Directive, Input, HostBinding, EventEmitter, Output, AfterContentInit, ContentChild, Renderer, ElementRef, HostListener, QueryList, ContentChildren, forwardRef} from '@angular/core';
+import {SuiTransition, Transition} from '../transition/transition';
+import {TransitionController} from '../transition/transition-controller';
+import {DropdownService, DropdownAutoCloseType} from './dropdown.service';
 import {SuiDropdownMenu} from './dropdown-menu';
+import {PositioningService, PositioningPlacement} from '../util/positioning.service';
+import {KeyCode} from '../util/util';
 
 @Directive({
     selector: '[suiDropdown]'
 })
 export class SuiDropdown implements AfterContentInit {
-    protected _service:SuiDropdownService;
-    @ContentChild(SuiDropdownMenu) protected _menu:SuiDropdownMenu;
+    public service:DropdownService;
+
+    @ContentChild(SuiDropdownMenu)
+    private _menu:SuiDropdownMenu;
+
+    @ContentChildren(SuiDropdown, { descendants: true })
+    private _children:QueryList<SuiDropdown>;
+
+    public get children() {
+        // @ContentChildren includes the current element by default.
+        return this._children.filter(c => c !== this);
+    }
+
+    @Output()
+    public get isOpenChange() {
+        return this.service.isOpenChange;
+    }
 
     @HostBinding('class.active')
+    public get isActive() {
+        // This is to ensure nested dropdowns don't get made bold.
+        return this.service.isOpen && !this.service.isNested;
+    }
+
     @Input()
-    public get isOpen():boolean {
-        return this._service.isOpen;
+    public get isOpen() {
+        return this.service.isOpen;
     }
 
     public set isOpen(value:boolean) {
-        this._service.isOpen = value;
-    }
-
-    @Input()
-    public get autoClose():string {
-        return this._service.autoClose;
-    }
-
-    public set autoClose(value:string) {
-        this._service.autoClose = value;
-    }
-
-    @Output()
-    public get onToggle():EventEmitter<boolean> {
-        return this._service.onToggle;
-    }
-
-    @Output()
-    public get isOpenChange():EventEmitter<boolean> {
-        return this._service.isOpenChange;
-    }
-
-    @HostBinding('class.visible')
-    public get isVisible() {
-        return this._service.isVisible;
+        // If we are opening the dropdown, we want to always open its parents.
+        this.service.setOpenState(value, !!value);
     }
 
     @HostBinding('class.disabled')
     @Input()
-    public get isDisabled():boolean {
-        return this._service.isDisabled;
+    public get isDisabled() {
+        return this.service.isDisabled;
     }
 
     public set isDisabled(value:boolean) {
-        this._service.isDisabled = value;
+        this.service.setDisabledState(value);
     }
 
-    public constructor(el: ElementRef) {
-        this._service = new SuiDropdownService();
-        this._service.dropdownElement = el;
+    @HostBinding('attr.tabindex')
+    public get tabIndex() {
+        return this.isDisabled ? -1 : 0;
     }
 
-    public ngAfterContentInit():void {
-        this._menu.service = this._service;
+    @Input()
+    public get autoClose() {
+        return this.service.autoCloseMode;
     }
 
-    @HostListener('click', ['$event'])
-    public click(event:MouseEvent):boolean {
-        event.stopPropagation();
+    public set autoClose(value:DropdownAutoCloseType) {
+        this.service.autoCloseMode = value;
+    }
 
-        if (!this._service.menuElement.nativeElement.contains(event.target)) {
-            this._service.toggle();
+    constructor() {
+        this.service = new DropdownService();
+    }
+
+    public ngAfterContentInit() {
+        if (!this._menu) {
+            throw new Error("You must set [suiDropdownMenu] on the menu element.");
         }
-        return false;
+        this._menu.service = this.service;
+
+        this.childrenUpdated();
+        this._children.changes
+            .subscribe(() => this.childrenUpdated());
+    }
+
+    private childrenUpdated() {
+        // Reregister child dropdowns each time the menu content changes.
+        this.children
+            .map(c => c.service)
+            .forEach(s => this.service.registerChild(s))
+    }
+
+    @HostListener("click", ['$event'])
+    public onClick(e:MouseEvent) {
+        // Block the click event from being fired on parent dropdowns.
+        e.stopPropagation();
+
+        this.service.toggleOpenState();
+    }
+
+    @HostListener("keypress", ['$event'])
+    public onKeypress(e:KeyboardEvent) {
+        // Block the keyboard event from being fired on parent dropdowns.
+        if (e.keyCode == KeyCode.Enter) {
+            e.stopPropagation();
+
+            this.service.setOpenState(true);
+        }
     }
 }
-
-export const SUI_DROPDOWN_DIRECTIVES = [SuiDropdown, SuiDropdownMenu];

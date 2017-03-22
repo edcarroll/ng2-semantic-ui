@@ -1,0 +1,43 @@
+<demo-page-title>
+    <div header>Transition</div>
+    <div sub-header>
+        <p>A transition is an animation usually used to move content in or out of view</p>
+    </div>
+</demo-page-title>
+<demo-page-content>
+    <h2 class="ui dividing header">Examples</h2>
+    <p>The transition component requires a few things to get it running. Firstly, in your component, create a transition controller:</p>
+    <div class="ui segment">
+        <demo-codeblock language="typescript" [src]="transitionControllerCode"></demo-codeblock>
+    </div>
+    <p>Next you add the markup for the element you would like to animate, linking the <code>[suiTransition]</code> with the previously defined transition controller, like so:</p>
+    <div class="ui segment">
+        <demo-codeblock language="markup" [src]="transitionElementCode"></demo-codeblock>
+    </div>
+    <p>Finally, you can use the transition controller to animate the element:</p>
+    <div class="ui segment">
+        <demo-codeblock language="typescript" [src]="transitionExampleCode"></demo-codeblock>
+    </div>
+
+    <demo-example [code]="exampleStandardTemplate">
+        <div info>
+            <p>Here is the above code in action:</p>
+        </div>
+        <transition-example-standard result></transition-example-standard>
+    </demo-example>
+
+    <h4 class="ui header">Transition Controller Interface</h4>
+    <p>The full controller interface is explained below, with examples:</p>
+    <div class="ui segment">
+        <demo-codeblock language="typescript" [src]="transitionControllerInterface"></demo-codeblock>
+    </div>
+
+    <h4 class="ui header">Advanced Usage</h4>
+    <p>A situation may arise in which you are creating a component that requires transitions, but the host element is what needs to be controlled. In this case, you must inherit the <code>SuiTransition</code> class, in the following way:</p>
+    <div class="ui segment">
+        <demo-codeblock language="typescript" [src]="advancedExampleCode"></demo-codeblock>
+    </div>
+
+    <h2 id="api" class="ui dividing header">API</h2>
+    <demo-api [api]="api"></demo-api>
+</demo-page-content>

@@ -2,12 +2,25 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {SuiDropdownModule} from "../dropdown/dropdown.module";
-import {SUI_SEARCH_DIRECTIVES} from "./search";
 import {SuiTransitionModule} from "../transition/transition.module";
+import {SuiSearch, SuiSearchValueAccessor} from './search';
+import {SearchService} from './search.service';
 
 @NgModule({
-    imports: [CommonModule, FormsModule, SuiDropdownModule, SuiTransitionModule],
-    declarations: SUI_SEARCH_DIRECTIVES,
-    exports: SUI_SEARCH_DIRECTIVES
+    imports: [
+        CommonModule,
+        FormsModule,
+        SuiDropdownModule
+    ],
+    declarations: [
+        SuiSearch,
+        SuiSearchValueAccessor
+    ],
+    exports: [
+        SuiSearch,
+        SuiSearchValueAccessor
+    ]
 })
 export class SuiSearchModule {}
+
+export {SearchService};

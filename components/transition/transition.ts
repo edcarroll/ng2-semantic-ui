@@ -1,16 +1,45 @@
-import {Directive, HostBinding, ElementRef, AfterViewInit, Renderer} from "@angular/core";
+import {Renderer, ElementRef, Directive, Input, HostBinding} from '@angular/core';
+import {TransitionController} from './transition-controller';
 
-export interface ISuiAnimation {
-    name:string;
-    duration?:number;
-    display?:string;
-    direction?:string;
-    callback?:() => any;
+// Possible directions for a transition.
+export enum TransitionDirection {
+    In,
+    Out,
+    Either,
+    Static
 }
 
-interface ISuiConfiguredAnimation extends ISuiAnimation {
-    classes?:string[];
-    static?:boolean;
+export class Transition {
+    public readonly type:string;
+
+    public readonly duration:number;
+
+    public direction:TransitionDirection;
+
+    // Converts TransitionDirection to class name.
+    public get directionClass() {
+        switch (this.direction) {
+            case TransitionDirection.In: return "in";
+            case TransitionDirection.Out: return "out";
+        }
+    }
+
+    // Stores the individual classes for the transition, e.g. "fade out" -> ["fade", "out"].
+    public readonly classes:string[];
+
+    public onComplete:() => any;
+
+    constructor(name:string, duration:number = 250, direction:TransitionDirection = TransitionDirection.Either, onComplete:(() => void) = () => {}) {
+        this.type = name;
+        if (duration < 1) {
+            // We set a minimum duration of 1ms, to give the appearance of an immediate transition whilst allowing positioning calculations to happen without a visible flicker.
+            duration = 1;
+        }
+        this.duration = duration;
+        this.direction = direction;
+        this.classes = this.type.split(" ");
+        this.onComplete = onComplete;
+    }
 }
 
 @Directive({
@@ -18,156 +47,40 @@ interface ISuiConfiguredAnimation extends ISuiAnimation {
     exportAs: 'transition'
 })
 export class SuiTransition {
-    constructor(private el:ElementRef, private renderer:Renderer) {
-        this.renderer.setElementClass(this.el.nativeElement, "transition", true);
+    // Each transition must have a controller associated that dispatches the transitions.
+    private _controller:TransitionController;
 
-        setTimeout(() => {
-            let style = window.getComputedStyle(this.el.nativeElement);
-            if (this.isVisible === null) {
-                this.isVisible = style.display !== 'none';
-            }
-        });
+    @Input()
+    private set suiTransition(tC:TransitionController) {
+        // Set the transition controller (e.g. '<div [suiTransition]="transitionController"></div>').
+        this.setTransitionController(tC);
     }
 
-    private _isAnimating = false;
+    @HostBinding('class.transition')
+    public transitionClass = true;
 
-    public get isAnimating() {
-        return this._isAnimating;
-    }
-
-    public set isAnimating(value:boolean) {
-        this._isAnimating = value;
-        this.renderer.setElementClass(this.el.nativeElement, "animating", value);
-    }
-
-    private animationTimeout:any;
-
-    private _isVisible:boolean = null;
-
+    @HostBinding('class.visible')
     public get isVisible() {
-        return this._isVisible;
+        if (this._controller) {
+            return this._controller.isVisible;
+        }
+        return false;
     }
 
-    public set isVisible(value:boolean) {
-        this._isVisible = value;
-        this.renderer.setElementClass(this.el.nativeElement, "visible", value);
-        this.isHidden = this.isVisible !== null && !this.isVisible && !this.isAnimating;
-    }
-
-    private _isHidden: boolean;
-
+    @HostBinding('class.hidden')
     public get isHidden() {
-        return this._isHidden;
+        if (this._controller) {
+            return this._controller.isHidden;
+        }
+        return false;
     }
 
-    public set isHidden(value:boolean) {
-        this._isHidden = value;
-        this.renderer.setElementClass(this.el.nativeElement, "hidden", value);
-    }
+    constructor(private _renderer:Renderer, private _element:ElementRef) {}
 
-    private queue:ISuiConfiguredAnimation[] = [];
-
-    private queueFirst() {
-        return this.queue.slice(0, 1).pop();
-    }
-
-    private queueLast() {
-        return this.queue.slice(-1).pop();
-    }
-
-    public animate(animation:ISuiAnimation) {
-        animation = Object.assign({}, animation);
-        let anim = animation as ISuiConfiguredAnimation;
-
-        anim.classes = animation.name.split(" ");
-        if (!anim.duration) {
-            anim.duration = 250;
-        }
-        if (!anim.display) {
-            anim.display = 'block';
-        }
-        if (!anim.static) {
-            anim.static = ["jiggle", "flash", "shake", "pulse", "tada", "bounce"].indexOf(anim.name) != -1;
-        }
-        if (!anim.direction) {
-            anim.direction = this.isVisible ? "out" : "in";
-            let queueLast = this.queueLast();
-            if (queueLast) {
-                anim.direction = queueLast.direction == "in" ? "out" : "in"
-            }
-        }
-
-        this.queue.push(animation);
-
-        this.performAnimation();
-    }
-
-    private performAnimation() {
-        if (this.isAnimating) {
-            return;
-        }
-        let animation = this.queue.slice(0, 1).pop();
-        if (!animation) {
-            return;
-        }
-
-        this.isAnimating = true;
-        this.isVisible = true;
-        this.isHidden = false;
-
-        animation.classes.forEach(c => this.renderer.setElementClass(this.el.nativeElement, c, true));
-        this.renderer.setElementClass(this.el.nativeElement, animation.direction, true);
-        this.renderer.setElementStyle(this.el.nativeElement, `animationDuration`, `${animation.duration}ms`);
-        if (animation.direction == "in") {
-            this.renderer.setElementStyle(this.el.nativeElement, `display`, animation.display);
-        }
-
-        this.animationTimeout = setTimeout(() => this.finishAnimation(animation), animation.duration);
-    }
-
-    private finishAnimation(animation:ISuiConfiguredAnimation) {
-        this.isAnimating = false;
-        animation.classes.forEach(c => this.renderer.setElementClass(this.el.nativeElement, c, false));
-        this.renderer.setElementClass(this.el.nativeElement, animation.direction, false);
-        this.renderer.setElementStyle(this.el.nativeElement, `animationDuration`, null);
-        this.renderer.setElementStyle(this.el.nativeElement, `display`, null);
-
-        this.isVisible = animation.direction == "in" ? true : false;
-        if (animation.static) {
-            this.isVisible = !this.isVisible;
-        }
-
-        if (animation.callback) {
-            animation.callback();
-        }
-
-        this.queue.shift();
-
-        this.performAnimation();
-    }
-
-    public stop() {
-        if (this.isAnimating) {
-            clearTimeout(this.animationTimeout);
-            this.finishAnimation(this.queueFirst());
-        }
-    }
-
-    public stopAll() {
-        if (this.isAnimating) {
-            clearTimeout(this.animationTimeout);
-            this.finishAnimation(this.queueFirst());
-        }
-        this.clearQueue();
-    }
-
-    public clearQueue() {
-        if (this.isAnimating) {
-            this.queue = [this.queueFirst()];
-            return;
-        }
-        this.queue = [];
+    // Initialises the controller with the injected renderer and elementRef.
+    public setTransitionController(transitionController:TransitionController) {
+        this._controller = transitionController;
+        this._controller.registerRenderer(this._renderer);
+        this._controller.registerElement(this._element.nativeElement);
     }
 }
-
-export const SUI_TRANSITION_DIRECTIVES = [SuiTransition];

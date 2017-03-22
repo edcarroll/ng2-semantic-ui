@@ -1,10 +1,18 @@
 import {SuiAccordionPanel} from "./accordion-panel";
 
 export class SuiAccordionService {
-    // State
-    public closeOthers:boolean = true;
+    public closeOthers:boolean;
 
-    public panels:SuiAccordionPanel[] = [];
+    public transitionDuration:number;
+
+    public panels:SuiAccordionPanel[];
+
+    constructor() {
+        this.closeOthers = true;
+        this.transitionDuration = 350;
+
+        this.panels = [];
+    }
 
     public addPanel(panel:SuiAccordionPanel) {
         panel.service = this;
@@ -16,7 +24,7 @@ export class SuiAccordionService {
             return;
         }
 
-        this.panels.forEach((p:SuiAccordionPanel) => {
+        this.panels.forEach(p => {
             if (p !== panel) {
                 p.isOpen = false;
             }

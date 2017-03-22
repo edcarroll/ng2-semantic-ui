@@ -1,76 +1,109 @@
 import {Directive, ElementRef, Input, HostBinding, Renderer} from '@angular/core';
 
 @Directive({
-    selector: '[suiCollapse]',
-    exportAs: 'suiCollapse'
+    selector: '[suiCollapse]'
 })
 export class SuiCollapse {
-    private animation:any;
-
-    // @HostBinding('style.display')
-    private display:string = "none";
-    // shown
+    // Set when the collapse is open, and not animating.
     @HostBinding('class.expanded')
-    private isExpanded:boolean = true;
-    // hidden
+    private _isExpanded:boolean;
+
+    // Set when the collapse is closed, and not animating.
     @HostBinding('class.collapsed')
-    private isCollapsed:boolean = false;
-    // animation state
+    private get isCollapsed() {
+        return !this._isExpanded && !this._isCollapsing;
+    }
+
+    // Set when the collapse is animating.
     @HostBinding('class.collapsing')
-    private isCollapsing:boolean = false;
+    private _isCollapsing:boolean;
+
+    // Flag that is initially true, to make the 1st animation instantaneous.
+    private _pristine:boolean;
 
     @Input()
-    private set suiCollapse(value:boolean) {
-        this.isExpanded = value;
-        this.isCollapsed = !this.isExpanded;
-        this.toggle();
-    }
-
     private get suiCollapse():boolean {
-        return this.isExpanded;
+        return this._isExpanded;
     }
 
-    private _el:ElementRef;
-    private _renderer:Renderer;
-
-    public constructor(_el:ElementRef, _renderer: Renderer) {
-        this._el = _el;
-        this._renderer = _renderer;
-    }
-
-    public toggle():void {
-        if (this.isExpanded) {
+    // Sets the state of the collapse, `true` is collapsed.
+    private set suiCollapse(value:boolean) {
+        if (value) {
             this.hide();
-        } else {
+        }
+        else {
             this.show();
         }
     }
 
-    public hide():void {
-        this.isCollapsing = true;
+    @Input()
+    public collapseDuration:number;
 
-        this.isExpanded = false;
+    public constructor(private _element:ElementRef, private _renderer: Renderer) {
+        this._pristine = true;
 
-        this._renderer.setElementStyle(this._el.nativeElement, 'overflow', 'hidden');
-        this._renderer.setElementStyle(this._el.nativeElement, 'height', '0');
+        // Collapse animation duration is 350ms by default.
+        this.collapseDuration = 350;
 
-        this.isCollapsing = false;
-        this.isCollapsed = true;
+        this._isExpanded = false;
+        this._isCollapsing = false;
     }
 
-    public show():void {
-        this.isCollapsing = true;
+    public hide() {
+        this._isCollapsing = true;
+        this._isExpanded = false;
 
-        this.isCollapsed = false;
+        // Forcibly hide the overflow so that content is not visible past the boundaries of its container.
+        this._renderer.setElementStyle(this._element.nativeElement, 'overflow', 'hidden');
 
-        this.display = '';
+        // Animate the host element from its scroll height to 0.
+        this.animate(this._element.nativeElement.scrollHeight, 0, () => {
+            this._isCollapsing = false;
+        });
+    }
 
-        this._renderer.setElementStyle(this._el.nativeElement, 'overflow', 'visible');
-        this._renderer.setElementStyle(this._el.nativeElement, 'height', 'auto');
+    public show() {
+        this._isCollapsing = true;
 
-        this.isCollapsing = false;
-        this.isExpanded = true;
+        // Animate the host element from its offset height to its scroll height.
+        this.animate(this._element.nativeElement.offsetHeight, this._element.nativeElement.scrollHeight, () => {
+            // Remove the overflow override to enable user styling once again.
+            this._renderer.setElementStyle(this._element.nativeElement, 'overflow', null);
+
+            this._isCollapsing = false;
+            this._isExpanded = true;
+        });
+    }
+
+    private animate(startHeight:number, endHeight:number, callback:() => void) {
+        // Animate the collapse using the web animations API.
+        this._renderer.invokeElementMethod(
+            this._element.nativeElement,
+            "animate",
+            [
+                [
+                    {
+                        height: `${startHeight}px`
+                    },
+                    {
+                        height: `${endHeight}px`
+                    }
+                ],
+                {
+                    delay: 0,
+                    // Disable animation on 1st collapse / expansion.
+                    duration: this._pristine ? 0 : this.collapseDuration,
+                    iterations: 1,
+                    easing: "ease",
+                    fill: "both"
+                }
+            ]);
+
+        if (this._pristine) {
+            // Remove pristine flag when first hit.
+            this._pristine = false;
+        }
+
+        setTimeout(() => callback(), this.collapseDuration);
     }
 }
-
-export const SUI_COLLAPSE_DIRECTIVES = [SuiCollapse];

@@ -1,0 +1,17 @@
+<demo-page-title>
+    <div header>Test</div>
+    <div sub-header>
+        <p>Test component!</p>
+    </div>
+</demo-page-title>
+<demo-page-content>
+    <h2 class="ui dividing header">Examples</h2>
+    <div class="ui segment">
+        <template let-option #optionTemplate>
+            <i class="child icon"></i>{{ option }}
+        </template>
+        <sui-multi-select class="fluid" [options]="options" [isSearchable]="true" [optionTemplate]="optionTemplate" #multiSelect>
+            <sui-select-option *ngFor="let option of multiSelect.availableOptions" [value]="option"></sui-select-option>
+        </sui-multi-select>
+    </div>
+</demo-page-content>

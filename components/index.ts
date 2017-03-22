@@ -1,46 +1,15 @@
-import {NgModule} from "@angular/core";
+export * from "./accordion/accordion.module";
+export * from "./checkbox/checkbox.module";
+export * from "./collapse/collapse.module";
+export * from "./dimmer/dimmer.module";
+export * from "./dropdown/dropdown.module";
+export * from "./message/message.module";
+export * from "./popup/popup.module";
+export * from "./progress/progress.module";
+export * from "./rating/rating.module";
+export * from "./search/search.module";
+export * from "./select/select.module";
+export * from "./tabs/tab.module";
+export * from "./transition/transition.module";
 
-import {SuiAccordionModule} from "./accordion/accordion.module";
-import {SuiCheckboxModule} from "./checkbox/checkbox.module";
-import {SuiCollapseModule} from "./collapse/collapse.module";
-import {SuiDimmerModule} from "./dimmer/dimmer.module";
-import {SuiDropdownModule} from "./dropdown/dropdown.module";
-import {SuiMessageModule} from "./message/message.module";
-import {SuiProgressModule} from "./progress/progress.module";
-import {SuiRatingModule} from "./rating/rating.module";
-import {SuiSearchModule} from "./search/search.module";
-import {SuiTabsModule} from "./tabs/tab.module";
-import {SuiSelectModule} from "./select/select.module";
-import {SuiTransitionModule} from "./transition/transition.module";
-
-@NgModule({
-    exports: [
-        SuiAccordionModule,
-        SuiCheckboxModule,
-        SuiCollapseModule,
-        SuiDimmerModule,
-        SuiDropdownModule,
-        SuiMessageModule,
-        SuiProgressModule,
-        SuiRatingModule,
-        SuiSearchModule,
-        SuiSelectModule,
-        SuiTabsModule,
-        SuiTransitionModule
-    ]
-})
-export class SuiModule {}
-
-export {SuiAccordionModule};
-export {SuiCheckboxModule};
-export {SuiCollapseModule};
-export {SuiDimmerModule};
-export {SuiDropdownModule};
-export {SuiMessageModule};
-export {SuiProgressModule};
-export {SuiRatingModule};
-export {SuiSearchModule};
-export {SuiSelectModule};
-export {SuiTabsModule};
-export {SuiTransitionModule};
-
+export * from "./sui.module";

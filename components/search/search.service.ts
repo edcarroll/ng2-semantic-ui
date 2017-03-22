@@ -1,94 +1,181 @@
-import {EventEmitter} from "@angular/core";
+import {readValue} from '../util/util';
 
-export class SuiSearchService {
-    public searchDelay:number = 200;
-    public optionsField:string;
-    public loading:boolean = false;
+// Define useful types to avoid any.
+export type LookupFn<T> = (query:string) => Promise<T[]>
+type CachedArray<T> = { [query:string]:T[] };
 
-    public onSearchCompleted:EventEmitter<any[]> = new EventEmitter<any[]>();
-
-    private _options:any[] = [];
-    private _optionsLookup:((query:string) => Promise<any>);
-
-    public allowEmptyQuery:boolean = false;
-    private _query:string = "";
-    private _queryTimer:any;
-
-    private _results:Array<any> = [];
-    private _resultsCache:any = {};
-
-    public get options():any {
+// T extends JavascriptObject so we can do a recursive search on the object.
+export class SearchService<T> {
+    // Stores the available options.
+    private _options:T[];
+    // Converts a query string into an array of options. Must be a function returning a promise.
+    private _optionsLookup:LookupFn<T>;
+    // Field that options are searched & displayed on.
+    private _optionsField:string;
+    
+    public get options() {
         return this._options;
     }
-
-    public set options(value:any) {
-        if (typeof(value) == "function") {
-            this._optionsLookup = <((query:string) => Promise<any>)>value;
-            return;
-        }
-        this._options = <Array<any>> value;
+    
+    public set options(options:T[]) {
+        this._options = options || [];
+        // We cannot use both local & remote options simultaneously.
+        this._optionsLookup = null;
+        // Reset entire service with new options.
+        this.reset();
     }
 
-    public get query():string {
-        return this._query;
+    public get optionsLookup() {
+        return this._optionsLookup;
     }
 
-    public updateQuery(value:string, search:boolean = true) {
-        this._query = value;
-
-        if (search) {
-            if (this.searchDelay > 0) {
-                clearTimeout(this._queryTimer);
-                if (value || this.allowEmptyQuery) {
-                    this._queryTimer = setTimeout(() => this.search(), this.searchDelay);
-                    return;
-                }
-            }
-            if (value || this.allowEmptyQuery) {
-                this.search();
-            }
-        }
+    public set optionsLookup(lookupFn:LookupFn<T>) {
+        this._optionsLookup = lookupFn;
+        // As before, cannot use local & remote options simultaneously.
+        this._options = [];
+        this.reset();
     }
+
+    public get optionsField() {
+        return this._optionsField
+    }
+
+    public set optionsField(field:string) {
+        this._optionsField = field;
+        // We need to reset otherwise we would now be showing invalid search results.
+        this.reset();
+    }
+
+    // Stores the results of the query.
+    private _results:T[];
+    // Cache of results, indexed by query.
+    private _resultsCache:CachedArray<T>;
 
     public get results() {
         return this._results;
     }
 
-    public search():void {
+    private _query:string;
+    // Allows the empty query to produce results.
+    public allowEmptyQuery:boolean;
+    // How long to delay the search for when using updateQueryDelayed. Stored in ms.
+    public searchDelay:number;
+    // Stores the search timeout handle so we can cancel it.
+    private _searchDelayTimeout:any;
+    // Provides 'loading' functionality.
+    private _isSearching:boolean;
+
+    public get query() {
+        return this._query;
+    }
+
+    public get isSearching() {
+        return this._isSearching;
+    }
+
+    constructor(allowEmptyQuery:boolean = false) {
+        this._options = [];
+
+        // Set default values and reset.
+        this.allowEmptyQuery = allowEmptyQuery;
+        this.searchDelay = 0;
+        this.reset();
+    }
+
+    // Updates the query after the specified search delay.
+    public updateQueryDelayed(query:string, callback:(err?:Error) => void = () => {}) {
+        this._query = query;
+
+        clearTimeout(this._searchDelayTimeout);
+        this._searchDelayTimeout = setTimeout(() => {
+            this.updateQuery(query, callback);
+        }, this.searchDelay);
+    }
+
+    // Updates the current search query.
+    public updateQuery(query:string, callback:(err?:Error) => void = () => {}):void {
+        this._query = query;
+
+        if (this._query == "" && !this.allowEmptyQuery) {
+            // Don't update if the new query is empty (and we don't allow empty queries).
+            // Don't reset so that when animating closed we don't get a judder.
+            return callback(null);
+        }
+
+        if (this._resultsCache.hasOwnProperty(this._query)) {
+            // If the query is already cached, make use of it.
+            this._results = this._resultsCache[this._query];
+
+            return callback(null);
+        }
+
         if (this._optionsLookup) {
-            this.loading = true;
-            if (this._resultsCache[this._query]) {
-                this.loading = false;
+            this._isSearching = true;
 
-                this._results = this._resultsCache[this._query];
-                this.onSearchCompleted.emit(this.results);
-                return;
-            }
-
-            this._optionsLookup(this._query).then((results:Array<any>) => {
-                this.loading = false;
-
-                this._resultsCache[this._query] = results;
-                this._results = results;
-                this.onSearchCompleted.emit(this.results);
-            });
+            this._optionsLookup(this._query)
+                .then(results => {
+                    // Unset 'loading' state, and display & cache the results.
+                    this._isSearching = false;
+                    this.updateResults(results);
+                    return callback(null);
+                })
+                .catch(error => {
+                    // Unset 'loading' state, and throw the returned error without updating the results.
+                    this._isSearching = false;
+                    return callback(error);
+                });
             return;
         }
-        this._results = this.options.filter((o:string) => this.readValue(o).toString().slice(0, this.query.length).toLowerCase() == this.query.toLowerCase());
-        this.onSearchCompleted.emit(this.results);
-    }
 
-    //noinspection JSMethodCanBeStatic
-    public deepValue(object:any, path:string) {
-        if (!object) { return; }
-        if (!path) { return object; }
-        for (var i = 0, p = path.split('.'), len = p.length; i < len; i++){
-            object = object[p[i]];
+        // Convert the query string to a RegExp.
+        const regex = this.toRegex(this._query);
+
+        if (regex instanceof RegExp) {
+            // Only update the results if the query was valid regex.
+            // This avoids the results suddenly becoming empty if an invalid regex string is inputted.
+            this.updateResults(this._options
+                // Filter on the options with a string match on the field we are testing.
+                .filter(o => readValue<T, string>(o, this._optionsField)
+                    .toString()
+                    .match(regex)));
         }
-        return object;
+
+        return callback(null);
     }
 
-    public readValue(object:any) {
-        return this.deepValue(object, this.optionsField);
+    // Updates & caches the new set of results.
+    private updateResults(results:T[]) {
+        this._resultsCache[this._query] = results;
+        this._results = results;
+    }
+
+    // Converts a query string to regex without throwing an error.
+    private toRegex(query:string):RegExp | string {
+        try {
+            return new RegExp(query, 'i');
+        }
+        catch (e) {
+            return query;
+        }
+    }
+
+    // Generates HTML for highlighted match text.
+    public highlightMatches(text:string) {
+        let regex = this.toRegex(this._query);
+        if (regex instanceof RegExp) {
+            return text.replace(regex, (match) => `<b>${match}</b>`);
+        }
+        return text;
+    }
+
+    // Resets the search back to a pristine state.
+    private reset() {
+        this._query = "";
+        this._results = [];
+        if (this.allowEmptyQuery) {
+            this._results = this._options;
+        }
+        this._resultsCache = {};
+        this._isSearching = false;
     }
 }

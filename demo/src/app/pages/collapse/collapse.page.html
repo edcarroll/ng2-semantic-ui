@@ -1,0 +1,23 @@
+<demo-page-title>
+    <div header>Collapse</div>
+    <div sub-header>
+        <p>A collapse allows you to conditionally hide some content with animation</p>
+    </div>
+</demo-page-title>
+<demo-page-content>
+    <h2 class="ui dividing header">Examples</h2>
+    <demo-example [code]="exampleStandardTemplate">
+        <div info>
+            <h4 class="ui header">Collapse</h4>
+            <p></p>
+        </div>
+        <collapse-example-standard result></collapse-example-standard>
+    </demo-example>
+    <h4 class="ui header">Important note</h4>
+    <p>The collapse component leverages the Web Animations API. This is not yet supported in all browsers, so if using this component please use the following polyfill:</p>
+    <div class="ui segment">
+        <demo-codeblock language="markup" [src]="polyfillCode"></demo-codeblock>
+    </div>
+    <h2 id="api" class="ui dividing header">API</h2>
+    <demo-api [api]="api"></demo-api>
+</demo-page-content>

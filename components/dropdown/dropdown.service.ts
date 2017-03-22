@@ -1,224 +1,108 @@
-import {EventEmitter, ElementRef} from '@angular/core';
-import {SuiTransition} from "../transition/transition";
+import {EventEmitter} from '@angular/core';
 
-const Disabled = 'disabled';
-const OutsideClick = 'outsideClick';
+export type DropdownAutoCloseType = "itemClick" | "outsideClick" | "disabled";
 
-export const KeyCode = {
-    Left: 37,
-    Up: 38,
-    Right: 39,
-    Down: 40,
+// Creates essentially a 'string' enum.
+export const DropdownAutoCloseType = {
+    ItemClick: "itemClick" as DropdownAutoCloseType,
+    OutsideClick: "outsideClick" as DropdownAutoCloseType,
+    Disabled: "disabled" as DropdownAutoCloseType
+}
 
-    Escape: 27,
-    Enter: 13,
+export class DropdownService {
+    // Open state of the dropdown
+    public isOpen:boolean;
+    // Emitter for when dropdown open state changes.
+    public isOpenChange:EventEmitter<boolean>;
 
-    Space: 32,
-    Backspace: 8
-};
-
-export class SuiDropdownService {
-    // State
-    private _isOpen:boolean;
     public isDisabled:boolean;
-    public autoClose:string;
 
-    // State Events
-    public onToggle:EventEmitter<boolean> = new EventEmitter<boolean>(false);
-    public isOpenChange:EventEmitter<boolean> = new EventEmitter<boolean>(false);
+    // Sets the "autoclose" mode of the dropdown - i.e. what user action causes it to autoclose.
+    // Options are itemClick (close when choosing an item or clicking outside) [default], outsideClick (choose only when clicking outside) & disabled (never autoclose).
+    public autoCloseMode:DropdownAutoCloseType;
 
-    // Important Elements
-    public dropdownElement:ElementRef;
-    public menuElement:ElementRef;
-
-    // Document Event Bindings
-    private closeDropdownBind:EventListener = this.closeDropdown.bind(this);
-    private keybindFilterBind:EventListener = this.keybindFilter.bind(this);
-
-    // Keyboard Navigation
-    private _selectedItem:Element = null;
-
-    // Classes
-    public itemClass = "item";
-    public itemSelectedClass = "selected";
-    public itemDisabledClass = "disabled";
-
-    // Transitions
-    public transition:SuiTransition;
-    public isVisible:boolean;
-
-    public get isOpen():boolean {
-        return this._isOpen;
+    // Keep track of the containing dropdown so we can open it as necessary.
+    public parent:DropdownService;
+    // Also keep track of dropdowns nested in this one so we can close them as necessary.
+    public children:DropdownService[];
+    public get isNested() {
+        return !!this.parent;
     }
 
-    public set isOpen(value:boolean) {
-        if (value == this._isOpen) { return; }
-        if (this.isDisabled) { value = false; }
-
-        this._isOpen = value;
-        if (this.transition) {
-            this.isVisible = true;
-            this.transition.stopAll();
-            this.transition.animate({
-                name: "slide down",
-                duration: 200,
-                callback: () => this.isVisible = this.isOpen
-            });
-        }
-
-        if (this.isOpen) {
-            this.bindDocumentEvents();
-
-            this.selectedItem = null;
-        }
-        else {
-            this.unbindDocumentEvents();
-        }
-
-        setTimeout(() => {
-            this.onToggle.emit(this._isOpen);
-            this.isOpenChange.emit(this._isOpen);
-        });
-    }
-
-    public toggle():void {
-        this.isOpen = !this.isOpen;
-    }
-
-    public bindDocumentEvents():void {
-        window.document.addEventListener('click', this.closeDropdownBind, true);
-        if (!this.dropdownElement.nativeElement.parentElement.hasAttribute("suiDropdownMenu")) {
-            window.document.addEventListener('keydown', this.keybindFilterBind);
-        }
-    }
-
-    public unbindDocumentEvents():void {
-        window.document.removeEventListener('click', this.closeDropdownBind, true);
-        window.document.removeEventListener('keydown', this.keybindFilterBind);
-    }
-
-
-    private closeDropdown(event:MouseEvent):void {
-        //Never close the dropdown if autoClose is disabled
-        if (event && this.autoClose === Disabled) {
-            return;
-        }
-
-        //Don't close the dropdown when clicking the toggle
-        if (event && this.dropdownElement.nativeElement.contains(event.target) &&
-            !this.menuElement.nativeElement.contains(event.target)) {
-            return;
-        }
-
-        //Don't close the dropdown if expanding a nested dropdown
-        if (event && this.menuElement.nativeElement.contains(event.target) &&
-            (<Element> event.target).hasAttribute("suiDropdown")) {
-            return;
-        }
-
-        //Don't close the dropdown if clicking on any input element
-        if (event && this.menuElement &&
-            /input|textarea/i.test((<Element> event.target).tagName) &&
-            this.menuElement.nativeElement.contains(event.target)) {
-            return;
-        }
-
-        //Don't close the dropdown when clicking inside if autoClose is outsideClick
-        if (event && this.autoClose === OutsideClick &&
-            this.menuElement &&
-            this.menuElement.nativeElement.contains(event.target)) {
-            return;
-        }
-
-        //Close the dropdown
+    constructor() {
         this.isOpen = false;
+        this.isOpenChange = new EventEmitter<boolean>();
+
+        this.isDisabled = false;
+
+        this.autoCloseMode = DropdownAutoCloseType.ItemClick;
+
+        this.children = [];
     }
 
-    private keybindFilter(event:KeyboardEvent):void {
-        if (event.which === KeyCode.Escape) {
-            this.isOpen = false;
-            return;
-        }
+    public setOpenState(isOpen:boolean, reflectInParent:boolean = false) {
+        if (this.isOpen != isOpen && !this.isDisabled) {
+            // Only update the state if it has changed, and the dropdown isn't disabled.
+            this.isOpen = !!isOpen;
+            // We must delay the emitting to avoid the 'changed after checked' Angular errors.
+            this.delay(() => this.isOpenChange.emit(this.isOpen));
 
-        //noinspection TypeScriptUnresolvedFunction
-        if (this.isOpen &&
-            ([KeyCode.Enter, KeyCode.Up, KeyCode.Right, KeyCode.Down, KeyCode.Left]
-                .find(keyCode => event.which == keyCode))) {
-            event.preventDefault();
-            event.stopPropagation();
-            this.keyPress(event.which);
-        }
-    }
+            if (!this.isOpen) {
+                // Close the child dropdowns when this one closes.
+                this.children.forEach(c => c.setOpenState(this.isOpen));
+            }
 
-    public set selectedItem(item:Element) {
-        if (this._selectedItem) {
-            this._selectedItem.classList.remove(this.itemSelectedClass);
-        }
-        this._selectedItem = item;
-        if (item) {
-            item.classList.add(this.itemSelectedClass);
-        }
-    }
-    public get selectedItem():Element {
-        return this._selectedItem;
-    }
-
-    public keyPress(keyCode:number):void {
-        //noinspection FallThroughInSwitchStatementJS
-        switch (keyCode) {
-            case KeyCode.Down:
-                this.selectNextItem();
-                break;
-            case KeyCode.Up:
-                this.selectPreviousItem();
-                break;
-            case KeyCode.Enter:
-                if (this.selectedItem && !this.selectedItem.hasAttribute("suiDropdown")) {
-                    (<HTMLElement> this.selectedItem).click();
-                    this.selectedItem = null;
-                    break;
-                }
-                //Fall through on purpose! (So enter on a nested dropdown acts as right arrow)
-            case KeyCode.Right:
-                if (this.selectedItem && this.selectedItem.hasAttribute("suiDropdown")) {
-                    (<HTMLElement> this.selectedItem).click();
-                    this.selectedItem = this.selectedItem.querySelector(`.${this.itemClass}:not(.${this.itemDisabledClass})`);
-                }
-                break;
-            case KeyCode.Left:
-                if (this.selectedItem.parentElement != this.menuElement.nativeElement) {
-                    (<HTMLElement> this.selectedItem.parentElement.parentElement).click();
-                    this.selectedItem = this.selectedItem.parentElement.parentElement;
-                }
-                break;
-        }
-    }
-
-    public selectNextItem():void {
-        if (!this.selectedItem) {
-            this.selectedItem = this.menuElement.nativeElement.querySelector(`.${this.itemClass}:not(.${this.itemDisabledClass})`);
-            return;
-        }
-        var nextItem = this.selectedItem.nextElementSibling;
-        if (nextItem) {
-            this.selectedItem = nextItem;
-            if (this.selectedItem.classList.contains(this.itemDisabledClass)) {
-                this.selectNextItem();
+            if (this.parent && reflectInParent) {
+                // Open the parent dropdowns when this one opens.
+                this.parent.setOpenState(this.isOpen, true);
             }
         }
+        else if (this.isOpen != isOpen && this.isDisabled) {
+            // If the state has changed, but the dropdown is disabled, re-emit the original isOpen value.
+            this.delay(() => this.isOpenChange.emit(this.isOpen));
+        }
     }
 
-    public selectPreviousItem():void {
-        if (this.selectedItem) {
-            var previousItem = this.selectedItem.previousElementSibling;
-            if (previousItem) {
-                this.selectedItem = previousItem;
-                if (this.selectedItem.classList.contains(this.itemDisabledClass)) {
-                    this.selectPreviousItem();
-                }
+    public setDisabledState(isDisabled:boolean) {
+        if (this.isDisabled != isDisabled) {
+            if (!!isDisabled) {
+                // Close the dropdown as it is now disabled
+                this.setOpenState(false);
             }
-            return;
+
+            this.isDisabled = !!isDisabled;
         }
-        this.selectNextItem();
+    }
+
+    public toggleOpenState() {
+        this.setOpenState(!this.isOpen);
+    }
+
+    // Registers a dropdown service as a child of this service.
+    public registerChild(child:DropdownService) {
+        if (!this.isChildRegistered(child)) {
+            this.children.push(child);
+            child.parent = this;
+        }
+    }
+
+    // Recursive method to check if the provided dropdown is already registered as a child, or is a descendant of a child.
+    public isChildRegistered(child:DropdownService):boolean {
+        return this === child || !!this.children
+            .find(c => !!c.children
+                .find(c => c.isChildRegistered(child)));
+    }
+
+    // Wipes any nested data, so all services can be cleanly reattached.
+    public clearChildren() {
+        this.children.forEach(c => {
+            c.parent = null;
+        });
+        this.children = [];
+    }
+
+    // Method for delaying an event into the next tick, to avoid Angular "changed after checked" error.
+    private delay(callback:() => any) {
+        setTimeout(() => callback());
     }
 }

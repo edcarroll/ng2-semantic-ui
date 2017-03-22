@@ -1,207 +1,201 @@
-import {Component, Directive, HostListener, HostBinding, ElementRef, AfterViewInit, ViewChild, EventEmitter, forwardRef} from '@angular/core';
+import {Component, ViewChild, HostBinding, Input, AfterViewInit, HostListener, EventEmitter, Output, forwardRef, Directive, ElementRef} from '@angular/core';
+import {DropdownService} from '../dropdown/dropdown.service';
+import {SuiDropdownMenu} from '../dropdown/dropdown-menu';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
-
-import {SuiDropdownMenu} from "../dropdown/dropdown-menu";
-import {Input, Output} from "@angular/core";
-import {SuiSearchService} from "./search.service";
-import {SuiDropdownService} from "../dropdown/dropdown.service";
+import {SearchService, LookupFn} from './search.service';
+import {readValue} from '../util/util';
+import {PositioningService, PositioningPlacement} from '../util/positioning.service';
 
 @Component({
     selector: 'sui-search',
-    exportAs: 'suiSearch',
     template: `
-<div class="ui icon input">
+<div class="ui input" [class.icon]="hasIcon">
     <input class="prompt" type="text" [attr.placeholder]="placeholder" autocomplete="off" [(ngModel)]="query">
-    <i *ngIf="icon" class="search icon"></i>
+    <i *ngIf="hasIcon" class="search icon"></i>
   </div>
-<div class="results" suiDropdownMenu>
-    <a class="result" *ngFor="let r of results; let i = index" (click)="select(r)">
-        <div class="title">{{ result(i) }}</div>
+<div class="results" suiDropdownMenu menuTransition="scale" menuSelectedItemClass="active">
+    <a class="result item" *ngFor="let r of results" (click)="select(r)">
+        <span *ngIf="!searchService.optionsLookup" [innerHTML]="searchService.highlightMatches(r)"></span>
+        <span *ngIf="searchService.optionsLookup">{{ readValue(r) }}</span>
     </a>
-    <div *ngIf="!results.length" class="message empty">
+    <div *ngIf="results.length == 0" class="message empty">
         <div class="header">No Results</div>
         <div class="description">Your search returned no results.</div>
     </div>
 </div>
-`
+`,
+    styles: [`
+/* Ensures results div has margin. */
+:host {
+    display: inline-block;
+}
+
+/* Fixes positioning when results are pushed above the search. */
+.results {
+    margin-bottom: .5em;
+}
+`]
 })
-export class SuiSearch implements AfterViewInit {
+export class SuiSearch<T> implements AfterViewInit {
+    public dropdownService:DropdownService;
+    public searchService:SearchService<T>;
+    public position:PositioningService;
+
     @ViewChild(SuiDropdownMenu)
-    private _dropdownMenu:SuiDropdownMenu;
-    private _dropdownService:SuiDropdownService = new SuiDropdownService();
-    private _searchService:SuiSearchService = new SuiSearchService();
+    private _menu:SuiDropdownMenu;
 
-    public selectedOption:any;
-
-    constructor(el:ElementRef) {
-        this._dropdownService.dropdownElement = el;
-        this._dropdownService.itemClass = "result";
-        this._dropdownService.itemSelectedClass = "active";
-
-        this._dropdownService.isOpenChange
-            .subscribe( (isOpen: boolean) => {
-                if (isOpen) {
-                    if (!this._dropdownService.selectedItem) {
-                        this._dropdownService.selectNextItem();
-                    }
-                }
-            });
-
-        this._searchService.onSearchCompleted
-            .subscribe(() => {
-                this._dropdownService.isOpen = true;
-            });
-    }
-
+    // Sets the Semantic UI classes on the host element.
+    // Doing it on the host enables use in menus etc.
     @HostBinding('class.ui')
     @HostBinding('class.search')
-    public searchClasses = true;
-
-    @Input()
-    public placeholder:string = "Search...";
-
-    @Input()
-    public get searchDelay() {
-        return this._searchService.searchDelay;
-    }
-
-    public set searchDelay(value:number) {
-        this._searchService.searchDelay = value;
-    }
-
-    @Input()
-    public icon:boolean = true;
-
-    @Input()
-    public get optionsField() {
-        return this._searchService.optionsField;
-    }
-
-    public set optionsField(value:string) {
-        this._searchService.optionsField = value;
-    }
-
-    @Output()
-    public selectedOptionChange:EventEmitter<any> = new EventEmitter<any>();
-
-    @Output()
-    public onItemSelected:EventEmitter<any> = new EventEmitter<any>();
-
-    @HostBinding('class.loading')
-    public get loading() {
-        return this._searchService.loading;
-    }
-
-    @HostBinding('class.visible')
-    public get isVisible() {
-        return this._dropdownService.isVisible;
-    }
+    private _searchClasses:boolean;
 
     @HostBinding('class.active')
+    public get isActive() {
+        return this.dropdownService.isOpen;
+    }
+
+    // Sets whether the search element has a visible search icon.
     @Input()
-    public get isOpen():boolean {
-        return this._dropdownService.isOpen;
-    }
+    public hasIcon:boolean;
 
-    public set isOpen(value:boolean) {
-        this._dropdownService.isOpen = value;
-    }
-
-    @HostBinding('class.disabled')
+    // Sets the placeholder text displayed inside the text input.
     @Input()
-    public get isDisabled():boolean {
-        return this._dropdownService.isDisabled;
+    public placeholder:string;
+
+    public get query() {
+        return this.searchService.query;
     }
 
-    public set isDisabled(value:boolean) {
-        this._dropdownService.isDisabled = value;
+    public set query(query:string) {
+        this.selectedItem = null;
+        // Initialise a delayed search.
+        this.searchService.updateQueryDelayed(query, () =>
+            // Set the results open state depending on whether a query has been entered.
+            this.dropdownService.setOpenState(this.searchService.query.length > 0));
     }
 
+    // Sets local or remote options by determining whether a function is passed.
     @Input()
-    public get options():any {
-        return this._searchService.options;
-    }
-
-    public set options(value:any) {
-        this._searchService.options = value;
-    }
-
-    private get query():string {
-        return this._searchService.query;
-    }
-
-    private set query(value:string) {
-        this._searchService.updateQuery(value);
-    }
-
-    private get results():Array<any> {
-        return this._searchService.results;
-    }
-
-    private search():void {
-        this._searchService.search();
-    }
-
-    private result(i:number):any {
-        return this._searchService.readValue(this.results[i]);
-    }
-
-    public select(result:any):void {
-        this.selectedOption = result;
-        this.selectedOptionChange.emit(result);
-        this.onItemSelected.emit(result);
-        this._searchService.updateQuery(this._searchService.readValue(result), false);
-        this._dropdownService.isOpen = false;
-    }
-
-    public writeValue(value:any) {
-        this.selectedOption = value;
-        this._searchService.updateQuery(this._searchService.readValue(value), false);
-    }
-
-    public ngAfterViewInit():void {
-        this._dropdownMenu.service = this._dropdownService;
-    }
-
-    @HostListener('click', ['$event'])
-    public click(event:MouseEvent):boolean {
-        event.stopPropagation();
-
-        if (!this._dropdownService.menuElement.nativeElement.contains(event.target)){
-            if (!this.isOpen && this.query) {
-                if (this.results.length) {
-                    this.isOpen = true;
-                }
-                this.search();
-            }
+    public set options(options:T[] | LookupFn<T>) {
+        if (typeof(options) == "function") {
+            this.searchService.optionsLookup = options;
+            return;
         }
-        return false;
+        this.searchService.options = options;
+    }
+
+    @Input()
+    public set optionsField(field:string) {
+        this.searchService.optionsField = field;
+    }
+
+    @Input()
+    public set searchDelay(delay:number) {
+        this.searchService.searchDelay = delay;
+    }
+
+    @HostBinding('class.loading')
+    public get isSearching() {
+        return this.searchService.isSearching;
+    }
+
+    public get results() {
+        return this.searchService.results;
+    }
+
+    // Stores the currently selected item.
+    public selectedItem:T;
+
+    // Emits whenever a new item is selected.
+    @Output()
+    public onItemSelected:EventEmitter<T>;
+
+    // Alias onItemSelected as ngModelChange for [(ngModel)] support.
+    public get ngModelChange() {
+        return this.onItemSelected;
+    }
+
+    constructor(private _element:ElementRef) {
+        this.dropdownService = new DropdownService();
+        this.searchService = new SearchService<T>();
+
+        this._searchClasses = true;
+        this.hasIcon = true;
+        this.placeholder = "Search...";
+
+        this.searchDelay = 200;
+
+        this.onItemSelected = new EventEmitter<T>();
+    }
+
+    public ngAfterViewInit() {
+        this._menu.service = this.dropdownService;
+
+        // Initialse the positioning service to correctly display the results.
+        // This adds support for repositioning the results above the search when there isn't enough space below.
+        this.position = new PositioningService(this._element, this._menu.element, PositioningPlacement.BottomLeft);
+    }
+
+    // Selects an item.
+    public select(item:T) {
+        this.writeValue(item);
+        this.onItemSelected.emit(item);
+    }
+
+    @HostListener("click", ['$event'])
+    public onClick(e:MouseEvent) {
+        e.stopPropagation();
+
+        if (this.searchService.query.length > 0) {
+            // Only open on click when there is a query entered.
+            this.dropdownService.setOpenState(true);
+        }
+    }
+
+    // Reads the specified field from an item.
+    public readValue(object:T) {
+        return readValue<T, string>(object, this.searchService.optionsField);
+    }
+
+    // Sets a specific item to be selected, updating the query automatically.
+    public writeValue(item:T) {
+        if (item) {
+            this.selectedItem = item;
+            this.searchService.updateQuery(this.readValue(item) as string, () => {});
+        }
     }
 }
 
-export const CUSTOM_VALUE_ACCESSOR: any = {
+// Value accessor for the search.
+export const SEARCH_VALUE_ACCESSOR:any = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => SuiSearchValueAccessor),
     multi: true
 };
 
+// Value accessor directive for the search to support ngModel.
 @Directive({
     selector: 'sui-search',
-    host: {'(selectedOptionChange)': 'onChange($event)'},
-    providers: [CUSTOM_VALUE_ACCESSOR]
+    host: {
+        '(onItemSelected)': 'onChange($event)'
+    },
+    providers: [SEARCH_VALUE_ACCESSOR]
 })
-export class SuiSearchValueAccessor implements ControlValueAccessor {
+export class SuiSearchValueAccessor<T> implements ControlValueAccessor {
     onChange = () => {};
     onTouched = () => {};
 
-    constructor(private host:SuiSearch) {}
+    constructor(private host:SuiSearch<T>) {}
 
-    writeValue(value: any): void {
+    writeValue(value:T) {
         this.host.writeValue(value);
     }
 
-    registerOnChange(fn: () => void): void { this.onChange = fn; }
-    registerOnTouched(fn: () => void): void { this.onTouched = fn; }
+    registerOnChange(fn:() => void) {
+        this.onChange = fn;
+    }
+    registerOnTouched(fn:() => void) {
+        this.onTouched = fn;
+    }
 }
-
-export const SUI_SEARCH_DIRECTIVES = [SuiSearch, SuiSearchValueAccessor];

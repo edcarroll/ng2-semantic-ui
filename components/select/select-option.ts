@@ -1,35 +1,66 @@
-import {
-    Component, Input, HostBinding, HostListener, EventEmitter, ViewContainerRef, ViewChild,
-} from '@angular/core';
+import {Component, Input, HostBinding, HostListener, EventEmitter, ViewContainerRef, ViewChild, Renderer, ElementRef, Output} from '@angular/core';
+import {SuiDropdownMenuItem} from '../dropdown/dropdown-menu';
+
+export type PropertyReader<T> = (obj:T) => string;
+
+export interface ISelectRenderedOption<T> {
+    value:T;
+    isActive?:boolean;
+    readLabel:PropertyReader<T>;
+    usesTemplate:boolean;
+    templateSibling:ViewContainerRef;
+}
 
 @Component({
     selector: 'sui-select-option',
     template: `
-<span #optionRenderTarget></span>
-<span *ngIf="!useTemplate">{{ readValue(value) }}</span>
+<span #templateSibling></span>
+<span *ngIf="!usesTemplate">{{ readLabel(value) }}</span>
 `
 })
-export class SuiSelectOption {
-    @HostBinding('class.item') itemClass = true;
+export class SuiSelectOption<T> extends SuiDropdownMenuItem implements ISelectRenderedOption<T> {
+    // Sets the Semantic UI classes on the host element.
+    @HostBinding('class.item')
+    private _optionClasses:boolean;
 
     @Input()
-    public value:any;
+    public value:T;
 
-    public selected:EventEmitter<any> = new EventEmitter<any>();
+    // Fires when the option is selected, whether by clicking or by keyboard.
+    @Output()
+    public onSelected:EventEmitter<T>;
 
-    public useTemplate:boolean = false;
+    @HostBinding('class.active')
+    public isActive:boolean;
 
-    @ViewChild('optionRenderTarget', { read: ViewContainerRef })
-    public viewContainerRef:ViewContainerRef;
+    // Returns the label from a given value.
+    public readLabel:(obj:T) => string;
 
-    public readValue = (value:any) => "";
+    public usesTemplate:boolean;
 
-    constructor() {}
+    // Placeholder to draw template beside.
+    @ViewChild('templateSibling', { read: ViewContainerRef })
+    public templateSibling:ViewContainerRef;
+
+    constructor(renderer:Renderer, element:ElementRef) {
+        // We inherit SuiDropdownMenuItem to automatically gain all keyboard navigation functionality.
+        // This is not done via adding the .item class because it isn't supported by Angular.
+        super(renderer, element);
+
+        this._optionClasses = true;
+        this.isActive = false;
+        this.onSelected = new EventEmitter<T>();
+
+        // By default we make this function return an empty string, for the brief moment when it isn't displaying the correct label.
+        this.readLabel = (value:T) => "";
+
+        this.usesTemplate = false;
+    }
 
     @HostListener('click', ['$event'])
-    public click(event:MouseEvent):boolean {
+    public onClick(event:MouseEvent) {
         event.stopPropagation();
-        this.selected.emit(this.value);
-        return false;
+
+        this.onSelected.emit(this.value);
     }
 }
