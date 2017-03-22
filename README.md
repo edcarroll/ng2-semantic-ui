@@ -4,7 +4,7 @@ Semantic UI Angular 2 Integrations, written in pure AngularJS - **no JQuery requ
 
 ## Demo & Usage
 
-[ng2-semantic-ui](http://edcarroll.github.io/ng2-semantic-ui/)
+[ng2-semantic-ui](https://edcarroll.github.io/ng2-semantic-ui/)
 
 ## Installation
 
@@ -37,7 +37,7 @@ export class AppModule {}
 
 N.B. you can import individual component modules:
 ```ts
-import {SuiCheckboxModule, SuiRatingModule} from 'ng2-semantic-ui/ng2-semantic-ui';
+import {SuiCheckboxModule, SuiRatingModule} from 'ng2-semantic-ui';
 ```
 
 Now you're good to go!
@@ -51,19 +51,19 @@ Now you're good to go!
 
 The current list of available components with links to their docs is below:
 
-* [Accordion](http://edcarroll.github.io/ng2-semantic-ui/#/components/accordion)
-* [Checkbox](http://edcarroll.github.io/ng2-semantic-ui/#/components/checkbox)
-* [Collapse](http://edcarroll.github.io/ng2-semantic-ui/#/components/collapse)
-* [Dimmer](http://edcarroll.github.io/ng2-semantic-ui/#/components/dimmer)
-* [Dropdown](http://edcarroll.github.io/ng2-semantic-ui/#/components/dropdown)
-* [Message](http://edcarroll.github.io/ng2-semantic-ui/#/components/message)
-* [Popup](http://edcarroll.github.io/ng2-semantic-ui/#/components/popup)
-* [Progress](http://edcarroll.github.io/ng2-semantic-ui/#/components/progress)
-* [Rating](http://edcarroll.github.io/ng2-semantic-ui/#/components/rating)
-* [Search](http://edcarroll.github.io/ng2-semantic-ui/#/components/search)
-* [Select](http://edcarroll.github.io/ng2-semantic-ui/#/components/select)
-* [Tabs](http://edcarroll.github.io/ng2-semantic-ui/#/components/tabs)
-* [Transition](http://edcarroll.github.io/ng2-semantic-ui/#/components/transition)
+* [Accordion](https://edcarroll.github.io/ng2-semantic-ui/#/components/accordion)
+* [Checkbox](https://edcarroll.github.io/ng2-semantic-ui/#/components/checkbox)
+* [Collapse](https://edcarroll.github.io/ng2-semantic-ui/#/components/collapse)
+* [Dimmer](https://edcarroll.github.io/ng2-semantic-ui/#/components/dimmer)
+* [Dropdown](https://edcarroll.github.io/ng2-semantic-ui/#/components/dropdown)
+* [Message](https://edcarroll.github.io/ng2-semantic-ui/#/components/message)
+* [Popup](https://edcarroll.github.io/ng2-semantic-ui/#/components/popup)
+* [Progress](https://edcarroll.github.io/ng2-semantic-ui/#/components/progress)
+* [Rating](https://edcarroll.github.io/ng2-semantic-ui/#/components/rating)
+* [Search](https://edcarroll.github.io/ng2-semantic-ui/#/components/search)
+* [Select](https://edcarroll.github.io/ng2-semantic-ui/#/components/select)
+* [Tabs](https://edcarroll.github.io/ng2-semantic-ui/#/components/tabs)
+* [Transition](https://edcarroll.github.io/ng2-semantic-ui/#/components/transition)
 
 ## Development
 
