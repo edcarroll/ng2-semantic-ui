@@ -19,29 +19,34 @@ export interface ISelectRenderedOption<T> {
 })
 export class SuiSelectOption<T> extends SuiDropdownMenuItem implements ISelectRenderedOption<T> {
     // Sets the Semantic UI classes on the host element.
-    // Doing it on the host enables use in menus etc.
     @HostBinding('class.item')
     private _optionClasses:boolean;
 
     @Input()
     public value:T;
 
+    // Fires when the option is selected, whether by clicking or by keyboard.
     @Output()
     public onSelected:EventEmitter<T>;
 
+    // Returns the label from a given value.
     public readLabel:(obj:T) => string;
 
     public usesTemplate:boolean;
 
+    // Placeholder to draw template beside.
     @ViewChild('templateSibling', { read: ViewContainerRef })
     public templateSibling:ViewContainerRef;
 
     constructor(renderer:Renderer, element:ElementRef) {
+        // We inherit SuiDropdownMenuItem to automatically gain all keyboard navigation functionality.
+        // This is not done via adding the .item class because it isn't supported by Angular.
         super(renderer, element);
 
         this._optionClasses = true;
         this.onSelected = new EventEmitter<T>();
 
+        // By default we make this function return an empty string, for the brief moment when it isn't displaying the correct label.
         this.readLabel = (value:T) => "";
 
         this.usesTemplate = false;

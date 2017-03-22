@@ -32,8 +32,10 @@ import {KeyCode} from '../util/util';
 })
 export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterViewInit {
     public selectedOptions:T[];
+    // Stores the values written by ngModel before it can be matched to an option from `options`.
     private _writtenOptions:U[];
 
+    // Since we are rendering the selected options with an ngFor, we need to track them in the same manner as the base class.
     @ViewChildren(SuiMultiSelectLabel)
     private _renderedSelectedOptions:QueryList<SuiMultiSelectLabel<T>>;
 
@@ -44,11 +46,13 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
 
     @Output()
     public get ngModelChange() {
+        // For simplicity we can mirror these two emitters as they do the same thing.
         return this.selectedOptionsChange;
     }
 
     protected optionsUpdateHook() {
         if (this._writtenOptions && this.options.length > 0) {
+            // If there were values written by ngModel before the options had been loaded, this runs to fix it.
             this.selectedOptions = this._writtenOptions.map(v => this.options.find(o => v == this.valueGetter(o)));
             
             if (this.selectedOptions.length == this._writtenOptions.length) {
@@ -59,8 +63,10 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
 
     public get availableOptions() {
         if (this.maxSelectedReached) {
+            // If we have reached the maximum number of selections, then empty the results completely.
             return [];
         }
+        // Returns the search results \ selected options.
         return this.searchService.results
             .filter(r => !this.selectedOptions.find(o => r == o));
     }
@@ -70,6 +76,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
 
     public get maxSelectedReached() {
         if (this.maxSelected == null) {
+            // If there is no maximum then we can immediately return.
             return false;
         }
         return this.selectedOptions.length == this.maxSelected;
@@ -95,46 +102,56 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
         this.selectedOptions.push(option);
         this.selectedOptionsChange.emit(this.selectedOptions.map(o => this.valueGetter(o)));
 
+        // The search delay is set to the transition duration to ensure results aren't rendered as the select closes as that causes a sudden flash.
         this.searchService.searchDelay = this._menu.menuTransitionDuration;
         this.searchService.updateQuery("");
 
+        // Automatically refocus the search input for better keyboard accessibility.
         this.focusInput();
     }
 
     public writeValues(values:U[]) {
         if (values instanceof Array) {
             if (this.options.length > 0) {
+                // If the options have already been loaded, we can immediately match the ngModel values to options.
                 this.selectedOptions = values.map(v => this.options.find(o => v == this.valueGetter(o)));
             }
             if (values != [] && this.selectedOptions.length == 0) {
+                // Otherwise, cache the written value for when options are set.
                 this._writtenOptions = values;
             }
         }
     }
 
     public deselectOption(option:T) {
+        // Update selected options to the previously selected options \ {option}.
         this.selectedOptions = this.selectedOptions.filter(so => so != option);
         this.selectedOptionsChange.emit(this.selectedOptions.map(o => this.valueGetter(o)));
 
+        // Automatically refocus the search input for better keyboard accessibility.
         this.focusInput();
     }
 
     public onQueryInputKeydown(event:KeyboardEvent) {
         if (event.keyCode == KeyCode.Backspace && this.query == "" && this.selectedOptions.length > 0) {
+            // Deselect the rightmost option when the user presses backspace in the search input.
             this.deselectOption(this.selectedOptions[this.selectedOptions.length - 1]);
         }
     }
 
     public ngAfterViewInit() {
+        // We must call this immediately as changes doesn't fire when you subscribe.
         this.onSelectedOptionsRendered();
         this._renderedSelectedOptions.changes.subscribe(() => this.onSelectedOptionsRendered());
     }
 
     private onSelectedOptionsRendered() {
+        // Unsubscribe from all previous subscriptions to avoid memory leaks on large selects.
         this._renderedSelectedSubscriptions.forEach(rs => rs.unsubscribe());
         this._renderedSelectedSubscriptions = [];
 
         this._renderedSelectedOptions.forEach(ro => {
+            // Slightly delay initialisation to avoid change after checked errors. TODO - look into avoiding this!
             setTimeout(() => this.initialiseRenderedOption(ro));
 
             this._renderedSelectedSubscriptions.push(ro.onDeselected.subscribe(() => this.deselectOption(ro.value)));
