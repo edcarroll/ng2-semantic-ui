@@ -46,6 +46,3 @@ export class SuiAccordion implements AfterContentInit {
         this.panels.forEach(p => this._service.addPanel(p));
     }
 }
-
-export const SUI_ACCORDION_DIRECTIVES = [SuiAccordion, SuiAccordionPanel];
-export const SUI_ACCORDION_PROVIDERS = [SuiAccordionService];

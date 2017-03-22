@@ -2,9 +2,14 @@ import {SuiAccordionPanel} from "./accordion-panel";
 
 export class SuiAccordionService {
     // State
-    public closeOthers:boolean = true;
+    public closeOthers:boolean;
 
-    public panels:SuiAccordionPanel[] = [];
+    public panels:SuiAccordionPanel[];
+
+    constructor() {
+        this.closeOthers = true;
+        this.panels = [];
+    }
 
     public addPanel(panel:SuiAccordionPanel) {
         panel.service = this;

@@ -12,6 +12,11 @@ export class CollapsePage {
                 {
                     name: "suiCollapse",
                     description: "Sets whether or not the element is collapsed."
+                },
+                {
+                    name: "collapseDuration",
+                    description: "Sets the duration of the collapse animation.",
+                    defaultValue: "350"
                 }
             ]
         }
@@ -32,7 +37,8 @@ export class CollapsePage {
         </div>
     </div>
 </div>
-`
+`;
+    public polyfillCode:string = `<script src="https://rawgit.com/web-animations/web-animations-js/master/web-animations.min.js"></script>`;
 }
 
 @Component({
