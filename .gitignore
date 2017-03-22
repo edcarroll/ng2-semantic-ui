@@ -5,7 +5,6 @@
 /tmp
 
 ## ngc logs
-
 *.ngfactory.ts
 *.ngsummary.json
 

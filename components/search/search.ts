@@ -39,7 +39,6 @@ import {PositioningService, PositioningPlacement} from '../util/positioning.serv
 export class SuiSearch<T> implements AfterViewInit {
     public dropdownService:DropdownService;
     public searchService:SearchService<T>;
-    public position:PositioningService;
 
     @ViewChild(SuiDropdownMenu)
     private _menu:SuiDropdownMenu;
@@ -131,10 +130,6 @@ export class SuiSearch<T> implements AfterViewInit {
 
     public ngAfterViewInit() {
         this._menu.service = this.dropdownService;
-
-        // Initialse the positioning service to correctly display the results.
-        // This adds support for repositioning the results above the search when there isn't enough space below.
-        this.position = new PositioningService(this._element, this._menu.element, PositioningPlacement.BottomLeft);
     }
 
     // Selects an item.
