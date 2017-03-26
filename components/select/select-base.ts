@@ -70,6 +70,10 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     }
 
     public set options(options:T[]) {
+        if (typeof (options) == "function") {
+            this.searchService.optionsLookup = options;
+            return;
+        }
         this.searchService.options = options;
         this.optionsUpdateHook();
     }
