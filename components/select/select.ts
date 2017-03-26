@@ -90,10 +90,11 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> {
                 this.selectedOption = this.findOption(this.options, value);
             }
             if (!this.selectedOption) {
-                if (this.searchService.selectedLookup) {
+                let optionsLookup = this.searchService.optionsLookup;
+                if (optionsLookup && optionsLookup.length == 2) {
                     // If there's a selected lookup function, query it
-                    this.searchService.selectedLookup(value)
-                        .then((results) => {
+                    optionsLookup(this.searchService.query, value)
+                        .then(results => {
                             this.selectedOption = this.findOption(results, value)
                             this.drawSelectedOption();
                         });

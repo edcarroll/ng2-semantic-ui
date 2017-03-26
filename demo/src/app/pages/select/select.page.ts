@@ -246,10 +246,10 @@ export class SelectExampleSearch {
 })
 export class SelectExampleLookupSearch {
     private _options:Array<any> = [{ id: 1, name: "Example" }, { id: 2, name: "Test" }, { id: 3, name: "What" }, { id: 4, name: "No" }, { id: 5, name: "Benefit" }, { id: 6, name: "Oranges" }, { id: 7, name: "Artemis" }, { id: 8, name: "Another" }];
-    public options = (query:string, initial:boolean = false) => {
+    public options = (query:string, initial:any = false) => {
         if (initial) {
             return new Promise((resolve, reject) => {
-                resolve(this._options.filter((item) => item.id == query));
+                resolve(this._options.filter((item) => item.id == initial));
             });
         }
         else {
