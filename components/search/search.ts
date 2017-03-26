@@ -76,7 +76,7 @@ export class SuiSearch<T> implements AfterViewInit {
 
     // Sets local or remote options by determining whether a function is passed.
     @Input()
-    public set options(options:T[] | LookupFn<T>) {
+    public set options(options:T[] | LookupFn<T, boolean>) {
         if (typeof(options) == "function") {
             this.searchService.optionsLookup = options;
             return;

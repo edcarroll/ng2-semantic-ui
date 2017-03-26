@@ -96,11 +96,11 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     }
 
     public set query(query:string) {
+        this.queryUpdateHook();
         this.updateQuery(query);
     }
 
     protected updateQuery(query:string) {
-        this.queryUpdateHook();
         // Update the query then open the dropdown, as after keyboard input it should always be open.
         this.searchService.updateQuery(query, () =>
             this.dropdownService.setOpenState(true));
@@ -186,6 +186,11 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     public selectOption(option:T) {
         // This is implemented individually by the single & multi select variants, but is called within the base class, hence this stub.
         throw new Error("Not implemented");
+    }
+
+    protected findOption(options:T[], value:U) {
+        // Tries to find an option in options array
+        return options.find(o => value == this.valueGetter(o));
     }
 
     @HostListener("click", ['$event'])

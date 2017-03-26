@@ -1,7 +1,7 @@
 import {readValue} from '../util/util';
 
 // Define useful types to avoid any.
-export type LookupFn<T> = (query:string) => Promise<T[]>
+export type LookupFn<T, U> = (query:any, initial?:boolean) => Promise<T[]>
 type CachedArray<T> = { [query:string]:T[] };
 
 // T extends JavascriptObject so we can do a recursive search on the object.
@@ -9,7 +9,9 @@ export class SearchService<T> {
     // Stores the available options.
     private _options:T[];
     // Converts a query string into an array of options. Must be a function returning a promise.
-    private _optionsLookup:LookupFn<T>;
+    private _optionsLookup:LookupFn<T, boolean>;
+    // Lookup for option or options based on their valueField
+    private _selectedLookup:LookupFn<T, boolean>;
     // Field that options are searched & displayed on.
     private _optionsField:string;
     
@@ -29,11 +31,21 @@ export class SearchService<T> {
         return this._optionsLookup;
     }
 
-    public set optionsLookup(lookupFn:LookupFn<T>) {
-        this._optionsLookup = lookupFn;
+    public set optionsLookup(lookupFn:LookupFn<T, boolean>) {
+        this._optionsLookup = (query) => lookupFn(query);
+        if (lookupFn.length == 2) {
+            this._selectedLookup = (query) => lookupFn(query, true);
+        }
+        else {
+            this._selectedLookup = null;
+        }
         // As before, cannot use local & remote options simultaneously.
         this._options = [];
         this.reset();
+    }
+
+    public get selectedLookup() {
+        return this._selectedLookup;
     }
 
     public get optionsField() {

@@ -43,7 +43,7 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> {
     protected optionsUpdateHook() {
         if (this._writtenOption && this.options.length > 0) {
             // If there was an value written by ngModel before the options had been loaded, this runs to fix it.
-            this.selectedOption = this.options.find(o => this._writtenOption == this.valueGetter(o));
+            this.selectedOption = this.findOption(this.options, this._writtenOption);
             if (this.selectedOption) {
                 this._writtenOption = null;
                 this.drawSelectedOption();
@@ -87,11 +87,21 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> {
         if (value != null) {
             if (this.options.length > 0) {
                 // If the options have already been loaded, we can immediately match the ngModel value to an option.
-                this.selectedOption = this.options.find(o => value == this.valueGetter(o));
+                this.selectedOption = this.findOption(this.options, value);
             }
             if (!this.selectedOption) {
-                // Otherwise, cache the written value for when options are set.
-                this._writtenOption = value;
+                if (this.searchService.selectedLookup) {
+                    // If there's a selected lookup function, query it
+                    this.searchService.selectedLookup(value)
+                        .then((results) => {
+                            this.selectedOption = this.findOption(results, value)
+                            this.drawSelectedOption();
+                        });
+                }
+                else {
+                    // Otherwise, cache the written value for when options are set.
+                    this._writtenOption = value;
+                }
             }
         }
 
