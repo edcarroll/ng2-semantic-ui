@@ -72,6 +72,12 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     public set options(options:T[]) {
         if (typeof (options) == "function") {
             this.searchService.optionsLookup = options;
+            let subscription = this.dropdownService.isOpenChange.subscribe((value:boolean) => {
+                if (value) {
+                    subscription.unsubscribe();
+                    this.updateQuery(this.query);
+                }
+            });
             return;
         }
         this.searchService.options = options;
@@ -90,6 +96,10 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     }
 
     public set query(query:string) {
+        this.updateQuery(query);
+    }
+
+    protected updateQuery(query:string) {
         this.queryUpdateHook();
         // Update the query then open the dropdown, as after keyboard input it should always be open.
         this.searchService.updateQuery(query, () =>
