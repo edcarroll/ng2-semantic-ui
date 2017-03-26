@@ -90,14 +90,14 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> {
                 this.selectedOption = this.findOption(this.options, value);
             }
             if (!this.selectedOption) {
-                let optionsLookup = this.searchService.optionsLookup;
-                if (optionsLookup && optionsLookup.length == 2) {
-                    // If there's a selected lookup function, query it
-                    optionsLookup(this.searchService.query, value)
-                        .then(results => {
-                            this.selectedOption = this.findOption(results, value)
+                if (this.searchService.selectedLookup) {
+                    // If the search service has a selected lookup function, make use of that to load the initial value.
+                    this.searchService.selectedLookup(undefined, value)
+                        .then(r => {
+                            this.selectedOption = this.findOption(r, value);
                             this.drawSelectedOption();
                         });
+                    return;
                 }
                 else {
                     // Otherwise, cache the written value for when options are set.
