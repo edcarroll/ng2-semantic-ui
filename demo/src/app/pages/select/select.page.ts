@@ -232,6 +232,20 @@ export class SelectExampleSearch {
 }
 
 @Component({
+    selector: 'select-example-search-lookup',
+    template: new SelectPage().exampleSearchTemplate
+})
+export class SelectExampleLookupSearch {
+    private _options:Array<any> = [{ name: "Example" }, { name: "Test" }, { name: "What" }, { name: "No" }, { name: "Benefit" }, { name: "Oranges" }, { name: "Artemis" }, { name: "Another" }];
+    public options = (query:string) => {
+        var regex:RegExp = new RegExp(query, 'i');
+        return new Promise((resolve, reject) => {
+            resolve(this._options.filter((item) => item.name.match(regex)));
+        });
+    };
+}
+
+@Component({
     selector: 'select-example-multiple',
     template: new SelectPage().exampleMultipleTemplate
 })
@@ -258,4 +272,4 @@ export class SelectExampleTemplateSearch {
     public selectedOption = this.options[5];
 }
 
-export const SelectPageComponents:Array<any> = [SelectPage, SelectExampleStandard, SelectExampleOptions, SelectExampleSearch, SelectExampleMultiple, SelectExampleMultipleSearch, SelectExampleTemplateSearch];
+export const SelectPageComponents:Array<any> = [SelectPage, SelectExampleStandard, SelectExampleOptions, SelectExampleSearch, SelectExampleLookupSearch, SelectExampleMultiple, SelectExampleMultipleSearch, SelectExampleTemplateSearch];
