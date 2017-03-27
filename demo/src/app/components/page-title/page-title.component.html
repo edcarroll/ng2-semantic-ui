@@ -2,7 +2,18 @@
     <h1 class="ui header">
         <ng-content select="[header]"></ng-content>
         <div class="sub header">
-            <iframe class="github" src="https://ghbtns.com/github-btn.html?user=edcarroll&repo=ng2-semantic-ui&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+            <div class="github">
+                <iframe allowtransparency="true"
+                        scrolling="no"
+                        frameborder="0"
+                        src="https://buttons.github.io/buttons.html#href=https%3A%2F%2Fgithub.com%2Fedcarroll%2Fng2-semantic-ui&amp;text=Fork&amp;data-count-api=%2Frepos%2Fedcarroll%2Fng2-semantic-ui%23forks_count&amp;data-count-href=%2Fedcarroll%2Fng2-semantic-ui%2Fforks&amp;data-count-aria-label=%23%20forks%20on%20GitHub&amp;data-style=mega&amp;data-icon=octicon-repo-forked&amp;aria-label=Fork%20edcarroll%2Fng2-semantic-ui%20on%20GitHub"
+                        style="width: 113px; height: 28px; border: none;"></iframe>
+                <iframe allowtransparency="true"
+                        scrolling="no"
+                        frameborder="0"
+                        src="https://buttons.github.io/buttons.html#href=https%3A%2F%2Fgithub.com%2Fedcarroll%2Fng2-semantic-ui&amp;text=Star&amp;data-count-api=%2Frepos%2Fedcarroll%2Fng2-semantic-ui%23stargazers_count&amp;data-count-href=%2Fedcarroll%2Fng2-semantic-ui%2Fstargazers&amp;data-count-aria-label=%23%20stargazers%20on%20GitHub&amp;data-style=mega&amp;data-icon=octicon-star&amp;aria-label=Star%20edcarroll%2Fng2-semantic-ui%20on%20GitHub"
+                        style="width: 113px; height: 28px; border: none;"></iframe>
+            </div>
             <ng-content select="[sub-header]"></ng-content>
         </div>
     </h1>
