@@ -47,30 +47,59 @@ export class SidebarPage {
         }
     ];
     public exampleStandardTemplate:string = `
-<sui-message class="success">
-    <div class="header">
-        This is a message!
-    </div>
-    <p>This message can be styled (as shown) and dismissed with the close icon in the top right.</p>
-</sui-message>
-`;
-    public exampleNoDismissTemplate:string = `
-<sui-message class="attached warning" [isDismissable]="false">
-    <div class="header">
-        Attached message!
-    </div>
-    <p>This message isn't dismissible.</p>
-</sui-message>
-<div class="ui bottom attached segment">
-    <p>Example content</p>
+<div class="ui top attached demo menu">
+    <a class="item" (click)="sidebar.toggle()">
+        <i class="sidebar icon"></i> Menu
+    </a>
 </div>
+<sui-sidebar-container class="ui bottom attached segment">
+    <sui-sidebar class="inverted vertical" #sidebar>
+        <a class="item">1</a>
+        <a class="item">2</a>
+    </sui-sidebar>
+    <sui-sidebar-sibling [isDimmedWhenVisible]="true">
+        <div class="ui basic segment">
+            <h3 class="ui header">Content</h3>
+            <p>Example content beside the sidebar</p>
+            <button class="ui button" (click)="sidebar.open()">Open Sidebar</button>
+        </div>
+    </sui-sidebar-sibling>
+</sui-sidebar-container>
+`;
+    public exampleDirectionTemplate:string = `
+<div class="ui top attached demo menu">
+    <a class="item" (click)="sidebar.toggle()">
+        <i class="sidebar icon"></i> Menu
+    </a>
+</div>
+<sui-sidebar-container class="ui bottom attached segment">
+    <sui-sidebar class="inverted" direction="bottom" [(isVisible)]="isVisible" #sidebar>
+        <a class="item">1</a>
+        <a class="item">2</a>
+    </sui-sidebar>
+    <sui-sidebar-sibling>
+        <div class="ui basic segment">
+            <h3 class="ui header">Content</h3>
+            <p>Sidebar visibility: {{ isVisible }}</p>
+            <button class="ui button" (click)="sidebar.open()">Open Sidebar</button>
+        </div>
+    </sui-sidebar-sibling>
+</sui-sidebar-container>
 `;
 }
 
-// @Component({
-//     selector: 'message-example-standard',
-//     template: new MessagePage().exampleStandardTemplate
-// })
-// export class MessageExampleStandard {}
+@Component({
+    selector: 'sidebar-example-standard',
+    template: new SidebarPage().exampleStandardTemplate
+})
+export class SidebarExampleStandard {}
 
-export const SidebarPageComponents:Array<any> = [SidebarPage];
+@Component({
+    selector: 'sidebar-example-direction',
+    template: new SidebarPage().exampleDirectionTemplate
+})
+export class SidebarExampleDirection {
+    isVisible:boolean = false;
+}
+
+export const SidebarPageComponents:Array<any> = [SidebarPage, SidebarExampleStandard, SidebarExampleDirection];

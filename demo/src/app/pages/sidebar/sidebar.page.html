@@ -6,13 +6,22 @@
 </demo-page-title>
 <demo-page-content>
     <h2 class="ui dividing header">Examples</h2>
-    <!--<demo-example [code]="exampleStandardTemplate">
+    <demo-example [code]="exampleStandardTemplate">
         <div info>
-            <h4 class="ui header">Message</h4>
-            <p>A basic message</p>
+            <h4 class="ui header">Sidebar</h4>
+            <p>A basic sidebar</p>
         </div>
-        <message-example-standard result></message-example-standard>
-    </demo-example>-->
+        <sidebar-example-standard result></sidebar-example-standard>
+    </demo-example>
+    <demo-example [code]="exampleStandardTemplate">
+        <div info>
+            <h4 class="ui header">Direction</h4>
+            <p>Sidebars can have a custom direction</p>
+        </div>
+        <div result>
+            <sidebar-example-direction></sidebar-example-direction>
+        </div>
+    </demo-example>
     <h2 id="api" class="ui dividing header">API</h2>
     <demo-api [api]="api"></demo-api>
 </demo-page-content>
