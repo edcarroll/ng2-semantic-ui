@@ -1,0 +1,76 @@
+:host {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.pusher {
+    height: 100%;
+}
+
+.pusher > .full.height {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.pusher > .full.height {
+    background-color: #FFFFFF;
+}
+
+.full.height > .toc {
+    position: relative;
+    z-index: 1;
+    background-color: #1b1c1d;
+    width: 250px;
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+}
+
+.full.height > .toc .ui.menu {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    border-radius: 0;
+    border-width: 0 1px 0 0;
+    box-shadow: none;
+    margin: 0;
+    width: inherit;
+    overflow: hidden;
+    will-change: transform;
+}
+
+.article {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-width: 0px;
+}
+
+.article > .ui.top.attached.menu {
+    display: none;
+    border-radius: 0;
+}
+
+@media only screen and (max-width: 1200px) {
+    .article > .ui.top.attached.menu {
+        display: flex;
+    }
+
+    .toc {
+        display: none;
+    }
+}

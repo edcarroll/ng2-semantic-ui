@@ -6,6 +6,10 @@ import {KeyCode} from '../util/util';
 // Polyfill for IE
 import "element-closest";
 
+interface AugmentedElement extends Element {
+    closest(selector:string):AugmentedElement;
+}
+
 @Directive({
     // We must attach to every '.item' as Angular doesn't support > selectors.
     selector: '.item'
@@ -139,7 +143,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
         e.stopPropagation();
 
         if (this._service.autoCloseMode == DropdownAutoCloseType.ItemClick) {
-            const target = e.target as Element;
+            const target = e.target as AugmentedElement;
             if (this.element.nativeElement.contains(target.closest(".item")) && !/input|textarea/i.test(target.tagName)) {
                 // Once an item is selected, we can close the entire dropdown.
                 this._service.setOpenState(false, true);
