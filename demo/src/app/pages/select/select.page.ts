@@ -159,6 +159,15 @@ export class SelectPage {
     <p>Currently selected: {{ selectedOption | json }}</p>
 </div>
 `;
+    public exampleSearchLookupTemplate:string = `
+<p>You can also use the keyboard to navigate.</p>
+<sui-select [(ngModel)]="selectedOption" [options]="options" labelField="name" valueField="id" [isSearchable]="true" #searchSelect>
+    <sui-select-option *ngFor="let option of searchSelect.availableOptions" [value]="option"></sui-select-option>
+</sui-select>
+<div class="ui segment">
+    <p>Currently selected: {{ selectedOption | json }}</p>
+</div>
+`;
     public exampleMultipleTemplate:string = `
 <sui-multi-select class="fluid" [(ngModel)]="selectedOptions" [options]="options" #multiSelect>
     <sui-select-option *ngFor="let option of multiSelect.availableOptions" [value]="option"></sui-select-option>
@@ -232,6 +241,28 @@ export class SelectExampleSearch {
 }
 
 @Component({
+    selector: 'select-example-search-lookup',
+    template: new SelectPage().exampleSearchLookupTemplate
+})
+export class SelectExampleLookupSearch {
+    private _options:Array<any> = [{ id: 1, name: "Example" }, { id: 2, name: "Test" }, { id: 3, name: "What" }, { id: 4, name: "No" }, { id: 5, name: "Benefit" }, { id: 6, name: "Oranges" }, { id: 7, name: "Artemis" }, { id: 8, name: "Another" }];
+    public options = (query:string, initial:any = false) => {
+        if (initial) {
+            return new Promise((resolve, reject) => {
+                resolve(this._options.filter((item) => item.id == initial));
+            });
+        }
+        else {
+            var regex:RegExp = new RegExp(query, 'i');
+            return new Promise((resolve, reject) => {
+                resolve(this._options.filter((item) => item.name.match(regex)));
+            });
+        }
+    };
+    public selectedOption = this._options[0]['id'];
+}
+
+@Component({
     selector: 'select-example-multiple',
     template: new SelectPage().exampleMultipleTemplate
 })
@@ -258,4 +289,4 @@ export class SelectExampleTemplateSearch {
     public selectedOption = this.options[5];
 }
 
-export const SelectPageComponents:Array<any> = [SelectPage, SelectExampleStandard, SelectExampleOptions, SelectExampleSearch, SelectExampleMultiple, SelectExampleMultipleSearch, SelectExampleTemplateSearch];
+export const SelectPageComponents:Array<any> = [SelectPage, SelectExampleStandard, SelectExampleOptions, SelectExampleSearch, SelectExampleLookupSearch, SelectExampleMultiple, SelectExampleMultipleSearch, SelectExampleTemplateSearch];

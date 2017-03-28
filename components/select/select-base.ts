@@ -10,7 +10,7 @@ import {Subscription} from 'rxjs';
 // We use generic type T to specify the type of the options we are working with, and U to specify the type of the property of the option used as the value.
 export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     public dropdownService:DropdownService;
-    public searchService:SearchService<T>;
+    public searchService:SearchService<T, U>;
 
     @ViewChild(SuiDropdownMenu)
     protected _menu:SuiDropdownMenu;
@@ -70,7 +70,13 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     }
 
     public set options(options:T[]) {
-        this.searchService.options = options;
+        if (typeof options == "function") {
+            this.searchService.optionsLookup = options;
+        }
+        else {
+            this.searchService.options = options;
+        }
+        
         this.optionsUpdateHook();
     }
 
@@ -87,6 +93,10 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
 
     public set query(query:string) {
         this.queryUpdateHook();
+        this.updateQuery(query);
+    }
+
+    protected updateQuery(query:string) {
         // Update the query then open the dropdown, as after keyboard input it should always be open.
         this.searchService.updateQuery(query, () =>
             this.dropdownService.setOpenState(true));
@@ -126,7 +136,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     constructor(private _element:ElementRef, private _renderer:Renderer) {
         this.dropdownService = new DropdownService();
         // We do want an empty query to return all results.
-        this.searchService = new SearchService<T>(true);
+        this.searchService = new SearchService<T, U>(true);
 
         this.isSearchable = false;
         this.noResultsMessage = "No results";
@@ -172,6 +182,11 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     public selectOption(option:T) {
         // This is implemented individually by the single & multi select variants, but is called within the base class, hence this stub.
         throw new Error("Not implemented");
+    }
+
+    protected findOption(options:T[], value:U) {
+        // Tries to find an option in options array
+        return options.find(o => value == this.valueGetter(o));
     }
 
     @HostListener("click", ['$event'])
