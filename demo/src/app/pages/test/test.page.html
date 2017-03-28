@@ -13,13 +13,22 @@
             </a>
         </div>
         <sui-sidebar-container class="ui bottom attached segment">
-            <sui-sidebar class="vertical inverted left" transition="push" #sidebar>
-                <a class="item">Hello</a>
-                <a class="item">World!</a>
+            <sui-sidebar class="inverted labeled icon" transition="push" direction="bottom" #sidebar>
+                <a class="item">
+                    <i class="home icon"></i>
+                    Home
+                </a>
+                <a class="item">
+                    <i class="block layout icon"></i>
+                    Topics
+                </a>
             </sui-sidebar>
             <sui-sidebar-sibling [isDimmedWhenOpen]="true">
                 <div class="ui basic segment">
                     <h3 class="ui header">Application Content</h3>
+                    <p>Hello!</p>
+                    <p>Hello!</p>
+                    <p>Hello!</p>
                     <p>Hello!</p>
                     <button class="ui button" (click)="sidebar.open()">Sidebar</button>
                 </div>

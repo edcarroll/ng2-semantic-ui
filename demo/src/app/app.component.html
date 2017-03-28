@@ -1,5 +1,5 @@
 <sui-sidebar-container>
-    <sui-sidebar class="vertical inverted left" #sidebar>
+    <sui-sidebar class="vertical inverted" transition="overlay" direction="left" #sidebar>
         <demo-sidebar (onItemSelected)="sidebar.close()"></demo-sidebar>
     </sui-sidebar>
     <sui-sidebar-sibling [isDimmedWhenOpen]="true">

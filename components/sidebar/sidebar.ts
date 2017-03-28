@@ -1,56 +1,5 @@
-import {Component, HostBinding, ElementRef, OnInit, Directive, ContentChild, AfterContentInit, Input, HostListener, Renderer, Output, EventEmitter} from '@angular/core';
-
-export type SidebarTransition = "overlay" | "push" | "scale down" | "uncover" | "slide along" | "slide out";
-
-// Creates essentially a 'string' enum.
-export const SidebarTransition = {
-    Overlay: "overlay" as SidebarTransition,
-    Push: "push" as SidebarTransition,
-    ScaleDown: "scale down" as SidebarTransition,
-    Uncover: "uncover" as SidebarTransition,
-    SlideAlong: "slide along" as SidebarTransition,
-    SlideOut: "slide out" as SidebarTransition,
-}
-
-export class SidebarService {
-    public isVisible:boolean;
-    public isAnimating:boolean;
-    public wasJustOpened:boolean;
-
-    public isVisibleChange:EventEmitter<boolean>;
-
-    private _isAnimatingTimeout:any;
-
-    public transition:SidebarTransition;
-
-    constructor(isVisible:boolean = false) {
-        this.isVisible = isVisible;
-        this.isAnimating = false;
-        this.wasJustOpened = false;
-
-        this.isVisibleChange = new EventEmitter<boolean>();
-
-        this.transition = SidebarTransition.Push;
-    }
-
-    public setVisibleState(isVisible:boolean) {
-        if (this.isVisible != isVisible) {
-            this.isVisible = isVisible;
-            this.isAnimating = true;
-            this.wasJustOpened = true;
-
-            this.isVisibleChange.emit(isVisible);
-
-            setTimeout(() => this.wasJustOpened = false);
-            clearTimeout(this._isAnimatingTimeout);
-            this._isAnimatingTimeout = setTimeout(() => this.isAnimating = false, 500);
-        }
-    }
-
-    public toggleVisibleState() {
-        this.setVisibleState(!this.isVisible);
-    }
-}
+import {Component, HostBinding, Input, Output, Renderer, ElementRef, EventEmitter} from '@angular/core';
+import {SidebarService, SidebarTransition, SidebarDirection} from './sidebar.service';
 
 @Component({
     selector: 'sui-sidebar',
@@ -70,13 +19,24 @@ export class SuiSidebar {
     }
 
     public set transition(transition:SidebarTransition) {
-        const oldClasses = this.service.transition.split(" ");
-        oldClasses.forEach(c => this._renderer.setElementClass(this._element.nativeElement, c, false));
+        this.service.transition.split(" ").forEach(c => this.setClass(c, false));
 
         this.service.transition = transition;
 
-        const classes = transition.split(" ");
-        classes.forEach(c => this._renderer.setElementClass(this._element.nativeElement, c, true));
+        this.service.transition.split(" ").forEach(c => this.setClass(c, true));
+    }
+
+    @Input()
+    public get direction() {
+        return this.service.direction;
+    }
+
+    public set direction(direction:SidebarDirection) {
+        this.setClass(this.service.direction, false);
+
+        this.service.direction = direction;
+
+        this.setClass(this.service.direction, true);
     }
 
     @HostBinding("class.visible")
@@ -86,7 +46,7 @@ export class SuiSidebar {
     }
 
     public set isVisible(isVisible:boolean) {
-        this.service.isVisible = isVisible;
+        this.service.setVisibleState(isVisible);
     }
 
     @Output()
@@ -103,8 +63,21 @@ export class SuiSidebar {
         this.service = new SidebarService();
         // We set the default here as well to force the classes to update.
         this.transition = SidebarTransition.Push;
+        this.direction = SidebarDirection.Left;
+
+        setTimeout(() => this.updateDimensions());
+        this.service.isVisibleChange.subscribe(() => this.updateDimensions());
 
         this._sidebarClasses = true;
+    }
+
+    private updateDimensions() {
+        this.service.width = this._element.nativeElement.offsetWidth;
+        this.service.height = this._element.nativeElement.offsetHeight;
+    }
+
+    private setClass(className:string, isAdd:boolean = true) {
+        this._renderer.setElementClass(this._element.nativeElement, className, isAdd);
     }
 
     public open() {
@@ -119,90 +92,3 @@ export class SuiSidebar {
         this.service.toggleVisibleState();
     }
 }
-
-@Component({
-    selector: 'sui-sidebar-sibling',
-    template: `<ng-content></ng-content>`,
-    styles: [`
-:host {
-    display: block;
-}
-`]
-})
-export class SuiSidebarSibling {
-    private _service:SidebarService;
-
-    public get service() {
-        return this._service;
-    }
-
-    public set service(service:SidebarService) {
-        this._service = service;
-    }
-
-    @Input()
-    public isDimmedWhenOpen:boolean;
-
-    @HostBinding("class.dimmed")
-    public get isDimmed() {
-        if (!this.service) {
-            return false;
-        }
-        return this.service.isVisible && this.isDimmedWhenOpen;
-    }
-
-    @HostBinding("class.pusher")
-    private _siblingClasses:boolean;
-
-    constructor() {
-        this.isDimmedWhenOpen = false;
-
-        this._siblingClasses = true;
-    }
-
-    @HostListener("click", ["$event"])
-    public onClick(event:MouseEvent) {
-        if (this.service.isVisible && !this.service.wasJustOpened) {
-            this.service.setVisibleState(false);
-        }
-    }
-}
-
-@Component({
-    selector: 'sui-sidebar-container',
-    template: `<ng-content></ng-content>`,
-    styles: [`
-:host {
-    display: block;
-}
-`]
-})
-export class SuiSidebarContainer implements AfterContentInit {
-    public service:SidebarService;
-
-    @HostBinding("class.pushable")
-    private _containerClasses:boolean;
-
-    @ContentChild(SuiSidebar)
-    public sidebar:SuiSidebar;
-
-    @ContentChild(SuiSidebarSibling)
-    public sibling:SuiSidebarSibling;
-
-    constructor() {
-        this._containerClasses = true;
-    }
-
-    public ngAfterContentInit() {
-        if (!this.sidebar) {
-            throw new Error("You must include a <sui-sidebar> element within the container.");
-        }
-        this.service = this.sidebar.service;
-
-        if (!this.sibling) {
-            throw new Error("You must include a <sui-sidebar-sibling> element within the container.");
-        }
-        this.sibling.service = this.service;
-    }
-}
-
