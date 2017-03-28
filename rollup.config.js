@@ -5,9 +5,9 @@ import uglify from 'rollup-plugin-uglify'
 export default {
     moduleName: 'ng2-semantic-ui',
     entry: 'index.js',
-    dest: 'ng2-semantic-ui.dist.js', // output a single application bundle
+    dest: 'bundles/ng2-semantic-ui.umd.min.js', // output a single application bundle
     sourceMap: false,
-    format: 'iife',
+    format: 'umd',
     onwarn: function(warning) {
         // Skip certain warnings
       
@@ -16,7 +16,7 @@ export default {
             return;
         }
         // intercepts in some rollup versions
-        if (warning.indexOf("The 'this' keyword is equivalent to 'undefined'") > -1 ) {
+        if (warning.message.indexOf("The 'this' keyword is equivalent to 'undefined'") > -1 ) {
             return;
         }
       
@@ -24,13 +24,24 @@ export default {
         console.warn(warning.message);
     },
     plugins: [
-        nodeResolve({ jsnext: true, module: true }),
+        nodeResolve({
+            jsnext: true,
+            module: true
+        }),
         commonjs({
             include: [
-                'node_modules/rxjs/**',
-                'node_modules/element-closest/**'
+                'node_modules/element-closest/**',
+                'node_modules/popper.js/**'
             ]
         }),
         uglify()
-    ]
+    ],
+    external: [
+        '@angular/common',
+        '@angular/core',
+        '@angular/forms',
+        '@angular/http',
+        '@angular/platform-browser',
+        'rxjs'
+  ],
 }
