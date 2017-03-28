@@ -5,6 +5,10 @@
     padding: 3em;
 }
 
+.ui.header {
+    width: 960px;
+}
+
 .github {
     float: right;
 }
