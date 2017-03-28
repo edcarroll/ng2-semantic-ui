@@ -89,10 +89,10 @@ export class SearchExampleStandard {
 })
 export class SearchExampleRemote extends SearchExampleStandard {
     public optionsSearch(query:string):Promise<Array<any>> {
-        var options = SearchExampleStandard.standardOptions.map((o:string) => ({ title: o }));
+        let options = SearchExampleStandard.standardOptions.map((o:string) => ({ title: o }));
 
         return new Promise((resolve, reject) => {
-            var results = options.filter((o:any) => {
+            let results = options.filter((o:any) => {
                 return o.title.slice(0, query.length).toLowerCase() == query.toLowerCase();
             });
             setTimeout(() => {

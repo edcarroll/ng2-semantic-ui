@@ -39,7 +39,6 @@ import {PositioningService, PositioningPlacement} from '../util/positioning.serv
 export class SuiSearch<T> implements AfterViewInit {
     public dropdownService:DropdownService;
     public searchService:SearchService<T>;
-    public position:PositioningService;
 
     @ViewChild(SuiDropdownMenu)
     private _menu:SuiDropdownMenu;
@@ -78,7 +77,7 @@ export class SuiSearch<T> implements AfterViewInit {
     // Sets local or remote options by determining whether a function is passed.
     @Input()
     public set options(options:T[] | LookupFn<T>) {
-        if (typeof(options) == "function") {
+        if (typeof options == "function") {
             this.searchService.optionsLookup = options;
             return;
         }
@@ -131,10 +130,6 @@ export class SuiSearch<T> implements AfterViewInit {
 
     public ngAfterViewInit() {
         this._menu.service = this.dropdownService;
-
-        // Initialse the positioning service to correctly display the results.
-        // This adds support for repositioning the results above the search when there isn't enough space below.
-        this.position = new PositioningService(this._element, this._menu.element, PositioningPlacement.BottomLeft);
     }
 
     // Selects an item.
@@ -160,10 +155,8 @@ export class SuiSearch<T> implements AfterViewInit {
 
     // Sets a specific item to be selected, updating the query automatically.
     public writeValue(item:T) {
-        if (item) {
-            this.selectedItem = item;
-            this.searchService.updateQuery(this.readValue(item) as string, () => {});
-        }
+        this.selectedItem = item;
+        this.searchService.updateQuery(item ? this.readValue(item) as string : "");
     }
 }
 

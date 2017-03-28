@@ -21,6 +21,7 @@ import {TabsPageComponents} from './tabs/tabs.page';
 import {TransitionPageComponents} from './transition/transition.page';
 import {RouterModule} from '@angular/router';
 import {PopupPageComponents} from './popup/popup.page';
+import {SidebarPageComponents} from './sidebar/sidebar.page';
 
 @NgModule({
     imports: [
@@ -45,6 +46,7 @@ import {PopupPageComponents} from './popup/popup.page';
         RatingPageComponents,
         SearchPageComponents,
         SelectPageComponents,
+        SidebarPageComponents,
         TabsPageComponents,
         TransitionPageComponents
     ],

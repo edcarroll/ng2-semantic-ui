@@ -7,11 +7,32 @@
 <demo-page-content>
     <h2 class="ui dividing header">Examples</h2>
     <div class="ui segment">
-        <template let-option #optionTemplate>
-            <i class="child icon"></i>{{ option }}
-        </template>
-        <sui-multi-select class="fluid" [options]="options" [isSearchable]="true" [optionTemplate]="optionTemplate" #multiSelect>
-            <sui-select-option *ngFor="let option of multiSelect.availableOptions" [value]="option"></sui-select-option>
-        </sui-multi-select>
+        <div class="ui top attached demo menu">
+            <a class="item" (click)="sidebar.toggle()">
+                <i class="sidebar icon"></i> Menu
+            </a>
+        </div>
+        <sui-sidebar-container class="ui bottom attached segment">
+            <sui-sidebar class="inverted labeled icon" transition="uncover" direction="bottom" #sidebar>
+                <a class="item">
+                    <i class="home icon"></i>
+                    Home
+                </a>
+                <a class="item">
+                    <i class="block layout icon"></i>
+                    Topics
+                </a>
+            </sui-sidebar>
+            <sui-sidebar-sibling [isDimmedWhenVisible]="true">
+                <div class="ui basic segment">
+                    <h3 class="ui header">Application Content</h3>
+                    <p>Hello!</p>
+                    <p>Hello!</p>
+                    <p>Hello!</p>
+                    <p>Hello!</p>
+                    <button class="ui button" (click)="sidebar.open()">Sidebar</button>
+                </div>
+            </sui-sidebar-sibling>
+        </sui-sidebar-container>
     </div>
 </demo-page-content>

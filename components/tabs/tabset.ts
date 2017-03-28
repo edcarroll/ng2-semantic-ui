@@ -45,7 +45,7 @@ export class SuiTabset implements AfterContentInit {
             //Assuming they have an associated content
             if (!t.content) {
                 //Link the content header with the content with the same ID excluding ones that are already linked
-                var possibleContents = this._tabContents.filter((tC:SuiTabContent) => tC.id == t.id);
+                let possibleContents = this._tabContents.filter((tC:SuiTabContent) => tC.id == t.id);
                 if (possibleContents.length == 0) {
                     throw new Error("A [suiTabHeader] must have a related [suiTabContent].");
                 }
@@ -104,7 +104,7 @@ export class SuiTabset implements AfterContentInit {
     //This activates the first content that isn't disabled
     private activateFirstTab() {
         //Filter out all disabled tabs from the currently loaded list and take the first one
-        var firstAvailable = this._loadedTabs.filter((tH:SuiTab) => !tH.isDisabled)[0];
+        let firstAvailable = this._loadedTabs.filter((tH:SuiTab) => !tH.isDisabled)[0];
         if (firstAvailable) {
             //If there is one available, activate it and set it to the currently active content
             firstAvailable.isActive = true;
@@ -115,10 +115,10 @@ export class SuiTabset implements AfterContentInit {
     //This activates the closest available content to the one provided
     private activateClosestTab(tab:SuiTab) {
         //Grab a list of all of the loaded tabs that aren't disabled (excluding the one we are leaving)
-        var availableTabs = this._loadedTabs
+        let availableTabs = this._loadedTabs
             .filter((tH:SuiTab) => !tH.isDisabled);
 
-        var tabIndex = tab.index;
+        let tabIndex = tab.index;
 
         // Only change the tabIndex if we have to.
         if (tabIndex >= availableTabs.length) {

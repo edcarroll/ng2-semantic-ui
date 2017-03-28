@@ -51,9 +51,9 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
     }
 
     protected optionsUpdateHook() {
-        if (this._writtenOptions && this.options.length > 0) {
+        if (this._writtenOptions && this.searchService.options.length > 0) {
             // If there were values written by ngModel before the options had been loaded, this runs to fix it.
-            this.selectedOptions = this._writtenOptions.map(v => this.options.find(o => v == this.valueGetter(o)));
+            this.selectedOptions = this._writtenOptions.map(v => this.searchService.options.find(o => v == this.valueGetter(o)));
             
             if (this.selectedOptions.length == this._writtenOptions.length) {
                 this._writtenOptions = null;
@@ -112,13 +112,20 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
 
     public writeValues(values:U[]) {
         if (values instanceof Array) {
-            if (this.options.length > 0) {
+            if (this.searchService.options.length > 0) {
                 // If the options have already been loaded, we can immediately match the ngModel values to options.
-                this.selectedOptions = values.map(v => this.options.find(o => v == this.valueGetter(o)));
+                this.selectedOptions = values.map(v => this.findOption(this.searchService.options, v));
             }
             if (values != [] && this.selectedOptions.length == 0) {
-                // Otherwise, cache the written value for when options are set.
-                this._writtenOptions = values;
+                if (this.valueField && this.searchService.hasItemLookup) {
+                    // If the search service has a selected lookup function, make use of that to load the initial values.
+                    this.searchService.itemsLookup<U>(values)
+                        .then(r => this.selectedOptions = r);
+                }
+                else {
+                    // Otherwise, cache the written value for when options are set.
+                    this._writtenOptions = values;
+                }
             }
         }
     }

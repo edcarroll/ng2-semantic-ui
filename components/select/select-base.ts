@@ -1,6 +1,6 @@
 import {Component, ViewChild, HostBinding, ElementRef, HostListener, Input, ContentChildren, QueryList, ViewChildren, AfterContentInit, EventEmitter, Output, Renderer, TemplateRef, ViewContainerRef} from '@angular/core';
 import {DropdownService} from '../dropdown/dropdown.service';
-import {SearchService} from '../search/search.service';
+import {SearchService, LookupFn} from '../search/search.service';
 import {readValue, KeyCode} from '../util/util';
 import {PositioningService, PositioningPlacement} from '../util/positioning.service';
 import {SuiDropdownMenu, SuiDropdownMenuItem} from '../dropdown/dropdown-menu';
@@ -65,12 +65,14 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     public placeholder:string;
 
     @Input()
-    public get options() {
-        return this.searchService.options;
-    }
-
-    public set options(options:T[]) {
-        this.searchService.options = options;
+    public set options(options:T[] | LookupFn<T>) {
+        if (typeof options == "function") {
+            this.searchService.optionsLookup = options;
+        }
+        else {
+            this.searchService.options = options;
+        }
+        
         this.optionsUpdateHook();
     }
 
@@ -87,6 +89,10 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
 
     public set query(query:string) {
         this.queryUpdateHook();
+        this.updateQuery(query);
+    }
+
+    protected updateQuery(query:string) {
         // Update the query then open the dropdown, as after keyboard input it should always be open.
         this.searchService.updateQuery(query, () =>
             this.dropdownService.setOpenState(true));
@@ -174,6 +180,11 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         throw new Error("Not implemented");
     }
 
+    protected findOption(options:T[], value:U) {
+        // Tries to find an option in options array
+        return options.find(o => value == this.valueGetter(o));
+    }
+
     @HostListener("click", ['$event'])
     public onClick(e:MouseEvent) {
         e.stopPropagation();
@@ -203,7 +214,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     // Helper that draws the provided template beside the provided ViewContainerRef.
     protected drawTemplate(siblingRef:ViewContainerRef, value:T) {
         siblingRef.clear();
-        // Use of `$implicit` means use of <template let-option> syntax is supported.
+        // Use of `$implicit` means use of <ng-template let-option> syntax is supported.
         siblingRef.createEmbeddedView(this.optionTemplate, { '$implicit': value });
     }
 }

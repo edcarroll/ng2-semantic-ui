@@ -10,6 +10,7 @@ import {SuiPopupModule} from './popup/popup.module';
 import {SuiProgressModule} from "./progress/progress.module";
 import {SuiRatingModule} from "./rating/rating.module";
 import {SuiSearchModule} from "./search/search.module";
+import {SuiSidebarModule} from "./sidebar/sidebar.module";
 import {SuiTabsModule} from "./tabs/tab.module";
 import {SuiSelectModule} from "./select/select.module";
 import {SuiTransitionModule} from "./transition/transition.module";
@@ -27,6 +28,7 @@ import {SuiTransitionModule} from "./transition/transition.module";
         SuiRatingModule,
         SuiSearchModule,
         SuiSelectModule,
+        SuiSidebarModule,
         SuiTabsModule,
         SuiTransitionModule
     ]

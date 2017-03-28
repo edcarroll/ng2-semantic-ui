@@ -16,7 +16,7 @@ export class SelectPage {
                 },
                 {
                     name: "options",
-                    description: "Sets the options available to the select component."
+                    description: "Sets the options available to the select component. Can either be an array or a function that takes a query and returns a Promise for remote lookup."
                 },
                 {
                     name: "labelField",
@@ -71,7 +71,7 @@ export class SelectPage {
                 },
                 {
                     name: "options",
-                    description: "Sets the options available to the multi select component.",
+                    description: "Sets the options available to the multi select component. Can either be an array or a function that takes a query and returns a Promise for remote lookup.",
                     required: true
                 },
                 {
@@ -159,6 +159,36 @@ export class SelectPage {
     <p>Currently selected: {{ selectedOption | json }}</p>
 </div>
 `;
+    public exampleSearchLookupTemplate:string = `
+<p>You can also use the keyboard to navigate.</p>
+<sui-select [(ngModel)]="selectedOption" [options]="optionsLookup" labelField="name" valueField="id" [isSearchable]="true" #searchSelect>
+    <sui-select-option *ngFor="let option of searchSelect.availableOptions" [value]="option"></sui-select-option>
+</sui-select>
+<div class="ui segment">
+    <p>Currently selected: {{ selectedOption | json }}</p>
+</div>
+`;
+    public searchLookupCode:string = `
+// The 2nd argument's type is that of the property specified by 'valueField'.
+let selectLookup = (query:string, initial:number) => {
+    if (initial != undefined) {
+        // Return a promise that resolves with the specified item.
+        return externalApi.findById(initial);
+    }
+    // Return a promise that resolves with a list of query results.
+    return externalApi.query(query);
+};
+
+// For a multi select lookup, the lookup is slightly different:
+let multiSelectLookup = (query:string, initials:number[]) => {
+    if (initial != undefined) {
+        // Return a promise that resolves with the specified items.
+        return externalApi.findByIds(initials);
+    }
+    // Return a promise that resolves with a list of query results.
+    return externalApi.query(query);
+};
+`;
     public exampleMultipleTemplate:string = `
 <sui-multi-select class="fluid" [(ngModel)]="selectedOptions" [options]="options" #multiSelect>
     <sui-select-option *ngFor="let option of multiSelect.availableOptions" [value]="option"></sui-select-option>
@@ -176,9 +206,9 @@ export class SelectPage {
 </div>
 `;
     public exampleTemplateSearchTemplate:string = `
-<template let-option #optionTemplate>
+<ng-template let-option #optionTemplate>
     <i class="child icon"></i>{{ option.name }}
-</template>
+</ng-template>
 <div class="ui form">
     <div class="field">
         <sui-select [(ngModel)]="selectedOption" [options]="options" labelField="name" [optionTemplate]="optionTemplate" [isSearchable]="true" #select>
@@ -232,6 +262,28 @@ export class SelectExampleSearch {
 }
 
 @Component({
+    selector: 'select-example-search-lookup',
+    template: new SelectPage().exampleSearchLookupTemplate
+})
+export class SelectExampleLookupSearch {
+    private _options:Array<any> = [{ id: 1, name: "Example" }, { id: 2, name: "Test" }, { id: 3, name: "What" }, { id: 4, name: "No" }, { id: 5, name: "Benefit" }, { id: 6, name: "Oranges" }, { id: 7, name: "Artemis" }, { id: 8, name: "Another" }];
+    public optionsLookup = (query:string, initial:number) => {
+        if (initial != undefined) {
+            return new Promise((resolve, reject) => {
+                resolve(this._options.find((item) => item.id == initial));
+            });
+        }
+        else {
+            let regex:RegExp = new RegExp(query, 'i');
+            return new Promise((resolve, reject) => {
+                resolve(this._options.filter((item) => item.name.match(regex)));
+            });
+        }
+    };
+    public selectedOption = this._options[3]['id'];
+}
+
+@Component({
     selector: 'select-example-multiple',
     template: new SelectPage().exampleMultipleTemplate
 })
@@ -258,4 +310,4 @@ export class SelectExampleTemplateSearch {
     public selectedOption = this.options[5];
 }
 
-export const SelectPageComponents:Array<any> = [SelectPage, SelectExampleStandard, SelectExampleOptions, SelectExampleSearch, SelectExampleMultiple, SelectExampleMultipleSearch, SelectExampleTemplateSearch];
+export const SelectPageComponents:Array<any> = [SelectPage, SelectExampleStandard, SelectExampleOptions, SelectExampleSearch, SelectExampleLookupSearch, SelectExampleMultiple, SelectExampleMultipleSearch, SelectExampleTemplateSearch];

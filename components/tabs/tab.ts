@@ -42,7 +42,7 @@ export class SuiTab {
     public get isActive() { return this._isActive; }
 
     public set isActive(value:boolean) {
-        var change = this._isActive != value;
+        let change = this._isActive != value;
         this._isActive = value;
         if (this._content) {
             this._content.isActive = value;
@@ -61,7 +61,7 @@ export class SuiTab {
     }
 
     public set isDisabled(value:boolean) {
-        var change = this._isDisabled != value;
+        let change = this._isDisabled != value;
 
         this._isDisabled = value;
 
