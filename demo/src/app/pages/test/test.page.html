@@ -7,9 +7,9 @@
 <demo-page-content>
     <h2 class="ui dividing header">Examples</h2>
     <div class="ui segment">
-        <template let-option #optionTemplate>
+        <ng-template let-option #optionTemplate>
             <i class="child icon"></i>{{ option }}
-        </template>
+        </ng-template>
         <sui-multi-select class="fluid" [options]="options" [isSearchable]="true" [optionTemplate]="optionTemplate" #multiSelect>
             <sui-select-option *ngFor="let option of multiSelect.availableOptions" [value]="option"></sui-select-option>
         </sui-multi-select>

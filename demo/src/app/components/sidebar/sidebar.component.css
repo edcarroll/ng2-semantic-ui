@@ -1,0 +1,9 @@
+.ui.image {
+    margin: -0.25rem 0.25rem 0 0.25rem !important;
+}
+
+.logo {
+    margin-left: 10px;
+    font-size: 16px;
+    vertical-align: sub;
+}

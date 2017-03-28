@@ -63,12 +63,12 @@ export class PopupPage {
 `;
 
     public exampleTemplateTemplate = `
-<template let-popup #popupTemplate>
+<ng-template let-popup #popupTemplate>
     <div class="header">Rating</div>
     <div class="content">
         <sui-rating class="star" (click)="popup.close()"></sui-rating>
     </div>
-</template>
+</ng-template>
 <button class="ui icon button" suiPopup [popupTemplate]="popupTemplate" popupTrigger="outsideClick">
     <i class="star icon"></i> Rate
 </button>

@@ -218,7 +218,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     // Helper that draws the provided template beside the provided ViewContainerRef.
     protected drawTemplate(siblingRef:ViewContainerRef, value:T) {
         siblingRef.clear();
-        // Use of `$implicit` means use of <template let-option> syntax is supported.
+        // Use of `$implicit` means use of <ng-template let-option> syntax is supported.
         siblingRef.createEmbeddedView(this.optionTemplate, { '$implicit': value });
     }
 }

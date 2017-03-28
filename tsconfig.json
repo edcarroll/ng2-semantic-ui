@@ -26,10 +26,10 @@
         ]
     },
     "files": [
-        "index.ts",
-        "ng2-semantic-ui.ts"
+        "index.ts"
     ],
     "angularCompilerOptions": {
+        "annotateForClosureCompiler": true,
         "strictMetadataEmit": true
     }
 }

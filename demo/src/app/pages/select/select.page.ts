@@ -185,9 +185,9 @@ export class SelectPage {
 </div>
 `;
     public exampleTemplateSearchTemplate:string = `
-<template let-option #optionTemplate>
+<ng-template let-option #optionTemplate>
     <i class="child icon"></i>{{ option.name }}
-</template>
+</ng-template>
 <div class="ui form">
     <div class="field">
         <sui-select [(ngModel)]="selectedOption" [options]="options" labelField="name" [optionTemplate]="optionTemplate" [isSearchable]="true" #select>
