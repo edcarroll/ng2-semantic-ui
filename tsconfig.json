@@ -13,7 +13,8 @@
             "@angular/core": ["node_modules/@angular/core"],
             "@angular/common": ["node_modules/@angular/common"],
             "@angular/forms": ["node_modules/@angular/form"],
-            "rxjs": ["node_modules/rxjs"]
+            "rxjs": ["node_modules/rxjs"],
+            "popper.js/dist/popper.es5.js": ["typings/popper.override.ts"]
         },
         "rootDir": ".",
         "sourceMap": true,

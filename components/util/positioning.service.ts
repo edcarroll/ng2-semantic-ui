@@ -1,5 +1,6 @@
 import {ElementRef, EventEmitter} from '@angular/core';
-const Popper = require('popper.js');
+// We import the ES5 version manually so that rollup can uglify it.
+import Popper from "popper.js/dist/popper.es5.js";
 
 export type PositioningPlacement = "inherit" | "top-start" | "top" | "top-end" | "left-start" | "left" | "left-end" | "bottom-start" | "bottom" | "bottom-end" | "right-start" | "right" | "right-end";
 

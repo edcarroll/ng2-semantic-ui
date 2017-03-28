@@ -1,9 +1,9 @@
 {
   "name": "ng2-semantic-ui",
-  "main": "ng2-semantic-ui.dist.js",
+  "main": "bundles/ng2-semantic-ui.umd.min.js",
   "module": "index.js",
   "typings": "index.d.ts",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Angular 2 Semantic UI Components",
   "repository": {
     "type": "git",
@@ -51,7 +51,6 @@
     "@angular/router": "^4.0.0",
     "@types/prismjs": "~1.4.18",
     "@types/protractor": "~4.0.0",
-    "@types/requirejs": "~2.1.28",
     "codelyzer": "~2.0.0-beta.4",
     "jasmine-core": "~2.5.2",
     "jasmine-spec-reporter": "~3.2.0",
