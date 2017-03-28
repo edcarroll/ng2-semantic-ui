@@ -1,23 +1,25 @@
-<div class="ui vertical inverted left sidebar animating uncover menu" [class.visible]="menuOpen">
-    <demo-sidebar (onItemSelected)="closeMenu()"></demo-sidebar>
-</div>
-<div class="pusher" [class.dimmed]="menuOpen" (click)="closeMenu()">
-    <div class="full height">
-        <div class="toc">
-            <div class="ui vertical inverted menu">
-                <demo-sidebar></demo-sidebar>
-            </div>
-        </div>
-        <div class="article">
-            <div class="ui top attached inverted menu">
-                <a class="launch icon item" (click)="openMenu($event)">
-                    <i class="content icon"></i>
-                </a>
-                <div class="right item">
-                    <demo-github-buttons [mega]="false"></demo-github-buttons>
+<sui-sidebar-container>
+    <sui-sidebar class="vertical inverted left" #sidebar>
+        <demo-sidebar (onItemSelected)="sidebar.close()"></demo-sidebar>
+    </sui-sidebar>
+    <sui-sidebar-sibling [isDimmedWhenOpen]="true">
+        <div class="full height">
+            <div class="toc">
+                <div class="ui vertical inverted menu">
+                    <demo-sidebar></demo-sidebar>
                 </div>
             </div>
-            <router-outlet></router-outlet>
+            <div class="article">
+                <div class="ui top attached inverted menu">
+                    <a class="launch icon item" (click)="sidebar.open()">
+                        <i class="content icon"></i>
+                    </a>
+                    <div class="right item">
+                        <demo-github-buttons [mega]="false"></demo-github-buttons>
+                    </div>
+                </div>
+                <router-outlet></router-outlet>
+            </div>
         </div>
-    </div>
-</div>
+    </sui-sidebar-sibling>
+</sui-sidebar-container>
