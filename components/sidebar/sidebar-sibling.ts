@@ -25,7 +25,7 @@ export class SuiSidebarSibling {
     }
 
     @Input()
-    public isDimmedWhenOpen:boolean;
+    public isDimmedWhenVisible:boolean;
 
     @HostBinding("class.visible")
     public get isVisible() {
@@ -40,14 +40,14 @@ export class SuiSidebarSibling {
         if (!this.service) {
             return false;
         }
-        return this.service.isVisible && this.isDimmedWhenOpen;
+        return this.service.isVisible && this.isDimmedWhenVisible;
     }
 
     @HostBinding("class.pusher")
     private _siblingClasses:boolean;
 
     constructor(private _renderer:Renderer, private _element:ElementRef) {
-        this.isDimmedWhenOpen = false;
+        this.isDimmedWhenVisible = false;
 
         this._siblingClasses = true;
     }

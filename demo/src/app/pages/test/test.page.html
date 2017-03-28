@@ -13,7 +13,7 @@
             </a>
         </div>
         <sui-sidebar-container class="ui bottom attached segment">
-            <sui-sidebar class="inverted labeled icon" transition="push" direction="bottom" #sidebar>
+            <sui-sidebar class="inverted labeled icon" transition="uncover" direction="bottom" #sidebar>
                 <a class="item">
                     <i class="home icon"></i>
                     Home
@@ -23,7 +23,7 @@
                     Topics
                 </a>
             </sui-sidebar>
-            <sui-sidebar-sibling [isDimmedWhenOpen]="true">
+            <sui-sidebar-sibling [isDimmedWhenVisible]="true">
                 <div class="ui basic segment">
                     <h3 class="ui header">Application Content</h3>
                     <p>Hello!</p>

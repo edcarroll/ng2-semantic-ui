@@ -62,6 +62,7 @@ The current list of available components with links to their docs is below:
 * [Rating](https://edcarroll.github.io/ng2-semantic-ui/#/components/rating)
 * [Search](https://edcarroll.github.io/ng2-semantic-ui/#/components/search)
 * [Select](https://edcarroll.github.io/ng2-semantic-ui/#/components/select)
+* [Sidebar](https://edcarroll.github.io/ng2-semantic-ui/#/components/sidebar)
 * [Tabs](https://edcarroll.github.io/ng2-semantic-ui/#/components/tabs)
 * [Transition](https://edcarroll.github.io/ng2-semantic-ui/#/components/transition)
 
