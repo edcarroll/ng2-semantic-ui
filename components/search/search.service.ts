@@ -1,15 +1,18 @@
 import {readValue} from '../util/util';
 
 // Define useful types to avoid any.
-export type LookupFn<T, U> = (query:string, initial?:U) => Promise<T[]>
+export type LookupFn<T> = (query:string) => Promise<T[]> | Promise<T>;
+export type QueryLookupFn<T> = (query:string) => Promise<T[]>;
+export type ItemLookupFn<T, U> = (query:string, initial:U) => Promise<T>;
+export type ItemsLookupFn<T, U> = (query:string, initial:U[]) => Promise<T[]>;
+
 type CachedArray<T> = { [query:string]:T[] };
 
-// T extends JavascriptObject so we can do a recursive search on the object.
-export class SearchService<T, U> {
+export class SearchService<T> {
     // Stores the available options.
     private _options:T[];
     // Converts a query string into an array of options. Must be a function returning a promise.
-    private _optionsLookup:LookupFn<T, U>;
+    private _optionsLookup:LookupFn<T>;
     // Field that options are searched & displayed on.
     private _optionsField:string;
     
@@ -29,17 +32,27 @@ export class SearchService<T, U> {
         return this._optionsLookup;
     }
 
-    public set optionsLookup(lookupFn:LookupFn<T, U>) {
+    public set optionsLookup(lookupFn:LookupFn<T>) {
         this._optionsLookup = lookupFn;
         // As before, cannot use local & remote options simultaneously.
         this._options = [];
         this.reset();
     }
 
-    public get selectedLookup() {
-        if (this.optionsLookup && this.optionsLookup.length == 2) {
-            return this.optionsLookup;
-        }
+    public get queryLookup() {
+        return this._optionsLookup as QueryLookupFn<T>;
+    }
+
+    public get hasItemLookup() {
+         return this.optionsLookup && this.optionsLookup.length == 2;
+    }
+
+    public itemLookup<U>(initial:U) {
+        return (this._optionsLookup as ItemLookupFn<T, U>)(undefined, initial);
+    }
+
+    public itemsLookup<U>(initial:U[]) {
+        return (this._optionsLookup as ItemsLookupFn<T, U>)(undefined, initial);
     }
 
     public get optionsField() {
@@ -118,7 +131,7 @@ export class SearchService<T, U> {
         if (this._optionsLookup) {
             this._isSearching = true;
 
-            this._optionsLookup(this._query)
+            this.queryLookup(this._query)
                 .then(results => {
                     // Unset 'loading' state, and display & cache the results.
                     this._isSearching = false;

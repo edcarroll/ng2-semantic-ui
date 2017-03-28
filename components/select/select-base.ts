@@ -1,6 +1,6 @@
 import {Component, ViewChild, HostBinding, ElementRef, HostListener, Input, ContentChildren, QueryList, ViewChildren, AfterContentInit, EventEmitter, Output, Renderer, TemplateRef, ViewContainerRef} from '@angular/core';
 import {DropdownService} from '../dropdown/dropdown.service';
-import {SearchService} from '../search/search.service';
+import {SearchService, LookupFn} from '../search/search.service';
 import {readValue, KeyCode} from '../util/util';
 import {PositioningService, PositioningPlacement} from '../util/positioning.service';
 import {SuiDropdownMenu, SuiDropdownMenuItem} from '../dropdown/dropdown-menu';
@@ -10,7 +10,7 @@ import {Subscription} from 'rxjs';
 // We use generic type T to specify the type of the options we are working with, and U to specify the type of the property of the option used as the value.
 export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     public dropdownService:DropdownService;
-    public searchService:SearchService<T, U>;
+    public searchService:SearchService<T>;
 
     @ViewChild(SuiDropdownMenu)
     protected _menu:SuiDropdownMenu;
@@ -65,11 +65,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     public placeholder:string;
 
     @Input()
-    public get options() {
-        return this.searchService.options;
-    }
-
-    public set options(options:T[]) {
+    public set options(options:T[] | LookupFn<T>) {
         if (typeof options == "function") {
             this.searchService.optionsLookup = options;
         }
@@ -136,7 +132,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     constructor(private _element:ElementRef, private _renderer:Renderer) {
         this.dropdownService = new DropdownService();
         // We do want an empty query to return all results.
-        this.searchService = new SearchService<T, U>(true);
+        this.searchService = new SearchService<T>(true);
 
         this.isSearchable = false;
         this.noResultsMessage = "No results";

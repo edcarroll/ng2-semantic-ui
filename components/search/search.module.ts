@@ -4,7 +4,7 @@ import {FormsModule} from "@angular/forms";
 import {SuiDropdownModule} from "../dropdown/dropdown.module";
 import {SuiTransitionModule} from "../transition/transition.module";
 import {SuiSearch, SuiSearchValueAccessor} from './search';
-import {SearchService} from './search.service';
+import {SearchService, LookupFn} from './search.service';
 
 @NgModule({
     imports: [
@@ -23,4 +23,4 @@ import {SearchService} from './search.service';
 })
 export class SuiSearchModule {}
 
-export {SearchService};
+export {SearchService, LookupFn};

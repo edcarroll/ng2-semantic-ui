@@ -38,7 +38,7 @@ import {PositioningService, PositioningPlacement} from '../util/positioning.serv
 })
 export class SuiSearch<T> implements AfterViewInit {
     public dropdownService:DropdownService;
-    public searchService:SearchService<T, T>;
+    public searchService:SearchService<T>;
 
     @ViewChild(SuiDropdownMenu)
     private _menu:SuiDropdownMenu;
@@ -76,7 +76,7 @@ export class SuiSearch<T> implements AfterViewInit {
 
     // Sets local or remote options by determining whether a function is passed.
     @Input()
-    public set options(options:T[] | LookupFn<T, T>) {
+    public set options(options:T[] | LookupFn<T>) {
         if (typeof options == "function") {
             this.searchService.optionsLookup = options;
             return;
@@ -117,7 +117,7 @@ export class SuiSearch<T> implements AfterViewInit {
 
     constructor(private _element:ElementRef) {
         this.dropdownService = new DropdownService();
-        this.searchService = new SearchService<T, T>();
+        this.searchService = new SearchService<T>();
 
         this._searchClasses = true;
         this.hasIcon = true;

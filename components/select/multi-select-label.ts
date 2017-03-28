@@ -55,4 +55,9 @@ export class SuiMultiSelectLabel<T> extends SuiTransition implements ISelectRend
         this._transitionController.animate(new Transition("scale", 100, TransitionDirection.Out, () =>
             this.onDeselected.emit(this.value)));
     }
+
+    @HostListener("click", ["$event"])
+    public onClick(event:MouseEvent) {
+        event.stopPropagation();
+    }
 }
