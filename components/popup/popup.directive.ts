@@ -124,7 +124,7 @@ export class SuiPopupDirective {
             const factory = this._componentFactoryResolver.resolveComponentFactory(SuiPopup);
             this._popupComponentRef = this._viewContainerRef.createComponent(factory);
             
-            // Append the generated element to the body to avoid any positioning issues.
+            // Move the generated element to the body to avoid any positioning issues.
             document.querySelector("body").appendChild(this._popupComponentRef.location.nativeElement);
 
             this._popup.onClose.subscribe(() => {
