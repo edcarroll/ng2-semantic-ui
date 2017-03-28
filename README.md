@@ -40,6 +40,20 @@ N.B. you can import individual component modules:
 import {SuiCheckboxModule, SuiRatingModule} from 'ng2-semantic-ui';
 ```
 
+### SystemJS
+
+If you're using SystemJS, add the following to your `systemjs.config.js` file:
+
+```js
+var config = {
+    ...
+    map: {
+        ...
+        'ng2-semantic-ui': 'npm:ng2-semantic-ui/bundles/ng2-semantic-ui.umd.min.js'
+    }
+}
+```
+
 Now you're good to go!
 
 ## Dependencies
