@@ -78,8 +78,6 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> {
         this.searchService.updateQueryDelayed("");
 
         this.drawSelectedOption();
-        // Adds the active property to the items.
-        this.onAvailableOptionsRendered();
 
         // Automatically refocus the search input for better keyboard accessibility.
         this.focusInput();
@@ -97,6 +95,7 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> {
                     (this.searchService.itemLookup<U>(value) as Promise<T>)
                         .then(r => {
                             this.selectedOption = r;
+
                             this.drawSelectedOption();
                         });
                     return;
@@ -119,6 +118,9 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> {
     }
 
     private drawSelectedOption() {
+        // Updates the active class on the newly selected option.
+        this.onAvailableOptionsRendered();
+
         if (this.selectedOption && this.optionTemplate) {
             this.drawTemplate(this._optionTemplateSibling, this.selectedOption);
         }
