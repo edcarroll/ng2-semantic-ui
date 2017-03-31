@@ -20,27 +20,35 @@ import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 export class SuiRadioButton {
     @HostBinding('class.ui')
     @HostBinding('class.radio')
-    @HostBinding('class.checkbox') classes = true;
+    @HostBinding('class.checkbox')
+    private _classes = true;
 
-    @Input() public name:string;
-    @Input() public value:any = "";
+    @Input()
+    public name:string;
 
-    @Input() public isDisabled:boolean = false;
+    @Input()
+    public value:any = "";
+
+    @Input()
+    public isDisabled:boolean = false;
+
     @HostBinding('class.read-only')
-    @Input() public isReadonly:boolean = false;
+    @Input()
+    public isReadonly:boolean = false;
 
     @HostBinding('class.checked')
-    private checked:boolean = false;
+    public isChecked:boolean = false;
 
-    private currentValue:any;
+    public currentValue:any;
 
-    @Output() public currentValueChange:EventEmitter<any> = new EventEmitter<boolean>(false);
+    @Output()
+    public currentValueChange:EventEmitter<any> = new EventEmitter<boolean>(false);
 
-    private get checkedAttribute():string {
-        return this.checked ? "" : null;
+    public get checkedAttribute():string {
+        return this.isChecked ? "" : null;
     }
 
-    private get isDisabledAttribute():string {
+    public get isDisabledAttribute():string {
         return this.isDisabled ? "disabled" : null;
     }
 
@@ -56,7 +64,7 @@ export class SuiRadioButton {
     public update():void {
         //This is a horrible hack - need to rewrite!
         setTimeout(() => {
-            this.checked = this.currentValue == this.value;
+            this.isChecked = this.currentValue == this.value;
         });
     }
 

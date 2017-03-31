@@ -14,7 +14,7 @@ import {KeyCode} from '../util/util';
 <!-- Query input -->
 <input [hidden]="!isSearchable" class="search" type="text" autocomplete="off" [(ngModel)]="query" (keydown)="onQueryInputKeydown($event)" #queryInput>
 <!-- Placeholder text -->
-<div *ngIf="!selectedOption" class="default text" [class.filtered]="!!query">{{ placeholder }}</div>
+<div class="default text" [class.filtered]="!!query">{{ placeholder }}</div>
 <!-- Select dropdown menu -->
 <div class="menu" suiDropdownMenu [menuAutoSelectFirst]="true">
     <ng-content></ng-content>

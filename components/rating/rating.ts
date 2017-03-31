@@ -30,16 +30,20 @@ export class SuiRating {
     public set max(value:any) {
         this._max = parseInt(value);
     }
-    private get icons() {
+
+    public get icons() {
         return Array(this._max);
     }
 
-    @Output() public valueChange:EventEmitter<number> = new EventEmitter<number>(false);
+    @Output()
+    public valueChange:EventEmitter<number> = new EventEmitter<number>(false);
 
     private _hoveredIndex:number = -1;
+    
     private mouseover(i:number) {
         this._hoveredIndex = i;
     }
+
     @HostListener('mouseout')
     private mouseout() {
         this._hoveredIndex = -1;

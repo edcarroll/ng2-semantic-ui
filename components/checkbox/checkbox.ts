@@ -13,24 +13,30 @@ import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 })
 export class SuiCheckbox {
     @HostBinding('class.ui')
-    @HostBinding('class.checkbox') classes = true;
+    @HostBinding('class.checkbox')
+    private _classes = true;
 
-    @Input() public name:string;
+    @Input()
+    public name:string;
 
     @HostBinding('class.checked')
-    private checked:boolean = false;
+    public isChecked:boolean = false;
 
-    @Output() public checkChange:EventEmitter<boolean> = new EventEmitter<boolean>(false);
+    @Output()
+    public checkChange:EventEmitter<boolean> = new EventEmitter<boolean>(false);
 
-    @Input() public isDisabled:boolean = false;
+    @Input()
+    public isDisabled:boolean = false;
+
     @HostBinding('class.read-only')
-    @Input() public isReadonly:boolean = false;
+    @Input()
+    public isReadonly:boolean = false;
 
-    private get checkedAttribute():string {
-        return this.checked ? "" : null;
+    public get checkedAttribute():string {
+        return this.isChecked ? "" : null;
     }
 
-    private get isDisabledAttribute():string {
+    public get isDisabledAttribute():string {
         return this.isDisabled ? "disabled" : null;
     }
 
@@ -42,13 +48,13 @@ export class SuiCheckbox {
     }
 
     public toggle():void {
-        this.checked = !this.checked;
-        this.checkChange.emit(this.checked);
+        this.isChecked = !this.isChecked;
+        this.checkChange.emit(this.isChecked);
     }
 
     public writeValue(value:boolean) {
         setTimeout(() => {
-            this.checked = value;
+            this.isChecked = value;
         });
     }
 }
