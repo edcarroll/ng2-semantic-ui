@@ -2,9 +2,19 @@ import {Component} from '@angular/core';
 import {SuiTransition, Transition, TransitionDirection} from "../../../../../components/transition/transition";
 import {TransitionController} from "../../../../../components/transition/transition-controller";
 
+const exampleStandardTemplate = `
+<div class="ui segment">
+    <img src="http://u.to/7GvODw" class="ui image" [suiTransition]="transitionController">
+</div>
+<sui-select [(ngModel)]="transitionName" [options]="transitions" [isSearchable]="true" #animSelect>
+    <sui-select-option *ngFor="let a of animSelect.availableOptions" [value]="a"></sui-select-option>
+</sui-select>
+<button class="ui button" (click)="animate(transitionName)">Animate</button>
+`;
+
 @Component({
-  selector: 'demo-page-transition',
-  templateUrl: './transition.page.html'
+    selector: 'demo-page-transition',
+    templateUrl: './transition.page.html'
 })
 export class TransitionPage {
     public api = [
@@ -49,15 +59,7 @@ export class MyComponent {
 }
 `;
 
-    public exampleStandardTemplate:string = `
-<div class="ui segment">
-    <img src="http://u.to/7GvODw" class="ui image" [suiTransition]="transitionController">
-</div>
-<sui-select [(ngModel)]="transitionName" [options]="transitions" [isSearchable]="true" #animSelect>
-    <sui-select-option *ngFor="let a of animSelect.availableOptions" [value]="a"></sui-select-option>
-</sui-select>
-<button class="ui button" (click)="animate(transitionName)">Animate</button>
-`;
+    public exampleStandardTemplate = exampleStandardTemplate;
 
     public transitionControllerInterface = `
 this.ctrl = new TransitionController(isInitiallyVisible:boolean = false, display:string = "block");
@@ -86,7 +88,7 @@ this.ctrl.clearQueue();
 // Continues with the current transition, but empties the queue.
 `;
 
-    public advancedExampleCode:string = `
+    public advancedExampleCode = `
 import {SuiTransition, TransitionController, Transition} from "ng2-semantic-ui";
 
 @Component({})
@@ -111,7 +113,7 @@ export class MyComponent extends SuiTransition {
 
 @Component({
     selector: 'transition-example-standard',
-    template: new TransitionPage().exampleStandardTemplate
+    template: exampleStandardTemplate
 })
 export class TransitionExampleStandard {
     public transitionController = new TransitionController();
@@ -127,4 +129,4 @@ export class TransitionExampleStandard {
     }
 }
 
-export const TransitionPageComponents:Array<any> = [TransitionPage, TransitionExampleStandard];
+export const TransitionPageComponents = [TransitionPage, TransitionExampleStandard];

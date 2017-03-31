@@ -1,5 +1,34 @@
 import {Component, Input} from '@angular/core';
 
+const exampleStandardTemplate = `
+<button class="ui green icon button" suiPopup popupHeader="Example" popupText="This is an example popup">
+    <i class="add icon"></i>
+</button>
+`;
+
+const exampleTemplateTemplate = `
+<ng-template let-popup #popupTemplate>
+    <div class="header">Rating</div>
+    <div class="content">
+        <sui-rating class="star" (click)="popup.close()"></sui-rating>
+    </div>
+</ng-template>
+<button class="ui icon button" suiPopup [popupTemplate]="popupTemplate" popupTrigger="outsideClick">
+    <i class="star icon"></i> Rate
+</button>
+`;
+
+const examplePlacementTemplate = `
+<div class="ui card" suiPopup popupText="You can customise my placement!" popupInverted [popupPlacement]="position">
+    <div class="content">
+        <div class="header">Positioning</div>
+        <div class="description">
+            Popup placement can be anywhere around the content.
+        </div>
+    </div>
+</div>
+`;
+
 @Component({
     selector: 'demo-page-popup',
     templateUrl: './popup.page.html'
@@ -56,34 +85,9 @@ export class PopupPage {
         }
     ];
     
-    public exampleStandardTemplate = `
-<button class="ui green icon button" suiPopup popupHeader="Example" popupText="This is an example popup">
-    <i class="add icon"></i>
-</button>
-`;
-
-    public exampleTemplateTemplate = `
-<ng-template let-popup #popupTemplate>
-    <div class="header">Rating</div>
-    <div class="content">
-        <sui-rating class="star" (click)="popup.close()"></sui-rating>
-    </div>
-</ng-template>
-<button class="ui icon button" suiPopup [popupTemplate]="popupTemplate" popupTrigger="outsideClick">
-    <i class="star icon"></i> Rate
-</button>
-`;
-
-    public examplePlacementTemplate = `
-<div class="ui card" suiPopup popupText="You can customise my placement!" popupInverted [popupPlacement]="position">
-    <div class="content">
-        <div class="header">Positioning</div>
-        <div class="description">
-            Popup placement can be anywhere around the content.
-        </div>
-    </div>
-</div>
-`;
+    public exampleStandardTemplate = exampleStandardTemplate;
+    public exampleTemplateTemplate = exampleTemplateTemplate;
+    public examplePlacementTemplate = examplePlacementTemplate;
 
     public placements = [
         "top left",
@@ -105,19 +109,19 @@ export class PopupPage {
 
 @Component({
     selector: 'popup-example-standard',
-    template: new PopupPage().exampleStandardTemplate
+    template: exampleStandardTemplate
 })
 export class PopupExampleStandard {}
 
 @Component({
     selector: 'popup-example-template',
-    template: new PopupPage().exampleTemplateTemplate
+    template: exampleTemplateTemplate
 })
 export class PopupExampleTemplate {}
 
 @Component({
     selector: 'popup-example-placement',
-    template: new PopupPage().examplePlacementTemplate
+    template: examplePlacementTemplate
 })
 export class PopupExamplePlacement {
     @Input()

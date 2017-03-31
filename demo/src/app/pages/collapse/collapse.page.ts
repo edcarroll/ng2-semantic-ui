@@ -1,8 +1,26 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+
+const exampleStandardTemplate = `
+<div class="ui segments">
+    <div class="ui segment">
+        <button class="ui primary button" (click)="collapse = !collapse">
+            Toggle Collapse
+        </button>
+    </div>
+    <div class="ui segment">
+        <div [suiCollapse]="collapse">
+            <div class="ui segment">
+                <h4 class="ui header">Collapsible Panel</h4>
+                <p>Content of the panel.</p>
+            </div>
+        </div>
+    </div>
+</div>
+`;
 
 @Component({
-  selector: 'demo-page-collapse',
-  templateUrl: './collapse.page.html'
+    selector: 'demo-page-collapse',
+    templateUrl: './collapse.page.html'
 })
 export class CollapsePage {
     public api = [
@@ -22,32 +40,16 @@ export class CollapsePage {
             ]
         }
     ];
-    public exampleStandardTemplate:string = `
-<div class="ui segments">
-    <div class="ui segment">
-        <button class="ui primary button" (click)="collapse = !collapse">
-            Toggle Collapse
-        </button>
-    </div>
-    <div class="ui segment">
-        <div [suiCollapse]="collapse">
-            <div class="ui segment">
-                <h4 class="ui header">Collapsible Panel</h4>
-                <p>Content of the panel.</p>
-            </div>
-        </div>
-    </div>
-</div>
-`;
-    public polyfillCode:string = `<script src="https://rawgit.com/web-animations/web-animations-js/master/web-animations.min.js"></script>`;
+    public exampleStandardTemplate = exampleStandardTemplate;
+    public polyfillCode = `<script src="https://rawgit.com/web-animations/web-animations-js/master/web-animations.min.js"></script>`;
 }
 
 @Component({
     selector: 'collapse-example-standard',
-    template: new CollapsePage().exampleStandardTemplate
+    template: exampleStandardTemplate
 })
 export class CollapseExampleStandard {
     private collapse:boolean = false;
 }
 
-export const CollapsePageComponents:Array<any> = [CollapsePage, CollapseExampleStandard];
+export const CollapsePageComponents = [CollapsePage, CollapseExampleStandard];

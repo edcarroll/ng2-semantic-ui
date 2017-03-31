@@ -1,8 +1,62 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+
+const exampleStandardTemplate = `
+<p>You can use the keyboard to navigate the dropdown.</p>
+<div class="ui primary dropdown button" suiDropdown [(isOpen)]="isOpen" [isDisabled]="isDisabled">
+    <div class="text">Dropdown</div>
+    <i class="dropdown icon"></i>
+    <div class="menu" suiDropdownMenu>
+        <div class="item">Item 1</div>
+        <div class="disabled item">Disabled Item</div>
+        <div class="item" suiDropdown>
+            <i class="dropdown icon"></i>
+            Nested
+            <div class="menu" suiDropdownMenu>
+                <div class="item">Sub-item 1</div>
+                <div class="item">Sub-item 2</div>
+            </div>
+        </div>
+        <div class="item">Item 4</div>
+    </div>
+</div>
+<button class="ui secondary button" (click)="isOpen = !isOpen">Toggle Dropdown</button>
+<sui-checkbox [(ngModel)]="isDisabled != isDisabled">Disabled?</sui-checkbox>
+`;
+
+const exampleStyledTemplate = `
+<p>(autoClose set to <code>disabled</code>)</p>
+<div class="ui primary pointing dropdown button" suiDropdown autoClose="disabled">
+    <div class="text">Pointing</div>
+    <i class="dropdown icon"></i>
+    <div class="menu" suiDropdownMenu>
+        <div class="item">Item 1</div>
+        <div class="item">Item 2</div>
+    </div>
+</div>
+<div class="ui secondary left pointing dropdown button" suiDropdown autoClose="disabled">
+    Right
+    <i class="caret right icon"></i>
+    <div class="menu" suiDropdownMenu>
+        <div class="item">Item 1</div>
+        <div class="item">Item 2</div>
+    </div>
+</div>
+<div class="ui segment">
+    <p>(autoClose set to <code>outsideClick)</code></p>
+    <div class="ui floating dropdown" suiDropdown autoClose="outsideClick">
+        <div class="text">Floating</div>
+        <i class="dropdown icon"></i>
+        <div class="menu" suiDropdownMenu>
+            <div class="item">Item 1</div>
+            <div class="item">Item 2</div>
+        </div>
+    </div>
+</div>
+`;
 
 @Component({
-  selector: 'demo-page-dropdown',
-  templateUrl: './dropdown.page.html'
+    selector: 'demo-page-dropdown',
+    templateUrl: './dropdown.page.html'
 })
 export class DropdownPage {
     public api = [
@@ -53,70 +107,20 @@ export class DropdownPage {
             ]
         }
     ];
-    public exampleStandardTemplate:string = `
-<p>You can use the keyboard to navigate the dropdown.</p>
-<div class="ui primary dropdown button" suiDropdown [(isOpen)]="isOpen" [isDisabled]="isDisabled">
-    <div class="text">Dropdown</div>
-    <i class="dropdown icon"></i>
-    <div class="menu" suiDropdownMenu>
-        <div class="item">Item 1</div>
-        <div class="disabled item">Disabled Item</div>
-        <div class="item" suiDropdown>
-            <i class="dropdown icon"></i>
-            Nested
-            <div class="menu" suiDropdownMenu>
-                <div class="item">Sub-item 1</div>
-                <div class="item">Sub-item 2</div>
-            </div>
-        </div>
-        <div class="item">Item 4</div>
-    </div>
-</div>
-<button class="ui secondary button" (click)="isOpen = !isOpen">Toggle Dropdown</button>
-<sui-checkbox [(ngModel)]="isDisabled != isDisabled">Disabled?</sui-checkbox>
-`;
-    public exampleStyledTemplate:string = `
-<p>(autoClose set to <code>disabled</code>)</p>
-<div class="ui primary pointing dropdown button" suiDropdown autoClose="disabled">
-    <div class="text">Pointing</div>
-    <i class="dropdown icon"></i>
-    <div class="menu" suiDropdownMenu>
-        <div class="item">Item 1</div>
-        <div class="item">Item 2</div>
-    </div>
-</div>
-<div class="ui secondary left pointing dropdown button" suiDropdown autoClose="disabled">
-    Right
-    <i class="caret right icon"></i>
-    <div class="menu" suiDropdownMenu>
-        <div class="item">Item 1</div>
-        <div class="item">Item 2</div>
-    </div>
-</div>
-<div class="ui segment">
-    <p>(autoClose set to <code>outsideClick)</code></p>
-    <div class="ui floating dropdown" suiDropdown autoClose="outsideClick">
-        <div class="text">Floating</div>
-        <i class="dropdown icon"></i>
-        <div class="menu" suiDropdownMenu>
-            <div class="item">Item 1</div>
-            <div class="item">Item 2</div>
-        </div>
-    </div>
-</div>
-`;
+    public exampleStandardTemplate = exampleStandardTemplate;
+    public exampleStyledTemplate = exampleStyledTemplate;
 }
 
 @Component({
     selector: 'dropdown-example-standard',
-    template: new DropdownPage().exampleStandardTemplate
+    template: exampleStandardTemplate
 })
-export class DropdownExampleStandard { }
+export class DropdownExampleStandard {}
 
 @Component({
     selector: 'dropdown-example-styled',
-    template: new DropdownPage().exampleStyledTemplate
+    template: exampleStyledTemplate
 })
-export class DropdownExampleStyled { }
+export class DropdownExampleStyled {}
 
-export const DropdownPageComponents:Array<any> = [DropdownPage, DropdownExampleStandard, DropdownExampleStyled];
+export const DropdownPageComponents = [DropdownPage, DropdownExampleStandard, DropdownExampleStyled];

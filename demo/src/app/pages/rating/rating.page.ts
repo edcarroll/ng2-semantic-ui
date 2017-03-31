@@ -1,8 +1,35 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+
+const exampleStandardTemplate = `
+<div class="ui form">
+    <div class="field">
+        <label>Rating</label>
+        <sui-rating [(ngModel)]="rating" max="10" [isReadonly]="readonly"></sui-rating>
+    </div>
+    <div class="field">
+        <label>Value</label>
+        <input type="number" [(ngModel)]="rating">
+    </div>
+    <div class="field">
+        <sui-checkbox [(ngModel)]="readonly">Read Only?</sui-checkbox>
+    </div>
+</div>
+`;
+
+const exampleStyledTemplate = `
+<h5 class="ui top attached header">Stars</h5>
+<div class="ui attached segment">
+    <sui-rating class="star" [ngModel]="3" max="5"></sui-rating>
+</div>
+<h5 class="ui attached header">Hearts</h5>
+<div class="ui bottom attached segment">
+    <sui-rating class="heart" [ngModel]="3" max="5"></sui-rating>
+</div>
+`;
 
 @Component({
-  selector: 'demo-page-rating',
-  templateUrl: './rating.page.html'
+    selector: 'demo-page-rating',
+    templateUrl: './rating.page.html'
 })
 export class RatingPage {
     public api = [
@@ -36,36 +63,13 @@ export class RatingPage {
             ]
         },
     ];
-    public exampleStandardTemplate:string = `
-<div class="ui form">
-    <div class="field">
-        <label>Rating</label>
-        <sui-rating [(ngModel)]="rating" max="10" [isReadonly]="readonly"></sui-rating>
-    </div>
-    <div class="field">
-        <label>Value</label>
-        <input type="number" [(ngModel)]="rating">
-    </div>
-    <div class="field">
-        <sui-checkbox [(ngModel)]="readonly">Read Only?</sui-checkbox>
-    </div>
-</div>
-`;
-    public exampleStyledTemplate:string = `
-<h5 class="ui top attached header">Stars</h5>
-<div class="ui attached segment">
-    <sui-rating class="star" [ngModel]="3" max="5"></sui-rating>
-</div>
-<h5 class="ui attached header">Hearts</h5>
-<div class="ui bottom attached segment">
-    <sui-rating class="heart" [ngModel]="3" max="5"></sui-rating>
-</div>
-`;
+    public exampleStandardTemplate = exampleStandardTemplate;
+    public exampleStyledTemplate = exampleStyledTemplate;
 }
 
 @Component({
     selector: 'rating-example-standard',
-    template: new RatingPage().exampleStandardTemplate
+    template: exampleStandardTemplate
 })
 export class RatingExampleStandard {
     public rating = 3;
@@ -73,8 +77,8 @@ export class RatingExampleStandard {
 
 @Component({
     selector: 'rating-example-styled',
-    template: new RatingPage().exampleStyledTemplate
+    template: exampleStyledTemplate
 })
-export class RatingExampleStyled { }
+export class RatingExampleStyled {}
 
-export const RatingPageComponents:Array<any> = [RatingPage, RatingExampleStandard, RatingExampleStyled];
+export const RatingPageComponents = [RatingPage, RatingExampleStandard, RatingExampleStyled];
