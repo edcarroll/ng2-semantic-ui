@@ -10,7 +10,7 @@ import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
        [attr.name]="name"
        [attr.checked]="checkedAttribute"
        [attr.disabled]="isDisabledAttribute"
-       [ngModel]="checked"
+       [ngModel]="isChecked"
        (ngModel)="currentValue = value">
 <label>
     <ng-content></ng-content>

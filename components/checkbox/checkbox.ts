@@ -5,7 +5,7 @@ import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
     selector: 'sui-checkbox',
     exportAs: 'suiCheckbox',
     template: `
-<input class="hidden" type="checkbox" [attr.name]="name" [attr.checked]="checkedAttribute" [attr.disabled]="isDisabledAttribute" [(ngModel)]="checked">
+<input class="hidden" type="checkbox" [attr.name]="name" [attr.checked]="checkedAttribute" [attr.disabled]="isDisabledAttribute" [(ngModel)]="isChecked">
 <label>
     <ng-content></ng-content>
 </label>

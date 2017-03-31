@@ -6,7 +6,7 @@ import {Component, Input} from '@angular/core';
     styleUrls: ['./example.component.css']
 })
 export class ExampleComponent {
-    private detail:boolean = false;
+    public detail:boolean = false;
 
     @Input()
     public code:string;
