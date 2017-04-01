@@ -16,7 +16,7 @@ export class CodeblockComponent implements AfterViewInit {
 
     public html:string;
 
-    private languageClass:any = {};
+    public languageClass:any = {};
 
     constructor(private changeDetectorRef:ChangeDetectorRef) {}
 

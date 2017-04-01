@@ -115,7 +115,10 @@ export class DropdownPage {
     selector: 'dropdown-example-standard',
     template: exampleStandardTemplate
 })
-export class DropdownExampleStandard {}
+export class DropdownExampleStandard {
+    public isOpen:boolean;
+    public isDisabled:boolean;
+}
 
 @Component({
     selector: 'dropdown-example-styled',

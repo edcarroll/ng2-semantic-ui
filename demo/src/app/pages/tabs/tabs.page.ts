@@ -149,6 +149,12 @@ export class TabExampleProperties {
     public alert = function() {
         window.alert("You've chosen the alert tab!");
     }
+
+    public firstActive:boolean;
+    public secondActive:boolean;
+    public thirdActive:boolean;
+    
+    public thirdDisabled:boolean;
 }
 
 @Component({

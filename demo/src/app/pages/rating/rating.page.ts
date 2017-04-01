@@ -73,6 +73,7 @@ export class RatingPage {
 })
 export class RatingExampleStandard {
     public rating = 3;
+    public readonly:boolean;
 }
 
 @Component({

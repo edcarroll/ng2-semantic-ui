@@ -73,7 +73,7 @@ export class SearchPage {
     template: exampleStandardTemplate
 })
 export class SearchExampleStandard {
-    public icon:boolean = true;
+    public hasIcon:boolean = true;
     public static standardOptions:Array<string> = ["Apple", "Bird", "Car", "Dog", "Elephant", "Finch", "Gate",
         "Horrify", "Indigo", "Jelly", "Keep", "Lemur", "Manifest", "None", "Orange", "Peel", "Quest",
         "Resist", "Suspend", "Terrify", "Underneath", "Violet", "Water", "Xylophone", "Yellow", "Zebra"];

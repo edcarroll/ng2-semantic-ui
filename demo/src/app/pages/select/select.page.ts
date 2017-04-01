@@ -251,7 +251,9 @@ let multiSelectLookup = (query:string, initials:number[]) => {
     selector: 'select-example-standard',
     template: exampleStandardTemplate
 })
-export class SelectExampleStandard {}
+export class SelectExampleStandard {
+    public selectedGender;
+}
 
 @Component({
     selector: 'select-example-options',
@@ -271,6 +273,7 @@ export class SelectExampleOptions {
 })
 export class SelectExampleSearch {
     public options:Array<any> = [{ name: "Example" }, { name: "Test" }, { name: "What" }, { name: "No" }, { name: "Benefit" }, { name: "Oranges" }, { name: "Artemis" }, { name: "Another" }];
+    public selectedOption;
 }
 
 @Component({
@@ -320,6 +323,7 @@ export class SelectExampleMultipleSearch {
 export class SelectExampleTemplateSearch {
     public options:Array<any> = [{ name: "Example"}, { name: "Test"}, { name: "What"}, { name: "No"}, { name: "Benefit"}, { name: "Oranges"}, { name: "Artemis"}, { name: "Another"}];
     public selectedOption = this.options[5];
+    public selectedOptions:any;
 }
 
 export const SelectPageComponents = [SelectPage, SelectExampleStandard, SelectExampleOptions, SelectExampleSearch, SelectExampleLookupSearch, SelectExampleMultiple, SelectExampleMultipleSearch, SelectExampleTemplateSearch];
