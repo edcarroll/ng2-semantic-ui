@@ -68,6 +68,7 @@ export class DimmerPage {
 })
 export class DimmerExampleStandard {
     public isClickable:boolean = true;
+    public isDimmed:boolean;
 }
 
 @Component({
@@ -76,6 +77,8 @@ export class DimmerExampleStandard {
 })
 export class DimmerExampleVariations {
     public isClickable:boolean = true;
+    public pageDimmed:boolean;
+    public segmentDimmed:boolean;
 }
 
 export const DimmerPageComponents = [DimmerPage, DimmerExampleStandard, DimmerExampleVariations];

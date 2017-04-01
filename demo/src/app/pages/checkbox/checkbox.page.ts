@@ -163,6 +163,8 @@ export class CheckboxPage {
 })
 export class CheckboxExampleStandard {
     public eCheck:boolean = true;
+    public eCheckReadonly:boolean;
+    public eCheckDisabled:boolean;
 }
 
 @Component({
@@ -177,6 +179,8 @@ export class CheckboxExampleRadioButton {
     selector: 'checkbox-example-styled',
     template: exampleStyledTemplate
 })
-export class CheckboxExampleStyled {}
+export class CheckboxExampleStyled {
+    public eStyledRadio:any;
+}
 
 export const CheckboxPageComponents = [CheckboxPage, CheckboxExampleStandard, CheckboxExampleRadioButton, CheckboxExampleStyled];

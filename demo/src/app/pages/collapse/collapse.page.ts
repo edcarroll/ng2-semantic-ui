@@ -49,7 +49,7 @@ export class CollapsePage {
     template: exampleStandardTemplate
 })
 export class CollapseExampleStandard {
-    private collapse:boolean = false;
+    public collapse:boolean = false;
 }
 
 export const CollapsePageComponents = [CollapsePage, CollapseExampleStandard];

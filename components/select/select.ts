@@ -119,7 +119,9 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> {
 
     private drawSelectedOption() {
         // Updates the active class on the newly selected option.
-        this.onAvailableOptionsRendered();
+        if (this._renderedOptions) {
+            this.onAvailableOptionsRendered();
+        }
 
         if (this.selectedOption && this.optionTemplate) {
             this.drawTemplate(this._optionTemplateSibling, this.selectedOption);
