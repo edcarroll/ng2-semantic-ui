@@ -1,8 +1,87 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+
+const exampleStandardTemplate = `
+<sui-tabset>
+    <div class="ui top attached tabular menu">
+        <a class="item" suiTabHeader="1">First</a>
+        <a class="item" suiTabHeader="2">Second</a>
+        <a class="item" suiTabHeader="3">Third</a>
+    </div>
+    <div class="ui bottom attached segment" suiTabContent="1">First tab!</div>
+    <div class="ui bottom attached segment" suiTabContent="2">Second tab!</div>
+    <div class="ui bottom attached segment" suiTabContent="3">Third tab!</div>
+</sui-tabset>
+`;
+
+const examplePropertiesTemplate = `
+<sui-tabset>
+    <div class="ui top attached tabular menu">
+        <a class="item" suiTabHeader="1" [(isActive)]="firstActive">First</a>
+        <a class="item" suiTabHeader="2" [(isActive)]="secondActive" (onActivate)="alert()">
+            <i class="alarm icon"></i>
+            Second
+        </a>
+        <a class="item" suiTabHeader="3" [(isActive)]="thirdActive" [isDisabled]="thirdDisabled">Third</a>
+
+    </div>
+    <div class="ui bottom attached segment" suiTabContent="1">
+        <button class="ui blue button" (click)="secondActive = true">Activate 2nd Tab</button>
+    </div>
+    <div class="ui bottom attached segment" suiTabContent="2">
+        <button class="ui violet button" (click)="thirdActive = true">Activate 3rd Tab</button>
+    </div>
+    <div class="ui bottom attached segment" suiTabContent="3">
+        <button class="ui purple button" (click)="firstActive = true">Activate 1st Tab</button>
+    </div>
+</sui-tabset>
+<div class="ui segment">
+    <sui-checkbox [(ngModel)]="thirdDisabled">Third tab disabled?</sui-checkbox>
+</div>
+`;
+
+const exampleDynamicTemplate = `
+<sui-tabset>
+    <div class="ui top attached tabular menu">
+        <a class="item" suiTabHeader="static">Static</a>
+        <a class="item" *ngFor="let tab of tabs; let i = index" [suiTabHeader]="i" [(isActive)]="active[i]">{{ tab.header }}</a>
+    </div>
+    <div class="ui bottom attached segment" *ngFor="let tab of tabs; let i = index" [suiTabContent]="i">{{ tab.content }}</div>
+    <div class="ui bottom attached segment" suiTabContent="static">
+        <p>Static tabs alongside dynamic tabs are supported.</p>
+        <p>Note that the order that <code>[suiTabContent]</code> elements are defined doesn't affect the headers.</p>
+    </div>
+</sui-tabset>
+<div class="ui segment">
+    <button class="ui primary button" (click)="addTab()">Add Tab</button>
+    <button class="ui secondary button" (click)="removeTab()">Remove Tab</button>
+</div>
+`;
+
+const exampleStyledTemplate = `
+<sui-tabset>
+    <div class="ui secondary menu">
+        <a class="item" suiTabHeader="1">First</a>
+        <a class="item" suiTabHeader="2">Second</a>
+        <a class="item" suiTabHeader="3">Third</a>
+    </div>
+    <div class="ui segment" suiTabContent="1">
+        <sui-tabset>
+            <div class="ui pointing secondary menu">
+                <a class="item" suiTabHeader="1">Nested 1</a>
+                <a class="item" suiTabHeader="2">Nested 2</a>
+            </div>
+            <div class="ui segment" suiTabContent="1">First nested tab!</div>
+            <div class="ui segment" suiTabContent="2">Second nested tab!</div>
+        </sui-tabset>
+    </div>
+    <div class="ui segment" suiTabContent="2">Second tab!</div>
+    <div class="ui segment" suiTabContent="3">Third tab!</div>
+</sui-tabset>
+`;
 
 @Component({
-  selector: 'demo-page-tabs',
-  templateUrl: './tabs.page.html'
+    selector: 'demo-page-tabs',
+    templateUrl: './tabs.page.html'
 })
 export class TabsPage {
     public api = [
@@ -50,102 +129,37 @@ export class TabsPage {
             ]
         }
     ];
-    public exampleStandardTemplate:string = `
-<sui-tabset>
-    <div class="ui top attached tabular menu">
-        <a class="item" suiTabHeader="1">First</a>
-        <a class="item" suiTabHeader="2">Second</a>
-        <a class="item" suiTabHeader="3">Third</a>
-    </div>
-    <div class="ui bottom attached segment" suiTabContent="1">First tab!</div>
-    <div class="ui bottom attached segment" suiTabContent="2">Second tab!</div>
-    <div class="ui bottom attached segment" suiTabContent="3">Third tab!</div>
-</sui-tabset>
-`;
-    public examplePropertiesTemplate:string = `
-<sui-tabset>
-    <div class="ui top attached tabular menu">
-        <a class="item" suiTabHeader="1" [(isActive)]="firstActive">First</a>
-        <a class="item" suiTabHeader="2" [(isActive)]="secondActive" (onActivate)="alert()">
-            <i class="alarm icon"></i>
-            Second
-        </a>
-        <a class="item" suiTabHeader="3" [(isActive)]="thirdActive" [isDisabled]="thirdDisabled">Third</a>
-
-    </div>
-    <div class="ui bottom attached segment" suiTabContent="1">
-        <button class="ui blue button" (click)="secondActive = true">Activate 2nd Tab</button>
-    </div>
-    <div class="ui bottom attached segment" suiTabContent="2">
-        <button class="ui violet button" (click)="thirdActive = true">Activate 3rd Tab</button>
-    </div>
-    <div class="ui bottom attached segment" suiTabContent="3">
-        <button class="ui purple button" (click)="firstActive = true">Activate 1st Tab</button>
-    </div>
-</sui-tabset>
-<div class="ui segment">
-    <sui-checkbox [(ngModel)]="thirdDisabled">Third tab disabled?</sui-checkbox>
-</div>
-`;
-    public exampleDynamicTemplate:string = `
-<sui-tabset>
-    <div class="ui top attached tabular menu">
-        <a class="item" suiTabHeader="static">Static</a>
-        <a class="item" *ngFor="let tab of tabs; let i = index" [suiTabHeader]="i" [(isActive)]="active[i]">{{ tab.header }}</a>
-    </div>
-    <div class="ui bottom attached segment" *ngFor="let tab of tabs; let i = index" [suiTabContent]="i">{{ tab.content }}</div>
-    <div class="ui bottom attached segment" suiTabContent="static">
-        <p>Static tabs alongside dynamic tabs are supported.</p>
-        <p>Note that the order that <code>[suiTabContent]</code> elements are defined doesn't affect the headers.</p>
-    </div>
-</sui-tabset>
-<div class="ui segment">
-    <button class="ui primary button" (click)="addTab()">Add Tab</button>
-    <button class="ui secondary button" (click)="removeTab()">Remove Tab</button>
-</div>
-`;
-    public exampleStyledTemplate:string = `
-<sui-tabset>
-    <div class="ui secondary menu">
-        <a class="item" suiTabHeader="1">First</a>
-        <a class="item" suiTabHeader="2">Second</a>
-        <a class="item" suiTabHeader="3">Third</a>
-    </div>
-    <div class="ui segment" suiTabContent="1">
-        <sui-tabset>
-            <div class="ui pointing secondary menu">
-                <a class="item" suiTabHeader="1">Nested 1</a>
-                <a class="item" suiTabHeader="2">Nested 2</a>
-            </div>
-            <div class="ui segment" suiTabContent="1">First nested tab!</div>
-            <div class="ui segment" suiTabContent="2">Second nested tab!</div>
-        </sui-tabset>
-    </div>
-    <div class="ui segment" suiTabContent="2">Second tab!</div>
-    <div class="ui segment" suiTabContent="3">Third tab!</div>
-</sui-tabset>
-`;
+    public exampleStandardTemplate = exampleStandardTemplate;
+    public examplePropertiesTemplate = examplePropertiesTemplate;
+    public exampleDynamicTemplate = exampleDynamicTemplate;
+    public exampleStyledTemplate = exampleStyledTemplate;
 }
 
 @Component({
     selector: 'tab-example-standard',
-    template: new TabsPage().exampleStandardTemplate
+    template: exampleStandardTemplate
 })
-export class TabExampleStandard { }
+export class TabExampleStandard {}
 
 @Component({
     selector: 'tab-example-properties',
-    template: new TabsPage().examplePropertiesTemplate
+    template: examplePropertiesTemplate
 })
 export class TabExampleProperties {
     public alert = function() {
         window.alert("You've chosen the alert tab!");
     }
+
+    public firstActive:boolean;
+    public secondActive:boolean;
+    public thirdActive:boolean;
+    
+    public thirdDisabled:boolean;
 }
 
 @Component({
     selector: 'tab-example-dynamic',
-    template: new TabsPage().exampleDynamicTemplate
+    template: exampleDynamicTemplate
 })
 export class TabExampleDynamic {
     public active:boolean[] = [];
@@ -169,10 +183,10 @@ export class TabExampleDynamic {
 
 @Component({
     selector: 'tab-example-styled',
-    template: new TabsPage().exampleStyledTemplate
+    template: exampleStyledTemplate
 })
 export class TabExampleStyled {
     public pointing = true;
 }
 
-export const TabsPageComponents:Array<any> = [TabsPage, TabExampleStandard, TabExampleProperties, TabExampleDynamic, TabExampleStyled];
+export const TabsPageComponents = [TabsPage, TabExampleStandard, TabExampleProperties, TabExampleDynamic, TabExampleStyled];

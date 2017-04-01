@@ -1,8 +1,65 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+
+const exampleStandardTemplate = `
+<sui-accordion [closeOthers]="false">
+    <sui-accordion-panel [isOpen]="true">
+        <div title>
+            <i class="dropdown icon"></i>
+            Intially Expanded Panel
+        </div>
+        <div content>
+            <p>Using <code>[isOpen]</code> sets the panel to be expanded. Use <code>(isOpenChange)</code> to catch when the panel is toggled.</p>
+            <p>Supports <code>[(isOpen)]</code> syntax.</p>
+        </div>
+    </sui-accordion-panel>
+    <sui-accordion-panel [isDisabled]="true" [isOpen]="true">
+        <div title>
+            <i class="dropdown icon"></i>
+            Disabled Panel
+        </div>
+        <div content>
+            <p>Setting <code>[isDisabled]</code> to <code>true</code> stops the user from being able to toggle the panel.</p>
+        </div>
+    </sui-accordion-panel>
+    <sui-accordion-panel>
+        <div title>
+            <i class="dropdown icon"></i>
+            Final Panel
+        </div>
+        <div content>
+            <p>This is the final panel.</p>
+            <p>Opening this one doesn't affect the others as <code>[closeOthers]</code> is set to <code>false</code>.</p>
+        </div>
+    </sui-accordion-panel>
+</sui-accordion>
+`;
+
+const exampleStyledTemplate = `
+<sui-accordion class="styled fluid">
+    <sui-accordion-panel [isOpen]="true">
+        <div title>
+            <i class="dropdown icon"></i>
+            First Panel
+        </div>
+        <div content>
+            <p>Add classes to the <code>sui-accordion</code> element to apply styles.</p>
+        </div>
+    </sui-accordion-panel>
+    <sui-accordion-panel>
+        <div title>
+            <i class="dropdown icon"></i>
+            Second Panel
+        </div>
+        <div content>
+            <p>Second panel content.</p>
+        </div>
+    </sui-accordion-panel>
+</sui-accordion>
+`
 
 @Component({
-  selector: 'demo-page-accordion',
-  templateUrl: './accordion.page.html'
+    selector: 'demo-page-accordion',
+    templateUrl: './accordion.page.html'
 })
 export class AccordionPage {
     public api = [
@@ -43,74 +100,21 @@ export class AccordionPage {
             ]
         }
     ];
-    public exampleStandardTemplate:string = `
-<sui-accordion [closeOthers]="false">
-    <sui-accordion-panel [isOpen]="true">
-        <div title>
-            <i class="dropdown icon"></i>
-            Intially Expanded Panel
-        </div>
-        <div content>
-            <p>Using <code>[isOpen]</code> sets the panel to be expanded. Use <code>(isOpenChange)</code> to catch when the panel is toggled.</p>
-            <p>Supports <code>[(isOpen)]</code> syntax.</p>
-        </div>
-    </sui-accordion-panel>
-    <sui-accordion-panel [isDisabled]="true" [isOpen]="true">
-        <div title>
-            <i class="dropdown icon"></i>
-            Disabled Panel
-        </div>
-        <div content>
-            <p>Setting <code>[isDisabled]</code> to <code>true</code> stops the user from being able to toggle the panel.</p>
-        </div>
-    </sui-accordion-panel>
-    <sui-accordion-panel>
-        <div title>
-            <i class="dropdown icon"></i>
-            Final Panel
-        </div>
-        <div content>
-            <p>This is the final panel.</p>
-            <p>Opening this one doesn't affect the others as <code>[closeOthers]</code> is set to <code>false</code>.</p>
-        </div>
-    </sui-accordion-panel>
-</sui-accordion>
-`;
-    public exampleStyledTemplate:string = `
-<sui-accordion class="styled fluid">
-    <sui-accordion-panel [isOpen]="true">
-        <div title>
-            <i class="dropdown icon"></i>
-            First Panel
-        </div>
-        <div content>
-            <p>Add classes to the <code>sui-accordion</code> element to apply styles.</p>
-        </div>
-    </sui-accordion-panel>
-    <sui-accordion-panel>
-        <div title>
-            <i class="dropdown icon"></i>
-            Second Panel
-        </div>
-        <div content>
-            <p>Second panel content.</p>
-        </div>
-    </sui-accordion-panel>
-</sui-accordion>
-`;
+    public exampleStandardTemplate = exampleStandardTemplate;
+    public exampleStyledTemplate = exampleStyledTemplate;
 }
 
 @Component({
     selector: 'accordion-example-standard',
-    template: new AccordionPage().exampleStandardTemplate
+    template: exampleStandardTemplate
 })
-export class AccordionExampleStandard { }
+export class AccordionExampleStandard {}
 
 @Component({
     selector: 'accordion-example-styled',
-    template: new AccordionPage().exampleStyledTemplate
+    template: exampleStyledTemplate
 })
-export class AccordionExampleStyled { }
+export class AccordionExampleStyled {}
 
 export const AccordionPageComponents = [AccordionPage, AccordionExampleStandard, AccordionExampleStyled];
 

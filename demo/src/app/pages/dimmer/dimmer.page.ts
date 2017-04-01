@@ -1,4 +1,34 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+
+const exampleStandardTemplate = `
+<div class="ui segment">
+    <h4 class="ui header">Example segment</h4>
+    <sui-dimmer [(isDimmed)]="isDimmed" [isClickable]="isClickable">
+        <h4 class="ui inverted header">I can have content too!</h4>
+    </sui-dimmer>
+    <p>Some random content for the example segment.</p>
+    <p>Some more content!.</p>
+</div>
+<button class="ui primary button" (click)="isDimmed = !isDimmed">Toggle Dimmer</button>
+<sui-checkbox [(ngModel)]="isClickable">Click to close?</sui-checkbox>
+`;
+
+const exampleVariationsTemplate = `
+<div class="ui segment">
+    <sui-dimmer class="page" [(isDimmed)]="pageDimmed">
+        <h2 class="ui inverted icon header">
+            <i class="heart icon"></i>
+            The page has been dimmed!
+        </h2>
+    </sui-dimmer>
+    <sui-dimmer class="inverted" [(isDimmed)]="segmentDimmed">
+        <div class="ui text loader">Enables loading screens!</div>
+    </sui-dimmer>
+    <p>Page dimmers and inverted dimmers are possible!</p>
+    <button class="ui primary button" (click)="pageDimmed = !pageDimmed">Dim Page</button>
+    <button class="ui primary button" (click)="segmentDimmed = !segmentDimmed">Dim Segment</button>
+</div>
+`;
 
 @Component({
   selector: 'demo-page-dimmer',
@@ -28,50 +58,27 @@ export class DimmerPage {
             ]
         }
     ];
-    public exampleStandardTemplate:string = `
-<div class="ui segment">
-    <h4 class="ui header">Example segment</h4>
-    <sui-dimmer [(isDimmed)]="isDimmed" [isClickable]="isClickable">
-        <h4 class="ui inverted header">I can have content too!</h4>
-    </sui-dimmer>
-    <p>Some random content for the example segment.</p>
-    <p>Some more content!.</p>
-</div>
-<button class="ui primary button" (click)="isDimmed = !isDimmed">Toggle Dimmer</button>
-<sui-checkbox [(ngModel)]="isClickable">Click to close?</sui-checkbox>
-`;
-    public exampleVariationsTemplate:string = `
-<div class="ui segment">
-    <sui-dimmer class="page" [(isDimmed)]="pageDimmed">
-        <h2 class="ui inverted icon header">
-            <i class="heart icon"></i>
-            The page has been dimmed!
-        </h2>
-    </sui-dimmer>
-    <sui-dimmer class="inverted" [(isDimmed)]="segmentDimmed">
-        <div class="ui text loader">Enables loading screens!</div>
-    </sui-dimmer>
-    <p>Page dimmers and inverted dimmers are possible!</p>
-    <button class="ui primary button" (click)="pageDimmed = !pageDimmed">Dim Page</button>
-    <button class="ui primary button" (click)="segmentDimmed = !segmentDimmed">Dim Segment</button>
-</div>
-`;
+    public exampleStandardTemplate = exampleStandardTemplate;
+    public exampleVariationsTemplate = exampleVariationsTemplate;
 }
 
 @Component({
     selector: 'dimmer-example-standard',
-    template: new DimmerPage().exampleStandardTemplate
+    template: exampleStandardTemplate
 })
 export class DimmerExampleStandard {
     public isClickable:boolean = true;
+    public isDimmed:boolean;
 }
 
 @Component({
     selector: 'dimmer-example-variations',
-    template: new DimmerPage().exampleVariationsTemplate
+    template: exampleVariationsTemplate
 })
 export class DimmerExampleVariations {
     public isClickable:boolean = true;
+    public pageDimmed:boolean;
+    public segmentDimmed:boolean;
 }
 
-export const DimmerPageComponents:Array<any> = [DimmerPage, DimmerExampleStandard, DimmerExampleVariations];
+export const DimmerPageComponents = [DimmerPage, DimmerExampleStandard, DimmerExampleVariations];

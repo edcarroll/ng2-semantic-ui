@@ -1,8 +1,22 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+
+const exampleStandardTemplate = `
+<sui-search placeholder="Example Search..." [hasIcon]="hasIcon" [options]="options" [searchDelay]="0" (onItemSelected)="alertSelected($event)"></sui-search>
+<div class="ui segment">
+    <sui-checkbox [(ngModel)]="hasIcon">Has icon?</sui-checkbox>
+</div>
+`;
+
+const exampleRemoteTemplate = `
+<sui-search [options]="optionsSearch" optionsField="title" [(ngModel)]="selectedItem"></sui-search>
+<div class="ui segment">
+    <p>Currently selected: {{ selectedItem | json }}</p>
+</div>
+`;
 
 @Component({
-  selector: 'demo-page-search',
-  templateUrl: './search.page.html'
+    selector: 'demo-page-search',
+    templateUrl: './search.page.html'
 })
 export class SearchPage {
     public api = [
@@ -50,26 +64,16 @@ export class SearchPage {
             ]
         }
     ];
-    public exampleStandardTemplate:string = `
-<sui-search placeholder="Example Search..." [hasIcon]="hasIcon" [options]="options" [searchDelay]="0" (onItemSelected)="alertSelected($event)"></sui-search>
-<div class="ui segment">
-    <sui-checkbox [(ngModel)]="hasIcon">Has icon?</sui-checkbox>
-</div>
-`;
-    public exampleRemoteTemplate:string = `
-<sui-search [options]="optionsSearch" optionsField="title" [(ngModel)]="selectedItem"></sui-search>
-<div class="ui segment">
-    <p>Currently selected: {{ selectedItem | json }}</p>
-</div>
-`;
+    public exampleStandardTemplate;
+    public exampleRemoteTemplate;
 }
 
 @Component({
     selector: 'search-example-standard',
-    template: new SearchPage().exampleStandardTemplate
+    template: exampleStandardTemplate
 })
 export class SearchExampleStandard {
-    public icon:boolean = true;
+    public hasIcon:boolean = true;
     public static standardOptions:Array<string> = ["Apple", "Bird", "Car", "Dog", "Elephant", "Finch", "Gate",
         "Horrify", "Indigo", "Jelly", "Keep", "Lemur", "Manifest", "None", "Orange", "Peel", "Quest",
         "Resist", "Suspend", "Terrify", "Underneath", "Violet", "Water", "Xylophone", "Yellow", "Zebra"];
@@ -85,7 +89,7 @@ export class SearchExampleStandard {
 
 @Component({
     selector: 'search-example-remote',
-    template: new SearchPage().exampleRemoteTemplate
+    template: exampleRemoteTemplate
 })
 export class SearchExampleRemote extends SearchExampleStandard {
     public optionsSearch(query:string):Promise<Array<any>> {

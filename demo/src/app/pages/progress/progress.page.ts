@@ -1,43 +1,6 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
-@Component({
-  selector: 'demo-page-progress',
-  templateUrl: './progress.page.html'
-})
-export class ProgressPage {
-    public api = [
-        {
-            selector: "<sui-progress>",
-            properties: [
-                {
-                    name: "value",
-                    description: "Sets whether or not the element is collapsed. Values not in <code>[0, ..., maximum]</code> are automatically bounded.",
-                    defaultValue: "0"
-                },
-                {
-                    name: "maximum",
-                    description: "Sets the maximum value. When <code>value > maximum</code> the progress bar is full. Use the 1st example to try out this functionality.",
-                    defaultValue: "100"
-                },
-                {
-                    name: "progress",
-                    description: "Whether or not the current progress label is displayed.",
-                    defaultValue: "true"
-                },
-                {
-                    name: "precision",
-                    description: "Sets the number of decimal places on the current progress label.",
-                    defaultValue: "0"
-                },
-                {
-                    name: "autoSuccess",
-                    description: "Sets whether or not the progress bar automatically turns green when <code>value == maximum</code>.",
-                    defaultValue: "true"
-                },
-            ]
-        }
-    ];
-    public exampleStandardTemplate:string = `
+const exampleStandardTemplate = `
 <div class="ui segment">
     <sui-progress [value]="value" [progress]="progress" [maximum]="maximum" [precision]="precision">
         Progress Bar Label
@@ -73,7 +36,8 @@ export class ProgressPage {
     </div>
 </div>
 `;
-    public exampleVariationsTemplate:string = `
+
+const exampleVariationsTemplate = `
 <div class="ui segment">
     <sui-progress class="top attached purple active" [value]="changingValue" [autoSuccess]="false"></sui-progress>
     <sui-progress class="indicating" [value]="changingValue">Indicating</sui-progress>
@@ -85,11 +49,51 @@ export class ProgressPage {
     <sui-progress class="bottom attached indicating active" [value]="changingValue"></sui-progress>
 </div>
 `;
+
+@Component({
+    selector: 'demo-page-progress',
+    templateUrl: './progress.page.html'
+})
+export class ProgressPage {
+    public api = [
+        {
+            selector: "<sui-progress>",
+            properties: [
+                {
+                    name: "value",
+                    description: "Sets whether or not the element is collapsed. Values not in <code>[0, ..., maximum]</code> are automatically bounded.",
+                    defaultValue: "0"
+                },
+                {
+                    name: "maximum",
+                    description: "Sets the maximum value. When <code>value > maximum</code> the progress bar is full. Use the 1st example to try out this functionality.",
+                    defaultValue: "100"
+                },
+                {
+                    name: "progress",
+                    description: "Whether or not the current progress label is displayed.",
+                    defaultValue: "true"
+                },
+                {
+                    name: "precision",
+                    description: "Sets the number of decimal places on the current progress label.",
+                    defaultValue: "0"
+                },
+                {
+                    name: "autoSuccess",
+                    description: "Sets whether or not the progress bar automatically turns green when <code>value == maximum</code>.",
+                    defaultValue: "true"
+                },
+            ]
+        }
+    ];
+    public exampleStandardTemplate = exampleStandardTemplate;
+    public exampleVariationsTemplate = exampleVariationsTemplate;
 }
 
 @Component({
     selector: 'progress-example-standard',
-    template: new ProgressPage().exampleStandardTemplate
+    template: exampleStandardTemplate
 })
 export class ProgressExampleStandard {
     public value:number = 55;
@@ -100,7 +104,7 @@ export class ProgressExampleStandard {
 
 @Component({
     selector: 'progress-example-variations',
-    template: new ProgressPage().exampleVariationsTemplate
+    template: exampleVariationsTemplate
 })
 export class ProgressExampleVariations {
     public value:number = 55;
@@ -126,4 +130,4 @@ export class ProgressExampleVariations {
     public randomValue = 0;
 }
 
-export const ProgressPageComponents:Array<any> = [ProgressPage, ProgressExampleStandard, ProgressExampleVariations];
+export const ProgressPageComponents = [ProgressPage, ProgressExampleStandard, ProgressExampleVariations];

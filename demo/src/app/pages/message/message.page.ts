@@ -1,8 +1,29 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+
+const exampleStandardTemplate = `
+<sui-message class="success">
+    <div class="header">
+        This is a message!
+    </div>
+    <p>This message can be styled (as shown) and dismissed with the close icon in the top right.</p>
+</sui-message>
+`;
+
+const exampleNoDismissTemplate = `
+<sui-message class="attached warning" [isDismissable]="false">
+    <div class="header">
+        Attached message!
+    </div>
+    <p>This message isn't dismissible.</p>
+</sui-message>
+<div class="ui bottom attached segment">
+    <p>Example content</p>
+</div>
+`;
 
 @Component({
-  selector: 'demo-page-message',
-  templateUrl: './message.page.html'
+    selector: 'demo-page-message',
+    templateUrl: './message.page.html'
 })
 export class MessagePage {
     public api = [
@@ -23,37 +44,20 @@ export class MessagePage {
             ]
         }
     ];
-    public exampleStandardTemplate:string = `
-<sui-message class="success">
-    <div class="header">
-        This is a message!
-    </div>
-    <p>This message can be styled (as shown) and dismissed with the close icon in the top right.</p>
-</sui-message>
-`;
-    public exampleNoDismissTemplate:string = `
-<sui-message class="attached warning" [isDismissable]="false">
-    <div class="header">
-        Attached message!
-    </div>
-    <p>This message isn't dismissible.</p>
-</sui-message>
-<div class="ui bottom attached segment">
-    <p>Example content</p>
-</div>
-`;
+    public exampleStandardTemplate = exampleStandardTemplate;
+    public exampleNoDismissTemplate = exampleNoDismissTemplate;
 }
 
 @Component({
     selector: 'message-example-standard',
-    template: new MessagePage().exampleStandardTemplate
+    template: exampleStandardTemplate
 })
 export class MessageExampleStandard {}
 
 @Component({
     selector: 'message-example-no-dismiss',
-    template: new MessagePage().exampleNoDismissTemplate
+    template: exampleNoDismissTemplate
 })
 export class MessageExampleNoDismiss {}
 
-export const MessagePageComponents:Array<any> = [MessagePage, MessageExampleStandard, MessageExampleNoDismiss];
+export const MessagePageComponents = [MessagePage, MessageExampleStandard, MessageExampleNoDismiss];

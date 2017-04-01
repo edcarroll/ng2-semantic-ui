@@ -20,9 +20,9 @@ export class SuiMessage {
 
     private transition:TransitionController = new TransitionController();
 
-    private isDismissed:boolean = false;
+    public isDismissed:boolean = false;
 
-    private dismiss():void {
+    public dismiss():void {
         this.transition.animate(new Transition("fade", 300, TransitionDirection.Out, () => {
             this.isDismissed = true;
             this.onDismiss.emit(this);

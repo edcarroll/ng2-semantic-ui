@@ -1,8 +1,82 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+
+const exampleStandardTemplate = `
+<div class="ui form">
+    <div class="grouped fields">
+        <label>Checkbox Example</label>
+        <div class="field">
+            <sui-checkbox [(ngModel)]="eCheck" [isDisabled]="eCheckDisabled" [isReadonly]="eCheckReadonly">
+                An example checkbox
+            </sui-checkbox>
+        </div>
+        <div class="field">
+            <sui-checkbox [(ngModel)]="eCheckDisabled">1st checkbox disabled?</sui-checkbox>
+        </div>
+        <div class="field">
+            <sui-checkbox [(ngModel)]="eCheckReadonly">1st checkbox read-only?</sui-checkbox>
+        </div>
+        <div class="field">
+            <sui-checkbox [(ngModel)]="eCheck">Mirrors value of 1st checkbox</sui-checkbox>
+        </div>
+    </div>
+</div>
+`;
+
+const exampleRadioButtonTemplate = `
+<div class="ui form">
+    <div class="grouped fields">
+        <label>Radio Button Example</label>
+        <div class="field">
+            <sui-radio-button value="hello" [(ngModel)]="eRadio">Value: "hello"</sui-radio-button>
+        </div>
+        <div class="field">
+            <sui-radio-button value="world" [(ngModel)]="eRadio">Value: "world"</sui-radio-button>
+        </div>
+        <div class="field">
+            <sui-radio-button value="example" [(ngModel)]="eRadio">Value: "example"</sui-radio-button>
+        </div>
+        <div class="field">
+            <sui-radio-button [value]="{ example: 'object' }" [(ngModel)]="eRadio">
+                Value: {{ '{' }} example: "object" }
+            </sui-radio-button>
+        </div>
+    </div>
+</div>
+<p>The currently selected value is {{ eRadio | json }}</p>
+`;
+
+const exampleStyledTemplate = `
+<div class="ui form">
+    <div class="grouped fields">
+        <label>Checkbox Style Examples</label>
+        <div class="field">
+            <sui-checkbox class="slider">Slider checkbox</sui-checkbox>
+        </div>
+        <div class="field">
+            <sui-checkbox class="toggle">Toggle checkbox</sui-checkbox>
+        </div>
+    </div>
+</div>
+<div class="ui form">
+    <div class="grouped fields">
+        <label>Radio Button Style Examples</label>
+        <div class="field">
+            <sui-radio-button class="slider" value="a" [(ngModel)]="eStyledRadio">
+                Slider radio button
+            </sui-radio-button>
+        </div>
+        <div class="field">
+            <sui-radio-button class="toggle" value="b" [(ngModel)]="eStyledRadio">
+                Toggle radio button
+            </sui-radio-button>
+        </div>
+    </div>
+</div>
+`;
 
 @Component({
-  selector: 'demo-page-checkbox',
-  templateUrl: './checkbox.page.html',
+    selector: 'demo-page-checkbox',
+    templateUrl: './checkbox.page.html',
 })
 export class CheckboxPage {
     public api = [
@@ -78,88 +152,24 @@ export class CheckboxPage {
             ]
         }
     ];
-    public exampleStandardTemplate:string = `
-<div class="ui form">
-    <div class="grouped fields">
-        <label>Checkbox Example</label>
-        <div class="field">
-            <sui-checkbox [(ngModel)]="eCheck" [isDisabled]="eCheckDisabled" [isReadonly]="eCheckReadonly">
-                An example checkbox
-            </sui-checkbox>
-        </div>
-        <div class="field">
-            <sui-checkbox [(ngModel)]="eCheckDisabled">1st checkbox disabled?</sui-checkbox>
-        </div>
-        <div class="field">
-            <sui-checkbox [(ngModel)]="eCheckReadonly">1st checkbox read-only?</sui-checkbox>
-        </div>
-        <div class="field">
-            <sui-checkbox [(ngModel)]="eCheck">Mirrors value of 1st checkbox</sui-checkbox>
-        </div>
-    </div>
-</div>`;
-    public exampleRadioButtonTemplate:string = `
-<div class="ui form">
-    <div class="grouped fields">
-        <label>Radio Button Example</label>
-        <div class="field">
-            <sui-radio-button value="hello" [(ngModel)]="eRadio">Value: "hello"</sui-radio-button>
-        </div>
-        <div class="field">
-            <sui-radio-button value="world" [(ngModel)]="eRadio">Value: "world"</sui-radio-button>
-        </div>
-        <div class="field">
-            <sui-radio-button value="example" [(ngModel)]="eRadio">Value: "example"</sui-radio-button>
-        </div>
-        <div class="field">
-            <sui-radio-button [value]="{ example: 'object' }" [(ngModel)]="eRadio">
-                Value: {{ '{' }} example: "object" }
-            </sui-radio-button>
-        </div>
-    </div>
-</div>
-<p>The currently selected value is {{ eRadio | json }}</p>
-`;
-    public exampleStyledTemplate:string = `
-<div class="ui form">
-    <div class="grouped fields">
-        <label>Checkbox Style Examples</label>
-        <div class="field">
-            <sui-checkbox class="slider">Slider checkbox</sui-checkbox>
-        </div>
-        <div class="field">
-            <sui-checkbox class="toggle">Toggle checkbox</sui-checkbox>
-        </div>
-    </div>
-</div>
-<div class="ui form">
-    <div class="grouped fields">
-        <label>Radio Button Style Examples</label>
-        <div class="field">
-            <sui-radio-button class="slider" value="a" [(ngModel)]="eStyledRadio">
-                Slider radio button
-            </sui-radio-button>
-        </div>
-        <div class="field">
-            <sui-radio-button class="toggle" value="b" [(ngModel)]="eStyledRadio">
-                Toggle radio button
-            </sui-radio-button>
-        </div>
-    </div>
-</div>`;
+    public exampleStandardTemplate = exampleStandardTemplate;
+    public exampleRadioButtonTemplate = exampleRadioButtonTemplate;
+    public exampleStyledTemplate = exampleStyledTemplate;
 }
 
 @Component({
     selector: 'checkbox-example-standard',
-    template: new CheckboxPage().exampleStandardTemplate
+    template: exampleStandardTemplate
 })
 export class CheckboxExampleStandard {
     public eCheck:boolean = true;
+    public eCheckReadonly:boolean;
+    public eCheckDisabled:boolean;
 }
 
 @Component({
     selector: 'checkbox-example-radio-button',
-    template: new CheckboxPage().exampleRadioButtonTemplate
+    template: exampleRadioButtonTemplate
 })
 export class CheckboxExampleRadioButton {
     public eRadio:any = "world";
@@ -167,8 +177,10 @@ export class CheckboxExampleRadioButton {
 
 @Component({
     selector: 'checkbox-example-styled',
-    template: new CheckboxPage().exampleStyledTemplate
+    template: exampleStyledTemplate
 })
-export class CheckboxExampleStyled { }
+export class CheckboxExampleStyled {
+    public eStyledRadio:any;
+}
 
-export const CheckboxPageComponents:Array<any> = [CheckboxPage, CheckboxExampleStandard, CheckboxExampleRadioButton, CheckboxExampleStyled];
+export const CheckboxPageComponents = [CheckboxPage, CheckboxExampleStandard, CheckboxExampleRadioButton, CheckboxExampleStyled];

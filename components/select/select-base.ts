@@ -17,7 +17,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
 
     // Keep track of all of the rendered select options. (Rendered by the user using *ngFor).
     @ContentChildren(SuiSelectOption, { descendants: true })
-    private _renderedOptions:QueryList<SuiSelectOption<T>>;
+    protected _renderedOptions:QueryList<SuiSelectOption<T>>;
 
     // Keep track of all of the subscriptions to the selected events on the rendered options.
     private _renderedSubscriptions:Subscription[];

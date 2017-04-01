@@ -15,7 +15,8 @@ import {Component, Input, HostBinding} from '@angular/core';
 })
 export class SuiProgress {
     @HostBinding('class.ui')
-    @HostBinding('class.progress') classes = true;
+    @HostBinding('class.progress')
+    private _classes = true;
 
     @HostBinding('class.success')
     private get reachedMaximum() {
@@ -26,9 +27,14 @@ export class SuiProgress {
     private unscaledValue:number = 0;
     private _maximum:number = 100;
 
-    @Input() public autoSuccess:boolean = true;
-    @Input() public progress:boolean = true;
-    @Input() public precision:number = 0;
+    @Input()
+    public autoSuccess:boolean = true;
+    
+    @Input()
+    public progress:boolean = true;
+
+    @Input()
+    public precision:number = 0;
 
     @Input()
     public set value(value:any) {
@@ -64,7 +70,7 @@ export class SuiProgress {
     }
 
     @HostBinding('attr.data-percent')
-    private get percentage():string {
+    public get percentage():string {
         return this._value.toString();
     }
 
