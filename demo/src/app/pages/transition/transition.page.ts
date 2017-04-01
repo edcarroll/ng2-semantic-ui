@@ -4,7 +4,7 @@ import {TransitionController} from "../../../../../components/transition/transit
 
 const exampleStandardTemplate = `
 <div class="ui segment">
-    <img src="http://u.to/7GvODw" class="ui image" [suiTransition]="transitionController">
+    <img src="https://goo.gl/VUcnwx" class="ui image" [suiTransition]="transitionController">
 </div>
 <sui-select [(ngModel)]="transitionName" [options]="transitions" [isSearchable]="true" #animSelect>
     <sui-select-option *ngFor="let a of animSelect.availableOptions" [value]="a"></sui-select-option>
@@ -41,7 +41,7 @@ export class MyComponent {
 
     public transitionElementCode = `
 <div class="ui segment">
-    <img src="http://u.to/7GvODw" class="ui image" [suiTransition]="transitionController">
+    <img src="https://goo.gl/VUcnwx" class="ui image" [suiTransition]="transitionController">
 </div>
 `;
 
