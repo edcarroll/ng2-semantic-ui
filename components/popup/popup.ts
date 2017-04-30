@@ -1,7 +1,8 @@
 import {Component, ViewChild, ViewContainerRef, ElementRef, Renderer, EventEmitter, TemplateRef, HostListener} from '@angular/core';
 import {SuiTransition, Transition, TransitionDirection} from '../transition/transition';
 import {TransitionController} from '../transition/transition-controller';
-import {PositioningService, PositioningPlacement, IPosition} from '../util/positioning.service';
+import {PositioningService, PositioningPlacement} from '../util/positioning.service';
+import Popper from "popper.js";
 
 export interface IPopupConfiguration {
     template?:TemplateRef<any>;
@@ -66,7 +67,7 @@ export class SuiPopup {
     public set anchor(anchor:ElementRef) {
         this._position = new PositioningService(anchor, this._container.element, this.placement, ".dynamic.arrow");
     }
-    public get position():IPosition {
+    public get position():Popper.Data {
         if (this._position) {
             return this._position.state;
         }

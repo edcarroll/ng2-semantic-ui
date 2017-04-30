@@ -1,6 +1,5 @@
 import {ElementRef, EventEmitter} from '@angular/core';
-// We import the ES5 version manually so that rollup can uglify it.
-import Popper from "popper.js/dist/popper.es5.js";
+import Popper from "popper.js";
 
 export type PositioningPlacement = "inherit" | "top-start" | "top" | "top-end" | "left-start" | "left" | "left-end" | "bottom-start" | "bottom" | "bottom-end" | "right-start" | "right" | "right-end";
 
@@ -30,24 +29,12 @@ export interface IPositionBoundingBox {
     right:number;
 }
 
-export interface IPosition {
-    originalPlacement:PositioningPlacement;
-    placement:PositioningPlacement;
-    flipped:boolean;
-    hide:boolean;
-    offsets: {
-        arrow:IPositionBoundingBox;
-        popper:IPositionBoundingBox;
-        reference:IPositionBoundingBox;
-    }
-}
-
 export class PositioningService {
     public readonly anchor:ElementRef;
     public readonly subject:ElementRef;
 
     private _popper:any;
-    private _popperState:IPosition;
+    private _popperState:Popper.Data;
 
     public get placement():PositioningPlacement {
         return this._popper.options.placement;
@@ -87,8 +74,8 @@ export class PositioningService {
             {
                 placement,
                 modifiers,
-                onCreate: (initial:IPosition) => this._popperState = initial,
-                onUpdate: (update:IPosition) => this._popperState = update
+                onCreate: initial => this._popperState = initial,
+                onUpdate: update => this._popperState = update
             });
     }
 
