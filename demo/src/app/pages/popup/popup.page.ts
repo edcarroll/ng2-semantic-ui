@@ -105,6 +105,30 @@ export class PopupPage {
     ];
 
     public position = "right bottom";
+
+    public manualPopupMarkup = `
+<div class="ui segment" suiPopup popupText="Manual" popupTrigger="manual" #popup="suiPopup">
+    <button class="ui button" (click)="popup.open()">Open!</button>
+    <button class="ui button" (click)="openPopup(popup)">Conditionally Open!</button>
+    <button class="ui button" (click)="popup.toggle()">Toggle!</button>
+    <button class="ui button" (click)="popup.close()">Close!</button>
+</div>
+`;
+
+    public manualPopupCode = `
+import {IPopup} from "ng2-semantic-ui";
+
+@Component({})
+export class MyComponent {
+    private _condition:boolean;
+
+    public openPopup(popup:IPopup) {
+        if (this._condition) {
+            popup.open();
+        }
+    }
+}
+`;
 }
 
 @Component({
