@@ -27,7 +27,6 @@
 /libpeerconnection.log
 npm-debug.log
 testem.log
-/typings
 
 # System Files
 .DS_Store
