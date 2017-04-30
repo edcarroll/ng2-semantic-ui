@@ -1,6 +1,6 @@
 # ng2-semantic-ui
 
-Semantic UI Angular 2 Integrations, written in pure AngularJS - **no JQuery required**.
+Semantic UI Angular 2 Integrations, written in pure Angular - **no JQuery required**.
 
 ## Demo & Usage
 
@@ -58,7 +58,7 @@ Now you're good to go!
 
 ## Dependencies
 
-* [Angular 2](https://angular.io) (^4.0.0)
+* [Angular](https://angular.io) (^4.0.0)
 * [Semantic UI CSS](http://semantic-ui.com/) (jQuery is **not** required)
 
 ## Components
