@@ -127,6 +127,9 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
                     this._writtenOptions = values;
                 }
             }
+            if (values.length === 0) {
+                this.selectedOptions = null;
+            }
         }
     }
 

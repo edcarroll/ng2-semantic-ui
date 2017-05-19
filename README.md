@@ -1,4 +1,6 @@
 # ng2-semantic-ui
+[![npm version](https://img.shields.io/npm/v/ng2-semantic-ui.svg "NPM Version")](https://www.npmjs.com/package/ng2-semantic-ui)
+[![gitter](https://img.shields.io/gitter/room/ng2-semantic-ui/Lobby.js.svg "Join discussion on Gitter")](https://gitter.im/ng2-semantic-ui/Lobby)
 
 Semantic UI Angular 2 Integrations, written in pure Angular - **no JQuery required**.
 
