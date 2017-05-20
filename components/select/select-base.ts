@@ -1,7 +1,7 @@
 import {Component, ViewChild, HostBinding, ElementRef, HostListener, Input, ContentChildren, QueryList, ViewChildren, AfterContentInit, EventEmitter, Output, Renderer, TemplateRef, ViewContainerRef} from '@angular/core';
-import {DropdownService} from '../dropdown/dropdown.service';
+import {DropdownService, DropdownAutoCloseType} from '../dropdown/dropdown.service';
 import {SearchService, LookupFn} from '../search/search.service';
-import {readValue, KeyCode} from '../util/util';
+import {readValue, KeyCode, HandledMouseEvent, AugmentedElement} from '../util/util';
 import {PositioningService, PositioningPlacement} from '../util/positioning.service';
 import {SuiDropdownMenu, SuiDropdownMenuItem} from '../dropdown/dropdown-menu';
 import {SuiSelectOption, ISelectRenderedOption} from './select-option';
@@ -130,7 +130,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     public noResultsMessage:string;
 
     constructor(private _element:ElementRef, private _renderer:Renderer) {
-        this.dropdownService = new DropdownService();
+        this.dropdownService = new DropdownService(DropdownAutoCloseType.OutsideClick);
         // We do want an empty query to return all results.
         this.searchService = new SearchService<T>(true);
 
@@ -186,14 +186,16 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     }
 
     @HostListener("click", ['$event'])
-    public onClick(e:MouseEvent) {
-        e.stopPropagation();
-        
-        // Immediately focus the search input whenever clicking on the select.
-        this.focusInput();
+    public onClick(e:HandledMouseEvent) {
+        if (!e.eventHandled) {
+            e.eventHandled = true;
 
-        // If the dropdown is searchable, clicking should keep it open, otherwise we toggle the open state.
-        this.dropdownService.setOpenState(this.isSearchable ? true : !this.dropdownService.isOpen);
+            // Immediately focus the search input whenever clicking on the select.
+            this.focusInput();
+
+            // If the dropdown is searchable, clicking should keep it open, otherwise we toggle the open state.
+            this.dropdownService.setOpenState(this.isSearchable ? true : !this.dropdownService.isOpen);
+        }
     }
 
     @HostListener("keypress", ['$event'])
@@ -201,6 +203,14 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         if (e.keyCode == KeyCode.Enter) {
             // Enables support for focussing and opening with the keyboard alone.
             this._renderer.invokeElementMethod(this._element.nativeElement, "click");
+        }
+    }
+
+    @HostListener("document:click", ["$event"])
+    public onDocumentClick(e:MouseEvent) {
+        const target = e.target as AugmentedElement;
+        if (!this._element.nativeElement.contains(e.target)) {
+            this.dropdownService.setOpenState(false);
         }
     }
 

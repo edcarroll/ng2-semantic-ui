@@ -4,15 +4,7 @@ import {TransitionController} from '../transition/transition-controller';
 import {DropdownService, DropdownAutoCloseType} from './dropdown.service';
 import {SuiDropdownMenu} from './dropdown-menu';
 import {PositioningService, PositioningPlacement} from '../util/positioning.service';
-import {KeyCode} from '../util/util';
-
-export class DropdownMouseEvent extends MouseEvent {
-    public dropdownHandled:boolean;
-}
-
-export class DropdownKeyboardEvent extends KeyboardEvent {
-    public dropdownHandled:boolean;
-}
+import {KeyCode, HandledMouseEvent, HandledKeyboardEvent} from '../util/util';
 
 @Directive({
     selector: '[suiDropdown]'
@@ -76,7 +68,7 @@ export class SuiDropdown implements AfterContentInit {
         this.service.autoCloseMode = value;
     }
 
-    constructor() {
+    constructor(private _element:ElementRef) {
         this.service = new DropdownService();
     }
 
@@ -99,24 +91,33 @@ export class SuiDropdown implements AfterContentInit {
     }
 
     @HostListener("click", ['$event'])
-    public onClick(e:DropdownMouseEvent) {
-        if (!e.dropdownHandled) {
-            e.dropdownHandled = true;
+    public onClick(e:HandledMouseEvent) {
+        if (!e.eventHandled) {
+            e.eventHandled = true;
 
             this.service.toggleOpenState();
         }
     }
 
     @HostListener("keypress", ['$event'])
-    public onKeypress(e:DropdownKeyboardEvent) {
+    public onKeypress(e:HandledKeyboardEvent) {
         // Block the keyboard event from being fired on parent dropdowns.
-        if (!e.dropdownHandled) {
-            e.dropdownHandled = true;
+        if (!e.eventHandled) {
 
             if (e.keyCode == KeyCode.Enter) {
-                e.stopPropagation();
+                e.eventHandled = true;
 
                 this.service.setOpenState(true);
+            }
+        }
+    }
+
+    @HostListener("document:click", ["$event"])
+    public onDocumentClick(e:MouseEvent) {
+        if (!this._element.nativeElement.contains(e.target)) {
+            if (this.service.autoCloseMode == DropdownAutoCloseType.ItemClick || this.service.autoCloseMode == DropdownAutoCloseType.OutsideClick) {
+                // No need to reflect in parent since they are also bound to document.
+                this.service.setOpenState(false);
             }
         }
     }

@@ -41,3 +41,11 @@ export function readValue<T, U>(object:T, field:string):U {
 export interface AugmentedElement extends Element {
     closest(selector:string):AugmentedElement;
 }
+
+export class HandledMouseEvent extends MouseEvent {
+    public eventHandled:boolean;
+}
+
+export class HandledKeyboardEvent extends KeyboardEvent {
+    public eventHandled:boolean;
+}

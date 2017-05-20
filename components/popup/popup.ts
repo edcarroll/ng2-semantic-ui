@@ -140,6 +140,7 @@ export class SuiPopup {
 
     @HostListener("click", ["$event"])
     public onClick(event:MouseEvent) {
+        // Makes sense here, as the popup shouldn't be attached to any DOM element.
         event.stopPropagation();
     }
 }

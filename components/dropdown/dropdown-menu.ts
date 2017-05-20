@@ -2,10 +2,9 @@ import {Directive, HostBinding, ContentChild, forwardRef, Renderer, ElementRef, 
 import {SuiTransition, Transition} from '../transition/transition';
 import {DropdownService, DropdownAutoCloseType} from './dropdown.service';
 import {TransitionController} from '../transition/transition-controller';
-import {KeyCode, AugmentedElement} from '../util/util';
+import {KeyCode, AugmentedElement, HandledMouseEvent} from '../util/util';
 // Polyfill for IE
 import "element-closest";
-import {DropdownMouseEvent} from './dropdown';
 
 @Directive({
     // We must attach to every '.item' as Angular doesn't support > selectors.
@@ -136,9 +135,9 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
     }
 
     @HostListener("click", ["$event"])
-    public onClick(e:DropdownMouseEvent) {
-        if (!e.dropdownHandled) {
-            e.dropdownHandled = true;
+    public onClick(e:HandledMouseEvent) {
+        if (!e.eventHandled) {
+            e.eventHandled = true;
 
             if (this._service.autoCloseMode == DropdownAutoCloseType.ItemClick) {
                 const target = e.target as AugmentedElement;
@@ -154,16 +153,6 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
     public onDocumentMousedown(e:MouseEvent) {
         // This is to ensure that we don't immediately close a dropdown as it is being opened programmatically.
         this._isOpenOnMousedown = this._service.isOpen;
-    }
-
-    @HostListener("document:click", ["$event"])
-    public onDocumentClick(e:MouseEvent) {
-        if (this._isOpenOnMousedown && !this.element.nativeElement.contains(e.target)) {
-            if (this._service.autoCloseMode == DropdownAutoCloseType.ItemClick || this._service.autoCloseMode == DropdownAutoCloseType.OutsideClick) {
-                // No need to reflect in parent since they are also bound to document.
-                this._service.setOpenState(false);
-            }
-        }
     }
 
     @HostListener("document:keydown", ["$event"])

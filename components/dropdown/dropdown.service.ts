@@ -29,13 +29,13 @@ export class DropdownService {
         return !!this.parent;
     }
 
-    constructor() {
+    constructor(autoCloseMode:DropdownAutoCloseType = DropdownAutoCloseType.ItemClick) {
         this.isOpen = false;
         this.isOpenChange = new EventEmitter<boolean>();
 
         this.isDisabled = false;
 
-        this.autoCloseMode = DropdownAutoCloseType.ItemClick;
+        this.autoCloseMode = autoCloseMode;
 
         this.children = [];
     }

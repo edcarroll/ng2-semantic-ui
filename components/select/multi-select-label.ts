@@ -2,6 +2,7 @@ import {Component, Input, HostBinding, HostListener, EventEmitter, ViewContainer
 import {SuiTransition, Transition, TransitionDirection} from '../transition/transition';
 import {TransitionController} from '../transition/transition-controller';
 import {ISelectRenderedOption} from './select-option';
+import {HandledMouseEvent} from '../util/util';
 
 @Component({
     selector: 'sui-multi-select-label',
@@ -49,15 +50,15 @@ export class SuiMultiSelectLabel<T> extends SuiTransition implements ISelectRend
         this._transitionController.animate(new Transition("scale", 100, TransitionDirection.In));
     }
 
-    public deselectOption(event:MouseEvent) {
-        event.stopPropagation();
+    public deselectOption(e:HandledMouseEvent) {
+        e.eventHandled = true;
 
         this._transitionController.animate(new Transition("scale", 100, TransitionDirection.Out, () =>
             this.onDeselected.emit(this.value)));
     }
 
     @HostListener("click", ["$event"])
-    public onClick(event:MouseEvent) {
-        event.stopPropagation();
+    public onClick(e:HandledMouseEvent) {
+        e.eventHandled = true;
     }
 }
