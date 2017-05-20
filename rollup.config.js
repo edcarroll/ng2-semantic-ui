@@ -42,6 +42,8 @@ export default {
         '@angular/forms',
         '@angular/http',
         '@angular/platform-browser',
-        'rxjs'
+        'rxjs/Observable',
+        'rxjs/Observer',
+        'rxjs/Subscription',
   ],
 }

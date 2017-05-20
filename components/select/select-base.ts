@@ -5,7 +5,7 @@ import {readValue, KeyCode, HandledMouseEvent, AugmentedElement} from '../util/u
 import {PositioningService, PositioningPlacement} from '../util/positioning.service';
 import {SuiDropdownMenu, SuiDropdownMenuItem} from '../dropdown/dropdown-menu';
 import {SuiSelectOption, ISelectRenderedOption} from './select-option';
-import {Subscription} from 'rxjs';
+import {Subscription} from 'rxjs/Subscription';
 
 // We use generic type T to specify the type of the options we are working with, and U to specify the type of the property of the option used as the value.
 export abstract class SuiSelectBase<T, U> implements AfterContentInit {

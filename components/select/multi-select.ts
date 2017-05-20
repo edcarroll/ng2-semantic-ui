@@ -2,7 +2,7 @@ import {Component, HostBinding, ElementRef, Renderer, EventEmitter, Output, Inpu
 import {SuiSelectBase} from './select-base';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 import {SuiMultiSelectLabel} from './multi-select-label';
-import {Subscription} from 'rxjs';
+import {Subscription} from 'rxjs/Subscription';
 import {KeyCode} from '../util/util';
 
 @Component({
