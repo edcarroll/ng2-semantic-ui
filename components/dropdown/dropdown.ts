@@ -6,6 +6,14 @@ import {SuiDropdownMenu} from './dropdown-menu';
 import {PositioningService, PositioningPlacement} from '../util/positioning.service';
 import {KeyCode} from '../util/util';
 
+export class DropdownMouseEvent extends MouseEvent {
+    public dropdownHandled:boolean;
+}
+
+export class DropdownKeyboardEvent extends KeyboardEvent {
+    public dropdownHandled:boolean;
+}
+
 @Directive({
     selector: '[suiDropdown]'
 })
@@ -91,20 +99,25 @@ export class SuiDropdown implements AfterContentInit {
     }
 
     @HostListener("click", ['$event'])
-    public onClick(e:MouseEvent) {
-        // Block the click event from being fired on parent dropdowns.
-        e.stopPropagation();
+    public onClick(e:DropdownMouseEvent) {
+        if (!e.dropdownHandled) {
+            e.dropdownHandled = true;
 
-        this.service.toggleOpenState();
+            this.service.toggleOpenState();
+        }
     }
 
     @HostListener("keypress", ['$event'])
-    public onKeypress(e:KeyboardEvent) {
+    public onKeypress(e:DropdownKeyboardEvent) {
         // Block the keyboard event from being fired on parent dropdowns.
-        if (e.keyCode == KeyCode.Enter) {
-            e.stopPropagation();
+        if (!e.dropdownHandled) {
+            e.dropdownHandled = true;
 
-            this.service.setOpenState(true);
+            if (e.keyCode == KeyCode.Enter) {
+                e.stopPropagation();
+
+                this.service.setOpenState(true);
+            }
         }
     }
 }

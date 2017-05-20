@@ -2,13 +2,10 @@ import {Directive, HostBinding, ContentChild, forwardRef, Renderer, ElementRef, 
 import {SuiTransition, Transition} from '../transition/transition';
 import {DropdownService, DropdownAutoCloseType} from './dropdown.service';
 import {TransitionController} from '../transition/transition-controller';
-import {KeyCode} from '../util/util';
+import {KeyCode, AugmentedElement} from '../util/util';
 // Polyfill for IE
 import "element-closest";
-
-interface AugmentedElement extends Element {
-    closest(selector:string):AugmentedElement;
-}
+import {DropdownMouseEvent} from './dropdown';
 
 @Directive({
     // We must attach to every '.item' as Angular doesn't support > selectors.
@@ -139,14 +136,16 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
     }
 
     @HostListener("click", ["$event"])
-    public onClick(e:MouseEvent) {
-        e.stopPropagation();
+    public onClick(e:DropdownMouseEvent) {
+        if (!e.dropdownHandled) {
+            e.dropdownHandled = true;
 
-        if (this._service.autoCloseMode == DropdownAutoCloseType.ItemClick) {
-            const target = e.target as AugmentedElement;
-            if (this.element.nativeElement.contains(target.closest(".item")) && !/input|textarea/i.test(target.tagName)) {
-                // Once an item is selected, we can close the entire dropdown.
-                this._service.setOpenState(false, true);
+            if (this._service.autoCloseMode == DropdownAutoCloseType.ItemClick) {
+                const target = e.target as AugmentedElement;
+                if (this.element.nativeElement.contains(target.closest(".item")) && !/input|textarea/i.test(target.tagName)) {
+                    // Once an item is selected, we can close the entire dropdown.
+                    this._service.setOpenState(false, true);
+                }
             }
         }
     }
@@ -159,7 +158,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
 
     @HostListener("document:click", ["$event"])
     public onDocumentClick(e:MouseEvent) {
-        if (this._isOpenOnMousedown) {
+        if (this._isOpenOnMousedown && !this.element.nativeElement.contains(e.target)) {
             if (this._service.autoCloseMode == DropdownAutoCloseType.ItemClick || this._service.autoCloseMode == DropdownAutoCloseType.OutsideClick) {
                 // No need to reflect in parent since they are also bound to document.
                 this._service.setOpenState(false);
@@ -172,7 +171,8 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
         // Only the root dropdown (i.e. not nested dropdowns) is responsible for keeping track of the currently selected item.
         if (this._service.isOpen && !this._service.isNested) {
             // Stop document events like scrolling while open.
-            if ((e.target as Element).tagName != "INPUT" || e.keyCode == KeyCode.Enter) {
+            const target = e.target as Element;
+            if (!/input/i.test(target.tagName) || e.keyCode == KeyCode.Enter) {
                 e.preventDefault();
             }
 

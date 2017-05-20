@@ -174,8 +174,6 @@ export class SuiPopupDirective implements IPopup {
     @HostListener("click")
     private onClick() {
         if (this.popupTrigger == PopupTrigger.Click || this.popupTrigger == PopupTrigger.OutsideClick) {
-            // event.stopPropagation();
-
             this.toggle();
         }
     }
@@ -183,8 +181,9 @@ export class SuiPopupDirective implements IPopup {
     @HostListener("document:click", ["$event"])
     public onDocumentClick(e:MouseEvent) {
         if (this._popupComponentRef && this.popupTrigger == PopupTrigger.OutsideClick) {
+            const target = e.target as Element;
             // Replacement for e.stopPropagation();
-            if (!(this._element.nativeElement as Element).contains(e.target as Element)) {
+            if (!(this._element.nativeElement as Element).contains(target)) {
                 this.close();
             }
         }

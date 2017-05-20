@@ -37,3 +37,7 @@ export function deepValue<T, U>(object:T, path:string):U {
 export function readValue<T, U>(object:T, field:string):U {
     return deepValue<T, U>(object, field);
 }
+
+export interface AugmentedElement extends Element {
+    closest(selector:string):AugmentedElement;
+}
