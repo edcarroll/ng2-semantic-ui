@@ -130,7 +130,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     public noResultsMessage:string;
 
     constructor(private _element:ElementRef, private _renderer:Renderer) {
-        this.dropdownService = new DropdownService(DropdownAutoCloseType.OutsideClick);
+        this.dropdownService = new DropdownService();
         // We do want an empty query to return all results.
         this.searchService = new SearchService<T>(true);
 
