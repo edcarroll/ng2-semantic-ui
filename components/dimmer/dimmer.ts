@@ -1,4 +1,6 @@
-import {Component, Input, Output, HostBinding, HostListener, EventEmitter} from '@angular/core';
+import {Component, Input, Output, HostBinding, HostListener, EventEmitter, Renderer, ElementRef} from '@angular/core';
+import {SuiTransition, Transition, TransitionDirection} from '../transition/transition';
+import {TransitionController} from '../transition/transition-controller';
 
 @Component({
     selector: 'sui-dimmer',
@@ -12,34 +14,72 @@ import {Component, Input, Output, HostBinding, HostListener, EventEmitter} from 
 `,
     styles: [`
 :host.dimmer {
-    transition: visibility 0.3s, opacity 0.3s ease;
-    display: block;
-    visibility: hidden;
-}
-
-:host.active {
-    visibility: visible;
+    transition: none;
 }
 `]
 })
-export class SuiDimmer {
+export class SuiDimmer extends SuiTransition {
     @HostBinding('class.ui')
-    @HostBinding('class.dimmer') classes = true;
+    @HostBinding('class.dimmer')
+    private _dimmerClasses:boolean;
 
-    @Input() public isClickable:boolean = true;
+    private _transitionController:TransitionController;
+
+    private _isDimmed:boolean;
 
     @HostBinding('class.active')
-    @Input() public isDimmed:boolean = false;
+    @Input()
+    public get isDimmed() {
+        return this._isDimmed;
+    }
 
-    @Output() public isDimmedChange:EventEmitter<boolean> = new EventEmitter<boolean>(false);
+    public set isDimmed(dimmed:boolean) {
+        dimmed = !!dimmed;
+
+        if (!this._transitionController) {
+            // Initialise transition functionality when first setting dimmed, to ensure initial state doesn't transition.
+            this._transitionController = new TransitionController(dimmed, "block");
+
+            this.setTransitionController(this._transitionController);
+        }
+
+        if (this._isDimmed != dimmed) {
+            this._isDimmed = dimmed;
+
+            if (this._transitionController.isVisible != dimmed) {
+                this._transitionController.stopAll();
+                this._transitionController.animate(new Transition("fade", 300, dimmed ? TransitionDirection.In : TransitionDirection.Out));
+            }
+        }
+    }
+
+    @Output()
+    public isDimmedChange:EventEmitter<boolean>;
+
+    @Input() 
+    public isClickable:boolean;
+
+    @Input()
+    public transition:string;
+
+    @Input()
+    public transitionDuration:number;
+
+    constructor(renderer:Renderer, element:ElementRef) {
+        super(renderer, element);
+
+        this._isDimmed = false;
+        this.isDimmedChange = new EventEmitter<boolean>();
+        this.isClickable = true;
+
+        this._dimmerClasses = true;
+    }
 
     @HostListener('click')
-    private click() {
+    private onClick() {
         if (this.isClickable) {
             this.isDimmed = false;
             this.isDimmedChange.emit(this.isDimmed);
         }
     }
 }
-
-export const SUI_DIMMER_DIRECTIVES = [SuiDimmer];

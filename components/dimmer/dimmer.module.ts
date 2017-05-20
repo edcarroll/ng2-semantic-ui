@@ -1,10 +1,18 @@
 import {NgModule} from '@angular/core';
-import {SUI_DIMMER_DIRECTIVES} from "./dimmer";
+import {SuiDimmer} from './dimmer';
 import {CommonModule} from "@angular/common";
+import {SuiTransitionModule} from '../transition/transition.module';
 
 @NgModule({
-    imports: [CommonModule],
-    declarations: SUI_DIMMER_DIRECTIVES,
-    exports: SUI_DIMMER_DIRECTIVES
+    imports: [
+        CommonModule,
+        SuiTransitionModule
+    ],
+    declarations: [
+        SuiDimmer
+    ],
+    exports: [
+        SuiDimmer
+    ]
 })
 export class SuiDimmerModule {}

@@ -80,7 +80,7 @@ export class TransitionController {
         if (isDirectionless) {
             transition.direction = TransitionDirection.Static;
         }
-        else if (!transition.direction || transition.direction == TransitionDirection.Either) {
+        else if (transition.direction == null || transition.direction == TransitionDirection.Either) {
             // Set the direction to the opposite of the current visible state automatically if not set, or set to either direction.
             transition.direction = this._isVisible ? TransitionDirection.Out : TransitionDirection.In;
             if (this._queueLast) {
