@@ -116,7 +116,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
                 // If the options have already been loaded, we can immediately match the ngModel values to options.
                 this.selectedOptions = values.map(v => this.findOption(this.searchService.options, v));
             }
-            if (values != [] && this.selectedOptions.length == 0) {
+            if (values.length > 0 && this.selectedOptions.length == 0) {
                 if (this.valueField && this.searchService.hasItemLookup) {
                     // If the search service has a selected lookup function, make use of that to load the initial values.
                     this.searchService.itemsLookup<U>(values)
