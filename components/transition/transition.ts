@@ -1,4 +1,4 @@
-import {Renderer, ElementRef, Directive, Input, HostBinding} from '@angular/core';
+import {Renderer, ElementRef, Directive, Input, HostBinding, ChangeDetectorRef} from '@angular/core';
 import {TransitionController} from './transition-controller';
 
 // Possible directions for a transition.
@@ -75,12 +75,13 @@ export class SuiTransition {
         return false;
     }
 
-    constructor(private _renderer:Renderer, private _element:ElementRef) {}
+    constructor(private _renderer:Renderer, private _element:ElementRef, private _changeDetector:ChangeDetectorRef) {}
 
     // Initialises the controller with the injected renderer and elementRef.
     public setTransitionController(transitionController:TransitionController) {
         this._controller = transitionController;
         this._controller.registerRenderer(this._renderer);
         this._controller.registerElement(this._element.nativeElement);
+        this._controller.registerChangeDetector(this._changeDetector);
     }
 }

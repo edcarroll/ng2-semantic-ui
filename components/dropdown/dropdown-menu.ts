@@ -1,4 +1,4 @@
-import {Directive, HostBinding, ContentChild, forwardRef, Renderer, ElementRef, AfterContentInit, ContentChildren, QueryList, Input, HostListener} from '@angular/core';
+import {Directive, HostBinding, ContentChild, forwardRef, Renderer, ElementRef, AfterContentInit, ContentChildren, QueryList, Input, HostListener, ChangeDetectorRef} from '@angular/core';
 import {SuiTransition, Transition} from '../transition/transition';
 import {DropdownService, DropdownAutoCloseType} from './dropdown.service';
 import {TransitionController} from '../transition/transition-controller';
@@ -122,8 +122,8 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
     @Input()
     public menuSelectedItemClass:string;
 
-    constructor(renderer:Renderer, public element:ElementRef) {
-        super(renderer, element);
+    constructor(renderer:Renderer, public element:ElementRef, changeDetector:ChangeDetectorRef) {
+        super(renderer, element, changeDetector);
 
         // Initialise transition functionality.
         this._transitionController = new TransitionController(false);

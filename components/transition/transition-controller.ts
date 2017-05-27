@@ -1,10 +1,12 @@
-import {Renderer, ElementRef} from '@angular/core';
+import {Renderer, ElementRef, ChangeDetectorRef} from '@angular/core';
 import {Transition, TransitionDirection} from './transition';
 
 export class TransitionController {
     private _renderer:Renderer;
 
     private _element:ElementRef;
+
+    private _changeDetector:ChangeDetectorRef;
 
     // Used to delay animations until we have an element to animate.
     private get _isReady() {
@@ -70,6 +72,12 @@ export class TransitionController {
     // Sets the element to perform the animations on.
     public registerElement(element:ElementRef) {
         this._element = element;
+        this.performTransition();
+    }
+
+    // Sets the change detector to detect changes when using ChangeDetectionStrategy.OnPush.
+    public registerChangeDetector(changeDetector:ChangeDetectorRef) {
+        this._changeDetector = changeDetector;
         this.performTransition();
     }
 
@@ -151,6 +159,8 @@ export class TransitionController {
         // Delete the transition from the queue.
         this._queue.shift();
         this._isAnimating = false;
+
+        this._changeDetector.markForCheck();
 
         // Immediately attempt to perform another transition.
         this.performTransition();
