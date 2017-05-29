@@ -1,9 +1,8 @@
 import {Component, Directive, Input, Output, EventEmitter, HostBinding, HostListener, forwardRef} from '@angular/core';
-import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
+import {customValueAccessorFactory, CustomValueAccessor} from '../util/custom-value-accessor';
 
 @Component({
     selector: 'sui-rating',
-    exportAs: 'suiRating',
     template: `
 <i class="icon"
    *ngFor="let icon of icons; let i = index"
@@ -65,29 +64,13 @@ export class SuiRating {
     }
 }
 
-export const CUSTOM_VALUE_ACCESSOR: any = {
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => SuiRatingValueAccessor),
-    multi: true
-};
-
 @Directive({
     selector: 'sui-rating',
     host: {'(valueChange)': 'onChange($event)'},
-    providers: [CUSTOM_VALUE_ACCESSOR]
+    providers: [customValueAccessorFactory(SuiRatingValueAccessor)]
 })
-export class SuiRatingValueAccessor implements ControlValueAccessor {
-    onChange = () => {};
-    onTouched = () => {};
-
-    constructor(private host: SuiRating) { }
-
-    writeValue(value: any): void {
-        this.host.writeValue(value);
+export class SuiRatingValueAccessor extends CustomValueAccessor<number, SuiRating> {
+    constructor(host:SuiRating) {
+        super(host);
     }
-
-    registerOnChange(fn: () => void): void { this.onChange = fn; }
-    registerOnTouched(fn: () => void): void { this.onTouched = fn; }
 }
-
-export const SUI_RATING_DIRECTIVES = [SuiRating, SuiRatingValueAccessor];

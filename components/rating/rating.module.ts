@@ -1,11 +1,20 @@
 import {NgModule} from '@angular/core';
-import {FormsModule} from "@angular/forms";
-import {SUI_RATING_DIRECTIVES} from "./rating";
 import {CommonModule} from "@angular/common";
+import {FormsModule} from "@angular/forms";
+import {SuiRating, SuiRatingValueAccessor} from './rating';
 
 @NgModule({
-    imports: [FormsModule, CommonModule],
-    declarations: SUI_RATING_DIRECTIVES,
-    exports: SUI_RATING_DIRECTIVES
+    imports: [
+        FormsModule,
+        CommonModule
+    ],
+    declarations: [
+        SuiRating,
+        SuiRatingValueAccessor
+    ],
+    exports: [
+        SuiRating,
+        SuiRatingValueAccessor
+    ]
 })
 export class SuiRatingModule {}
