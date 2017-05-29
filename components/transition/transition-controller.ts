@@ -1,10 +1,12 @@
-import {Renderer, ElementRef} from '@angular/core';
+import {Renderer, ElementRef, ChangeDetectorRef} from '@angular/core';
 import {Transition, TransitionDirection} from './transition';
 
 export class TransitionController {
     private _renderer:Renderer;
 
     private _element:ElementRef;
+
+    private _changeDetector:ChangeDetectorRef;
 
     // Used to delay animations until we have an element to animate.
     private get _isReady() {
@@ -73,6 +75,12 @@ export class TransitionController {
         this.performTransition();
     }
 
+    // Sets the change detector to detect changes when using ChangeDetectionStrategy.OnPush.
+    public registerChangeDetector(changeDetector:ChangeDetectorRef) {
+        this._changeDetector = changeDetector;
+        this.performTransition();
+    }
+
     public animate(transition:Transition) {
         // Test if transition is one of the list that doesn't change the visible state.
         // Should these eventually become classes?
@@ -80,7 +88,7 @@ export class TransitionController {
         if (isDirectionless) {
             transition.direction = TransitionDirection.Static;
         }
-        else if (!transition.direction || transition.direction == TransitionDirection.Either) {
+        else if (transition.direction == null || transition.direction == TransitionDirection.Either) {
             // Set the direction to the opposite of the current visible state automatically if not set, or set to either direction.
             transition.direction = this._isVisible ? TransitionDirection.Out : TransitionDirection.In;
             if (this._queueLast) {
@@ -151,6 +159,8 @@ export class TransitionController {
         // Delete the transition from the queue.
         this._queue.shift();
         this._isAnimating = false;
+
+        this._changeDetector.markForCheck();
 
         // Immediately attempt to perform another transition.
         this.performTransition();

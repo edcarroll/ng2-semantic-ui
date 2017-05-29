@@ -4,7 +4,7 @@ import {TransitionController} from '../transition/transition-controller';
 import {DropdownService, DropdownAutoCloseType} from './dropdown.service';
 import {SuiDropdownMenu} from './dropdown-menu';
 import {PositioningService, PositioningPlacement} from '../util/positioning.service';
-import {KeyCode} from '../util/util';
+import {KeyCode, HandledMouseEvent, HandledKeyboardEvent} from '../util/util';
 
 @Directive({
     selector: '[suiDropdown]'
@@ -68,7 +68,7 @@ export class SuiDropdown implements AfterContentInit {
         this.service.autoCloseMode = value;
     }
 
-    constructor() {
+    constructor(private _element:ElementRef) {
         this.service = new DropdownService();
     }
 
@@ -91,20 +91,34 @@ export class SuiDropdown implements AfterContentInit {
     }
 
     @HostListener("click", ['$event'])
-    public onClick(e:MouseEvent) {
-        // Block the click event from being fired on parent dropdowns.
-        e.stopPropagation();
+    public onClick(e:HandledMouseEvent) {
+        if (!e.eventHandled) {
+            e.eventHandled = true;
 
-        this.service.toggleOpenState();
+            this.service.toggleOpenState();
+        }
     }
 
     @HostListener("keypress", ['$event'])
-    public onKeypress(e:KeyboardEvent) {
+    public onKeypress(e:HandledKeyboardEvent) {
         // Block the keyboard event from being fired on parent dropdowns.
-        if (e.keyCode == KeyCode.Enter) {
-            e.stopPropagation();
+        if (!e.eventHandled) {
 
-            this.service.setOpenState(true);
+            if (e.keyCode == KeyCode.Enter) {
+                e.eventHandled = true;
+
+                this.service.setOpenState(true);
+            }
+        }
+    }
+
+    @HostListener("document:click", ["$event"])
+    public onDocumentClick(e:MouseEvent) {
+        if (!this._element.nativeElement.contains(e.target)) {
+            if (this.service.autoCloseMode == DropdownAutoCloseType.ItemClick || this.service.autoCloseMode == DropdownAutoCloseType.OutsideClick) {
+                // No need to reflect in parent since they are also bound to document.
+                this.service.setOpenState(false);
+            }
         }
     }
 }

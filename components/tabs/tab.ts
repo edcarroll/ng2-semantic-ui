@@ -1,6 +1,7 @@
 import {Directive, Input, Output, HostBinding, HostListener, EventEmitter} from '@angular/core';
 import {SuiTabContent} from "./tab-content";
-import {Observable, Observer} from "rxjs";
+import {Observable} from "rxjs/Observable";
+import {Observer} from "rxjs/Observer";
 
 @Directive({
     selector: '[suiTabHeader]'

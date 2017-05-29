@@ -95,8 +95,8 @@ import {SuiTransition, TransitionController, Transition} from "ng2-semantic-ui";
 export class MyComponent extends SuiTransition {
     private _transitionController:TransitionController;
 
-    constructor(renderer:Renderer, element:ElementRef) {
-        super(renderer, element);
+    constructor(renderer:Renderer, element:ElementRef, changeDetector:ChangeDetectorRef) {
+        super(renderer, element, changeDetector);
 
         this._transitionController = new TransitionController(false);
         this.setTransitionController(this._transitionController);

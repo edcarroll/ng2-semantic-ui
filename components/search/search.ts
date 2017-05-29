@@ -140,12 +140,15 @@ export class SuiSearch<T> implements AfterViewInit {
 
     @HostListener("click", ['$event'])
     public onClick(e:MouseEvent) {
-        e.stopPropagation();
-
         if (this.searchService.query.length > 0) {
             // Only open on click when there is a query entered.
             this.dropdownService.setOpenState(true);
         }
+    }
+
+    @HostListener("document:click", ["$event"])
+    public onDocumentClick(e:MouseEvent) {
+        this.dropdownService.setOpenState(false);
     }
 
     // Reads the specified field from an item.

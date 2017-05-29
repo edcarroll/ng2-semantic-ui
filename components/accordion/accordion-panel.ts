@@ -8,7 +8,7 @@ import {Transition, TransitionDirection} from '../transition/transition';
     exportAs: 'suiAccordionPanel',
     template: `
 <!-- Title -->
-<div class="title" [class.active]="isOpen" (click)="toggleOpen($event)" >
+<div class="title" [class.active]="isOpen" (click)="toggle()" >
     <ng-content select="[title]"></ng-content>
 </div>
 <!-- Content -->
@@ -50,6 +50,9 @@ export class SuiAccordionPanel {
     }
 
     public set isOpen(value:boolean) {
+        // Convert to boolean (fixes false != undefined)
+        value = !!value;
+
         if (value != this.isOpen) {
             // Only update if the value has changed.
             this._isOpen = value;
@@ -85,9 +88,7 @@ export class SuiAccordionPanel {
         this.isOpenChange = new EventEmitter<boolean>(false);
     }
 
-    public toggleOpen(event:MouseEvent) {
-        event.preventDefault();
-
+    public toggle() {
         if (!this.isDisabled) {
             this.isOpen = !this.isOpen;
         }

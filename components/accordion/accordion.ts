@@ -51,6 +51,13 @@ export class SuiAccordion implements AfterContentInit {
     }
 
     ngAfterContentInit() {
+        this.updatePanels();
+
+        // Reconnect panels after they have updated.
+        this.panels.changes.subscribe(() => setTimeout(() => this.updatePanels()));
+    }
+
+    public updatePanels() {
         this.panels.forEach(p => this._service.addPanel(p));
     }
 }

@@ -2,7 +2,7 @@ import {Component, HostBinding, ElementRef, Renderer, EventEmitter, Output, Inpu
 import {SuiSelectBase} from './select-base';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 import {SuiMultiSelectLabel} from './multi-select-label';
-import {Subscription} from 'rxjs';
+import {Subscription} from 'rxjs/Subscription';
 import {KeyCode} from '../util/util';
 
 @Component({
@@ -116,7 +116,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
                 // If the options have already been loaded, we can immediately match the ngModel values to options.
                 this.selectedOptions = values.map(v => this.findOption(this.searchService.options, v));
             }
-            if (values != [] && this.selectedOptions.length == 0) {
+            if (values.length > 0 && this.selectedOptions.length == 0) {
                 if (this.valueField && this.searchService.hasItemLookup) {
                     // If the search service has a selected lookup function, make use of that to load the initial values.
                     this.searchService.itemsLookup<U>(values)
@@ -126,6 +126,9 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
                     // Otherwise, cache the written value for when options are set.
                     this._writtenOptions = values;
                 }
+            }
+            if (values.length === 0) {
+                this.selectedOptions = [];
             }
         }
     }

@@ -3,7 +3,7 @@
   "main": "bundles/ng2-semantic-ui.umd.min.js",
   "module": "index.js",
   "typings": "index.d.ts",
-  "version": "0.6.2",
+  "version": "0.6.5",
   "description": "Angular 2 Semantic UI Components",
   "repository": {
     "type": "git",
@@ -15,9 +15,12 @@
   "author": "Edward Carroll",
   "keywords": [
     "angular",
+    "angular-2",
     "angular2",
+    "angular4",
+    "angular-components",
     "semantic-ui",
-    "semantic",
+    "no-jquery",
     "ui",
     "2"
   ],
@@ -41,6 +44,7 @@
     "element-closest": "^2.0.2",
     "popper.js": "^1.0.6",
     "rxjs": "^5.0.1",
+    "@types/popper.js": "^1.8.0",
     "zone.js": "^0.8.4"
   },
   "devDependencies": {
@@ -49,7 +53,6 @@
     "@angular/compiler-cli": "^4.0.0",
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
-    "@types/popper.js": "^1.8.0",
     "@types/prismjs": "~1.4.18",
     "@types/protractor": "~4.0.0",
     "codelyzer": "~2.0.0-beta.4",

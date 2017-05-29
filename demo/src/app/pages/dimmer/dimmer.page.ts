@@ -48,6 +48,16 @@ export class DimmerPage {
                     name: "isClickable",
                     description: "Sets whether or not clicking the dimmer will dismiss it.",
                     defaultValue: "true"
+                },
+                {
+                    name: "transition",
+                    description: "Sets the transition used when displaying the dimmer.",
+                    defaultValue: "fade"
+                },
+                {
+                    name: "transitionDuration",
+                    description: "Sets the duration for the dimmer transition.",
+                    defaultValue: "300"
                 }
             ],
             events: [

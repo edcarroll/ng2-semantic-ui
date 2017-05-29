@@ -9,13 +9,15 @@ import {PageTitleComponent} from './page-title/page-title.component';
 import {PageContentComponent} from './page-content/page-content.component';
 import {SidebarComponent} from './sidebar/sidebar.component';
 import {GithubButtonsComponent} from './github-buttons/github-buttons.component';
+import {SuiPopupModule} from '../../../../components/popup/popup.module';
 
 @NgModule({
     imports: [
         CommonModule,
         RouterModule,
 
-        SuiCollapseModule
+        SuiCollapseModule,
+        SuiPopupModule
     ],
     declarations: [
         SidebarComponent,

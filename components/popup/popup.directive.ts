@@ -4,6 +4,12 @@ import {PositioningPlacement} from '../util/positioning.service';
 
 export type PopupTrigger = "hover" | "click" | "outsideClick" | "focus" | "manual";
 
+export interface IPopup {
+    open():void;
+    close():void;
+    toggle():void;
+}
+
 // Creates essentially a 'string' enum.
 export const PopupTrigger = {
     Hover: "hover" as PopupTrigger,
@@ -17,7 +23,7 @@ export const PopupTrigger = {
     selector: '[suiPopup]',
     exportAs: 'suiPopup'
 })
-export class SuiPopupDirective {
+export class SuiPopupDirective implements IPopup {
     private _config:IPopupConfiguration;
     private _placement:PositioningPlacement;
     
@@ -168,8 +174,6 @@ export class SuiPopupDirective {
     @HostListener("click")
     private onClick() {
         if (this.popupTrigger == PopupTrigger.Click || this.popupTrigger == PopupTrigger.OutsideClick) {
-            event.stopPropagation();
-
             this.toggle();
         }
     }
@@ -177,7 +181,11 @@ export class SuiPopupDirective {
     @HostListener("document:click", ["$event"])
     public onDocumentClick(e:MouseEvent) {
         if (this._popupComponentRef && this.popupTrigger == PopupTrigger.OutsideClick) {
-            this.close();
+            const target = e.target as Element;
+            // Replacement for e.stopPropagation();
+            if (!(this._element.nativeElement as Element).contains(target)) {
+                this.close();
+            }
         }
     }
 
