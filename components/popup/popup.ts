@@ -134,7 +134,7 @@ export class SuiPopup {
             this.transitionController.animate(new Transition(this.config.transition, this.config.transitionDuration, TransitionDirection.Out));
 
             clearTimeout(this._closingTimeout);
-            this._closingTimeout = setTimeout(() => this.onClose.emit(), this.config.transitionDuration);
+            this._closingTimeout = window.setTimeout(() => this.onClose.emit(), this.config.transitionDuration);
 
             this._isOpen = false;
         }

@@ -136,7 +136,9 @@ export class AccordionExampleStyled {}
     selector: 'accordion-example-manual',
     template: exampleManualTemplate
 })
-export class AccordionExampleManual {}
+export class AccordionExampleManual {
+    public panelOpen:boolean = false;
+}
 
 export const AccordionPageComponents = [AccordionPage, AccordionExampleStandard, AccordionExampleStyled, AccordionExampleManual];
 

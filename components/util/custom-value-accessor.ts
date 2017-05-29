@@ -1,11 +1,11 @@
-import {NG_VALUE_ACCESSOR} from '@angular/forms';
-import {forwardRef} from '@angular/core';
+import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
+import {forwardRef, InjectionToken, Type} from '@angular/core';
 
 export interface CustomValueAccessorHost<T> {
     writeValue(value:T):void;
 }
 
-export class CustomValueAccessor<U, T extends CustomValueAccessorHost<U>> {
+export class CustomValueAccessor<U, T extends CustomValueAccessorHost<U>> implements ControlValueAccessor {
     public onChange = () => {};
     public onTouched = () => {};
 

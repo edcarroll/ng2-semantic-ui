@@ -128,7 +128,7 @@ export class TransitionController {
         }
 
         // Wait the length of the animation before calling the complete callback.
-        this._animationTimeout = setTimeout(() => this.finishTransition(transition), transition.duration);
+        this._animationTimeout = window.setTimeout(() => this.finishTransition(transition), transition.duration);
     }
 
     // Called when a transition has completed.
