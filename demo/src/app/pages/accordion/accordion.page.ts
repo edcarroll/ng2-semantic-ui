@@ -55,7 +55,21 @@ const exampleStyledTemplate = `
         </div>
     </sui-accordion-panel>
 </sui-accordion>
-`
+`;
+
+const exampleManualTemplate = `
+<sui-accordion class="styled fluid">
+    <sui-accordion-panel [(isOpen)]="panelOpen" [isDisabled]="true">
+        <div title>
+            <i class="dropdown icon" (click)="panelOpen = !panelOpen"></i>
+            Manual Panel
+        </div>
+        <div content>
+            <p>Content</p>
+        </div>
+    </sui-accordion-panel>
+</sui-accordion>
+`;
 
 @Component({
     selector: 'demo-page-accordion',
@@ -102,6 +116,7 @@ export class AccordionPage {
     ];
     public exampleStandardTemplate = exampleStandardTemplate;
     public exampleStyledTemplate = exampleStyledTemplate;
+    public exampleManualTemplate = exampleManualTemplate;
 }
 
 @Component({
@@ -116,5 +131,11 @@ export class AccordionExampleStandard {}
 })
 export class AccordionExampleStyled {}
 
-export const AccordionPageComponents = [AccordionPage, AccordionExampleStandard, AccordionExampleStyled];
+@Component({
+    selector: 'accordion-example-manual',
+    template: exampleManualTemplate
+})
+export class AccordionExampleManual {}
+
+export const AccordionPageComponents = [AccordionPage, AccordionExampleStandard, AccordionExampleStyled, AccordionExampleManual];
 
