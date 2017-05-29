@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {SuiTransition, Transition, TransitionDirection} from "../../../../../components/transition/transition";
 import {TransitionController} from "../../../../../components/transition/transition-controller";
+import {ApiDefinition} from "app/components/api/api.component";
 
 const exampleStandardTemplate = `
 <div class="ui segment">
@@ -17,7 +18,7 @@ const exampleStandardTemplate = `
     templateUrl: './transition.page.html'
 })
 export class TransitionPage {
-    public api = [
+    public api:ApiDefinition = [
         {
             selector: "[suiTransition]",
             properties: [
@@ -90,6 +91,8 @@ this.ctrl.clearQueue();
 
     public advancedExampleCode = `
 import {SuiTransition, TransitionController, Transition} from "ng2-semantic-ui";
+import {ApiDefinition} from '../../components/api/api.component';
+import {ApiDefinition} from 'app/components/api/api.component';
 
 @Component({})
 export class MyComponent extends SuiTransition {

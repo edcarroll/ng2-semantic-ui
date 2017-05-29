@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {ApiDefinition} from '../../components/api/api.component';
 
 const exampleStandardTemplate = `
 <div class="ui segment">
@@ -55,7 +56,7 @@ const exampleVariationsTemplate = `
     templateUrl: './progress.page.html'
 })
 export class ProgressPage {
-    public api = [
+    public api:ApiDefinition = [
         {
             selector: "<sui-progress>",
             properties: [

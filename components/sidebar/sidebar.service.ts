@@ -64,7 +64,7 @@ export class SidebarService {
     public widthChange:EventEmitter<void>;
     public heightChange:EventEmitter<void>;
 
-    private _isAnimatingTimeout:any;
+    private _isAnimatingTimeout:number;
 
     public transition:SidebarTransition;
 

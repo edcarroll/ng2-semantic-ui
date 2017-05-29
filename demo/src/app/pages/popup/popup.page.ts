@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import {ApiDefinition} from "../../components/api/api.component";
 
 const exampleStandardTemplate = `
 <button class="ui green icon button" suiPopup popupHeader="Example" popupText="This is an example popup">
@@ -34,7 +35,7 @@ const examplePlacementTemplate = `
     templateUrl: './popup.page.html'
 })
 export class PopupPage {
-    public api = [
+    public api:ApiDefinition = [
         {
             selector: "[suiPopup]",
             properties: [
@@ -117,6 +118,7 @@ export class PopupPage {
 
     public manualPopupCode = `
 import {IPopup} from "ng2-semantic-ui";
+import {ApiDefinition} from '../../components/api/api.component';
 
 @Component({})
 export class MyComponent {

@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {ApiDefinition} from "../../components/api/api.component";
 
 const exampleStandardTemplate = `
 <sui-message class="success">
@@ -26,7 +27,7 @@ const exampleNoDismissTemplate = `
     templateUrl: './message.page.html'
 })
 export class MessagePage {
-    public api = [
+    public api:ApiDefinition = [
         {
             selector: "<sui-message>",
             properties: [
@@ -70,6 +71,7 @@ export class MessagePage {
 
     public manualDismissCode = `
 import {IMessage} from "ng2-semantic-ui";
+import {ApiDefinition} from '../../components/api/api.component';
 
 @Component({})
 export class MyComponent {

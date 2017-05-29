@@ -27,7 +27,7 @@ export class Transition {
     // Stores the individual classes for the transition, e.g. "fade out" -> ["fade", "out"].
     public readonly classes:string[];
 
-    public onComplete:() => any;
+    public onComplete:() => void;
 
     constructor(name:string, duration:number = 250, direction:TransitionDirection = TransitionDirection.Either, onComplete:(() => void) = () => {}) {
         this.type = name;

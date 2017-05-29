@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {ApiDefinition} from '../../components/api/api.component';
 
 const exampleStandardTemplate = `
 <div class="ui segment">
@@ -35,7 +36,7 @@ const exampleVariationsTemplate = `
   templateUrl: './dimmer.page.html'
 })
 export class DimmerPage {
-    public api = [
+    public api:ApiDefinition = [
         {
             selector: "<sui-dimmer>",
             properties: [

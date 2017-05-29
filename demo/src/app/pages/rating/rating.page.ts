@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {ApiDefinition} from '../../components/api/api.component';
 
 const exampleStandardTemplate = `
 <div class="ui form">
@@ -32,7 +33,7 @@ const exampleStyledTemplate = `
     templateUrl: './rating.page.html'
 })
 export class RatingPage {
-    public api = [
+    public api:ApiDefinition = [
         {
             selector: "<sui-rating>",
             properties: [

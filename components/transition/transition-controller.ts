@@ -50,7 +50,7 @@ export class TransitionController {
     }
 
     // Stores the setTimeout pointer for cancelling the animation callback.
-    private _animationTimeout:any;
+    private _animationTimeout:number;
 
     constructor(isInitiallyVisible:boolean = true, display:string = "block") {
         // isInitiallyVisible sets whether the element starts out visible.

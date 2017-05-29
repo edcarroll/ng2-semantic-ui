@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {ApiDefinition} from '../../components/api/api.component';
 
 const exampleStandardTemplate = `
 <sui-accordion [closeOthers]="false">
@@ -76,7 +77,7 @@ const exampleManualTemplate = `
     templateUrl: './accordion.page.html'
 })
 export class AccordionPage {
-    public api = [
+    public api:ApiDefinition = [
         {
             selector: '<sui-accordion>',
             properties: [

@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {ApiDefinition} from '../../components/api/api.component';
 
 const exampleStandardTemplate = `
 <sui-tabset>
@@ -84,7 +85,7 @@ const exampleStyledTemplate = `
     templateUrl: './tabs.page.html'
 })
 export class TabsPage {
-    public api = [
+    public api:ApiDefinition = [
         {
             selector: "<sui-tabset>"
         },

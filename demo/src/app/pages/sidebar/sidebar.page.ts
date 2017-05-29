@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {ApiDefinition} from '../../components/api/api.component';
 
 const exampleStandardTemplate = `
 <div class="ui top attached demo menu">
@@ -47,7 +48,7 @@ const exampleDirectionTemplate = `
     templateUrl: './sidebar.page.html'
 })
 export class SidebarPage {
-    public api = [
+    public api:ApiDefinition = [
         {
             selector: "<sui-sidebar-container>"
         },
