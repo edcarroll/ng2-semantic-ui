@@ -1,4 +1,5 @@
 import {Component, Input, Renderer, ElementRef, HostBinding} from '@angular/core';
+import Popper from "popper.js";
 
 @Component({
     selector: 'sui-popup-arrow',
@@ -72,7 +73,7 @@ import {Component, Input, Renderer, ElementRef, HostBinding} from '@angular/core
 export class SuiPopupArrow {
     @Input()
     // This should be an IPosition but for some reason Angular CLI isn't able to find it and warns you about it.
-    public position:any;
+    public position:Popper.Data;
 
     @HostBinding("class.inverted")
     @Input()

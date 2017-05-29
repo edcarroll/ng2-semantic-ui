@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 
 const exampleStandardTemplate = `
 <div class="ui segment">
-    <sui-progress [value]="value" [progress]="progress" [maximum]="maximum" [precision]="precision">
+    <sui-progress [value]="value" [showProgress]="progress" [maximum]="maximum" [precision]="precision">
         Progress Bar Label
     </sui-progress>
 
@@ -70,14 +70,14 @@ export class ProgressPage {
                     defaultValue: "100"
                 },
                 {
-                    name: "progress",
-                    description: "Whether or not the current progress label is displayed.",
-                    defaultValue: "true"
-                },
-                {
                     name: "precision",
                     description: "Sets the number of decimal places on the current progress label.",
                     defaultValue: "0"
+                },
+                {
+                    name: "showProgress",
+                    description: "Whether or not the current progress label is displayed.",
+                    defaultValue: "true"
                 },
                 {
                     name: "autoSuccess",

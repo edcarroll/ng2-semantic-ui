@@ -102,7 +102,7 @@ export class DropdownService {
     }
 
     // Method for delaying an event into the next tick, to avoid Angular "changed after checked" error.
-    private delay(callback:() => any) {
+    private delay(callback:() => void) {
         setTimeout(() => callback());
     }
 }

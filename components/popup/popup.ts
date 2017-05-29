@@ -81,7 +81,8 @@ export class SuiPopup {
     }
 
     private _isOpen:boolean;
-    private _closingTimeout:any;
+    private _closingTimeout:number;
+
     public onClose:EventEmitter<void>;
 
     public get isOpen() {
