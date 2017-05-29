@@ -1,7 +1,7 @@
 import {Component, ViewContainerRef, ViewChild, Output, EventEmitter, ElementRef, Renderer, forwardRef, Directive} from '@angular/core';
 import {SuiSelectBase} from './select-base';
-import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 import {ISelectRenderedOption} from './select-option';
+import {customValueAccessorFactory, CustomValueAccessorHost, CustomValueAccessor} from '../util/custom-value-accessor';
 
 export type SingleItemLookup<T, U> = (query:string, initial?:U) => Promise<T>;
 
@@ -25,7 +25,7 @@ export type SingleItemLookup<T, U> = (query:string, initial?:U) => Promise<T>;
 </div>
 `
 })
-export class SuiSelect<T, U> extends SuiSelectBase<T, U> {
+export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements CustomValueAccessorHost<U> {
     public selectedOption:T;
     // Stores the value written by ngModel before it can be matched to an option from `options`.
     private _writtenOption:U;
@@ -123,35 +123,14 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> {
     }
 }
 
-// Value accessor for the select.
-export const SELECT_VALUE_ACCESSOR:any = {
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => SuiSelectValueAccessor),
-    multi: true
-};
-
 // Value accessor directive for the select to support ngModel.
 @Directive({
     selector: 'sui-select',
-    host: {
-        '(selectedOptionChange)': 'onChange($event)'
-    },
-    providers: [SELECT_VALUE_ACCESSOR]
+    host: { '(selectedOptionChange)': 'onChange($event)' },
+    providers: [customValueAccessorFactory(SuiSelectValueAccessor)]
 })
-export class SuiSelectValueAccessor<T, U> implements ControlValueAccessor {
-    onChange = () => {};
-    onTouched = () => {};
-
-    constructor(private host:SuiSelect<T, U>) {}
-
-    writeValue(value:U) {
-        this.host.writeValue(value);
-    }
-
-    registerOnChange(fn:() => void) {
-        this.onChange = fn;
-    }
-    registerOnTouched(fn:() => void) {
-        this.onTouched = fn;
+export class SuiSelectValueAccessor<T, U> extends CustomValueAccessor<U, SuiSelect<T, U>> {
+    constructor (host:SuiSelect<T, U>) {
+        super(host);
     }
 }

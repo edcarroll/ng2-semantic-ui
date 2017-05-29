@@ -1,6 +1,5 @@
 import {Component, HostBinding, ElementRef, Renderer, EventEmitter, Output, Input, QueryList, AfterViewInit, ViewChildren, forwardRef, Directive} from '@angular/core';
 import {SuiSelectBase} from './select-base';
-import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 import {SuiMultiSelectLabel} from './multi-select-label';
 import {Subscription} from 'rxjs/Subscription';
 import {KeyCode} from '../util/util';
