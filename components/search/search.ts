@@ -148,7 +148,9 @@ export class SuiSearch<T> implements AfterViewInit {
 
     @HostListener("document:click", ["$event"])
     public onDocumentClick(e:MouseEvent) {
-        this.dropdownService.setOpenState(false);
+        if (!this._element.nativeElement.contains(e.target)) {
+            this.dropdownService.setOpenState(false);
+        }
     }
 
     // Reads the specified field from an item.

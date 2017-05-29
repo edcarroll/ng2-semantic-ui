@@ -63,9 +63,6 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
     @Input()
     public menuTransitionDuration:number;
 
-    // Allows the dropdown to be programmatically opened without being immediately closed by a mouse event.
-    private _isOpenOnMousedown:boolean;
-
     public get service() {
         return this._service;
     }
@@ -128,8 +125,6 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
         this.menuTransition = "slide down";
         this.menuTransitionDuration = 200;
 
-        this._isOpenOnMousedown = false;
-
         this.menuAutoSelectFirst = false;
         this.menuSelectedItemClass = "selected";
     }
@@ -147,12 +142,6 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
                 }
             }
         }
-    }
-
-    @HostListener("document:mousedown")
-    public onDocumentMousedown(e:MouseEvent) {
-        // This is to ensure that we don't immediately close a dropdown as it is being opened programmatically.
-        this._isOpenOnMousedown = this._service.isOpen;
     }
 
     @HostListener("document:keydown", ["$event"])
