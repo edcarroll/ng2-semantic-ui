@@ -20,7 +20,7 @@ export class SuiProgress {
 
     @HostBinding('class.success')
     private get reachedMaximum() {
-        return this.value == this.maximum && this.autoSuccess;
+        return this.value == 100 && this.autoSuccess;
     }
 
     private _value:number = 0;
