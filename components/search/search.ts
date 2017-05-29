@@ -110,11 +110,6 @@ export class SuiSearch<T> implements AfterViewInit {
     @Output()
     public onItemSelected:EventEmitter<T>;
 
-    // Alias onItemSelected as ngModelChange for [(ngModel)] support.
-    public get ngModelChange() {
-        return this.onItemSelected;
-    }
-
     constructor(private _element:ElementRef) {
         this.dropdownService = new DropdownService();
         this.searchService = new SearchService<T>();

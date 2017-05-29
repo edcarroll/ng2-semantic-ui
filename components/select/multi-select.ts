@@ -44,12 +44,6 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
     @Output()
     public selectedOptionsChange:EventEmitter<U[]>;
 
-    @Output()
-    public get ngModelChange() {
-        // For simplicity we can mirror these two emitters as they do the same thing.
-        return this.selectedOptionsChange;
-    }
-
     protected optionsUpdateHook() {
         if (this._writtenOptions && this.searchService.options.length > 0) {
             // If there were values written by ngModel before the options had been loaded, this runs to fix it.

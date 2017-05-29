@@ -6,61 +6,77 @@ import {customValueAccessorFactory, CustomValueAccessor} from '../util/custom-va
     template: `
 <i class="icon"
    *ngFor="let icon of icons; let i = index"
-   (mouseover)="mouseover(i)"
-   (click)="click(i)"
+   (mouseover)="onMouseover(i)"
+   (click)="onClick(i)"
    [class.selected]="_hoveredIndex >= i && !isReadonly"
-   [class.active]="_value > i">
+   [class.active]="value > i">
 </i>
 `,
     styles: [`
 :host.read-only .icon {
-cursor: auto
+    cursor: auto
 }
 `]
 })
 export class SuiRating {
     @HostBinding('class.ui')
-    @HostBinding('class.rating') ratingClasses = true;
+    @HostBinding('class.rating')
+    private _ratingClasses:boolean;
 
-    private _value:number = 0;
-    private _max:number = 5;
-
-    @Input()
-    public set max(value:any) {
-        this._max = parseInt(value);
-    }
-
-    public get icons() {
-        return Array(this._max);
-    }
+    public value:number;
 
     @Output()
-    public valueChange:EventEmitter<number> = new EventEmitter<number>(false);
+    public valueChange:EventEmitter<number>;
 
-    private _hoveredIndex:number = -1;
-    
-    private mouseover(i:number) {
-        this._hoveredIndex = i;
+    private _maximum:number;
+
+    @Input()
+    public get maximum() {
+        return this._maximum;
     }
 
-    @HostListener('mouseout')
-    private mouseout() {
-        this._hoveredIndex = -1;
-    }
-
-    private click(i:number) {
-        if (!this.isReadonly) {
-            this._value = i + 1;
-            this.valueChange.emit(this._value);
-        }
+    public set maximum(value:number) {
+        this._maximum = +value;
     }
 
     @HostBinding('class.read-only')
     @Input()
-    public isReadonly:boolean = false;
+    public isReadonly:boolean;
+
+    public get icons() {
+        return new Array(this.maximum);
+    }
+
+    private _hoveredIndex:number = -1;
+
+    constructor() {
+        this.value = 0;
+        this.valueChange = new EventEmitter<number>();
+
+        this.maximum = 5;
+        this.isReadonly = false;
+
+        this._ratingClasses = true;
+    }
+
+    private onClick(i:number) {
+        if (!this.isReadonly) {
+            this.value = i + 1;
+            this.valueChange.emit(this.value);
+        }
+    }
+
+    private onMouseover(i:number) {
+        this._hoveredIndex = i;
+    }
+
+    @HostListener('mouseout')
+    private onMouseout() {
+        this._hoveredIndex = -1;
+    }
 
     public writeValue(value:number) {
-        this._value = value;
+        this.value = value;
     }
 }
 

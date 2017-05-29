@@ -4,7 +4,7 @@ const exampleStandardTemplate = `
 <div class="ui form">
     <div class="field">
         <label>Rating</label>
-        <sui-rating [(ngModel)]="rating" max="10" [isReadonly]="readonly"></sui-rating>
+        <sui-rating [(ngModel)]="rating" [maximum]="10" [isReadonly]="readonly"></sui-rating>
     </div>
     <div class="field">
         <label>Value</label>
@@ -19,11 +19,11 @@ const exampleStandardTemplate = `
 const exampleStyledTemplate = `
 <h5 class="ui top attached header">Stars</h5>
 <div class="ui attached segment">
-    <sui-rating class="star" [ngModel]="3" max="5"></sui-rating>
+    <sui-rating class="star" [ngModel]="3" [maximum]="5"></sui-rating>
 </div>
 <h5 class="ui attached header">Hearts</h5>
 <div class="ui bottom attached segment">
-    <sui-rating class="heart" [ngModel]="3" max="5"></sui-rating>
+    <sui-rating class="heart" [ngModel]="3" [maximum]="5"></sui-rating>
 </div>
 `;
 
@@ -37,7 +37,7 @@ export class RatingPage {
             selector: "<sui-rating>",
             properties: [
                 {
-                    name: "max",
+                    name: "maximum",
                     description: "Sets the highest value the rating allows as input.",
                     defaultValue: "5"
                 },

@@ -36,12 +36,6 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> {
     @Output()
     public selectedOptionChange:EventEmitter<U>;
 
-    @Output()
-    public get ngModelChange() {
-        // For simplicity we can mirror these two emitters as they do the same thing.
-        return this.selectedOptionChange;
-    }
-
     protected optionsUpdateHook() {
         if (this._writtenOption && this.searchService.options.length > 0) {
             // If there was an value written by ngModel before the options had been loaded, this runs to fix it.
