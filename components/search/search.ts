@@ -166,7 +166,7 @@ export class SuiSearch<T> implements AfterViewInit {
 }
 
 // Value accessor for the search.
-export const SEARCH_VALUE_ACCESSOR:any = {
+export const SEARCH_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => SuiSearchValueAccessor),
     multi: true

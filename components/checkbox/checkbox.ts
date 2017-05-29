@@ -1,87 +1,84 @@
 import {Component, Directive, Input, Output, HostListener, HostBinding, EventEmitter, forwardRef} from '@angular/core';
-import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
+import {CustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor} from '../util/custom-value-accessor';
 
 @Component({
     selector: 'sui-checkbox',
     exportAs: 'suiCheckbox',
     template: `
-<input class="hidden" type="checkbox" [attr.name]="name" [attr.checked]="checkedAttribute" [attr.disabled]="isDisabledAttribute" [(ngModel)]="isChecked">
+<input class="hidden"
+       type="checkbox"
+       [attr.name]="name"
+       [attr.checked]="checkedAttribute"
+       [attr.disabled]="isDisabledAttribute"
+       [(ngModel)]="isChecked">
 <label>
     <ng-content></ng-content>
 </label>
 `
 })
-export class SuiCheckbox {
+export class SuiCheckbox implements CustomValueAccessorHost<boolean> {
     @HostBinding('class.ui')
     @HostBinding('class.checkbox')
-    private _classes = true;
+    private _checkboxClasses:boolean;
 
     @Input()
     public name:string;
 
     @HostBinding('class.checked')
-    public isChecked:boolean = false;
+    public isChecked:boolean;
 
     @Output()
-    public checkChange:EventEmitter<boolean> = new EventEmitter<boolean>(false);
+    public checkChange:EventEmitter<boolean>;
 
     @Input()
-    public isDisabled:boolean = false;
+    public isDisabled:boolean;
 
     @HostBinding('class.read-only')
     @Input()
-    public isReadonly:boolean = false;
+    public isReadonly:boolean;
 
-    public get checkedAttribute():string {
+    public get checkedAttribute() {
         return this.isChecked ? "" : null;
     }
 
-    public get isDisabledAttribute():string {
+    public get isDisabledAttribute() {
         return this.isDisabled ? "disabled" : null;
     }
 
+    constructor() {
+        this.isChecked = false;
+        this.checkChange = new EventEmitter<boolean>();
+
+        this.isDisabled = false;
+        this.isReadonly = false;
+
+        this._checkboxClasses = true;
+    }
+
     @HostListener('click')
-    public onClick():void {
+    public onClick() {
         if (!this.isDisabled && !this.isReadonly) {
             this.toggle();
         }
     }
 
-    public toggle():void {
+    public toggle() {
         this.isChecked = !this.isChecked;
         this.checkChange.emit(this.isChecked);
     }
 
     public writeValue(value:boolean) {
-        setTimeout(() => {
-            this.isChecked = value;
-        });
+        this.isChecked = value;
     }
 }
-
-export const CUSTOM_VALUE_ACCESSOR: any = {
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => SuiCheckboxValueAccessor),
-    multi: true
-};
 
 @Directive({
     selector: 'sui-checkbox',
     host: {'(checkChange)': 'onChange($event)'},
-    providers: [CUSTOM_VALUE_ACCESSOR]
+    providers: [customValueAccessorFactory(SuiCheckboxValueAccessor)]
 })
-export class SuiCheckboxValueAccessor implements ControlValueAccessor {
-    onChange = () => {};
-    onTouched = () => {};
-
-    constructor(private host: SuiCheckbox) { }
-
-    writeValue(value: any): void {
-        this.host.writeValue(!!value);
+export class SuiCheckboxValueAccessor extends CustomValueAccessor<boolean, SuiCheckbox> {
+    constructor(host:SuiCheckbox) {
+        super(host);
     }
-
-    registerOnChange(fn: () => void): void { this.onChange = fn; }
-    registerOnTouched(fn: () => void): void { this.onTouched = fn; }
 }
-
-export const SUI_CHECKBOX_DIRECTIVES = [SuiCheckbox, SuiCheckboxValueAccessor];

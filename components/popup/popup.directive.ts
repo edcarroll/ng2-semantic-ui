@@ -1,6 +1,7 @@
 import {Directive, Input, ElementRef, ComponentFactoryResolver, ViewContainerRef, ComponentRef, HostListener, TemplateRef, Renderer} from '@angular/core';
 import {SuiPopup, IPopupConfiguration} from './popup';
 import {PositioningPlacement} from '../util/positioning.service';
+import {TemplateRefContext} from '../util/util';
 
 export type PopupTrigger = "hover" | "click" | "outsideClick" | "focus" | "manual";
 
@@ -28,7 +29,7 @@ export class SuiPopupDirective implements IPopup {
     private _placement:PositioningPlacement;
     
     @Input()
-    public set popupTemplate(template:TemplateRef<any>) {
+    public set popupTemplate(template:TemplateRef<TemplateRefContext<SuiPopup>>) {
         this._config.template = template;
         this.copyConfig();
     }

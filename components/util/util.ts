@@ -14,6 +14,8 @@ export enum KeyCode {
 
 type RecursiveObject = { [name:string]:RecursiveObject };
 
+export type TemplateRefContext<T> = { $implicit:T };
+
 // This involves some fun type fuckery (It can be likened to RAA) - this is essentially a function to retrive the value at a given path.
 // If anyone has a better way, please do let me know :)
 export function deepValue<T, U>(object:T, path:string):U {

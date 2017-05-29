@@ -1,7 +1,7 @@
 import {Component, ViewChild, HostBinding, ElementRef, HostListener, Input, ContentChildren, QueryList, ViewChildren, AfterContentInit, EventEmitter, Output, Renderer, TemplateRef, ViewContainerRef} from '@angular/core';
 import {DropdownService, DropdownAutoCloseType} from '../dropdown/dropdown.service';
 import {SearchService, LookupFn} from '../search/search.service';
-import {readValue, KeyCode, HandledMouseEvent, AugmentedElement} from '../util/util';
+import {readValue, KeyCode, HandledMouseEvent, AugmentedElement, TemplateRefContext} from '../util/util';
 import {PositioningService, PositioningPlacement} from '../util/positioning.service';
 import {SuiDropdownMenu, SuiDropdownMenuItem} from '../dropdown/dropdown-menu';
 import {SuiSelectOption, ISelectRenderedOption} from './select-option';
@@ -45,7 +45,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     @HostBinding('attr.tabindex')
     public get tabIndex() {
         // Remove from tabindex if searchable or disabled, as if searchable then the input is what needs to be focussed.
-        return this.isSearchable || this.isDisabled ? -1 : 0;
+        return (this.isSearchable || this.isDisabled) ? -1 : 0;
     }
 
     @HostBinding('class.disabled')
@@ -124,7 +124,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     }
 
     @Input()
-    public optionTemplate:TemplateRef<any>;
+    public optionTemplate:TemplateRef<TemplateRefContext<T>>;
 
     @Input()
     public noResultsMessage:string;
@@ -199,7 +199,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     }
 
     @HostListener("keypress", ['$event'])
-    public onKeypress(e:KeyboardEvent) {
+    public onKeyPress(e:KeyboardEvent) {
         if (e.keyCode == KeyCode.Enter) {
             // Enables support for focussing and opening with the keyboard alone.
             this._renderer.invokeElementMethod(this._element.nativeElement, "click");
@@ -225,6 +225,6 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     protected drawTemplate(siblingRef:ViewContainerRef, value:T) {
         siblingRef.clear();
         // Use of `$implicit` means use of <ng-template let-option> syntax is supported.
-        siblingRef.createEmbeddedView(this.optionTemplate, { '$implicit': value });
+        siblingRef.createEmbeddedView(this.optionTemplate, { $implicit: value });
     }
 }

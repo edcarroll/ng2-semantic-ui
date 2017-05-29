@@ -2,10 +2,11 @@ import {Component, ViewChild, ViewContainerRef, ElementRef, Renderer, EventEmitt
 import {SuiTransition, Transition, TransitionDirection} from '../transition/transition';
 import {TransitionController} from '../transition/transition-controller';
 import {PositioningService, PositioningPlacement} from '../util/positioning.service';
+import {TemplateRefContext} from "../util/util";
 import Popper from "popper.js";
 
 export interface IPopupConfiguration {
-    template?:TemplateRef<any>;
+    template?:TemplateRef<TemplateRefContext<SuiPopup>>;
     header?:string;
     text?:string;
     inverted?:boolean;
@@ -113,7 +114,7 @@ export class SuiPopup {
             clearTimeout(this._closingTimeout);
 
             if (this.config.template && !this._templateInjected) {
-                this._templateSibling.createEmbeddedView(this.config.template, { '$implicit': this });
+                this._templateSibling.createEmbeddedView(this.config.template, { $implicit: this });
                 this._templateInjected = true;
             }
             
