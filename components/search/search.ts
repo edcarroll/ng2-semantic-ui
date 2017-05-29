@@ -108,7 +108,7 @@ export class SuiSearch<T> implements AfterViewInit {
 
     // Emits whenever a new item is selected.
     @Output()
-    public onItemSelected:EventEmitter<T>;
+    public itemSelected:EventEmitter<T>;
 
     constructor(private _element:ElementRef) {
         this.dropdownService = new DropdownService();
@@ -120,7 +120,7 @@ export class SuiSearch<T> implements AfterViewInit {
 
         this.searchDelay = 200;
 
-        this.onItemSelected = new EventEmitter<T>();
+        this.itemSelected = new EventEmitter<T>();
     }
 
     public ngAfterViewInit() {
@@ -130,7 +130,7 @@ export class SuiSearch<T> implements AfterViewInit {
     // Selects an item.
     public select(item:T) {
         this.writeValue(item);
-        this.onItemSelected.emit(item);
+        this.itemSelected.emit(item);
     }
 
     @HostListener("click", ['$event'])

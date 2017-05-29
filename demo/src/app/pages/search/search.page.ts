@@ -58,7 +58,7 @@ export class SearchPage {
                     description: "Fires whenever the search's selected item is changed. <code>[(ngModel)]</code> syntax is supported."
                 },
                 {
-                    name: "onItemSelected",
+                    name: "itemSelected",
                     description: "Fires whenever the search's selected item is changed. The selected value is passed as <code>$event</code>."
                 }
             ]
