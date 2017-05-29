@@ -83,7 +83,7 @@ export class SuiRadioButton<T> implements CustomValueAccessorHost<T> {
 
 @Directive({
     selector: 'sui-radio-button',
-    host: {'(currentValueChange)': 'onChange($event)'},
+    host: { '(currentValueChange)': 'onChange($event)' },
     providers: [customValueAccessorFactory(SuiRadioButtonValueAccessor)]
 })
 export class SuiRadioButtonValueAccessor<T> extends CustomValueAccessor<T, SuiRadioButton<T>> {
