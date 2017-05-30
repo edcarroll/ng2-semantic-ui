@@ -1,4 +1,4 @@
-import {Directive, Input, HostBinding, EventEmitter, Output, AfterContentInit, ContentChild, Renderer, ElementRef, HostListener, QueryList, ContentChildren, forwardRef} from '@angular/core';
+import {Directive, Input, HostBinding, EventEmitter, Output, AfterContentInit, ContentChild, Renderer2, ElementRef, HostListener, QueryList, ContentChildren, forwardRef} from '@angular/core';
 import {SuiTransition, Transition} from '../transition/transition';
 import {TransitionController} from '../transition/transition-controller';
 import {DropdownService, DropdownAutoCloseType} from './dropdown.service';

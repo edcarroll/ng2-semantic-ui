@@ -1,4 +1,4 @@
-import {Directive, ElementRef, Input, HostBinding, Renderer} from '@angular/core';
+import {Directive, ElementRef, Input, HostBinding, Renderer2} from '@angular/core';
 import "web-animations-js";
 
 @Directive({
@@ -40,7 +40,7 @@ export class SuiCollapse {
     @Input()
     public collapseDuration:number;
 
-    public constructor(private _element:ElementRef, private _renderer: Renderer) {
+    public constructor(private _element:ElementRef, private _renderer: Renderer2) {
         this._pristine = true;
 
         // Collapse animation duration is 350ms by default.
@@ -55,7 +55,7 @@ export class SuiCollapse {
         this._isExpanded = false;
 
         // Forcibly hide the overflow so that content is not visible past the boundaries of its container.
-        this._renderer.setElementStyle(this._element.nativeElement, 'overflow', 'hidden');
+        this._renderer.setStyle(this._element.nativeElement, 'overflow', 'hidden');
 
         // Animate the host element from its scroll height to 0.
         this.animate(this._element.nativeElement.scrollHeight, 0, () => {
@@ -69,7 +69,7 @@ export class SuiCollapse {
         // Animate the host element from its offset height to its scroll height.
         this.animate(this._element.nativeElement.offsetHeight, this._element.nativeElement.scrollHeight, () => {
             // Remove the overflow override to enable user styling once again.
-            this._renderer.setElementStyle(this._element.nativeElement, 'overflow', null);
+            this._renderer.removeStyle(this._element.nativeElement, 'overflow');
 
             this._isCollapsing = false;
             this._isExpanded = true;
@@ -78,27 +78,25 @@ export class SuiCollapse {
 
     private animate(startHeight:number, endHeight:number, callback:() => void) {
         // Animate the collapse using the web animations API.
-        this._renderer.invokeElementMethod(
-            this._element.nativeElement,
-            "animate",
+        // Using directly because Renderer2 doesn't have invokeElementMethod method anymore.
+        this._element.nativeElement.animate(
             [
-                [
-                    {
-                        height: `${startHeight}px`
-                    },
-                    {
-                        height: `${endHeight}px`
-                    }
-                ],
                 {
-                    delay: 0,
-                    // Disable animation on 1st collapse / expansion.
-                    duration: this._pristine ? 0 : this.collapseDuration,
-                    iterations: 1,
-                    easing: "ease",
-                    fill: "both"
+                    height: `${startHeight}px`
+                },
+                {
+                    height: `${endHeight}px`
                 }
-            ]);
+            ],
+            {
+                delay: 0,
+                // Disable animation on 1st collapse / expansion.
+                duration: this._pristine ? 0 : this.collapseDuration,
+                iterations: 1,
+                easing: "ease",
+                fill: "both"
+            }
+        );
 
         if (this._pristine) {
             // Remove pristine flag when first hit.

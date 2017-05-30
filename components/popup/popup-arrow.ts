@@ -1,4 +1,4 @@
-import {Component, Input, Renderer, ElementRef, HostBinding} from '@angular/core';
+import {Component, Input, Renderer2, ElementRef, HostBinding} from '@angular/core';
 import Popper from "popper.js";
 
 @Component({

@@ -1,4 +1,4 @@
-import {Component, HostBinding, ElementRef, Renderer, EventEmitter, Output, Input, QueryList, AfterViewInit, ViewChildren, forwardRef, Directive} from '@angular/core';
+import {Component, HostBinding, ElementRef, Renderer2, EventEmitter, Output, Input, QueryList, AfterViewInit, ViewChildren, forwardRef, Directive} from '@angular/core';
 import {SuiSelectBase} from './select-base';
 import {SuiMultiSelectLabel} from './multi-select-label';
 import {Subscription} from 'rxjs/Subscription';
@@ -79,7 +79,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
     @HostBinding('class.multiple')
     private _multiSelectClasses:boolean;
 
-    constructor(element:ElementRef, renderer:Renderer) {
+    constructor(element:ElementRef, renderer:Renderer2) {
         super(element, renderer);
 
         this.placeholder = "Select...";

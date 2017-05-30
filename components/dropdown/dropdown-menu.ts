@@ -1,4 +1,4 @@
-import {Directive, HostBinding, ContentChild, forwardRef, Renderer, ElementRef, AfterContentInit, ContentChildren, QueryList, Input, HostListener, ChangeDetectorRef} from '@angular/core';
+import {Directive, HostBinding, ContentChild, forwardRef, Renderer2, ElementRef, AfterContentInit, ContentChildren, QueryList, Input, HostListener, ChangeDetectorRef} from '@angular/core';
 import {SuiTransition, Transition} from '../transition/transition';
 import {DropdownService, DropdownAutoCloseType} from './dropdown.service';
 import {TransitionController} from '../transition/transition-controller';
@@ -25,7 +25,11 @@ export class SuiDropdownMenuItem {
 
     public set isSelected(value:boolean) {
         // Renderer is used to enable a dynamic class name.
-        this._renderer.setElementClass(this.element.nativeElement, this.selectedClass, value)
+        if(value){
+            this._renderer.addClass(this.element.nativeElement, this.selectedClass)
+        }else{
+            this._renderer.removeClass(this.element.nativeElement, this.selectedClass);
+        }
     }
 
     // Stores the class name used for a 'selected' item.
@@ -38,15 +42,15 @@ export class SuiDropdownMenuItem {
         return !!this.childDropdownMenu;
     }
 
-    constructor(private _renderer:Renderer, public element:ElementRef) {
+    constructor(private _renderer:Renderer2, public element:ElementRef) {
         this.isSelected = false;
 
         this.selectedClass = "selected";
     }
 
     public performClick() {
-        // Manually click the element. Done via renderer so as to avoid nativeElement changes directly.
-        this._renderer.invokeElementMethod(this.element.nativeElement, "click");
+        // Using directly because Renderer2 doesn't have invokeElementMethod method anymore.
+        this.element.nativeElement.click();
     }
 }
 
@@ -117,7 +121,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
     @Input()
     public menuSelectedItemClass:string;
 
-    constructor(renderer:Renderer, public element:ElementRef, changeDetector:ChangeDetectorRef) {
+    constructor(renderer:Renderer2, public element:ElementRef, changeDetector:ChangeDetectorRef) {
         super(renderer, element, changeDetector);
 
         // Initialise transition functionality.

@@ -1,4 +1,4 @@
-import {Component, ViewContainerRef, ViewChild, Output, EventEmitter, ElementRef, Renderer, forwardRef, Directive} from '@angular/core';
+import {Component, ViewContainerRef, ViewChild, Output, EventEmitter, ElementRef, Renderer2, forwardRef, Directive} from '@angular/core';
 import {SuiSelectBase} from './select-base';
 import {ISelectRenderedOption} from './select-option';
 import {customValueAccessorFactory, CustomValueAccessorHost, CustomValueAccessor} from '../util/custom-value-accessor';
@@ -52,7 +52,7 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements CustomValueA
         this.selectedOption = null;
     }
 
-    constructor(element:ElementRef, renderer:Renderer) {
+    constructor(element:ElementRef, renderer:Renderer2) {
         super(element, renderer);
 
         this.placeholder = "Select one";

@@ -1,4 +1,4 @@
-import {Component, ViewChild, ViewContainerRef, ElementRef, Renderer, EventEmitter, TemplateRef, HostListener} from '@angular/core';
+import {Component, ViewChild, ViewContainerRef, ElementRef, Renderer2, EventEmitter, TemplateRef, HostListener} from '@angular/core';
 import {SuiTransition, Transition, TransitionDirection} from '../transition/transition';
 import {TransitionController} from '../transition/transition-controller';
 import {PositioningService, PositioningPlacement} from '../util/positioning.service';

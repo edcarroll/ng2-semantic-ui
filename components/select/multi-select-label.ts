@@ -1,4 +1,4 @@
-import {Component, Input, HostBinding, HostListener, EventEmitter, ViewContainerRef, ViewChild, Renderer, ElementRef, Output, ChangeDetectorRef} from '@angular/core';
+import {Component, Input, HostBinding, HostListener, EventEmitter, ViewContainerRef, ViewChild, Renderer2, ElementRef, Output, ChangeDetectorRef} from '@angular/core';
 import {SuiTransition, Transition, TransitionDirection} from '../transition/transition';
 import {TransitionController} from '../transition/transition-controller';
 import {ISelectRenderedOption} from './select-option';
@@ -34,7 +34,7 @@ export class SuiMultiSelectLabel<T> extends SuiTransition implements ISelectRend
     @ViewChild('templateSibling', { read: ViewContainerRef })
     public templateSibling:ViewContainerRef;
 
-    constructor(renderer:Renderer, element:ElementRef, changeDetector:ChangeDetectorRef) {
+    constructor(renderer:Renderer2, element:ElementRef, changeDetector:ChangeDetectorRef) {
         super(renderer, element, changeDetector);
 
         // Initialise transition functionality.
