@@ -10,7 +10,7 @@ export class TransitionController {
 
     // Used to delay animations until we have an element to animate.
     private get _isReady() {
-        return this._renderer != null && this._element != null;
+        return this._renderer != null && this._element != null && this._changeDetector != null;
     }
 
     // Sets the 'display' style when visible.
