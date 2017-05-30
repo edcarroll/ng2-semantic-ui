@@ -2,10 +2,11 @@ import {Component, ViewChild, ViewContainerRef, ElementRef, Renderer, EventEmitt
 import {SuiTransition, Transition, TransitionDirection} from '../transition/transition';
 import {TransitionController} from '../transition/transition-controller';
 import {PositioningService, PositioningPlacement} from '../util/positioning.service';
+import {TemplateRefContext} from "../util/util";
 import Popper from "popper.js";
 
 export interface IPopupConfiguration {
-    template?:TemplateRef<any>;
+    template?:TemplateRef<TemplateRefContext<SuiPopup>>;
     header?:string;
     text?:string;
     inverted?:boolean;
@@ -80,7 +81,8 @@ export class SuiPopup {
     }
 
     private _isOpen:boolean;
-    private _closingTimeout:any;
+    private _closingTimeout:number;
+
     public onClose:EventEmitter<void>;
 
     public get isOpen() {
@@ -113,7 +115,7 @@ export class SuiPopup {
             clearTimeout(this._closingTimeout);
 
             if (this.config.template && !this._templateInjected) {
-                this._templateSibling.createEmbeddedView(this.config.template, { '$implicit': this });
+                this._templateSibling.createEmbeddedView(this.config.template, { $implicit: this });
                 this._templateInjected = true;
             }
             
@@ -132,7 +134,7 @@ export class SuiPopup {
             this.transitionController.animate(new Transition(this.config.transition, this.config.transitionDuration, TransitionDirection.Out));
 
             clearTimeout(this._closingTimeout);
-            this._closingTimeout = setTimeout(() => this.onClose.emit(), this.config.transitionDuration);
+            this._closingTimeout = window.setTimeout(() => this.onClose.emit(), this.config.transitionDuration);
 
             this._isOpen = false;
         }

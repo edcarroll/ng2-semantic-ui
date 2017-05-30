@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {ApiDefinition} from '../../components/api/api.component';
 
 const exampleStandardTemplate = `
 <p>You can use the keyboard to navigate the dropdown.</p>
@@ -59,7 +60,7 @@ const exampleStyledTemplate = `
     templateUrl: './dropdown.page.html'
 })
 export class DropdownPage {
-    public api = [
+    public api:ApiDefinition = [
         {
             selector: "[suiDropdown]",
             properties: [

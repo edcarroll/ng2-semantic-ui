@@ -1,5 +1,25 @@
 import {Component, Input} from '@angular/core';
 
+export interface IApiProperty {
+    name:string;
+    description:string;
+    defaultValue?:string;
+    required?:boolean;
+}
+
+export interface IApiEvent {
+    name:string;
+    description:string;
+}
+
+export interface IApi {
+    selector:string;
+    properties?:[IApiProperty];
+    events?:[IApiEvent];
+}
+
+export type ApiDefinition = [IApi];
+
 @Component({
     selector: 'demo-api',
     templateUrl: './api.component.html',
@@ -7,5 +27,5 @@ import {Component, Input} from '@angular/core';
 })
 export class ApiComponent {
     @Input()
-    public api:any;
+    public api:ApiDefinition;
 }

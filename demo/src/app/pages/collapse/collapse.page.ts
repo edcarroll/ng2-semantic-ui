@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {ApiDefinition} from '../../components/api/api.component';
 
 const exampleStandardTemplate = `
 <div class="ui segments">
@@ -23,7 +24,7 @@ const exampleStandardTemplate = `
     templateUrl: './collapse.page.html'
 })
 export class CollapsePage {
-    public api = [
+    public api:ApiDefinition = [
         {
             selector: "[suiCollapse]",
             properties: [
@@ -41,7 +42,6 @@ export class CollapsePage {
         }
     ];
     public exampleStandardTemplate = exampleStandardTemplate;
-    public polyfillCode = `<script src="https://rawgit.com/web-animations/web-animations-js/master/web-animations.min.js"></script>`;
 }
 
 @Component({

@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {ApiDefinition} from '../../components/api/api.component';
 
 const exampleStandardTemplate = `
 <sui-select [(ngModel)]="selectedGender" placeholder="Gender">
@@ -90,7 +91,7 @@ const exampleTemplateSearchTemplate = `
     templateUrl: './select.page.html'
 })
 export class SelectPage {
-    public api = [
+    public api:ApiDefinition = [
         {
             selector: '<sui-select>',
             properties: [
@@ -260,7 +261,7 @@ export class SelectExampleStandard {
     template: exampleOptionsTemplate
 })
 export class SelectExampleOptions {
-    public options:Array<any> = [{ name: "Example" }, { name: "Test" }, { name: "What" }, { name: "No" }, { name: "Benefit" }, { name: "Oranges" }, { name: "Artemis" }, { name: "Another" }];
+    public options:Array<{ name:string }> = [{ name: "Example" }, { name: "Test" }, { name: "What" }, { name: "No" }, { name: "Benefit" }, { name: "Oranges" }, { name: "Artemis" }, { name: "Another" }];
     public addOption() {
         this.options.push({ name: "Dynamic Option" });
     }
@@ -272,7 +273,7 @@ export class SelectExampleOptions {
     template: exampleSearchTemplate
 })
 export class SelectExampleSearch {
-    public options:Array<any> = [{ name: "Example" }, { name: "Test" }, { name: "What" }, { name: "No" }, { name: "Benefit" }, { name: "Oranges" }, { name: "Artemis" }, { name: "Another" }];
+    public options:Array<{ name:string }> = [{ name: "Example" }, { name: "Test" }, { name: "What" }, { name: "No" }, { name: "Benefit" }, { name: "Oranges" }, { name: "Artemis" }, { name: "Another" }];
     public selectedOption;
 }
 
@@ -281,7 +282,7 @@ export class SelectExampleSearch {
     template: exampleSearchLookupTemplate
 })
 export class SelectExampleLookupSearch {
-    private _options:Array<any> = [{ id: 1, name: "Example" }, { id: 2, name: "Test" }, { id: 3, name: "What" }, { id: 4, name: "No" }, { id: 5, name: "Benefit" }, { id: 6, name: "Oranges" }, { id: 7, name: "Artemis" }, { id: 8, name: "Another" }];
+    private _options:Array<{ id:number, name:string }> = [{ id: 1, name: "Example" }, { id: 2, name: "Test" }, { id: 3, name: "What" }, { id: 4, name: "No" }, { id: 5, name: "Benefit" }, { id: 6, name: "Oranges" }, { id: 7, name: "Artemis" }, { id: 8, name: "Another" }];
     public optionsLookup = (query:string, initial:number) => {
         if (initial != undefined) {
             return new Promise((resolve, reject) => {
@@ -303,7 +304,7 @@ export class SelectExampleLookupSearch {
     template: exampleMultipleTemplate
 })
 export class SelectExampleMultiple {
-    public options:Array<any> = ["Example", "Test", "What", "No", "Benefit", "Oranges", "Artemis", "Another"];
+    public options:Array<string> = ["Example", "Test", "What", "No", "Benefit", "Oranges", "Artemis", "Another"];
     public selectedOptions = ["What", "Oranges"];
 }
 
@@ -312,7 +313,7 @@ export class SelectExampleMultiple {
     template: exampleMultipleSearchTemplate
 })
 export class SelectExampleMultipleSearch {
-    public options:Array<any> = ["Example", "Test", "What", "No", "Benefit", "Oranges", "Artemis", "Another"];
+    public options:Array<string> = ["Example", "Test", "What", "No", "Benefit", "Oranges", "Artemis", "Another"];
     public selectedOptions = ["What", "Oranges"];
 }
 
@@ -321,9 +322,9 @@ export class SelectExampleMultipleSearch {
     template: exampleTemplateSearchTemplate
 })
 export class SelectExampleTemplateSearch {
-    public options:Array<any> = [{ name: "Example"}, { name: "Test"}, { name: "What"}, { name: "No"}, { name: "Benefit"}, { name: "Oranges"}, { name: "Artemis"}, { name: "Another"}];
+    public options:Array<{ name:string }> = [{ name: "Example"}, { name: "Test"}, { name: "What"}, { name: "No"}, { name: "Benefit"}, { name: "Oranges"}, { name: "Artemis"}, { name: "Another"}];
     public selectedOption = this.options[5];
-    public selectedOptions:any;
+    public selectedOptions:[{ name:string }];
 }
 
 export const SelectPageComponents = [SelectPage, SelectExampleStandard, SelectExampleOptions, SelectExampleSearch, SelectExampleLookupSearch, SelectExampleMultiple, SelectExampleMultipleSearch, SelectExampleTemplateSearch];

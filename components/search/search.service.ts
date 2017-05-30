@@ -80,7 +80,7 @@ export class SearchService<T> {
     // How long to delay the search for when using updateQueryDelayed. Stored in ms.
     public searchDelay:number;
     // Stores the search timeout handle so we can cancel it.
-    private _searchDelayTimeout:any;
+    private _searchDelayTimeout:number;
     // Provides 'loading' functionality.
     private _isSearching:boolean;
 
@@ -106,7 +106,7 @@ export class SearchService<T> {
         this._query = query;
 
         clearTimeout(this._searchDelayTimeout);
-        this._searchDelayTimeout = setTimeout(() => {
+        this._searchDelayTimeout = window.setTimeout(() => {
             this.updateQuery(query, callback);
         }, this.searchDelay);
     }

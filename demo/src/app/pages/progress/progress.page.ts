@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
+import {ApiDefinition} from '../../components/api/api.component';
 
 const exampleStandardTemplate = `
 <div class="ui segment">
-    <sui-progress [value]="value" [progress]="progress" [maximum]="maximum" [precision]="precision">
+    <sui-progress [value]="value" [showProgress]="progress" [maximum]="maximum" [precision]="precision">
         Progress Bar Label
     </sui-progress>
 
@@ -55,7 +56,7 @@ const exampleVariationsTemplate = `
     templateUrl: './progress.page.html'
 })
 export class ProgressPage {
-    public api = [
+    public api:ApiDefinition = [
         {
             selector: "<sui-progress>",
             properties: [
@@ -70,14 +71,14 @@ export class ProgressPage {
                     defaultValue: "100"
                 },
                 {
-                    name: "progress",
-                    description: "Whether or not the current progress label is displayed.",
-                    defaultValue: "true"
-                },
-                {
                     name: "precision",
                     description: "Sets the number of decimal places on the current progress label.",
                     defaultValue: "0"
+                },
+                {
+                    name: "showProgress",
+                    description: "Whether or not the current progress label is displayed.",
+                    defaultValue: "true"
                 },
                 {
                     name: "autoSuccess",

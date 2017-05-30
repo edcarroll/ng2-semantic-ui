@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {ApiDefinition} from '../../components/api/api.component';
 
 const exampleStandardTemplate = `
 <sui-accordion [closeOthers]="false">
@@ -76,7 +77,7 @@ const exampleManualTemplate = `
     templateUrl: './accordion.page.html'
 })
 export class AccordionPage {
-    public api = [
+    public api:ApiDefinition = [
         {
             selector: '<sui-accordion>',
             properties: [
@@ -135,7 +136,9 @@ export class AccordionExampleStyled {}
     selector: 'accordion-example-manual',
     template: exampleManualTemplate
 })
-export class AccordionExampleManual {}
+export class AccordionExampleManual {
+    public panelOpen:boolean = false;
+}
 
 export const AccordionPageComponents = [AccordionPage, AccordionExampleStandard, AccordionExampleStyled, AccordionExampleManual];
 

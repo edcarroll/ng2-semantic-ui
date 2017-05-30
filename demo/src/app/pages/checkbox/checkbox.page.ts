@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {ApiDefinition} from '../../components/api/api.component';
 
 const exampleStandardTemplate = `
 <div class="ui form">
@@ -79,7 +80,7 @@ const exampleStyledTemplate = `
     templateUrl: './checkbox.page.html',
 })
 export class CheckboxPage {
-    public api = [
+    public api:ApiDefinition = [
         {
             selector: "<sui-checkbox>",
             properties: [

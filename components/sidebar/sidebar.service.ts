@@ -64,7 +64,7 @@ export class SidebarService {
     public widthChange:EventEmitter<void>;
     public heightChange:EventEmitter<void>;
 
-    private _isAnimatingTimeout:any;
+    private _isAnimatingTimeout:number;
 
     public transition:SidebarTransition;
 
@@ -93,7 +93,7 @@ export class SidebarService {
 
             setTimeout(() => this.wasJustOpened = false);
             clearTimeout(this._isAnimatingTimeout);
-            this._isAnimatingTimeout = setTimeout(() => this.isAnimating = false, 500);
+            this._isAnimatingTimeout = window.setTimeout(() => this.isAnimating = false, 500);
         }
     }
 

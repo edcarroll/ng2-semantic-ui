@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {ApiDefinition} from '../../components/api/api.component';
 
 const exampleStandardTemplate = `
 <sui-search placeholder="Example Search..." [hasIcon]="hasIcon" [options]="options" [searchDelay]="0" (onItemSelected)="alertSelected($event)"></sui-search>
@@ -19,7 +20,7 @@ const exampleRemoteTemplate = `
     templateUrl: './search.page.html'
 })
 export class SearchPage {
-    public api = [
+    public api:ApiDefinition = [
         {
             selector: "<sui-search>",
             properties: [
@@ -58,7 +59,7 @@ export class SearchPage {
                     description: "Fires whenever the search's selected item is changed. <code>[(ngModel)]</code> syntax is supported."
                 },
                 {
-                    name: "onItemSelected",
+                    name: "itemSelected",
                     description: "Fires whenever the search's selected item is changed. The selected value is passed as <code>$event</code>."
                 }
             ]

@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {ApiDefinition} from "../../components/api/api.component";
 
 const exampleStandardTemplate = `
 <sui-message class="success">
@@ -26,7 +27,7 @@ const exampleNoDismissTemplate = `
     templateUrl: './message.page.html'
 })
 export class MessagePage {
-    public api = [
+    public api:ApiDefinition = [
         {
             selector: "<sui-message>",
             properties: [
@@ -34,11 +35,21 @@ export class MessagePage {
                     name: "isDismissable",
                     description: "Sets whether or not the message has a dismiss button.",
                     defaultValue: "true"
+                },
+                {
+                    name: "transition",
+                    description: "Sets the transition used when dismissing the message.",
+                    defaultValue: "slide down"
+                },
+                {
+                    name: "transitionDuration",
+                    description: "Sets the duration for the message transition.",
+                    defaultValue: "300"
                 }
             ],
             events: [
                 {
-                    name: "onDismiss",
+                    name: "dismiss",
                     description: "Fires when the message is dismissed by the user."
                 }
             ]
@@ -46,6 +57,29 @@ export class MessagePage {
     ];
     public exampleStandardTemplate = exampleStandardTemplate;
     public exampleNoDismissTemplate = exampleNoDismissTemplate;
+
+    public manualDismissMarkup = `
+<sui-message #message>
+    <div class="header">
+        Dismiss Manually
+    </div>
+</sui-message>
+
+<button (click)="message.dismiss()">Dismiss</button>
+<button (click)="dismiss(message)">Dismiss (advanced)</button>
+`;
+
+    public manualDismissCode = `
+import {IMessage} from "ng2-semantic-ui";
+import {ApiDefinition} from '../../components/api/api.component';
+
+@Component({})
+export class MyComponent {
+    public dismiss(message:IMessage) {
+        message.dismiss();
+    }
+}
+`;
 }
 
 @Component({

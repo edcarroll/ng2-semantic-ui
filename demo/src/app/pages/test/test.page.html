@@ -7,32 +7,16 @@
 <demo-page-content>
     <h2 class="ui dividing header">Examples</h2>
     <div class="ui segment">
-        <div class="ui top attached demo menu">
-            <a class="item" (click)="sidebar.toggle()">
-                <i class="sidebar icon"></i> Menu
-            </a>
-        </div>
-        <sui-sidebar-container class="ui bottom attached segment">
-            <sui-sidebar class="inverted labeled icon" transition="uncover" direction="bottom" #sidebar>
-                <a class="item">
-                    <i class="home icon"></i>
-                    Home
-                </a>
-                <a class="item">
-                    <i class="block layout icon"></i>
-                    Topics
-                </a>
-            </sui-sidebar>
-            <sui-sidebar-sibling [isDimmedWhenVisible]="true">
-                <div class="ui basic segment">
-                    <h3 class="ui header">Application Content</h3>
-                    <p>Hello!</p>
-                    <p>Hello!</p>
-                    <p>Hello!</p>
-                    <p>Hello!</p>
-                    <button class="ui button" (click)="sidebar.open()">Sidebar</button>
-                </div>
-            </sui-sidebar-sibling>
-        </sui-sidebar-container>
+        <sui-tabset>
+            <div class="ui top attached tabular menu">
+                <a class="item" suiTabHeader="first">First</a>
+                <a class="item" suiTabHeader="second" [isDisabled]="disabled">Second</a>
+                <a class="item" *ngFor="let item of test" [suiTabHeader]="item">{{ item }}</a>
+            </div>
+            <div class="ui bottom attached segment" suiTabContent="first">First tab!</div>
+            <div class="ui bottom attached segment" suiTabContent="second">Second tab!</div>
+            <div class="ui bottom attached segment" *ngFor="let item of test" [suiTabContent]="item">{{ item }}</div>
+        </sui-tabset>
+        <sui-checkbox [(ngModel)]="disabled">2nd Disabled?</sui-checkbox>
     </div>
 </demo-page-content>

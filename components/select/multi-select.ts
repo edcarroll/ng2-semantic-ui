@@ -1,9 +1,9 @@
 import {Component, HostBinding, ElementRef, Renderer, EventEmitter, Output, Input, QueryList, AfterViewInit, ViewChildren, forwardRef, Directive} from '@angular/core';
 import {SuiSelectBase} from './select-base';
-import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 import {SuiMultiSelectLabel} from './multi-select-label';
 import {Subscription} from 'rxjs/Subscription';
 import {KeyCode} from '../util/util';
+import {customValueAccessorFactory, CustomValueAccessor, CustomValueAccessorHost} from '../util/custom-value-accessor';
 
 @Component({
     selector: 'sui-multi-select',
@@ -30,7 +30,7 @@ import {KeyCode} from '../util/util';
 }
     `]
 })
-export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterViewInit {
+export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterViewInit, CustomValueAccessorHost<U[]> {
     public selectedOptions:T[];
     // Stores the values written by ngModel before it can be matched to an option from `options`.
     private _writtenOptions:U[];
@@ -43,12 +43,6 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
     
     @Output()
     public selectedOptionsChange:EventEmitter<U[]>;
-
-    @Output()
-    public get ngModelChange() {
-        // For simplicity we can mirror these two emitters as they do the same thing.
-        return this.selectedOptionsChange;
-    }
 
     protected optionsUpdateHook() {
         if (this._writtenOptions && this.searchService.options.length > 0) {
@@ -110,7 +104,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
         this.focusInput();
     }
 
-    public writeValues(values:U[]) {
+    public writeValue(values:U[]) {
         if (values instanceof Array) {
             if (this.searchService.options.length > 0) {
                 // If the options have already been loaded, we can immediately match the ngModel values to options.
@@ -169,35 +163,14 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
     }
 }
 
-// Value accessor for the multi select.
-export const MULTI_SELECT_VALUE_ACCESSOR:any = {
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => SuiMultiSelectValueAccessor),
-    multi: true
-};
-
 // Value accessor directive for the select to support ngModel.
 @Directive({
     selector: 'sui-multi-select',
-    host: {
-        '(selectedOptionsChange)': 'onChange($event)'
-    },
-    providers: [MULTI_SELECT_VALUE_ACCESSOR]
+    host: { '(selectedOptionsChange)': 'onChange($event)' },
+    providers: [customValueAccessorFactory(SuiMultiSelectValueAccessor)]
 })
-export class SuiMultiSelectValueAccessor<T, U> implements ControlValueAccessor {
-    onChange = () => {};
-    onTouched = () => {};
-
-    constructor(private host:SuiMultiSelect<T, U>) {}
-
-    writeValue(value:U[]) {
-        this.host.writeValues(value);
-    }
-
-    registerOnChange(fn:() => void) {
-        this.onChange = fn;
-    }
-    registerOnTouched(fn:() => void) {
-        this.onTouched = fn;
+export class SuiMultiSelectValueAccessor<T, U> extends CustomValueAccessor<U[], SuiMultiSelect<T, U>> {
+    constructor(host:SuiMultiSelect<T, U>) {
+        super(host);
     }
 }

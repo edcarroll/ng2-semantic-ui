@@ -1,10 +1,10 @@
 import {Component, ViewChild, HostBinding, Input, AfterViewInit, HostListener, EventEmitter, Output, forwardRef, Directive, ElementRef} from '@angular/core';
 import {DropdownService} from '../dropdown/dropdown.service';
 import {SuiDropdownMenu} from '../dropdown/dropdown-menu';
-import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 import {SearchService, LookupFn} from './search.service';
 import {readValue} from '../util/util';
 import {PositioningService, PositioningPlacement} from '../util/positioning.service';
+import {customValueAccessorFactory, CustomValueAccessor, CustomValueAccessorHost} from '../util/custom-value-accessor';
 
 @Component({
     selector: 'sui-search',
@@ -36,7 +36,7 @@ import {PositioningService, PositioningPlacement} from '../util/positioning.serv
 }
 `]
 })
-export class SuiSearch<T> implements AfterViewInit {
+export class SuiSearch<T> implements AfterViewInit, CustomValueAccessorHost<T> {
     public dropdownService:DropdownService;
     public searchService:SearchService<T>;
 
@@ -108,12 +108,7 @@ export class SuiSearch<T> implements AfterViewInit {
 
     // Emits whenever a new item is selected.
     @Output()
-    public onItemSelected:EventEmitter<T>;
-
-    // Alias onItemSelected as ngModelChange for [(ngModel)] support.
-    public get ngModelChange() {
-        return this.onItemSelected;
-    }
+    public itemSelected:EventEmitter<T>;
 
     constructor(private _element:ElementRef) {
         this.dropdownService = new DropdownService();
@@ -125,7 +120,7 @@ export class SuiSearch<T> implements AfterViewInit {
 
         this.searchDelay = 200;
 
-        this.onItemSelected = new EventEmitter<T>();
+        this.itemSelected = new EventEmitter<T>();
     }
 
     public ngAfterViewInit() {
@@ -135,7 +130,7 @@ export class SuiSearch<T> implements AfterViewInit {
     // Selects an item.
     public select(item:T) {
         this.writeValue(item);
-        this.onItemSelected.emit(item);
+        this.itemSelected.emit(item);
     }
 
     @HostListener("click", ['$event'])
@@ -148,7 +143,9 @@ export class SuiSearch<T> implements AfterViewInit {
 
     @HostListener("document:click", ["$event"])
     public onDocumentClick(e:MouseEvent) {
-        this.dropdownService.setOpenState(false);
+        if (!this._element.nativeElement.contains(e.target)) {
+            this.dropdownService.setOpenState(false);
+        }
     }
 
     // Reads the specified field from an item.
@@ -163,35 +160,14 @@ export class SuiSearch<T> implements AfterViewInit {
     }
 }
 
-// Value accessor for the search.
-export const SEARCH_VALUE_ACCESSOR:any = {
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => SuiSearchValueAccessor),
-    multi: true
-};
-
 // Value accessor directive for the search to support ngModel.
 @Directive({
     selector: 'sui-search',
-    host: {
-        '(onItemSelected)': 'onChange($event)'
-    },
-    providers: [SEARCH_VALUE_ACCESSOR]
+    host: { '(onItemSelected)': 'onChange($event)' },
+    providers: [customValueAccessorFactory(SuiSearchValueAccessor)]
 })
-export class SuiSearchValueAccessor<T> implements ControlValueAccessor {
-    onChange = () => {};
-    onTouched = () => {};
-
-    constructor(private host:SuiSearch<T>) {}
-
-    writeValue(value:T) {
-        this.host.writeValue(value);
-    }
-
-    registerOnChange(fn:() => void) {
-        this.onChange = fn;
-    }
-    registerOnTouched(fn:() => void) {
-        this.onTouched = fn;
+export class SuiSearchValueAccessor<T> extends CustomValueAccessor<T, SuiSearch<T>> {
+    constructor(host:SuiSearch<T>) {
+        super(host);
     }
 }

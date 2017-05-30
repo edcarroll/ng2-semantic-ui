@@ -13,7 +13,7 @@ import "element-closest";
 export class SuiDropdownMenuItem {
     public get isDisabled() {
         // We must use nativeElement as Angular doesn't have a way of reading class information.
-        const element = this._element.nativeElement as Element;
+        const element = this.element.nativeElement as Element;
         return element.classList.contains("disabled");
     }
 
@@ -25,7 +25,7 @@ export class SuiDropdownMenuItem {
 
     public set isSelected(value:boolean) {
         // Renderer is used to enable a dynamic class name.
-        this._renderer.setElementClass(this._element.nativeElement, this.selectedClass, value)
+        this._renderer.setElementClass(this.element.nativeElement, this.selectedClass, value)
     }
 
     // Stores the class name used for a 'selected' item.
@@ -38,7 +38,7 @@ export class SuiDropdownMenuItem {
         return !!this.childDropdownMenu;
     }
 
-    constructor(private _renderer:Renderer, private _element:ElementRef) {
+    constructor(private _renderer:Renderer, public element:ElementRef) {
         this.isSelected = false;
 
         this.selectedClass = "selected";
@@ -46,7 +46,7 @@ export class SuiDropdownMenuItem {
 
     public performClick() {
         // Manually click the element. Done via renderer so as to avoid nativeElement changes directly.
-        this._renderer.invokeElementMethod(this._element.nativeElement, "click");
+        this._renderer.invokeElementMethod(this.element.nativeElement, "click");
     }
 }
 
@@ -62,9 +62,6 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
 
     @Input()
     public menuTransitionDuration:number;
-
-    // Allows the dropdown to be programmatically opened without being immediately closed by a mouse event.
-    private _isOpenOnMousedown:boolean;
 
     public get service() {
         return this._service;
@@ -82,8 +79,10 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
             }
 
             if (!isOpen) {
-                // Reset the item selections so that nothing is selected when the dropdown is reopened.
-                this.resetSelection();
+                // Reset the item selections when a nested item is selected to avoid incosistent open states.
+                if (this.selectedItems.length > 1) {
+                    this.resetSelection();
+                }
             }
 
             previousIsOpen = isOpen;
@@ -128,8 +127,6 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
         this.menuTransition = "slide down";
         this.menuTransitionDuration = 200;
 
-        this._isOpenOnMousedown = false;
-
         this.menuAutoSelectFirst = false;
         this.menuSelectedItemClass = "selected";
     }
@@ -147,12 +144,6 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
                 }
             }
         }
-    }
-
-    @HostListener("document:mousedown")
-    public onDocumentMousedown(e:MouseEvent) {
-        // This is to ensure that we don't immediately close a dropdown as it is being opened programmatically.
-        this._isOpenOnMousedown = this._service.isOpen;
     }
 
     @HostListener("document:keydown", ["$event"])
@@ -226,6 +217,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
         if (this.menuAutoSelectFirst && this._items.length > 0) {
             // Autoselect 1st item if required & possible.
             this._items[0].isSelected = true;
+            this.scrollToItem(this._items[0]);
             this.selectedItems.push(this._itemsQuery.first);
         }
     }
@@ -252,7 +244,6 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
                 if (selectedIndex == -1) {
                     // If none are selected, select the 1st item. Should this be `this.items.last - 1`?
                     selectedIndex = 0;
-
                     break;
                 }
 
@@ -268,7 +259,28 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
             newSelection.isSelected = true;
         }
 
+        this.scrollToItem(newSelection);
+
         return newSelection;
+    }
+
+    public scrollToItem(item:SuiDropdownMenuItem) {
+        const menu:Element = this.element.nativeElement;
+        const selectedRect:ClientRect = item.element.nativeElement.getBoundingClientRect();
+
+        const menuRect = menu.getBoundingClientRect();
+        
+        let scrollAmount = 0;
+
+        if (selectedRect.bottom > menuRect.bottom) {
+            scrollAmount = selectedRect.bottom - menuRect.bottom;
+        }
+
+        if (selectedRect.top < menuRect.top) {
+            scrollAmount = selectedRect.top - menuRect.top;
+        }
+
+        menu.scrollTop += Math.round(scrollAmount);
     }
 
     public ngAfterContentInit() {
