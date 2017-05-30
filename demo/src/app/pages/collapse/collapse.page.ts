@@ -42,7 +42,6 @@ export class CollapsePage {
         }
     ];
     public exampleStandardTemplate = exampleStandardTemplate;
-    public polyfillCode = `<script src="https://rawgit.com/web-animations/web-animations-js/master/web-animations.min.js"></script>`;
 }
 
 @Component({

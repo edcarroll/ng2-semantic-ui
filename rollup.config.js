@@ -31,6 +31,7 @@ export default {
         commonjs({
             include: [
                 'node_modules/element-closest/**',
+                'node_modules/web-animations-js/**',
                 'node_modules/popper.js/**'
             ]
         }),

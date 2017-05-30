@@ -1,4 +1,5 @@
 import {Directive, ElementRef, Input, HostBinding, Renderer} from '@angular/core';
+import "web-animations-js";
 
 @Directive({
     selector: '[suiCollapse]'

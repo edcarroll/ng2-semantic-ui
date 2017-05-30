@@ -136,7 +136,7 @@ export class SuiTabset implements AfterContentInit {
     }
 
     // Activates the closest available tab to a given one.
-    public activateClosestTab(tab:Tab) {
+    public activateClosestTab(tab:Tab):void {
         console.log("n");
         let nextAvailable:Tab;
 
