@@ -1,133 +1,171 @@
-import {Component, AfterContentInit, ContentChildren, QueryList} from '@angular/core';
+import {Component, ContentChildren, QueryList, AfterContentInit} from '@angular/core';
+import {SuiTabHeader} from './tab-header';
 import {SuiTabContent} from './tab-content';
-import {SuiTab} from "./tab";
+import {Tab} from './tab';
 
 @Component({
     selector: 'sui-tabset',
-    exportAs: 'suiTabset',
-    template: `
-<ng-content></ng-content>
-`,
-    styles: [`
-:host .ui.segment {
-    margin-bottom: 0;
-}
-`]
+    template: `<ng-content></ng-content>`
 })
 export class SuiTabset implements AfterContentInit {
-    @ContentChildren(SuiTab)
-    private _tabs: QueryList<SuiTab>;
+    @ContentChildren(SuiTabHeader)
+    private _tabHeaders:QueryList<SuiTabHeader>;
+
     @ContentChildren(SuiTabContent)
-    private _tabContents: QueryList<SuiTabContent>;
+    private _tabContents:QueryList<SuiTabContent>;
 
-    private _loadedTabs:Array<SuiTab> = [];
-    private _activeTab:SuiTab;
+    // List of all tabs in the tabset.
+    public tabs:Tab[];
 
-    public ngAfterContentInit():void {
-        //Once we have loaded and found all child suiTabs and suiTabHeaders, link them together
-        this.loadTabs();
+    // Keeps track of the currently active tab.
+    private _activeTab:Tab;
 
-        this._tabs.changes.subscribe(tabHeaders => {
-            setTimeout(() => {
-                this.loadTabs();
-            });
-        });
+    public get activeTab() {
+        return this._activeTab;
     }
 
-    //This runs every time the contents of the component change
-    private loadTabs() {
-        this._loadedTabs = this._tabs.toArray();
-        if (!this._loadedTabs.length) {
-            throw new Error("You cannot have no tabs!");
+    // When setting a tab as the currently active tab, it automatically gains `isActive` status (saves littering `isActive = true` everywhere).
+    public set activeTab(tab:Tab) {
+        this._activeTab = tab;
+        tab.isActive = true;
+    }
+
+    // Keeps track of the number of times `internalComponentsUpdated` is called.
+    private _barrierCount:number;
+
+    constructor() {
+        this.tabs = [];
+        this._barrierCount = 0;
+    }
+
+    public ngAfterContentInit() {
+        // Fire `internalComponentsUpdated` when the query lists change.
+        this._tabHeaders.changes.subscribe(() => this.internalComponentsUpdated());
+        this._tabContents.changes.subscribe(() => this.internalComponentsUpdated());
+
+        // Initially load the tabs.
+        this.loadTabs();
+    }
+
+    // Fires whenever either the tab headers or tab contents query lists update.
+    private internalComponentsUpdated() {
+        // We are using a 'counting barrier of n = 2', i.e. the code within only runs after the method is called twice.
+        // This is so that both the headers and contents query lists can update before we run code that matches the two up.
+        this._barrierCount++;
+
+        if (this._barrierCount == 2) {
+            // Reset the barrier so it can be called again.
+            this._barrierCount = 0;
+
+            // Update the tabs.
+            this.loadTabs();
         }
-        //For every content header we have managed to find,
-        this._loadedTabs.forEach((t:SuiTab, i:number) => {
-            //Assuming they have an associated content
-            if (!t.content) {
-                //Link the content header with the content with the same ID excluding ones that are already linked
-                let possibleContents = this._tabContents.filter((tC:SuiTabContent) => tC.id == t.id);
-                if (possibleContents.length == 0) {
+    }
+
+    // Connects tab headers to tab contents, and creates a tab instance for each pairing.
+    private loadTabs() {
+        // Remove any tabs that no longer have an associated header.
+        this.tabs = this.tabs.filter(t => !!this._tabHeaders.find(tH => tH == t.header));
+
+        this._tabHeaders
+            // Filter out the loaded headers with attached tab instances.
+            .filter(tH => !this.tabs.find(t => t.header == tH))
+            .forEach(tH => {
+                // Create a new tab instance for this header & content combo.
+                const tab = new Tab(tH, this._tabContents.find(tC => tC.id == tH.id));
+
+                if (!tab.content) {
+                    // Error if an associated tab content cannot be found for the given header.
                     throw new Error("A [suiTabHeader] must have a related [suiTabContent].");
                 }
-                if (possibleContents.length > 1) {
-                    throw new Error("A [suiTabHeader] must not have more than 1 related [suiTabContent].")
-                }
 
-                t.content = possibleContents.pop();
-            }
+                // Subscribe to any external changes in the tab header's active state. External changes are triggered by user input.
+                tab.header.isActiveExternalChange.subscribe(() => this.onHeaderActiveChanged(tab));
 
-            t.index = i;
+                // Add the new instance to the list of tabs.
+                this.tabs.push(tab);
+            });
 
-            //Next observe the content's state to catch any changes made anywhere
-            t.stateChanged$.subscribe((t:SuiTab) => this.tabStateChanged(t));
-        });
+        // Assign each tab an index (which denotes the order they physically appear in).
+        this._tabHeaders
+            .forEach((tH, i) => this.tabs.find(t => t.header == tH).index = i);
 
-        setTimeout(() => {
-            //If there isn't an active content that is currently a loaded content already, activate the first available content
-            if ((this._activeTab && !this._loadedTabs.find(t => t == this._activeTab)) || !this._activeTab) {
-                this.activateFirstTab();
-            }
-        });
+        // Sort the tabs by their index.
+        this.tabs.sort((a, b) => a.index - b.index);
+
+        // Check if there are no current existing active tabs.
+        if (!this.activeTab) {
+            // If so, we must activate the first available tab.
+            this.activateFirstTab();
+        }
+        // O'wise check if current active tab has been deleted.
+        else if (!this.tabs.find(t => t == this.activeTab)) {
+            // If so, we must find the closest.
+            // Use `setTimeout` as this causes a 'changed after checked' error o'wise.
+            setTimeout(() => this.activateClosestTab(this.activeTab));
+        }
+
+        if (this.tabs.length == 0) {
+            // Error if there aren't any tabs in the tabset.
+            throw new Error("You cannot have no tabs!");
+        }
     }
 
-    //This runs when any content changes state (e.g. isActive changed, isDisabled changed)
-    private tabStateChanged(tab:SuiTab) {
-        //Check if the content is now active
-        if (tab.isActive && this._activeTab != tab) {
-            //If so, deactivate all other tabs that aren't this one
-            this._loadedTabs
-                .filter((tH:SuiTab) => tH != tab)
-                .forEach((tH:SuiTab) => tH.isActive = false);
+    // Fires whenever a tab header's active state is externally changed.
+    private onHeaderActiveChanged(tab:Tab) {
+        // If the tab has become activated, but was not previously the active tab:
+        if (tab.isActive && this.activeTab != tab) {
+            // Deactivate all of the tabs.
+            this.tabs.filter(t => t != tab).forEach(t => t.isActive = false);
 
-            //Set this content to be the current active content
-            this._activeTab = tab;
-        }
-        //Otherwise check there are no active tabs
-        else if (this._activeTab && !this._loadedTabs.find((tH:SuiTab) => tH.isActive)) {
-            this.activateClosestTab(this._activeTab);
+            // Set the currently active tab to this one.
+            this.activeTab = tab;
         }
 
-        //Check if the content is now disabled, and if so if is currently active
-        if (tab.isDisabled && tab.isActive) {
-            //If so, unset the content as it is now disabled
-            tab.isActive = false;
-            //Find the first available content to activate
+        // If the tab has become deactivated, but was previously the active tab:
+        if (!tab.isActive && this.activeTab == tab) {
+            // Activate the closest tab to it.
             this.activateClosestTab(tab);
         }
-
-        //Check if all of the tabs are disabled
-        if (tab.isDisabled && !this._loadedTabs.filter((tH:SuiTab) => !tH.isDisabled).length) {
-            throw new Error("You cannot disable all of your tabs!");
-        }
     }
 
-    //This activates the first content that isn't disabled
-    private activateFirstTab() {
-        //Filter out all disabled tabs from the currently loaded list and take the first one
-        let firstAvailable = this._loadedTabs.filter((tH:SuiTab) => !tH.isDisabled)[0];
-        if (firstAvailable) {
-            //If there is one available, activate it and set it to the currently active content
-            firstAvailable.isActive = true;
-            //Note, because we are observing each content's state, this.activeTab will be updated by this setter
-        }
+    // Activate the first tab in the set.
+    public activateFirstTab() {
+        console.log("1");
+        this.activeTab = this.tabs[0];
     }
 
-    //This activates the closest available content to the one provided
-    private activateClosestTab(tab:SuiTab) {
-        //Grab a list of all of the loaded tabs that aren't disabled (excluding the one we are leaving)
-        let availableTabs = this._loadedTabs
-            .filter((tH:SuiTab) => !tH.isDisabled);
+    // Activates the closest available tab to a given one.
+    public activateClosestTab(tab:Tab) {
+        console.log("n");
+        let nextAvailable:Tab;
 
-        let tabIndex = tab.index;
-
-        // Only change the tabIndex if we have to.
-        if (tabIndex >= availableTabs.length) {
-            tabIndex = availableTabs.length - 1;
+        // When the exited tab's index is higher than all available tabs,
+        if (tab.index >= this.tabs.length) {
+            // Activate the last tab.
+            nextAvailable = this.tabs[this.tabs.length - 1];
         }
 
-        availableTabs[tabIndex].isActive = true;
-        //This if we just activated a disabled content, not to worry as it will bubble through
+        // If that didn't work, try the following cases:
+        if (!nextAvailable) {
+            // When the exited tab no longer exists,
+            if (!this.tabs.find(t => t == tab)) {
+                // Replace it with a tab at the same index.
+                nextAvailable = this.tabs[tab.index];
+            }
+            // Or if the exited tab still exists,
+            else {
+                // Go to the tab immediately to the left.
+                nextAvailable = this.tabs[Math.max(tab.index - 1, 0)];
+            }
+        }
+        
+        // However, if the chosen tab is disabled,
+        if (nextAvailable.isDisabled) {
+            // Activate the closest available tab to it.
+            return this.activateClosestTab(nextAvailable);
+        }
+
+        this.activeTab = nextAvailable;
     }
 }
-
-export const SUI_TABS_DIRECTIVES = [SuiTabset, SuiTab, SuiTabContent];

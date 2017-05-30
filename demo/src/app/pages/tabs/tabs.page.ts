@@ -18,7 +18,7 @@ const examplePropertiesTemplate = `
 <sui-tabset>
     <div class="ui top attached tabular menu">
         <a class="item" suiTabHeader="1" [(isActive)]="firstActive">First</a>
-        <a class="item" suiTabHeader="2" [(isActive)]="secondActive" (onActivate)="alert()">
+        <a class="item" suiTabHeader="2" [(isActive)]="secondActive" (activate)="alert()">
             <i class="alarm icon"></i>
             Second
         </a>
@@ -114,8 +114,12 @@ export class TabsPage {
                     description: "Fires when the tab's active status is changed. Using the <code>[(isActive)]</code> syntax is recommended so that the value is updated when the active tab changes."
                 },
                 {
-                    name: "onActivate",
-                    description: "Fires when the tab becomes active."
+                    name: "activate",
+                    description: "Fires when the tab activates."
+                },
+                {
+                    name: "deactivate",
+                    description: "Fires when the tab deactivates."
                 }
             ]
         },
