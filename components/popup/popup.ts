@@ -87,17 +87,12 @@ export class SuiPopup implements IPopup {
         }
     }
 
-    // Keeps track of whether the provided template has been injected into the view.
-    private _templateInjected:boolean;
-
     // `ViewContainerRef` for the element the template gets injected as a sibling of.
     @ViewChild('templateSibling', { read: ViewContainerRef })
-    private _templateSibling:ViewContainerRef;
+    public templateSibling:ViewContainerRef;
 
     constructor(public elementRef:ElementRef) {
         this.transitionController = new TransitionController(false);
-
-        this._templateInjected = false;
 
         this._isOpen = false;
         this.onClose = new EventEmitter<void>();
@@ -108,13 +103,6 @@ export class SuiPopup implements IPopup {
         if (!this.isOpen) {
             // Cancel the closing timer.
             clearTimeout(this._closingTimeout);
-
-            // If there is a template provided, and it hasn't yet been injected into the view,
-            if (this.config.template && !this._templateInjected) {
-                // Inject the template into the view and flag it.
-                this._templateSibling.createEmbeddedView(this.config.template, { $implicit: this });
-                this._templateInjected = true;
-            }
 
             // Cancel all other transitions, and initiate the opening transition.
             this.transitionController.stopAll();

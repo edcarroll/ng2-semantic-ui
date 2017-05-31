@@ -105,6 +105,11 @@ export class SuiPopupDirective implements IPopup {
                 // Generate a component using the view container reference and the previously resolved factory.
                 this._componentRef = this._viewContainerRef.createComponent(factory);
 
+                // If there is a template, inject it into the view.
+                if (this.config.template) {
+                    this._popup.templateSibling.createEmbeddedView(this.config.template, { $implicit: this._popup });
+                }
+
                 // Configure popup with provided config, and attach a reference to the anchor element.
                 this._popup.config = this.config;
                 this._popup.anchor = this._element;
