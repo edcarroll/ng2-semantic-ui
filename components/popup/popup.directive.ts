@@ -2,7 +2,8 @@ import {Directive, Input, ElementRef, ComponentFactoryResolver, ViewContainerRef
 import {SuiPopup} from './popup';
 import {PositioningPlacement} from '../util/positioning.service';
 import {TemplateRefContext, parseBooleanAttribute} from '../util/util';
-import {PopupConfig, IPopupOptions, PopupTrigger} from './popup-config';
+import {PopupConfig, IPopupConfig, PopupTrigger} from './popup-config';
+import {SuiPopupConfig} from './popup.service';
 
 export interface IPopup {
     open():void;
@@ -72,8 +73,8 @@ export class SuiPopupDirective implements IPopup {
     }
 
     @Input()
-    public set popupOptions(options:PopupConfig) {
-        this.config.batch(options);
+    public set popupConfig(config:PopupConfig) {
+        this.config.batch(config);
     }
 
     // Stores reference to generated popup component.
@@ -87,8 +88,8 @@ export class SuiPopupDirective implements IPopup {
     // `setTimeout` timer pointer for delayed popup open.
     private _openingTimeout:number;
 
-    constructor(private _element:ElementRef, private _viewContainerRef:ViewContainerRef, private _componentFactoryResolver:ComponentFactoryResolver) {
-        this.config = new PopupConfig();
+    constructor(private _element:ElementRef, private _viewContainerRef:ViewContainerRef, private _componentFactoryResolver:ComponentFactoryResolver, popupDefaults:SuiPopupConfig) {
+        this.config = new PopupConfig(popupDefaults);
     }
 
     public open() {

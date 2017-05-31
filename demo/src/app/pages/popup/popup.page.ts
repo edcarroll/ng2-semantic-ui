@@ -41,8 +41,7 @@ export class PopupPage {
             properties: [
                 {
                     name: "popupText",
-                    description: "Sets the text within the popup.",
-                    defaultValue: ""
+                    description: "Sets the text within the popup."
                 },
                 {
                     name: "popupHeader",

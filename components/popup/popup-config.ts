@@ -13,7 +13,7 @@ export const PopupTrigger = {
     Manual: "manual" as PopupTrigger
 }
 
-export interface IPopupOptions {
+export interface IPopupConfig {
     header?:string;
     text?:string;
     template?:TemplateRef<TemplateRefContext<IPopup>>;
@@ -26,7 +26,7 @@ export interface IPopupOptions {
     transitionDuration?:number;
 }
 
-export class PopupConfig implements IPopupOptions {
+export class PopupConfig implements IPopupConfig {
     public header:string;
     public text:string;
     public template:TemplateRef<TemplateRefContext<IPopup>>;
@@ -38,7 +38,7 @@ export class PopupConfig implements IPopupOptions {
     public transition:string;
     public transitionDuration:number;
 
-    constructor(defaults:IPopupOptions = {}) {
+    constructor(defaults:IPopupConfig = {}) {
         this.placement = PositioningPlacement.TopLeft;
         this.trigger = PopupTrigger.Hover;
         this.inverted = false;
@@ -50,7 +50,7 @@ export class PopupConfig implements IPopupOptions {
         Object.assign(this, defaults);
     }
 
-    public batch(options:IPopupOptions = {}) {
+    public batch(options:IPopupConfig = {}) {
         Object.assign(this, options);
     }
 }
