@@ -7,16 +7,13 @@
 <demo-page-content>
     <h2 class="ui dividing header">Examples</h2>
     <div class="ui segment">
-        <sui-tabset>
-            <div class="ui top attached tabular menu">
-                <a class="item" suiTabHeader="first">First</a>
-                <a class="item" suiTabHeader="second" [isDisabled]="disabled">Second</a>
-                <a class="item" *ngFor="let item of test" [suiTabHeader]="item">{{ item }}</a>
+        <sui-modal [transitionDuration]="300" [isClosable]="true" (dismiss)="alert()">
+            <div class="header">Example</div>
+            <div class="content">
+                <p>Hey there!</p>
+                <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                <p>Hellloooo</p>
             </div>
-            <div class="ui bottom attached segment" suiTabContent="first">First tab!</div>
-            <div class="ui bottom attached segment" suiTabContent="second">Second tab!</div>
-            <div class="ui bottom attached segment" *ngFor="let item of test" [suiTabContent]="item">{{ item }}</div>
-        </sui-tabset>
-        <sui-checkbox [(ngModel)]="disabled">2nd Disabled?</sui-checkbox>
+        </sui-modal>
     </div>
 </demo-page-content>
