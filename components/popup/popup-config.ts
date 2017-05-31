@@ -49,4 +49,8 @@ export class PopupConfig implements IPopupOptions {
 
         Object.assign(this, defaults);
     }
+
+    public batch(options:IPopupOptions = {}) {
+        Object.assign(this, options);
+    }
 }

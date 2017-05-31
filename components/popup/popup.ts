@@ -137,8 +137,6 @@ export class SuiPopup implements IPopup {
     }
 
     public close() {
-        
-
         // Only attempt to close if currently open.
         if (this.isOpen) {
             // Cancel all other transitions, and initiate the closing transition.

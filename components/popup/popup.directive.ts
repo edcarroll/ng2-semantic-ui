@@ -71,6 +71,11 @@ export class SuiPopupDirective implements IPopup {
         this.config.trigger = trigger;
     }
 
+    @Input()
+    public set popupOptions(options:PopupConfig) {
+        this.config.batch(options);
+    }
+
     // Stores reference to generated popup component.
     private _componentRef:ComponentRef<SuiPopup>;
 

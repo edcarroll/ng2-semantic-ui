@@ -4,7 +4,7 @@ import {SuiTransitionModule} from "../transition/transition.module";
 import {SuiPopupDirective, IPopup} from './popup.directive';
 import {SuiPopup} from './popup';
 import {SuiPopupArrow} from './popup-arrow';
-import {IPopupOptions, PopupTrigger} from './popup-config';
+import {IPopupOptions, PopupTrigger, PopupConfig} from './popup-config';
 import {PositioningPlacement} from '../util/positioning.service';
 
 @NgModule({
