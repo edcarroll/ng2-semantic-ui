@@ -19,6 +19,9 @@ import {SuiTransitionModule} from '../transition/transition.module';
     ],
     providers: [
         SuiModalService
+    ],
+    entryComponents: [
+        SuiModal
     ]
 })
 export class SuiModalModule {}

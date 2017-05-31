@@ -7,7 +7,20 @@
 <demo-page-content>
     <h2 class="ui dividing header">Examples</h2>
     <div class="ui segment">
-        <sui-modal [transitionDuration]="500" [isClosable]="true" (dismiss)="alert()" #modal>
+        <ng-template let-context let-modal="modal" #modalTemplate>
+            <div class="header">Example</div>
+            <div class="content">
+                <p>Hey there!</p>
+                <br><br><br><br><br><br><br><br><br>
+                <p>Hellloooo</p>
+            </div>
+            <div class="actions">
+                <button class="ui red button" (click)="modal.dismiss()">Cancel</button>
+                <button class="ui green button">OK</button>
+            </div>
+        </ng-template>
+
+        <!--<sui-modal [transitionDuration]="500" [isClosable]="true" (dismiss)="alert()" #modal>
             <div class="header">Example</div>
             <div class="content">
                 <p>Hey there!</p>
@@ -18,6 +31,6 @@
                 <button class="ui red button" (click)="modal.dismiss()">Cancel</button>
                 <button class="ui green button" (click)="modal.dismiss()">OK</button>
             </div>
-        </sui-modal>
+        </sui-modal>-->
     </div>
 </demo-page-content>

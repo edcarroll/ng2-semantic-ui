@@ -1,4 +1,4 @@
-import {Component, Input, HostBinding, OnInit, ViewChild, ElementRef, Renderer2, EventEmitter, Output, HostListener, AfterContentInit} from '@angular/core';
+import {Component, Input, HostBinding, OnInit, ViewChild, ElementRef, Renderer2, EventEmitter, Output, HostListener, AfterContentInit, ViewContainerRef, AfterViewInit} from '@angular/core';
 import {TransitionController} from '../transition/transition-controller';
 import {Transition, TransitionDirection} from '../transition/transition';
 import {KeyCode} from '../util/util';
@@ -9,11 +9,12 @@ import {KeyCode} from '../util/util';
 <sui-dimmer class="page" [(isDimmed)]="_dimBackground" [isClickable]="false" [transitionDuration]="transitionDuration" (click)="close()"></sui-dimmer>
 <div class="ui active modal" [suiTransition]="_transitionController" #modal>
     <i class="close icon" *ngIf="isClosable" (click)="close()"></i>
+    <div #templateSibling></div>
     <ng-content></ng-content>
 </div>
 `
 })
-export class SuiModal implements OnInit, AfterContentInit {
+export class SuiModal implements OnInit, AfterViewInit, AfterContentInit {
     @Input()
     public isClosable:boolean;
 
@@ -34,6 +35,10 @@ export class SuiModal implements OnInit, AfterContentInit {
     private _dimBackground:boolean;
     private _isClosing:boolean;
 
+    // `ViewContainerRef` for the element the template gets injected as a sibling of.
+    @ViewChild('templateSibling', { read: ViewContainerRef })
+    public templateSibling:ViewContainerRef;
+
     constructor(private _renderer:Renderer2) {
         this.isClosable = true;
 
@@ -51,6 +56,10 @@ export class SuiModal implements OnInit, AfterContentInit {
         // Display modal.
         this._transitionController.animate(new Transition(this.transition, this.transitionDuration, TransitionDirection.In));
         setTimeout(() => this._dimBackground = true);
+    }
+
+    public ngAfterViewInit() {
+        console.log(this.templateSibling);
     }
 
     public ngAfterContentInit() {
