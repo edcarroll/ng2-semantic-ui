@@ -1,4 +1,4 @@
-import {Component, Input, HostBinding, OnInit, ViewChild, ElementRef, AfterViewInit, Renderer2, EventEmitter, Output, HostListener} from '@angular/core';
+import {Component, Input, HostBinding, OnInit, ViewChild, ElementRef, Renderer2, EventEmitter, Output, HostListener, AfterContentInit} from '@angular/core';
 import {TransitionController} from '../transition/transition-controller';
 import {Transition, TransitionDirection} from '../transition/transition';
 import {KeyCode} from '../util/util';
@@ -13,7 +13,7 @@ import {KeyCode} from '../util/util';
 </div>
 `
 })
-export class SuiModal implements OnInit, AfterViewInit {
+export class SuiModal implements OnInit, AfterContentInit {
     @Input()
     public isClosable:boolean;
 
@@ -53,7 +53,7 @@ export class SuiModal implements OnInit, AfterViewInit {
         setTimeout(() => this._dimBackground = true);
     }
 
-    public ngAfterViewInit() {
+    public ngAfterContentInit() {
         // Update margin offset to center modal correctly on-screen.
         const element = this._modalElement.nativeElement as Element;
         this._renderer.setStyle(element, "margin-top", `-${element.clientHeight / 2}px`);
