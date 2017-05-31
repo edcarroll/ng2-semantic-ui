@@ -68,6 +68,11 @@ export class PopupPage {
                     defaultValue: "hover"
                 },
                 {
+                    name: "popupDelay",
+                    description: "Sets the time delay in milliseconds before the popup opens after triggered.",
+                    defaultValue: "0"
+                },
+                {
                     name: "popupBasic",
                     description: "When <code>true</code> the popup's arrow is hidden.",
                     defaultValue: "false"

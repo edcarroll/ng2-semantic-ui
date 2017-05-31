@@ -131,13 +131,11 @@ export class SuiTabset implements AfterContentInit {
 
     // Activate the first tab in the set.
     public activateFirstTab() {
-        console.log("1");
         this.activeTab = this.tabs[0];
     }
 
     // Activates the closest available tab to a given one.
     public activateClosestTab(tab:Tab):void {
-        console.log("n");
         let nextAvailable:Tab;
 
         // When the exited tab's index is higher than all available tabs,

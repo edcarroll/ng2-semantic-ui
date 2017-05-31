@@ -1,9 +1,8 @@
 import {Directive, Input, ElementRef, ComponentFactoryResolver, ViewContainerRef, ComponentRef, HostListener, TemplateRef, Renderer} from '@angular/core';
-import {SuiPopup, IPopupConfiguration} from './popup';
+import {SuiPopup} from './popup';
 import {PositioningPlacement} from '../util/positioning.service';
-import {TemplateRefContext} from '../util/util';
-
-export type PopupTrigger = "hover" | "click" | "outsideClick" | "focus" | "manual";
+import {TemplateRefContext, parseBooleanAttribute} from '../util/util';
+import {PopupConfig, IPopupOptions, PopupTrigger} from './popup-config';
 
 export interface IPopup {
     open():void;
@@ -11,150 +10,134 @@ export interface IPopup {
     toggle():void;
 }
 
-// Creates essentially a 'string' enum.
-export const PopupTrigger = {
-    Hover: "hover" as PopupTrigger,
-    Click: "click" as PopupTrigger,
-    OutsideClick: "outsideClick" as PopupTrigger,
-    Focus: "focus" as PopupTrigger,
-    Manual: "manual" as PopupTrigger
-}
-
 @Directive({
     selector: '[suiPopup]',
     exportAs: 'suiPopup'
 })
 export class SuiPopupDirective implements IPopup {
-    private _config:IPopupConfiguration;
-    private _placement:PositioningPlacement;
-    
+    public config:PopupConfig;
+
     @Input()
     public set popupTemplate(template:TemplateRef<TemplateRefContext<SuiPopup>>) {
-        this._config.template = template;
-        this.copyConfig();
+        this.config.template = template;
     }
 
     @Input()
     public set popupHeader(header:string) {
-        this._config.header = header;
-        this.copyConfig();
+        this.config.header = header;
     }
 
     @Input()
     public set popupText(text:string) {
-        this._config.text = text;
-        this.copyConfig();
+        this.config.text = text;
     }
 
     @Input()
     public set popupInverted(inverted:boolean) {
-        if (typeof inverted == "string") {
-            inverted = true;
-        }
-        this._config.inverted = inverted;
-        this.copyConfig();
+        this.config.inverted = parseBooleanAttribute(inverted);
     }
 
      @Input()
     public set popupBasic(basic:boolean) {
-        if (typeof basic == "string") {
-            basic = true;
-        }
-        this._config.basic = basic;
-        this.copyConfig();
+        this.config.basic = parseBooleanAttribute(basic);
     }
 
     @Input()
     public set popupTransition(transition:string) {
-        this._config.transition = transition;
-        this.copyConfig();
+        this.config.transition = transition;
     }
 
     @Input()
     public set popupTransitionDuration(duration:number) {
-        this._config.transitionDuration = duration;
-        this.copyConfig();
+        this.config.transitionDuration = duration;
     }
 
     @Input()
     public set popupPlacement(placement:PositioningPlacement) {
-        if (!placement) {
-            return;
-        }
-        
-        const [direction, alignment] = placement.split(" ");
-
-        let chosenPlacement = [direction];
-        switch (alignment) {
-            case "top":
-            case "left":
-                chosenPlacement.push("start");
-                break;
-            case "bottom":
-            case "right":
-                chosenPlacement.push("end");
-                break;
-        }
-
-        this._placement = chosenPlacement.join("-") as PositioningPlacement;
-        this.copyConfig();
+        this.config.placement = placement;
     }
 
     @Input()
-    public popupTrigger:PopupTrigger;
-
-    private _popupComponentRef:ComponentRef<SuiPopup>;
-
-    private get _popup() {
-        return this._popupComponentRef.instance;
+    public set popupDelay(delay:number) {
+        this.config.delay = delay;
     }
+
+    @Input()
+    public get popupTrigger() {
+        return this.config.trigger;
+    }
+
+    public set popupTrigger(trigger:PopupTrigger) {
+        this.config.trigger = trigger;
+    }
+
+    // Stores reference to generated popup component.
+    private _componentRef:ComponentRef<SuiPopup>;
+
+    // Returns generated popup instance.
+    private get _popup() {
+        return this._componentRef.instance;
+    }
+
+    // `setTimeout` timer pointer for delayed popup open.
+    private _openingTimeout:number;
 
     constructor(private _element:ElementRef, private _viewContainerRef:ViewContainerRef, private _componentFactoryResolver:ComponentFactoryResolver) {
-        this._config = {};
-
-        this.popupTrigger = PopupTrigger.Hover;
-        this.popupPlacement = PositioningPlacement.TopLeft;
-    }
-
-    private copyConfig() {
-        if (this._popupComponentRef) {
-            Object.assign(this._popup.config, this._config);
-
-            if (this.hasOwnProperty("_placement")) {
-                this._popup.placement = this._placement;
-            }
-        }
+        this.config = new PopupConfig();
     }
 
     public open() {
-        if (!this._popupComponentRef) {
-            const factory = this._componentFactoryResolver.resolveComponentFactory(SuiPopup);
-            this._popupComponentRef = this._viewContainerRef.createComponent(factory);
-            
-            // Move the generated element to the body to avoid any positioning issues.
-            document.querySelector("body").appendChild(this._popupComponentRef.location.nativeElement);
+        // Cancel the opening timer.
+        clearTimeout(this._openingTimeout);
 
-            this._popup.onClose.subscribe(() => {
-                this._popupComponentRef.destroy();
-                this._popupComponentRef = null;
-            });
+        // Start the popup opening after the specified delay interval.
+        this._openingTimeout = window.setTimeout(() => {
+            if (!this._componentRef) {
+                // Resolve component factory for the `SuiPopup` component.
+                const factory = this._componentFactoryResolver.resolveComponentFactory(SuiPopup);
 
-            this.copyConfig();
+                // Generate a component using the view container reference and the previously resolved factory.
+                this._componentRef = this._viewContainerRef.createComponent(factory);
 
-            this._popup.anchor = this._element;
-        }
+                // Configure popup with provided config, and attach a reference to the anchor element.
+                this._popup.config = this.config;
+                this._popup.anchor = this._element;
 
-        this._popup.open();
+                // Move the generated element to the body to avoid any positioning issues.
+                document.querySelector("body").appendChild(this._componentRef.location.nativeElement);
+
+                // When the popup is closed (onClose fires on animation complete),
+                this._popup.onClose.subscribe(() => {
+                    // Destroy the component reference (which removes the popup from the DOM).
+                    this._componentRef.destroy();
+                    // Unset the reference pointer to enable a new popup to be created on next open.
+                    this._componentRef = null;
+                });
+            }
+
+            // Start popup open transition.
+            this._popup.open();
+
+        }, this.config.delay);
     }
 
     public close() {
-        this._popup.close();
+        // Cancel the opening timer to stop the popup opening after close has been called.
+        clearTimeout(this._openingTimeout);
+        
+        if (this._componentRef) {
+            // Start popup close transition.
+            this._popup.close();
+        }
     }
 
     public toggle() {
-        if (!this._popupComponentRef || (this._popupComponentRef && !this._popup.isOpen)) {
+        // If the popup hasn't been created, or it has but it isn't currently open, open the popup.
+        if (!this._componentRef || (this._componentRef && !this._popup.isOpen)) {
             return this.open();
         }
+
+        // O'wise, close it.
         return this.close();
     }
 
@@ -175,15 +158,17 @@ export class SuiPopupDirective implements IPopup {
     @HostListener("click")
     private onClick() {
         if (this.popupTrigger == PopupTrigger.Click || this.popupTrigger == PopupTrigger.OutsideClick) {
+            // Repeated clicks require a toggle, rather than just opening the popup each time.
             this.toggle();
         }
     }
 
     @HostListener("document:click", ["$event"])
     public onDocumentClick(e:MouseEvent) {
-        if (this._popupComponentRef && this.popupTrigger == PopupTrigger.OutsideClick) {
+        // If the popup trigger is outside click,
+        if (this._componentRef && this.popupTrigger == PopupTrigger.OutsideClick) {
             const target = e.target as Element;
-            // Replacement for e.stopPropagation();
+            // Close the popup if the click is outside of the popup element.
             if (!(this._element.nativeElement as Element).contains(target)) {
                 this.close();
             }

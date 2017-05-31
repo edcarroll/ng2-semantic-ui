@@ -1,23 +1,24 @@
 import {ElementRef, EventEmitter} from '@angular/core';
 import Popper from "popper.js";
 
-export type PositioningPlacement = "inherit" | "top-start" | "top" | "top-end" | "left-start" | "left" | "left-end" | "bottom-start" | "bottom" | "bottom-end" | "right-start" | "right" | "right-end";
+export type PositioningPlacement = "inherit" | "top left" | "top" | "top right" | "bottom left" | "bottom" | "bottom right" | "left top" | "left" | "left bottom" | "right top" | "right" | "right bottom";
 
-// Creates essentially a 'string' enum.
+type PopperPlacement = "inherit" | "top-start" | "top" | "top-end" | "left-start" | "left" | "left-end" | "bottom-start" | "bottom" | "bottom-end" | "right-start" | "right" | "right-end";
+
 export const PositioningPlacement = {
     Inherit: "inherit" as PositioningPlacement,
-    TopLeft: "top-start" as PositioningPlacement,
-    TopCenter: "top" as PositioningPlacement,
-    TopRight: "top-end" as PositioningPlacement,
-    LeftTop: "left-start" as PositioningPlacement,
-    LeftCenter: "left" as PositioningPlacement,
-    LeftBottom: "left-end" as PositioningPlacement,
-    BottomLeft: "bottom-start" as PositioningPlacement,
-    BottomCenter: "bottom" as PositioningPlacement,
-    BottomRight: "bottom-end" as PositioningPlacement,
-    RightTop: "right-start" as PositioningPlacement,
-    RightCenter: "right" as PositioningPlacement,
-    RightBottom: "right-end" as PositioningPlacement
+    TopLeft: "top left" as PositioningPlacement,
+    Top: "top" as PositioningPlacement,
+    TopRight: "top right" as PositioningPlacement,
+    LeftTop: "left top" as PositioningPlacement,
+    Left: "left" as PositioningPlacement,
+    LeftBottom: "left bottom" as PositioningPlacement,
+    BottomLeft: "bottom left" as PositioningPlacement,
+    Bottom: "bottom" as PositioningPlacement,
+    BottomRight: "bottom right" as PositioningPlacement,
+    RightTop: "right top" as PositioningPlacement,
+    Right: "right" as PositioningPlacement,
+    RightBottom: "right bottom" as PositioningPlacement
 }
 
 export interface IPositionBoundingBox {
@@ -29,19 +30,48 @@ export interface IPositionBoundingBox {
     right:number;
 }
 
+function placementToPopper(placement:PositioningPlacement):PopperPlacement {
+    if (!placement || placement == PositioningPlacement.Inherit) {
+        return "inherit";
+    }
+    
+    // All placements of the format: `direction alignment`, e.g. `top left`.
+    const [direction, alignment] = placement.split(" ");
+
+    // Direction alone covers case of just `top`, `left`, `bottom`, `right`.
+    let chosenPlacement = [direction];
+
+    // Add `start` / `end` to placement, depending on alignment direction.
+    switch (alignment) {
+        case "top":
+        case "left":
+            chosenPlacement.push("start");
+            break;
+        case "bottom":
+        case "right":
+            chosenPlacement.push("end");
+            break;
+    }
+
+    // Join with hyphen to create Popper compatible placement.
+    return chosenPlacement.join("-") as PopperPlacement;
+}
+
 export class PositioningService {
     public readonly anchor:ElementRef;
     public readonly subject:ElementRef;
 
     private _popper:any;
     private _popperState:Popper.Data;
+    private _placement:PositioningPlacement;
 
     public get placement():PositioningPlacement {
-        return this._popper.options.placement;
+        return this._placement;
     }
 
     public set placement(placement:PositioningPlacement) {
-        this._popper.options.placement = placement;
+        this._placement = placement;
+        this._popper.options.placement = placementToPopper(placement);
         this.update();
     }
 
@@ -52,27 +82,29 @@ export class PositioningService {
     constructor(anchor:ElementRef, subject:ElementRef, placement:PositioningPlacement, arrowSelector?:string) {
         this.anchor = anchor;
         this.subject = subject;
+        this._placement = placement;
 
-        let modifiers:any = {
+        let modifiers = {
             applyStyle: {
                 gpuAcceleration: false
             },
             preventOverflow: {
                 boundariesElement: document.body
+            },
+            arrow: {
+                element: arrowSelector
             }
         };
 
-        if (arrowSelector) {
-            modifiers.arrow = {
-                element: arrowSelector
-            };
+        if (!arrowSelector) {
+            delete modifiers.arrow;
         }
 
         this._popper = new Popper(
             anchor.nativeElement,
             subject.nativeElement,
             {
-                placement,
+                placement: placementToPopper(placement),
                 modifiers,
                 onCreate: initial => this._popperState = initial,
                 onUpdate: update => this._popperState = update

@@ -51,3 +51,11 @@ export class HandledMouseEvent extends MouseEvent {
 export class HandledKeyboardEvent extends KeyboardEvent {
     public eventHandled:boolean;
 }
+
+export function parseBooleanAttribute(attributeValue:boolean) {
+    if (typeof attributeValue == "string") {
+        attributeValue = true;
+    }
+
+    return attributeValue;
+}
