@@ -4,7 +4,6 @@ import {TransitionController} from '../transition/transition-controller';
 
 @Component({
     selector: 'sui-dimmer',
-    exportAs: 'suiDimmer',
     template: `
 <div class="content">
     <div class="center">
@@ -48,7 +47,7 @@ export class SuiDimmer extends SuiTransition {
 
             if (this._transitionController.isVisible != dimmed) {
                 this._transitionController.stopAll();
-                this._transitionController.animate(new Transition("fade", 300, dimmed ? TransitionDirection.In : TransitionDirection.Out));
+                this._transitionController.animate(new Transition("fade", this.transitionDuration, dimmed ? TransitionDirection.In : TransitionDirection.Out));
             }
         }
     }
