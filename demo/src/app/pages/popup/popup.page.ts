@@ -85,7 +85,11 @@ export class PopupPage {
                     name: "popupTransitionDuration",
                     description: "Sets the duration of the transition used when displaying the popup.",
                     defaultValue: "200"
-                }
+                },
+                {
+                    name: "popupConfig",
+                    description: "Takes an <code>IPopupConfig</code> object that provides values for various configuration options simultaneously."
+                },
             ]
         }
     ];

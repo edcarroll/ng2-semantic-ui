@@ -50,7 +50,7 @@ export class PopupConfig implements IPopupConfig {
         Object.assign(this, defaults);
     }
 
-    public batch(options:IPopupConfig = {}) {
-        Object.assign(this, options);
+    public batch(config:IPopupConfig = {}) {
+        Object.assign(this, config);
     }
 }
