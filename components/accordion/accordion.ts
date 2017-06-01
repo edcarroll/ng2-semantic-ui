@@ -34,6 +34,11 @@ export class SuiAccordion implements AfterContentInit {
     }
 
     @Input()
+    public set transition(transition:string) {
+        this._service.transition = transition;
+    }
+    
+    @Input()
     public set transitionDuration(duration:number) {
         this._service.transitionDuration = duration;
     }

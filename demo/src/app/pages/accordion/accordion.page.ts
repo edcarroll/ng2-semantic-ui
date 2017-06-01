@@ -87,6 +87,11 @@ export class AccordionPage {
                     defaultValue: "true"
                 },
                 {
+                    name: "transition",
+                    description: "Sets the transition on the content of each panel. N.B. doesn't affect the collapse animation.",
+                    defaultValue: "fade"
+                },
+                {
                     name: "transitionDuration",
                     description: "Duration for the accordion animations.",
                     defaultValue: "350"

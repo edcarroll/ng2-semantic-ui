@@ -3,12 +3,15 @@ import {SuiAccordionPanel} from "./accordion-panel";
 export class SuiAccordionService {
     public closeOthers:boolean;
 
+    public transition:string;
     public transitionDuration:number;
 
     public panels:SuiAccordionPanel[];
 
     constructor() {
         this.closeOthers = true;
+
+        this.transition = "fade";
         this.transitionDuration = 350;
 
         this.panels = [];
