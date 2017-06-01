@@ -7,10 +7,15 @@ import {ModalControls} from './modal-controls';
 @Component({
     selector: 'sui-modal',
     template: `
+<!-- Page dimmer for modal background. -->
 <sui-dimmer class="page" [(isDimmed)]="_dimBackground" [isClickable]="false" [transitionDuration]="transitionDuration" (click)="close()"></sui-dimmer>
-<div class="ui modal" [suiTransition]="_transitionController" #modal>
+<!-- Modal component, with transition component attached -->
+<div class="ui modal" [suiTransition]="_transitionController" [class.active]="_transitionController?.isVisible" #modal>
+    <!-- Configurable close icon -->
     <i class="close icon" *ngIf="isClosable" (click)="close()"></i>
+    <!-- @ViewChild reference so we can insert elements beside this div. -->
     <div #templateSibling></div>
+    <!-- <ng-content> so that <sui-modal> can be used as a normal component. -->
     <ng-content></ng-content>
 </div>
 `
@@ -70,20 +75,23 @@ export class SuiModal<T, U> implements OnInit, AfterContentInit {
     public templateSibling:ViewContainerRef;
 
     constructor(private _renderer:Renderer2) {
+        // Initialise with default configuration.
         this.isClosable = true;
 
         this.transition = "scale";
         this.transitionDuration = 500;
 
+        // Event emitters for each of the possible modal outcomes.
+        this.onApprove = new EventEmitter<T>();
+        this.onDeny = new EventEmitter<U>();
         this.onDismiss = new EventEmitter<void>();
 
+        // Initialise controls with actions for the `approve` and `deny` cases.
         this.controls = new ModalControls<T, U>(
             res => this.dismiss(() => this.onApprove.emit(res)),
             res => this.dismiss(() => this.onDeny.emit(res)));
 
-        this.onApprove = new EventEmitter<T>();
-        this.onDeny = new EventEmitter<U>();
-
+        // Internal variable initialisation.
         this._dimBackground = false;
         this._isClosing = false;
         this._transitionController = new TransitionController(false);
@@ -129,6 +137,7 @@ export class SuiModal<T, U> implements OnInit, AfterContentInit {
     @HostListener("document:keyup", ["$event"])
     public onKeyup(e:KeyboardEvent) {
         if (e.keyCode == KeyCode.Escape) {
+            // Close automatically covers case of `!isClosable`, so check not needed.
             this.close();
         }
     }

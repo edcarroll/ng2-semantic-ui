@@ -1,29 +1,8 @@
 import {Injectable, ApplicationRef, ComponentFactoryResolver, Injector, Type, ReflectiveInjector} from '@angular/core';
-import {ModalInstance} from './modal-instance';
+import {ModalInstance, TemplateModalInstance, ComponentModalInstance} from './modal-instance';
 import {SuiModal} from './modal';
 import {Modal} from './modal-controls';
-
-export class OpenModal<T, U, V> {
-    instance:ModalInstance<T, U, V>;
-    component:SuiModal<U, V>;
-
-    constructor(instance:ModalInstance<T, U, V>, component:SuiModal<U, V>) {
-        this.instance = instance;
-        this.component = component;
-    }
-
-    public onApprove(callback:(result:U) => void) {
-        this.instance.onApprove = callback;
-        this.component.onApprove.subscribe((res:U) => this.instance.onApprove(res));
-        return this;
-    }
-
-    public onDeny(callback:(result:V) => void) {
-        this.instance.onDeny = callback;
-        this.component.onDeny.subscribe((res:V) => this.instance.onDeny(res));
-        return this;
-    }
-}
+import {OpenModal} from './open-modal';
 
 @Injectable()
 export class SuiModalService {
@@ -36,10 +15,10 @@ export class SuiModalService {
         const componentRef = factory.create(this._injector);
         const modalComponent = componentRef.instance;
 
-        if (modal.template) {
+        if (modal instanceof TemplateModalInstance) {
             componentRef.instance.templateSibling.createEmbeddedView(modal.template, { $implicit: modal.context, modal: componentRef.instance.controls });
         }
-        else if (modal.component) {
+        else if (modal instanceof ComponentModalInstance) {
             const contentCmptFactory = this._componentFactoryResolver.resolveComponentFactory(modal.component as Type<{}>);
 
             const modalContentInjector = ReflectiveInjector.resolveAndCreate(
@@ -55,9 +34,10 @@ export class SuiModalService {
             modalComponent.templateSibling.insert(internalComponentRef.hostView);
 
             const el = internalComponentRef.location.nativeElement as Element;
-            el.classList.add("ui");
-            el.classList.add("active");
-            el.classList.add("modal");
+            while (el.hasChildNodes()) {
+                el.parentElement.appendChild(el.removeChild(el.firstChild));
+            }
+            el.remove();
         }
 
         this._applicationRef.attachView(componentRef.hostView);

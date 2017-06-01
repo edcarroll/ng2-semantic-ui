@@ -1,16 +1,19 @@
 import {Component, AfterViewInit, ViewChild, TemplateRef} from '@angular/core';
 import {SuiModalService} from '../../../../../components/modal/modal.service';
-import {ModalInstance} from '../../../../../components/modal/modal-instance';
+import {ModalInstance, ComponentModalInstance, TemplateModalInstance} from '../../../../../components/modal/modal-instance';
 import {Modal} from '../../../../../components/modal/modal-controls';
 import {ModalTemplate} from '../../../../../components/modal/modal-template';
+
+interface IAcceptRejectModalContext {
+    question:string;
+}
 
 @Component({
     selector: 'modal-accept-reject',
     template: `
 <div class="header">Confirm?</div>
 <div class="content">
-    <p>Hey there!</p>
-    <p>Hellloooo</p>
+    <p>{{ modal.context.question }}</p>
 </div>
 <div class="actions">
     <button class="ui red button" (click)="modal.deny('deny')">Cancel</button>
@@ -19,17 +22,14 @@ import {ModalTemplate} from '../../../../../components/modal/modal-template';
 `
 })
 export class AcceptRejectModalComponent {
-    constructor(public modal:Modal<{ question:string }, void, void>) {
+    constructor(public modal:Modal<IAcceptRejectModalContext>) {
         console.log(modal.context.question);
     }
 }
 
-export class AcceptRejectModal extends ModalInstance<{ question:string }> {
+export class AcceptRejectModal extends ComponentModalInstance<IAcceptRejectModalContext> {
     constructor(question:string) {
-        super(null, false);
-
-        this.component = AcceptRejectModalComponent;
-        this.context = { question };
+        super(AcceptRejectModalComponent, { question }, false);
     }
 }
 
@@ -45,8 +45,8 @@ export class TestPage implements AfterViewInit {
     constructor(public modalService:SuiModalService) {}
 
     public ngAfterViewInit() {
-        // const modal = new ModalInstance<null, string, string>(this.modalTemplate, true);
-        const modal = new AcceptRejectModal("hello!");
+        // const modal = new TemplateModalInstance<null, string, string>(this.modalTemplate, null, true);
+        const modal = new AcceptRejectModal("Are you sure you want to do this?");
 
         // modal.closeResult = "default!";
 
