@@ -1,4 +1,4 @@
-import {Directive, ElementRef, Input, HostBinding, Renderer2} from '@angular/core';
+import {Directive, ElementRef, Input, HostBinding, Renderer2, HostListener} from '@angular/core';
 import "web-animations-js";
 
 @Directive({
@@ -40,6 +40,13 @@ export class SuiCollapse {
     @Input()
     public collapseDuration:number;
 
+    private get _animationDuration() {
+        return this._pristine ? 0 : this.collapseDuration;
+    }
+
+    // Timer for window resize counter.
+    private _resizeTimeout:number;
+
     public constructor(private _element:ElementRef, private _renderer:Renderer2) {
         this._pristine = true;
 
@@ -58,7 +65,7 @@ export class SuiCollapse {
         this._renderer.setStyle(this._element.nativeElement, 'overflow', 'hidden');
 
         // Animate the host element from its scroll height to 0.
-        this.animate(this._element.nativeElement.scrollHeight, 0, () => {
+        this.animate(this._element.nativeElement.scrollHeight, 0, false, () => {
             this._isCollapsing = false;
         });
     }
@@ -67,7 +74,7 @@ export class SuiCollapse {
         this._isCollapsing = true;
 
         // Animate the host element from its offset height to its scroll height.
-        this.animate(this._element.nativeElement.offsetHeight, this._element.nativeElement.scrollHeight, () => {
+        this.animate(this._element.nativeElement.offsetHeight, this._element.nativeElement.scrollHeight, true, () => {
             // Remove the overflow override to enable user styling once again.
             this._renderer.removeStyle(this._element.nativeElement, 'overflow');
 
@@ -76,22 +83,33 @@ export class SuiCollapse {
         });
     }
 
-    private animate(startHeight:number, endHeight:number, callback:() => void) {
+    private animate(startHeight:number, endHeight:number, removeOnComplete:boolean = false, callback:() => void = () => {}) {
+        const heightFrames = [
+            {
+                offset: 0,
+                height: `${startHeight}px`
+            },
+            {
+                offset: 1,
+                height: `${endHeight}px`
+            }
+        ];
+
+        if (removeOnComplete) {
+            heightFrames.push({
+                offset: 1,
+                height: `auto`
+            });
+        }
+
         // Animate the collapse using the web animations API.
         // Using directly because Renderer2 doesn't have invokeElementMethod method anymore.
         this._element.nativeElement.animate(
-            [
-                {
-                    height: `${startHeight}px`
-                },
-                {
-                    height: `${endHeight}px`
-                }
-            ],
+            heightFrames,
             {
                 delay: 0,
                 // Disable animation on 1st collapse / expansion.
-                duration: this._pristine ? 0 : this.collapseDuration,
+                duration: this._animationDuration,
                 iterations: 1,
                 easing: "ease",
                 fill: "both"
