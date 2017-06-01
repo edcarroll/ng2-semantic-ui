@@ -1,9 +1,9 @@
 import {Component, Input, HostBinding, OnInit, ViewChild, ElementRef, Renderer2, EventEmitter, Output, HostListener, ViewContainerRef, AfterViewInit} from '@angular/core';
 import {TransitionController} from '../transition/transition-controller';
 import {Transition, TransitionDirection} from '../transition/transition';
-import {KeyCode} from '../util/util';
+import {KeyCode, parseBooleanAttribute} from '../util/util';
 import {ModalControls} from './modal-controls';
-import {ModalConfig} from './modal-config';
+import {ModalConfig, ModalSize} from './modal-config';
 
 @Component({
     selector: 'sui-modal',
@@ -11,7 +11,7 @@ import {ModalConfig} from './modal-config';
 <!-- Page dimmer for modal background. -->
 <sui-dimmer class="page" [(isDimmed)]="_dimBackground" [isClickable]="false" [transitionDuration]="transitionDuration" (click)="close()"></sui-dimmer>
 <!-- Modal component, with transition component attached -->
-<div class="ui modal" [suiTransition]="_transitionController" [class.active]="_transitionController?.isVisible" #modal>
+<div class="ui modal {{ size }}" [suiTransition]="_transitionController" [class.active]="_transitionController?.isVisible" [class.fullscreen]="fullScreen" #modal>
     <!-- Configurable close icon -->
     <i class="close icon" *ngIf="isClosable" (click)="close()"></i>
     <!-- <ng-content> so that <sui-modal> can be used as a normal component. -->
@@ -55,6 +55,23 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
 
     @ViewChild('modal')
     private _modalElement:ElementRef;
+
+    // Size used to display the modal.
+    @Input()
+    public size:ModalSize;
+
+    // Whether the modal takes up the full width of the screen.
+    private _fullScreen:boolean;
+
+    // Value to deny with when closing via `isClosable`.
+    @Input()
+    public get fullScreen() {
+        return this._fullScreen;
+    }
+
+    public set fullScreen(fullScreen:boolean) {
+        this._fullScreen = parseBooleanAttribute(fullScreen);
+    }
 
     private _transitionController:TransitionController;
 
@@ -113,6 +130,9 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     public loadConfig<V>(config:ModalConfig<V, T, U>) {
         this.isClosable = config.isClosable;
         this.closeResult = config.closeResult;
+
+        this.size = config.size;
+        this.fullScreen = config.fullScreen;
 
         this.transition = config.transition;
         this.transitionDuration = config.transitionDuration;

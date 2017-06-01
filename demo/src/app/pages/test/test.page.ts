@@ -1,6 +1,6 @@
 import {Component, AfterViewInit, ViewChild, TemplateRef} from '@angular/core';
 import {SuiModalService} from '../../../../../components/modal/modal.service';
-import {ModalConfig, ComponentModalConfig, TemplateModalConfig} from '../../../../../components/modal/modal-config';
+import {ModalConfig, ComponentModalConfig, TemplateModalConfig, ModalSize} from '../../../../../components/modal/modal-config';
 import {Modal} from '../../../../../components/modal/modal-controls';
 import {ModalTemplate} from '../../../../../components/modal/modal-template';
 
@@ -29,6 +29,8 @@ export class AcceptRejectModalComponent {
 export class AcceptRejectModal extends ComponentModalConfig<IAcceptRejectModalContext, string, string> {
     constructor(title:string, question:string) {
         super(AcceptRejectModalComponent, { title, question }, false);
+
+        this.size = ModalSize.Small;
     }
 }
 

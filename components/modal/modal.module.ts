@@ -6,7 +6,7 @@ import {SuiModalService} from './modal.service';
 import {SuiModal} from './modal';
 import {Modal, ModalResult, ModalControls} from './modal-controls';
 import {ActiveModal} from './active-modal';
-import {ModalConfig, TemplateModalConfig, ComponentModalConfig} from './modal-config';
+import {ModalConfig, TemplateModalConfig, ComponentModalConfig, ModalSize} from './modal-config';
 import {ModalTemplate} from './modal-template';
 
 @NgModule({
@@ -30,4 +30,4 @@ import {ModalTemplate} from './modal-template';
 })
 export class SuiModalModule {}
 
-export {SuiModalService, Modal as SuiModal, ModalResult, ModalControls, ActiveModal as SuiActiveModal, ModalConfig, TemplateModalConfig, ComponentModalConfig, ModalTemplate};
+export {SuiModalService, Modal as SuiModal, ModalResult, ModalControls, ActiveModal as SuiActiveModal, ModalConfig, TemplateModalConfig, ComponentModalConfig, ModalTemplate, ModalSize};

@@ -2,24 +2,48 @@ import {TemplateRef} from '@angular/core';
 import {ModalControls, ModalResult} from './modal-controls';
 import {ModalTemplate} from './modal-template';
 
-export class ModalConfig<T, U = void, V = void> {
-    public isClosable:boolean;
-    public context:T;
+export type ModalSize = "small" | "normal" | "large";
 
+export const ModalSize = {
+    Small: "small" as ModalSize,
+    Normal: "normal" as ModalSize,
+    Large: "large" as ModalSize
+}
+
+// Stores a basic set of configuration options for a modal.
+export class ModalConfig<T, U = void, V = void> {
+    // Determines whether the modal can be closed with a close button, clicking outside, or the escape key.
+    public isClosable:boolean;
+    // Value to deny with when closing via `isClosable`.
     public closeResult:V;
 
+    // Data to pass to the modal instance when opened.
+    public context:T;
+
+    // Size used to display the modal.
+    public size:ModalSize;
+    // Whether the modal takes up the full width of the screen.
+    public fullScreen:boolean;
+
+    // Transition to display modal with.
     public transition:string;
+    // Duration of the modal & dimmer transitions.
     public transitionDuration:number;
 
     constructor(context:T = null, isClosable:boolean = true) {
+        // Initialise with default values.
         this.isClosable = isClosable;
         this.context = context;
+
+        this.size = ModalSize.Normal;
+        this.fullScreen = false;
 
         this.transition = "scale";
         this.transitionDuration = 500;
     }
 }
 
+// Used when creating a modal from a `TemplateRef`.
 export class TemplateModalConfig<T, U = void, V = void> extends ModalConfig<T, U, V> {
     public template:ModalTemplate<T, U, V>;
 
@@ -30,6 +54,7 @@ export class TemplateModalConfig<T, U = void, V = void> extends ModalConfig<T, U
     }
 }
 
+// Used when creating a modal from an existing component.
 export class ComponentModalConfig<T, U = void, V = void> extends ModalConfig<T, U, V> {
     public component:Function;
 
