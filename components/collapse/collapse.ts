@@ -40,7 +40,7 @@ export class SuiCollapse {
     @Input()
     public collapseDuration:number;
 
-    public constructor(private _element:ElementRef, private _renderer: Renderer2) {
+    public constructor(private _element:ElementRef, private _renderer:Renderer2) {
         this._pristine = true;
 
         // Collapse animation duration is 350ms by default.
