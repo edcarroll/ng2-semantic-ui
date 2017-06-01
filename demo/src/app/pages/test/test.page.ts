@@ -23,10 +23,10 @@ interface IAcceptRejectModalContext {
 `
 })
 export class AcceptRejectModalComponent {
-    constructor(public modal:Modal<IAcceptRejectModalContext, string, string>) {}
+    constructor(public modal:Modal<IAcceptRejectModalContext, null>) {}
 }
 
-export class AcceptRejectModal extends ComponentModalConfig<IAcceptRejectModalContext, string, string> {
+export class AcceptRejectModal extends ComponentModalConfig<IAcceptRejectModalContext> {
     constructor(title:string, question:string) {
         super(AcceptRejectModalComponent, { title, question }, false);
 
@@ -56,7 +56,7 @@ export class TestPage implements AfterViewInit {
             .onApprove(str => alert(str))
             .onDeny(str => alert(str));
 
-        setTimeout(() => activeModal.destroy(), 2000);
+        // setTimeout(() => activeModal.destroy(), 2000);
     }
 
     public alert(str:string) {

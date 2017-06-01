@@ -14,7 +14,7 @@ export class ModalControls<T, U> {
 }
 
 // Injected into custom modal components, to allow control of the modal, and access to a context object.
-export class Modal<T, U = void, V = void> extends ModalControls<U, V> {
+export class Modal<T, U = null, V = null> extends ModalControls<U, V> {
     public context:T;
 
     constructor(controls:ModalControls<U, V>, context:T) {
