@@ -1,4 +1,4 @@
-import {Component, Input, HostBinding, OnInit, ViewChild, ElementRef, Renderer2, EventEmitter, Output, HostListener, AfterContentInit, ViewContainerRef} from '@angular/core';
+import {Component, Input, HostBinding, OnInit, ViewChild, ElementRef, Renderer2, EventEmitter, Output, HostListener, ViewContainerRef, AfterViewInit} from '@angular/core';
 import {TransitionController} from '../transition/transition-controller';
 import {Transition, TransitionDirection} from '../transition/transition';
 import {KeyCode} from '../util/util';
@@ -21,7 +21,7 @@ import {ModalConfig} from './modal-config';
 </div>
 `
 })
-export class SuiModal<T, U> implements OnInit, AfterContentInit {
+export class SuiModal<T, U> implements OnInit, AfterViewInit {
     // Determines whether the modal can be closed with a close button, clicking outside, or the escape key.
     @Input()
     public isClosable:boolean;
@@ -103,7 +103,7 @@ export class SuiModal<T, U> implements OnInit, AfterContentInit {
         setTimeout(() => this._dimBackground = true);
     }
 
-    public ngAfterContentInit() {
+    public ngAfterViewInit() {
         // Update margin offset to center modal correctly on-screen.
         const element = this._modalElement.nativeElement as Element;
         this._renderer.setStyle(element, "margin-top", `-${element.clientHeight / 2}px`);
