@@ -68,10 +68,7 @@ export class SuiModalService {
         // Initialise the generated modal with the provided config.
         modalComponent.loadConfig(modal);
 
-        // Automatically destroy the modal component when it has been dismissed.
-        modalComponent.onDismiss.subscribe(() => componentRef.destroy());
-
         // Return an instance of an `ActiveModal`, so the user can control the new modal.
-        return new ActiveModal(modal, modalComponent);
+        return new ActiveModal(modal, componentRef);
     }
 }
