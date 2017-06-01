@@ -1,6 +1,6 @@
 import {Component, AfterViewInit, ViewChild, TemplateRef} from '@angular/core';
 import {SuiModalService} from '../../../../../components/modal/modal.service';
-import {ModalInstance, ComponentModalInstance, TemplateModalInstance} from '../../../../../components/modal/modal-instance';
+import {ModalConfig, ComponentModalConfig, TemplateModalConfig} from '../../../../../components/modal/modal-config';
 import {Modal} from '../../../../../components/modal/modal-controls';
 import {ModalTemplate} from '../../../../../components/modal/modal-template';
 
@@ -22,12 +22,10 @@ interface IAcceptRejectModalContext {
 `
 })
 export class AcceptRejectModalComponent {
-    constructor(public modal:Modal<IAcceptRejectModalContext>) {
-        console.log(modal.context.question);
-    }
+    constructor(public modal:Modal<IAcceptRejectModalContext, string, string>) {}
 }
 
-export class AcceptRejectModal extends ComponentModalInstance<IAcceptRejectModalContext> {
+export class AcceptRejectModal extends ComponentModalConfig<IAcceptRejectModalContext, string, string> {
     constructor(question:string) {
         super(AcceptRejectModalComponent, { question }, false);
     }
@@ -54,7 +52,7 @@ export class TestPage implements AfterViewInit {
             .open(modal)
             .onApprove(str => alert(str))
             .onDeny(str => alert(str));
-    }
+        }
 
     public alert(str:string) {
         alert(str);

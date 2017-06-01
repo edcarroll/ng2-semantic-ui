@@ -13,10 +13,10 @@ import {ModalControls} from './modal-controls';
 <div class="ui modal" [suiTransition]="_transitionController" [class.active]="_transitionController?.isVisible" #modal>
     <!-- Configurable close icon -->
     <i class="close icon" *ngIf="isClosable" (click)="close()"></i>
-    <!-- @ViewChild reference so we can insert elements beside this div. -->
-    <div #templateSibling></div>
     <!-- <ng-content> so that <sui-modal> can be used as a normal component. -->
     <ng-content></ng-content>
+    <!-- @ViewChild reference so we can insert elements beside this div. -->
+    <div #templateSibling></div>
 </div>
 `
 })

@@ -2,7 +2,7 @@ import {TemplateRef} from '@angular/core';
 import {ModalControls, ModalResult} from './modal-controls';
 import {ModalTemplate} from './modal-template';
 
-export abstract class ModalInstance<T, U = void, V = void> {
+export abstract class ModalConfig<T, U = void, V = void> {
     public isClosable:boolean;
     public context:T;
 
@@ -26,7 +26,7 @@ export abstract class ModalInstance<T, U = void, V = void> {
     public deny(result:V):void {};
 }
 
-export class TemplateModalInstance<T, U = void, V = void> extends ModalInstance<T, U, V> {
+export class TemplateModalConfig<T, U = void, V = void> extends ModalConfig<T, U, V> {
     public template:ModalTemplate<T, U, V>;
 
     constructor(template:ModalTemplate<T, U, V>, context:T = null, isClosable:boolean = true) {
@@ -36,7 +36,7 @@ export class TemplateModalInstance<T, U = void, V = void> extends ModalInstance<
     }
 }
 
-export class ComponentModalInstance<T, U = void, V = void> extends ModalInstance<T, U, V> {
+export class ComponentModalConfig<T, U = void, V = void> extends ModalConfig<T, U, V> {
     public component:Function;
 
     constructor(component:Function, context:T = null, isClosable:boolean = true) {

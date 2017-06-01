@@ -1,12 +1,12 @@
-import {ModalInstance} from './modal-instance';
+import {ModalConfig} from './modal-config';
 import {SuiModal} from './modal';
 
 // Helper class to support method chaining when calling `SuiModalService.open(...)`.
 export class OpenModal<T, U, V> {
-    instance:ModalInstance<T, U, V>;
+    instance:ModalConfig<T, U, V>;
     component:SuiModal<U, V>;
 
-    constructor(instance:ModalInstance<T, U, V>, component:SuiModal<U, V>) {
+    constructor(instance:ModalConfig<T, U, V>, component:SuiModal<U, V>) {
         this.instance = instance;
         this.component = component;
     }

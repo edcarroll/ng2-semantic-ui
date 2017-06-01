@@ -1,5 +1,5 @@
 import {Injectable, ApplicationRef, ComponentFactoryResolver, Injector, Type, ReflectiveInjector} from '@angular/core';
-import {ModalInstance, TemplateModalInstance, ComponentModalInstance} from './modal-instance';
+import {ModalConfig, TemplateModalConfig, ComponentModalConfig} from './modal-config';
 import {SuiModal} from './modal';
 import {Modal} from './modal-controls';
 import {OpenModal} from './open-modal';
@@ -8,19 +8,31 @@ import {OpenModal} from './open-modal';
 export class SuiModalService {
     constructor(private _applicationRef:ApplicationRef, private _componentFactoryResolver:ComponentFactoryResolver, private _injector:Injector) {}
 
-    public open<T, U, V>(modal:ModalInstance<T, U, V>) {
+    public open<T, U, V>(modal:ModalConfig<T, U, V>) {
+        // Resolve factory for creating `SuiModal` components.
         const factory = this._componentFactoryResolver.resolveComponentFactory<SuiModal<U, V>>(SuiModal);
 
-        // Generate a component using the view container reference and the previously resolved factory.
+        // Generate a component using the injector and the previously resolved factory.
         const componentRef = factory.create(this._injector);
+        // Shorthand for the created modal component instance.
         const modalComponent = componentRef.instance;
 
-        if (modal instanceof TemplateModalInstance) {
-            componentRef.instance.templateSibling.createEmbeddedView(modal.template, { $implicit: modal.context, modal: componentRef.instance.controls });
+        // If the config is for a template based modal,
+        if (modal instanceof TemplateModalConfig) {
+            // Inject the template into the view.
+            componentRef.instance.templateSibling.createEmbeddedView(modal.template, {
+                // `let-context`
+                $implicit: modal.context,
+                // `let-modal="modal"`
+                modal: componentRef.instance.controls
+            });
         }
-        else if (modal instanceof ComponentModalInstance) {
-            const contentCmptFactory = this._componentFactoryResolver.resolveComponentFactory(modal.component as Type<{}>);
+        // If the config is for a component based modal,
+        else if (modal instanceof ComponentModalConfig) {
+            // Resolve factory for creating a new instance of the provided component.
+            const contentComponentFactory = this._componentFactoryResolver.resolveComponentFactory(modal.component as Type<{}>);
 
+            // Provide an instance of `Modal` for the injector, to be used in the component constructor.
             const modalContentInjector = ReflectiveInjector.resolveAndCreate(
                 [
                     {
@@ -29,19 +41,28 @@ export class SuiModalService {
                     }
                 ], this._injector);
 
-            const internalComponentRef = contentCmptFactory.create(modalContentInjector);
+            // Generate a component using the custom injector and the previously resolved factory.
+            const contentComponentRef = contentComponentFactory.create(modalContentInjector);
 
-            modalComponent.templateSibling.insert(internalComponentRef.hostView);
+            // Insert the new component into the content of the modal.
+            modalComponent.templateSibling.insert(contentComponentRef.hostView);
 
-            const el = internalComponentRef.location.nativeElement as Element;
-            while (el.hasChildNodes()) {
-                el.parentElement.appendChild(el.removeChild(el.firstChild));
+            // Shorthand for access to the content component's DOM element.
+            const contentElement = contentComponentRef.location.nativeElement as Element;
+
+            // Move all of the DOM elements inside the component to the main modal element.
+            // This is done so that CSS classes apply correctly. It does stop any custom styles from working however, so other ways may have to be investigated.
+            while (contentElement.hasChildNodes()) {
+                contentElement.parentElement.appendChild(contentElement.removeChild(contentElement.firstChild));
             }
-            el.remove();
+            // Remove the generated component's 'empty shell' from the DOM.
+            contentElement.remove();
         }
 
+        // Attach the new modal component to the application.
         this._applicationRef.attachView(componentRef.hostView);
 
+        // Move the new modal component DOM to the document body.
         document.querySelector("body").appendChild(componentRef.location.nativeElement);
 
         modal.approve = modalComponent.approve;
