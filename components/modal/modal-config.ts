@@ -11,7 +11,7 @@ export const ModalSize = {
 }
 
 // Stores a basic set of configuration options for a modal.
-export class ModalConfig<T, U = void, V = void> {
+export class ModalConfig<T, U = null, V = null> {
     // Determines whether the modal can be closed with a close button, clicking outside, or the escape key.
     public isClosable:boolean;
     // Value to deny with when closing via `isClosable`.
@@ -44,7 +44,7 @@ export class ModalConfig<T, U = void, V = void> {
 }
 
 // Used when creating a modal from a `TemplateRef`.
-export class TemplateModalConfig<T, U = void, V = void> extends ModalConfig<T, U, V> {
+export class TemplateModalConfig<T, U = null, V = null> extends ModalConfig<T, U, V> {
     public template:ModalTemplate<T, U, V>;
 
     constructor(template:ModalTemplate<T, U, V>, context:T = null, isClosable:boolean = true) {
@@ -55,7 +55,7 @@ export class TemplateModalConfig<T, U = void, V = void> extends ModalConfig<T, U
 }
 
 // Used when creating a modal from an existing component.
-export class ComponentModalConfig<T, U = void, V = void> extends ModalConfig<T, U, V> {
+export class ComponentModalConfig<T, U = null, V = null> extends ModalConfig<T, U, V> {
     public component:Function;
 
     constructor(component:Function, context:T = null, isClosable:boolean = true) {
