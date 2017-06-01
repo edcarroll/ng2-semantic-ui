@@ -5,13 +5,14 @@ import {Modal} from '../../../../../components/modal/modal-controls';
 import {ModalTemplate} from '../../../../../components/modal/modal-template';
 
 interface IAcceptRejectModalContext {
+    title:string;
     question:string;
 }
 
 @Component({
     selector: 'modal-accept-reject',
     template: `
-<div class="header">Confirm?</div>
+<div class="header">{{ modal.context.title }}</div>
 <div class="content">
     <p>{{ modal.context.question }}</p>
 </div>
@@ -26,8 +27,8 @@ export class AcceptRejectModalComponent {
 }
 
 export class AcceptRejectModal extends ComponentModalConfig<IAcceptRejectModalContext, string, string> {
-    constructor(question:string) {
-        super(AcceptRejectModalComponent, { question }, false);
+    constructor(title:string, question:string) {
+        super(AcceptRejectModalComponent, { title, question }, false);
     }
 }
 
@@ -44,7 +45,7 @@ export class TestPage implements AfterViewInit {
 
     public ngAfterViewInit() {
         // const modal = new TemplateModalInstance<null, string, string>(this.modalTemplate, null, true);
-        const modal = new AcceptRejectModal("Are you sure you want to do this?");
+        const modal = new AcceptRejectModal("Are you sure?", "Are you sure you want to do this?");
 
         // modal.closeResult = "default!";
 

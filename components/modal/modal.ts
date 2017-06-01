@@ -76,11 +76,9 @@ export class SuiModal<T, U> implements OnInit, AfterContentInit {
     public templateSibling:ViewContainerRef;
 
     constructor(private _renderer:Renderer2) {
-        // Initialise with default configuration.
-        this.isClosable = true;
-
-        this.transition = "scale";
-        this.transitionDuration = 500;
+        // Initialise with default configuration from `ModalConfig` (to avoid writing defaults twice).
+        const config = new ModalConfig<null, T, U>();
+        this.loadConfig(config);
 
         // Event emitters for each of the possible modal outcomes.
         this.onApprove = new EventEmitter<T>();
@@ -111,6 +109,7 @@ export class SuiModal<T, U> implements OnInit, AfterContentInit {
         this._renderer.setStyle(element, "margin-top", `-${element.clientHeight / 2}px`);
     }
 
+    // Updates the modal with the specified configuration.
     public loadConfig<V>(config:ModalConfig<V, T, U>) {
         this.isClosable = config.isClosable;
         this.closeResult = config.closeResult;
@@ -119,6 +118,7 @@ export class SuiModal<T, U> implements OnInit, AfterContentInit {
         this.transitionDuration = config.transitionDuration;
     }
 
+    // Dismisses the modal with a transition, firing the callback after the modal has finished transitioning.
     private dismiss(callback:() => void = () => {}) {
         // If we aren't currently closing,
         if (!this._isClosing) {
@@ -136,6 +136,7 @@ export class SuiModal<T, U> implements OnInit, AfterContentInit {
         }
     }
 
+    // Closes the modal with a 'deny' outcome, using the specified default reason.
     public close() {
         if (this.isClosable) {
             // If we are allowed to close, fire the deny result with the default value.

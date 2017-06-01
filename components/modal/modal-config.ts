@@ -2,7 +2,7 @@ import {TemplateRef} from '@angular/core';
 import {ModalControls, ModalResult} from './modal-controls';
 import {ModalTemplate} from './modal-template';
 
-export abstract class ModalConfig<T, U = void, V = void> {
+export class ModalConfig<T, U = void, V = void> {
     public isClosable:boolean;
     public context:T;
 
