@@ -1,4 +1,4 @@
-import {Component, ViewChild, HostBinding, ElementRef, HostListener, Input, ContentChildren, QueryList, ViewChildren, AfterContentInit, EventEmitter, Output, Renderer, TemplateRef, ViewContainerRef} from '@angular/core';
+import {Component, ViewChild, HostBinding, ElementRef, HostListener, Input, ContentChildren, QueryList, ViewChildren, AfterContentInit, EventEmitter, Output, Renderer2, TemplateRef, ViewContainerRef} from '@angular/core';
 import {DropdownService, DropdownAutoCloseType} from '../dropdown/dropdown.service';
 import {SearchService, LookupFn} from '../search/search.service';
 import {readValue, KeyCode, HandledMouseEvent, AugmentedElement, TemplateRefContext} from '../util/util';
@@ -129,7 +129,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     @Input()
     public noResultsMessage:string;
 
-    constructor(private _element:ElementRef, private _renderer:Renderer) {
+    constructor(private _element:ElementRef, private _renderer:Renderer2) {
         this.dropdownService = new DropdownService();
         // We do want an empty query to return all results.
         this.searchService = new SearchService<T>(true);
@@ -199,7 +199,8 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     public onKeyPress(e:KeyboardEvent) {
         if (e.keyCode == KeyCode.Enter) {
             // Enables support for focussing and opening with the keyboard alone.
-            this._renderer.invokeElementMethod(this._element.nativeElement, "click");
+            // Using directly because Renderer2 doesn't have invokeElementMethod method anymore.
+            this._element.nativeElement.click();
         }
     }
 
@@ -214,7 +215,8 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     protected focusInput() {
         if (this.isSearchable) {
             // Focusses the search input only when searchable.
-            this._renderer.invokeElementMethod(this._queryInput.nativeElement, "focus");
+            // Using directly because Renderer2 doesn't have invokeElementMethod method anymore.
+            this._queryInput.nativeElement.focus();
         }
     }
 

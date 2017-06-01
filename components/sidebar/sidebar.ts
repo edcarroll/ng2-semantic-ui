@@ -1,4 +1,4 @@
-import {Component, HostBinding, Input, Output, Renderer, ElementRef, EventEmitter} from '@angular/core';
+import {Component, HostBinding, Input, Output, Renderer2, ElementRef, EventEmitter} from '@angular/core';
 import {SidebarService, SidebarTransition, SidebarDirection} from './sidebar.service';
 
 @Component({
@@ -59,7 +59,7 @@ export class SuiSidebar {
         return this.service.isAnimating;
     }
 
-    constructor(private _renderer:Renderer, private _element:ElementRef) {
+    constructor(private _renderer:Renderer2, private _element:ElementRef) {
         this.service = new SidebarService();
         // We set the default here as well to force the classes to update.
         this.transition = SidebarTransition.Uncover;
@@ -77,7 +77,11 @@ export class SuiSidebar {
     }
 
     private setClass(className:string, isAdd:boolean = true) {
-        this._renderer.setElementClass(this._element.nativeElement, className, isAdd);
+        if(isAdd){
+            this._renderer.addClass(this._element.nativeElement, className);
+        }else{
+            this._renderer.removeClass(this._element.nativeElement, className);
+        }
     }
 
     public open() {

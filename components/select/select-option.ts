@@ -1,4 +1,4 @@
-import {Component, Input, HostBinding, HostListener, EventEmitter, ViewContainerRef, ViewChild, Renderer, ElementRef, Output} from '@angular/core';
+import {Component, Input, HostBinding, HostListener, EventEmitter, ViewContainerRef, ViewChild, Renderer2, ElementRef, Output} from '@angular/core';
 import {SuiDropdownMenuItem} from '../dropdown/dropdown-menu';
 import {HandledMouseEvent} from '../util/util';
 
@@ -43,7 +43,7 @@ export class SuiSelectOption<T> extends SuiDropdownMenuItem implements ISelectRe
     @ViewChild('templateSibling', { read: ViewContainerRef })
     public templateSibling:ViewContainerRef;
 
-    constructor(renderer:Renderer, element:ElementRef) {
+    constructor(renderer:Renderer2, element:ElementRef) {
         // We inherit SuiDropdownMenuItem to automatically gain all keyboard navigation functionality.
         // This is not done via adding the .item class because it isn't supported by Angular.
         super(renderer, element);
