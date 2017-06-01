@@ -15,12 +15,12 @@
                 <p>Hellloooo</p>
             </div>
             <div class="actions">
-                <button class="ui red button" (click)="modal.dismiss()">Cancel</button>
-                <button class="ui green button">OK</button>
+                <button class="ui red button" (click)="modal.deny('deny')">Cancel</button>
+                <button class="ui green button" (click)="modal.approve('approve')">OK</button>
             </div>
         </ng-template>
 
-        <!--<sui-modal [transitionDuration]="500" [isClosable]="true" (dismiss)="alert()" #modal>
+        <!--<sui-modal [transitionDuration]="500" [isClosable]="true" (approve)="alert($event)" #modal>
             <div class="header">Example</div>
             <div class="content">
                 <p>Hey there!</p>
@@ -28,8 +28,8 @@
                 <p>Hellloooo</p>
             </div>
             <div class="actions">
-                <button class="ui red button" (click)="modal.dismiss()">Cancel</button>
-                <button class="ui green button" (click)="modal.dismiss()">OK</button>
+                <button class="ui red button" (click)="modal.deny()">Cancel</button>
+                <button class="ui green button" (click)="modal.approve('done')">OK</button>
             </div>
         </sui-modal>-->
     </div>

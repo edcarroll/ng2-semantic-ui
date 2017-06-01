@@ -5,7 +5,7 @@ import {SuiModule} from '../../../../components';
 import {DemoComponentsModule} from '../components/demo-components.module';
 
 import {GettingStartedPage} from './getting-started/getting-started.page';
-import {TestPage} from './test/test.page';
+import {TestPage, AcceptRejectModalComponent} from './test/test.page';
 
 import {AccordionPageComponents} from './accordion/accordion.page';
 import {CheckboxPageComponents} from './checkbox/checkbox.page';
@@ -48,8 +48,13 @@ import {SidebarPageComponents} from './sidebar/sidebar.page';
         SelectPageComponents,
         SidebarPageComponents,
         TabsPageComponents,
-        TransitionPageComponents
+        TransitionPageComponents,
+
+        AcceptRejectModalComponent
     ],
-    exports: []
+    exports: [],
+    entryComponents: [
+        AcceptRejectModalComponent
+    ]
 })
 export class DemoPagesModule {}
