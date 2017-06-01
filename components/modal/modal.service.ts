@@ -2,7 +2,7 @@ import {Injectable, ApplicationRef, ComponentFactoryResolver, Injector, Type, Re
 import {ModalConfig, TemplateModalConfig, ComponentModalConfig} from './modal-config';
 import {SuiModal} from './modal';
 import {Modal} from './modal-controls';
-import {OpenModal} from './open-modal';
+import {ActiveModal} from './active-modal';
 
 @Injectable()
 export class SuiModalService {
@@ -65,16 +65,13 @@ export class SuiModalService {
         // Move the new modal component DOM to the document body.
         document.querySelector("body").appendChild(componentRef.location.nativeElement);
 
-        modal.approve = modalComponent.approve;
-        modal.deny = modalComponent.deny;
+        // Initialise the generated modal with the provided config.
+        modalComponent.loadConfig(modal);
 
+        // Automatically destroy the modal component when it has been dismissed.
         modalComponent.onDismiss.subscribe(() => componentRef.destroy());
 
-        modalComponent.isClosable = modal.isClosable;
-        modalComponent.closeResult = modal.closeResult;
-        modalComponent.transition = modal.transition;
-        modalComponent.transitionDuration = modal.transitionDuration;
-
-        return new OpenModal(modal, modalComponent);
+        // Return an instance of an `ActiveModal`, so the user can control the new modal.
+        return new ActiveModal(modal, modalComponent);
     }
 }

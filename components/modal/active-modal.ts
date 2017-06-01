@@ -2,24 +2,30 @@ import {ModalConfig} from './modal-config';
 import {SuiModal} from './modal';
 
 // Helper class to support method chaining when calling `SuiModalService.open(...)`.
-export class OpenModal<T, U, V> {
-    instance:ModalConfig<T, U, V>;
-    component:SuiModal<U, V>;
+export class ActiveModal<T, U, V> {
+    private _config:ModalConfig<T, U, V>;
+    public component:SuiModal<U, V>;
 
     constructor(instance:ModalConfig<T, U, V>, component:SuiModal<U, V>) {
-        this.instance = instance;
+        this._config = instance;
         this.component = component;
     }
 
     public onApprove(callback:(result:U) => void) {
-        this.instance.onApprove = callback;
-        this.component.onApprove.subscribe((res:U) => this.instance.onApprove(res));
+        this.component.onApprove.subscribe((res:U) => callback(res));
         return this;
     }
 
     public onDeny(callback:(result:V) => void) {
-        this.instance.onDeny = callback;
-        this.component.onDeny.subscribe((res:V) => this.instance.onDeny(res));
+        this.component.onDeny.subscribe((res:V) => callback(res));
         return this;
+    }
+
+    public approve(result:U) {
+        this.component.approve(result);
+    }
+
+    public deny(result:V) {
+        this.component.deny(result);
     }
 }

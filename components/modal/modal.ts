@@ -3,6 +3,7 @@ import {TransitionController} from '../transition/transition-controller';
 import {Transition, TransitionDirection} from '../transition/transition';
 import {KeyCode} from '../util/util';
 import {ModalControls} from './modal-controls';
+import {ModalConfig} from './modal-config';
 
 @Component({
     selector: 'sui-modal',
@@ -108,6 +109,14 @@ export class SuiModal<T, U> implements OnInit, AfterContentInit {
         // Update margin offset to center modal correctly on-screen.
         const element = this._modalElement.nativeElement as Element;
         this._renderer.setStyle(element, "margin-top", `-${element.clientHeight / 2}px`);
+    }
+
+    public loadConfig<V>(config:ModalConfig<V, T, U>) {
+        this.isClosable = config.isClosable;
+        this.closeResult = config.closeResult;
+
+        this.transition = config.transition;
+        this.transitionDuration = config.transitionDuration;
     }
 
     private dismiss(callback:() => void = () => {}) {

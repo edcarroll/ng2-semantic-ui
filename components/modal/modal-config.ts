@@ -11,9 +11,6 @@ export abstract class ModalConfig<T, U = void, V = void> {
     public transition:string;
     public transitionDuration:number;
 
-    public onApprove:ModalResult<U>;
-    public onDeny:ModalResult<V>;
-
     constructor(context:T = null, isClosable:boolean = true) {
         this.isClosable = isClosable;
         this.context = context;
@@ -21,9 +18,6 @@ export abstract class ModalConfig<T, U = void, V = void> {
         this.transition = "scale";
         this.transitionDuration = 500;
     }
-
-    public approve(result:U):void {};
-    public deny(result:V):void {};
 }
 
 export class TemplateModalConfig<T, U = void, V = void> extends ModalConfig<T, U, V> {
