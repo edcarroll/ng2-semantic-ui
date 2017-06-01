@@ -175,10 +175,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         }
     }
 
-    public selectOption(option:T) {
-        // This is implemented individually by the single & multi select variants, but is called within the base class, hence this stub.
-        throw new Error("Not implemented");
-    }
+    public abstract selectOption(option:T):void;
 
     protected findOption(options:T[], value:U) {
         // Tries to find an option in options array
