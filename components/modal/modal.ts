@@ -23,11 +23,9 @@ import {ModalConfig, ModalSize} from './modal-config';
 })
 export class SuiModal<T, U> implements OnInit, AfterViewInit {
     // Determines whether the modal can be closed with a close button, clicking outside, or the escape key.
-    @Input()
     public isClosable:boolean;
 
     // Value to deny with when closing via `isClosable`.
-    @Input()
     public closeResult:U;
 
     // Separate class for the `approve` and `deny` methods to support passing into components.

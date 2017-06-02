@@ -51,10 +51,10 @@ export class TestPage implements AfterViewInit {
 
         // modal.closeResult = "default!";
 
-        let activeModal = this.modalService
-            .open(modal)
-            .onApprove(str => alert(str))
-            .onDeny(str => alert(str));
+        // let activeModal = this.modalService
+        //     .open(modal)
+        //     .onApprove(str => alert(str))
+        //     .onDeny(str => alert(str));
 
         // setTimeout(() => activeModal.destroy(), 2000);
     }
