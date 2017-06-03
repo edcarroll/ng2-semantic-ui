@@ -11,7 +11,13 @@ import {ModalConfig, ModalSize} from './modal-config';
 <!-- Page dimmer for modal background. -->
 <sui-dimmer class="page" [(isDimmed)]="_dimBackground" [isClickable]="false" [transitionDuration]="transitionDuration" (click)="close()"></sui-dimmer>
 <!-- Modal component, with transition component attached -->
-<div class="ui modal {{ size }}" [suiTransition]="_transitionController" [class.active]="_transitionController?.isVisible" [class.fullscreen]="fullScreen" #modal>
+<div class="ui modal {{ size }}"
+     [suiTransition]="_transitionController"
+     [class.active]="_transitionController?.isVisible"
+     [class.fullscreen]="isFullScreen"
+     [class.basic]="isBasic"
+     #modal>
+     
     <!-- Configurable close icon -->
     <i class="close icon" *ngIf="isClosable" (click)="close()"></i>
     <!-- <ng-content> so that <sui-modal> can be used as a normal component. -->
@@ -59,17 +65,21 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     public size:ModalSize;
 
     // Whether the modal takes up the full width of the screen.
-    private _fullScreen:boolean;
+    private _isFullScreen:boolean;
 
     // Value to deny with when closing via `isClosable`.
     @Input()
-    public get fullScreen() {
-        return this._fullScreen;
+    public get isFullScreen() {
+        return this._isFullScreen;
     }
 
-    public set fullScreen(fullScreen:boolean) {
-        this._fullScreen = parseBooleanAttribute(fullScreen);
+    public set isFullScreen(fullScreen:boolean) {
+        this._isFullScreen = parseBooleanAttribute(fullScreen);
     }
+
+    // Whether or not the modal has basic styles applied.
+    @Input()
+    public isBasic:boolean;
 
     private _transitionController:TransitionController;
 
@@ -130,7 +140,8 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
         this.closeResult = config.closeResult;
 
         this.size = config.size;
-        this.fullScreen = config.fullScreen;
+        this.isFullScreen = config.isFullScreen;
+        this.isBasic = config.isBasic;
 
         this.transition = config.transition;
         this.transitionDuration = config.transitionDuration;

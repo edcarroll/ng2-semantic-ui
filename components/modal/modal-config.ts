@@ -23,7 +23,9 @@ export class ModalConfig<T, U = null, V = null> {
     // Size used to display the modal.
     public size:ModalSize;
     // Whether the modal takes up the full width of the screen.
-    public fullScreen:boolean;
+    public isFullScreen:boolean;
+    // Whether or not the modal has basic styles applied.
+    public isBasic:boolean;
 
     // Transition to display modal with.
     public transition:string;
@@ -36,7 +38,8 @@ export class ModalConfig<T, U = null, V = null> {
         this.context = context;
 
         this.size = ModalSize.Normal;
-        this.fullScreen = false;
+        this.isFullScreen = false;
+        this.isBasic = false;
 
         this.transition = "scale";
         this.transitionDuration = 500;

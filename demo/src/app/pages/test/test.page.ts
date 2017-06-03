@@ -31,6 +31,7 @@ export class AcceptRejectModal extends ComponentModalConfig<IAcceptRejectModalCo
         super(AcceptRejectModalComponent, { title, question }, false);
 
         this.size = ModalSize.Small;
+        this.isBasic = true;
     }
 }
 
@@ -51,10 +52,10 @@ export class TestPage implements AfterViewInit {
 
         // modal.closeResult = "default!";
 
-        // let activeModal = this.modalService
-        //     .open(modal)
-        //     .onApprove(str => alert(str))
-        //     .onDeny(str => alert(str));
+        let activeModal = this.modalService
+            .open(modal)
+            .onApprove(str => alert(str))
+            .onDeny(str => alert(str));
 
         // setTimeout(() => activeModal.destroy(), 2000);
     }
