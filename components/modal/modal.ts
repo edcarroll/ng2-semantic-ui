@@ -17,7 +17,7 @@ import {ModalConfig, ModalSize} from './modal-config';
      [class.fullscreen]="isFullScreen"
      [class.basic]="isBasic"
      #modal>
-     
+
     <!-- Configurable close icon -->
     <i class="close icon" *ngIf="isClosable" (click)="close()"></i>
     <!-- <ng-content> so that <sui-modal> can be used as a normal component. -->
@@ -28,9 +28,11 @@ import {ModalConfig, ModalSize} from './modal-config';
 `
 })
 export class SuiModal<T, U> implements OnInit, AfterViewInit {
+    @Input()
     // Determines whether the modal can be closed with a close button, clicking outside, or the escape key.
     public isClosable:boolean;
 
+    @Input()
     // Value to deny with when closing via `isClosable`.
     public closeResult:U;
 
