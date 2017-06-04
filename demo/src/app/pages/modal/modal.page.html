@@ -72,7 +72,7 @@
 
             <p>
                 In this case, the context is an object with a <code>data:string</code> property, and modal
-                passes <code>string</code> values to both <code>approve</code> and <code>deny.</code>
+                passes <code>string</code> values to both <code>approve</code> and <code>deny</code>.
             </p>
 
             <p>Lastly, the modal can be opened as follows:</p>
@@ -87,9 +87,46 @@
 
         </div>
         <div class="ui segment" suiTabContent="component">
-            <p>Component based modals are intended to be used as 'reusable' modals, i.e. modals that can easily be repurposed to fit elsewhere.</p>
+            <p>
+                Component based modals are intended to be used as 'reusable' modals, i.e. modals that can easily be repurposed to fit elsewhere.
+                They provide an easy way to generate generic modals for your entire application with minimal effort, for example to easily replace
+                <code>alert</code>, <code>prompt</code> & <code>confirm</code> calls.
+            </p>
 
             <p>As with template based modals, they're controlled by the <code>SuiModalService</code> which provides the ability to open a modal on the page.</p>
+
+            <p>In this example, you will be run through the process of creating a replacement for <code>confirm</code>.</p>
+
+            <p>
+                The first step is creating a component that acts as the modal content. For this, you need to define the interface for the modal context,
+                as well as including <code>SuiModal</code> in the constructor - which is automatically injected into the component when it is generated
+                and allows access to the <code>approve</code> and <code>deny</code> methods, as well as the aforementioned context.
+            </p>
+
+            <div class="ui segment">
+                <demo-codeblock language="typescript" [src]="componentComponent"></demo-codeblock>
+            </div>
+
+            <p>
+                Now the content component is set up, you must add it to <code>entryComponents</code> in the <code>NgModule</code> it's declared in,
+                as otherwise Angular won't let you use it.
+            </p>
+
+            <p>Next, define a helper class that automatically configures all new modals of this type:</p>
+
+            <div class="ui segment">
+                <demo-codeblock language="typescript" [src]="componentHelper"></demo-codeblock>
+            </div>
+
+            <p>Lastly, to then use this new type of modal, do the following:</p>
+
+            <div class="ui segment">
+                <demo-codeblock language="typescript" [src]="componentOpen"></demo-codeblock>
+            </div>
+
+            <p>So, all together:</p>
+
+            <modal-example-component></modal-example-component>
         </div>
     </sui-tabset>
 

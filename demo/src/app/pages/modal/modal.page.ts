@@ -2,7 +2,8 @@ import {Component, ViewChild} from '@angular/core';
 import {ApiDefinition} from 'app/components/api/api.component';
 import {SuiModalService} from '../../../../../components/modal/modal.service';
 import {ModalTemplate} from '../../../../../components/modal/modal-template';
-import {TemplateModalConfig} from '../../../../../components/modal/modal-config';
+import {TemplateModalConfig, ComponentModalConfig, ModalSize} from '../../../../../components/modal/modal-config';
+import {Modal} from '../../../../../components/modal/modal-controls';
 
 const exampleTemplateModalTemplate = `
 <ng-template let-context let-modal="modal" #modalTemplate>
@@ -25,6 +26,21 @@ ${exampleTemplateModalTemplate}
     <button class="ui primary button" (click)="open(dynamicContent)">Open</button>
 </div>
 `;
+
+const exampleComponentModalTemplate = `
+<div class="header">{{ modal.context.title }}</div>
+<div class="content">
+    <p>{{ modal.context.question }}</p>
+</div>
+<div class="actions">
+    <button class="ui red button" (click)="modal.deny()">Cancel</button>
+    <button class="ui green button" (click)="modal.approve()">OK</button>
+</div>
+`;
+
+const exampleComponentTemplate = `
+<button class="ui primary button" (click)="open()">Confirm?</button>
+`
 
 @Component({
   selector: 'demo-page-modal',
@@ -142,6 +158,42 @@ public open(dynamicContent:string = "Example") {
         .onDeny(result => { /* deny callback */});
 }
 `;
+
+    public componentComponent = `
+import {SuiModal, ComponentModalConfig, ModalSize} from "ng2-semantic-ui";
+
+interface IConfirmModalContext {
+    title:string;
+    question:string;
+}
+
+@Component({
+    selector: 'modal-confirm',
+    template: \`${exampleComponentModalTemplate}\`
+})
+export class ConfirmModalComponent {
+    constructor(public modal:SuiModal<IConfirmModalContext, void, void>) {}
+}
+`;
+
+    public componentHelper = `
+export class ConfirmModal extends ComponentModalConfig<IConfirmModalContext, void, void> {
+    constructor(title:string, question:string) {
+        super(ConfirmModalComponent, { title, question });
+
+        this.isClosable = false;
+        this.transitionDuration = 200;
+        this.size = ModalSize.Small;
+    }
+}
+`;
+
+    public componentOpen = `
+this.modalService
+    .open(new ConfirmModal("Are you sure?", "Are you sure about accepting this?"))
+    .onApprove(() => alert("accepted!"))
+    .onDeny(() => alert("denied!"));
+`;
 }
 
 @Component({
@@ -169,4 +221,42 @@ export class ModalExampleTemplate {
     }
 }
 
-export const ModalPageComponents = [ModalPage, ModalExampleTemplate];
+interface IConfirmModalContext {
+    title:string;
+    question:string;
+}
+
+@Component({
+    selector: 'modal-confirm',
+    template: exampleComponentModalTemplate
+})
+export class ConfirmModalComponent {
+    constructor(public modal:Modal<IConfirmModalContext, void, void>) {}
+}
+
+export class ConfirmModal extends ComponentModalConfig<IConfirmModalContext, void, void> {
+    constructor(title:string, question:string) {
+        super(ConfirmModalComponent, { title, question });
+
+        this.isClosable = false;
+        this.transitionDuration = 200;
+        this.size = ModalSize.Small;
+    }
+}
+
+@Component({
+    selector: 'modal-example-component',
+    template: exampleComponentTemplate
+})
+export class ModalExampleComponent {
+    constructor(public modalService:SuiModalService) {}
+
+    public open() {
+        this.modalService
+            .open(new ConfirmModal("Are you sure?", "Are you sure about accepting this?"))
+            .onApprove(() => alert("accepted!"))
+            .onDeny(() => alert("denied!"));
+    }
+}
+
+export const ModalPageComponents = [ModalPage, ModalExampleTemplate, ConfirmModalComponent, ModalExampleComponent];
