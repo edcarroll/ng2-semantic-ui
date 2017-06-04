@@ -73,6 +73,7 @@ The current list of available components with links to their docs is below:
 * [Dimmer](https://edcarroll.github.io/ng2-semantic-ui/#/components/dimmer)
 * [Dropdown](https://edcarroll.github.io/ng2-semantic-ui/#/components/dropdown)
 * [Message](https://edcarroll.github.io/ng2-semantic-ui/#/components/message)
+* [Modal](https://edcarroll.github.io/ng2-semantic-ui/#/components/modal)
 * [Popup](https://edcarroll.github.io/ng2-semantic-ui/#/components/popup)
 * [Progress](https://edcarroll.github.io/ng2-semantic-ui/#/components/progress)
 * [Rating](https://edcarroll.github.io/ng2-semantic-ui/#/components/rating)

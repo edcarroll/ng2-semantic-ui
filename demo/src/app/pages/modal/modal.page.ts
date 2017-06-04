@@ -1,5 +1,30 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {ApiDefinition} from 'app/components/api/api.component';
+import {SuiModalService} from '../../../../../components/modal/modal.service';
+import {ModalTemplate} from '../../../../../components/modal/modal-template';
+import {TemplateModalConfig} from '../../../../../components/modal/modal-config';
+
+const exampleTemplateModalTemplate = `
+<ng-template let-context let-modal="modal" #modalTemplate>
+    <div class="header">Example</div>
+    <div class="content">
+        <p>{{ context.data }}</p>
+    </div>
+    <div class="actions">
+        <button class="ui red button" (click)="modal.deny('denied!')">Cancel</button>
+        <button class="ui green button" (click)="modal.approve('approved!')">OK</button>
+    </div>
+</ng-template>
+`;
+
+const exampleTemplateTemplate = `
+${exampleTemplateModalTemplate}
+
+<div class="ui fluid action input">
+    <input type="text" placeholder="Modal content..." [(ngModel)]="dynamicContent">
+    <button class="ui primary button" (click)="open(dynamicContent)">Open</button>
+</div>
+`;
 
 @Component({
   selector: 'demo-page-modal',
@@ -71,8 +96,77 @@ export class ModalPage {
             ]
         }
     ];
-    // public exampleStandardTemplate = exampleStandardTemplate;
-    // public exampleVariationsTemplate = exampleVariationsTemplate;
+    public exampleTemplateTemplate = exampleTemplateModalTemplate;
+
+    public autoCode = `
+<sui-modal [isClosable]="true" (dismissed)="alert($event)" #modal>
+    <div class="header">Example</div>
+    <div class="content">
+        <p>Modal content</p>
+    </div>
+    <div class="actions">
+        <button class="ui red button" (click)="modal.deny()">Cancel</button>
+        <button class="ui green button" (click)="modal.approve('done')">OK</button>
+    </div>
+</sui-modal>
+`;
+
+    public templateTemplate = exampleTemplateModalTemplate;
+
+    public templateComponent = `
+import {SuiModalService, TemplateModalConfig, ModalTemplate} from 'ng2-semantic-ui';
+
+export interface IContext {
+    data:string;
 }
 
-export const ModalPageComponents = [ModalPage];
+@Component({})
+export class MyComponent {
+    @ViewChild('modalTemplate')
+    public modalTemplate:ModalTemplate<IContext, string, string>
+
+    constructor(public modalService:SuiModalService) {}
+}
+`;
+
+    public templateOpen = `
+public open(dynamicContent:string = "Example") {
+    const config = new TemplateModalConfig<IContext, string, string>(this.modalTemplate);
+
+    config.isClosable = false;
+    config.context = { data: dynamicContent };
+
+    this.modalService
+        .open(config)
+        .onApprove(result => { /* approve callback */ }) 
+        .onDeny(result => { /* deny callback */});
+}
+`;
+}
+
+@Component({
+    selector: 'modal-example-template',
+    template: exampleTemplateTemplate
+})
+export class ModalExampleTemplate {
+    @ViewChild('modalTemplate')
+    public modalTemplate:ModalTemplate<{ data:string }, string, string>
+
+    public dynamicContent:string = "Example of dynamic content.";
+
+    constructor(public modalService:SuiModalService) {}
+
+    public open(dynamicContent:string = "Example") {
+        const config = new TemplateModalConfig<{ data:string }, string, string>(this.modalTemplate);
+
+        config.isClosable = false;
+        config.context = { data: dynamicContent };
+
+        this.modalService
+            .open(config)
+            .onApprove(r => alert(r)) 
+            .onDeny(r => alert(r));
+    }
+}
+
+export const ModalPageComponents = [ModalPage, ModalExampleTemplate];
