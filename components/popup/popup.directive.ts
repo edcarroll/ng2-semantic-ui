@@ -35,12 +35,12 @@ export class SuiPopupDirective implements IPopup {
 
     @Input()
     public set popupInverted(inverted:boolean) {
-        this.config.inverted = parseBooleanAttribute(inverted);
+        this.config.isInverted = parseBooleanAttribute(inverted);
     }
 
      @Input()
     public set popupBasic(basic:boolean) {
-        this.config.basic = parseBooleanAttribute(basic);
+        this.config.isBasic = parseBooleanAttribute(basic);
     }
 
     @Input()

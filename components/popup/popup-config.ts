@@ -19,9 +19,9 @@ export interface IPopupConfig {
     template?:TemplateRef<TemplateRefContext<IPopup>>;
     placement?:PositioningPlacement;
     trigger?:PopupTrigger;
-    inverted?:boolean;
+    isInverted?:boolean;
     delay?:number;
-    basic?:boolean;
+    isBasic?:boolean;
     transition?:string;
     transitionDuration?:number;
 }
@@ -32,18 +32,18 @@ export class PopupConfig implements IPopupConfig {
     public template:TemplateRef<TemplateRefContext<IPopup>>;
     public placement:PositioningPlacement;
     public trigger:PopupTrigger;
-    public inverted:boolean;
+    public isInverted:boolean;
     public delay:number;
-    public basic:boolean;
+    public isBasic:boolean;
     public transition:string;
     public transitionDuration:number;
 
     constructor(defaults:IPopupConfig = {}) {
         this.placement = PositioningPlacement.TopLeft;
         this.trigger = PopupTrigger.Hover;
-        this.inverted = false;
+        this.isInverted = false;
         this.delay = 0;
-        this.basic = false;
+        this.isBasic = false;
         this.transition = "scale";
         this.transitionDuration = 200;
 

@@ -10,13 +10,13 @@ import Popper from "popper.js";
 @Component({
     selector: 'sui-popup',
     template: `
-<div class="ui popup" [class.inverted]="config.inverted" [class.basic]="config.basic" [suiTransition]="transitionController" [attr.direction]="direction" #container>
+<div class="ui popup" [class.inverted]="config.isInverted" [class.basic]="config.isBasic" [suiTransition]="transitionController" [attr.direction]="direction" #container>
     <ng-container *ngIf="!config.template">
         <div class="header" *ngIf="config.header">{{ config.header }}</div>
         <div class="content">{{ config.text }}</div>
     </ng-container>
     <div #templateSibling></div>
-    <sui-popup-arrow *ngIf="!config.basic" [placement]="_positioningService.placement" [inverted]="config.inverted"></sui-popup-arrow>
+    <sui-popup-arrow *ngIf="!config.isBasic" [placement]="_positioningService.placement" [inverted]="config.isInverted"></sui-popup-arrow>
 </div>
 `,
     styles: [`

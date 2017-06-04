@@ -8,7 +8,7 @@ import {SuiPopupConfig} from '../../../components/popup/popup.service';
 })
 export class AppComponent {
     constructor(popupConfig:SuiPopupConfig) {
-        popupConfig.inverted = true;
+        popupConfig.isInverted = true;
         popupConfig.delay = 300;
     }
 }
