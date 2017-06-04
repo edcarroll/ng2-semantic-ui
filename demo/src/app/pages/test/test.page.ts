@@ -4,37 +4,6 @@ import {ModalConfig, ComponentModalConfig, TemplateModalConfig, ModalSize} from 
 import {Modal} from '../../../../../components/modal/modal-controls';
 import {ModalTemplate} from '../../../../../components/modal/modal-template';
 
-interface IAcceptRejectModalContext {
-    title:string;
-    question:string;
-}
-
-@Component({
-    selector: 'modal-accept-reject',
-    template: `
-<div class="header">{{ modal.context.title }}</div>
-<div class="content">
-    <p>{{ modal.context.question }}</p>
-</div>
-<div class="actions">
-    <button class="ui red button" (click)="modal.deny('deny')">Cancel</button>
-    <button class="ui green button" (click)="modal.approve('approve')">OK</button>
-</div>
-`
-})
-export class AcceptRejectModalComponent {
-    constructor(public modal:Modal<IAcceptRejectModalContext, null>) {}
-}
-
-export class AcceptRejectModal extends ComponentModalConfig<IAcceptRejectModalContext> {
-    constructor(title:string, question:string) {
-        super(AcceptRejectModalComponent, { title, question }, false);
-
-        this.size = ModalSize.Small;
-        this.isBasic = true;
-    }
-}
-
 @Component({
     selector: 'demo-page-test',
     templateUrl: './test.page.html'
@@ -48,7 +17,7 @@ export class TestPage implements AfterViewInit {
 
     public ngAfterViewInit() {
         // const modal = new TemplateModalInstance<null, string, string>(this.modalTemplate, null, true);
-        const modal = new AcceptRejectModal("Are you sure?", "Are you sure you want to do this?");
+        // const modal = new AcceptRejectModal("Are you sure?", "Are you sure you want to do this?");
 
         // modal.closeResult = "default!";
 

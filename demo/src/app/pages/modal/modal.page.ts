@@ -18,9 +18,7 @@ const exampleTemplateModalTemplate = `
 </ng-template>
 `;
 
-const exampleTemplateTemplate = `
-${exampleTemplateModalTemplate}
-
+export const exampleTemplateTemplate = exampleTemplateModalTemplate + `
 <div class="ui fluid action input">
     <input type="text" placeholder="Modal content..." [(ngModel)]="dynamicContent">
     <button class="ui primary button" (click)="open(dynamicContent)">Open</button>
@@ -33,8 +31,8 @@ const exampleComponentModalTemplate = `
     <p>{{ modal.context.question }}</p>
 </div>
 <div class="actions">
-    <button class="ui red button" (click)="modal.deny()">Cancel</button>
-    <button class="ui green button" (click)="modal.approve()">OK</button>
+    <button class="ui red button" (click)="modal.deny(null)">Cancel</button>
+    <button class="ui green button" (click)="modal.approve(null)">OK</button>
 </div>
 `;
 

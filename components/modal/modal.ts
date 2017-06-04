@@ -9,11 +9,11 @@ import {ModalConfig, ModalSize} from './modal-config';
     selector: 'sui-modal',
     template: `
 <!-- Page dimmer for modal background. -->
-<sui-dimmer class="page" [(isDimmed)]="_dimBackground" [isClickable]="false" [transitionDuration]="transitionDuration" (click)="close()"></sui-dimmer>
+<sui-dimmer class="page" [(isDimmed)]="dimBackground" [isClickable]="false" [transitionDuration]="transitionDuration" (click)="close()"></sui-dimmer>
 <!-- Modal component, with transition component attached -->
 <div class="ui modal {{ size }}"
-     [suiTransition]="_transitionController"
-     [class.active]="_transitionController?.isVisible"
+     [suiTransition]="transitionController"
+     [class.active]="transitionController?.isVisible"
      [class.fullscreen]="isFullScreen"
      [class.basic]="isBasic"
      #modal>
@@ -83,7 +83,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     @Input()
     public isBasic:boolean;
 
-    private _transitionController:TransitionController;
+    public transitionController:TransitionController;
 
     // Transition to display modal with.
     @Input()
@@ -94,7 +94,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     public transitionDuration:number;
 
     // Whether or not the backround dimmer is active.
-    private _dimBackground:boolean;
+    public dimBackground:boolean;
     // True after `approve` or `deny` has been called.
     private _isClosing:boolean;
 
@@ -118,16 +118,16 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
             res => this.dismiss(() => this.onDeny.emit(res)));
 
         // Internal variable initialisation.
-        this._dimBackground = false;
+        this.dimBackground = false;
         this._isClosing = false;
-        this._transitionController = new TransitionController(false);
+        this.transitionController = new TransitionController(false);
     }
 
     public ngOnInit() {
         // Transition the modal to be visible.
-        this._transitionController.animate(new Transition(this.transition, this.transitionDuration, TransitionDirection.In));
+        this.transitionController.animate(new Transition(this.transition, this.transitionDuration, TransitionDirection.In));
         // Use a slight delay as the `<sui-dimmer>` cancels the initial transition.
-        setTimeout(() => this._dimBackground = true);
+        setTimeout(() => this.dimBackground = true);
     }
 
     public ngAfterViewInit() {
@@ -156,9 +156,9 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
             this._isClosing = true;
 
             // Transition the modal to be invisible.
-            this._dimBackground = false;
-            this._transitionController.stopAll();
-            this._transitionController.animate(
+            this.dimBackground = false;
+            this.transitionController.stopAll();
+            this.transitionController.animate(
                 new Transition(this.transition, this.transitionDuration, TransitionDirection.Out, () => {
                     // When done, emit a dismiss event, and fire the callback.
                     this.onDismiss.emit();
