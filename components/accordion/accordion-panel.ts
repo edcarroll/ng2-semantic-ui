@@ -65,8 +65,16 @@ export class SuiAccordionPanel {
         
             // Cancel all current animations, and fade the contents. The direction is automatic.
             this.transitionController.stopAll();
-            this.transitionController.animate(new Transition("fade", this.transitionDuration));
+            this.transitionController.animate(new Transition(this.transition, this.transitionDuration));
         }
+    }
+
+    public get transition() {
+        if (this._service) {
+            return this._service.transition;
+        }
+
+        return "fade";
     }
 
     public get transitionDuration() {

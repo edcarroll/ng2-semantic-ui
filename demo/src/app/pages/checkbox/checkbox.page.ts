@@ -86,19 +86,23 @@ export class CheckboxPage {
             properties: [
                 {
                     name: "name",
+                    type: "string",
                     description: "Sets the name on the internal <code>&lt;input&gt;</code> element."
                 },
                 {
                     name: "ngModel",
+                    type: "boolean",
                     description: "Bind the checkbox value to the value of the provided variable."
                 },
                 {
                     name: "isDisabled",
+                    type: "boolean",
                     description: " Sets whether or not the checkbox is disabled. (This only affects the UI, state can still be changed programatically)",
                     defaultValue: "false"
                 },
                 {
                     name: "isReadonly",
+                    type: "boolean",
                     description: "Sets whether or not the checkbox is read-only. (UI only, as above)",
                     defaultValue: "false"
                 }
@@ -106,10 +110,12 @@ export class CheckboxPage {
             events: [
                 {
                     name: "ngModelChange",
+                    type: "boolean",
                     description: "Fires whenever the checkbox check is changed. <code>[(ngModel)]</code> syntax is supported."
                 },
                 {
                     name: "checkChange",
+                    type: "boolean",
                     description: "Fires whenever the checkbox check is changed."
                 }
             ]
@@ -119,24 +125,29 @@ export class CheckboxPage {
             properties: [
                 {
                     name: "name",
+                    type: "string",
                     description: "Sets the name on the internal <code>&lt;input&gt;</code> component."
                 },
                 {
                     name: "value",
+                    type: "T",
                     description: "Sets the value that selecting this radio button returns. Supports binding any object."
                 },
                 {
                     name: "ngModel",
+                    type: "T",
                     description: "Bind the radio button value to the value of the provided variable.",
                     required: true
                 },
                 {
                     name: "isDisabled",
+                    type: "boolean",
                     description: " Sets whether or not the radio button is disabled. (This only affects the UI, state can still be changed programatically)",
                     defaultValue: "false"
                 },
                 {
                     name: "isReadonly",
+                    type: "boolean",
                     description: "Sets whether or not the radio button is read-only. (UI only, as above)",
                     defaultValue: "false"
                 }
@@ -144,10 +155,12 @@ export class CheckboxPage {
             events: [
                 {
                     name: "ngModelChange",
+                    type: "T",
                     description: "Fires whenever the radio button check is changed. <code>[(ngModel)]</code> syntax is supported."
                 },
                 {
                     name: "currentValueChange",
+                    type: "T",
                     description: "Fires whenever the radio button check is changed."
                 }
             ]

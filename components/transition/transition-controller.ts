@@ -1,8 +1,8 @@
-import {Renderer, ElementRef, ChangeDetectorRef} from '@angular/core';
+import {Renderer2, ElementRef, ChangeDetectorRef} from '@angular/core';
 import {Transition, TransitionDirection} from './transition';
 
 export class TransitionController {
-    private _renderer:Renderer;
+    private _renderer:Renderer2;
 
     private _element:ElementRef;
 
@@ -10,7 +10,7 @@ export class TransitionController {
 
     // Used to delay animations until we have an element to animate.
     private get _isReady() {
-        return this._renderer != null && this._element != null;
+        return this._renderer != null && this._element != null && this._changeDetector != null;
     }
 
     // Sets the 'display' style when visible.
@@ -64,7 +64,7 @@ export class TransitionController {
     }
 
     // Sets the renderer to be used for animating.
-    public registerRenderer(renderer:Renderer) {
+    public registerRenderer(renderer:Renderer2) {
         this._renderer = renderer;
         this.performTransition();
     }
@@ -114,13 +114,13 @@ export class TransitionController {
         let transition = this._queueFirst;
 
         // Set the Semantic UI classes for transitioning.
-        transition.classes.forEach(c => this._renderer.setElementClass(this._element, c, true));
-        this._renderer.setElementClass(this._element, `animating`, true);
-        this._renderer.setElementClass(this._element, transition.directionClass, true);
+        transition.classes.forEach(c => this._renderer.addClass(this._element, c));
+        this._renderer.addClass(this._element, `animating`);
+        this._renderer.addClass(this._element, transition.directionClass);
 
         // Set the Semantic UI styles for transitioning.
-        this._renderer.setElementStyle(this._element, `animationDuration`, `${transition.duration}ms`);
-        this._renderer.setElementStyle(this._element, `display`, this._display);
+        this._renderer.setStyle(this._element, `animationDuration`, `${transition.duration}ms`);
+        this._renderer.setStyle(this._element, `display`, this._display);
 
         if (transition.direction == TransitionDirection.In) {
             // Unset hidden if we are transitioning in.
@@ -134,12 +134,12 @@ export class TransitionController {
     // Called when a transition has completed.
     private finishTransition(transition:Transition) {
         // Unset the Semantic UI classes & styles for transitioning.
-        transition.classes.forEach(c => this._renderer.setElementClass(this._element, c, false));
-        this._renderer.setElementClass(this._element, `animating`, false);
-        this._renderer.setElementClass(this._element, transition.directionClass, false);
+        transition.classes.forEach(c => this._renderer.removeClass(this._element, c));
+        this._renderer.removeClass(this._element, `animating`);
+        this._renderer.removeClass(this._element, transition.directionClass);
 
-        this._renderer.setElementStyle(this._element, `animationDuration`, null);
-        this._renderer.setElementStyle(this._element, `display`, null);
+        this._renderer.removeStyle(this._element, `animationDuration`);
+        this._renderer.removeStyle(this._element, `display`);
 
         if (transition.direction == TransitionDirection.In) {
             // If we have just animated in, we are now visible.

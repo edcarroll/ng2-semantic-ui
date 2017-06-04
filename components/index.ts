@@ -4,6 +4,7 @@ export * from "./collapse/collapse.module";
 export * from "./dimmer/dimmer.module";
 export * from "./dropdown/dropdown.module";
 export * from "./message/message.module";
+export * from "./modal/modal.module";
 export * from "./popup/popup.module";
 export * from "./progress/progress.module";
 export * from "./rating/rating.module";

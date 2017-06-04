@@ -1,13 +1,12 @@
-import {Component, Input, Renderer, ElementRef, HostBinding} from '@angular/core';
+import {Component, Input, Renderer2, ElementRef, HostBinding} from '@angular/core';
 import Popper from "popper.js";
+import {PositioningPlacement} from '../util/positioning.service';
 
 @Component({
     selector: 'sui-popup-arrow',
     template: `
-<ng-container *ngIf="!basic">
-    <div class="dynamic arrow" [attr.direction]="direction" *ngIf="alignment == 'center'"></div>
-    <div class="static arrow" [attr.direction]="direction" [attr.alignment]="alignment" *ngIf="alignment != 'center'"></div>
-</ng-container>
+<div class="dynamic arrow" [attr.direction]="direction" *ngIf="alignment == 'center'"></div>
+<div class="static arrow" [attr.direction]="direction" [attr.alignment]="alignment" *ngIf="alignment != 'center'"></div>
 `,
     styles: [`
 .arrow {
@@ -45,26 +44,26 @@ import Popper from "popper.js";
     box-shadow: -1px 1px 1px 0 #bababc;
 }
 
-.static.arrow[direction="bottom"][alignment="start"],
-.static.arrow[direction="top"][alignment="start"] {
+.static.arrow[direction="bottom"][alignment="left"],
+.static.arrow[direction="top"][alignment="left"] {
     left: 1em;
     right: auto;
 }
 
-.static.arrow[direction="left"][alignment="start"],
-.static.arrow[direction="right"][alignment="start"] {
+.static.arrow[direction="left"][alignment="top"],
+.static.arrow[direction="right"][alignment="top"] {
     top: 1em;
     bottom: auto;
 }
 
-.static.arrow[direction="bottom"][alignment="end"],
-.static.arrow[direction="top"][alignment="end"] {
+.static.arrow[direction="bottom"][alignment="right"],
+.static.arrow[direction="top"][alignment="right"] {
     left: auto;
     right: 1em;
 }
 
-.static.arrow[direction="left"][alignment="end"],
-.static.arrow[direction="right"][alignment="end"] {
+.static.arrow[direction="left"][alignment="bottom"],
+.static.arrow[direction="right"][alignment="bottom"] {
     top: auto;
     bottom: 1em;
 }
@@ -72,25 +71,21 @@ import Popper from "popper.js";
 })
 export class SuiPopupArrow {
     @Input()
-    // This should be an IPosition but for some reason Angular CLI isn't able to find it and warns you about it.
-    public position:Popper.Data;
+    public placement:PositioningPlacement;
 
     @HostBinding("class.inverted")
     @Input()
     public inverted:boolean;
 
-    @Input()
-    public basic:boolean;
-
     public get direction() {
-        if (this.position) {
-            return this.position.placement.split("-").shift();
+        if (this.placement) {
+            return this.placement.split(" ").shift();
         }
     }
 
     public get alignment() {
-        if (this.position) {
-            const alignment = this.position.placement.split("-").pop();
+        if (this.placement) {
+            const alignment = this.placement.split(" ").pop();
             if (alignment == this.direction) {
                 return "center";
             }

@@ -3,7 +3,7 @@ import {CommonModule} from "@angular/common";
 import {SuiTransitionModule} from "../transition/transition.module";
 import {SuiDropdown} from './dropdown';
 import {SuiDropdownMenu, SuiDropdownMenuItem} from './dropdown-menu';
-import {DropdownService} from './dropdown.service';
+import {DropdownService, DropdownAutoCloseType} from './dropdown.service';
 
 @NgModule({
     imports: [
@@ -23,4 +23,4 @@ import {DropdownService} from './dropdown.service';
 })
 export class SuiDropdownModule {}
 
-export {DropdownService};
+export {DropdownService, DropdownAutoCloseType};

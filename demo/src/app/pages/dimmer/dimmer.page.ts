@@ -42,21 +42,25 @@ export class DimmerPage {
             properties: [
                 {
                     name: "isDimmed",
+                    type: "boolean",
                     description: "Sets whether or not the dimmer is active.",
                     defaultValue: "false"
                 },
                 {
                     name: "isClickable",
+                    type: "boolean",
                     description: "Sets whether or not clicking the dimmer will dismiss it.",
                     defaultValue: "true"
                 },
                 {
                     name: "transition",
+                    type: "string",
                     description: "Sets the transition used when displaying the dimmer.",
                     defaultValue: "fade"
                 },
                 {
                     name: "transitionDuration",
+                    type: "number",
                     description: "Sets the duration for the dimmer transition.",
                     defaultValue: "300"
                 }
@@ -64,6 +68,7 @@ export class DimmerPage {
             events: [
                 {
                     name: "isDimmedChange",
+                    type: "boolean",
                     description: "Fires whenever the dimmer is toggled. Use the <code>[(isDimmed)]</code> syntax to update when the user clicks out of the dimmer."
                 }
             ]

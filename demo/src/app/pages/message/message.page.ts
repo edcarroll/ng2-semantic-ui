@@ -33,16 +33,19 @@ export class MessagePage {
             properties: [
                 {
                     name: "isDismissable",
+                    type: "boolean",
                     description: "Sets whether or not the message has a dismiss button.",
                     defaultValue: "true"
                 },
                 {
                     name: "transition",
+                    type: "string",
                     description: "Sets the transition used when dismissing the message.",
                     defaultValue: "slide down"
                 },
                 {
                     name: "transitionDuration",
+                    type: "number",
                     description: "Sets the duration for the message transition.",
                     defaultValue: "300"
                 }
@@ -50,6 +53,7 @@ export class MessagePage {
             events: [
                 {
                     name: "dismiss",
+                    type: "void",
                     description: "Fires when the message is dismissed by the user."
                 }
             ]
@@ -71,7 +75,6 @@ export class MessagePage {
 
     public manualDismissCode = `
 import {IMessage} from "ng2-semantic-ui";
-import {ApiDefinition} from '../../components/api/api.component';
 
 @Component({})
 export class MyComponent {

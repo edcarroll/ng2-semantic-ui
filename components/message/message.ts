@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, ElementRef, Renderer, AfterViewInit} from '@angular/core';
+import {Component, Input, Output, EventEmitter, ElementRef, Renderer2, AfterViewInit} from '@angular/core';
 import {SuiTransition, Transition, TransitionDirection} from '../transition/transition';
 import {TransitionController} from '../transition/transition-controller';
 

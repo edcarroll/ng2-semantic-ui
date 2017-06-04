@@ -4,6 +4,9 @@ import {SuiTransitionModule} from "../transition/transition.module";
 import {SuiPopupDirective, IPopup} from './popup.directive';
 import {SuiPopup} from './popup';
 import {SuiPopupArrow} from './popup-arrow';
+import {IPopupConfig, PopupTrigger, PopupConfig} from './popup-config';
+import {PositioningPlacement} from '../util/positioning.service';
+import {SuiPopupConfig} from './popup.service';
 
 @NgModule({
     imports: [
@@ -19,6 +22,9 @@ import {SuiPopupArrow} from './popup-arrow';
         SuiPopupDirective,
         SuiPopup
     ],
+    providers: [
+        SuiPopupConfig
+    ],
     entryComponents: [
         SuiPopup
     ]
@@ -26,4 +32,4 @@ import {SuiPopupArrow} from './popup-arrow';
 
 export class SuiPopupModule {}
 
-export {IPopup};
+export {IPopup, SuiPopupConfig, IPopupConfig, PopupTrigger, PositioningPlacement as PopupPlacement};

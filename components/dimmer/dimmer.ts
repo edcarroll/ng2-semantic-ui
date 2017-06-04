@@ -1,10 +1,9 @@
-import {Component, Input, Output, HostBinding, HostListener, EventEmitter, Renderer, ElementRef, ChangeDetectorRef} from '@angular/core';
+import {Component, Input, Output, HostBinding, HostListener, EventEmitter, Renderer2, ElementRef, ChangeDetectorRef} from '@angular/core';
 import {SuiTransition, Transition, TransitionDirection} from '../transition/transition';
 import {TransitionController} from '../transition/transition-controller';
 
 @Component({
     selector: 'sui-dimmer',
-    exportAs: 'suiDimmer',
     template: `
 <div class="content">
     <div class="center">
@@ -48,7 +47,7 @@ export class SuiDimmer extends SuiTransition {
 
             if (this._transitionController.isVisible != dimmed) {
                 this._transitionController.stopAll();
-                this._transitionController.animate(new Transition("fade", 300, dimmed ? TransitionDirection.In : TransitionDirection.Out));
+                this._transitionController.animate(new Transition("fade", this.transitionDuration, dimmed ? TransitionDirection.In : TransitionDirection.Out));
             }
         }
     }
@@ -65,7 +64,7 @@ export class SuiDimmer extends SuiTransition {
     @Input()
     public transitionDuration:number;
 
-    constructor(renderer:Renderer, element:ElementRef, changeDetector:ChangeDetectorRef) {
+    constructor(renderer:Renderer2, element:ElementRef, changeDetector:ChangeDetectorRef) {
         super(renderer, element, changeDetector);
 
         this._isDimmed = false;

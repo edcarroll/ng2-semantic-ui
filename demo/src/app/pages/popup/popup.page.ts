@@ -41,47 +41,66 @@ export class PopupPage {
             properties: [
                 {
                     name: "popupText",
-                    description: "Sets the text within the popup.",
-                    defaultValue: ""
+                    type: "string",
+                    description: "Sets the text within the popup."
                 },
                 {
                     name: "popupHeader",
+                    type: "string",
                     description: "Sets the title of the popup."
                 },
                 {
                     name: "popupTemplate",
+                    type: "TemplateRef",
                     description: "Sets the template to use when rendering the popup."
                 },
                 {
                     name: "popupPlacement",
+                    type: "PopupPlacement",
                     description: "Sets the placement of the popup relative to the anchor.",
                     defaultValue: "top left"
                 },
                 {
                     name: "popupInverted",
+                    type: "boolean",
                     description: "When <code>true</code> the popup has a black background with white text.",
                     defaultValue: "false"
                 },
                 {
                     name: "popupTrigger",
-                    description: "Specifies the trigger for the popup. Available options are: <code>hover</code>, <code>click</code>, <code>outsideClick</code>, <code>focus</code> & <code>manual</code>.",
+                    type: "PopupTrigger",
+                    description: "Specifies the trigger for the popup. Options are: <code>hover</code>, <code>click</code>, <code>outsideClick</code>, <code>focus</code> & <code>manual</code>.",
                     defaultValue: "hover"
                 },
                 {
+                    name: "popupDelay",
+                    type: "number",
+                    description: "Sets the time delay in milliseconds before the popup opens after triggered.",
+                    defaultValue: "0"
+                },
+                {
                     name: "popupBasic",
+                    type: "boolean",
                     description: "When <code>true</code> the popup's arrow is hidden.",
                     defaultValue: "false"
                 },
                 {
                     name: "popupTransition",
+                    type: "string",
                     description: "Sets the transition to use when displaying the popup.",
                     defaultValue: "scale"
                 },
                 {
                     name: "popupTransitionDuration",
+                    type: "number",
                     description: "Sets the duration of the transition used when displaying the popup.",
                     defaultValue: "200"
-                }
+                },
+                {
+                    name: "popupConfig",
+                    type: "IPopupConfig",
+                    description: "Takes an <code>IPopupConfig</code> object that provides values for various configuration options simultaneously."
+                },
             ]
         }
     ];
@@ -118,7 +137,6 @@ export class PopupPage {
 
     public manualPopupCode = `
 import {IPopup} from "ng2-semantic-ui";
-import {ApiDefinition} from '../../components/api/api.component';
 
 @Component({})
 export class MyComponent {
@@ -128,6 +146,18 @@ export class MyComponent {
         if (this._condition) {
             popup.open();
         }
+    }
+}
+`;
+
+    public globalConfigCode = `
+import {SuiPopupConfig} from "ng2-semantic-ui";
+
+@Component({})
+export class MyComponent {
+    constructor(globalConfig:SuiPopupConfig) {
+        globalConfig.isInverted = true;
+        globalConfig.delay = 300;
     }
 }
 `;

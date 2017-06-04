@@ -2,6 +2,7 @@ import {Component, Input} from '@angular/core';
 
 export interface IApiProperty {
     name:string;
+    type:string;
     description:string;
     defaultValue?:string;
     required?:boolean;
@@ -9,6 +10,7 @@ export interface IApiProperty {
 
 export interface IApiEvent {
     name:string;
+    type:string;
     description:string;
 }
 

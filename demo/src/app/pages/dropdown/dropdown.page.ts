@@ -66,16 +66,19 @@ export class DropdownPage {
             properties: [
                 {
                     name: "isOpen",
+                    type: "boolean",
                     description: "Sets whether or not the dropdown is open.",
                     defaultValue: "false"
                 },
                 {
                     name: "isDisabled",
+                    type: "boolean",
                     description: "Sets whether or not the dropdown is disabled",
                     defaultValue: "false"
                 },
                 {
                     name: "autoClose",
+                    type: "DropdownAutoCloseType",
                     description: "Defines when the dropdown is closed. Options are: <code>itemClick</code>, <code>outsideClick</code> & <code>disabled</code>.",
                     defaultValue: "itemClick"
                 }
@@ -83,6 +86,7 @@ export class DropdownPage {
             events: [
                 {
                     name: "isOpenChange",
+                    type: "boolean",
                     description: "Fires whenever the dropdown is toggled. <code>[(isOpen)]</code> syntax is supported."
                 }
             ]
@@ -92,16 +96,19 @@ export class DropdownPage {
             properties: [
                 {
                     name: "menuAutoSelectFirst",
+                    type: "boolean",
                     description: "Sets whether or not the first item in the dropdown is highlighted.",
                     defaultValue: "false"
                 },
                 {
                     name: "menuTransition",
+                    type: "string",
                     description: "Sets the transition used when displaying the dropdown menu.",
                     defaultValue: "slide down"
                 },
                 {
                     name: "menuTransitionDuration",
+                    type: "number",
                     description: "Sets the duration for the menu transition.",
                     defaultValue: "200"
                 }

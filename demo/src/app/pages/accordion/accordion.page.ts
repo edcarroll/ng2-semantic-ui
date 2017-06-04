@@ -83,11 +83,19 @@ export class AccordionPage {
             properties: [
                 {
                     name: "closeOthers",
+                    type: "boolean",
                     description: "Limits the number of open panels to 1 when <code>true</code>.",
                     defaultValue: "true"
                 },
                 {
+                    name: "transition",
+                    type: "string",
+                    description: "Sets the transition on the content of each panel. N.B. doesn't affect the collapse animation.",
+                    defaultValue: "fade"
+                },
+                {
                     name: "transitionDuration",
+                    type: "number",
                     description: "Duration for the accordion animations.",
                     defaultValue: "350"
                 }
@@ -98,11 +106,13 @@ export class AccordionPage {
             properties: [
                 {
                     name: "isOpen",
+                    type: "boolean",
                     description: "Sets whether or not the panel is open.",
                     defaultValue: "false"
                 },
                 {
                     name: "isDisabled",
+                    type: "boolean",
                     description: "Sets whether or not the panel is disabled (locks current state).",
                     defaultValue: "false"
                 }
@@ -110,6 +120,7 @@ export class AccordionPage {
             events: [
                 {
                     name: "isOpenChange",
+                    type: "boolean",
                     description: "Fires whenever the panel is toggled. <code>[(isOpen)]</code> syntax is supported."
                 }
             ]
