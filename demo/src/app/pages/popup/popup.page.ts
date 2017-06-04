@@ -139,6 +139,18 @@ export class MyComponent {
     }
 }
 `;
+
+    public globalConfigCode = `
+import {SuiPopupConfig} from "ng2-semantic-ui";
+
+@Component({})
+export class MyComponent {
+    constructor(globalConfig:SuiPopupConfig) {
+        globalConfig.inverted = true;
+        globalConfig.delay = 300;
+    }
+}
+`;
 }
 
 @Component({
