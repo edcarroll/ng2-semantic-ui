@@ -124,10 +124,12 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     }
 
     public ngOnInit() {
-        // Transition the modal to be visible.
-        this.transitionController.animate(new Transition(this.transition, this.transitionDuration, TransitionDirection.In));
         // Use a slight delay as the `<sui-dimmer>` cancels the initial transition.
-        setTimeout(() => this.dimBackground = true);
+        setTimeout(() => {
+            // Transition the modal to be visible.
+            this.transitionController.animate(new Transition(this.transition, this.transitionDuration, TransitionDirection.In))
+            this.dimBackground = true;
+        });
     }
 
     public ngAfterViewInit() {
