@@ -94,16 +94,19 @@ export class TabsPage {
             properties: [
                 {
                     name: "suiTabHeader",
+                    type: "string",
                     description: "Specifies the ID so the content can be linked to a <code>[suiTabContent]</code>. This must be unique.",
                     required: true
                 },
                 {
                     name: "isActive",
+                    type: "boolean",
                     description: "Sets whether the tab is active. Supports being set to <code>false</code> at which time the closest available tab is activated.",
                     defaultValue: "false"
                 },
                 {
                     name: "isDisabled",
+                    type: "boolean",
                     description: "Sets whether not the tab is disabled. If the tab is active when it is disabled, the closest available tab is activated.",
                     defaultValue: "false"
                 }
@@ -111,14 +114,17 @@ export class TabsPage {
             events: [
                 {
                     name: "isActiveChange",
+                    type: "boolean",
                     description: "Fires when the tab's active status is changed. Using the <code>[(isActive)]</code> syntax is recommended so that the value is updated when the active tab changes."
                 },
                 {
                     name: "activate",
+                    type: "void",
                     description: "Fires when the tab activates."
                 },
                 {
                     name: "deactivate",
+                    type: "void",
                     description: "Fires when the tab deactivates."
                 }
             ]
@@ -128,6 +134,7 @@ export class TabsPage {
             properties: [
                 {
                     name: "suiTabContent",
+                    type: "string",
                     description: "Specifies the ID so the content can be linked to a <code>[suiTabHeader]</code>. This must be unique.",
                     required: true
                 }

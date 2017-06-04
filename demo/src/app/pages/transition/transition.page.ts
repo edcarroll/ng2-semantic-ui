@@ -24,6 +24,7 @@ export class TransitionPage {
             properties: [
                 {
                     name: "suiTransition",
+                    type: "TransitionController",
                     description: "Sets the transition controller.",
                     required: true
                 },
@@ -91,14 +92,12 @@ this.ctrl.clearQueue();
 
     public advancedExampleCode = `
 import {SuiTransition, TransitionController, Transition} from "ng2-semantic-ui";
-import {ApiDefinition} from '../../components/api/api.component';
-import {ApiDefinition} from 'app/components/api/api.component';
 
 @Component({})
 export class MyComponent extends SuiTransition {
     private _transitionController:TransitionController;
 
-    constructor(renderer:Renderer, element:ElementRef, changeDetector:ChangeDetectorRef) {
+    constructor(renderer:Renderer2, element:ElementRef, changeDetector:ChangeDetectorRef) {
         super(renderer, element, changeDetector);
 
         this._transitionController = new TransitionController(false);

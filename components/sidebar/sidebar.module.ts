@@ -3,6 +3,7 @@ import {CommonModule} from "@angular/common";
 import {SuiSidebar} from './sidebar';
 import {SuiSidebarContainer} from './sidebar-container';
 import {SuiSidebarSibling} from './sidebar-sibling';
+import {SidebarDirection, SidebarTransition} from './sidebar.service';
 
 @NgModule({
     imports: [
@@ -20,3 +21,5 @@ import {SuiSidebarSibling} from './sidebar-sibling';
     ]
 })
 export class SuiSidebarModule {}
+
+export {SidebarDirection, SidebarTransition};

@@ -97,52 +97,63 @@ export class SelectPage {
             properties: [
                 {
                     name: "placeholder",
+                    type: "string",
                     description: "Sets the placeholder string on the search box.",
                     defaultValue: "Select one"
                 },
                 {
                     name: "options",
+                    type: "T[] | LookupFn<T>",
                     description: "Sets the options available to the select component. Can either be an array or a function that takes a query and returns a Promise for remote lookup."
                 },
                 {
                     name: "labelField",
+                    type: "string",
                     description: "Sets the property name that is used as a label for each option. Supports dot notation for nested properties."
                 },
                 {
                     name: "valueField",
+                    type: "string",
                     description: "Sets the property name that is used to bind to ngModel. Leaving this blank uses the entire object. Supports dot notation for nested properties."
                 },
                 {
                     name: "isDisabled",
+                    type: "boolean",
                     description: "Sets whether or not the select is disabled",
                     defaultValue: "false"
                 },
                 {
                     name: "isSearchable",
+                    type: "boolean",
                     description: "Sets whether the select is searchable. If set to <code>true</code> the <code>options</code> property must be used.",
                     defaultValue: "false"
                 },
                 {
                     name: "optionTemplate",
+                    type: "TemplateRef",
                     description: "Sets the template to use when displaying options."
                 },
                 {
                     name: "noResultsMessage",
+                    type: "string",
                     description: "Sets the message displayed when there are no available options",
                     defaultValue: "No results"
                 },
                 {
                     name: "ngModel",
+                    type: "T",
                     description: "Bind the selected item to the value of the provided variable."
                 }
             ],
             events: [
                 {
                     name: "selectedOptionChange",
+                    type: "T",
                     description: "Fires whenever the selected item is changed. The selected item is passed as <code>$event</code>."
                 },
                 {
                     name: "ngModelChange",
+                    type: "T",
                     description: "Fires whenever the selected item is changed. <code>[(ngModel)]</code> syntax is supported."
                 }
             ]
@@ -152,57 +163,69 @@ export class SelectPage {
             properties: [
                 {
                     name: "placeholder",
+                    type: "string",
                     description: "Sets the placeholder string on the search box.",
                     defaultValue: "Select..."
                 },
                 {
                     name: "options",
+                    type: "T[] | LookupFn<T>",
                     description: "Sets the options available to the multi select component. Can either be an array or a function that takes a query and returns a Promise for remote lookup.",
                     required: true
                 },
                 {
                     name: "labelField",
+                    type: "string",
                     description: "Sets the property name that is used as a label for each option. Supports dot notation for nested properties."
                 },
                 {
                     name: "valueField",
+                    type: "string",
                     description: "Sets the property name that is used to bind to ngModel. Leaving this blank uses the entire object. Supports dot notation for nested properties."
                 },
                 {
                     name: "isDisabled",
+                    type: "boolean",
                     description: "Sets whether or not the multi select is disabled",
                     defaultValue: "false"
                 },
                 {
                     name: "isSearchable",
+                    type: "boolean",
                     description: "Sets whether the multi select is searchable. If set to <code>true</code> the <code>options</code> property must be used.",
                     defaultValue: "false"
                 },
                 {
                     name: "maxSelected",
+                    type: "number",
                     description: "Sets the maximum number of values that can be selected at any one time."
                 },
                 {
                     name: "optionTemplate",
+                    type: "TemplateRef",
                     description: "Sets the template to use when displaying options."
                 },
                 {
                     name: "noResultsMessage",
+                    type: "string",
                     description: "Sets the message displayed when there are no available options",
                     defaultValue: "No results"
                 },
                 {
                     name: "ngModel",
+                    type: "T[]",
                     description: "Bind the selected items to the value of the provided variable."
                 }
             ],
             events: [
                 {
                     name: "selectedOptionsChange",
+                    type: "T[]",
                     description: "Fires whenever the selected items are changed. The selected items are passed as <code>$event</code>."
                 },
                 {
                     name: "ngModelChange",
+                    type: "T[]",
                     description: "Fires whenever the selected items are changed. <code>[(ngModel)]</code> syntax is supported."
                 }
             ]
@@ -212,6 +235,7 @@ export class SelectPage {
             properties: [
                 {
                     name: "value",
+                    type: "T",
                     description: "Sets the value of the option.",
                     required: true
                 }

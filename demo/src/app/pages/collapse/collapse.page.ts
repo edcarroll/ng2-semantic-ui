@@ -30,11 +30,13 @@ export class CollapsePage {
             properties: [
                 {
                     name: "suiCollapse",
+                    type: "boolean",
                     description: "Sets whether or not the element is collapsed.",
                     required: true
                 },
                 {
                     name: "collapseDuration",
+                    type: "number",
                     description: "Sets the duration of the collapse animation.",
                     defaultValue: "350"
                 }

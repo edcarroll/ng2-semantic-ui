@@ -57,16 +57,19 @@ export class SidebarPage {
             properties: [
                 {
                     name: "isVisible",
+                    type: "boolean",
                     description: "Sets whether or not the sidebar is displayed.",
                     defaultValue: "false"
                 },
                 {
                     name: "direction",
+                    type: "SidebarDirection",
                     description: "Sets the direction of the sidebar relative to the <code>sui-sidebar-sibling</code> contents.",
                     defaultValue: "left"
                 },
                 {
                     name: "transition",
+                    type: "SidebarTransition",
                     description: "Sets the transition used when displaying the sidebar. Options are <code>overlay</code>, <code>uncover</code>, <code>scale down</code>, <code>push</code>, <code>slide along</code> & <code>slide out</code>.",
                     defaultValue: "uncover"
                 }
@@ -74,6 +77,7 @@ export class SidebarPage {
             events: [
                 {
                     name: "isVisibleChange",
+                    type: "boolean",
                     description: "Fires when the sidebar's visible state is changed. Supports <code>[(isVisible)]</code> syntax."
                 }
             ]
@@ -83,6 +87,7 @@ export class SidebarPage {
             properties: [
                 {
                     name: "isDimmedWhenVisible",
+                    type: "boolean",
                     description: "Sets whether the page content beside the sidebar is dimmed when the sidebar is visible.",
                     defaultValue: "false"
                 }
