@@ -13,15 +13,16 @@ import {CollapsePageComponents} from './collapse/collapse.page';
 import {DimmerPageComponents} from './dimmer/dimmer.page';
 import {DropdownPageComponents} from './dropdown/dropdown.page';
 import {MessagePageComponents} from './message/message.page';
+import {ModalPageComponents} from './modal/modal.page';
+import {PopupPageComponents} from './popup/popup.page';
 import {ProgressPageComponents} from './progress/progress.page';
 import {RatingPageComponents} from './rating/rating.page';
 import {SearchPageComponents} from './search/search.page';
 import {SelectPageComponents} from './select/select.page';
+import {SidebarPageComponents} from './sidebar/sidebar.page';
 import {TabsPageComponents} from './tabs/tabs.page';
 import {TransitionPageComponents} from './transition/transition.page';
 import {RouterModule} from '@angular/router';
-import {PopupPageComponents} from './popup/popup.page';
-import {SidebarPageComponents} from './sidebar/sidebar.page';
 
 @NgModule({
     imports: [
@@ -41,6 +42,7 @@ import {SidebarPageComponents} from './sidebar/sidebar.page';
         DimmerPageComponents,
         DropdownPageComponents,
         MessagePageComponents,
+        ModalPageComponents,
         PopupPageComponents,
         ProgressPageComponents,
         RatingPageComponents,

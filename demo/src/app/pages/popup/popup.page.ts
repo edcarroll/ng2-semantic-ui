@@ -53,7 +53,7 @@ export class PopupPage {
                 },
                 {
                     name: "popupPlacement",
-                    description: "Sets the placement of the popup relative to the anchor.",
+                    description: "Sets the placement of the popup relative to the anchor. Available options are in the enum <code>PopupPlacement</code>.",
                     defaultValue: "top left"
                 },
                 {
@@ -63,7 +63,7 @@ export class PopupPage {
                 },
                 {
                     name: "popupTrigger",
-                    description: "Specifies the trigger for the popup. Available options are: <code>hover</code>, <code>click</code>, <code>outsideClick</code>, <code>focus</code> & <code>manual</code>.",
+                    description: "Specifies the trigger for the popup. Available options are in the enum <code>PopupTrigger</code>: <code>hover</code>, <code>click</code>, <code>outsideClick</code>, <code>focus</code> & <code>manual</code>.",
                     defaultValue: "hover"
                 },
                 {

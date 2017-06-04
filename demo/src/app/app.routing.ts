@@ -17,6 +17,7 @@ import {TestPage} from "./pages/test/test.page";
 import {SelectPage} from "./pages/select/select.page";
 import {TransitionPage} from "./pages/transition/transition.page";
 import {SidebarPage} from './pages/sidebar/sidebar.page';
+import {ModalPage} from './pages/modal/modal.page';
 
 const appRoutes: Routes = [
     {
@@ -46,6 +47,10 @@ const appRoutes: Routes = [
     {
         path: 'components/message',
         component: MessagePage
+    },
+    {
+        path: 'components/modal',
+        component: ModalPage
     },
     {
         path: 'components/popup',

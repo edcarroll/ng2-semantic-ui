@@ -48,15 +48,15 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     }
 
     // Fires when the modal closes, after `approve` has been called.
-    @Output('approve')
+    @Output('approved')
     public onApprove:EventEmitter<T>;
 
     // Fires when the modal closes, after `deny` has been called.
-    @Output('deny')
+    @Output('denied')
     public onDeny:EventEmitter<U>;
 
     // Fires when the modal closes.
-    @Output("dismiss")
+    @Output('dismissed')
     public onDismiss:EventEmitter<void>;
 
     @ViewChild('modal')
