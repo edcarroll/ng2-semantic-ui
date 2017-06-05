@@ -113,6 +113,10 @@ export class PositioningService {
     }
 
     public get actualPlacement() {
+        if (!this._popperState) {
+            return PositioningPlacement.Inherit;
+        }
+        
         return popperToPlacement(this._popperState.placement);
     }
 

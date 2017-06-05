@@ -210,9 +210,12 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     private updateScroll() {
         const fontSize = parseFloat(window.getComputedStyle(document.documentElement, null).getPropertyValue('font-size'));
         const margin = fontSize * 3.5;
-        const element = this._modalElement.nativeElement as Element;
-        
-        this._mustScroll = !this._mustAlwaysScroll && window.innerHeight < element.clientHeight + margin * 2;
+
+        if (this._modalElement) {
+            const element = this._modalElement.nativeElement as Element;
+
+            this._mustScroll = !this._mustAlwaysScroll && window.innerHeight < element.clientHeight + margin * 2;
+        }
     }
 
     @HostListener("document:keyup", ["$event"])
