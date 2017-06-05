@@ -57,6 +57,43 @@ function placementToPopper(placement:PositioningPlacement):PopperPlacement {
     return chosenPlacement.join("-") as PopperPlacement;
 }
 
+function popperToPlacement(popper:string):PositioningPlacement {
+    if (!popper || popper == "inherit") {
+        return "inherit";
+    }
+
+    const [direction, alignment] = popper.split("-");
+
+    let chosenPlacement = [direction];
+
+    switch (direction) {
+        case "top":
+        case "bottom":
+            switch (alignment) {
+                case "start":
+                    chosenPlacement.push("left");
+                    break;
+                case "end":
+                    chosenPlacement.push("right");
+                    break;
+            }
+            break;
+        case "left":
+        case "right":
+            switch (alignment) {
+                case "start":
+                    chosenPlacement.push("top");
+                    break;
+                case "end":
+                    chosenPlacement.push("bottom");
+                    break;
+            }
+            break;
+    }
+
+    return chosenPlacement.join(" ") as PositioningPlacement;
+}
+
 export class PositioningService {
     public readonly anchor:ElementRef;
     public readonly subject:ElementRef;
@@ -65,7 +102,7 @@ export class PositioningService {
     private _popperState:Popper.Data;
     private _placement:PositioningPlacement;
 
-    public get placement():PositioningPlacement {
+    public get placement() {
         return this._placement;
     }
 
@@ -73,6 +110,10 @@ export class PositioningService {
         this._placement = placement;
         this._popper.options.placement = placementToPopper(placement);
         this.update();
+    }
+
+    public get actualPlacement() {
+        return popperToPlacement(this._popperState.placement);
     }
 
     public get state() {
