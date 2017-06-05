@@ -68,6 +68,9 @@
     "rollup-plugin-uglify": "~1.0.1",
     "ts-node": "~2.0.0",
     "tslint": "~4.3.1",
-    "typescript": "^2.1.6"
+    "typescript": "^2.3.0"
+  },
+  "peerDependencies": {
+    "typescript": "^2.3.0"
   }
 }
