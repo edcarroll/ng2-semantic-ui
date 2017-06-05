@@ -104,6 +104,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
 
     public set mustScroll(mustScroll:boolean) {
         this._mustScroll = mustScroll;
+        // 'Cache' value in _mustAlwaysScroll so that if `true`, _mustScroll isn't ever auto-updated.
         this._mustAlwaysScroll = mustScroll;
         this.updateScroll();
     }
@@ -207,14 +208,18 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
         }
     }
 
+    // Decides whether the modal needs to reposition to allow scrolling.
     private updateScroll() {
+        // Semantic UI modal margin is 3.5rem, which is relative to the global font size, so for compatibility:
         const fontSize = parseFloat(window.getComputedStyle(document.documentElement, null).getPropertyValue('font-size'));
         const margin = fontSize * 3.5;
 
-        if (this._modalElement) {
+        // _mustAlwaysScroll works by stopping _mustScroll from being automatically updated, so it stays `true`.
+        if (!this._mustAlwaysScroll && this._modalElement) {
             const element = this._modalElement.nativeElement as Element;
 
-            this._mustScroll = !this._mustAlwaysScroll && window.innerHeight < element.clientHeight + margin * 2;
+            // The modal must scroll if the window height is smaller than the modal height + both margins.
+            this._mustScroll = window.innerHeight < element.clientHeight + margin * 2;
         }
     }
 

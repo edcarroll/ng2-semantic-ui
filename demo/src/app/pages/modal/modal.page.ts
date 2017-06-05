@@ -242,6 +242,7 @@ export class ConfirmModal extends ComponentModalConfig<IConfirmModalContext, voi
     constructor(title:string, question:string) {
         super(ConfirmModalComponent, { title, question });
 
+        this.mustScroll = true;
         this.isClosable = false;
         this.transitionDuration = 200;
         this.size = ModalSize.Small;
