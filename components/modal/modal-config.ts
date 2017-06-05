@@ -27,6 +27,9 @@ export class ModalConfig<T, U = null, V = null> {
     // Whether or not the modal has basic styles applied.
     public isBasic:boolean;
 
+    // Whether or not the modal should always display a scrollbar.
+    public mustScroll:boolean;
+
     // Transition to display modal with.
     public transition:string;
     // Duration of the modal & dimmer transitions.
@@ -40,6 +43,8 @@ export class ModalConfig<T, U = null, V = null> {
         this.size = ModalSize.Normal;
         this.isFullScreen = false;
         this.isBasic = false;
+
+        this.mustScroll = false;
 
         this.transition = "scale";
         this.transitionDuration = 500;

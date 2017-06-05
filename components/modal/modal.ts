@@ -16,6 +16,7 @@ import {ModalConfig, ModalSize} from './modal-config';
      [class.active]="transitionController?.isVisible"
      [class.fullscreen]="isFullScreen"
      [class.basic]="isBasic"
+     [class.scrolling]="mustScroll"
      #modal>
 
     <!-- Configurable close icon -->
@@ -25,7 +26,15 @@ import {ModalConfig, ModalSize} from './modal-config';
     <!-- @ViewChild reference so we can insert elements beside this div. -->
     <div #templateSibling></div>
 </div>
-`
+`,
+    styles: [`
+.scrolling {
+    position: absolute !important;
+    margin-top: 3.5rem !important;
+    margin-bottom: 3.5rem !important;
+    top: 0;
+}
+`]
 })
 export class SuiModal<T, U> implements OnInit, AfterViewInit {
     @Input()
@@ -83,6 +92,22 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     @Input()
     public isBasic:boolean;
 
+    // Whether the modal currently is displaying a scrollbar.
+    private _mustScroll:boolean;
+    // Whether or not the modal should always display a scrollbar.
+    private _mustAlwaysScroll:boolean;
+
+    @Input()
+    public get mustScroll() {
+        return this._mustScroll;
+    }
+
+    public set mustScroll(mustScroll:boolean) {
+        this._mustScroll = mustScroll;
+        this._mustAlwaysScroll = mustScroll;
+        this.updateScroll();
+    }
+
     public transitionController:TransitionController;
 
     // Transition to display modal with.
@@ -135,7 +160,10 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     public ngAfterViewInit() {
         // Update margin offset to center modal correctly on-screen.
         const element = this._modalElement.nativeElement as Element;
-        this._renderer.setStyle(element, "margin-top", `-${element.clientHeight / 2}px`);
+        setTimeout(() => {
+            this._renderer.setStyle(element, "margin-top", `-${element.clientHeight / 2}px`);
+            this.updateScroll();
+        });
     }
 
     // Updates the modal with the specified configuration.
@@ -146,6 +174,8 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
         this.size = config.size;
         this.isFullScreen = config.isFullScreen;
         this.isBasic = config.isBasic;
+
+        this.mustScroll = config.mustScroll;
 
         this.transition = config.transition;
         this.transitionDuration = config.transitionDuration;
@@ -177,11 +207,24 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
         }
     }
 
+    private updateScroll() {
+        const fontSize = parseFloat(window.getComputedStyle(document.documentElement, null).getPropertyValue('font-size'));
+        const margin = fontSize * 3.5;
+        const element = this._modalElement.nativeElement as Element;
+        
+        this._mustScroll = !this._mustAlwaysScroll && window.innerHeight < element.clientHeight + margin * 2;
+    }
+
     @HostListener("document:keyup", ["$event"])
-    public onKeyup(e:KeyboardEvent) {
+    public onDocumentKeyup(e:KeyboardEvent) {
         if (e.keyCode == KeyCode.Escape) {
             // Close automatically covers case of `!isClosable`, so check not needed.
             this.close();
         }
+    }
+
+    @HostListener("window:resize")
+    public onDocumentResize() {
+        this.updateScroll();
     }
 }

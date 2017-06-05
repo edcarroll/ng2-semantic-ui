@@ -79,6 +79,12 @@ export class ModalPage {
                     defaultValue: "true"
                 },
                 {
+                    name: "mustScroll",
+                    type: "boolean",
+                    description: "Whether or not the modal should always display a scrollbar.",
+                    defaultValue: "false"
+                },
+                {
                     name: "transition",
                     type: "string",
                     description: "Sets the transition used when displaying the modal.",
