@@ -11,7 +11,14 @@
             <h4 class="ui header">Local</h4>
             <p>A search can display a set of local results</p>
         </div>
-        <search-example-standard result></search-example-standard>
+        <div result>
+            <search-example-standard></search-example-standard>
+            <br>
+            <p>
+                Note: Setting the <code>[options]</code> property to a function that takes a query
+                and returns an array of results allows for custom search functions on local data.
+            </p>
+        </div>
     </demo-example>
     <demo-example [code]="exampleRemoteTemplate">
         <div info>

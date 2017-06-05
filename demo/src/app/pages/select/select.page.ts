@@ -104,7 +104,7 @@ export class SelectPage {
                 {
                     name: "options",
                     type: "T[] | LookupFn<T>",
-                    description: "Sets the options available to the select component. Can either be an array or a function that takes a query and returns a Promise for remote lookup."
+                    description: "Sets the options available to the select component. Can either be an array, or a function that takes a query and returns either a <code>Promise</code> (for remote lookups) or an array (for custom local searches)."
                 },
                 {
                     name: "labelField",

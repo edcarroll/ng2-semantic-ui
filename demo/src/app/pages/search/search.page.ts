@@ -33,7 +33,7 @@ export class SearchPage {
                 {
                     name: "options",
                     type: "T[] | LookupFn<T>",
-                    description: "Sets the options available to the search component. Can either be an array or a function that takes a query and returns a Promise for remote lookup.",
+                    description: "Sets the options available to the search component. Can either be an array, or a function that takes a query and returns either a <code>Promise</code> (for remote lookups) or an array (for custom local searches).",
                     required: true
                 },
                 {
@@ -73,8 +73,8 @@ export class SearchPage {
             ]
         }
     ];
-    public exampleStandardTemplate;
-    public exampleRemoteTemplate;
+    public exampleStandardTemplate = exampleStandardTemplate;
+    public exampleRemoteTemplate = exampleRemoteTemplate;
 }
 
 @Component({
