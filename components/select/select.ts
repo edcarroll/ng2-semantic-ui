@@ -86,12 +86,18 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements CustomValueA
             if (!this.selectedOption) {
                 if (this.valueField && this.searchService.hasItemLookup) {
                     // If the search service has a selected lookup function, make use of that to load the initial value.
-                    (this.searchService.itemLookup<U>(value) as Promise<T>)
-                        .then(r => {
-                            this.selectedOption = r;
+                    const lookupFinished = (i:T) => {
+                        this.selectedOption = i;
+                        this.drawSelectedOption();
+                    }
 
-                            this.drawSelectedOption();
-                        });
+                    const itemLookup = this.searchService.itemLookup<U>(value);
+                    if (itemLookup instanceof Promise) {
+                        itemLookup.then(r => lookupFinished(r));
+                    }
+                    else {
+                        lookupFinished(itemLookup);
+                    }
                     return;
                 }
                 else {

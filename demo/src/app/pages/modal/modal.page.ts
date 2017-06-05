@@ -12,8 +12,8 @@ const exampleTemplateModalTemplate = `
         <p>{{ context.data }}</p>
     </div>
     <div class="actions">
-        <button class="ui red button" (click)="modal.deny('denied!')">Cancel</button>
-        <button class="ui green button" (click)="modal.approve('approved!')">OK</button>
+        <button class="ui red button" (click)="modal.deny('denied')">Cancel</button>
+        <button class="ui green button" (click)="modal.approve('approved')">OK</button>
     </div>
 </ng-template>
 `;
@@ -77,6 +77,12 @@ export class ModalPage {
                     type: "boolean",
                     description: "Sets whether or not clicking the dimmer will dismiss it.",
                     defaultValue: "true"
+                },
+                {
+                    name: "mustScroll",
+                    type: "boolean",
+                    description: "Whether or not the modal should always display a scrollbar.",
+                    defaultValue: "false"
                 },
                 {
                     name: "transition",
@@ -147,7 +153,7 @@ export class MyComponent {
 public open(dynamicContent:string = "Example") {
     const config = new TemplateModalConfig<IContext, string, string>(this.modalTemplate);
 
-    config.isClosable = false;
+    config.closeResult = "closed!";
     config.context = { data: dynamicContent };
 
     this.modalService
@@ -189,8 +195,8 @@ export class ConfirmModal extends ComponentModalConfig<IConfirmModalContext, voi
     public componentOpen = `
 this.modalService
     .open(new ConfirmModal("Are you sure?", "Are you sure about accepting this?"))
-    .onApprove(() => alert("accepted!"))
-    .onDeny(() => alert("denied!"));
+    .onApprove(() => alert("User has accepted."))
+    .onDeny(() => alert("User has denied."));
 `;
 }
 
@@ -209,13 +215,13 @@ export class ModalExampleTemplate {
     public open(dynamicContent:string = "Example") {
         const config = new TemplateModalConfig<{ data:string }, string, string>(this.modalTemplate);
 
-        config.isClosable = false;
+        config.closeResult = "dismissed";
         config.context = { data: dynamicContent };
 
         this.modalService
             .open(config)
-            .onApprove(r => alert(r)) 
-            .onDeny(r => alert(r));
+            .onApprove(r => alert(`Accepted with result: '${r}'.`)) 
+            .onDeny(r => alert(`Denied with result: '${r}'.`));
     }
 }
 
@@ -252,8 +258,8 @@ export class ModalExampleComponent {
     public open() {
         this.modalService
             .open(new ConfirmModal("Are you sure?", "Are you sure about accepting this?"))
-            .onApprove(() => alert("accepted!"))
-            .onDeny(() => alert("denied!"));
+            .onApprove(() => alert("User has accepted."))
+            .onDeny(() => alert("User has denied."));
     }
 }
 

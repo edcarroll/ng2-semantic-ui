@@ -25,7 +25,7 @@ export class SuiModalService {
                 $implicit: modal.context,
                 // `let-modal="modal"`
                 modal: componentRef.instance.controls
-            });
+            })
         }
         // If the config is for a component based modal,
         else if (modal instanceof ComponentModalConfig) {
@@ -58,6 +58,10 @@ export class SuiModalService {
             // Remove the generated component's 'empty shell' from the DOM.
             contentElement.remove();
         }
+
+        // Remove the template div from the DOM. This is to fix some styling issues.
+        const templateElement = modalComponent.templateSibling.element.nativeElement as Element;
+        templateElement.remove();
 
         // Attach the new modal component to the application.
         this._applicationRef.attachView(componentRef.hostView);

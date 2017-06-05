@@ -16,7 +16,7 @@ import Popper from "popper.js";
         <div class="content">{{ config.text }}</div>
     </ng-container>
     <div #templateSibling></div>
-    <sui-popup-arrow *ngIf="!config.isBasic" [placement]="_positioningService.placement" [inverted]="config.isInverted"></sui-popup-arrow>
+    <sui-popup-arrow *ngIf="!config.isBasic" [placement]="_positioningService.actualPlacement" [inverted]="config.isInverted"></sui-popup-arrow>
 </div>
 `,
     styles: [`
@@ -83,7 +83,7 @@ export class SuiPopup implements IPopup {
     // Returns the direction (`top`, `left`, `right`, `bottom`) of the current placement.
     public get direction() {
         if (this._positioningService) {
-            return this._positioningService.placement.split(" ").shift();
+            return this._positioningService.actualPlacement.split(" ").shift();
         }
     }
 

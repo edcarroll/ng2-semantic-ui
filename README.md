@@ -60,7 +60,7 @@ Now you're good to go!
 
 ## Dependencies
 
-* [Angular](https://angular.io) (^4.0.0)
+* [Angular](https://angular.io) (^4.1.0)
 * [Semantic UI CSS](http://semantic-ui.com/) (jQuery is **not** required)
 
 ## Components

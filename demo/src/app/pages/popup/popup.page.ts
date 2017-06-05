@@ -1,5 +1,6 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit, OnDestroy} from '@angular/core';
 import {ApiDefinition} from "../../components/api/api.component";
+import {SuiPopupConfig} from '../../../../../components/popup/popup.service';
 
 const exampleStandardTemplate = `
 <button class="ui green icon button" suiPopup popupHeader="Example" popupText="This is an example popup">
@@ -167,7 +168,21 @@ export class MyComponent {
     selector: 'popup-example-standard',
     template: exampleStandardTemplate
 })
-export class PopupExampleStandard {}
+export class PopupExampleStandard implements OnInit {
+    // We only need to do this once.
+    private _config:SuiPopupConfig;
+
+    constructor(public popupConfig:SuiPopupConfig) {
+        this._config = new SuiPopupConfig();
+
+        Object.assign(this._config, popupConfig);
+        Object.assign(this.popupConfig, new SuiPopupConfig());
+    }
+
+    public ngOnInit() {
+        Object.assign(this.popupConfig, this._config);
+    }
+}
 
 @Component({
     selector: 'popup-example-template',

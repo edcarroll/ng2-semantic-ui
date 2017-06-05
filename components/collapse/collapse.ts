@@ -44,9 +44,6 @@ export class SuiCollapse {
         return this._pristine ? 0 : this.collapseDuration;
     }
 
-    // Timer for window resize counter.
-    private _resizeTimeout:number;
-
     public constructor(private _element:ElementRef, private _renderer:Renderer2) {
         this._pristine = true;
 

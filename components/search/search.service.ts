@@ -1,10 +1,10 @@
 import {readValue} from '../util/util';
 
 // Define useful types to avoid any.
-export type LookupFn<T> = (query:string) => Promise<T[]> | Promise<T>;
-export type QueryLookupFn<T> = (query:string) => Promise<T[]>;
-export type ItemLookupFn<T, U> = (query:string, initial:U) => Promise<T>;
-export type ItemsLookupFn<T, U> = (query:string, initial:U[]) => Promise<T[]>;
+export type LookupFn<T> = (query:string) => (Promise<T[]> | Promise<T> | T[] | T);
+export type QueryLookupFn<T> = (query:string) => (Promise<T[]> | T[]);
+export type ItemLookupFn<T, U> = (query:string, initial:U) => (Promise<T> | T);
+export type ItemsLookupFn<T, U> = (query:string, initial:U[]) => (Promise<T[]> | T[]);
 
 type CachedArray<T> = { [query:string]:T[] };
 
@@ -131,18 +131,27 @@ export class SearchService<T> {
         if (this._optionsLookup) {
             this._isSearching = true;
 
-            this.queryLookup(this._query)
-                .then(results => {
-                    // Unset 'loading' state, and display & cache the results.
-                    this._isSearching = false;
-                    this.updateResults(results);
-                    return callback(null);
-                })
-                .catch(error => {
-                    // Unset 'loading' state, and throw the returned error without updating the results.
-                    this._isSearching = false;
-                    return callback(error);
-                });
+            const lookupFinished = (results:T[]) => {
+                this._isSearching = false;
+
+                this.updateResults(results);
+                return callback(null);
+            }
+
+            const queryLookup = this.queryLookup(this._query);
+
+            if (queryLookup instanceof Promise) {
+                queryLookup
+                    .then(results => lookupFinished(results))
+                    .catch(error => {
+                        // Unset 'loading' state, and throw the returned error without updating the results.
+                        this._isSearching = false;
+                        return callback(error);
+                    });
+            }
+            else {
+                lookupFinished(queryLookup);
+            }
             return;
         }
 
