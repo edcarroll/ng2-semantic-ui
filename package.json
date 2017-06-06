@@ -35,18 +35,18 @@
     "@angular/common": "^4.1.0",
     "@angular/core": "^4.1.0",
     "@angular/forms": "^4.1.0",
-    "@angular/http": "^4.1.0",
-    "@angular/platform-browser": "^4.1.0",
     "@types/popper.js": "^1.8.0",
-    "core-js": "^2.4.1",
     "element-closest": "^2.0.2",
     "popper.js": "^1.0.6",
     "rxjs": "^5.0.1",
-    "web-animations-js": "^2.2.5",
-    "zone.js": "^0.8.4"
+    "web-animations-js": "^2.2.5"
   },
   "devDependencies": {
+    "core-js": "^2.4.1",
+    "zone.js": "^0.8.4",
     "@angular/cli": "^1.0.0",
+    "@angular/http": "^4.1.0",
+    "@angular/platform-browser": "^4.1.0",
     "@angular/compiler": "^4.1.0",
     "@angular/compiler-cli": "^4.1.0",
     "@angular/platform-browser-dynamic": "^4.1.0",
