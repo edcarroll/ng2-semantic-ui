@@ -18,15 +18,11 @@
         <div class="header">Important Note</div>
         <p>The collapse component uses the <a href="https://w3c.github.io/web-animations/">Web Animations API.</a></p>
         <p>
-            This isn't yet supported in all browsers so if using this
-            component please use the <code>web-animations-js</code> polyfill:
+            This isn't yet supported in all browsers so if using this component please use the
+            <code>web-animations-js</code> polyfill by adding it as a script tag to your page:
         </p>
         <div class="ui segment">
-            <demo-codeblock language="bash" [src]="polyfillInstall"></demo-codeblock>
-        </div>
-        <p>Then import it in <code>polyfills.ts</code>:
-        <div class="ui segment">
-            <demo-codeblock language="bash" [src]="polyfillInclude"></demo-codeblock>
+            <demo-codeblock language="markup" [src]="polyfillInclude"></demo-codeblock>
         </div>
     </sui-message>
 

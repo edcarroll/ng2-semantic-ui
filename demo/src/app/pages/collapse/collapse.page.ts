@@ -45,8 +45,7 @@ export class CollapsePage {
     ];
     public exampleStandardTemplate = exampleStandardTemplate;
 
-    public polyfillInstall = `$ npm install web-animations-js --save`;
-    public polyfillInclude = `import 'web-animations-js';`;
+    public polyfillInclude = `<script src="https://rawgit.com/web-animations/web-animations-js/master/web-animations.min.js"></script>`;
 }
 
 @Component({
