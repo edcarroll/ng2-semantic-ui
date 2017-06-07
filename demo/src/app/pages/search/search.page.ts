@@ -4,7 +4,7 @@ import {SuiModalService} from '../../../../../components/modal/modal.service';
 import {AlertModal} from '../../modals/alert.modal';
 
 const exampleStandardTemplate = `
-<sui-search placeholder="Example Search..." [hasIcon]="hasIcon" [options]="options" [searchDelay]="0" (onItemSelected)="alertSelected($event)"></sui-search>
+<sui-search placeholder="Example Search..." [hasIcon]="hasIcon" [options]="options" [searchDelay]="0" (itemSelected)="alertSelected($event)"></sui-search>
 <div class="ui segment">
     <sui-checkbox [(ngModel)]="hasIcon">Has icon?</sui-checkbox>
 </div>
