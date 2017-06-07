@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
 import {ApiDefinition} from '../../components/api/api.component';
+import {SuiModalService} from '../../../../../components/modal/modal.service';
+import {AlertModal} from '../../modals/alert.modal';
 
 const exampleStandardTemplate = `
 <sui-tabset>
@@ -158,15 +160,17 @@ export class TabExampleStandard {}
     template: examplePropertiesTemplate
 })
 export class TabExampleProperties {
-    public alert = function() {
-        window.alert("You've chosen the alert tab!");
-    }
-
     public firstActive:boolean;
     public secondActive:boolean;
     public thirdActive:boolean;
     
     public thirdDisabled:boolean;
+
+    constructor(public modalService:SuiModalService) {}
+
+    public alert = function() {
+        this.modalService.open(new AlertModal("You've chosen the alert tab!"));
+    }
 }
 
 @Component({

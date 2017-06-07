@@ -2,28 +2,14 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {AppComponent} from './app.component';
-import {DemoRoutingModule} from './app.routing';
+
 import {SuiSidebarModule} from '../../../components/sidebar/sidebar.module';
-import {GettingStartedPage} from './pages/getting-started/getting-started.page';
-
-import {CollapsePageComponents} from './pages/collapse/collapse.page';
-import {AccordionPageComponents} from "./pages/accordion/accordion.page";
-import {CheckboxPageComponents} from "./pages/checkbox/checkbox.page";
-import {DimmerPageComponents} from "./pages/dimmer/dimmer.page";
-import {DropdownPageComponents} from "./pages/dropdown/dropdown.page";
-import {MessagePageComponents} from "./pages/message/message.page";
-import {ProgressPageComponents} from "./pages/progress/progress.page";
-import {RatingPageComponents} from "./pages/rating/rating.page";
-import {SearchPageComponents} from "./pages/search/search.page";
-import {SelectPageComponents} from "./pages/select/select.page";
-import {TabsPageComponents} from "./pages/tabs/tabs.page";
-import {TestPage} from "./pages/test/test.page";
-
-import {TransitionPageComponents} from "./pages/transition/transition.page";
+import {DemoRoutingModule} from './app.routing';
 import {DemoComponentsModule} from './components/demo-components.module';
+import {DemoModalsModule} from './modals/demo-modals.module';
 import {DemoPagesModule} from './pages/demo-pages.module';
 
+import {AppComponent} from './app.component';
 
 @NgModule({
     imports: [
@@ -34,6 +20,7 @@ import {DemoPagesModule} from './pages/demo-pages.module';
 
         DemoRoutingModule,
         DemoComponentsModule,
+        DemoModalsModule,
         DemoPagesModule
     ],
     declarations: [AppComponent],

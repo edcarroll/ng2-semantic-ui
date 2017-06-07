@@ -4,6 +4,7 @@ import {SuiModalService} from '../../../../../components/modal/modal.service';
 import {ModalTemplate} from '../../../../../components/modal/modal-template';
 import {TemplateModalConfig, ComponentModalConfig, ModalSize} from '../../../../../components/modal/modal-config';
 import {Modal} from '../../../../../components/modal/modal-controls';
+import {AlertModal} from '../../modals/alert.modal';
 
 const exampleTemplateModalTemplate = `
 <ng-template let-context let-modal="modal" #modalTemplate>
@@ -164,7 +165,7 @@ public open(dynamicContent:string = "Example") {
 `;
 
     public componentComponent = `
-import {SuiModal, ComponentModalConfig, ModalSize} from "ng2-semantic-ui";
+import {SuiModal, ComponentModalConfig, ModalSize} from "ng2-semantic-ui"
 
 interface IConfirmModalContext {
     title:string;
@@ -220,8 +221,12 @@ export class ModalExampleTemplate {
 
         this.modalService
             .open(config)
-            .onApprove(r => alert(`Accepted with result: '${r}'.`)) 
-            .onDeny(r => alert(`Denied with result: '${r}'.`));
+            .onApprove(r => this.alert(`Accepted with result: '${r}'.`)) 
+            .onDeny(r => this.alert(`Denied with result: '${r}'.`));
+    }
+
+    public alert(message:string) {
+        this.modalService.open(new AlertModal(message));
     }
 }
 
@@ -258,8 +263,12 @@ export class ModalExampleComponent {
     public open() {
         this.modalService
             .open(new ConfirmModal("Are you sure?", "Are you sure about accepting this?"))
-            .onApprove(() => alert("User has accepted."))
-            .onDeny(() => alert("User has denied."));
+            .onApprove(() => this.alert("User has accepted."))
+            .onDeny(() => this.alert("User has denied."));
+    }
+
+    public alert(message:string) {
+        this.modalService.open(new AlertModal(message));
     }
 }
 

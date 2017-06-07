@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
 import {ApiDefinition} from '../../components/api/api.component';
+import {SuiModalService} from '../../../../../components/modal/modal.service';
+import {AlertModal} from '../../modals/alert.modal';
 
 const exampleStandardTemplate = `
 <sui-search placeholder="Example Search..." [hasIcon]="hasIcon" [options]="options" [searchDelay]="0" (onItemSelected)="alertSelected($event)"></sui-search>
@@ -91,8 +93,10 @@ export class SearchExampleStandard {
         return SearchExampleStandard.standardOptions;
     }
 
+    constructor(public modalService:SuiModalService) {}
+
     public alertSelected(selectedItem:string):void {
-        alert(`You chose '${selectedItem}'!`);
+        this.modalService.open(new AlertModal(`You chose '${selectedItem}'!`));
     }
 }
 
