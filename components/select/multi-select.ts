@@ -16,7 +16,7 @@ import {customValueAccessorFactory, CustomValueAccessor, CustomValueAccessorHost
 <!-- Placeholder text -->
 <div class="default text" [class.filtered]="!!query">{{ placeholder }}</div>
 <!-- Select dropdown menu -->
-<div class="menu" suiDropdownMenu [menuAutoSelectFirst]="true">
+<div class="menu" suiDropdownMenu [menuTransition]="transition" [menuTransitionDuration]="transitionDuration" [menuAutoSelectFirst]="true">
     <ng-content></ng-content>
     <ng-container *ngIf="availableOptions.length == 0 ">
         <div *ngIf="!maxSelectedReached" class="message">{{ noResultsMessage }}</div>
