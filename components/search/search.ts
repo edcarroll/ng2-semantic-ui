@@ -9,10 +9,10 @@ import {customValueAccessorFactory, CustomValueAccessor, CustomValueAccessorHost
 @Component({
     selector: 'sui-search',
     template: `
-<div class="ui input" [class.icon]="hasIcon">
+<div class="ui input" [class.icon]="hasIcon" (click)="onClick($event)">
     <input class="prompt" type="text" [attr.placeholder]="placeholder" autocomplete="off" [(ngModel)]="query">
     <i *ngIf="hasIcon" class="search icon"></i>
-  </div>
+</div>
 <div class="results" suiDropdownMenu menuTransition="scale" menuSelectedItemClass="active">
     <a class="result item" *ngFor="let r of results" (click)="select(r)">
         <span *ngIf="!searchService.optionsLookup" [innerHTML]="searchService.highlightMatches(r)"></span>
@@ -131,9 +131,9 @@ export class SuiSearch<T> implements AfterViewInit, CustomValueAccessorHost<T> {
     public select(item:T) {
         this.writeValue(item);
         this.itemSelected.emit(item);
+        this.dropdownService.setOpenState(false);
     }
 
-    @HostListener("click", ['$event'])
     public onClick(e:MouseEvent) {
         if (this.searchService.query.length > 0) {
             // Only open on click when there is a query entered.
