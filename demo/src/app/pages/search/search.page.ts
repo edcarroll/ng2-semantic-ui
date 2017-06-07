@@ -64,7 +64,7 @@ export class SearchPage {
                     name: "transition",
                     type: "string",
                     description: "Sets the transition used when displaying the search results.",
-                    defaultValue: "slide down"
+                    defaultValue: "scale"
                 },
                 {
                     name: "transitionDuration",
