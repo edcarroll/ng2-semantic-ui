@@ -25,6 +25,8 @@ export class SuiProgress {
     private _maximum:number;
     private _precision:number;
 
+    private _overrideSuccess:boolean;
+
     @Input()
     public autoSuccess:boolean;
 
@@ -81,7 +83,7 @@ export class SuiProgress {
 
     @HostBinding('class.success')
     private get reachedMaximum() {
-        return (this.value >= this.maximum) && this.autoSuccess;
+        return this._overrideSuccess || ((this.value >= this.maximum) && this.autoSuccess);
     }
 
     @HostBinding('attr.data-percent')
@@ -98,6 +100,9 @@ export class SuiProgress {
         if (classes.includes("attached") || classes.includes("tiny")) {
             this.showProgress = false;
         }
+        if (classes.includes("success")) {
+            this._overrideSuccess = true;
+        }
     }
 
     constructor() {
@@ -105,6 +110,7 @@ export class SuiProgress {
         this.maximum = 100;
         this.precision = 0;
 
+        this._overrideSuccess = false;
         this.autoSuccess = true;
         this.showProgress = true;
 
