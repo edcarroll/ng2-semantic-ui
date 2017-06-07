@@ -31,7 +31,6 @@ export default {
         commonjs({
             include: [
                 'node_modules/element-closest/**',
-                'node_modules/web-animations-js/**',
                 'node_modules/popper.js/**'
             ]
         }),
@@ -41,10 +40,6 @@ export default {
         '@angular/common',
         '@angular/core',
         '@angular/forms',
-        '@angular/http',
-        '@angular/platform-browser',
-        'rxjs/Observable',
-        'rxjs/Observer',
         'rxjs/Subscription',
   ],
 }

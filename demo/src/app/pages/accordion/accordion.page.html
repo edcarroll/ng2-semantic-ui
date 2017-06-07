@@ -6,6 +6,16 @@
 </demo-page-title>
 <demo-page-content>
     <h2 class="ui dividing header">Examples</h2>
+
+    <sui-message class="warning" [isDismissable]="false">
+        <div class="header">Important Note</div>
+        <p>
+            The accordion depends on the Web Animations API, which requires a polyfill for full browser
+            support. Read the <a routerLink="/components/collapse">collapse docs</a> for guidance.
+        </p>
+    </sui-message>
+    <br>
+
     <demo-example [code]="exampleStandardTemplate">
         <div info>
             <h4 class="ui header">Accordion</h4>
@@ -23,7 +33,10 @@
     <demo-example [code]="exampleManualTemplate">
         <div info>
             <h4 class="ui header">Manual</h4>
-            <p>By using <code>isDisabled</code> and <code>isOpen</code> you can change the element controlling the accordion. Click the arrow to open the panel.</p>
+            <p>
+                By using <code>isDisabled</code> and <code>isOpen</code> you can change
+                the element controlling the accordion. Click the arrow to open the panel.
+            </p>
         </div>
         <accordion-example-manual result></accordion-example-manual>
     </demo-example>
