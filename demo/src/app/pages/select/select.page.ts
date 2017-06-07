@@ -143,6 +143,18 @@ export class SelectPage {
                     name: "ngModel",
                     type: "T",
                     description: "Bind the selected item to the value of the provided variable."
+                },
+                {
+                    name: "transition",
+                    type: "string",
+                    description: "Sets the transition used when displaying the available options.",
+                    defaultValue: "slide down"
+                },
+                {
+                    name: "transitionDuration",
+                    type: "number",
+                    description: "Sets the duration for the available options transition.",
+                    defaultValue: "200"
                 }
             ],
             events: [
@@ -215,6 +227,18 @@ export class SelectPage {
                     name: "ngModel",
                     type: "T[]",
                     description: "Bind the selected items to the value of the provided variable."
+                },
+                {
+                    name: "transition",
+                    type: "string",
+                    description: "Sets the transition used when displaying the available options.",
+                    defaultValue: "slide down"
+                },
+                {
+                    name: "transitionDuration",
+                    type: "number",
+                    description: "Sets the duration for the available options transition.",
+                    defaultValue: "200"
                 }
             ],
             events: [
