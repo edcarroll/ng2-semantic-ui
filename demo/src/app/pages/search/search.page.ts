@@ -50,6 +50,12 @@ export class SearchPage {
                     defaultValue: "200"
                 },
                 {
+                    name: "maxResults",
+                    type: "number",
+                    description: "Sets the maximum number of results the search displays at once.",
+                    defaultValue: "7"
+                },
+                {
                     name: "hasIcon",
                     type: "boolean",
                     description: "Sets whether or not the search displays an icon. Loading state is automatically applied when searching.",

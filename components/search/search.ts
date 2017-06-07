@@ -99,8 +99,11 @@ export class SuiSearch<T> implements AfterViewInit, CustomValueAccessorHost<T> {
         return this.searchService.isSearching;
     }
 
+    @Input()
+    public maxResults:number;
+
     public get results() {
-        return this.searchService.results;
+        return this.searchService.results.slice(0, this.maxResults);
     }
 
     // Stores the currently selected item.
@@ -123,8 +126,8 @@ export class SuiSearch<T> implements AfterViewInit, CustomValueAccessorHost<T> {
         this._searchClasses = true;
         this.hasIcon = true;
         this.placeholder = "Search...";
-
         this.searchDelay = 200;
+        this.maxResults = 7;
 
         this.itemSelected = new EventEmitter<T>();
 
