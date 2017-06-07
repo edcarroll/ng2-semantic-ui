@@ -59,6 +59,18 @@ export class SearchPage {
                     name: "ngModel",
                     type: "T",
                     description: "Bind the search selected item to the value of the provided variable."
+                },
+                {
+                    name: "transition",
+                    type: "string",
+                    description: "Sets the transition used when displaying the search results.",
+                    defaultValue: "slide down"
+                },
+                {
+                    name: "transitionDuration",
+                    type: "number",
+                    description: "Sets the duration for the search results transition.",
+                    defaultValue: "200"
                 }
             ],
             events: [

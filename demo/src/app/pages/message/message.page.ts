@@ -41,7 +41,7 @@ export class MessagePage {
                     name: "transition",
                     type: "string",
                     description: "Sets the transition used when dismissing the message.",
-                    defaultValue: "slide down"
+                    defaultValue: "fade"
                 },
                 {
                     name: "transitionDuration",
