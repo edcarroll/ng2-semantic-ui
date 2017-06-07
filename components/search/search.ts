@@ -13,7 +13,7 @@ import {customValueAccessorFactory, CustomValueAccessor, CustomValueAccessorHost
     <input class="prompt" type="text" [attr.placeholder]="placeholder" autocomplete="off" [(ngModel)]="query">
     <i *ngIf="hasIcon" class="search icon"></i>
 </div>
-<div class="results" suiDropdownMenu menuTransition="scale" menuSelectedItemClass="active">
+<div class="results" suiDropdownMenu [menuTransition]="transition" [menuTransitionDuration]="transitionDuration" menuSelectedItemClass="active">
     <a class="result item" *ngFor="let r of results" (click)="select(r)">
         <span *ngIf="!searchService.optionsLookup" [innerHTML]="searchService.highlightMatches(r)"></span>
         <span *ngIf="searchService.optionsLookup">{{ readValue(r) }}</span>
@@ -110,6 +110,12 @@ export class SuiSearch<T> implements AfterViewInit, CustomValueAccessorHost<T> {
     @Output()
     public itemSelected:EventEmitter<T>;
 
+    @Input()
+    public transition:string;
+
+    @Input()
+    public transitionDuration:number;
+
     constructor(private _element:ElementRef) {
         this.dropdownService = new DropdownService();
         this.searchService = new SearchService<T>();
@@ -121,7 +127,10 @@ export class SuiSearch<T> implements AfterViewInit, CustomValueAccessorHost<T> {
         this.searchDelay = 200;
 
         this.itemSelected = new EventEmitter<T>();
-    }
+
+        this.transition = "scale";
+        this.transitionDuration = 200;
+}
 
     public ngAfterViewInit() {
         this._menu.service = this.dropdownService;
