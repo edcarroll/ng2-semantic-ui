@@ -13,6 +13,7 @@ import {Component, Input, HostBinding} from '@angular/core';
     styles: [`
 .bar {
     transition-duration: 300ms !important;
+    z-index: 1;
 }
 `]
 })
