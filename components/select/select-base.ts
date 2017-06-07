@@ -129,6 +129,12 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     @Input()
     public noResultsMessage:string;
 
+    @Input()
+    public transition:string;
+
+    @Input()
+    public transitionDuration:number;
+
     constructor(private _element:ElementRef, private _renderer:Renderer2) {
         this.dropdownService = new DropdownService();
         // We do want an empty query to return all results.
@@ -138,6 +144,9 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         this.noResultsMessage = "No results";
 
         this._renderedSubscriptions = [];
+
+        this.transition = "slide down";
+        this.transitionDuration = 200;
 
         this._selectClasses = true;
     }

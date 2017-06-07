@@ -19,7 +19,7 @@ export type SingleItemLookup<T, U> = (query:string, initial?:U) => Promise<T>;
     <span *ngIf="!optionTemplate">{{ labelGetter(selectedOption) }}</span>
 </div>
 <!-- Select dropdown menu -->
-<div class="menu" suiDropdownMenu [menuAutoSelectFirst]="isSearchable">
+<div class="menu" suiDropdownMenu [menuTransition]="transition" [menuTransitionDuration]="transitionDuration" [menuAutoSelectFirst]="isSearchable">
     <ng-content></ng-content>
     <div *ngIf="isSearchable && availableOptions.length == 0" class="message">{{ noResultsMessage }}</div>
 </div>
