@@ -7,30 +7,6 @@
 <demo-page-content>
     <h2 class="ui dividing header">Examples</h2>
     <div class="ui segment">
-        <ng-template let-context let-modal="modal" #modalTemplate>
-            <div class="header">Example</div>
-            <div class="content">
-                <p>Hey there!</p>
-                <br><br><br><br><br><br><br><br><br>
-                <p>Hellloooo</p>
-            </div>
-            <div class="actions">
-                <button class="ui red button" (click)="modal.deny('deny')">Cancel</button>
-                <button class="ui green button" (click)="modal.approve('approve')">OK</button>
-            </div>
-        </ng-template>
-
-        <!--<sui-modal [transitionDuration]="200" (dismiss)="alert($event)" #modal>
-            <div class="header">Example</div>
-            <div class="content">
-                <p>Hey there!</p>
-                <br><br><br><br><br><br><br><br><br>
-                <p>Hellloooo</p>
-            </div>
-            <div class="actions">
-                <button class="ui red button" (click)="modal.deny()">Cancel</button>
-                <button class="ui green button" (click)="modal.approve('done')">OK</button>
-            </div>
-        </sui-modal>-->
+        <sui-message-container #messages></sui-message-container>
     </div>
 </demo-page-content>

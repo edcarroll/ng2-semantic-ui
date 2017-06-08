@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {SuiMessage, IMessage} from './message';
 import {SuiTransitionModule} from "../transition/transition.module";
+import {SuiMessageContainer} from './message-container';
 
 @NgModule({
     imports: [
@@ -9,10 +10,15 @@ import {SuiTransitionModule} from "../transition/transition.module";
         SuiTransitionModule
     ],
     declarations: [
-        SuiMessage
+        SuiMessage,
+        SuiMessageContainer
     ],
     exports: [
-        SuiMessage
+        SuiMessage,
+        SuiMessageContainer
+    ],
+    entryComponents: [
+        SuiMessageContainer
     ]
 })
 export class SuiMessageModule {}

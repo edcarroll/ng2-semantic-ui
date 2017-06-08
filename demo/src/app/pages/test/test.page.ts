@@ -1,8 +1,7 @@
 import {Component, AfterViewInit, ViewChild, TemplateRef} from '@angular/core';
 import {SuiModalService} from '../../../../../components/modal/modal.service';
-import {ModalConfig, ComponentModalConfig, TemplateModalConfig, ModalSize} from '../../../../../components/modal/modal-config';
-import {Modal} from '../../../../../components/modal/modal-controls';
-import {ModalTemplate} from '../../../../../components/modal/modal-template';
+import {SuiMessageContainer} from '../../../../../components/message/message-container';
+import {MessageConfig, MessageState} from '../../../../../components/message/message-config';
 
 @Component({
     selector: 'demo-page-test',
@@ -10,26 +9,15 @@ import {ModalTemplate} from '../../../../../components/modal/modal-template';
 })
 export class TestPage implements AfterViewInit {
 
-    @ViewChild('modalTemplate')
-    public modalTemplate:ModalTemplate<null, string, string>
+    @ViewChild('messages')
+    public messages:SuiMessageContainer
 
-    constructor(public modalService:SuiModalService) {}
+    constructor() {}
 
     public ngAfterViewInit() {
-        // const modal = new TemplateModalInstance<null, string, string>(this.modalTemplate, null, true);
-        // const modal = new AcceptRejectModal("Are you sure?", "Are you sure you want to do this?");
+        const message = new MessageConfig(null, MessageState.Default, "Hello, world!");
 
-        // modal.closeResult = "default!";
-
-        // let activeModal = this.modalService
-        //     .open(modal)
-        //     .onApprove(str => alert(str))
-        //     .onDeny(str => alert(str));
-
-        // setTimeout(() => activeModal.destroy(), 2000);
-    }
-
-    public alert(str:string) {
-        alert(str);
+        this.messages.show(message);
+        this.messages.show(message);
     }
 }
