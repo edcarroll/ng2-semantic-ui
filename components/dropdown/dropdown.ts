@@ -4,7 +4,7 @@ import {TransitionController} from '../transition/transition-controller';
 import {DropdownService, DropdownAutoCloseType} from './dropdown.service';
 import {SuiDropdownMenu} from './dropdown-menu';
 import {PositioningService, PositioningPlacement} from '../util/positioning.service';
-import {KeyCode, HandledMouseEvent, HandledKeyboardEvent} from '../util/util';
+import {KeyCode, HandledEvent} from '../util/util';
 
 @Directive({
     selector: '[suiDropdown]'
@@ -91,7 +91,7 @@ export class SuiDropdown implements AfterContentInit {
     }
 
     @HostListener("click", ['$event'])
-    public onClick(e:HandledMouseEvent) {
+    public onClick(e:HandledEvent & MouseEvent) {
         if (!e.eventHandled) {
             e.eventHandled = true;
 
@@ -100,7 +100,7 @@ export class SuiDropdown implements AfterContentInit {
     }
 
     @HostListener("keypress", ['$event'])
-    public onKeypress(e:HandledKeyboardEvent) {
+    public onKeypress(e:HandledEvent & KeyboardEvent) {
         // Block the keyboard event from being fired on parent dropdowns.
         if (!e.eventHandled) {
 
