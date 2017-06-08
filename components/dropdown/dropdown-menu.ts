@@ -2,7 +2,7 @@ import {Directive, HostBinding, ContentChild, forwardRef, Renderer2, ElementRef,
 import {SuiTransition, Transition} from '../transition/transition';
 import {DropdownService, DropdownAutoCloseType} from './dropdown.service';
 import {TransitionController} from '../transition/transition-controller';
-import {KeyCode, AugmentedElement, HandledMouseEvent} from '../util/util';
+import {KeyCode, AugmentedElement, HandledEvent} from '../util/util';
 // Polyfill for IE
 import "element-closest";
 
@@ -136,7 +136,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
     }
 
     @HostListener("click", ["$event"])
-    public onClick(e:HandledMouseEvent) {
+    public onClick(e:HandledEvent & MouseEvent) {
         if (!e.eventHandled) {
             e.eventHandled = true;
 

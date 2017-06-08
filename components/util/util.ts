@@ -44,11 +44,7 @@ export interface AugmentedElement extends Element {
     closest(selector:string):AugmentedElement;
 }
 
-export class HandledMouseEvent extends MouseEvent {
-    public eventHandled:boolean;
-}
-
-export class HandledKeyboardEvent extends KeyboardEvent {
+export class HandledEvent {
     public eventHandled:boolean;
 }
 

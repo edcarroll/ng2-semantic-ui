@@ -1,7 +1,7 @@
 import {Component, ViewChild, HostBinding, ElementRef, HostListener, Input, ContentChildren, QueryList, ViewChildren, AfterContentInit, EventEmitter, Output, Renderer2, TemplateRef, ViewContainerRef} from '@angular/core';
 import {DropdownService, DropdownAutoCloseType} from '../dropdown/dropdown.service';
 import {SearchService, LookupFn} from '../search/search.service';
-import {readValue, KeyCode, HandledMouseEvent, AugmentedElement, TemplateRefContext} from '../util/util';
+import {readValue, KeyCode, HandledEvent, AugmentedElement, TemplateRefContext} from '../util/util';
 import {PositioningService, PositioningPlacement} from '../util/positioning.service';
 import {SuiDropdownMenu, SuiDropdownMenuItem} from '../dropdown/dropdown-menu';
 import {SuiSelectOption, ISelectRenderedOption} from './select-option';
@@ -183,7 +183,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     }
 
     @HostListener("click", ['$event'])
-    public onClick(e:HandledMouseEvent) {
+    public onClick(e:HandledEvent & MouseEvent) {
         if (!e.eventHandled) {
             e.eventHandled = true;
 
