@@ -22,6 +22,12 @@
 
 Semantic UI Angular Integrations, written in pure Angular - **no JQuery required**.
 
+## Introduction
+
+Angular and jQuery don't go together - this is the fundamental principal of this library. It provides Angular component versions of the Semantic UI modules, so that you don't need to add jQuery to your app.
+
+
+
 ## Installation & Usage
 
 See the [Documentation](https://edcarroll.github.io/ng2-semantic-ui) for installation instructions and extensive examples.
