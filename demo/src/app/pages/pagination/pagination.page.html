@@ -1,0 +1,26 @@
+<demo-page-title>
+    <div header>Pagination</div>
+    <div sub-header>
+        <p>A pagination component</p>
+    </div>
+</demo-page-title>
+<demo-page-content>
+    blahhhh
+    <h2 class="ui dividing header">Examples</h2>
+    <demo-example [code]="exampleStandardTemplate">
+        <div info>
+            <h4 class="ui header">Standard</h4>
+            <p>A standard pagination</p>
+        </div>
+        <pagination-example-standard result></pagination-example-standard>
+    </demo-example>
+    <demo-example [code]="exampleMaxSizeTemplate">
+        <div info>
+            <h4 class="ui header">Standard</h4>
+            <p>A pagination with maxSize set</p>
+        </div>
+        <pagination-example-maxsize result></pagination-example-maxsize>
+    </demo-example>
+    <h2 id="api" class="ui dividing header">API</h2>
+    <demo-api [api]="api"></demo-api>
+</demo-page-content>

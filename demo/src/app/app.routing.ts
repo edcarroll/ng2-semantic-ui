@@ -18,6 +18,7 @@ import {SelectPage} from "./pages/select/select.page";
 import {TransitionPage} from "./pages/transition/transition.page";
 import {SidebarPage} from './pages/sidebar/sidebar.page';
 import {ModalPage} from './pages/modal/modal.page';
+import {PaginationPage} from './pages/pagination/pagination.page';
 
 const appRoutes: Routes = [
     {
@@ -51,6 +52,10 @@ const appRoutes: Routes = [
     {
         path: 'components/modal',
         component: ModalPage
+    },
+    {
+        path: 'components/pagination',
+        component: PaginationPage
     },
     {
         path: 'components/popup',

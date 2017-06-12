@@ -22,6 +22,7 @@ import {SelectPageComponents} from './select/select.page';
 import {SidebarPageComponents} from './sidebar/sidebar.page';
 import {TabsPageComponents} from './tabs/tabs.page';
 import {TransitionPageComponents} from './transition/transition.page';
+import {PaginationPageComponents} from './pagination/pagination.page';
 import {RouterModule} from '@angular/router';
 
 @NgModule({
@@ -50,7 +51,8 @@ import {RouterModule} from '@angular/router';
         SelectPageComponents,
         SidebarPageComponents,
         TabsPageComponents,
-        TransitionPageComponents
+        TransitionPageComponents,
+        PaginationPageComponents
     ],
     exports: [],
     entryComponents: [
