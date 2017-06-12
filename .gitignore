@@ -27,6 +27,7 @@
 /libpeerconnection.log
 npm-debug.log
 testem.log
+package-lock.json
 
 # System Files
 .DS_Store
