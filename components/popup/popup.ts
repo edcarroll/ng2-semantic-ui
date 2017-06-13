@@ -2,7 +2,7 @@ import { Component, ViewChild, ViewContainerRef, ElementRef, Renderer2, EventEmi
 import { SuiTransition, Transition, TransitionDirection } from "../transition/transition";
 import { TransitionController } from "../transition/transition-controller";
 import { PositioningService, PositioningPlacement } from "../util/positioning.service";
-import { TemplateRefContext } from "../util/util";
+import { ITemplateRefContext } from "../util/util";
 import { IPopup } from "./popup.directive";
 import { PopupConfig } from "./popup-config";
 import Popper from "popper.js";

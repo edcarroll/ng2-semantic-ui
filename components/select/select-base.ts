@@ -4,7 +4,7 @@ import {
 } from "@angular/core";
 import { DropdownService, DropdownAutoCloseType } from "../dropdown/dropdown.service";
 import { SearchService, LookupFn } from "../search/search.service";
-import { readValue, KeyCode, HandledEvent, AugmentedElement, TemplateRefContext } from "../util/util";
+import { readValue, KeyCode, HandledEvent, IAugmentedElement, ITemplateRefContext } from "../util/util";
 import { PositioningService, PositioningPlacement } from "../util/positioning.service";
 import { SuiDropdownMenu, SuiDropdownMenuItem } from "../dropdown/dropdown-menu";
 import { SuiSelectOption, ISelectRenderedOption } from "./select-option";
@@ -115,7 +115,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     }
 
     @Input()
-    public optionTemplate:TemplateRef<TemplateRefContext<T>>;
+    public optionTemplate:TemplateRef<ITemplateRefContext<T>>;
 
     @Input()
     public noResultsMessage:string;
@@ -217,7 +217,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
 
     @HostListener("document:click", ["$event"])
     public onDocumentClick(e:MouseEvent):void {
-        const target = e.target as AugmentedElement;
+        const target = e.target as IAugmentedElement;
         if (!this._element.nativeElement.contains(e.target)) {
             this.dropdownService.setOpenState(false);
         }

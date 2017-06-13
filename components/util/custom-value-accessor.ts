@@ -11,15 +11,15 @@ export class CustomValueAccessor<U, T extends ICustomValueAccessorHost<U>> imple
     public onChange = () => {};
     public onTouched = () => {};
 
-    public writeValue(value:U) {
+    public writeValue(value:U):void {
         this._host.writeValue(value);
     }
 
-    public registerOnChange(fn:() => void) {
+    public registerOnChange(fn:() => void):void {
         this.onChange = fn;
     }
 
-    public registerOnTouched(fn:() => void) {
+    public registerOnTouched(fn:() => void):void {
         this.onTouched = fn;
     }
 }
