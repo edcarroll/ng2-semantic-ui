@@ -1,5 +1,5 @@
-import {Component, Directive, Input, Output, EventEmitter, HostBinding, HostListener, forwardRef} from "@angular/core";
-import {customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHost} from "../util/custom-value-accessor";
+import { Component, Directive, Input, Output, EventEmitter, HostBinding, HostListener, forwardRef } from "@angular/core";
+import { customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHost } from "../util/custom-value-accessor";
 
 @Component({
     selector: "sui-rating",
@@ -8,7 +8,7 @@ import {customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHos
    *ngFor="let icon of icons; let i = index"
    (mouseover)="onMouseover(i)"
    (click)="onClick(i)"
-   [class.selected]="_hoveredIndex >= i && !isReadonly"
+   [class.selected]="hoveredIndex >= i && !isReadonly"
    [class.active]="value > i">
 </i>
 `,
@@ -31,7 +31,7 @@ export class SuiRating implements ICustomValueAccessorHost<number> {
     private _maximum:number;
 
     @Input()
-    public get maximum() {
+    public get maximum():number {
         return this._maximum;
     }
 
@@ -43,11 +43,12 @@ export class SuiRating implements ICustomValueAccessorHost<number> {
     @Input()
     public isReadonly:boolean;
 
-    public get icons() {
+    public get icons():undefined[] {
+        // tslint:disable-next-line:prefer-literal
         return new Array(this.maximum);
     }
 
-    private _hoveredIndex:number = -1;
+    public hoveredIndex:number = -1;
 
     constructor() {
         this.value = 0;
@@ -59,23 +60,23 @@ export class SuiRating implements ICustomValueAccessorHost<number> {
         this._ratingClasses = true;
     }
 
-    private onClick(i:number) {
+    public onClick(i:number):void {
         if (!this.isReadonly) {
             this.value = i + 1;
             this.valueChange.emit(this.value);
         }
     }
 
-    private onMouseover(i:number) {
-        this._hoveredIndex = i;
+    public onMouseover(i:number):void {
+        this.hoveredIndex = i;
     }
 
     @HostListener("mouseout")
-    private onMouseout() {
-        this._hoveredIndex = -1;
+    public onMouseout():void {
+        this.hoveredIndex = -1;
     }
 
-    public writeValue(value:number) {
+    public writeValue(value:number):void {
         this.value = value;
     }
 }
