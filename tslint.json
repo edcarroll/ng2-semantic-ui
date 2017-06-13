@@ -1,37 +1,94 @@
 {
   "rulesDirectory": [
-    "node_modules/codelyzer"
+    "node_modules/codelyzer",
+    "node_modules/vrsource-tslint-rules/rules"
   ],
   "rules": {
+    "align": [
+      true,
+      "arguments",
+      "elements",
+      "members",
+      "parameters",
+      "statements"
+    ],
+    "array-type": [
+      true,
+      "array"
+    ],
+    "arrow-parens": [
+      true,
+      "ban-single-arg-parens"
+    ],
+    "await-promise": true,
+    "binary-expression-operand-order": true,
     "callable-types": true,
-    "class-name": true,
     "comment-format": [
       true,
       "check-space"
     ],
+    "conditional-expression-parens": true,
     "curly": true,
+    "encoding": true,
     "eofline": true,
+    "ext-variable-name": [
+      true,
+      ["class", "pascal"],
+      ["interface", "pascal", { "regex": "^I.*$" }],
+      ["parameter", "camel"],
+      ["property", "static", "camel"],
+      ["property", "private", "camel", "require-leading-underscore"],
+      ["property", "protected", "camel", "require-leading-underscore"],
+      ["variable", "camel"],
+      ["method", "camel"],
+      ["function", "camel"],
+      ["default", "camel"]
+    ],
     "forin": true,
     "import-blacklist": [true, "rxjs"],
     "import-spacing": true,
     "indent": [
       true,
-      "spaces"
+      "spaces",
+      4
     ],
     "interface-over-type-literal": true,
+    "jsdoc-format": true,
     "label-position": true,
+    "linebreak-style": [
+      true,
+      "CRLF"
+    ],
+    "literal-spacing": [
+      true,
+      {
+        "array": ["never"],
+        "object": ["always"],
+        "import": ["never"]
+      }
+    ],
     "max-line-length": [
       true,
       140
     ],
-    "member-access": false,
+    "member-access": true,
     "member-ordering": [
       true,
-      "static-before-instance",
-      "variables-before-functions"
+      {
+        "order": [
+          "static-field",
+          "instance-field",
+          "constructor",
+          "static-method",
+          "instance-method"
+        ]
+      }
     ],
+    "new-parens": true,
+    "no-angle-bracket-type-assertion": true,
     "no-arg": true,
     "no-bitwise": true,
+    "no-boolean-literal-compare": true,
     "no-console": [
       true,
       "debug",
@@ -40,44 +97,99 @@
       "timeEnd",
       "trace"
     ],
+    "no-conditional-assignment": true,
     "no-construct": true,
     "no-debugger": true,
+    "no-duplicate-imports": true,
+    "no-duplicate-super": true,
     "no-duplicate-variable": true,
     "no-empty": false,
     "no-empty-interface": true,
     "no-eval": true,
+    "no-floating-promises": true,
+    "no-increment-decrement": true,
     "no-inferrable-types": true,
+    "no-inferred-empty-object-type": true,
+    "no-invalid-template-strings": true,
+    "no-invalid-this": true,
+    "no-non-null-assertion": true,
+    "no-object-literal-type-assertion": true,
+    "no-param-reassign": true,
+    "no-reference": true,
     "no-shadowed-variable": true,
+    "no-sparse-arrays": true,
     "no-string-literal": false,
     "no-string-throw": true,
     "no-switch-case-fall-through": true,
-    "no-trailing-whitespace": true,
+    "no-trailing-whitespace": [
+      true,
+      "ignore-template-strings"
+    ],
     "no-unused-expression": true,
     "no-use-before-declare": true,
     "no-var-keyword": true,
+    "no-var-requires": true,
+    "number-literal-format": true,
     "object-literal-sort-keys": false,
     "one-line": [
       true,
-      "check-open-brace",
       "check-catch",
+      "check-finally",
       "check-else",
+      "check-open-brace",
       "check-whitespace"
     ],
+    "one-variable-per-declaration": [
+      true,
+      "ignore-for-loop"
+    ],
+    "only-arrow-functions": true,
+    "prefer-conditional-expression": true,
     "prefer-const": true,
+    "prefer-literal": [
+      true,
+      "object",
+      "function",
+      "array"
+    ],
+    "prefer-object-spread": true,
+    "prefer-template": true,
+    "promise-function-async": true,
     "quotemark": [
       true,
-      "single"
+      "double",
+      "avoid-escape"
     ],
     "radix": true,
+    "restrict-plus-operands": true,
     "semicolon": [
       "always"
+    ],
+    "space-before-function-paren": [
+      true,
+      "never"
+    ],
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "never",
+        "singleline": "never"
+      }
     ],
     "triple-equals": [
       true,
       "allow-null-check"
     ],
+    "type-literal-delimiter": true,
     "typedef-whitespace": [
       true,
+      {
+        "call-signature": "nospace",
+        "index-signature": "nospace",
+        "parameter": "nospace",
+        "property-declaration": "nospace",
+        "variable-declaration": "nospace"
+      },
       {
         "call-signature": "nospace",
         "index-signature": "nospace",
@@ -88,18 +200,29 @@
     ],
     "typeof-compare": true,
     "unified-signatures": true,
-    "variable-name": false,
+    "use-default-type-parameter": true,
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-leading-underscore"
+    ],
     "whitespace": [
       true,
       "check-branch",
       "check-decl",
       "check-operator",
-      "check-separator",
-      "check-type"
+      "check-module",
+      "check-separator"
     ],
 
-    "directive-selector": [true, "attribute", "sui", "camelCase"],
-    "component-selector": [true, "element", "sui", "kebab-case"],
+    "directive-selector": false,
+    "component-selector": [
+      true,
+      "element",
+      "sui",
+      "kebab-case"
+    ],
     "use-input-property-decorator": true,
     "use-output-property-decorator": true,
     "use-host-property-decorator": true,
@@ -107,8 +230,8 @@
     "no-output-rename": true,
     "use-life-cycle-interface": true,
     "use-pipe-transform-interface": true,
-    "component-class-suffix": true,
-    "directive-class-suffix": true,
+    "component-class-suffix": false,
+    "directive-class-suffix": false,
     "no-access-missing-member": true,
     "templates-use-public": true,
     "invoke-injectable": true
