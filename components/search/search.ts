@@ -1,10 +1,13 @@
-import {Component, ViewChild, HostBinding, Input, AfterViewInit, HostListener, EventEmitter, Output, forwardRef, Directive, ElementRef} from "@angular/core";
-import {DropdownService} from "../dropdown/dropdown.service";
-import {SuiDropdownMenu} from "../dropdown/dropdown-menu";
-import {SearchService, LookupFn} from "./search.service";
-import {readValue} from "../util/util";
-import {PositioningService, PositioningPlacement} from "../util/positioning.service";
-import {customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHost} from "../util/custom-value-accessor";
+import {
+    Component, ViewChild, HostBinding, Input, AfterViewInit, HostListener,
+    EventEmitter, Output, forwardRef, Directive, ElementRef
+} from "@angular/core";
+import { DropdownService } from "../dropdown/dropdown.service";
+import { SuiDropdownMenu } from "../dropdown/dropdown-menu";
+import { SearchService, LookupFn } from "./search.service";
+import { readValue } from "../util/util";
+import { PositioningService, PositioningPlacement } from "../util/positioning.service";
+import { customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHost } from "../util/custom-value-accessor";
 
 @Component({
     selector: "sui-search",
@@ -13,7 +16,12 @@ import {customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHos
     <input class="prompt" type="text" [attr.placeholder]="placeholder" autocomplete="off" [(ngModel)]="query">
     <i *ngIf="hasIcon" class="search icon"></i>
 </div>
-<div class="results" suiDropdownMenu [menuTransition]="transition" [menuTransitionDuration]="transitionDuration" menuSelectedItemClass="active">
+<div class="results"
+     suiDropdownMenu
+     [menuTransition]="transition"
+     [menuTransitionDuration]="transitionDuration"
+     menuSelectedItemClass="active">
+
     <a class="result item" *ngFor="let r of results" (click)="select(r)">
         <span *ngIf="!searchService.optionsLookup" [innerHTML]="searchService.highlightMatches(r)"></span>
         <span *ngIf="searchService.optionsLookup">{{ readValue(r) }}</span>
@@ -50,7 +58,7 @@ export class SuiSearch<T> implements AfterViewInit, ICustomValueAccessorHost<T> 
     private _searchClasses:boolean;
 
     @HostBinding("class.active")
-    public get isActive() {
+    public get isActive():boolean {
         return this.dropdownService.isOpen;
     }
 
@@ -62,7 +70,7 @@ export class SuiSearch<T> implements AfterViewInit, ICustomValueAccessorHost<T> 
     @Input()
     public placeholder:string;
 
-    public get query() {
+    public get query():string {
         return this.searchService.query;
     }
 
@@ -95,14 +103,14 @@ export class SuiSearch<T> implements AfterViewInit, ICustomValueAccessorHost<T> 
     }
 
     @HostBinding("class.loading")
-    public get isSearching() {
+    public get isSearching():boolean {
         return this.searchService.isSearching;
     }
 
     @Input()
     public maxResults:number;
 
-    public get results() {
+    public get results():T[] {
         return this.searchService.results.slice(0, this.maxResults);
     }
 
@@ -135,18 +143,18 @@ export class SuiSearch<T> implements AfterViewInit, ICustomValueAccessorHost<T> 
         this.transitionDuration = 200;
 }
 
-    public ngAfterViewInit() {
+    public ngAfterViewInit():void {
         this._menu.service = this.dropdownService;
     }
 
     // Selects an item.
-    public select(item:T) {
+    public select(item:T):void {
         this.writeValue(item);
         this.itemSelected.emit(item);
         this.dropdownService.setOpenState(false);
     }
 
-    public onClick(e:MouseEvent) {
+    public onClick(e:MouseEvent):void {
         if (this.searchService.query.length > 0) {
             // Only open on click when there is a query entered.
             this.dropdownService.setOpenState(true);
@@ -154,19 +162,19 @@ export class SuiSearch<T> implements AfterViewInit, ICustomValueAccessorHost<T> 
     }
 
     @HostListener("document:click", ["$event"])
-    public onDocumentClick(e:MouseEvent) {
+    public onDocumentClick(e:MouseEvent):void {
         if (!this._element.nativeElement.contains(e.target)) {
             this.dropdownService.setOpenState(false);
         }
     }
 
     // Reads the specified field from an item.
-    public readValue(object:T) {
+    public readValue(object:T):string {
         return readValue<T, string>(object, this.searchService.optionsField);
     }
 
     // Sets a specific item to be selected, updating the query automatically.
-    public writeValue(item:T) {
+    public writeValue(item:T):void {
         this.selectedItem = item;
         this.searchService.updateQuery(item ? this.readValue(item) as string : "");
     }
