@@ -1,8 +1,11 @@
-import {Component, Input, HostBinding, HostListener, EventEmitter, ViewContainerRef, ViewChild, Renderer2, ElementRef, Output, ChangeDetectorRef} from "@angular/core";
-import {SuiTransition, Transition, TransitionDirection} from "../transition/transition";
-import {TransitionController} from "../transition/transition-controller";
-import {ISelectRenderedOption} from "./select-option";
-import {HandledEvent} from "../util/util";
+import {
+    Component, Input, HostBinding, HostListener, EventEmitter, ViewContainerRef,
+    ViewChild, Renderer2, ElementRef, Output, ChangeDetectorRef
+} from "@angular/core";
+import { SuiTransition, Transition, TransitionDirection } from "../transition/transition";
+import { TransitionController } from "../transition/transition-controller";
+import { ISelectRenderedOption } from "./select-option";
+import { HandledEvent } from "../util/util";
 
 @Component({
     selector: "sui-multi-select-label",
@@ -50,15 +53,16 @@ export class SuiMultiSelectLabel<T> extends SuiTransition implements ISelectRend
         this._transitionController.animate(new Transition("scale", 100, TransitionDirection.In));
     }
 
-    public deselectOption(e:HandledEvent & MouseEvent) {
+    public deselectOption(e:HandledEvent & MouseEvent):void {
         e.eventHandled = true;
 
-        this._transitionController.animate(new Transition("scale", 100, TransitionDirection.Out, () =>
-            this.onDeselected.emit(this.value)));
+        this._transitionController.animate(
+            new Transition("scale", 100, TransitionDirection.Out, () =>
+                this.onDeselected.emit(this.value)));
     }
 
     @HostListener("click", ["$event"])
-    public onClick(e:HandledEvent & MouseEvent) {
+    public onClick(e:HandledEvent & MouseEvent):void {
         e.eventHandled = true;
     }
 }

@@ -183,7 +183,7 @@ export class SuiSearch<T> implements AfterViewInit, ICustomValueAccessorHost<T> 
 // Value accessor directive for the search to support ngModel.
 @Directive({
     selector: "sui-search",
-    host: { "(onItemSelected)": "onChange($event)" },
+    host: { "(itemSelected)": "onChange($event)" },
     providers: [customValueAccessorFactory(SuiSearchValueAccessor)]
 })
 export class SuiSearchValueAccessor<T> extends CustomValueAccessor<T, SuiSearch<T>> {
