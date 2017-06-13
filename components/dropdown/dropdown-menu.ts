@@ -5,7 +5,7 @@ import {
 import { SuiTransition, Transition } from "../transition/transition";
 import { DropdownService, DropdownAutoCloseType } from "./dropdown.service";
 import { TransitionController } from "../transition/transition-controller";
-import { KeyCode, AugmentedElement, HandledEvent } from "../util/util";
+import { KeyCode, IAugmentedElement, HandledEvent } from "../util/util";
 // Polyfill for IE
 import "element-closest";
 
@@ -29,7 +29,7 @@ export class SuiDropdownMenuItem {
     public set isSelected(value:boolean) {
         // Renderer is used to enable a dynamic class name.
         if (value) {
-            this._renderer.addClass(this.element.nativeElement, this.selectedClass)
+            this._renderer.addClass(this.element.nativeElement, this.selectedClass);
         } else {
             this._renderer.removeClass(this.element.nativeElement, this.selectedClass);
         }
@@ -145,7 +145,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
             e.eventHandled = true;
 
             if (this._service.autoCloseMode === DropdownAutoCloseType.ItemClick) {
-                const target = e.target as AugmentedElement;
+                const target = e.target as IAugmentedElement;
                 if (this.element.nativeElement.contains(target.closest(".item")) && !/input|textarea/i.test(target.tagName)) {
                     // Once an item is selected, we can close the entire dropdown.
                     this._service.setOpenState(false, true);

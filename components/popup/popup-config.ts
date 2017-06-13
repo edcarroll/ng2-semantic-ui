@@ -1,5 +1,5 @@
 import { TemplateRef } from "@angular/core";
-import { TemplateRefContext } from "../util/util";
+import { ITemplateRefContext } from "../util/util";
 import { PositioningPlacement } from "../util/positioning.service";
 import { IPopup } from "./popup.directive";
 
@@ -12,12 +12,12 @@ export const PopupTrigger = {
     OutsideClick: "outsideClick" as PopupTrigger,
     Focus: "focus" as PopupTrigger,
     Manual: "manual" as PopupTrigger
-}
+};
 
 export interface IPopupConfig {
     header?:string;
     text?:string;
-    template?:TemplateRef<TemplateRefContext<IPopup>>;
+    template?:TemplateRef<ITemplateRefContext<IPopup>>;
     placement?:PositioningPlacement;
     trigger?:PopupTrigger;
     isInverted?:boolean;
@@ -30,7 +30,7 @@ export interface IPopupConfig {
 export class PopupConfig implements IPopupConfig {
     public header:string;
     public text:string;
-    public template:TemplateRef<TemplateRefContext<IPopup>>;
+    public template:TemplateRef<ITemplateRefContext<IPopup>>;
     public placement:PositioningPlacement;
     public trigger:PopupTrigger;
     public isInverted:boolean;

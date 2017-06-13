@@ -4,7 +4,7 @@ import {
 } from "@angular/core";
 import { SuiPopup } from "./popup";
 import { PositioningPlacement } from "../util/positioning.service";
-import { TemplateRefContext, parseBooleanAttribute } from "../util/util";
+import { ITemplateRefContext, parseBooleanAttribute } from "../util/util";
 import { PopupConfig, IPopupConfig, PopupTrigger } from "./popup-config";
 import { SuiPopupConfig } from "./popup.service";
 
@@ -22,7 +22,7 @@ export class SuiPopupDirective implements IPopup {
     public config:PopupConfig;
 
     @Input()
-    public set popupTemplate(template:TemplateRef<TemplateRefContext<SuiPopup>>) {
+    public set popupTemplate(template:TemplateRef<ITemplateRefContext<SuiPopup>>) {
         this.config.template = template;
     }
 
