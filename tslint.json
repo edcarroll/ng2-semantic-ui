@@ -229,7 +229,7 @@
     "component-selector": [
       true,
       "element",
-      "sui",
+      ["sui", "demo"],
       "kebab-case"
     ],
     "use-input-property-decorator": true,
