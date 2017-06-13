@@ -1,5 +1,5 @@
-import {Component, Input, HostBinding, HostListener, ElementRef, Renderer2} from "@angular/core";
-import {SidebarService, SidebarTransition} from "./sidebar.service";
+import { Component, Input, HostBinding, HostListener, ElementRef, Renderer2 } from "@angular/core";
+import { SidebarService, SidebarTransition } from "./sidebar.service";
 
 @Component({
     selector: "sui-sidebar-sibling",
@@ -13,7 +13,7 @@ import {SidebarService, SidebarTransition} from "./sidebar.service";
 export class SuiSidebarSibling {
     private _service:SidebarService;
 
-    public get service() {
+    public get service():SidebarService {
         return this._service;
     }
 
@@ -28,15 +28,15 @@ export class SuiSidebarSibling {
     public isDimmedWhenVisible:boolean;
 
     @HostBinding("class.visible")
-    public get isVisible() {
+    public get isVisible():boolean {
         if (!this.service) {
             return false;
         }
-        return this.service.isVisible
+        return this.service.isVisible;
     }
 
     @HostBinding("class.dimmed")
-    public get isDimmed() {
+    public get isDimmed():boolean {
         if (!this.service) {
             return false;
         }
@@ -52,11 +52,14 @@ export class SuiSidebarSibling {
         this._siblingClasses = true;
     }
 
-    private updateTransform() {
+    private updateTransform():void {
         this._renderer.removeStyle(this._element.nativeElement, "transform");
         this._renderer.removeStyle(this._element.nativeElement, "-webkit-transform");
 
-        if (this.service.isVisible && this.service.transition !== SidebarTransition.Overlay && this.service.transition !== SidebarTransition.ScaleDown) {
+        if (this.service.isVisible &&
+            this.service.transition !== SidebarTransition.Overlay &&
+            this.service.transition !== SidebarTransition.ScaleDown) {
+
             const translate = `translate3d(${this.service.width}px, ${this.service.height}px, 0)`;
             this._renderer.setStyle(this._element.nativeElement, "transform", translate);
             this._renderer.setStyle(this._element.nativeElement, "-webkit-transform", translate);
@@ -64,7 +67,7 @@ export class SuiSidebarSibling {
     }
 
     @HostListener("click", ["$event"])
-    public onClick(event:MouseEvent) {
+    public onClick(event:MouseEvent):void {
         if (this.service.isVisible && !this.service.wasJustOpened) {
             this.service.setVisibleState(false);
         }
