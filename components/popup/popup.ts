@@ -1,22 +1,31 @@
-import {Component, ViewChild, ViewContainerRef, ElementRef, Renderer2, EventEmitter, TemplateRef, HostListener} from "@angular/core";
-import {SuiTransition, Transition, TransitionDirection} from "../transition/transition";
-import {TransitionController} from "../transition/transition-controller";
-import {PositioningService, PositioningPlacement} from "../util/positioning.service";
-import {TemplateRefContext} from "../util/util";
-import {IPopup} from "./popup.directive";
-import {PopupConfig} from "./popup-config";
+import { Component, ViewChild, ViewContainerRef, ElementRef, Renderer2, EventEmitter, TemplateRef, HostListener } from "@angular/core";
+import { SuiTransition, Transition, TransitionDirection } from "../transition/transition";
+import { TransitionController } from "../transition/transition-controller";
+import { PositioningService, PositioningPlacement } from "../util/positioning.service";
+import { TemplateRefContext } from "../util/util";
+import { IPopup } from "./popup.directive";
+import { PopupConfig } from "./popup-config";
 import Popper from "popper.js";
 
 @Component({
     selector: "sui-popup",
     template: `
-<div class="ui popup" [class.inverted]="config.isInverted" [class.basic]="config.isBasic" [suiTransition]="transitionController" [attr.direction]="direction" #container>
+<div class="ui popup"
+     [class.inverted]="config.isInverted"
+     [class.basic]="config.isBasic"
+     [suiTransition]="transitionController"
+     [attr.direction]="direction"
+     #container>
+
     <ng-container *ngIf="!config.template">
         <div class="header" *ngIf="config.header">{{ config.header }}</div>
         <div class="content">{{ config.text }}</div>
     </ng-container>
     <div #templateSibling></div>
-    <sui-popup-arrow *ngIf="!config.isBasic" [placement]="_positioningService.actualPlacement" [inverted]="config.isInverted"></sui-popup-arrow>
+
+    <sui-popup-arrow *ngIf="!config.isBasic"
+                     [placement]="positioningService.actualPlacement"
+                     [inverted]="config.isInverted"></sui-popup-arrow>
 </div>
 `,
     styles: [`
@@ -57,7 +66,7 @@ export class SuiPopup implements IPopup {
     public config:PopupConfig;
 
     public transitionController:TransitionController;
-    private _positioningService:PositioningService;
+    public positioningService:PositioningService;
 
     // Keeps track of whether the popup is open internally.
     private _isOpen:boolean;
@@ -67,7 +76,7 @@ export class SuiPopup implements IPopup {
     // Fires when the popup closes (and the animation is completed).
     public onClose:EventEmitter<void>;
 
-    public get isOpen() {
+    public get isOpen():boolean {
         return this._isOpen;
     }
 
@@ -77,13 +86,13 @@ export class SuiPopup implements IPopup {
 
     public set anchor(anchor:ElementRef) {
         // Whenever the anchor is set (which is when the popup is created), recreate the positioning service with the appropriate options.
-        this._positioningService = new PositioningService(anchor, this._container.element, this.config.placement, ".dynamic.arrow");
+        this.positioningService = new PositioningService(anchor, this._container.element, this.config.placement, ".dynamic.arrow");
     }
 
     // Returns the direction (`top`, `left`, `right`, `bottom`) of the current placement.
-    public get direction() {
-        if (this._positioningService) {
-            return this._positioningService.actualPlacement.split(" ").shift();
+    public get direction():string {
+        if (this.positioningService) {
+            return this.positioningService.actualPlacement.split(" ").shift();
         }
     }
 
@@ -98,7 +107,7 @@ export class SuiPopup implements IPopup {
         this.onClose = new EventEmitter<void>();
     }
 
-    public open() {
+    public open():void {
         // Only attempt to open if currently closed.
         if (!this.isOpen) {
             // Cancel the closing timer.
@@ -106,17 +115,18 @@ export class SuiPopup implements IPopup {
 
             // Cancel all other transitions, and initiate the opening transition.
             this.transitionController.stopAll();
-            this.transitionController.animate(new Transition(this.config.transition, this.config.transitionDuration, TransitionDirection.In));
+            this.transitionController.animate(
+                new Transition(this.config.transition, this.config.transitionDuration, TransitionDirection.In));
 
             // Refresh the popup position after a brief delay to allow for browser processing time.
-            setTimeout(() => this._positioningService.update());
+            setTimeout(() => this.positioningService.update());
 
             // Finally, set the popup to be open.
             this._isOpen = true;
         }
     }
 
-    public toggle() {
+    public toggle():void {
         if (!this.isOpen) {
             return this.open();
         }
@@ -124,12 +134,13 @@ export class SuiPopup implements IPopup {
         return this.close();
     }
 
-    public close() {
+    public close():void {
         // Only attempt to close if currently open.
         if (this.isOpen) {
             // Cancel all other transitions, and initiate the closing transition.
             this.transitionController.stopAll();
-            this.transitionController.animate(new Transition(this.config.transition, this.config.transitionDuration, TransitionDirection.Out));
+            this.transitionController.animate(
+                new Transition(this.config.transition, this.config.transitionDuration, TransitionDirection.Out));
 
             // Cancel the closing timer.
             clearTimeout(this._closingTimeout);
@@ -142,7 +153,7 @@ export class SuiPopup implements IPopup {
     }
 
     @HostListener("click", ["$event"])
-    public onClick(event:MouseEvent) {
+    public onClick(event:MouseEvent):void {
         // Makes sense here, as the popup shouldn't be attached to any DOM element.
         event.stopPropagation();
     }

@@ -1,10 +1,11 @@
-import {TemplateRef} from "@angular/core";
-import {TemplateRefContext} from "../util/util";
-import {PositioningPlacement} from "../util/positioning.service";
-import {IPopup} from "./popup.directive";
+import { TemplateRef } from "@angular/core";
+import { TemplateRefContext } from "../util/util";
+import { PositioningPlacement } from "../util/positioning.service";
+import { IPopup } from "./popup.directive";
 
 export type PopupTrigger = "hover" | "click" | "outsideClick" | "focus" | "manual";
 
+// tslint:disable-next-line:ext-variable-name
 export const PopupTrigger = {
     Hover: "hover" as PopupTrigger,
     Click: "click" as PopupTrigger,
@@ -50,7 +51,7 @@ export class PopupConfig implements IPopupConfig {
         Object.assign(this, defaults);
     }
 
-    public batch(config:IPopupConfig = {}) {
+    public batch(config:IPopupConfig = {}):void {
         Object.assign(this, config);
     }
 }
