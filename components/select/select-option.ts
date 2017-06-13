@@ -1,6 +1,9 @@
-import {Component, Input, HostBinding, HostListener, EventEmitter, ViewContainerRef, ViewChild, Renderer2, ElementRef, Output} from "@angular/core";
-import {SuiDropdownMenuItem} from "../dropdown/dropdown-menu";
-import {HandledEvent} from "../util/util";
+import {
+    Component, Input, HostBinding, HostListener, EventEmitter, ViewContainerRef,
+    ViewChild, Renderer2, ElementRef, Output
+} from "@angular/core";
+import { SuiDropdownMenuItem } from "../dropdown/dropdown-menu";
+import { HandledEvent } from "../util/util";
 
 export type PropertyReader<T> = (obj:T) => string;
 
@@ -59,7 +62,7 @@ export class SuiSelectOption<T> extends SuiDropdownMenuItem implements ISelectRe
     }
 
     @HostListener("click", ["$event"])
-    public onClick(e:HandledEvent & MouseEvent) {
+    public onClick(e:HandledEvent & MouseEvent):void {
         e.eventHandled = true;
 
         setTimeout(() => this.onSelected.emit(this.value));
