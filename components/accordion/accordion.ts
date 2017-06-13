@@ -1,6 +1,6 @@
-import {Component, Input, HostBinding, ContentChildren, QueryList, AfterContentInit} from "@angular/core";
-import {SuiAccordionPanel} from "./accordion-panel";
-import {SuiAccordionService} from "./accordion.service";
+import { Component, Input, HostBinding, ContentChildren, QueryList, AfterContentInit } from "@angular/core";
+import { SuiAccordionPanel } from "./accordion-panel";
+import { SuiAccordionService } from "./accordion.service";
 
 @Component({
     selector: "sui-accordion",
@@ -46,7 +46,7 @@ export class SuiAccordion implements AfterContentInit {
     protected _service:SuiAccordionService;
 
     @ContentChildren(SuiAccordionPanel)
-    protected panels:QueryList<SuiAccordionPanel>;
+    protected _panels:QueryList<SuiAccordionPanel>;
 
     constructor() {
         // Accordion service is unique to each set of panels.
@@ -55,14 +55,14 @@ export class SuiAccordion implements AfterContentInit {
         this.accordionClasses = true;
     }
 
-    ngAfterContentInit() {
+    public ngAfterContentInit():void {
         this.updatePanels();
 
         // Reconnect panels after they have updated.
-        this.panels.changes.subscribe(() => setTimeout(() => this.updatePanels()));
+        this._panels.changes.subscribe(() => setTimeout(() => this.updatePanels()));
     }
 
-    public updatePanels() {
-        this.panels.forEach(p => this._service.addPanel(p));
+    public updatePanels():void {
+        this._panels.forEach(p => this._service.addPanel(p));
     }
 }

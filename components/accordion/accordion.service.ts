@@ -1,4 +1,4 @@
-import {SuiAccordionPanel} from "./accordion-panel";
+import { SuiAccordionPanel } from "./accordion-panel";
 
 export class SuiAccordionService {
     public closeOthers:boolean;
@@ -17,12 +17,12 @@ export class SuiAccordionService {
         this.panels = [];
     }
 
-    public addPanel(panel:SuiAccordionPanel) {
+    public addPanel(panel:SuiAccordionPanel):void {
         panel.service = this;
         this.panels.push(panel);
     }
 
-    public closeOtherPanels(panel:SuiAccordionPanel) {
+    public closeOtherPanels(panel:SuiAccordionPanel):void {
         if (!this.closeOthers) {
             return;
         }
