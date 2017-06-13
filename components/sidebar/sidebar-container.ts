@@ -1,7 +1,7 @@
-import {Component, AfterContentInit, HostBinding, ContentChild} from "@angular/core";
-import {SidebarService} from "./sidebar.service";
-import {SuiSidebar} from "./sidebar";
-import {SuiSidebarSibling} from "./sidebar-sibling";
+import { Component, AfterContentInit, HostBinding, ContentChild } from "@angular/core";
+import { SidebarService } from "./sidebar.service";
+import { SuiSidebar } from "./sidebar";
+import { SuiSidebarSibling } from "./sidebar-sibling";
 
 @Component({
     selector: "sui-sidebar-container",
@@ -28,7 +28,7 @@ export class SuiSidebarContainer implements AfterContentInit {
         this._containerClasses = true;
     }
 
-    public ngAfterContentInit() {
+    public ngAfterContentInit():void {
         if (!this.sidebar) {
             throw new Error("You must include a <sui-sidebar> element within the container.");
         }

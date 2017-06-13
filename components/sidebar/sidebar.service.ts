@@ -1,7 +1,8 @@
-import {EventEmitter} from "@angular/core";
+import { EventEmitter } from "@angular/core";
 
 export type SidebarTransition = "overlay" | "push" | "scale down" | "uncover" | "slide along" | "slide out";
 
+// tslint:disable-next-line:ext-variable-name
 export const SidebarTransition = {
     Overlay: "overlay" as SidebarTransition,
     Push: "push" as SidebarTransition,
@@ -9,16 +10,17 @@ export const SidebarTransition = {
     Uncover: "uncover" as SidebarTransition,
     SlideAlong: "slide along" as SidebarTransition,
     SlideOut: "slide out" as SidebarTransition
-}
+};
 
 export type SidebarDirection = "left" | "right" | "top" | "bottom";
 
+// tslint:disable-next-line:ext-variable-name
 export const SidebarDirection = {
     Left: "left" as SidebarDirection,
     Right: "right" as SidebarDirection,
     Top: "top" as SidebarDirection,
     Bottom: "bottom" as SidebarDirection
-}
+};
 
 export class SidebarService {
     public isVisible:boolean;
@@ -30,7 +32,7 @@ export class SidebarService {
     private _width:number;
     private _height:number;
 
-    public get width() {
+    public get width():number {
         if (this.direction === SidebarDirection.Left) {
             return this._width;
         }
@@ -45,7 +47,7 @@ export class SidebarService {
         this.widthChange.emit();
     }
 
-    public get height() {
+    public get height():number {
         if (this.direction === SidebarDirection.Top) {
             return this._height;
         }
@@ -83,7 +85,7 @@ export class SidebarService {
         this.transition = SidebarTransition.Uncover;
     }
 
-    public setVisibleState(isVisible:boolean) {
+    public setVisibleState(isVisible:boolean):void {
         if (this.isVisible !== isVisible) {
             this.isVisible = isVisible;
             this.isAnimating = true;
@@ -97,7 +99,7 @@ export class SidebarService {
         }
     }
 
-    public toggleVisibleState() {
+    public toggleVisibleState():void {
         this.setVisibleState(!this.isVisible);
     }
 }
