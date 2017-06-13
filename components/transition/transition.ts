@@ -1,5 +1,5 @@
-import {Renderer2, ElementRef, Directive, Input, HostBinding, ChangeDetectorRef} from "@angular/core";
-import {TransitionController} from "./transition-controller";
+import { Renderer2, ElementRef, Directive, Input, HostBinding, ChangeDetectorRef } from "@angular/core";
+import { TransitionController } from "./transition-controller";
 
 // Possible directions for a transition.
 export enum TransitionDirection {
@@ -17,7 +17,7 @@ export class Transition {
     public direction:TransitionDirection;
 
     // Converts TransitionDirection to class name.
-    public get directionClass() {
+    public get directionClass():string {
         switch (this.direction) {
             case TransitionDirection.In: return "in";
             case TransitionDirection.Out: return "out";
@@ -29,13 +29,17 @@ export class Transition {
 
     public onComplete:() => void;
 
-    constructor(name:string, duration:number = 250, direction:TransitionDirection = TransitionDirection.Either, onComplete:(() => void) = () => {}) {
+    constructor(name:string,
+                duration:number = 250,
+                direction:TransitionDirection = TransitionDirection.Either,
+                onComplete:(() => void) = () => {}) {
+
         this.type = name;
-        if (duration < 1) {
-            // We set a minimum duration of 1ms, to give the appearance of an immediate transition whilst allowing positioning calculations to happen without a visible flicker.
-            duration = 1;
-        }
-        this.duration = duration;
+
+        // We set a minimum duration of 1ms, to give the appearance of an immediate transition
+        // whilst allowing positioning calculations to happen without a visible flicker.
+        this.duration = Math.max(duration, 1);
+
         this.direction = direction;
         this.classes = this.type.split(" ");
         this.onComplete = onComplete;
@@ -51,16 +55,16 @@ export class SuiTransition {
     private _controller:TransitionController;
 
     @Input()
-    private set suiTransition(tC:TransitionController) {
+    public set suiTransition(tC:TransitionController) {
         // Set the transition controller (e.g. '<div [suiTransition]="transitionController"></div>').
         this.setTransitionController(tC);
     }
 
     @HostBinding("class.transition")
-    public transitionClass = true;
+    public transitionClass:boolean = true;
 
     @HostBinding("class.visible")
-    public get isVisible() {
+    public get isVisible():boolean {
         if (this._controller) {
             return this._controller.isVisible;
         }
@@ -68,7 +72,7 @@ export class SuiTransition {
     }
 
     @HostBinding("class.hidden")
-    public get isHidden() {
+    public get isHidden():boolean {
         if (this._controller) {
             return this._controller.isHidden;
         }
@@ -78,7 +82,7 @@ export class SuiTransition {
     constructor(private _renderer:Renderer2, private _element:ElementRef, private _changeDetector:ChangeDetectorRef) {}
 
     // Initialises the controller with the injected renderer and elementRef.
-    public setTransitionController(transitionController:TransitionController) {
+    public setTransitionController(transitionController:TransitionController):void {
         this._controller = transitionController;
         this._controller.registerRenderer(this._renderer);
         this._controller.registerElement(this._element.nativeElement);
