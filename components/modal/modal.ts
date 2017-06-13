@@ -1,15 +1,23 @@
-import {Component, Input, HostBinding, OnInit, ViewChild, ElementRef, Renderer2, EventEmitter, Output, HostListener, ViewContainerRef, AfterViewInit} from "@angular/core";
-import {TransitionController} from "../transition/transition-controller";
-import {Transition, TransitionDirection} from "../transition/transition";
-import {KeyCode, parseBooleanAttribute} from "../util/util";
-import {ModalControls} from "./modal-controls";
-import {ModalConfig, ModalSize} from "./modal-config";
+import {
+    Component, Input, HostBinding, OnInit, ViewChild, ElementRef, Renderer2,
+    EventEmitter, Output, HostListener, ViewContainerRef, AfterViewInit
+} from "@angular/core";
+import { TransitionController } from "../transition/transition-controller";
+import { Transition, TransitionDirection } from "../transition/transition";
+import { KeyCode, parseBooleanAttribute } from "../util/util";
+import { ModalControls, ModalResult } from "./modal-controls";
+import { ModalConfig, ModalSize } from "./modal-config";
 
 @Component({
     selector: "sui-modal",
     template: `
 <!-- Page dimmer for modal background. -->
-<sui-dimmer class="page" [(isDimmed)]="dimBackground" [isClickable]="false" [transitionDuration]="transitionDuration" (click)="close()"></sui-dimmer>
+<sui-dimmer class="page"
+            [(isDimmed)]="dimBackground"
+            [isClickable]="false"
+            [transitionDuration]="transitionDuration"
+            (click)="close()"></sui-dimmer>
+
 <!-- Modal component, with transition component attached -->
 <div class="ui modal {{ size }}"
      [suiTransition]="transitionController"
@@ -48,11 +56,11 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     // Separate class for the `approve` and `deny` methods to support passing into components.
     public controls:ModalControls<T, U>;
 
-    public get approve() {
+    public get approve():ModalResult<T> {
         return this.controls.approve;
     }
 
-    public get deny() {
+    public get deny():ModalResult<U> {
         return this.controls.deny;
     }
 
@@ -80,7 +88,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
 
     // Value to deny with when closing via `isClosable`.
     @Input()
-    public get isFullScreen() {
+    public get isFullScreen():boolean {
         return this._isFullScreen;
     }
 
@@ -98,7 +106,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     private _mustAlwaysScroll:boolean;
 
     @Input()
-    public get mustScroll() {
+    public get mustScroll():boolean {
         return this._mustScroll;
     }
 
@@ -149,7 +157,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
         this.transitionController = new TransitionController(false);
     }
 
-    public ngOnInit() {
+    public ngOnInit():void {
         // Use a slight delay as the `<sui-dimmer>` cancels the initial transition.
         setTimeout(() => {
             // Transition the modal to be visible.
@@ -158,7 +166,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
         });
     }
 
-    public ngAfterViewInit() {
+    public ngAfterViewInit():void {
         // Update margin offset to center modal correctly on-screen.
         const element = this._modalElement.nativeElement as Element;
         setTimeout(() => {
@@ -168,7 +176,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     }
 
     // Updates the modal with the specified configuration.
-    public loadConfig<V>(config:ModalConfig<V, T, U>) {
+    public loadConfig<V>(config:ModalConfig<V, T, U>):void {
         this.isClosable = config.isClosable;
         this.closeResult = config.closeResult;
 
@@ -183,7 +191,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     }
 
     // Dismisses the modal with a transition, firing the callback after the modal has finished transitioning.
-    private dismiss(callback:() => void = () => {}) {
+    private dismiss(callback:() => void = () => {}):void {
         // If we aren't currently closing,
         if (!this._isClosing) {
             this._isClosing = true;
@@ -201,7 +209,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     }
 
     // Closes the modal with a 'deny' outcome, using the specified default reason.
-    public close() {
+    public close():void {
         if (this.isClosable) {
             // If we are allowed to close, fire the deny result with the default value.
             this.deny(this.closeResult);
@@ -209,7 +217,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     }
 
     // Decides whether the modal needs to reposition to allow scrolling.
-    private updateScroll() {
+    private updateScroll():void {
         // Semantic UI modal margin is 3.5rem, which is relative to the global font size, so for compatibility:
         const fontSize = parseFloat(window.getComputedStyle(document.documentElement, null).getPropertyValue("font-size"));
         const margin = fontSize * 3.5;
@@ -224,7 +232,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     }
 
     @HostListener("document:keyup", ["$event"])
-    public onDocumentKeyup(e:KeyboardEvent) {
+    public onDocumentKeyup(e:KeyboardEvent):void {
         if (e.keyCode === KeyCode.Escape) {
             // Close automatically covers case of `!isClosable`, so check not needed.
             this.close();
@@ -232,7 +240,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     }
 
     @HostListener("window:resize")
-    public onDocumentResize() {
+    public onDocumentResize():void {
         this.updateScroll();
     }
 }
