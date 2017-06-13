@@ -1,6 +1,6 @@
-import {Component, Input, Output, HostBinding, HostListener, EventEmitter, Renderer2, ElementRef, ChangeDetectorRef} from "@angular/core";
-import {SuiTransition, Transition, TransitionDirection} from "../transition/transition";
-import {TransitionController} from "../transition/transition-controller";
+import { Component, Input, Output, HostBinding, HostListener, EventEmitter, Renderer2, ElementRef, ChangeDetectorRef } from "@angular/core";
+import { SuiTransition, Transition, TransitionDirection } from "../transition/transition";
+import { TransitionController } from "../transition/transition-controller";
 
 @Component({
     selector: "sui-dimmer",
@@ -28,26 +28,27 @@ export class SuiDimmer extends SuiTransition {
 
     @HostBinding("class.active")
     @Input()
-    public get isDimmed() {
+    public get isDimmed():boolean {
         return this._isDimmed;
     }
 
-    public set isDimmed(dimmed:boolean) {
-        dimmed = !!dimmed;
+    public set isDimmed(value:boolean) {
+        const isDimmed = !!value;
 
         if (!this._transitionController) {
             // Initialise transition functionality when first setting dimmed, to ensure initial state doesn't transition.
-            this._transitionController = new TransitionController(dimmed, "block");
+            this._transitionController = new TransitionController(isDimmed, "block");
 
             this.setTransitionController(this._transitionController);
         }
 
-        if (this._isDimmed !== dimmed) {
-            this._isDimmed = dimmed;
+        if (this._isDimmed !== isDimmed) {
+            this._isDimmed = isDimmed;
 
-            if (this._transitionController.isVisible !== dimmed) {
+            if (this._transitionController.isVisible !== isDimmed) {
                 this._transitionController.stopAll();
-                this._transitionController.animate(new Transition("fade", this.transitionDuration, dimmed ? TransitionDirection.In : TransitionDirection.Out));
+                this._transitionController.animate(
+                    new Transition("fade", this.transitionDuration, isDimmed ? TransitionDirection.In : TransitionDirection.Out));
             }
         }
     }
@@ -75,7 +76,7 @@ export class SuiDimmer extends SuiTransition {
     }
 
     @HostListener("click")
-    private onClick() {
+    private onClick():void {
         if (this.isClickable) {
             this.isDimmed = false;
             this.isDimmedChange.emit(this.isDimmed);

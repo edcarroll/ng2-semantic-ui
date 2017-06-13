@@ -1,4 +1,4 @@
-import {Directive, ElementRef, Input, HostBinding, Renderer2, HostListener} from "@angular/core";
+import { Directive, ElementRef, Input, HostBinding, Renderer2, HostListener } from "@angular/core";
 
 @Directive({
     selector: "[suiCollapse]"
@@ -10,7 +10,7 @@ export class SuiCollapse {
 
     // Set when the collapse is closed, and not animating.
     @HostBinding("class.collapsed")
-    private get isCollapsed() {
+    private get _isCollapsed():boolean {
         return !this._isExpanded && !this._isCollapsing;
     }
 
@@ -22,16 +22,15 @@ export class SuiCollapse {
     private _pristine:boolean;
 
     @Input()
-    private get suiCollapse():boolean {
+    public get suiCollapse():boolean {
         return this._isExpanded;
     }
 
     // Sets the state of the collapse, `true` is collapsed.
-    private set suiCollapse(value:boolean) {
+    public set suiCollapse(value:boolean) {
         if (value) {
             this.hide();
-        }
-        else {
+        } else {
             this.show();
         }
     }
@@ -39,7 +38,7 @@ export class SuiCollapse {
     @Input()
     public collapseDuration:number;
 
-    private get _animationDuration() {
+    private get _animationDuration():number {
         return this._pristine ? 0 : this.collapseDuration;
     }
 
@@ -53,7 +52,7 @@ export class SuiCollapse {
         this._isCollapsing = false;
     }
 
-    public hide() {
+    public hide():void {
         this._isCollapsing = true;
         this._isExpanded = false;
 
@@ -66,7 +65,7 @@ export class SuiCollapse {
         });
     }
 
-    public show() {
+    public show():void {
         this._isCollapsing = true;
 
         // Animate the host element from its offset height to its scroll height.
@@ -79,7 +78,7 @@ export class SuiCollapse {
         });
     }
 
-    private animate(startHeight:number, endHeight:number, removeOnComplete:boolean = false, callback:() => void = () => {}) {
+    private animate(startHeight:number, endHeight:number, removeOnComplete:boolean = false, callback:() => void = () => {}):void {
         const heightFrames = [
             {
                 offset: 0,
