@@ -4,7 +4,7 @@ import {SuiDropdownMenu} from "../dropdown/dropdown-menu";
 import {SearchService, LookupFn} from "./search.service";
 import {readValue} from "../util/util";
 import {PositioningService, PositioningPlacement} from "../util/positioning.service";
-import {customValueAccessorFactory, CustomValueAccessor, CustomValueAccessorHost} from "../util/custom-value-accessor";
+import {customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHost} from "../util/custom-value-accessor";
 
 @Component({
     selector: "sui-search",
@@ -36,7 +36,7 @@ import {customValueAccessorFactory, CustomValueAccessor, CustomValueAccessorHost
 }
 `]
 })
-export class SuiSearch<T> implements AfterViewInit, CustomValueAccessorHost<T> {
+export class SuiSearch<T> implements AfterViewInit, ICustomValueAccessorHost<T> {
     public dropdownService:DropdownService;
     public searchService:SearchService<T>;
 

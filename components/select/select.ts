@@ -1,7 +1,7 @@
-import {Component, ViewContainerRef, ViewChild, Output, EventEmitter, ElementRef, Renderer2, forwardRef, Directive} from '@angular/core';
-import {SuiSelectBase} from './select-base';
-import {ISelectRenderedOption} from './select-option';
-import {customValueAccessorFactory, CustomValueAccessorHost, CustomValueAccessor} from '../util/custom-value-accessor';
+import {Component, ViewContainerRef, ViewChild, Output, EventEmitter, ElementRef, Renderer2, forwardRef, Directive} from "@angular/core";
+import {SuiSelectBase} from "./select-base";
+import {ISelectRenderedOption} from "./select-option";
+import {customValueAccessorFactory, ICustomValueAccessorHost, CustomValueAccessor} from "../util/custom-value-accessor";
 
 export type SingleItemLookup<T, U> = (query:string, initial?:U) => Promise<T>;
 
@@ -25,7 +25,7 @@ export type SingleItemLookup<T, U> = (query:string, initial?:U) => Promise<T>;
 </div>
 `
 })
-export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements CustomValueAccessorHost<U> {
+export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValueAccessorHost<U> {
     public selectedOption:T;
     // Stores the value written by ngModel before it can be matched to an option from `options`.
     private _writtenOption:U;

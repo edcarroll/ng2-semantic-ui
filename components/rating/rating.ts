@@ -1,5 +1,5 @@
 import {Component, Directive, Input, Output, EventEmitter, HostBinding, HostListener, forwardRef} from "@angular/core";
-import {customValueAccessorFactory, CustomValueAccessor, CustomValueAccessorHost} from "../util/custom-value-accessor";
+import {customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHost} from "../util/custom-value-accessor";
 
 @Component({
     selector: "sui-rating",
@@ -18,7 +18,7 @@ import {customValueAccessorFactory, CustomValueAccessor, CustomValueAccessorHost
 }
 `]
 })
-export class SuiRating implements CustomValueAccessorHost<number> {
+export class SuiRating implements ICustomValueAccessorHost<number> {
     @HostBinding("class.ui")
     @HostBinding("class.rating")
     private _ratingClasses:boolean;

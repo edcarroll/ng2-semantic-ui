@@ -1,5 +1,5 @@
 import {Component, Directive, Input, Output, HostListener, HostBinding, EventEmitter, forwardRef} from "@angular/core";
-import {CustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor} from "../util/custom-value-accessor";
+import {ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor} from "../util/custom-value-accessor";
 
 @Component({
     selector: "sui-checkbox",
@@ -16,7 +16,7 @@ import {CustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor
 </label>
 `
 })
-export class SuiCheckbox implements CustomValueAccessorHost<boolean> {
+export class SuiCheckbox implements ICustomValueAccessorHost<boolean> {
     @HostBinding("class.ui")
     @HostBinding("class.checkbox")
     private _checkboxClasses:boolean;

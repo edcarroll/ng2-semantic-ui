@@ -3,7 +3,7 @@ import {SuiSelectBase} from "./select-base";
 import {SuiMultiSelectLabel} from "./multi-select-label";
 import {Subscription} from "rxjs/Subscription";
 import {KeyCode} from "../util/util";
-import {customValueAccessorFactory, CustomValueAccessor, CustomValueAccessorHost} from "../util/custom-value-accessor";
+import {customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHost} from "../util/custom-value-accessor";
 
 @Component({
     selector: "sui-multi-select",
@@ -30,7 +30,7 @@ import {customValueAccessorFactory, CustomValueAccessor, CustomValueAccessorHost
 }
     `]
 })
-export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterViewInit, CustomValueAccessorHost<U[]> {
+export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterViewInit, ICustomValueAccessorHost<U[]> {
     public selectedOptions:T[];
     // Stores the values written by ngModel before it can be matched to an option from `options`.
     private _writtenOptions:U[];
