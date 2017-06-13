@@ -1,7 +1,7 @@
-import {Component, HostBinding, Input, Directive, EventEmitter, HostListener, Output} from '@angular/core';
+import { Component, HostBinding, Input, Directive, EventEmitter, HostListener, Output } from "@angular/core";
 
 @Directive({
-    selector: '[suiTabHeader]'
+    selector: "[suiTabHeader]"
 })
 export class SuiTabHeader {
     @HostBinding("class.item")
@@ -28,36 +28,38 @@ export class SuiTabHeader {
     @Output("deactivate")
     public onDeactivate:EventEmitter<void>;
 
-    @HostBinding('class.active')
+    @HostBinding("class.active")
     @Input()
-    public get isActive() {
+    public get isActive():boolean {
         return this._isActive;
     }
 
     public set isActive(active:boolean) {
+        let isActive = active;
         // Only used by @Input(), runs whenever user input changes `isActive`.
-        // Run in timeout because `isDisabled` can prohibit user from changing `isActive` so update is delayed to avoid 'changed after checked' error.
+        // Run in timeout because `isDisabled` can prohibit user from changing `isActive`.
+        // so update is delayed to avoid 'changed after checked' error.
         setTimeout(() => {
             // Only allow change if tab header is not disabled.
-            active = !this.isDisabled ? active : false;
-            this.setActiveState(active);
+            isActive = !this.isDisabled ? active : false;
+            this.setActiveState(isActive);
 
             // Fire 'external change' event as user input has occured.
-            this.isActiveExternalChange.emit(active);
+            this.isActiveExternalChange.emit(isActive);
         });
     }
 
     private _isDisabled:boolean;
 
-    @HostBinding('class.disabled')
+    @HostBinding("class.disabled")
     @Input()
-    public get isDisabled() {
+    public get isDisabled():boolean {
         return this._isDisabled;
     }
 
     public set isDisabled(disabled:boolean) {
         // Only update if value provided is different to current one.
-        if (this._isDisabled != disabled) {
+        if (this._isDisabled !== disabled) {
             this._isDisabled = disabled;
 
             // If now disabled, then tab header must be deactivated.
@@ -81,17 +83,16 @@ export class SuiTabHeader {
     }
 
     // Internally update active state.
-    public setActiveState(active:boolean) {
+    public setActiveState(active:boolean):void {
         // If (cast) active value has changed:
-        if (!!this._isActive != active) {
+        if (!!this._isActive !== active) {
             // Update to the new value.
             this._isActive = active;
 
             // Fire the appropriate activation event.
             if (active) {
                 this.onActivate.emit();
-            }
-            else {
+            } else {
                 this.onDeactivate.emit();
             }
         }
@@ -101,7 +102,7 @@ export class SuiTabHeader {
     }
 
     @HostListener("click")
-    private onClick() {
+    private onClick():void {
         if (!this.isDisabled) {
             // Activate the tab when clicked, so long as it isn't disabled.
             this.isActive = true;

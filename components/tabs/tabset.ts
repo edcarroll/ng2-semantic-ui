@@ -1,7 +1,7 @@
-import {Component, ContentChildren, QueryList, AfterContentInit} from "@angular/core";
-import {SuiTabHeader} from "./tab-header";
-import {SuiTabContent} from "./tab-content";
-import {Tab} from "./tab";
+import { Component, ContentChildren, QueryList, AfterContentInit } from "@angular/core";
+import { SuiTabHeader } from "./tab-header";
+import { SuiTabContent } from "./tab-content";
+import { Tab } from "./tab";
 
 @Component({
     selector: "sui-tabset",
@@ -20,11 +20,12 @@ export class SuiTabset implements AfterContentInit {
     // Keeps track of the currently active tab.
     private _activeTab:Tab;
 
-    public get activeTab() {
+    public get activeTab():Tab {
         return this._activeTab;
     }
 
-    // When setting a tab as the currently active tab, it automatically gains `isActive` status (saves littering `isActive = true` everywhere).
+    // When setting a tab as the currently active tab, it automatically gains
+    // `isActive` status (saves littering `isActive = true` everywhere).
     public set activeTab(tab:Tab) {
         this._activeTab = tab;
         tab.isActive = true;
@@ -38,7 +39,7 @@ export class SuiTabset implements AfterContentInit {
         this._barrierCount = 0;
     }
 
-    public ngAfterContentInit() {
+    public ngAfterContentInit():void {
         // Fire `internalComponentsUpdated` when the query lists change.
         this._tabHeaders.changes.subscribe(() => this.internalComponentsUpdated());
         this._tabContents.changes.subscribe(() => this.internalComponentsUpdated());
@@ -48,7 +49,7 @@ export class SuiTabset implements AfterContentInit {
     }
 
     // Fires whenever either the tab headers or tab contents query lists update.
-    private internalComponentsUpdated() {
+    private internalComponentsUpdated():void {
         // We are using a 'counting barrier of n = 2', i.e. the code within only runs after the method is called twice.
         // This is so that both the headers and contents query lists can update before we run code that matches the two up.
         this._barrierCount++;
@@ -63,7 +64,7 @@ export class SuiTabset implements AfterContentInit {
     }
 
     // Connects tab headers to tab contents, and creates a tab instance for each pairing.
-    private loadTabs() {
+    private loadTabs():void {
         // Remove any tabs that no longer have an associated header.
         this.tabs = this.tabs.filter(t => !!this._tabHeaders.find(tH => tH === t.header));
 
@@ -93,13 +94,11 @@ export class SuiTabset implements AfterContentInit {
         // Sort the tabs by their index.
         this.tabs.sort((a, b) => a.index - b.index);
 
-        // Check if there are no current existing active tabs.
-        if (!this.activeTab) {
+
+        if (!this.activeTab) { // Check if there are no current existing active tabs.
             // If so, we must activate the first available tab.
             this.activateFirstTab();
-        }
-        // O'wise check if current active tab has been deleted.
-        else if (!this.tabs.find(t => t === this.activeTab)) {
+        } else if (!this.tabs.find(t => t === this.activeTab)) { // O'wise check if current active tab has been deleted.
             // If so, we must find the closest.
             // Use `setTimeout` as this causes a 'changed after checked' error o'wise.
             setTimeout(() => this.activateClosestTab(this.activeTab));
@@ -112,7 +111,7 @@ export class SuiTabset implements AfterContentInit {
     }
 
     // Fires whenever a tab header's active state is externally changed.
-    private onHeaderActiveChanged(tab:Tab) {
+    private onHeaderActiveChanged(tab:Tab):void {
         // If the tab has become activated, but was not previously the active tab:
         if (tab.isActive && this.activeTab !== tab) {
             // Deactivate all of the tabs.
@@ -130,7 +129,7 @@ export class SuiTabset implements AfterContentInit {
     }
 
     // Activate the first tab in the set.
-    public activateFirstTab() {
+    public activateFirstTab():void {
         this.activeTab = this.tabs[0];
     }
 
@@ -146,13 +145,10 @@ export class SuiTabset implements AfterContentInit {
 
         // If that didn't work, try the following cases:
         if (!nextAvailable) {
-            // When the exited tab no longer exists,
-            if (!this.tabs.find(t => t === tab)) {
+            if (!this.tabs.find(t => t === tab)) { // When the exited tab no longer exists,
                 // Replace it with a tab at the same index.
                 nextAvailable = this.tabs[tab.index];
-            }
-            // Or if the exited tab still exists,
-            else {
+            } else { // Or if the exited tab still exists,
                 // Go to the tab immediately to the left.
                 nextAvailable = this.tabs[Math.max(tab.index - 1, 0)];
             }
