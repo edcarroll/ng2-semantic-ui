@@ -24,15 +24,24 @@
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
-    "start": "ng serve",
-    "compile": "ngc",
-    "compile:w": "ngc -w",
+    "run:demo": "ng serve",
+
     "lint:lib": "tslint -c tslint.json --type-check --project tsconfig.json",
     "lint:demo": "tslint -c tslint.json --type-check --project demo/src/tsconfig.json",
     "lint": "npm run lint:lib & npm run lint:demo",
-    "prepublish": "npm run build",
-    "package": "rollup -c",
-    "build": "npm run lint && npm run compile && npm run package"
+
+    "compile:lib": "ngc",
+    "compile:lib:w": "ngc -w",
+    "compile:demo": "ng build --prod --aot=false --base-href=/ng2-semantic-ui/",
+    "compile": "npm run compile:lib && npm run compile:demo",
+
+    "package:lib": "rollup -c",
+
+    "build:lib": "npm run lint:lib && npm run compile:lib && npm run package:lib",
+    "build:demo": "npm run lint && npm run compile",
+    "build": "npm run lint && npm run compile && npm run package:lib",
+
+    "prepublish": "npm run build"
   },
   "dependencies": {
     "@angular/common": "^4.1.0",
