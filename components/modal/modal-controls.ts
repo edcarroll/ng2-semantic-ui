@@ -18,7 +18,8 @@ export class Modal<T, U = null, V = null> extends ModalControls<U, V> {
     public context:T;
 
     constructor(controls:ModalControls<U, V>, context:T) {
-        // Instances of `ModalControls` are only created in the `SuiModal` constructor, so we take an initialised instance rather than remaking one each time.
+        // Instances of `ModalControls` are only created in the `SuiModal` constructor,
+        // so we take an initialised instance rather than remaking one each time.
         super(controls.approve, controls.deny);
 
         this.context = context;
