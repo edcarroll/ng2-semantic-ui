@@ -1,15 +1,15 @@
-import {NG_VALUE_ACCESSOR, ControlValueAccessor} from "@angular/forms";
-import {forwardRef, InjectionToken, Type} from "@angular/core";
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
+import { forwardRef, InjectionToken, Type } from "@angular/core";
 
-export interface CustomValueAccessorHost<T> {
+export interface ICustomValueAccessorHost<T> {
     writeValue(value:T):void;
 }
 
-export class CustomValueAccessor<U, T extends CustomValueAccessorHost<U>> implements ControlValueAccessor {
+export class CustomValueAccessor<U, T extends ICustomValueAccessorHost<U>> implements ControlValueAccessor {
+    constructor(private _host:T) {}
+
     public onChange = () => {};
     public onTouched = () => {};
-
-    constructor(private _host:T) {}
 
     public writeValue(value:U) {
         this._host.writeValue(value);
@@ -24,7 +24,13 @@ export class CustomValueAccessor<U, T extends CustomValueAccessorHost<U>> implem
     }
 }
 
-export function customValueAccessorFactory(type:Function) {
+export interface IProvider {
+    provide:InjectionToken<ControlValueAccessor>;
+    useExisting:Type<any>;
+    multi:boolean;
+}
+
+export function customValueAccessorFactory(type:Function):IProvider {
     return {
         provide: NG_VALUE_ACCESSOR,
         useExisting: forwardRef(() => type),
