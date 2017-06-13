@@ -1,7 +1,7 @@
-import {NgModule} from "@angular/core";
-import {CommonModule} from "@angular/common";
-import {SuiMessage, IMessage} from "./message";
-import {SuiTransitionModule} from "../transition/transition.module";
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { SuiMessage, IMessage } from "./message";
+import { SuiTransitionModule } from "../transition/transition.module";
 
 @NgModule({
     imports: [

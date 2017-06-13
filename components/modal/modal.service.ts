@@ -26,7 +26,7 @@ export class SuiModalService {
                 $implicit: modal.context,
                 // `let-modal="modal"`
                 modal: componentRef.instance.controls
-            })
+            });
         } else if (modal instanceof ComponentModalConfig) {
             // Resolve factory for creating a new instance of the provided component.
             const contentComponentFactory = this._componentFactoryResolver.resolveComponentFactory(modal.component as Type<{}>);

@@ -9,8 +9,8 @@ export class ModalControls<T, U> {
     }
 
     // Use method here rather than arrow variables to make intellisense show they're methods.
-    public approve(result:T):void {};
-    public deny(result:U):void {};
+    public approve(result:T):void {}
+    public deny(result:U):void {}
 }
 
 // Injected into custom modal components, to allow control of the modal, and access to a context object.

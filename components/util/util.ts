@@ -29,7 +29,7 @@ export function deepValue<T, U>(object:T, path:string):U {
 
     let recursed:IRecursiveObject;
 
-    for (let i = 0, p = path.split("."), len = p.length; i < len; i++){
+    for (let i = 0, p = path.split("."), len = p.length; i < len; i++) {
         recursed = (object as any as IRecursiveObject)[p[i]];
     }
 

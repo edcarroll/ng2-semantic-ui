@@ -161,7 +161,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
         // Use a slight delay as the `<sui-dimmer>` cancels the initial transition.
         setTimeout(() => {
             // Transition the modal to be visible.
-            this.transitionController.animate(new Transition(this.transition, this.transitionDuration, TransitionDirection.In))
+            this.transitionController.animate(new Transition(this.transition, this.transitionDuration, TransitionDirection.In));
             this.dimBackground = true;
         });
     }
