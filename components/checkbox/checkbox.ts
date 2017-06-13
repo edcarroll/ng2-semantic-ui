@@ -1,5 +1,5 @@
-import {Component, Directive, Input, Output, HostListener, HostBinding, EventEmitter, forwardRef} from "@angular/core";
-import {ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor} from "../util/custom-value-accessor";
+import { Component, Directive, Input, Output, HostListener, HostBinding, EventEmitter, forwardRef } from "@angular/core";
+import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor } from "../util/custom-value-accessor";
 
 @Component({
     selector: "sui-checkbox",
@@ -37,11 +37,11 @@ export class SuiCheckbox implements ICustomValueAccessorHost<boolean> {
     @Input()
     public isReadonly:boolean;
 
-    public get checkedAttribute() {
+    public get checkedAttribute():string {
         return this.isChecked ? "" : null;
     }
 
-    public get isDisabledAttribute() {
+    public get isDisabledAttribute():string {
         return this.isDisabled ? "disabled" : null;
     }
 
@@ -56,18 +56,18 @@ export class SuiCheckbox implements ICustomValueAccessorHost<boolean> {
     }
 
     @HostListener("click")
-    public onClick() {
+    public onClick():void {
         if (!this.isDisabled && !this.isReadonly) {
             this.toggle();
         }
     }
 
-    public toggle() {
+    public toggle():void {
         this.isChecked = !this.isChecked;
         this.checkChange.emit(this.isChecked);
     }
 
-    public writeValue(value:boolean) {
+    public writeValue(value:boolean):void {
         this.isChecked = value;
     }
 }
