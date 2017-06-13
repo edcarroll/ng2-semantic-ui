@@ -1,9 +1,9 @@
-import {NgModule} from "@angular/core";
-import {SuiCollapseModule} from "../collapse/collapse.module";
-import {CommonModule} from "@angular/common";
-import {SuiAccordion} from "./accordion";
-import {SuiAccordionPanel} from "./accordion-panel";
-import {SuiTransitionModule} from "../transition/transition.module";
+import { NgModule } from "@angular/core";
+import { SuiCollapseModule } from "../collapse/collapse.module";
+import { CommonModule } from "@angular/common";
+import { SuiAccordion } from "./accordion";
+import { SuiAccordionPanel } from "./accordion-panel";
+import { SuiTransitionModule } from "../transition/transition.module";
 
 @NgModule({
     imports: [
