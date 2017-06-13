@@ -1,4 +1,4 @@
-import {Component, Input, HostBinding} from "@angular/core";
+import { Component, Input, HostBinding } from "@angular/core";
 
 @Component({
     selector: "sui-progress",
@@ -20,7 +20,7 @@ import {Component, Input, HostBinding} from "@angular/core";
 export class SuiProgress {
     @HostBinding("class.ui")
     @HostBinding("class.progress")
-    private _popupClasses = true;
+    private _popupClasses:boolean = true;
 
     private _value:number;
     private _maximum:number;
@@ -35,60 +35,60 @@ export class SuiProgress {
     public showProgress:boolean;
 
     @Input()
-    public get value() {
+    public get value():number {
         return this._value;
     }
 
     public set value(value:number) {
         // Convert value from string to number where necessary.
-        value = +value;
+        const converted = +value;
 
-        if (Number.isNaN(value)) {
+        if (Number.isNaN(converted)) {
             return;
         }
 
-        this._value = value;
+        this._value = converted;
     }
 
     @Input()
-    public get maximum() {
+    public get maximum():number {
         return this._maximum;
     }
 
     public set maximum(value:number) {
         // Convert value from string to number where necessary.
-        value = +value;
+        const converted = +value;
 
-        if (Number.isNaN(value)) {
+        if (Number.isNaN(converted)) {
             return;
         }
 
-        this._maximum = value;
+        this._maximum = converted;
     }
 
     @Input()
-    public get precision() {
+    public get precision():number {
         return this._precision;
     }
 
     public set precision(value:number) {
         // Convert value from string to number where necessary.
-        value = +value;
+        const converted = +value;
 
-        if (Number.isNaN(value)) {
+        if (Number.isNaN(converted)) {
             return;
         }
 
-        this._precision = Math.min(Math.max(value, 0), 20);
+        this._precision = Math.min(Math.max(converted, 0), 20);
     }
 
     @HostBinding("class.success")
-    private get reachedMaximum() {
+    private get _reachedMaximum():boolean {
         return this._overrideSuccess || ((this.value >= this.maximum) && this.autoSuccess);
     }
 
     @HostBinding("attr.data-percent")
-    public get percentage() {
+    public get percentage():string {
         const boundedValue = Math.min(Math.max(this.value, 0), this.maximum);
 
         const percentage = (boundedValue / this.maximum) * 100;
@@ -97,7 +97,7 @@ export class SuiProgress {
     }
 
     @Input("class")
-    private set classValue(classes:string) {
+    public set classValue(classes:string) {
         if (classes.includes("attached") || classes.includes("tiny")) {
             this.showProgress = false;
         }

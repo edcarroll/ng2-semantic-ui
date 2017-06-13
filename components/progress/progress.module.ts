@@ -1,6 +1,6 @@
-import {NgModule} from "@angular/core";
-import {CommonModule} from "@angular/common";
-import {SuiProgress} from "./progress";
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { SuiProgress } from "./progress";
 
 @NgModule({
     imports: [
