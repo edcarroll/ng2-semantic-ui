@@ -8,7 +8,7 @@ export const DropdownAutoCloseType = {
     ItemClick: "itemClick" as DropdownAutoCloseType,
     OutsideClick: "outsideClick" as DropdownAutoCloseType,
     Disabled: "disabled" as DropdownAutoCloseType
-}
+};
 
 export class DropdownService {
     // Open state of the dropdown

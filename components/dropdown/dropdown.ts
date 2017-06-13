@@ -90,7 +90,7 @@ export class SuiDropdown implements AfterContentInit {
         // Reregister child dropdowns each time the menu content changes.
         this.children
             .map(c => c.service)
-            .forEach(s => this.service.registerChild(s))
+            .forEach(s => this.service.registerChild(s));
     }
 
     @HostListener("click", ["$event"])
