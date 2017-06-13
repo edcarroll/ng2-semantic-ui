@@ -20,6 +20,7 @@
       true,
       "ban-single-arg-parens"
     ],
+    "arrow-return-shorthand": true,
     "await-promise": true,
     "binary-expression-operand-order": true,
     "callable-types": true,
@@ -27,7 +28,7 @@
       true,
       "check-space"
     ],
-    "conditional-expression-parens": true,
+    "conditional-expression-parens": false,
     "curly": true,
     "encoding": true,
     "eofline": true,
@@ -64,7 +65,7 @@
       {
         "array": ["never"],
         "object": ["always"],
-        "import": ["never"]
+        "import": ["always"]
       }
     ],
     "max-line-length": [
@@ -108,7 +109,11 @@
     "no-eval": true,
     "no-floating-promises": true,
     "no-increment-decrement": true,
-    "no-inferrable-types": true,
+    "no-inferrable-types": [
+      true,
+      "ignore-params",
+      "ignore-properties"
+    ],
     "no-inferred-empty-object-type": true,
     "no-invalid-template-strings": true,
     "no-invalid-this": true,
@@ -181,6 +186,12 @@
       "allow-null-check"
     ],
     "type-literal-delimiter": true,
+    "typedef": [
+      true,
+      "call-signature",
+      "parameter",
+      "member-variable-declaration"
+    ],
     "typedef-whitespace": [
       true,
       {
@@ -203,9 +214,7 @@
     "use-default-type-parameter": true,
     "variable-name": [
       true,
-      "ban-keywords",
-      "check-format",
-      "allow-leading-underscore"
+      "ban-keywords"
     ],
     "whitespace": [
       true,
