@@ -1,6 +1,6 @@
-import {Component, Input, Output, EventEmitter, ElementRef, Renderer2, AfterViewInit} from "@angular/core";
-import {SuiTransition, Transition, TransitionDirection} from "../transition/transition";
-import {TransitionController} from "../transition/transition-controller";
+import { Component, Input, Output, EventEmitter, ElementRef, Renderer2, AfterViewInit } from "@angular/core";
+import { SuiTransition, Transition, TransitionDirection } from "../transition/transition";
+import { TransitionController } from "../transition/transition-controller";
 
 export interface IMessage {
     dismiss():void;
@@ -9,7 +9,7 @@ export interface IMessage {
 @Component({
     selector: "sui-message",
     template: `
-<div class="ui message {{ _classes }}" *ngIf="!isDismissed" [suiTransition]="_transition">
+<div class="ui message {{ class }}" *ngIf="!isDismissed" [suiTransition]="transitionController">
     <i class="close icon" *ngIf="isDismissable" (click)="dismiss()"></i>
     <ng-content></ng-content>
 </div>
@@ -24,7 +24,7 @@ export class SuiMessage implements IMessage {
 
     public isDismissed:boolean;
 
-    private _transition:TransitionController;
+    public transitionController:TransitionController;
 
     @Input()
     public transition:string;
@@ -33,7 +33,7 @@ export class SuiMessage implements IMessage {
     public transitionDuration:number;
 
     @Input("class")
-    private _classes:string;
+    public class:string;
 
     constructor() {
         this.isDismissable = true;
@@ -41,15 +41,15 @@ export class SuiMessage implements IMessage {
 
         this.isDismissed = false;
 
-        this._transition = new TransitionController();
+        this.transitionController = new TransitionController();
         this.transition = "fade";
         this.transitionDuration = 300;
 
-        this._classes = "";
+        this.class = "";
     }
 
-    public dismiss() {
-        this._transition.animate(new Transition(this.transition, this.transitionDuration, TransitionDirection.Out, () => {
+    public dismiss():void {
+        this.transitionController.animate(new Transition(this.transition, this.transitionDuration, TransitionDirection.Out, () => {
             this.isDismissed = true;
             this.onDismiss.emit(this);
         }));
