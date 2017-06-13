@@ -1,7 +1,7 @@
-import {NgModule} from "@angular/core";
-import {CommonModule} from "@angular/common";
-import {FormsModule} from "@angular/forms";
-import {SuiRating, SuiRatingValueAccessor} from "./rating";
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
+import { SuiRating, SuiRatingValueAccessor } from "./rating";
 
 @NgModule({
     imports: [
