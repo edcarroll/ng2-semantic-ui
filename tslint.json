@@ -148,7 +148,10 @@
       true,
       "ignore-for-loop"
     ],
-    "only-arrow-functions": true,
+    "only-arrow-functions": [
+      true,
+      "allow-declarations"
+    ],
     "prefer-conditional-expression": true,
     "prefer-const": true,
     "prefer-literal": [
