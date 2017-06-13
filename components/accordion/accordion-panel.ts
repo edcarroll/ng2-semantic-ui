@@ -1,11 +1,11 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {Component, Input, Output, EventEmitter} from "@angular/core";
 import {SuiAccordionService} from "./accordion.service";
-import {TransitionController} from '../transition/transition-controller';
-import {Transition, TransitionDirection} from '../transition/transition';
+import {TransitionController} from "../transition/transition-controller";
+import {Transition, TransitionDirection} from "../transition/transition";
 
 @Component({
-    selector: 'sui-accordion-panel',
-    exportAs: 'suiAccordionPanel',
+    selector: "sui-accordion-panel",
+    exportAs: "suiAccordionPanel",
     template: `
 <!-- Title -->
 <div class="title" [class.active]="isOpen" (click)="toggle()" >
@@ -34,7 +34,7 @@ export class SuiAccordionPanel {
     private _service:SuiAccordionService;
 
     public transitionController:TransitionController;
-    
+
     public set service(service:SuiAccordionService) {
         this._service = service;
     }
@@ -53,16 +53,16 @@ export class SuiAccordionPanel {
         // Convert to boolean (fixes false != undefined)
         value = !!value;
 
-        if (value != this.isOpen) {
+        if (value !== this.isOpen) {
             // Only update if the value has changed.
             this._isOpen = value;
-            
+
             if (value && this._service) {
                 // If we are opening this panel, we must close the other ones.
                 this._service.closeOtherPanels(this);
             }
             this.isOpenChange.emit(this.isOpen);
-        
+
             // Cancel all current animations, and fade the contents. The direction is automatic.
             this.transitionController.stopAll();
             this.transitionController.animate(new Transition(this.transition, this.transitionDuration));

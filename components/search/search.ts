@@ -1,13 +1,13 @@
-import {Component, ViewChild, HostBinding, Input, AfterViewInit, HostListener, EventEmitter, Output, forwardRef, Directive, ElementRef} from '@angular/core';
-import {DropdownService} from '../dropdown/dropdown.service';
-import {SuiDropdownMenu} from '../dropdown/dropdown-menu';
-import {SearchService, LookupFn} from './search.service';
-import {readValue} from '../util/util';
-import {PositioningService, PositioningPlacement} from '../util/positioning.service';
-import {customValueAccessorFactory, CustomValueAccessor, CustomValueAccessorHost} from '../util/custom-value-accessor';
+import {Component, ViewChild, HostBinding, Input, AfterViewInit, HostListener, EventEmitter, Output, forwardRef, Directive, ElementRef} from "@angular/core";
+import {DropdownService} from "../dropdown/dropdown.service";
+import {SuiDropdownMenu} from "../dropdown/dropdown-menu";
+import {SearchService, LookupFn} from "./search.service";
+import {readValue} from "../util/util";
+import {PositioningService, PositioningPlacement} from "../util/positioning.service";
+import {customValueAccessorFactory, CustomValueAccessor, CustomValueAccessorHost} from "../util/custom-value-accessor";
 
 @Component({
-    selector: 'sui-search',
+    selector: "sui-search",
     template: `
 <div class="ui input" [class.icon]="hasIcon" (click)="onClick($event)">
     <input class="prompt" type="text" [attr.placeholder]="placeholder" autocomplete="off" [(ngModel)]="query">
@@ -45,11 +45,11 @@ export class SuiSearch<T> implements AfterViewInit, CustomValueAccessorHost<T> {
 
     // Sets the Semantic UI classes on the host element.
     // Doing it on the host enables use in menus etc.
-    @HostBinding('class.ui')
-    @HostBinding('class.search')
+    @HostBinding("class.ui")
+    @HostBinding("class.search")
     private _searchClasses:boolean;
 
-    @HostBinding('class.active')
+    @HostBinding("class.active")
     public get isActive() {
         return this.dropdownService.isOpen;
     }
@@ -77,7 +77,7 @@ export class SuiSearch<T> implements AfterViewInit, CustomValueAccessorHost<T> {
     // Sets local or remote options by determining whether a function is passed.
     @Input()
     public set options(options:T[] | LookupFn<T>) {
-        if (typeof options == "function") {
+        if (typeof options === "function") {
             this.searchService.optionsLookup = options;
             return;
         }
@@ -94,7 +94,7 @@ export class SuiSearch<T> implements AfterViewInit, CustomValueAccessorHost<T> {
         this.searchService.searchDelay = delay;
     }
 
-    @HostBinding('class.loading')
+    @HostBinding("class.loading")
     public get isSearching() {
         return this.searchService.isSearching;
     }
@@ -174,8 +174,8 @@ export class SuiSearch<T> implements AfterViewInit, CustomValueAccessorHost<T> {
 
 // Value accessor directive for the search to support ngModel.
 @Directive({
-    selector: 'sui-search',
-    host: { '(onItemSelected)': 'onChange($event)' },
+    selector: "sui-search",
+    host: { "(onItemSelected)": "onChange($event)" },
     providers: [customValueAccessorFactory(SuiSearchValueAccessor)]
 })
 export class SuiSearchValueAccessor<T> extends CustomValueAccessor<T, SuiSearch<T>> {

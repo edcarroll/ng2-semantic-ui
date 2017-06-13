@@ -1,16 +1,16 @@
-import {Component, AfterViewInit, ViewChild, TemplateRef} from '@angular/core';
-import {SuiModalService} from '../../../../../components/modal/modal.service';
-import {ModalConfig, ComponentModalConfig, TemplateModalConfig, ModalSize} from '../../../../../components/modal/modal-config';
-import {Modal} from '../../../../../components/modal/modal-controls';
-import {ModalTemplate} from '../../../../../components/modal/modal-template';
+import {Component, AfterViewInit, ViewChild, TemplateRef} from "@angular/core";
+import {SuiModalService} from "../../../../../components/modal/modal.service";
+import {ModalConfig, ComponentModalConfig, TemplateModalConfig, ModalSize} from "../../../../../components/modal/modal-config";
+import {Modal} from "../../../../../components/modal/modal-controls";
+import {ModalTemplate} from "../../../../../components/modal/modal-template";
 
 @Component({
-    selector: 'demo-page-test',
-    templateUrl: './test.page.html'
+    selector: "demo-page-test",
+    templateUrl: "./test.page.html"
 })
 export class TestPage implements AfterViewInit {
 
-    @ViewChild('modalTemplate')
+    @ViewChild("modalTemplate")
     public modalTemplate:ModalTemplate<null, string, string>
 
     constructor(public modalService:SuiModalService) {}

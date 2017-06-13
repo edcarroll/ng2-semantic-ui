@@ -1,8 +1,8 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {SuiModalModule} from '../../../../components/modal/modal.module';
-import {AlertModalComponent} from './alert.modal';
-import {ConfirmModalComponent} from './confirm.modal';
+import {NgModule} from "@angular/core";
+import {CommonModule} from "@angular/common";
+import {SuiModalModule} from "../../../../components/modal/modal.module";
+import {AlertModalComponent} from "./alert.modal";
+import {ConfirmModalComponent} from "./confirm.modal";
 
 @NgModule({
     imports: [

@@ -1,14 +1,14 @@
-import {Component, ViewChild, ViewContainerRef, ElementRef, Renderer2, EventEmitter, TemplateRef, HostListener} from '@angular/core';
-import {SuiTransition, Transition, TransitionDirection} from '../transition/transition';
-import {TransitionController} from '../transition/transition-controller';
-import {PositioningService, PositioningPlacement} from '../util/positioning.service';
+import {Component, ViewChild, ViewContainerRef, ElementRef, Renderer2, EventEmitter, TemplateRef, HostListener} from "@angular/core";
+import {SuiTransition, Transition, TransitionDirection} from "../transition/transition";
+import {TransitionController} from "../transition/transition-controller";
+import {PositioningService, PositioningPlacement} from "../util/positioning.service";
 import {TemplateRefContext} from "../util/util";
-import {IPopup} from './popup.directive';
-import {PopupConfig} from './popup-config';
+import {IPopup} from "./popup.directive";
+import {PopupConfig} from "./popup-config";
 import Popper from "popper.js";
 
 @Component({
-    selector: 'sui-popup',
+    selector: "sui-popup",
     template: `
 <div class="ui popup" [class.inverted]="config.isInverted" [class.basic]="config.isBasic" [suiTransition]="transitionController" [attr.direction]="direction" #container>
     <ng-container *ngIf="!config.template">
@@ -72,7 +72,7 @@ export class SuiPopup implements IPopup {
     }
 
     // `ElementRef` for the positioning subject.
-    @ViewChild('container', { read: ViewContainerRef })
+    @ViewChild("container", { read: ViewContainerRef })
     private _container:ViewContainerRef;
 
     public set anchor(anchor:ElementRef) {
@@ -88,7 +88,7 @@ export class SuiPopup implements IPopup {
     }
 
     // `ViewContainerRef` for the element the template gets injected as a sibling of.
-    @ViewChild('templateSibling', { read: ViewContainerRef })
+    @ViewChild("templateSibling", { read: ViewContainerRef })
     public templateSibling:ViewContainerRef;
 
     constructor(public elementRef:ElementRef) {

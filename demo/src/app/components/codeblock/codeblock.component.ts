@@ -1,11 +1,11 @@
-import {Component, AfterViewInit, Input, ChangeDetectorRef} from '@angular/core';
+import {Component, AfterViewInit, Input, ChangeDetectorRef} from "@angular/core";
 
 @Component({
     selector: "demo-codeblock",
     template: `
 <pre [ngClass]="languageClass" [innerHTML]="html"></pre>
 `,
-    styleUrls: ['./codeblock.component.css']
+    styleUrls: ["./codeblock.component.css"]
 })
 export class CodeblockComponent implements AfterViewInit {
     @Input()
@@ -21,7 +21,7 @@ export class CodeblockComponent implements AfterViewInit {
     constructor(private changeDetectorRef:ChangeDetectorRef) {}
 
     ngAfterViewInit() {
-        if (this.src[0] == "\n") {
+        if (this.src[0] === "\n") {
             this.src = this.src.replace("\n", "");
         }
         this.languageClass[`language-${this.language}`] = true;

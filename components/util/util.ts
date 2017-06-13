@@ -12,9 +12,9 @@ export enum KeyCode {
     Backspace = 8
 };
 
-type RecursiveObject = { [name:string]:RecursiveObject };
+interface RecursiveObject { [name:string]:RecursiveObject }
 
-export type TemplateRefContext<T> = { $implicit:T };
+export interface TemplateRefContext<T> { $implicit:T }
 
 // This involves some fun type fuckery (It can be likened to RAA) - this is essentially a function to retrive the value at a given path.
 // If anyone has a better way, please do let me know :)
@@ -29,7 +29,7 @@ export function deepValue<T, U>(object:T, path:string):U {
 
     let recursed:RecursiveObject;
 
-    for (let i = 0, p = path.split('.'), len = p.length; i < len; i++){
+    for (let i = 0, p = path.split("."), len = p.length; i < len; i++){
         recursed = (object as any as RecursiveObject)[p[i]];
     }
 
@@ -49,7 +49,7 @@ export class HandledEvent {
 }
 
 export function parseBooleanAttribute(attributeValue:boolean) {
-    if (typeof attributeValue == "string") {
+    if (typeof attributeValue === "string") {
         attributeValue = true;
     }
 

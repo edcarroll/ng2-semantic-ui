@@ -1,21 +1,21 @@
-import {Directive, ElementRef, Input, HostBinding, Renderer2, HostListener} from '@angular/core';
+import {Directive, ElementRef, Input, HostBinding, Renderer2, HostListener} from "@angular/core";
 
 @Directive({
-    selector: '[suiCollapse]'
+    selector: "[suiCollapse]"
 })
 export class SuiCollapse {
     // Set when the collapse is open, and not animating.
-    @HostBinding('class.expanded')
+    @HostBinding("class.expanded")
     private _isExpanded:boolean;
 
     // Set when the collapse is closed, and not animating.
-    @HostBinding('class.collapsed')
+    @HostBinding("class.collapsed")
     private get isCollapsed() {
         return !this._isExpanded && !this._isCollapsing;
     }
 
     // Set when the collapse is animating.
-    @HostBinding('class.collapsing')
+    @HostBinding("class.collapsing")
     private _isCollapsing:boolean;
 
     // Flag that is initially true, to make the 1st animation instantaneous.
@@ -58,7 +58,7 @@ export class SuiCollapse {
         this._isExpanded = false;
 
         // Forcibly hide the overflow so that content is not visible past the boundaries of its container.
-        this._renderer.setStyle(this._element.nativeElement, 'overflow', 'hidden');
+        this._renderer.setStyle(this._element.nativeElement, "overflow", "hidden");
 
         // Animate the host element from its scroll height to 0.
         this.animate(this._element.nativeElement.scrollHeight, 0, false, () => {
@@ -72,7 +72,7 @@ export class SuiCollapse {
         // Animate the host element from its offset height to its scroll height.
         this.animate(this._element.nativeElement.offsetHeight, this._element.nativeElement.scrollHeight, true, () => {
             // Remove the overflow override to enable user styling once again.
-            this._renderer.removeStyle(this._element.nativeElement, 'overflow');
+            this._renderer.removeStyle(this._element.nativeElement, "overflow");
 
             this._isCollapsing = false;
             this._isExpanded = true;

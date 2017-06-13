@@ -1,7 +1,7 @@
-import {TemplateRef} from '@angular/core';
-import {TemplateRefContext} from '../util/util';
-import {PositioningPlacement} from '../util/positioning.service';
-import {IPopup} from './popup.directive';
+import {TemplateRef} from "@angular/core";
+import {TemplateRefContext} from "../util/util";
+import {PositioningPlacement} from "../util/positioning.service";
+import {IPopup} from "./popup.directive";
 
 export type PopupTrigger = "hover" | "click" | "outsideClick" | "focus" | "manual";
 

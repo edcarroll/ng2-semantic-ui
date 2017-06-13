@@ -1,4 +1,4 @@
-import {EventEmitter} from '@angular/core';
+import {EventEmitter} from "@angular/core";
 
 export type SidebarTransition = "overlay" | "push" | "scale down" | "uncover" | "slide along" | "slide out";
 
@@ -26,15 +26,15 @@ export class SidebarService {
     public wasJustOpened:boolean;
 
     public direction:SidebarDirection;
-    
+
     private _width:number;
     private _height:number;
 
     public get width() {
-        if (this.direction == SidebarDirection.Left) {
+        if (this.direction === SidebarDirection.Left) {
             return this._width;
         }
-        if (this.direction == SidebarDirection.Right) {
+        if (this.direction === SidebarDirection.Right) {
             return -this._width;
         }
         return 0;
@@ -46,10 +46,10 @@ export class SidebarService {
     }
 
     public get height() {
-        if (this.direction == SidebarDirection.Top) {
+        if (this.direction === SidebarDirection.Top) {
             return this._height;
         }
-        if (this.direction == SidebarDirection.Bottom) {
+        if (this.direction === SidebarDirection.Bottom) {
             return -this._height;
         }
         return 0;
@@ -84,7 +84,7 @@ export class SidebarService {
     }
 
     public setVisibleState(isVisible:boolean) {
-        if (this.isVisible != isVisible) {
+        if (this.isVisible !== isVisible) {
             this.isVisible = isVisible;
             this.isAnimating = true;
             this.wasJustOpened = true;

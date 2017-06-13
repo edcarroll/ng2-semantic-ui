@@ -1,16 +1,16 @@
-import {Component, HostBinding, Directive, Input} from '@angular/core';
+import {Component, HostBinding, Directive, Input} from "@angular/core";
 
 @Directive({
-    selector: '[suiTabContent]'
+    selector: "[suiTabContent]"
 })
 export class SuiTabContent {
-    @HostBinding('class.tab')
+    @HostBinding("class.tab")
     private _contentClasses:boolean;
 
     @Input("suiTabContent")
     public id:string;
 
-    @HostBinding('class.active')
+    @HostBinding("class.active")
     public isActive:boolean;
 
     constructor() {

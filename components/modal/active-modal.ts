@@ -1,12 +1,12 @@
-import {ModalConfig} from './modal-config';
-import {SuiModal} from './modal';
-import {ComponentRef} from '@angular/core';
+import {ModalConfig} from "./modal-config";
+import {SuiModal} from "./modal";
+import {ComponentRef} from "@angular/core";
 
 // Helper class to support method chaining when calling `SuiModalService.open(...)`.
 export class ActiveModal<T, U, V> {
     private _config:ModalConfig<T, U, V>;
     private _componentRef:ComponentRef<SuiModal<U, V>>;
-    
+
     // Shorthand for direct access to the `SuiModal` instance.
     public get component() {
         return this._componentRef.instance;

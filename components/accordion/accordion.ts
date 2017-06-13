@@ -3,7 +3,7 @@ import {SuiAccordionPanel} from "./accordion-panel";
 import {SuiAccordionService} from "./accordion.service";
 
 @Component({
-    selector: 'sui-accordion',
+    selector: "sui-accordion",
     template: `
 <ng-content></ng-content>
 `,
@@ -20,10 +20,10 @@ import {SuiAccordionService} from "./accordion.service";
 `]
 })
 export class SuiAccordion implements AfterContentInit {
-    @HostBinding('class.ui')
-    @HostBinding('class.accordion')
+    @HostBinding("class.ui")
+    @HostBinding("class.accordion")
     public accordionClasses:boolean;
-    
+
     @Input()
     public get closeOthers():boolean {
         return this._service.closeOthers;
@@ -37,14 +37,14 @@ export class SuiAccordion implements AfterContentInit {
     public set transition(transition:string) {
         this._service.transition = transition;
     }
-    
+
     @Input()
     public set transitionDuration(duration:number) {
         this._service.transitionDuration = duration;
     }
 
     protected _service:SuiAccordionService;
-    
+
     @ContentChildren(SuiAccordionPanel)
     protected panels:QueryList<SuiAccordionPanel>;
 

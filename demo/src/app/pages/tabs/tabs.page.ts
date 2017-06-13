@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
-import {ApiDefinition} from '../../components/api/api.component';
-import {SuiModalService} from '../../../../../components/modal/modal.service';
-import {AlertModal} from '../../modals/alert.modal';
+import {Component} from "@angular/core";
+import {ApiDefinition} from "../../components/api/api.component";
+import {SuiModalService} from "../../../../../components/modal/modal.service";
+import {AlertModal} from "../../modals/alert.modal";
 
 const exampleStandardTemplate = `
 <sui-tabset>
@@ -83,8 +83,8 @@ const exampleStyledTemplate = `
 `;
 
 @Component({
-    selector: 'demo-page-tabs',
-    templateUrl: './tabs.page.html'
+    selector: "demo-page-tabs",
+    templateUrl: "./tabs.page.html"
 })
 export class TabsPage {
     public api:ApiDefinition = [
@@ -150,20 +150,20 @@ export class TabsPage {
 }
 
 @Component({
-    selector: 'tab-example-standard',
+    selector: "tab-example-standard",
     template: exampleStandardTemplate
 })
 export class TabExampleStandard {}
 
 @Component({
-    selector: 'tab-example-properties',
+    selector: "tab-example-properties",
     template: examplePropertiesTemplate
 })
 export class TabExampleProperties {
     public firstActive:boolean;
     public secondActive:boolean;
     public thirdActive:boolean;
-    
+
     public thirdDisabled:boolean;
 
     constructor(public modalService:SuiModalService) {}
@@ -174,7 +174,7 @@ export class TabExampleProperties {
 }
 
 @Component({
-    selector: 'tab-example-dynamic',
+    selector: "tab-example-dynamic",
     template: exampleDynamicTemplate
 })
 export class TabExampleDynamic {
@@ -198,7 +198,7 @@ export class TabExampleDynamic {
 }
 
 @Component({
-    selector: 'tab-example-styled',
+    selector: "tab-example-styled",
     template: exampleStyledTemplate
 })
 export class TabExampleStyled {

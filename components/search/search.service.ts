@@ -1,4 +1,4 @@
-import {readValue} from '../util/util';
+import {readValue} from "../util/util";
 
 // Define useful types to avoid any.
 export type LookupFn<T> = (query:string) => (Promise<T[]> | Promise<T> | T[] | T);
@@ -6,7 +6,7 @@ export type QueryLookupFn<T> = (query:string) => (Promise<T[]> | T[]);
 export type ItemLookupFn<T, U> = (query:string, initial:U) => (Promise<T> | T);
 export type ItemsLookupFn<T, U> = (query:string, initial:U[]) => (Promise<T[]> | T[]);
 
-type CachedArray<T> = { [query:string]:T[] };
+interface CachedArray<T> { [query:string]:T[] }
 
 export class SearchService<T> {
     // Stores the available options.
@@ -15,11 +15,11 @@ export class SearchService<T> {
     private _optionsLookup:LookupFn<T>;
     // Field that options are searched & displayed on.
     private _optionsField:string;
-    
+
     public get options() {
         return this._options;
     }
-    
+
     public set options(options:T[]) {
         this._options = options || [];
         // We cannot use both local & remote options simultaneously.
@@ -44,7 +44,7 @@ export class SearchService<T> {
     }
 
     public get hasItemLookup() {
-         return this.optionsLookup && this.optionsLookup.length == 2;
+         return this.optionsLookup && this.optionsLookup.length === 2;
     }
 
     public itemLookup<U>(initial:U) {
@@ -108,14 +108,14 @@ export class SearchService<T> {
         clearTimeout(this._searchDelayTimeout);
         this._searchDelayTimeout = window.setTimeout(() => {
             this.updateQuery(query, callback);
-        }, this.searchDelay);
+        },                                           this.searchDelay);
     }
 
     // Updates the current search query.
     public updateQuery(query:string, callback:(err?:Error) => void = () => {}):void {
         this._query = query;
 
-        if (this._query == "" && !this.allowEmptyQuery) {
+        if (this._query === "" && !this.allowEmptyQuery) {
             // Don't update if the new query is empty (and we don't allow empty queries).
             // Don't reset so that when animating closed we don't get a judder.
             return callback(null);
@@ -180,7 +180,7 @@ export class SearchService<T> {
     // Converts a query string to regex without throwing an error.
     private toRegex(query:string):RegExp | string {
         try {
-            return new RegExp(query, 'i');
+            return new RegExp(query, "i");
         }
         catch (e) {
             return query;
@@ -189,9 +189,9 @@ export class SearchService<T> {
 
     // Generates HTML for highlighted match text.
     public highlightMatches(text:string) {
-        let regex = this.toRegex(this._query);
+        const regex = this.toRegex(this._query);
         if (regex instanceof RegExp) {
-            return text.replace(regex, (match) => `<b>${match}</b>`);
+            return text.replace(regex, match => `<b>${match}</b>`);
         }
         return text;
     }

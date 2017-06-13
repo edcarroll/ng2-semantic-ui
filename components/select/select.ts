@@ -6,7 +6,7 @@ import {customValueAccessorFactory, CustomValueAccessorHost, CustomValueAccessor
 export type SingleItemLookup<T, U> = (query:string, initial?:U) => Promise<T>;
 
 @Component({
-    selector: 'sui-select',
+    selector: "sui-select",
     template: `
 <i class="dropdown icon"></i>
 <!-- Query input -->
@@ -29,8 +29,8 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements CustomValueA
     public selectedOption:T;
     // Stores the value written by ngModel before it can be matched to an option from `options`.
     private _writtenOption:U;
-    
-    @ViewChild('optionTemplateSibling', { read: ViewContainerRef })
+
+    @ViewChild("optionTemplateSibling", { read: ViewContainerRef })
     private _optionTemplateSibling:ViewContainerRef;
 
     @Output()
@@ -114,7 +114,7 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements CustomValueA
         super.initialiseRenderedOption(option);
 
         // Boldens the item so it appears selected in the dropdown.
-        option.isActive = option.value == this.selectedOption;
+        option.isActive = option.value === this.selectedOption;
     }
 
     private drawSelectedOption() {
@@ -131,12 +131,12 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements CustomValueA
 
 // Value accessor directive for the select to support ngModel.
 @Directive({
-    selector: 'sui-select',
-    host: { '(selectedOptionChange)': 'onChange($event)' },
+    selector: "sui-select",
+    host: { "(selectedOptionChange)": "onChange($event)" },
     providers: [customValueAccessorFactory(SuiSelectValueAccessor)]
 })
 export class SuiSelectValueAccessor<T, U> extends CustomValueAccessor<U, SuiSelect<T, U>> {
-    constructor (host:SuiSelect<T, U>) {
+    constructor(host:SuiSelect<T, U>) {
         super(host);
     }
 }

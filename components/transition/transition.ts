@@ -1,5 +1,5 @@
-import {Renderer2, ElementRef, Directive, Input, HostBinding, ChangeDetectorRef} from '@angular/core';
-import {TransitionController} from './transition-controller';
+import {Renderer2, ElementRef, Directive, Input, HostBinding, ChangeDetectorRef} from "@angular/core";
+import {TransitionController} from "./transition-controller";
 
 // Possible directions for a transition.
 export enum TransitionDirection {
@@ -43,8 +43,8 @@ export class Transition {
 }
 
 @Directive({
-    selector: '[suiTransition]',
-    exportAs: 'transition'
+    selector: "[suiTransition]",
+    exportAs: "transition"
 })
 export class SuiTransition {
     // Each transition must have a controller associated that dispatches the transitions.
@@ -56,10 +56,10 @@ export class SuiTransition {
         this.setTransitionController(tC);
     }
 
-    @HostBinding('class.transition')
+    @HostBinding("class.transition")
     public transitionClass = true;
 
-    @HostBinding('class.visible')
+    @HostBinding("class.visible")
     public get isVisible() {
         if (this._controller) {
             return this._controller.isVisible;
@@ -67,7 +67,7 @@ export class SuiTransition {
         return false;
     }
 
-    @HostBinding('class.hidden')
+    @HostBinding("class.hidden")
     public get isHidden() {
         if (this._controller) {
             return this._controller.isHidden;

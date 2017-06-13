@@ -4,7 +4,7 @@ import {Component, HostBinding, Input, Directive, EventEmitter, HostListener, Ou
     selector: '[suiTabHeader]'
 })
 export class SuiTabHeader {
-    @HostBinding('class.item')
+    @HostBinding("class.item")
     private _headerClasses:boolean;
 
     @Input("suiTabHeader")
@@ -42,7 +42,7 @@ export class SuiTabHeader {
             active = !this.isDisabled ? active : false;
             this.setActiveState(active);
 
-            // Fire 'external change' event as user input has occured.            
+            // Fire 'external change' event as user input has occured.
             this.isActiveExternalChange.emit(active);
         });
     }
@@ -59,7 +59,7 @@ export class SuiTabHeader {
         // Only update if value provided is different to current one.
         if (this._isDisabled != disabled) {
             this._isDisabled = disabled;
-            
+
             // If now disabled, then tab header must be deactivated.
             if (this.isDisabled) {
                 this.isActive = false;
@@ -100,7 +100,7 @@ export class SuiTabHeader {
         this.isActiveChange.emit(active);
     }
 
-    @HostListener('click')
+    @HostListener("click")
     private onClick() {
         if (!this.isDisabled) {
             // Activate the tab when clicked, so long as it isn't disabled.

@@ -1,12 +1,12 @@
-import {Component, Input, HostBinding, OnInit, ViewChild, ElementRef, Renderer2, EventEmitter, Output, HostListener, ViewContainerRef, AfterViewInit} from '@angular/core';
-import {TransitionController} from '../transition/transition-controller';
-import {Transition, TransitionDirection} from '../transition/transition';
-import {KeyCode, parseBooleanAttribute} from '../util/util';
-import {ModalControls} from './modal-controls';
-import {ModalConfig, ModalSize} from './modal-config';
+import {Component, Input, HostBinding, OnInit, ViewChild, ElementRef, Renderer2, EventEmitter, Output, HostListener, ViewContainerRef, AfterViewInit} from "@angular/core";
+import {TransitionController} from "../transition/transition-controller";
+import {Transition, TransitionDirection} from "../transition/transition";
+import {KeyCode, parseBooleanAttribute} from "../util/util";
+import {ModalControls} from "./modal-controls";
+import {ModalConfig, ModalSize} from "./modal-config";
 
 @Component({
-    selector: 'sui-modal',
+    selector: "sui-modal",
     template: `
 <!-- Page dimmer for modal background. -->
 <sui-dimmer class="page" [(isDimmed)]="dimBackground" [isClickable]="false" [transitionDuration]="transitionDuration" (click)="close()"></sui-dimmer>
@@ -57,18 +57,18 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     }
 
     // Fires when the modal closes, after `approve` has been called.
-    @Output('approved')
+    @Output("approved")
     public onApprove:EventEmitter<T>;
 
     // Fires when the modal closes, after `deny` has been called.
-    @Output('denied')
+    @Output("denied")
     public onDeny:EventEmitter<U>;
 
     // Fires when the modal closes.
-    @Output('dismissed')
+    @Output("dismissed")
     public onDismiss:EventEmitter<void>;
 
-    @ViewChild('modal')
+    @ViewChild("modal")
     private _modalElement:ElementRef;
 
     // Size used to display the modal.
@@ -125,7 +125,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     private _isClosing:boolean;
 
     // `ViewContainerRef` for the element the template gets injected as a sibling of.
-    @ViewChild('templateSibling', { read: ViewContainerRef })
+    @ViewChild("templateSibling", { read: ViewContainerRef })
     public templateSibling:ViewContainerRef;
 
     constructor(private _renderer:Renderer2) {
@@ -211,7 +211,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     // Decides whether the modal needs to reposition to allow scrolling.
     private updateScroll() {
         // Semantic UI modal margin is 3.5rem, which is relative to the global font size, so for compatibility:
-        const fontSize = parseFloat(window.getComputedStyle(document.documentElement, null).getPropertyValue('font-size'));
+        const fontSize = parseFloat(window.getComputedStyle(document.documentElement, null).getPropertyValue("font-size"));
         const margin = fontSize * 3.5;
 
         // _mustAlwaysScroll works by stopping _mustScroll from being automatically updated, so it stays `true`.
@@ -225,7 +225,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
 
     @HostListener("document:keyup", ["$event"])
     public onDocumentKeyup(e:KeyboardEvent) {
-        if (e.keyCode == KeyCode.Escape) {
+        if (e.keyCode === KeyCode.Escape) {
             // Close automatically covers case of `!isClosable`, so check not needed.
             this.close();
         }

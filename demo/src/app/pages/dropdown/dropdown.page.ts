@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {ApiDefinition} from '../../components/api/api.component';
+import {Component} from "@angular/core";
+import {ApiDefinition} from "../../components/api/api.component";
 
 const exampleStandardTemplate = `
 <p>You can use the keyboard to navigate the dropdown.</p>
@@ -56,8 +56,8 @@ const exampleStyledTemplate = `
 `;
 
 @Component({
-    selector: 'demo-page-dropdown',
-    templateUrl: './dropdown.page.html'
+    selector: "demo-page-dropdown",
+    templateUrl: "./dropdown.page.html"
 })
 export class DropdownPage {
     public api:ApiDefinition = [
@@ -120,7 +120,7 @@ export class DropdownPage {
 }
 
 @Component({
-    selector: 'dropdown-example-standard',
+    selector: "dropdown-example-standard",
     template: exampleStandardTemplate
 })
 export class DropdownExampleStandard {
@@ -129,7 +129,7 @@ export class DropdownExampleStandard {
 }
 
 @Component({
-    selector: 'dropdown-example-styled',
+    selector: "dropdown-example-styled",
     template: exampleStyledTemplate
 })
 export class DropdownExampleStyled {}

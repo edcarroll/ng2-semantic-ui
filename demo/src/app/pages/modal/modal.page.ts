@@ -1,10 +1,10 @@
-import {Component, ViewChild} from '@angular/core';
-import {ApiDefinition} from 'app/components/api/api.component';
-import {SuiModalService} from '../../../../../components/modal/modal.service';
-import {ModalTemplate} from '../../../../../components/modal/modal-template';
-import {TemplateModalConfig, ComponentModalConfig, ModalSize} from '../../../../../components/modal/modal-config';
-import {Modal} from '../../../../../components/modal/modal-controls';
-import {AlertModal} from '../../modals/alert.modal';
+import {Component, ViewChild} from "@angular/core";
+import {ApiDefinition} from "app/components/api/api.component";
+import {SuiModalService} from "../../../../../components/modal/modal.service";
+import {ModalTemplate} from "../../../../../components/modal/modal-template";
+import {TemplateModalConfig, ComponentModalConfig, ModalSize} from "../../../../../components/modal/modal-config";
+import {Modal} from "../../../../../components/modal/modal-controls";
+import {AlertModal} from "../../modals/alert.modal";
 
 const exampleTemplateModalTemplate = `
 <ng-template let-context let-modal="modal" #modalTemplate>
@@ -42,8 +42,8 @@ const exampleComponentTemplate = `
 `
 
 @Component({
-  selector: 'demo-page-modal',
-  templateUrl: './modal.page.html'
+  selector: "demo-page-modal",
+  templateUrl: "./modal.page.html"
 })
 export class ModalPage {
     public api:ApiDefinition = [
@@ -202,11 +202,11 @@ this.modalService
 }
 
 @Component({
-    selector: 'modal-example-template',
+    selector: "modal-example-template",
     template: exampleTemplateTemplate
 })
 export class ModalExampleTemplate {
-    @ViewChild('modalTemplate')
+    @ViewChild("modalTemplate")
     public modalTemplate:ModalTemplate<{ data:string }, string, string>
 
     public dynamicContent:string = "Example of dynamic content.";
@@ -221,7 +221,7 @@ export class ModalExampleTemplate {
 
         this.modalService
             .open(config)
-            .onApprove(r => this.alert(`Accepted with result: '${r}'.`)) 
+            .onApprove(r => this.alert(`Accepted with result: '${r}'.`))
             .onDeny(r => this.alert(`Denied with result: '${r}'.`));
     }
 
@@ -236,7 +236,7 @@ interface IConfirmModalContext {
 }
 
 @Component({
-    selector: 'modal-confirm',
+    selector: "modal-confirm",
     template: exampleComponentModalTemplate
 })
 export class ConfirmModalComponent {
@@ -254,7 +254,7 @@ export class ConfirmModal extends ComponentModalConfig<IConfirmModalContext, voi
 }
 
 @Component({
-    selector: 'modal-example-component',
+    selector: "modal-example-component",
     template: exampleComponentTemplate
 })
 export class ModalExampleComponent {

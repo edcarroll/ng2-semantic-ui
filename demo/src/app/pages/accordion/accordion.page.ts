@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {ApiDefinition} from '../../components/api/api.component';
+import {Component} from "@angular/core";
+import {ApiDefinition} from "../../components/api/api.component";
 
 const exampleStandardTemplate = `
 <sui-accordion [closeOthers]="false">
@@ -73,13 +73,13 @@ const exampleManualTemplate = `
 `;
 
 @Component({
-    selector: 'demo-page-accordion',
-    templateUrl: './accordion.page.html'
+    selector: "demo-page-accordion",
+    templateUrl: "./accordion.page.html"
 })
 export class AccordionPage {
     public api:ApiDefinition = [
         {
-            selector: '<sui-accordion>',
+            selector: "<sui-accordion>",
             properties: [
                 {
                     name: "closeOthers",
@@ -102,7 +102,7 @@ export class AccordionPage {
             ]
         },
         {
-            selector: '<sui-accordion-panel>',
+            selector: "<sui-accordion-panel>",
             properties: [
                 {
                     name: "isOpen",
@@ -132,19 +132,19 @@ export class AccordionPage {
 }
 
 @Component({
-    selector: 'accordion-example-standard',
+    selector: "accordion-example-standard",
     template: exampleStandardTemplate
 })
 export class AccordionExampleStandard {}
 
 @Component({
-    selector: 'accordion-example-styled',
+    selector: "accordion-example-styled",
     template: exampleStyledTemplate
 })
 export class AccordionExampleStyled {}
 
 @Component({
-    selector: 'accordion-example-manual',
+    selector: "accordion-example-manual",
     template: exampleManualTemplate
 })
 export class AccordionExampleManual {

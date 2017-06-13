@@ -1,8 +1,8 @@
-import {Component, HostBinding, Input, Output, Renderer2, ElementRef, EventEmitter} from '@angular/core';
-import {SidebarService, SidebarTransition, SidebarDirection} from './sidebar.service';
+import {Component, HostBinding, Input, Output, Renderer2, ElementRef, EventEmitter} from "@angular/core";
+import {SidebarService, SidebarTransition, SidebarDirection} from "./sidebar.service";
 
 @Component({
-    selector: 'sui-sidebar',
+    selector: "sui-sidebar",
     template: `<ng-content></ng-content>`
 })
 export class SuiSidebar {
@@ -77,7 +77,7 @@ export class SuiSidebar {
     }
 
     private setClass(className:string, isAdd:boolean = true) {
-        if(isAdd){
+        if (isAdd){
             this._renderer.addClass(this._element.nativeElement, className);
         }else{
             this._renderer.removeClass(this._element.nativeElement, className);

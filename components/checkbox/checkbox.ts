@@ -1,9 +1,9 @@
-import {Component, Directive, Input, Output, HostListener, HostBinding, EventEmitter, forwardRef} from '@angular/core';
-import {CustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor} from '../util/custom-value-accessor';
+import {Component, Directive, Input, Output, HostListener, HostBinding, EventEmitter, forwardRef} from "@angular/core";
+import {CustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor} from "../util/custom-value-accessor";
 
 @Component({
-    selector: 'sui-checkbox',
-    exportAs: 'suiCheckbox',
+    selector: "sui-checkbox",
+    exportAs: "suiCheckbox",
     template: `
 <input class="hidden"
        type="checkbox"
@@ -17,14 +17,14 @@ import {CustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor
 `
 })
 export class SuiCheckbox implements CustomValueAccessorHost<boolean> {
-    @HostBinding('class.ui')
-    @HostBinding('class.checkbox')
+    @HostBinding("class.ui")
+    @HostBinding("class.checkbox")
     private _checkboxClasses:boolean;
 
     @Input()
     public name:string;
 
-    @HostBinding('class.checked')
+    @HostBinding("class.checked")
     public isChecked:boolean;
 
     @Output()
@@ -33,7 +33,7 @@ export class SuiCheckbox implements CustomValueAccessorHost<boolean> {
     @Input()
     public isDisabled:boolean;
 
-    @HostBinding('class.read-only')
+    @HostBinding("class.read-only")
     @Input()
     public isReadonly:boolean;
 
@@ -55,7 +55,7 @@ export class SuiCheckbox implements CustomValueAccessorHost<boolean> {
         this._checkboxClasses = true;
     }
 
-    @HostListener('click')
+    @HostListener("click")
     public onClick() {
         if (!this.isDisabled && !this.isReadonly) {
             this.toggle();
@@ -73,8 +73,8 @@ export class SuiCheckbox implements CustomValueAccessorHost<boolean> {
 }
 
 @Directive({
-    selector: 'sui-checkbox',
-    host: { '(checkChange)': 'onChange($event)' },
+    selector: "sui-checkbox",
+    host: { "(checkChange)": "onChange($event)" },
     providers: [customValueAccessorFactory(SuiCheckboxValueAccessor)]
 })
 export class SuiCheckboxValueAccessor extends CustomValueAccessor<boolean, SuiCheckbox> {

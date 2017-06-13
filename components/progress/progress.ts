@@ -1,7 +1,7 @@
-import {Component, Input, HostBinding} from '@angular/core';
+import {Component, Input, HostBinding} from "@angular/core";
 
 @Component({
-    selector: 'sui-progress',
+    selector: "sui-progress",
     template: `
 <div class="bar" [style.width.%]="percentage">
     <div class="progress" *ngIf="showProgress">{{ percentage }}%</div>
@@ -18,8 +18,8 @@ import {Component, Input, HostBinding} from '@angular/core';
 `]
 })
 export class SuiProgress {
-    @HostBinding('class.ui')
-    @HostBinding('class.progress')
+    @HostBinding("class.ui")
+    @HostBinding("class.progress")
     private _popupClasses = true;
 
     private _value:number;
@@ -82,12 +82,12 @@ export class SuiProgress {
         this._precision = Math.min(Math.max(value, 0), 20);
     }
 
-    @HostBinding('class.success')
+    @HostBinding("class.success")
     private get reachedMaximum() {
         return this._overrideSuccess || ((this.value >= this.maximum) && this.autoSuccess);
     }
 
-    @HostBinding('attr.data-percent')
+    @HostBinding("attr.data-percent")
     public get percentage() {
         const boundedValue = Math.min(Math.max(this.value, 0), this.maximum);
 
@@ -96,7 +96,7 @@ export class SuiProgress {
         return percentage.toFixed(this.precision);
     }
 
-    @Input('class')
+    @Input("class")
     private set classValue(classes:string) {
         if (classes.includes("attached") || classes.includes("tiny")) {
             this.showProgress = false;
