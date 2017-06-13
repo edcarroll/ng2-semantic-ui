@@ -1,9 +1,9 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input} from "@angular/core";
 
 @Component({
-    selector: 'demo-example',
-    templateUrl: './example.component.html',
-    styleUrls: ['./example.component.css']
+    selector: "demo-example",
+    templateUrl: "./example.component.html",
+    styleUrls: ["./example.component.css"]
 })
 export class ExampleComponent {
     public detail:boolean = false;

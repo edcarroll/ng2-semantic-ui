@@ -1,4 +1,4 @@
-import {Component, HostBinding, Output, EventEmitter, HostListener} from '@angular/core';
+import {Component, HostBinding, Output, EventEmitter, HostListener} from "@angular/core";
 // Polyfill for IE
 import "element-closest";
 
@@ -7,9 +7,9 @@ interface AugmentedElement extends Element {
 }
 
 @Component({
-    selector: 'demo-sidebar',
-    templateUrl: './sidebar.component.html',
-    styleUrls: ['./sidebar.component.css']
+    selector: "demo-sidebar",
+    templateUrl: "./sidebar.component.html",
+    styleUrls: ["./sidebar.component.css"]
 })
 export class SidebarComponent {
     @Output()

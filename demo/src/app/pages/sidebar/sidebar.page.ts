@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {ApiDefinition} from '../../components/api/api.component';
+import {Component} from "@angular/core";
+import {ApiDefinition} from "../../components/api/api.component";
 
 const exampleStandardTemplate = `
 <div class="ui top attached demo menu">
@@ -44,8 +44,8 @@ const exampleDirectionTemplate = `
 `;
 
 @Component({
-    selector: 'demo-page-sidebar',
-    templateUrl: './sidebar.page.html'
+    selector: "demo-page-sidebar",
+    templateUrl: "./sidebar.page.html"
 })
 export class SidebarPage {
     public api:ApiDefinition = [
@@ -99,13 +99,13 @@ export class SidebarPage {
 }
 
 @Component({
-    selector: 'sidebar-example-standard',
+    selector: "sidebar-example-standard",
     template: exampleStandardTemplate
 })
 export class SidebarExampleStandard {}
 
 @Component({
-    selector: 'sidebar-example-direction',
+    selector: "sidebar-example-direction",
     template: exampleDirectionTemplate
 })
 export class SidebarExampleDirection {

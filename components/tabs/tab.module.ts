@@ -1,8 +1,8 @@
-import {NgModule} from '@angular/core';
+import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
-import {SuiTabset} from './tabset';
-import {SuiTabHeader} from './tab-header';
-import {SuiTabContent} from './tab-content';
+import {SuiTabset} from "./tabset";
+import {SuiTabHeader} from "./tab-header";
+import {SuiTabContent} from "./tab-content";
 
 @NgModule({
     imports: [
@@ -11,12 +11,12 @@ import {SuiTabContent} from './tab-content';
     declarations: [
         SuiTabset,
         SuiTabHeader,
-        SuiTabContent,
+        SuiTabContent
     ],
     exports: [
         SuiTabset,
         SuiTabHeader,
-        SuiTabContent,
+        SuiTabContent
     ]
 })
 export class SuiTabsModule {}

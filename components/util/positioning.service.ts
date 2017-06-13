@@ -34,7 +34,7 @@ function placementToPopper(placement:PositioningPlacement):PopperPlacement {
     if (!placement || placement == PositioningPlacement.Inherit) {
         return "inherit";
     }
-    
+
     // All placements of the format: `direction alignment`, e.g. `top left`.
     const [direction, alignment] = placement.split(" ");
 
@@ -116,7 +116,7 @@ export class PositioningService {
         if (!this._popperState) {
             return PositioningPlacement.Inherit;
         }
-        
+
         return popperToPlacement(this._popperState.placement);
     }
 
@@ -129,7 +129,7 @@ export class PositioningService {
         this.subject = subject;
         this._placement = placement;
 
-        let modifiers = {
+        const modifiers = {
             applyStyle: {
                 gpuAcceleration: false
             },

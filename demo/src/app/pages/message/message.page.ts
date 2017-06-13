@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component} from "@angular/core";
 import {ApiDefinition} from "../../components/api/api.component";
 
 const exampleStandardTemplate = `
@@ -23,8 +23,8 @@ const exampleNoDismissTemplate = `
 `;
 
 @Component({
-    selector: 'demo-page-message',
-    templateUrl: './message.page.html'
+    selector: "demo-page-message",
+    templateUrl: "./message.page.html"
 })
 export class MessagePage {
     public api:ApiDefinition = [
@@ -86,13 +86,13 @@ export class MyComponent {
 }
 
 @Component({
-    selector: 'message-example-standard',
+    selector: "message-example-standard",
     template: exampleStandardTemplate
 })
 export class MessageExampleStandard {}
 
 @Component({
-    selector: 'message-example-no-dismiss',
+    selector: "message-example-no-dismiss",
     template: exampleNoDismissTemplate
 })
 export class MessageExampleNoDismiss {}

@@ -1,8 +1,8 @@
-import {Component, Input, HostBinding, HostListener, ElementRef, Renderer2} from '@angular/core';
-import {SidebarService, SidebarTransition} from './sidebar.service';
+import {Component, Input, HostBinding, HostListener, ElementRef, Renderer2} from "@angular/core";
+import {SidebarService, SidebarTransition} from "./sidebar.service";
 
 @Component({
-    selector: 'sui-sidebar-sibling',
+    selector: "sui-sidebar-sibling",
     template: `<ng-content></ng-content>`,
     styles: [`
 :host {
@@ -55,8 +55,8 @@ export class SuiSidebarSibling {
     private updateTransform() {
         this._renderer.removeStyle(this._element.nativeElement, "transform");
         this._renderer.removeStyle(this._element.nativeElement, "-webkit-transform");
-        
-        if (this.service.isVisible && this.service.transition != SidebarTransition.Overlay && this.service.transition != SidebarTransition.ScaleDown) {
+
+        if (this.service.isVisible && this.service.transition !== SidebarTransition.Overlay && this.service.transition !== SidebarTransition.ScaleDown) {
             const translate = `translate3d(${this.service.width}px, ${this.service.height}px, 0)`;
             this._renderer.setStyle(this._element.nativeElement, "transform", translate);
             this._renderer.setStyle(this._element.nativeElement, "-webkit-transform", translate);

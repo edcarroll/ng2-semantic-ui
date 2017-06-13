@@ -1,9 +1,9 @@
-import {NgModule} from '@angular/core';
+import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
-import {SuiSidebar} from './sidebar';
-import {SuiSidebarContainer} from './sidebar-container';
-import {SuiSidebarSibling} from './sidebar-sibling';
-import {SidebarDirection, SidebarTransition} from './sidebar.service';
+import {SuiSidebar} from "./sidebar";
+import {SuiSidebarContainer} from "./sidebar-container";
+import {SuiSidebarSibling} from "./sidebar-sibling";
+import {SidebarDirection, SidebarTransition} from "./sidebar.service";
 
 @NgModule({
     imports: [

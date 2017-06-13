@@ -1,12 +1,12 @@
-import {Component, HostBinding, ElementRef, Renderer2, EventEmitter, Output, Input, QueryList, AfterViewInit, ViewChildren, forwardRef, Directive} from '@angular/core';
-import {SuiSelectBase} from './select-base';
-import {SuiMultiSelectLabel} from './multi-select-label';
-import {Subscription} from 'rxjs/Subscription';
-import {KeyCode} from '../util/util';
-import {customValueAccessorFactory, CustomValueAccessor, CustomValueAccessorHost} from '../util/custom-value-accessor';
+import {Component, HostBinding, ElementRef, Renderer2, EventEmitter, Output, Input, QueryList, AfterViewInit, ViewChildren, forwardRef, Directive} from "@angular/core";
+import {SuiSelectBase} from "./select-base";
+import {SuiMultiSelectLabel} from "./multi-select-label";
+import {Subscription} from "rxjs/Subscription";
+import {KeyCode} from "../util/util";
+import {customValueAccessorFactory, CustomValueAccessor, CustomValueAccessorHost} from "../util/custom-value-accessor";
 
 @Component({
-    selector: 'sui-multi-select',
+    selector: "sui-multi-select",
     template: `
 <i class="dropdown icon"></i>
 <!-- Multi-select labels -->
@@ -40,16 +40,16 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
     private _renderedSelectedOptions:QueryList<SuiMultiSelectLabel<T>>;
 
     private _renderedSelectedSubscriptions:Subscription[];
-    
+
     @Output()
     public selectedOptionsChange:EventEmitter<U[]>;
 
     protected optionsUpdateHook() {
         if (this._writtenOptions && this.searchService.options.length > 0) {
             // If there were values written by ngModel before the options had been loaded, this runs to fix it.
-            this.selectedOptions = this._writtenOptions.map(v => this.searchService.options.find(o => v == this.valueGetter(o)));
-            
-            if (this.selectedOptions.length == this._writtenOptions.length) {
+            this.selectedOptions = this._writtenOptions.map(v => this.searchService.options.find(o => v === this.valueGetter(o)));
+
+            if (this.selectedOptions.length === this._writtenOptions.length) {
                 this._writtenOptions = null;
             }
         }
@@ -62,7 +62,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
         }
         // Returns the search results \ selected options.
         return this.searchService.results
-            .filter(r => !this.selectedOptions.find(o => r == o));
+            .filter(r => !this.selectedOptions.find(o => r === o));
     }
 
     @Input()
@@ -73,10 +73,10 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
             // If there is no maximum then we can immediately return.
             return false;
         }
-        return this.selectedOptions.length == this.maxSelected;
+        return this.selectedOptions.length === this.maxSelected;
     }
 
-    @HostBinding('class.multiple')
+    @HostBinding("class.multiple")
     private _multiSelectClasses:boolean;
 
     constructor(element:ElementRef, renderer:Renderer2) {
@@ -110,7 +110,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
                 // If the options have already been loaded, we can immediately match the ngModel values to options.
                 this.selectedOptions = values.map(v => this.findOption(this.searchService.options, v));
             }
-            if (values.length > 0 && this.selectedOptions.length == 0) {
+            if (values.length > 0 && this.selectedOptions.length === 0) {
                 if (this.valueField && this.searchService.hasItemLookup) {
                     // If the search service has a selected lookup function, make use of that to load the initial values.
                     const lookupFinished = (items:T[]) => this.selectedOptions = items;
@@ -136,7 +136,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
 
     public deselectOption(option:T) {
         // Update selected options to the previously selected options \ {option}.
-        this.selectedOptions = this.selectedOptions.filter(so => so != option);
+        this.selectedOptions = this.selectedOptions.filter(so => so !== option);
         this.selectedOptionsChange.emit(this.selectedOptions.map(o => this.valueGetter(o)));
 
         // Automatically refocus the search input for better keyboard accessibility.
@@ -144,7 +144,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
     }
 
     public onQueryInputKeydown(event:KeyboardEvent) {
-        if (event.keyCode == KeyCode.Backspace && this.query == "" && this.selectedOptions.length > 0) {
+        if (event.keyCode === KeyCode.Backspace && this.query === "" && this.selectedOptions.length > 0) {
             // Deselect the rightmost option when the user presses backspace in the search input.
             this.deselectOption(this.selectedOptions[this.selectedOptions.length - 1]);
         }
@@ -172,8 +172,8 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
 
 // Value accessor directive for the select to support ngModel.
 @Directive({
-    selector: 'sui-multi-select',
-    host: { '(selectedOptionsChange)': 'onChange($event)' },
+    selector: "sui-multi-select",
+    host: { "(selectedOptionsChange)": "onChange($event)" },
     providers: [customValueAccessorFactory(SuiMultiSelectValueAccessor)]
 })
 export class SuiMultiSelectValueAccessor<T, U> extends CustomValueAccessor<U[], SuiMultiSelect<T, U>> {

@@ -1,9 +1,9 @@
-import {Component, Directive, Input, Output, HostListener, HostBinding, EventEmitter, forwardRef} from '@angular/core';
-import {CustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor} from '../util/custom-value-accessor';
+import {Component, Directive, Input, Output, HostListener, HostBinding, EventEmitter, forwardRef} from "@angular/core";
+import {CustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor} from "../util/custom-value-accessor";
 
 @Component({
-    selector: 'sui-radio-button[ngModel]',
-    exportAs: 'suiRadioButton',
+    selector: "sui-radio-button[ngModel]",
+    exportAs: "suiRadioButton",
     template: `
 <input class="hidden"
        type="checkbox"
@@ -18,9 +18,9 @@ import {CustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor
 `
 })
 export class SuiRadioButton<T> implements CustomValueAccessorHost<T> {
-    @HostBinding('class.ui')
-    @HostBinding('class.radio')
-    @HostBinding('class.checkbox')
+    @HostBinding("class.ui")
+    @HostBinding("class.radio")
+    @HostBinding("class.checkbox")
     private _radioClasses = true;
 
     @Input()
@@ -29,7 +29,7 @@ export class SuiRadioButton<T> implements CustomValueAccessorHost<T> {
     @Input()
     public value:T;
 
-    @HostBinding('class.checked')
+    @HostBinding("class.checked")
     public isChecked:boolean;
 
     public currentValue:T;
@@ -40,7 +40,7 @@ export class SuiRadioButton<T> implements CustomValueAccessorHost<T> {
     @Input()
     public isDisabled:boolean;
 
-    @HostBinding('class.read-only')
+    @HostBinding("class.read-only")
     @Input()
     public isReadonly:boolean;
 
@@ -62,7 +62,7 @@ export class SuiRadioButton<T> implements CustomValueAccessorHost<T> {
         this._radioClasses = true;
     }
 
-    @HostListener('click')
+    @HostListener("click")
     public onClick() {
         if (!this.isDisabled && !this.isReadonly) {
             this.currentValue = this.value;
@@ -72,7 +72,7 @@ export class SuiRadioButton<T> implements CustomValueAccessorHost<T> {
     }
 
     public update() {
-        this.isChecked = this.currentValue == this.value;
+        this.isChecked = this.currentValue === this.value;
     }
 
     public writeValue(value:T) {
@@ -82,8 +82,8 @@ export class SuiRadioButton<T> implements CustomValueAccessorHost<T> {
 }
 
 @Directive({
-    selector: 'sui-radio-button',
-    host: { '(currentValueChange)': 'onChange($event)' },
+    selector: "sui-radio-button",
+    host: { "(currentValueChange)": "onChange($event)" },
     providers: [customValueAccessorFactory(SuiRadioButtonValueAccessor)]
 })
 export class SuiRadioButtonValueAccessor<T> extends CustomValueAccessor<T, SuiRadioButton<T>> {

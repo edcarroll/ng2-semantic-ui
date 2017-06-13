@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {ApiDefinition} from '../../components/api/api.component';
+import {Component} from "@angular/core";
+import {ApiDefinition} from "../../components/api/api.component";
 
 const exampleStandardTemplate = `
 <sui-select [(ngModel)]="selectedGender" placeholder="Gender">
@@ -87,13 +87,13 @@ const exampleTemplateSearchTemplate = `
 `;
 
 @Component({
-    selector: 'demo-page-select',
-    templateUrl: './select.page.html'
+    selector: "demo-page-select",
+    templateUrl: "./select.page.html"
 })
 export class SelectPage {
     public api:ApiDefinition = [
         {
-            selector: '<sui-select>',
+            selector: "<sui-select>",
             properties: [
                 {
                     name: "placeholder",
@@ -171,7 +171,7 @@ export class SelectPage {
             ]
         },
         {
-            selector: '<sui-multi-select>',
+            selector: "<sui-multi-select>",
             properties: [
                 {
                     name: "placeholder",
@@ -255,7 +255,7 @@ export class SelectPage {
             ]
         },
         {
-            selector: '<sui-select-option>',
+            selector: "<sui-select-option>",
             properties: [
                 {
                     name: "value",
@@ -297,7 +297,7 @@ let multiSelectLookup = (query:string, initials:number[]) => {
 }
 
 @Component({
-    selector: 'select-example-standard',
+    selector: "select-example-standard",
     template: exampleStandardTemplate
 })
 export class SelectExampleStandard {
@@ -305,11 +305,11 @@ export class SelectExampleStandard {
 }
 
 @Component({
-    selector: 'select-example-options',
+    selector: "select-example-options",
     template: exampleOptionsTemplate
 })
 export class SelectExampleOptions {
-    public options:Array<{ name:string }> = [{ name: "Example" }, { name: "Test" }, { name: "What" }, { name: "No" }, { name: "Benefit" }, { name: "Oranges" }, { name: "Artemis" }, { name: "Another" }];
+    public options:{ name:string }[] = [{ name: "Example" }, { name: "Test" }, { name: "What" }, { name: "No" }, { name: "Benefit" }, { name: "Oranges" }, { name: "Artemis" }, { name: "Another" }];
     public addOption() {
         this.options.push({ name: "Dynamic Option" });
     }
@@ -317,60 +317,60 @@ export class SelectExampleOptions {
 }
 
 @Component({
-    selector: 'select-example-search',
+    selector: "select-example-search",
     template: exampleSearchTemplate
 })
 export class SelectExampleSearch {
-    public options:Array<{ name:string }> = [{ name: "Example" }, { name: "Test" }, { name: "What" }, { name: "No" }, { name: "Benefit" }, { name: "Oranges" }, { name: "Artemis" }, { name: "Another" }];
+    public options:{ name:string }[] = [{ name: "Example" }, { name: "Test" }, { name: "What" }, { name: "No" }, { name: "Benefit" }, { name: "Oranges" }, { name: "Artemis" }, { name: "Another" }];
     public selectedOption;
 }
 
 @Component({
-    selector: 'select-example-search-lookup',
+    selector: "select-example-search-lookup",
     template: exampleSearchLookupTemplate
 })
 export class SelectExampleLookupSearch {
-    private _options:Array<{ id:number, name:string }> = [{ id: 1, name: "Example" }, { id: 2, name: "Test" }, { id: 3, name: "What" }, { id: 4, name: "No" }, { id: 5, name: "Benefit" }, { id: 6, name: "Oranges" }, { id: 7, name: "Artemis" }, { id: 8, name: "Another" }];
+    private _options:{ id:number, name:string }[] = [{ id: 1, name: "Example" }, { id: 2, name: "Test" }, { id: 3, name: "What" }, { id: 4, name: "No" }, { id: 5, name: "Benefit" }, { id: 6, name: "Oranges" }, { id: 7, name: "Artemis" }, { id: 8, name: "Another" }];
     public optionsLookup = (query:string, initial:number) => {
-        if (initial != undefined) {
+        if (initial !== undefined) {
             return new Promise((resolve, reject) => {
-                resolve(this._options.find((item) => item.id == initial));
+                resolve(this._options.find(item => item.id === initial));
             });
         }
         else {
-            let regex:RegExp = new RegExp(query, 'i');
+            const regex:RegExp = new RegExp(query, "i");
             return new Promise((resolve, reject) => {
-                resolve(this._options.filter((item) => item.name.match(regex)));
+                resolve(this._options.filter(item => item.name.match(regex)));
             });
         }
     };
-    public selectedOption = this._options[3]['id'];
+    public selectedOption = this._options[3]["id"];
 }
 
 @Component({
-    selector: 'select-example-multiple',
+    selector: "select-example-multiple",
     template: exampleMultipleTemplate
 })
 export class SelectExampleMultiple {
-    public options:Array<string> = ["Example", "Test", "What", "No", "Benefit", "Oranges", "Artemis", "Another"];
+    public options:string[] = ["Example", "Test", "What", "No", "Benefit", "Oranges", "Artemis", "Another"];
     public selectedOptions = ["What", "Oranges"];
 }
 
 @Component({
-    selector: 'select-example-multiple-search',
+    selector: "select-example-multiple-search",
     template: exampleMultipleSearchTemplate
 })
 export class SelectExampleMultipleSearch {
-    public options:Array<string> = ["Example", "Test", "What", "No", "Benefit", "Oranges", "Artemis", "Another"];
+    public options:string[] = ["Example", "Test", "What", "No", "Benefit", "Oranges", "Artemis", "Another"];
     public selectedOptions = ["What", "Oranges"];
 }
 
 @Component({
-    selector: 'select-example-template-search',
+    selector: "select-example-template-search",
     template: exampleTemplateSearchTemplate
 })
 export class SelectExampleTemplateSearch {
-    public options:Array<{ name:string }> = [{ name: "Example"}, { name: "Test"}, { name: "What"}, { name: "No"}, { name: "Benefit"}, { name: "Oranges"}, { name: "Artemis"}, { name: "Another"}];
+    public options:{ name:string }[] = [{ name: "Example"}, { name: "Test"}, { name: "What"}, { name: "No"}, { name: "Benefit"}, { name: "Oranges"}, { name: "Artemis"}, { name: "Another"}];
     public selectedOption = this.options[5];
     public selectedOptions:[{ name:string }];
 }

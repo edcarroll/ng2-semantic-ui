@@ -1,4 +1,4 @@
-import {EventEmitter} from '@angular/core';
+import {EventEmitter} from "@angular/core";
 
 export type DropdownAutoCloseType = "itemClick" | "outsideClick" | "disabled";
 
@@ -41,7 +41,7 @@ export class DropdownService {
     }
 
     public setOpenState(isOpen:boolean, reflectInParent:boolean = false) {
-        if (this.isOpen != isOpen && !this.isDisabled) {
+        if (this.isOpen !== isOpen && !this.isDisabled) {
             // Only update the state if it has changed, and the dropdown isn't disabled.
             this.isOpen = !!isOpen;
             // We must delay the emitting to avoid the 'changed after checked' Angular errors.
@@ -57,14 +57,14 @@ export class DropdownService {
                 this.parent.setOpenState(this.isOpen, true);
             }
         }
-        else if (this.isOpen != isOpen && this.isDisabled) {
+        else if (this.isOpen !== isOpen && this.isDisabled) {
             // If the state has changed, but the dropdown is disabled, re-emit the original isOpen value.
             this.delay(() => this.isOpenChange.emit(this.isOpen));
         }
     }
 
     public setDisabledState(isDisabled:boolean) {
-        if (this.isDisabled != isDisabled) {
+        if (this.isDisabled !== isDisabled) {
             if (!!isDisabled) {
                 // Close the dropdown as it is now disabled
                 this.setOpenState(false);

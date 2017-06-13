@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {ApiDefinition} from '../../components/api/api.component';
+import {Component} from "@angular/core";
+import {ApiDefinition} from "../../components/api/api.component";
 
 const exampleStandardTemplate = `
 <div class="ui segment">
@@ -52,8 +52,8 @@ const exampleVariationsTemplate = `
 `;
 
 @Component({
-    selector: 'demo-page-progress',
-    templateUrl: './progress.page.html'
+    selector: "demo-page-progress",
+    templateUrl: "./progress.page.html"
 })
 export class ProgressPage {
     public api:ApiDefinition = [
@@ -89,7 +89,7 @@ export class ProgressPage {
                     type: "boolean",
                     description: "Sets whether or not the progress bar automatically turns green when <code>value == maximum</code>.",
                     defaultValue: "true"
-                },
+                }
             ]
         }
     ];
@@ -98,7 +98,7 @@ export class ProgressPage {
 }
 
 @Component({
-    selector: 'progress-example-standard',
+    selector: "progress-example-standard",
     template: exampleStandardTemplate
 })
 export class ProgressExampleStandard {
@@ -109,7 +109,7 @@ export class ProgressExampleStandard {
 }
 
 @Component({
-    selector: 'progress-example-variations',
+    selector: "progress-example-variations",
     template: exampleVariationsTemplate
 })
 export class ProgressExampleVariations {
@@ -129,7 +129,7 @@ export class ProgressExampleVariations {
                 this.changingValue += 2;
             }
             this.updateChangingValue();
-        }, 75);
+        },         75);
     }
 
     public changingValue = -20;

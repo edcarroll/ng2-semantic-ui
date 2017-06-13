@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
-import {ApiDefinition} from '../../components/api/api.component';
-import {SuiModalService} from '../../../../../components/modal/modal.service';
-import {AlertModal} from '../../modals/alert.modal';
+import {Component} from "@angular/core";
+import {ApiDefinition} from "../../components/api/api.component";
+import {SuiModalService} from "../../../../../components/modal/modal.service";
+import {AlertModal} from "../../modals/alert.modal";
 
 const exampleStandardTemplate = `
 <sui-search placeholder="Example Search..." [hasIcon]="hasIcon" [options]="options" [searchDelay]="0" (itemSelected)="alertSelected($event)"></sui-search>
@@ -18,8 +18,8 @@ const exampleRemoteTemplate = `
 `;
 
 @Component({
-    selector: 'demo-page-search',
-    templateUrl: './search.page.html'
+    selector: "demo-page-search",
+    templateUrl: "./search.page.html"
 })
 export class SearchPage {
     public api:ApiDefinition = [
@@ -98,16 +98,16 @@ export class SearchPage {
 }
 
 @Component({
-    selector: 'search-example-standard',
+    selector: "search-example-standard",
     template: exampleStandardTemplate
 })
 export class SearchExampleStandard {
     public hasIcon:boolean = true;
-    public static standardOptions:Array<string> = ["Apple", "Bird", "Car", "Dog", "Elephant", "Finch", "Gate",
-        "Horrify", "Indigo", "Jelly", "Keep", "Lemur", "Manifest", "None", "Orange", "Peel", "Quest",
-        "Resist", "Suspend", "Terrify", "Underneath", "Violet", "Water", "Xylophone", "Yellow", "Zebra"];
+    public static standardOptions:string[] = ["Apple", "Bird", "Car", "Dog", "Elephant", "Finch", "Gate",
+                                              "Horrify", "Indigo", "Jelly", "Keep", "Lemur", "Manifest", "None", "Orange", "Peel", "Quest",
+                                              "Resist", "Suspend", "Terrify", "Underneath", "Violet", "Water", "Xylophone", "Yellow", "Zebra"];
 
-    public get options():Array<string> {
+    public get options():string[] {
         return SearchExampleStandard.standardOptions;
     }
 
@@ -119,20 +119,20 @@ export class SearchExampleStandard {
 }
 
 @Component({
-    selector: 'search-example-remote',
+    selector: "search-example-remote",
     template: exampleRemoteTemplate
 })
 export class SearchExampleRemote extends SearchExampleStandard {
-    public optionsSearch(query:string):Promise<Array<any>> {
-        let options = SearchExampleStandard.standardOptions.map((o:string) => ({ title: o }));
+    public optionsSearch(query:string):Promise<any[]> {
+        const options = SearchExampleStandard.standardOptions.map((o:string) => ({ title: o }));
 
         return new Promise((resolve, reject) => {
-            let results = options.filter((o:any) => {
-                return o.title.slice(0, query.length).toLowerCase() == query.toLowerCase();
+            const results = options.filter((o:any) => {
+                return o.title.slice(0, query.length).toLowerCase() === query.toLowerCase();
             });
             setTimeout(() => {
                 resolve(results);
-            }, 300);
+            },         300);
         });
     }
 

@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component} from "@angular/core";
 import {SuiTransition, Transition, TransitionDirection} from "../../../../../components/transition/transition";
 import {TransitionController} from "../../../../../components/transition/transition-controller";
 import {ApiDefinition} from "app/components/api/api.component";
@@ -14,8 +14,8 @@ const exampleStandardTemplate = `
 `;
 
 @Component({
-    selector: 'demo-page-transition',
-    templateUrl: './transition.page.html'
+    selector: "demo-page-transition",
+    templateUrl: "./transition.page.html"
 })
 export class TransitionPage {
     public api:ApiDefinition = [
@@ -27,7 +27,7 @@ export class TransitionPage {
                     type: "TransitionController",
                     description: "Sets the transition controller.",
                     required: true
-                },
+                }
             ]
         }
     ];
@@ -114,15 +114,15 @@ export class MyComponent extends SuiTransition {
 }
 
 @Component({
-    selector: 'transition-example-standard',
+    selector: "transition-example-standard",
     template: exampleStandardTemplate
 })
 export class TransitionExampleStandard {
     public transitionController = new TransitionController();
 
     public transitions = ["scale", "fade", "fade up", "fade down", "fade left", "fade right", "horizontal flip", "vertical flip",
-        "drop", "fly left", "fly right", "fly up", "fly down", "swing left", "swing right", "swing up", "swing down", "browse", "browse right",
-        "slide left", "slide right", "slide up", "slide down", "jiggle", "flash", "shake", "pulse", "tada", "bounce"];
+                          "drop", "fly left", "fly right", "fly up", "fly down", "swing left", "swing right", "swing up", "swing down", "browse", "browse right",
+                          "slide left", "slide right", "slide up", "slide down", "jiggle", "flash", "shake", "pulse", "tada", "bounce"];
     public transitionName = "scale";
 
     public animate(transitionName:string = "scale") {

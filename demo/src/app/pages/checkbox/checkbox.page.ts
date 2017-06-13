@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {ApiDefinition} from '../../components/api/api.component';
+import {Component} from "@angular/core";
+import {ApiDefinition} from "../../components/api/api.component";
 
 const exampleStandardTemplate = `
 <div class="ui form">
@@ -76,8 +76,8 @@ const exampleStyledTemplate = `
 `;
 
 @Component({
-    selector: 'demo-page-checkbox',
-    templateUrl: './checkbox.page.html',
+    selector: "demo-page-checkbox",
+    templateUrl: "./checkbox.page.html"
 })
 export class CheckboxPage {
     public api:ApiDefinition = [
@@ -172,7 +172,7 @@ export class CheckboxPage {
 }
 
 @Component({
-    selector: 'checkbox-example-standard',
+    selector: "checkbox-example-standard",
     template: exampleStandardTemplate
 })
 export class CheckboxExampleStandard {
@@ -182,7 +182,7 @@ export class CheckboxExampleStandard {
 }
 
 @Component({
-    selector: 'checkbox-example-radio-button',
+    selector: "checkbox-example-radio-button",
     template: exampleRadioButtonTemplate
 })
 export class CheckboxExampleRadioButton {
@@ -190,7 +190,7 @@ export class CheckboxExampleRadioButton {
 }
 
 @Component({
-    selector: 'checkbox-example-styled',
+    selector: "checkbox-example-styled",
     template: exampleStyledTemplate
 })
 export class CheckboxExampleStyled {

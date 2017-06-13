@@ -1,8 +1,8 @@
-import {Component, Directive, Input, Output, EventEmitter, HostBinding, HostListener, forwardRef} from '@angular/core';
-import {customValueAccessorFactory, CustomValueAccessor, CustomValueAccessorHost} from '../util/custom-value-accessor';
+import {Component, Directive, Input, Output, EventEmitter, HostBinding, HostListener, forwardRef} from "@angular/core";
+import {customValueAccessorFactory, CustomValueAccessor, CustomValueAccessorHost} from "../util/custom-value-accessor";
 
 @Component({
-    selector: 'sui-rating',
+    selector: "sui-rating",
     template: `
 <i class="icon"
    *ngFor="let icon of icons; let i = index"
@@ -19,8 +19,8 @@ import {customValueAccessorFactory, CustomValueAccessor, CustomValueAccessorHost
 `]
 })
 export class SuiRating implements CustomValueAccessorHost<number> {
-    @HostBinding('class.ui')
-    @HostBinding('class.rating')
+    @HostBinding("class.ui")
+    @HostBinding("class.rating")
     private _ratingClasses:boolean;
 
     public value:number;
@@ -39,7 +39,7 @@ export class SuiRating implements CustomValueAccessorHost<number> {
         this._maximum = +value;
     }
 
-    @HostBinding('class.read-only')
+    @HostBinding("class.read-only")
     @Input()
     public isReadonly:boolean;
 
@@ -70,7 +70,7 @@ export class SuiRating implements CustomValueAccessorHost<number> {
         this._hoveredIndex = i;
     }
 
-    @HostListener('mouseout')
+    @HostListener("mouseout")
     private onMouseout() {
         this._hoveredIndex = -1;
     }
@@ -81,8 +81,8 @@ export class SuiRating implements CustomValueAccessorHost<number> {
 }
 
 @Directive({
-    selector: 'sui-rating',
-    host: { '(valueChange)': 'onChange($event)' },
+    selector: "sui-rating",
+    host: { "(valueChange)": "onChange($event)" },
     providers: [customValueAccessorFactory(SuiRatingValueAccessor)]
 })
 export class SuiRatingValueAccessor extends CustomValueAccessor<number, SuiRating> {

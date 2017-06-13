@@ -1,13 +1,13 @@
-import {Component, Input, Output, EventEmitter, ElementRef, Renderer2, AfterViewInit} from '@angular/core';
-import {SuiTransition, Transition, TransitionDirection} from '../transition/transition';
-import {TransitionController} from '../transition/transition-controller';
+import {Component, Input, Output, EventEmitter, ElementRef, Renderer2, AfterViewInit} from "@angular/core";
+import {SuiTransition, Transition, TransitionDirection} from "../transition/transition";
+import {TransitionController} from "../transition/transition-controller";
 
 export interface IMessage {
     dismiss():void;
 }
 
 @Component({
-    selector: 'sui-message',
+    selector: "sui-message",
     template: `
 <div class="ui message {{ _classes }}" *ngIf="!isDismissed" [suiTransition]="_transition">
     <i class="close icon" *ngIf="isDismissable" (click)="dismiss()"></i>

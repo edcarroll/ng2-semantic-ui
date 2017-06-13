@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
 @Component({
-    selector: 'demo-page-getting-started',
-    templateUrl: './getting-started.page.html',
+    selector: "demo-page-getting-started",
+    templateUrl: "./getting-started.page.html",
     styles: [`
 .dividing.header {
     margin-top: 1em;

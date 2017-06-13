@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input} from "@angular/core";
 
 export interface IApiProperty {
     name:string;
@@ -23,9 +23,9 @@ export interface IApi {
 export type ApiDefinition = [IApi];
 
 @Component({
-    selector: 'demo-api',
-    templateUrl: './api.component.html',
-    styleUrls: ['./api.component.css']
+    selector: "demo-api",
+    templateUrl: "./api.component.html",
+    styleUrls: ["./api.component.css"]
 })
 export class ApiComponent {
     @Input()

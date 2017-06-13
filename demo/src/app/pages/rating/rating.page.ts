@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {ApiDefinition} from '../../components/api/api.component';
+import {Component} from "@angular/core";
+import {ApiDefinition} from "../../components/api/api.component";
 
 const exampleStandardTemplate = `
 <div class="ui form">
@@ -29,8 +29,8 @@ const exampleStyledTemplate = `
 `;
 
 @Component({
-    selector: 'demo-page-rating',
-    templateUrl: './rating.page.html'
+    selector: "demo-page-rating",
+    templateUrl: "./rating.page.html"
 })
 export class RatingPage {
     public api:ApiDefinition = [
@@ -67,14 +67,14 @@ export class RatingPage {
                     description: "Fires whenever the rating value is changed."
                 }
             ]
-        },
+        }
     ];
     public exampleStandardTemplate = exampleStandardTemplate;
     public exampleStyledTemplate = exampleStyledTemplate;
 }
 
 @Component({
-    selector: 'rating-example-standard',
+    selector: "rating-example-standard",
     template: exampleStandardTemplate
 })
 export class RatingExampleStandard {
@@ -83,7 +83,7 @@ export class RatingExampleStandard {
 }
 
 @Component({
-    selector: 'rating-example-styled',
+    selector: "rating-example-styled",
     template: exampleStyledTemplate
 })
 export class RatingExampleStyled {}

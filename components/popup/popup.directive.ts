@@ -3,7 +3,7 @@ import {SuiPopup} from './popup';
 import {PositioningPlacement} from '../util/positioning.service';
 import {TemplateRefContext, parseBooleanAttribute} from '../util/util';
 import {PopupConfig, IPopupConfig, PopupTrigger} from './popup-config';
-import {SuiPopupConfig} from './popup.service';
+import {SuiPopupConfig} from "./popup.service";
 
 export interface IPopup {
     open():void;
@@ -13,7 +13,7 @@ export interface IPopup {
 
 @Directive({
     selector: '[suiPopup]',
-    exportAs: 'suiPopup'
+    exportAs: "suiPopup"
 })
 export class SuiPopupDirective implements IPopup {
     public config:PopupConfig;
@@ -38,7 +38,7 @@ export class SuiPopupDirective implements IPopup {
         this.config.isInverted = parseBooleanAttribute(inverted);
     }
 
-     @Input()
+    @Input()
     public set popupBasic(basic:boolean) {
         this.config.isBasic = parseBooleanAttribute(basic);
     }
@@ -129,13 +129,13 @@ export class SuiPopupDirective implements IPopup {
             // Start popup open transition.
             this._popup.open();
 
-        }, this.config.delay);
+        },                                       this.config.delay);
     }
 
     public close() {
         // Cancel the opening timer to stop the popup opening after close has been called.
         clearTimeout(this._openingTimeout);
-        
+
         if (this._componentRef) {
             // Start popup close transition.
             this._popup.close();
@@ -154,21 +154,21 @@ export class SuiPopupDirective implements IPopup {
 
     @HostListener("mouseenter")
     private onMouseEnter() {
-        if (this.popupTrigger == PopupTrigger.Hover) {
+        if (this.popupTrigger === PopupTrigger.Hover) {
             this.open();
         }
     }
 
     @HostListener("mouseleave")
     private onMouseLeave() {
-        if (this.popupTrigger == PopupTrigger.Hover) {
+        if (this.popupTrigger === PopupTrigger.Hover) {
             this.close();
         }
     }
 
     @HostListener("click")
     private onClick() {
-        if (this.popupTrigger == PopupTrigger.Click || this.popupTrigger == PopupTrigger.OutsideClick) {
+        if (this.popupTrigger === PopupTrigger.Click || this.popupTrigger === PopupTrigger.OutsideClick) {
             // Repeated clicks require a toggle, rather than just opening the popup each time.
             this.toggle();
         }
@@ -177,7 +177,7 @@ export class SuiPopupDirective implements IPopup {
     @HostListener("document:click", ["$event"])
     public onDocumentClick(e:MouseEvent) {
         // If the popup trigger is outside click,
-        if (this._componentRef && this.popupTrigger == PopupTrigger.OutsideClick) {
+        if (this._componentRef && this.popupTrigger === PopupTrigger.OutsideClick) {
             const target = e.target as Element;
             // Close the popup if the click is outside of the popup element.
             if (!(this._element.nativeElement as Element).contains(target)) {
@@ -188,14 +188,14 @@ export class SuiPopupDirective implements IPopup {
 
     @HostListener("focus")
     private onFocus() {
-        if (this.popupTrigger == PopupTrigger.Focus) {
+        if (this.popupTrigger === PopupTrigger.Focus) {
             this.open();
         }
     }
 
     @HostListener("focusout")
     private onFocusOut() {
-        if (this.popupTrigger == PopupTrigger.Focus) {
+        if (this.popupTrigger === PopupTrigger.Focus) {
             this.close();
         }
     }

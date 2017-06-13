@@ -1,13 +1,13 @@
-import {Directive, Input, HostBinding, EventEmitter, Output, AfterContentInit, ContentChild, Renderer2, ElementRef, HostListener, QueryList, ContentChildren, forwardRef} from '@angular/core';
-import {SuiTransition, Transition} from '../transition/transition';
-import {TransitionController} from '../transition/transition-controller';
-import {DropdownService, DropdownAutoCloseType} from './dropdown.service';
-import {SuiDropdownMenu} from './dropdown-menu';
-import {PositioningService, PositioningPlacement} from '../util/positioning.service';
-import {KeyCode, HandledEvent} from '../util/util';
+import {Directive, Input, HostBinding, EventEmitter, Output, AfterContentInit, ContentChild, Renderer2, ElementRef, HostListener, QueryList, ContentChildren, forwardRef} from "@angular/core";
+import {SuiTransition, Transition} from "../transition/transition";
+import {TransitionController} from "../transition/transition-controller";
+import {DropdownService, DropdownAutoCloseType} from "./dropdown.service";
+import {SuiDropdownMenu} from "./dropdown-menu";
+import {PositioningService, PositioningPlacement} from "../util/positioning.service";
+import {KeyCode, HandledEvent} from "../util/util";
 
 @Directive({
-    selector: '[suiDropdown]'
+    selector: "[suiDropdown]"
 })
 export class SuiDropdown implements AfterContentInit {
     public service:DropdownService;
@@ -28,7 +28,7 @@ export class SuiDropdown implements AfterContentInit {
         return this.service.isOpenChange;
     }
 
-    @HostBinding('class.active')
+    @HostBinding("class.active")
     public get isActive() {
         // This is to ensure nested dropdowns don't get made bold.
         return this.service.isOpen && !this.service.isNested;
@@ -44,7 +44,7 @@ export class SuiDropdown implements AfterContentInit {
         this.service.setOpenState(value, !!value);
     }
 
-    @HostBinding('class.disabled')
+    @HostBinding("class.disabled")
     @Input()
     public get isDisabled() {
         return this.service.isDisabled;
@@ -54,7 +54,7 @@ export class SuiDropdown implements AfterContentInit {
         this.service.setDisabledState(value);
     }
 
-    @HostBinding('attr.tabindex')
+    @HostBinding("attr.tabindex")
     public get tabIndex() {
         return (this.isDisabled || this.service.isNested) ? null : 0;
     }
@@ -90,7 +90,7 @@ export class SuiDropdown implements AfterContentInit {
             .forEach(s => this.service.registerChild(s))
     }
 
-    @HostListener("click", ['$event'])
+    @HostListener("click", ["$event"])
     public onClick(e:HandledEvent & MouseEvent) {
         if (!e.eventHandled) {
             e.eventHandled = true;
@@ -99,12 +99,12 @@ export class SuiDropdown implements AfterContentInit {
         }
     }
 
-    @HostListener("keypress", ['$event'])
+    @HostListener("keypress", ["$event"])
     public onKeypress(e:HandledEvent & KeyboardEvent) {
         // Block the keyboard event from being fired on parent dropdowns.
         if (!e.eventHandled) {
 
-            if (e.keyCode == KeyCode.Enter) {
+            if (e.keyCode === KeyCode.Enter) {
                 e.eventHandled = true;
 
                 this.service.setOpenState(true);
@@ -115,7 +115,7 @@ export class SuiDropdown implements AfterContentInit {
     @HostListener("document:click", ["$event"])
     public onDocumentClick(e:MouseEvent) {
         if (!this._element.nativeElement.contains(e.target)) {
-            if (this.service.autoCloseMode == DropdownAutoCloseType.ItemClick || this.service.autoCloseMode == DropdownAutoCloseType.OutsideClick) {
+            if (this.service.autoCloseMode === DropdownAutoCloseType.ItemClick || this.service.autoCloseMode === DropdownAutoCloseType.OutsideClick) {
                 // No need to reflect in parent since they are also bound to document.
                 this.service.setOpenState(false);
             }

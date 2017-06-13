@@ -1,11 +1,11 @@
-import {Component, ViewChild, HostBinding, ElementRef, HostListener, Input, ContentChildren, QueryList, ViewChildren, AfterContentInit, EventEmitter, Output, Renderer2, TemplateRef, ViewContainerRef} from '@angular/core';
-import {DropdownService, DropdownAutoCloseType} from '../dropdown/dropdown.service';
-import {SearchService, LookupFn} from '../search/search.service';
-import {readValue, KeyCode, HandledEvent, AugmentedElement, TemplateRefContext} from '../util/util';
-import {PositioningService, PositioningPlacement} from '../util/positioning.service';
-import {SuiDropdownMenu, SuiDropdownMenuItem} from '../dropdown/dropdown-menu';
-import {SuiSelectOption, ISelectRenderedOption} from './select-option';
-import {Subscription} from 'rxjs/Subscription';
+import {Component, ViewChild, HostBinding, ElementRef, HostListener, Input, ContentChildren, QueryList, ViewChildren, AfterContentInit, EventEmitter, Output, Renderer2, TemplateRef, ViewContainerRef} from "@angular/core";
+import {DropdownService, DropdownAutoCloseType} from "../dropdown/dropdown.service";
+import {SearchService, LookupFn} from "../search/search.service";
+import {readValue, KeyCode, HandledEvent, AugmentedElement, TemplateRefContext} from "../util/util";
+import {PositioningService, PositioningPlacement} from "../util/positioning.service";
+import {SuiDropdownMenu, SuiDropdownMenuItem} from "../dropdown/dropdown-menu";
+import {SuiSelectOption, ISelectRenderedOption} from "./select-option";
+import {Subscription} from "rxjs/Subscription";
 
 // We use generic type T to specify the type of the options we are working with, and U to specify the type of the property of the option used as the value.
 export abstract class SuiSelectBase<T, U> implements AfterContentInit {
@@ -23,32 +23,32 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     private _renderedSubscriptions:Subscription[];
 
     // Sets the Semantic UI classes on the host element.
-    @HostBinding('class.ui')
-    @HostBinding('class.selection')
-    @HostBinding('class.dropdown')
+    @HostBinding("class.ui")
+    @HostBinding("class.selection")
+    @HostBinding("class.dropdown")
     private _selectClasses:boolean;
 
-    @HostBinding('class.active')
+    @HostBinding("class.active")
     public get isActive() {
         return this.dropdownService.isOpen;
     }
 
-    @HostBinding('class.visible')
+    @HostBinding("class.visible")
     public get isVisible() {
         return this._menu.isVisible;
     }
 
-    @HostBinding('class.search')
+    @HostBinding("class.search")
     @Input()
     public isSearchable:boolean;
 
-    @HostBinding('attr.tabindex')
+    @HostBinding("attr.tabindex")
     public get tabIndex() {
         // Remove from tabindex if searchable or disabled, as if searchable then the input is what needs to be focussed.
         return (this.isSearchable || this.isDisabled) ? -1 : 0;
     }
 
-    @HostBinding('class.disabled')
+    @HostBinding("class.disabled")
     @Input()
     public get isDisabled():boolean {
         return this.dropdownService.isDisabled;
@@ -58,7 +58,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         this.dropdownService.isDisabled = !!value;
     }
 
-    @ViewChild('queryInput')
+    @ViewChild("queryInput")
     private _queryInput:ElementRef;
 
     @Input()
@@ -66,13 +66,13 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
 
     @Input()
     public set options(options:T[] | LookupFn<T>) {
-        if (typeof options == "function") {
+        if (typeof options === "function") {
             this.searchService.optionsLookup = options;
         }
         else {
             this.searchService.options = options;
         }
-        
+
         this.optionsUpdateHook();
     }
 
@@ -169,10 +169,10 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         this._renderedOptions.forEach(ro => {
             // Slightly delay initialisation to avoid change after checked errors. TODO - look into avoiding this!
             setTimeout(() => this.initialiseRenderedOption(ro));
-            
+
             this._renderedSubscriptions.push(ro.onSelected.subscribe(() => this.selectOption(ro.value)));
         });
-        
+
     }
 
     protected initialiseRenderedOption(option:ISelectRenderedOption<T>) {
@@ -188,10 +188,10 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
 
     protected findOption(options:T[], value:U) {
         // Tries to find an option in options array
-        return options.find(o => value == this.valueGetter(o));
+        return options.find(o => value === this.valueGetter(o));
     }
 
-    @HostListener("click", ['$event'])
+    @HostListener("click", ["$event"])
     public onClick(e:HandledEvent & MouseEvent) {
         if (!e.eventHandled) {
             e.eventHandled = true;
@@ -204,9 +204,9 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         }
     }
 
-    @HostListener("keypress", ['$event'])
+    @HostListener("keypress", ["$event"])
     public onKeyPress(e:KeyboardEvent) {
-        if (e.keyCode == KeyCode.Enter) {
+        if (e.keyCode === KeyCode.Enter) {
             // Enables support for focussing and opening with the keyboard alone.
             // Using directly because Renderer2 doesn't have invokeElementMethod method anymore.
             this._element.nativeElement.click();

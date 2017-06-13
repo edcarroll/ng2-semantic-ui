@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {ApiDefinition} from '../../components/api/api.component';
+import {Component} from "@angular/core";
+import {ApiDefinition} from "../../components/api/api.component";
 
 const exampleStandardTemplate = `
 <div class="ui segment">
@@ -32,8 +32,8 @@ const exampleVariationsTemplate = `
 `;
 
 @Component({
-  selector: 'demo-page-dimmer',
-  templateUrl: './dimmer.page.html'
+  selector: "demo-page-dimmer",
+  templateUrl: "./dimmer.page.html"
 })
 export class DimmerPage {
     public api:ApiDefinition = [
@@ -79,7 +79,7 @@ export class DimmerPage {
 }
 
 @Component({
-    selector: 'dimmer-example-standard',
+    selector: "dimmer-example-standard",
     template: exampleStandardTemplate
 })
 export class DimmerExampleStandard {
@@ -88,7 +88,7 @@ export class DimmerExampleStandard {
 }
 
 @Component({
-    selector: 'dimmer-example-variations',
+    selector: "dimmer-example-variations",
     template: exampleVariationsTemplate
 })
 export class DimmerExampleVariations {

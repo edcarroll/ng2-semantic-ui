@@ -1,9 +1,9 @@
-import {Component, Input, Renderer2, ElementRef, HostBinding} from '@angular/core';
+import {Component, Input, Renderer2, ElementRef, HostBinding} from "@angular/core";
 import Popper from "popper.js";
-import {PositioningPlacement} from '../util/positioning.service';
+import {PositioningPlacement} from "../util/positioning.service";
 
 @Component({
-    selector: 'sui-popup-arrow',
+    selector: "sui-popup-arrow",
     template: `
 <div class="dynamic arrow" [attr.direction]="direction" *ngIf="alignment == 'center'"></div>
 <div class="static arrow" [attr.direction]="direction" [attr.alignment]="alignment" *ngIf="alignment != 'center'"></div>
@@ -86,7 +86,7 @@ export class SuiPopupArrow {
     public get alignment() {
         if (this.placement) {
             const alignment = this.placement.split(" ").pop();
-            if (alignment == this.direction) {
+            if (alignment === this.direction) {
                 return "center";
             }
             return alignment;

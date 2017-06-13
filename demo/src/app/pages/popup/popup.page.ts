@@ -1,6 +1,6 @@
-import {Component, Input, OnInit, OnDestroy} from '@angular/core';
+import {Component, Input, OnInit, OnDestroy} from "@angular/core";
 import {ApiDefinition} from "../../components/api/api.component";
-import {SuiPopupConfig} from '../../../../../components/popup/popup.service';
+import {SuiPopupConfig} from "../../../../../components/popup/popup.service";
 
 const exampleStandardTemplate = `
 <button class="ui green icon button" suiPopup popupHeader="Example" popupText="This is an example popup">
@@ -32,8 +32,8 @@ const examplePlacementTemplate = `
 `;
 
 @Component({
-    selector: 'demo-page-popup',
-    templateUrl: './popup.page.html'
+    selector: "demo-page-popup",
+    templateUrl: "./popup.page.html"
 })
 export class PopupPage {
     public api:ApiDefinition = [
@@ -101,11 +101,11 @@ export class PopupPage {
                     name: "popupConfig",
                     type: "IPopupConfig",
                     description: "Takes an <code>IPopupConfig</code> object that provides values for various configuration options simultaneously."
-                },
+                }
             ]
         }
     ];
-    
+
     public exampleStandardTemplate = exampleStandardTemplate;
     public exampleTemplateTemplate = exampleTemplateTemplate;
     public examplePlacementTemplate = examplePlacementTemplate;
@@ -165,7 +165,7 @@ export class MyComponent {
 }
 
 @Component({
-    selector: 'popup-example-standard',
+    selector: "popup-example-standard",
     template: exampleStandardTemplate
 })
 export class PopupExampleStandard implements OnInit {
@@ -185,13 +185,13 @@ export class PopupExampleStandard implements OnInit {
 }
 
 @Component({
-    selector: 'popup-example-template',
+    selector: "popup-example-template",
     template: exampleTemplateTemplate
 })
 export class PopupExampleTemplate {}
 
 @Component({
-    selector: 'popup-example-placement',
+    selector: "popup-example-placement",
     template: examplePlacementTemplate
 })
 export class PopupExamplePlacement {
