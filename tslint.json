@@ -152,7 +152,7 @@
       true,
       "allow-declarations"
     ],
-    "prefer-conditional-expression": true,
+    "prefer-conditional-expression": false,
     "prefer-const": true,
     "prefer-literal": [
       true,
@@ -239,7 +239,7 @@
     "use-input-property-decorator": true,
     "use-output-property-decorator": true,
     "use-host-property-decorator": false,
-    "no-input-rename": true,
+    "no-input-rename": false,
     "no-output-rename": false,
     "use-life-cycle-interface": true,
     "use-pipe-transform-interface": true,

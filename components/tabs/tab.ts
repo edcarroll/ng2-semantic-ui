@@ -1,5 +1,5 @@
-import {SuiTabHeader} from "./tab-header";
-import {SuiTabContent} from "./tab-content";
+import { SuiTabHeader } from "./tab-header";
+import { SuiTabContent } from "./tab-content";
 
 export class Tab {
     public id:string;
@@ -18,7 +18,7 @@ export class Tab {
     }
 
     // Saves accessing .header.isActive every time.
-    public get isActive() {
+    public get isActive():boolean {
         return this.header.isActive;
     }
 
@@ -28,7 +28,7 @@ export class Tab {
     }
 
     // Saves accessing .header.isDisabled every time.
-    public get isDisabled() {
+    public get isDisabled():boolean {
         return this.header.isDisabled;
     }
 }
