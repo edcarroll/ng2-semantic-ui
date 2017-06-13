@@ -171,6 +171,7 @@
     "radix": true,
     "restrict-plus-operands": true,
     "semicolon": [
+      true,
       "always"
     ],
     "space-before-function-paren": [
