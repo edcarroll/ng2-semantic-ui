@@ -1,6 +1,6 @@
-import {Component, Input, Renderer2, ElementRef, HostBinding} from "@angular/core";
+import { Component, Input, Renderer2, ElementRef, HostBinding } from "@angular/core";
+import { PositioningPlacement } from "../util/positioning.service";
 import Popper from "popper.js";
-import {PositioningPlacement} from "../util/positioning.service";
 
 @Component({
     selector: "sui-popup-arrow",
@@ -77,13 +77,13 @@ export class SuiPopupArrow {
     @Input()
     public inverted:boolean;
 
-    public get direction() {
+    public get direction():string {
         if (this.placement) {
             return this.placement.split(" ").shift();
         }
     }
 
-    public get alignment() {
+    public get alignment():string {
         if (this.placement) {
             const alignment = this.placement.split(" ").pop();
             if (alignment === this.direction) {
