@@ -141,7 +141,7 @@ export class SuiSearch<T> implements AfterViewInit, ICustomValueAccessorHost<T> 
 
         this.transition = "scale";
         this.transitionDuration = 200;
-}
+    }
 
     public ngAfterViewInit():void {
         this._menu.service = this.dropdownService;

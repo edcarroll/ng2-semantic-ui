@@ -45,7 +45,7 @@ export class SearchService<T> {
     }
 
     public get hasItemLookup():boolean {
-         return this.optionsLookup && this.optionsLookup.length === 2;
+        return this.optionsLookup && this.optionsLookup.length === 2;
     }
 
     public get optionsField():string {

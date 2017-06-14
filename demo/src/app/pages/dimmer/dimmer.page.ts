@@ -32,8 +32,8 @@ const exampleVariationsTemplate = `
 `;
 
 @Component({
-  selector: "demo-page-dimmer",
-  templateUrl: "./dimmer.page.html"
+    selector: "demo-page-dimmer",
+    templateUrl: "./dimmer.page.html"
 })
 export class DimmerPage {
     public api:ApiDefinition = [

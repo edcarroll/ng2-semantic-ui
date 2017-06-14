@@ -25,22 +25,17 @@
   "angular-cli": {},
   "scripts": {
     "run:demo": "ng serve",
-
     "lint:lib": "tslint -c tslint.json --type-check --project tsconfig.json",
     "lint:demo": "tslint -c tslint.json --type-check --project demo/src/tsconfig.json",
     "lint": "npm run lint:lib & npm run lint:demo",
-
     "compile:lib": "ngc",
     "compile:lib:w": "ngc -w",
     "compile:demo": "ng build --prod --aot=false --base-href=/ng2-semantic-ui/",
     "compile": "npm run compile:lib && npm run compile:demo",
-
     "package:lib": "rollup -c",
-
     "build:lib": "npm run lint:lib && npm run compile:lib && npm run package:lib",
     "build:demo": "npm run lint && npm run compile",
     "build": "npm run lint && npm run compile && npm run package:lib",
-
     "prepublish": "npm run build"
   },
   "dependencies": {
@@ -78,6 +73,7 @@
     "rollup-plugin-uglify": "~1.0.1",
     "ts-node": "~2.0.0",
     "tslint": "^5.0.0",
+    "tslint-eslint-rules": "^4.1.1",
     "typescript": "^2.3.0",
     "vrsource-tslint-rules": "^5.1.0",
     "web-animations-js": "^2.2.5",

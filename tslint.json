@@ -1,7 +1,8 @@
 {
   "rulesDirectory": [
     "node_modules/codelyzer",
-    "node_modules/vrsource-tslint-rules/rules"
+    "node_modules/vrsource-tslint-rules/rules",
+    "node_modules/tslint-eslint-rules/dist/rules"
   ],
   "rules": {
     "align": [
@@ -40,26 +41,22 @@
       ["property", "static", "camel"],
       ["property", "private", "camel", "require-leading-underscore"],
       ["property", "protected", "camel", "require-leading-underscore"],
-      // ["variable", "camel"],
       ["method", "camel"],
       ["function", "camel"]
-      // ["default", "camel"]
     ],
     "forin": true,
     "import-blacklist": [true, "rxjs"],
     "import-spacing": true,
-    "indent": [
+    "ter-indent": [
       true,
-      "spaces",
-      4
+      4,
+      {
+        "SwitchCase": 1
+      }
     ],
     "interface-over-type-literal": true,
     "jsdoc-format": true,
     "label-position": true,
-    "linebreak-style": [
-      true,
-      "CRLF"
-    ],
     "literal-spacing": [
       true,
       {
