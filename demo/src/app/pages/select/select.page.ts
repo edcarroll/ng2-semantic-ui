@@ -1,5 +1,5 @@
-import {Component} from "@angular/core";
-import {ApiDefinition} from "../../components/api/api.component";
+import { Component } from "@angular/core";
+import { ApiDefinition } from "../../components/api/api.component";
 
 const exampleStandardTemplate = `
 <sui-select [(ngModel)]="selectedGender" placeholder="Gender">
@@ -33,7 +33,12 @@ const exampleSearchTemplate = `
 
 const exampleSearchLookupTemplate = `
 <p>You can also use the keyboard to navigate.</p>
-<sui-select [(ngModel)]="selectedOption" [options]="optionsLookup" labelField="name" valueField="id" [isSearchable]="true" #searchSelect>
+<sui-select [(ngModel)]="selectedOption"
+            [options]="optionsLookup"
+            labelField="name"
+            valueField="id"
+            [isSearchable]="true"
+            #searchSelect>
     <sui-select-option *ngFor="let option of searchSelect.availableOptions" [value]="option"></sui-select-option>
 </sui-select>
 <div class="ui segment">
@@ -51,7 +56,12 @@ const exampleMultipleTemplate = `
 `;
 
 const exampleMultipleSearchTemplate = `
-<sui-multi-select class="fluid" [(ngModel)]="selectedOptions" [options]="options" [isSearchable]="true" [maxSelected]="5" #searchSelect>
+<sui-multi-select class="fluid"
+                  [(ngModel)]="selectedOptions"
+                  [options]="options"
+                  [isSearchable]="true"
+                  [maxSelected]="5"
+                  #searchSelect>
     <sui-select-option *ngFor="let option of searchSelect.availableOptions" [value]="option"></sui-select-option>
 </sui-multi-select>
 <div class="ui segment">
@@ -65,7 +75,12 @@ const exampleTemplateSearchTemplate = `
 </ng-template>
 <div class="ui form">
     <div class="field">
-        <sui-select [(ngModel)]="selectedOption" [options]="options" labelField="name" [optionTemplate]="optionTemplate" [isSearchable]="true" #select>
+        <sui-select [(ngModel)]="selectedOption"
+                    [options]="options"
+                    labelField="name"
+                    [optionTemplate]="optionTemplate"
+                    [isSearchable]="true"
+                    #select>
             <div class="header">
                 <i class="users icon"></i>
                 Custom Menu Markup!
@@ -75,7 +90,12 @@ const exampleTemplateSearchTemplate = `
         </sui-select>
     </div>
     <div class="field">
-        <sui-multi-select class="fluid" [(ngModel)]="selectedOptions" [options]="options" valueField="name" [optionTemplate]="optionTemplate" #multiSelect>
+        <sui-multi-select class="fluid"
+                          [(ngModel)]="selectedOptions"
+                          [options]="options"
+                          valueField="name"
+                          [optionTemplate]="optionTemplate"
+                          #multiSelect>
             <sui-select-option *ngFor="let option of multiSelect.availableOptions" [value]="option"></sui-select-option>
         </sui-multi-select>
     </div>
@@ -104,17 +124,21 @@ export class SelectPage {
                 {
                     name: "options",
                     type: "T[] | LookupFn<T>",
-                    description: "Sets the options available to the select component. Can either be an array, or a function that takes a query and returns either a <code>Promise</code> (for remote lookups) or an array (for custom local searches)."
+                    description: "Sets the options available to the select component. Can either " +
+                                 "be an array, or a function that takes a query and returns either a " +
+                                 "<code>Promise</code> (for remote lookups) or an array (for custom local searches)."
                 },
                 {
                     name: "labelField",
                     type: "string",
-                    description: "Sets the property name that is used as a label for each option. Supports dot notation for nested properties."
+                    description: "Sets the property name that is used as a label for each option. " +
+                                 "Supports dot notation for nested properties."
                 },
                 {
                     name: "valueField",
                     type: "string",
-                    description: "Sets the property name that is used to bind to ngModel. Leaving this blank uses the entire object. Supports dot notation for nested properties."
+                    description: "Sets the property name that is used to bind to ngModel. Leaving this " +
+                                 "blank uses the entire object. Supports dot notation for nested properties."
                 },
                 {
                     name: "isDisabled",
@@ -125,7 +149,8 @@ export class SelectPage {
                 {
                     name: "isSearchable",
                     type: "boolean",
-                    description: "Sets whether the select is searchable. If set to <code>true</code> the <code>options</code> property must be used.",
+                    description: "Sets whether the select is searchable. If set to <code>true</code> the " +
+                                 "<code>options</code> property must be used.",
                     defaultValue: "false"
                 },
                 {
@@ -182,18 +207,22 @@ export class SelectPage {
                 {
                     name: "options",
                     type: "T[] | LookupFn<T>",
-                    description: "Sets the options available to the multi select component. Can either be an array or a function that takes a query and returns a Promise for remote lookup.",
+                    description: "Sets the options available to the select component. Can either " +
+                                 "be an array, or a function that takes a query and returns either a " +
+                                 "<code>Promise</code> (for remote lookups) or an array (for custom local searches).",
                     required: true
                 },
                 {
                     name: "labelField",
                     type: "string",
-                    description: "Sets the property name that is used as a label for each option. Supports dot notation for nested properties."
+                    description: "Sets the property name that is used as a label for each option. " +
+                                 "Supports dot notation for nested properties."
                 },
                 {
                     name: "valueField",
                     type: "string",
-                    description: "Sets the property name that is used to bind to ngModel. Leaving this blank uses the entire object. Supports dot notation for nested properties."
+                    description: "Sets the property name that is used to bind to ngModel. Leaving this " +
+                                 "blank uses the entire object. Supports dot notation for nested properties."
                 },
                 {
                     name: "isDisabled",
@@ -204,7 +233,8 @@ export class SelectPage {
                 {
                     name: "isSearchable",
                     type: "boolean",
-                    description: "Sets whether the multi select is searchable. If set to <code>true</code> the <code>options</code> property must be used.",
+                    description: "Sets whether the multi select is searchable. If set to <code>true</code> the " +
+                                 "<code>options</code> property must be used.",
                     defaultValue: "false"
                 },
                 {
@@ -266,11 +296,11 @@ export class SelectPage {
             ]
         }
     ];
-    public exampleStandardTemplate = exampleStandardTemplate;
-    public exampleOptionsTemplate = exampleOptionsTemplate;
-    public exampleSearchTemplate = exampleSearchTemplate;
-    public exampleSearchLookupTemplate = exampleSearchLookupTemplate;
-    public searchLookupCode = `
+    public exampleStandardTemplate:string = exampleStandardTemplate;
+    public exampleOptionsTemplate:string = exampleOptionsTemplate;
+    public exampleSearchTemplate:string = exampleSearchTemplate;
+    public exampleSearchLookupTemplate:string = exampleSearchLookupTemplate;
+    public searchLookupCode:string = `
 // The 2nd argument's type is that of the property specified by 'valueField'.
 let selectLookup = (query:string, initial:number) => {
     if (initial != undefined) {
@@ -291,88 +321,110 @@ let multiSelectLookup = (query:string, initials:number[]) => {
     return externalApi.query(query);
 };
 `;
-    public exampleMultipleTemplate = exampleMultipleTemplate;
-    public exampleMultipleSearchTemplate = exampleMultipleSearchTemplate;
-    public exampleTemplateSearchTemplate = exampleTemplateSearchTemplate;
+    public exampleMultipleTemplate:string = exampleMultipleTemplate;
+    public exampleMultipleSearchTemplate:string = exampleMultipleSearchTemplate;
+    public exampleTemplateSearchTemplate:string = exampleTemplateSearchTemplate;
 }
 
+interface IOption {
+    id?:number;
+    name:string;
+}
+
+const options = ["Example", "Test", "What", "No", "Benefit", "Oranges", "Artemis", "Another"];
+const namedOptions:IOption[] = options.map(name => ({ name }));
+const idOptions:IOption[] = namedOptions.map(({ name }, id) => ({ name, id }));
+
 @Component({
-    selector: "select-example-standard",
+    selector: "example-select-standard",
     template: exampleStandardTemplate
 })
 export class SelectExampleStandard {
-    public selectedGender;
+    public selectedGender:string;
 }
 
 @Component({
-    selector: "select-example-options",
+    selector: "example-select-options",
     template: exampleOptionsTemplate
 })
 export class SelectExampleOptions {
-    public options:{ name:string }[] = [{ name: "Example" }, { name: "Test" }, { name: "What" }, { name: "No" }, { name: "Benefit" }, { name: "Oranges" }, { name: "Artemis" }, { name: "Another" }];
-    public addOption() {
+    public options:IOption[] = namedOptions;
+    public selectedOption:IOption = this.options[0];
+
+    public addOption():void {
         this.options.push({ name: "Dynamic Option" });
     }
-    public selectedOption = this.options[0];
 }
 
 @Component({
-    selector: "select-example-search",
+    selector: "example-select-search",
     template: exampleSearchTemplate
 })
 export class SelectExampleSearch {
-    public options:{ name:string }[] = [{ name: "Example" }, { name: "Test" }, { name: "What" }, { name: "No" }, { name: "Benefit" }, { name: "Oranges" }, { name: "Artemis" }, { name: "Another" }];
-    public selectedOption;
+    public options:IOption[] = namedOptions;
+
+    public selectedOption:IOption;
 }
 
 @Component({
-    selector: "select-example-search-lookup",
+    selector: "example-select-search-lookup",
     template: exampleSearchLookupTemplate
 })
 export class SelectExampleLookupSearch {
-    private _options:{ id:number, name:string }[] = [{ id: 1, name: "Example" }, { id: 2, name: "Test" }, { id: 3, name: "What" }, { id: 4, name: "No" }, { id: 5, name: "Benefit" }, { id: 6, name: "Oranges" }, { id: 7, name: "Artemis" }, { id: 8, name: "Another" }];
+    private _options:IOption[] = idOptions;
+    public selectedOption:number = this._options[3]["id"];
+
     public optionsLookup = (query:string, initial:number) => {
         if (initial !== undefined) {
-            return new Promise((resolve, reject) => {
+            return new Promise(resolve => {
                 resolve(this._options.find(item => item.id === initial));
             });
-        }
-        else {
+        } else {
             const regex:RegExp = new RegExp(query, "i");
-            return new Promise((resolve, reject) => {
+            return new Promise(resolve => {
                 resolve(this._options.filter(item => item.name.match(regex)));
             });
         }
-    };
-    public selectedOption = this._options[3]["id"];
+    }
+
 }
 
 @Component({
-    selector: "select-example-multiple",
+    selector: "example-select-multiple",
     template: exampleMultipleTemplate
 })
 export class SelectExampleMultiple {
-    public options:string[] = ["Example", "Test", "What", "No", "Benefit", "Oranges", "Artemis", "Another"];
-    public selectedOptions = ["What", "Oranges"];
+    public options:string[] = options;
+    public selectedOptions:string[] = ["What", "Oranges"];
 }
 
 @Component({
-    selector: "select-example-multiple-search",
+    selector: "example-select-multiple-search",
     template: exampleMultipleSearchTemplate
 })
 export class SelectExampleMultipleSearch {
-    public options:string[] = ["Example", "Test", "What", "No", "Benefit", "Oranges", "Artemis", "Another"];
-    public selectedOptions = ["What", "Oranges"];
+    public options:string[] = options;
+    public selectedOptions:string[] = ["What", "Oranges"];
 }
 
 @Component({
-    selector: "select-example-template-search",
+    selector: "example-select-template-search",
     template: exampleTemplateSearchTemplate
 })
 export class SelectExampleTemplateSearch {
-    public options:{ name:string }[] = [{ name: "Example"}, { name: "Test"}, { name: "What"}, { name: "No"}, { name: "Benefit"}, { name: "Oranges"}, { name: "Artemis"}, { name: "Another"}];
-    public selectedOption = this.options[5];
-    public selectedOptions:[{ name:string }];
+    public options:IOption[] = namedOptions;
+    public selectedOption:IOption = this.options[5];
+    public selectedOptions:IOption[];
 }
 
-export const SelectPageComponents = [SelectPage, SelectExampleStandard, SelectExampleOptions, SelectExampleSearch, SelectExampleLookupSearch, SelectExampleMultiple, SelectExampleMultipleSearch, SelectExampleTemplateSearch];
+export const SelectPageComponents = [
+    SelectPage,
+
+    SelectExampleStandard,
+    SelectExampleOptions,
+    SelectExampleSearch,
+    SelectExampleLookupSearch,
+    SelectExampleMultiple,
+    SelectExampleMultipleSearch,
+    SelectExampleTemplateSearch
+];

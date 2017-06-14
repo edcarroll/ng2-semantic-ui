@@ -1,7 +1,7 @@
-import {Component} from "@angular/core";
-import {ApiDefinition} from "../../components/api/api.component";
-import {SuiModalService} from "../../../../../components/modal/modal.service";
-import {AlertModal} from "../../modals/alert.modal";
+import { Component } from "@angular/core";
+import { ApiDefinition } from "../../components/api/api.component";
+import { SuiModalService } from "../../../../../components/modal/modal.service";
+import { AlertModal } from "../../modals/alert.modal";
 
 const exampleStandardTemplate = `
 <sui-tabset>
@@ -103,13 +103,15 @@ export class TabsPage {
                 {
                     name: "isActive",
                     type: "boolean",
-                    description: "Sets whether the tab is active. Supports being set to <code>false</code> at which time the closest available tab is activated.",
+                    description: "Sets whether the tab is active. Supports being set to <code>false</code> " +
+                                 "at which time the closest available tab is activated.",
                     defaultValue: "false"
                 },
                 {
                     name: "isDisabled",
                     type: "boolean",
-                    description: "Sets whether not the tab is disabled. If the tab is active when it is disabled, the closest available tab is activated.",
+                    description: "Sets whether not the tab is disabled. If the tab is active when it is disabled, " +
+                                 "the closest available tab is activated.",
                     defaultValue: "false"
                 }
             ],
@@ -117,7 +119,8 @@ export class TabsPage {
                 {
                     name: "isActiveChange",
                     type: "boolean",
-                    description: "Fires when the tab's active status is changed. Using the <code>[(isActive)]</code> syntax is recommended so that the value is updated when the active tab changes."
+                    description: "Fires when the tab's active status is changed. Using the <code>[(isActive)]</code> " +
+                                 "syntax is recommended so that the value is updated when the active tab changes."
                 },
                 {
                     name: "activate",
@@ -143,20 +146,20 @@ export class TabsPage {
             ]
         }
     ];
-    public exampleStandardTemplate = exampleStandardTemplate;
-    public examplePropertiesTemplate = examplePropertiesTemplate;
-    public exampleDynamicTemplate = exampleDynamicTemplate;
-    public exampleStyledTemplate = exampleStyledTemplate;
+    public exampleStandardTemplate:string = exampleStandardTemplate;
+    public examplePropertiesTemplate:string = examplePropertiesTemplate;
+    public exampleDynamicTemplate:string = exampleDynamicTemplate;
+    public exampleStyledTemplate:string = exampleStyledTemplate;
 }
 
 @Component({
-    selector: "tab-example-standard",
+    selector: "example-tab-standard",
     template: exampleStandardTemplate
 })
 export class TabExampleStandard {}
 
 @Component({
-    selector: "tab-example-properties",
+    selector: "example-tab-properties",
     template: examplePropertiesTemplate
 })
 export class TabExampleProperties {
@@ -168,41 +171,42 @@ export class TabExampleProperties {
 
     constructor(public modalService:SuiModalService) {}
 
-    public alert = function() {
+    public alert():void {
         this.modalService.open(new AlertModal("You've chosen the alert tab!"));
     }
 }
 
 @Component({
-    selector: "tab-example-dynamic",
+    selector: "example-tab-dynamic",
     template: exampleDynamicTemplate
 })
 export class TabExampleDynamic {
     public active:boolean[] = [];
-    public tabs = [
+    public tabs:{ header:string; content:string }[] = [
         { header: "1st", content: "Dynamic content" },
         { header: "2nd", content: "More content" },
         { header: "3rd", content: "Even more content" }
     ];
-    public addTab() {
+
+    public addTab():void {
         this.active.push(true);
         this.tabs.push({
             header: "New",
             content: "Another dynamic tab"
         });
-    };
-    public removeTab() {
+    }
+    public removeTab():void {
         this.active.pop();
         this.tabs.pop();
     }
 }
 
 @Component({
-    selector: "tab-example-styled",
+    selector: "example-tab-styled",
     template: exampleStyledTemplate
 })
 export class TabExampleStyled {
-    public pointing = true;
+    public pointing:boolean = true;
 }
 
 export const TabsPageComponents = [TabsPage, TabExampleStandard, TabExampleProperties, TabExampleDynamic, TabExampleStyled];
