@@ -1,6 +1,6 @@
-import {Component} from "@angular/core";
-import {Modal} from "../../../../components/modal/modal-controls";
-import {ComponentModalConfig, ModalSize} from "../../../../components/modal/modal-config";
+import { Component } from "@angular/core";
+import { Modal } from "../../../../components/modal/modal-controls";
+import { ComponentModalConfig, ModalSize } from "../../../../components/modal/modal-config";
 
 interface IAlertModalContext {
     message:string;
@@ -8,7 +8,7 @@ interface IAlertModalContext {
 }
 
 @Component({
-    selector: "modal-alert",
+    selector: "demo-modal-alert",
     template: `
 <div class="header" *ngIf="modal.context.title">{{ modal.context.title }}</div>
 <div class="content">
