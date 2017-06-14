@@ -40,10 +40,10 @@
       ["property", "static", "camel"],
       ["property", "private", "camel", "require-leading-underscore"],
       ["property", "protected", "camel", "require-leading-underscore"],
-      ["variable", "camel"],
+      // ["variable", "camel"],
       ["method", "camel"],
-      ["function", "camel"],
-      ["default", "camel"]
+      ["function", "camel"]
+      // ["default", "camel"]
     ],
     "forin": true,
     "import-blacklist": [true, "rxjs"],
@@ -218,7 +218,10 @@
     "use-default-type-parameter": true,
     "variable-name": [
       true,
-      "ban-keywords"
+      "ban-keywords",
+      "check-format",
+      "allow-pascal-case",
+      "allow-leading-underscore"
     ],
     "whitespace": [
       true,
@@ -233,7 +236,7 @@
     "component-selector": [
       true,
       "element",
-      ["sui", "demo"],
+      ["sui", "demo", "example"],
       "kebab-case"
     ],
     "use-input-property-decorator": true,

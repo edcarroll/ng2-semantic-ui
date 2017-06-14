@@ -2,7 +2,6 @@ import { EventEmitter } from "@angular/core";
 
 export type SidebarTransition = "overlay" | "push" | "scale down" | "uncover" | "slide along" | "slide out";
 
-// tslint:disable-next-line:ext-variable-name
 export const SidebarTransition = {
     Overlay: "overlay" as SidebarTransition,
     Push: "push" as SidebarTransition,
@@ -14,7 +13,6 @@ export const SidebarTransition = {
 
 export type SidebarDirection = "left" | "right" | "top" | "bottom";
 
-// tslint:disable-next-line:ext-variable-name
 export const SidebarDirection = {
     Left: "left" as SidebarDirection,
     Right: "right" as SidebarDirection,
