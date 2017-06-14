@@ -1,5 +1,5 @@
-import {Component} from "@angular/core";
-import {ApiDefinition} from "../../components/api/api.component";
+import { Component } from "@angular/core";
+import { ApiDefinition } from "../../components/api/api.component";
 
 const exampleStandardTemplate = `
 <p>You can use the keyboard to navigate the dropdown.</p>
@@ -79,7 +79,8 @@ export class DropdownPage {
                 {
                     name: "autoClose",
                     type: "DropdownAutoCloseType",
-                    description: "Defines when the dropdown is closed. Options are: <code>itemClick</code>, <code>outsideClick</code> & <code>disabled</code>.",
+                    description: "Defines when the dropdown is closed." +
+                                 "Options are: <code>itemClick</code>, <code>outsideClick</code> & <code>disabled</code>.",
                     defaultValue: "itemClick"
                 }
             ],
@@ -115,12 +116,12 @@ export class DropdownPage {
             ]
         }
     ];
-    public exampleStandardTemplate = exampleStandardTemplate;
-    public exampleStyledTemplate = exampleStyledTemplate;
+    public exampleStandardTemplate:string = exampleStandardTemplate;
+    public exampleStyledTemplate:string = exampleStyledTemplate;
 }
 
 @Component({
-    selector: "dropdown-example-standard",
+    selector: "example-dropdown-standard",
     template: exampleStandardTemplate
 })
 export class DropdownExampleStandard {
@@ -129,7 +130,7 @@ export class DropdownExampleStandard {
 }
 
 @Component({
-    selector: "dropdown-example-styled",
+    selector: "example-dropdown-styled",
     template: exampleStyledTemplate
 })
 export class DropdownExampleStyled {}

@@ -46,7 +46,7 @@ export class CollapsePage {
     public exampleStandardTemplate:string = exampleStandardTemplate;
 
     public polyfillInclude:string =
-        `<script src="https://rawgit.com/web-animations/web-animations-js/master/web-animations.min.js"></script>`;
+`<script src="https://rawgit.com/web-animations/web-animations-js/master/web-animations.min.js"></script>`;
 }
 
 @Component({
