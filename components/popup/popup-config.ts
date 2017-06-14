@@ -5,7 +5,6 @@ import { IPopup } from "./popup.directive";
 
 export type PopupTrigger = "hover" | "click" | "outsideClick" | "focus" | "manual";
 
-// tslint:disable-next-line:ext-variable-name
 export const PopupTrigger = {
     Hover: "hover" as PopupTrigger,
     Click: "click" as PopupTrigger,

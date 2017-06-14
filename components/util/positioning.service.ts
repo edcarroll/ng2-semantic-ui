@@ -13,7 +13,6 @@ type PopperPlacement = "inherit" |
                        "bottom-start" | "bottom" | "bottom-end" |
                        "right-start" | "right" | "right-end";
 
-// tslint:disable-next-line:ext-variable-name
 export const PositioningPlacement = {
     Inherit: "inherit" as PositioningPlacement,
     TopLeft: "top left" as PositioningPlacement,

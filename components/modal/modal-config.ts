@@ -4,7 +4,6 @@ import { ModalTemplate } from "./modal-template";
 
 export type ModalSize = "small" | "normal" | "large";
 
-// tslint:disable-next-line:ext-variable-name
 export const ModalSize = {
     Small: "small" as ModalSize,
     Normal: "normal" as ModalSize,

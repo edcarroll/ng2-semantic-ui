@@ -3,7 +3,6 @@ import { EventEmitter } from "@angular/core";
 export type DropdownAutoCloseType = "itemClick" | "outsideClick" | "disabled";
 
 // Creates essentially a 'string' enum.
-// tslint:disable-next-line:ext-variable-name
 export const DropdownAutoCloseType = {
     ItemClick: "itemClick" as DropdownAutoCloseType,
     OutsideClick: "outsideClick" as DropdownAutoCloseType,
