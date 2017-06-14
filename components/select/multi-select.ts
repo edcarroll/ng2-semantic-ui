@@ -135,8 +135,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
                     const itemsLookup = this.searchService.itemsLookup<U>(values);
                     if (itemsLookup instanceof Promise) {
                         itemsLookup
-                            .then(r => lookupFinished(r))
-                            .catch(() => {});
+                            .then(r => lookupFinished(r));
                     } else {
                         lookupFinished(itemsLookup);
                     }

@@ -107,7 +107,6 @@
     "no-empty": false,
     "no-empty-interface": true,
     "no-eval": true,
-    "no-floating-promises": true,
     "no-increment-decrement": true,
     "no-inferrable-types": [
       true,
@@ -176,7 +175,13 @@
     ],
     "space-before-function-paren": [
       true,
-      "never"
+      {
+        "anonymous": "never",
+        "named": "never",
+        "asyncArrow": "always",
+        "method": "never",
+        "constructor": "never"
+      }
     ],
     "trailing-comma": [
       true,

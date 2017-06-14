@@ -106,6 +106,10 @@ export class SearchPage {
     public exampleRemoteTemplate:string = exampleRemoteTemplate;
 }
 
+interface IOption {
+    title:string;
+}
+
 @Component({
     selector: "example-search-standard",
     template: exampleStandardTemplate
@@ -138,15 +142,14 @@ export class SearchExampleStandard {
     template: exampleRemoteTemplate
 })
 export class SearchExampleRemote extends SearchExampleStandard {
-    public selectedItem:{ title:string } = { title: "Apple" };
+    public selectedItem:IOption = { title: "Apple" };
 
-    public optionsSearch(query:string):Promise<any[]> {
+    public async optionsSearch(query:string):Promise<IOption[]> {
         const options = SearchExampleStandard.standardOptions.map((o:string) => ({ title: o }));
 
-        return new Promise((resolve, reject) => {
-            const results = options.filter((o:any) => {
-                return o.title.slice(0, query.length).toLowerCase() === query.toLowerCase();
-            });
+        return new Promise<IOption[]>(resolve => {
+            const results = options
+                .filter(o => o.title.slice(0, query.length).toLowerCase() === query.toLowerCase());
             setTimeout(() => resolve(results), 300);
         });
     }

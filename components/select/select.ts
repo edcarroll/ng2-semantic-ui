@@ -106,8 +106,7 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValue
                     const itemLookup = this.searchService.itemLookup<U>(value);
                     if (itemLookup instanceof Promise) {
                         itemLookup
-                            .then(r => lookupFinished(r))
-                            .catch(() => {});
+                            .then(r => lookupFinished(r));
                     } else {
                         lookupFinished(itemLookup);
                     }
