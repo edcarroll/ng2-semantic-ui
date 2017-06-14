@@ -1,4 +1,4 @@
-import {Component, AfterViewInit, Input, ChangeDetectorRef} from "@angular/core";
+import { Component, AfterViewInit, Input, ChangeDetectorRef } from "@angular/core";
 
 @Component({
     selector: "demo-codeblock",
@@ -18,14 +18,14 @@ export class CodeblockComponent implements AfterViewInit {
 
     public languageClass:any = {};
 
-    constructor(private changeDetectorRef:ChangeDetectorRef) {}
+    constructor(private _changeDetectorRef:ChangeDetectorRef) {}
 
-    ngAfterViewInit() {
+    public ngAfterViewInit():void {
         if (this.src[0] === "\n") {
             this.src = this.src.replace("\n", "");
         }
         this.languageClass[`language-${this.language}`] = true;
         this.html = Prism.highlight(this.src || "", Prism.languages[this.language]);
-        this.changeDetectorRef.detectChanges();
+        this._changeDetectorRef.detectChanges();
     }
 }

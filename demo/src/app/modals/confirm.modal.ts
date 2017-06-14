@@ -1,6 +1,6 @@
-import {Component} from "@angular/core";
-import {Modal} from "../../../../components/modal/modal-controls";
-import {ComponentModalConfig, ModalSize} from "../../../../components/modal/modal-config";
+import { Component } from "@angular/core";
+import { Modal } from "../../../../components/modal/modal-controls";
+import { ComponentModalConfig, ModalSize } from "../../../../components/modal/modal-config";
 
 interface IConfirmModalContext {
     question:string;
@@ -8,7 +8,7 @@ interface IConfirmModalContext {
 }
 
 @Component({
-    selector: "modal-confirm",
+    selector: "demo-modal-confirm",
     template: `
 <div class="header" *ngIf="modal.context.title">{{ modal.context.title }}</div>
 <div class="content">

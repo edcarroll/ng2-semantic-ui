@@ -1,4 +1,4 @@
-import {Component, HostBinding} from "@angular/core";
+import { Component, HostBinding } from "@angular/core";
 
 @Component({
     selector: "demo-page-title",
@@ -10,5 +10,5 @@ export class PageTitleComponent {
     @HostBinding("class.masthead")
     @HostBinding("class.vertical")
     @HostBinding("class.segment")
-    classes = true;
+    public classes:boolean = true;
 }

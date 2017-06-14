@@ -1,4 +1,4 @@
-import {Component, HostBinding} from "@angular/core";
+import { Component, HostBinding } from "@angular/core";
 
 @Component({
     selector: "demo-page-content",
@@ -11,5 +11,5 @@ export class PageContentComponent {
     @HostBinding("class.ui")
     @HostBinding("class.main")
     @HostBinding("class.container")
-    classes = true;
+    public classes:boolean = true;
 }

@@ -1,9 +1,9 @@
-import {Component, HostBinding, Output, EventEmitter, HostListener} from "@angular/core";
+import { Component, HostBinding, Output, EventEmitter, HostListener } from "@angular/core";
 // Polyfill for IE
 import "element-closest";
 
-interface AugmentedElement extends Element {
-    closest(selector:string):AugmentedElement;
+interface IAugmentedElement extends Element {
+    closest(selector:string):IAugmentedElement;
 }
 
 @Component({
@@ -20,8 +20,8 @@ export class SidebarComponent {
     }
 
     @HostListener("click", ["$event"])
-    public onClick(event:MouseEvent) {
-        const target = event.target as AugmentedElement;
+    public onClick(event:MouseEvent):void {
+        const target = event.target as IAugmentedElement;
         if (/a/i.test(target.closest(".item").tagName)) {
             this.onItemSelected.emit();
         }
