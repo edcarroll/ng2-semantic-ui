@@ -1,5 +1,5 @@
-import {Component} from "@angular/core";
-import {ApiDefinition} from "../../components/api/api.component";
+import { Component } from "@angular/core";
+import { ApiDefinition } from "../../components/api/api.component";
 
 const exampleStandardTemplate = `
 <div class="ui form">
@@ -44,15 +44,16 @@ export class RatingPage {
                     defaultValue: "5"
                 },
                 {
+                    name: "isReadonly",
+                    type: "boolean",
+                    description: "Sets whether or not the rating is read-only. " +
+                                 "This only affects the UI, <code>[ngModel]</code> changes will still display.",
+                    defaultValue: "false"
+                },
+                {
                     name: "ngModel",
                     type: "number",
                     description: "Bind the rating value to the value of the provided variable."
-                },
-                {
-                    name: "isReadonly",
-                    type: "boolean",
-                    description: "Sets whether or not the rating is read-only. This only affects the UI, <code>[ngModel]</code> changes will still display.",
-                    defaultValue: "false"
                 }
             ],
             events: [
@@ -69,21 +70,21 @@ export class RatingPage {
             ]
         }
     ];
-    public exampleStandardTemplate = exampleStandardTemplate;
-    public exampleStyledTemplate = exampleStyledTemplate;
+    public exampleStandardTemplate:string = exampleStandardTemplate;
+    public exampleStyledTemplate:string = exampleStyledTemplate;
 }
 
 @Component({
-    selector: "rating-example-standard",
+    selector: "example-rating-standard",
     template: exampleStandardTemplate
 })
 export class RatingExampleStandard {
-    public rating = 3;
+    public rating:number = 3;
     public readonly:boolean;
 }
 
 @Component({
-    selector: "rating-example-styled",
+    selector: "example-rating-styled",
     template: exampleStyledTemplate
 })
 export class RatingExampleStyled {}
