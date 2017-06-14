@@ -41,10 +41,8 @@
       ["property", "static", "camel"],
       ["property", "private", "camel", "require-leading-underscore"],
       ["property", "protected", "camel", "require-leading-underscore"],
-      // ["variable", "camel"],
       ["method", "camel"],
       ["function", "camel"]
-      // ["default", "camel"]
     ],
     "forin": true,
     "import-blacklist": [true, "rxjs"],
@@ -59,10 +57,6 @@
     "interface-over-type-literal": true,
     "jsdoc-format": true,
     "label-position": true,
-    "linebreak-style": [
-      true,
-      "CRLF"
-    ],
     "literal-spacing": [
       true,
       {
