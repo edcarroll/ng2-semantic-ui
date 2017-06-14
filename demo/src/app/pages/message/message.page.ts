@@ -1,5 +1,5 @@
-import {Component} from "@angular/core";
-import {ApiDefinition} from "../../components/api/api.component";
+import { Component } from "@angular/core";
+import { ApiDefinition } from "../../components/api/api.component";
 
 const exampleStandardTemplate = `
 <sui-message class="success">
@@ -59,10 +59,10 @@ export class MessagePage {
             ]
         }
     ];
-    public exampleStandardTemplate = exampleStandardTemplate;
-    public exampleNoDismissTemplate = exampleNoDismissTemplate;
+    public exampleStandardTemplate:string = exampleStandardTemplate;
+    public exampleNoDismissTemplate:string = exampleNoDismissTemplate;
 
-    public manualDismissMarkup = `
+    public manualDismissMarkup:string = `
 <sui-message #message>
     <div class="header">
         Dismiss Manually
@@ -73,7 +73,7 @@ export class MessagePage {
 <button (click)="dismiss(message)">Dismiss (advanced)</button>
 `;
 
-    public manualDismissCode = `
+    public manualDismissCode:string = `
 import {IMessage} from "ng2-semantic-ui";
 
 @Component({})
@@ -86,13 +86,13 @@ export class MyComponent {
 }
 
 @Component({
-    selector: "message-example-standard",
+    selector: "example-message-standard",
     template: exampleStandardTemplate
 })
 export class MessageExampleStandard {}
 
 @Component({
-    selector: "message-example-no-dismiss",
+    selector: "example-message-no-dismiss",
     template: exampleNoDismissTemplate
 })
 export class MessageExampleNoDismiss {}
