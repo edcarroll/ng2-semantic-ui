@@ -374,17 +374,15 @@ export class SelectExampleLookupSearch {
     private _options:IOption[] = idOptions;
     public selectedOption:number = this._options[3]["id"];
 
-    public optionsLookup = (query:string, initial:number) => {
+    public optionsLookup = async (query:string, initial:number) => {
         if (initial !== undefined) {
-            return new Promise(resolve => {
-                resolve(this._options.find(item => item.id === initial));
-            });
-        } else {
-            const regex:RegExp = new RegExp(query, "i");
-            return new Promise(resolve => {
-                resolve(this._options.filter(item => item.name.match(regex)));
-            });
+            return new Promise<IOption>(resolve =>
+                resolve(this._options.find(item => item.id === initial)));
         }
+
+        const regex:RegExp = new RegExp(query, "i");
+        return new Promise<IOption[]>(resolve =>
+            resolve(this._options.filter(item => item.name.match(regex))));
     }
 
 }
