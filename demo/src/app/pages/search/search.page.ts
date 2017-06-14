@@ -1,10 +1,15 @@
-import {Component} from "@angular/core";
-import {ApiDefinition} from "../../components/api/api.component";
-import {SuiModalService} from "../../../../../components/modal/modal.service";
-import {AlertModal} from "../../modals/alert.modal";
+import { Component } from "@angular/core";
+import { ApiDefinition } from "../../components/api/api.component";
+import { SuiModalService } from "../../../../../components/modal/modal.service";
+import { AlertModal } from "../../modals/alert.modal";
 
 const exampleStandardTemplate = `
-<sui-search placeholder="Example Search..." [hasIcon]="hasIcon" [options]="options" [searchDelay]="0" (itemSelected)="alertSelected($event)"></sui-search>
+<sui-search placeholder="Example Search..."
+            [hasIcon]="hasIcon"
+            [options]="options"
+            [searchDelay]="0"
+            (itemSelected)="alertSelected($event)"></sui-search>
+
 <div class="ui segment">
     <sui-checkbox [(ngModel)]="hasIcon">Has icon?</sui-checkbox>
 </div>
@@ -35,13 +40,16 @@ export class SearchPage {
                 {
                     name: "options",
                     type: "T[] | LookupFn<T>",
-                    description: "Sets the options available to the search component. Can either be an array, or a function that takes a query and returns either a <code>Promise</code> (for remote lookups) or an array (for custom local searches).",
+                    description: "Sets the options available to the search component. Can either be an array, " +
+                                 "or a function that takes a query and returns either a <code>Promise</code> " +
+                                 "(for remote lookups) or an array (for custom local searches).",
                     required: true
                 },
                 {
                     name: "optionsField",
                     type: "string",
-                    description: "Sets the property name that the search element uses to lookup and display each option. Supports dot notation for nested properties."
+                    description: "Sets the property name that the search element uses to lookup and " +
+                                 "display each option. Supports dot notation for nested properties."
                 },
                 {
                     name: "searchDelay",
@@ -88,24 +96,31 @@ export class SearchPage {
                 {
                     name: "itemSelected",
                     type: "T",
-                    description: "Fires whenever the search's selected item is changed. The selected value is passed as <code>$event</code>."
+                    description: "Fires whenever the search's selected item is changed. " +
+                                 "The selected value is passed as <code>$event</code>."
                 }
             ]
         }
     ];
-    public exampleStandardTemplate = exampleStandardTemplate;
-    public exampleRemoteTemplate = exampleRemoteTemplate;
+    public exampleStandardTemplate:string = exampleStandardTemplate;
+    public exampleRemoteTemplate:string = exampleRemoteTemplate;
 }
 
 @Component({
-    selector: "search-example-standard",
+    selector: "example-search-standard",
     template: exampleStandardTemplate
 })
 export class SearchExampleStandard {
+    public static standardOptions:string[] = [
+        "Apple", "Bird", "Car", "Dog",
+        "Elephant", "Finch", "Gate", "Horrify",
+        "Indigo", "Jelly", "Keep", "Lemur",
+        "Manifest", "None", "Orange", "Peel",
+        "Quest", "Resist", "Suspend", "Terrify",
+        "Underneath", "Violet", "Water", "Xylophone",
+        "Yellow", "Zebra"];
+
     public hasIcon:boolean = true;
-    public static standardOptions:string[] = ["Apple", "Bird", "Car", "Dog", "Elephant", "Finch", "Gate",
-                                              "Horrify", "Indigo", "Jelly", "Keep", "Lemur", "Manifest", "None", "Orange", "Peel", "Quest",
-                                              "Resist", "Suspend", "Terrify", "Underneath", "Violet", "Water", "Xylophone", "Yellow", "Zebra"];
 
     public get options():string[] {
         return SearchExampleStandard.standardOptions;
@@ -119,10 +134,12 @@ export class SearchExampleStandard {
 }
 
 @Component({
-    selector: "search-example-remote",
+    selector: "example-search-remote",
     template: exampleRemoteTemplate
 })
 export class SearchExampleRemote extends SearchExampleStandard {
+    public selectedItem:{ title:string } = { title: "Apple" };
+
     public optionsSearch(query:string):Promise<any[]> {
         const options = SearchExampleStandard.standardOptions.map((o:string) => ({ title: o }));
 
@@ -130,13 +147,9 @@ export class SearchExampleRemote extends SearchExampleStandard {
             const results = options.filter((o:any) => {
                 return o.title.slice(0, query.length).toLowerCase() === query.toLowerCase();
             });
-            setTimeout(() => {
-                resolve(results);
-            },         300);
+            setTimeout(() => resolve(results), 300);
         });
     }
-
-    public selectedItem = { title: "Apple" };
 }
 
 export const SearchPageComponents = [SearchPage, SearchExampleStandard, SearchExampleRemote];
