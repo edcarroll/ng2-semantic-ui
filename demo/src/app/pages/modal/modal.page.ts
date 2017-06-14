@@ -44,8 +44,8 @@ const exampleComponentTemplate = `
 `;
 
 @Component({
-  selector: "demo-page-modal",
-  templateUrl: "./modal.page.html"
+    selector: "demo-page-modal",
+    templateUrl: "./modal.page.html"
 })
 export class ModalPage {
     public api:ApiDefinition = [

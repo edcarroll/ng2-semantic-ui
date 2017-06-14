@@ -1,7 +1,8 @@
 {
   "rulesDirectory": [
     "node_modules/codelyzer",
-    "node_modules/vrsource-tslint-rules/rules"
+    "node_modules/vrsource-tslint-rules/rules",
+    "node_modules/tslint-eslint-rules/dist/rules"
   ],
   "rules": {
     "align": [
@@ -48,10 +49,12 @@
     "forin": true,
     "import-blacklist": [true, "rxjs"],
     "import-spacing": true,
-    "indent": [
+    "ter-indent": [
       true,
-      "spaces",
-      4
+      4,
+      {
+        "SwitchCase": 1
+      }
     ],
     "interface-over-type-literal": true,
     "jsdoc-format": true,
