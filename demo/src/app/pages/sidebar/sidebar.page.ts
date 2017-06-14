@@ -1,5 +1,5 @@
-import {Component} from "@angular/core";
-import {ApiDefinition} from "../../components/api/api.component";
+import { Component } from "@angular/core";
+import { ApiDefinition } from "../../components/api/api.component";
 
 const exampleStandardTemplate = `
 <div class="ui top attached demo menu">
@@ -70,7 +70,9 @@ export class SidebarPage {
                 {
                     name: "transition",
                     type: "SidebarTransition",
-                    description: "Sets the transition used when displaying the sidebar. Options are <code>overlay</code>, <code>uncover</code>, <code>scale down</code>, <code>push</code>, <code>slide along</code> & <code>slide out</code>.",
+                    description: "Sets the transition used when displaying the sidebar. Options are " +
+                                 "<code>overlay</code>, <code>uncover</code>, <code>scale down</code>, " +
+                                 "<code>push</code>, <code>slide along</code> & <code>slide out</code>.",
                     defaultValue: "uncover"
                 }
             ],
@@ -94,22 +96,22 @@ export class SidebarPage {
             ]
         }
     ];
-    public exampleStandardTemplate = exampleStandardTemplate;
-    public exampleDirectionTemplate = exampleDirectionTemplate;
+    public exampleStandardTemplate:string = exampleStandardTemplate;
+    public exampleDirectionTemplate:string = exampleDirectionTemplate;
 }
 
 @Component({
-    selector: "sidebar-example-standard",
+    selector: "example-sidebar-standard",
     template: exampleStandardTemplate
 })
 export class SidebarExampleStandard {}
 
 @Component({
-    selector: "sidebar-example-direction",
+    selector: "example-sidebar-direction",
     template: exampleDirectionTemplate
 })
 export class SidebarExampleDirection {
-    isVisible:boolean = false;
+    public isVisible:boolean = false;
 }
 
 export const SidebarPageComponents = [SidebarPage, SidebarExampleStandard, SidebarExampleDirection];
