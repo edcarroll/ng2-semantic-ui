@@ -12,7 +12,7 @@
             <h4 class="ui header">Popup</h4>
             <p>An element can specify popup content to appear</p>
         </div>
-        <popup-example-standard result></popup-example-standard>
+        <example-popup-standard result></example-popup-standard>
     </demo-example>
 
     <demo-example [code]="exampleTemplateTemplate">
@@ -20,7 +20,7 @@
             <h4 class="ui header">Template</h4>
             <p>You can use a <code>template</code> element for a popup</p>
         </div>
-        <popup-example-template result></popup-example-template>
+        <example-popup-template result></example-popup-template>
     </demo-example>
     
     <demo-example [code]="examplePlacementTemplate">
@@ -29,7 +29,7 @@
             <p>You can use a <code>template</code> element for a popup</p>
         </div>
         <div result>
-            <popup-example-placement class="ui cards" [position]="position"></popup-example-placement>
+            <example-popup-placement class="ui cards" [position]="position"></example-popup-placement>
             <br>
             <sui-select [(ngModel)]="position" [options]="placements" [isSearchable]="true" #placementSelect>
                 <sui-select-option *ngFor="let p of placementSelect.availableOptions" [value]="p"></sui-select-option>
