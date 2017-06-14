@@ -2,31 +2,13 @@ import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { GettingStartedPage } from "./pages/getting-started/getting-started.page";
 
-<<<<<<< HEAD
-import {AccordionPage} from "./pages/accordion/accordion.page";
-import {CheckboxPage} from "./pages/checkbox/checkbox.page";
-import {CollapsePage} from "./pages/collapse/collapse.page";
-import {DimmerPage} from "./pages/dimmer/dimmer.page";
-import {DropdownPage} from "./pages/dropdown/dropdown.page";
-import {MessagePage} from "./pages/message/message.page";
-import {PopupPage} from './pages/popup/popup.page';
-import {ProgressPage} from "./pages/progress/progress.page";
-import {RatingPage} from "./pages/rating/rating.page";
-import {SearchPage} from "./pages/search/search.page";
-import {TabsPage} from "./pages/tabs/tabs.page";
-import {TestPage} from "./pages/test/test.page";
-import {SelectPage} from "./pages/select/select.page";
-import {TransitionPage} from "./pages/transition/transition.page";
-import {SidebarPage} from './pages/sidebar/sidebar.page';
-import {ModalPage} from './pages/modal/modal.page';
-import {PaginationPage} from './pages/pagination/pagination.page';
-=======
 import { AccordionPage } from "./pages/accordion/accordion.page";
 import { CheckboxPage } from "./pages/checkbox/checkbox.page";
 import { CollapsePage } from "./pages/collapse/collapse.page";
 import { DimmerPage } from "./pages/dimmer/dimmer.page";
 import { DropdownPage } from "./pages/dropdown/dropdown.page";
 import { MessagePage } from "./pages/message/message.page";
+import { PaginationPage } from "./pages/pagination/pagination.page";
 import { PopupPage } from "./pages/popup/popup.page";
 import { ProgressPage } from "./pages/progress/progress.page";
 import { RatingPage } from "./pages/rating/rating.page";
@@ -37,7 +19,6 @@ import { SelectPage } from "./pages/select/select.page";
 import { TransitionPage } from "./pages/transition/transition.page";
 import { SidebarPage } from "./pages/sidebar/sidebar.page";
 import { ModalPage } from "./pages/modal/modal.page";
->>>>>>> origin/master
 
 const appRoutes:Routes = [
     {

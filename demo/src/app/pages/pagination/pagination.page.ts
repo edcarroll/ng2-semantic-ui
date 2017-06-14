@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {ApiDefinition} from "../../components/api/api.component";
+import { Component, OnInit } from "@angular/core";
+import { ApiDefinition } from "../../components/api/api.component";
 
 const exampleStandardTemplate = `
 <div class="ui segments">
@@ -35,8 +35,8 @@ const exampleMaxSizeTemplate = `
 `;
 
 @Component({
-  selector: 'demo-page-pagination',
-  templateUrl: './pagination.page.html'
+  selector: "demo-page-pagination",
+  templateUrl: "./pagination.page.html"
 })
 export class PaginationPage implements OnInit {
   public api:ApiDefinition = [
@@ -78,19 +78,19 @@ export class PaginationPage implements OnInit {
         }
       ]
     }
-  ]
+  ];
 
-  public exampleStandardTemplate = exampleStandardTemplate;
-  public exampleMaxSizeTemplate = exampleMaxSizeTemplate;
+  public exampleStandardTemplate:string = exampleStandardTemplate;
+  public exampleMaxSizeTemplate:string = exampleMaxSizeTemplate;
 
   constructor() { }
 
-  ngOnInit() { }
+  public ngOnInit():void { }
 }
 
 
 @Component({
-  selector: 'pagination-example-standard',
+  selector: "example-pagination-standard",
   template: exampleStandardTemplate
 })
 export class PaginationExampleStandard implements OnInit {
@@ -101,18 +101,18 @@ export class PaginationExampleStandard implements OnInit {
 
   constructor() { }
 
-  ngOnInit() { 
+  public ngOnInit():void {
     this.showNavigation = false;
     this.showBoundary = false;
   }
 
-  onPageChanged($event:number) {
+  public onPageChanged($event:number):void {
     this.selectedPage = $event;
   }
 }
 
 @Component({
-  selector: 'pagination-example-maxsize',
+  selector: "example-pagination-maxsize",
   template: exampleMaxSizeTemplate
 })
 export class PaginationExampleMaxSize implements OnInit {
@@ -122,14 +122,13 @@ export class PaginationExampleMaxSize implements OnInit {
 
   constructor() { }
 
-  ngOnInit() { 
+  public ngOnInit():void {
     this.showBoundary = false;
   }
 
-  onPageChanged($event:number) {
+  public onPageChanged($event:number):void {
     this.selectedPage = $event;
   }
 }
 
-
-export const PaginationPageComponents = [PaginationPage, PaginationExampleStandard, PaginationExampleMaxSize]
+export const PaginationPageComponents = [PaginationPage, PaginationExampleStandard, PaginationExampleMaxSize];
