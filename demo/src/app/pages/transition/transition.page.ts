@@ -1,7 +1,7 @@
-import {Component} from "@angular/core";
-import {SuiTransition, Transition, TransitionDirection} from "../../../../../components/transition/transition";
-import {TransitionController} from "../../../../../components/transition/transition-controller";
-import {ApiDefinition} from "app/components/api/api.component";
+import { Component } from "@angular/core";
+import { SuiTransition, Transition, TransitionDirection } from "../../../../../components/transition/transition";
+import { TransitionController } from "../../../../../components/transition/transition-controller";
+import { ApiDefinition } from "app/components/api/api.component";
 
 const exampleStandardTemplate = `
 <div class="ui segment">
@@ -32,7 +32,7 @@ export class TransitionPage {
         }
     ];
 
-    public transitionControllerCode = `
+    public transitionControllerCode:string = `
 import {TransitionController} from "ng2-semantic-ui";
 
 @Component({})
@@ -41,13 +41,13 @@ export class MyComponent {
 }
 `;
 
-    public transitionElementCode = `
+    public transitionElementCode:string = `
 <div class="ui segment">
     <img src="https://goo.gl/VUcnwx" class="ui image" [suiTransition]="transitionController">
 </div>
 `;
 
-    public transitionExampleCode = `
+    public transitionExampleCode:string = `
 import {TransitionController, Transition, TransitionDirection} from "ng2-semantic-ui";
 
 @Component({})
@@ -61,9 +61,9 @@ export class MyComponent {
 }
 `;
 
-    public exampleStandardTemplate = exampleStandardTemplate;
+    public exampleStandardTemplate:string = exampleStandardTemplate;
 
-    public transitionControllerInterface = `
+    public transitionControllerInterface:string = `
 this.ctrl = new TransitionController(isInitiallyVisible:boolean = false, display:string = "block");
 // isInitiallyVisible sets whether the element being animated starts off visible.
 // display sets the 'display' style set on the animated element when it is visible.
@@ -90,7 +90,7 @@ this.ctrl.clearQueue();
 // Continues with the current transition, but empties the queue.
 `;
 
-    public advancedExampleCode = `
+    public advancedExampleCode:string = `
 import {SuiTransition, TransitionController, Transition} from "ng2-semantic-ui";
 
 @Component({})
@@ -110,24 +110,31 @@ export class MyComponent extends SuiTransition {
         this._transitionController.animate(new Transition(...));
     }
 }
-`
+`;
 }
 
 @Component({
-    selector: "transition-example-standard",
+    selector: "example-transition-standard",
     template: exampleStandardTemplate
 })
 export class TransitionExampleStandard {
-    public transitionController = new TransitionController();
+    public transitionController:TransitionController = new TransitionController();
 
-    public transitions = ["scale", "fade", "fade up", "fade down", "fade left", "fade right", "horizontal flip", "vertical flip",
-                          "drop", "fly left", "fly right", "fly up", "fly down", "swing left", "swing right", "swing up", "swing down", "browse", "browse right",
-                          "slide left", "slide right", "slide up", "slide down", "jiggle", "flash", "shake", "pulse", "tada", "bounce"];
-    public transitionName = "scale";
+    public transitions:string[] = [
+        "scale", "fade", "fade up", "fade down",
+        "fade left", "fade right", "horizontal flip", "vertical flip",
+        "drop", "fly left", "fly right", "fly up",
+        "fly down", "swing left", "swing right", "swing up",
+        "swing down", "browse", "browse right", "slide left",
+        "slide right", "slide up", "slide down", "jiggle",
+        "flash", "shake", "pulse", "tada", "bounce"
+    ];
 
-    public animate(transitionName:string = "scale") {
+    public transitionName:string = "scale";
+
+    public animate(transitionName:string = "scale"):void {
         this.transitionController.animate(
-            new Transition(transitionName, 500, TransitionDirection.In, () => console.log("Completed transition.")));
+            new Transition(transitionName, 500, TransitionDirection.Either, () => console.log("Completed transition.")));
     }
 }
 
