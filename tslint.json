@@ -104,7 +104,7 @@
     "no-empty": false,
     "no-empty-interface": true,
     "no-eval": true,
-    "no-increment-decrement": true,
+    // "no-increment-decrement": true,
     "no-inferrable-types": [
       true,
       "ignore-params",
