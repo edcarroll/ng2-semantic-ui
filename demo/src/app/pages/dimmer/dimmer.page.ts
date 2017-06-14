@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {ApiDefinition} from '../../components/api/api.component';
+import { Component } from "@angular/core";
+import { ApiDefinition } from "../../components/api/api.component";
 
 const exampleStandardTemplate = `
 <div class="ui segment">
@@ -32,8 +32,8 @@ const exampleVariationsTemplate = `
 `;
 
 @Component({
-  selector: 'demo-page-dimmer',
-  templateUrl: './dimmer.page.html'
+  selector: "demo-page-dimmer",
+  templateUrl: "./dimmer.page.html"
 })
 export class DimmerPage {
     public api:ApiDefinition = [
@@ -69,17 +69,18 @@ export class DimmerPage {
                 {
                     name: "isDimmedChange",
                     type: "boolean",
-                    description: "Fires whenever the dimmer is toggled. Use the <code>[(isDimmed)]</code> syntax to update when the user clicks out of the dimmer."
+                    description: "Fires whenever the dimmer is toggled. " +
+                                 "Use the <code>[(isDimmed)]</code> syntax to update when the user clicks out of the dimmer."
                 }
             ]
         }
     ];
-    public exampleStandardTemplate = exampleStandardTemplate;
-    public exampleVariationsTemplate = exampleVariationsTemplate;
+    public exampleStandardTemplate:string = exampleStandardTemplate;
+    public exampleVariationsTemplate:string = exampleVariationsTemplate;
 }
 
 @Component({
-    selector: 'dimmer-example-standard',
+    selector: "example-dimmer-standard",
     template: exampleStandardTemplate
 })
 export class DimmerExampleStandard {
@@ -88,7 +89,7 @@ export class DimmerExampleStandard {
 }
 
 @Component({
-    selector: 'dimmer-example-variations',
+    selector: "example-dimmer-variations",
     template: exampleVariationsTemplate
 })
 export class DimmerExampleVariations {

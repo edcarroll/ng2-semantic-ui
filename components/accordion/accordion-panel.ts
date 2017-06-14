@@ -1,11 +1,11 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
-import {SuiAccordionService} from "./accordion.service";
-import {TransitionController} from '../transition/transition-controller';
-import {Transition, TransitionDirection} from '../transition/transition';
+import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { SuiAccordionService } from "./accordion.service";
+import { TransitionController } from "../transition/transition-controller";
+import { Transition, TransitionDirection } from "../transition/transition";
 
 @Component({
-    selector: 'sui-accordion-panel',
-    exportAs: 'suiAccordionPanel',
+    selector: "sui-accordion-panel",
+    exportAs: "suiAccordionPanel",
     template: `
 <!-- Title -->
 <div class="title" [class.active]="isOpen" (click)="toggle()" >
@@ -34,7 +34,7 @@ export class SuiAccordionPanel {
     private _service:SuiAccordionService;
 
     public transitionController:TransitionController;
-    
+
     public set service(service:SuiAccordionService) {
         this._service = service;
     }
@@ -45,31 +45,31 @@ export class SuiAccordionPanel {
     private _isOpen:boolean;
 
     @Input()
-    public get isOpen() {
+    public get isOpen():boolean {
         return this._isOpen;
     }
 
     public set isOpen(value:boolean) {
         // Convert to boolean (fixes false != undefined)
-        value = !!value;
+        const isOpen = !!value;
 
-        if (value != this.isOpen) {
+        if (isOpen !== this.isOpen) {
             // Only update if the value has changed.
-            this._isOpen = value;
-            
-            if (value && this._service) {
+            this._isOpen = isOpen;
+
+            if (isOpen && this._service) {
                 // If we are opening this panel, we must close the other ones.
                 this._service.closeOtherPanels(this);
             }
             this.isOpenChange.emit(this.isOpen);
-        
+
             // Cancel all current animations, and fade the contents. The direction is automatic.
             this.transitionController.stopAll();
             this.transitionController.animate(new Transition(this.transition, this.transitionDuration));
         }
     }
 
-    public get transition() {
+    public get transition():string {
         if (this._service) {
             return this._service.transition;
         }
@@ -77,7 +77,7 @@ export class SuiAccordionPanel {
         return "fade";
     }
 
-    public get transitionDuration() {
+    public get transitionDuration():number {
         if (this._service) {
             // Return the service defined transition duration.
             return this._service.transitionDuration;
@@ -96,7 +96,7 @@ export class SuiAccordionPanel {
         this.isOpenChange = new EventEmitter<boolean>(false);
     }
 
-    public toggle() {
+    public toggle():void {
         if (!this.isDisabled) {
             this.isOpen = !this.isOpen;
         }

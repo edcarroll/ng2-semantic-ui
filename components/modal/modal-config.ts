@@ -1,6 +1,6 @@
-import {TemplateRef} from '@angular/core';
-import {ModalControls, ModalResult} from './modal-controls';
-import {ModalTemplate} from './modal-template';
+import { TemplateRef } from "@angular/core";
+import { ModalControls, ModalResult } from "./modal-controls";
+import { ModalTemplate } from "./modal-template";
 
 export type ModalSize = "small" | "normal" | "large";
 
@@ -8,7 +8,7 @@ export const ModalSize = {
     Small: "small" as ModalSize,
     Normal: "normal" as ModalSize,
     Large: "large" as ModalSize
-}
+};
 
 // Stores a basic set of configuration options for a modal.
 export class ModalConfig<T, U = null, V = null> {

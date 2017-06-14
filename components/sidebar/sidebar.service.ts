@@ -1,4 +1,4 @@
-import {EventEmitter} from '@angular/core';
+import { EventEmitter } from "@angular/core";
 
 export type SidebarTransition = "overlay" | "push" | "scale down" | "uncover" | "slide along" | "slide out";
 
@@ -9,7 +9,7 @@ export const SidebarTransition = {
     Uncover: "uncover" as SidebarTransition,
     SlideAlong: "slide along" as SidebarTransition,
     SlideOut: "slide out" as SidebarTransition
-}
+};
 
 export type SidebarDirection = "left" | "right" | "top" | "bottom";
 
@@ -18,7 +18,7 @@ export const SidebarDirection = {
     Right: "right" as SidebarDirection,
     Top: "top" as SidebarDirection,
     Bottom: "bottom" as SidebarDirection
-}
+};
 
 export class SidebarService {
     public isVisible:boolean;
@@ -26,15 +26,15 @@ export class SidebarService {
     public wasJustOpened:boolean;
 
     public direction:SidebarDirection;
-    
+
     private _width:number;
     private _height:number;
 
-    public get width() {
-        if (this.direction == SidebarDirection.Left) {
+    public get width():number {
+        if (this.direction === SidebarDirection.Left) {
             return this._width;
         }
-        if (this.direction == SidebarDirection.Right) {
+        if (this.direction === SidebarDirection.Right) {
             return -this._width;
         }
         return 0;
@@ -45,11 +45,11 @@ export class SidebarService {
         this.widthChange.emit();
     }
 
-    public get height() {
-        if (this.direction == SidebarDirection.Top) {
+    public get height():number {
+        if (this.direction === SidebarDirection.Top) {
             return this._height;
         }
-        if (this.direction == SidebarDirection.Bottom) {
+        if (this.direction === SidebarDirection.Bottom) {
             return -this._height;
         }
         return 0;
@@ -83,8 +83,8 @@ export class SidebarService {
         this.transition = SidebarTransition.Uncover;
     }
 
-    public setVisibleState(isVisible:boolean) {
-        if (this.isVisible != isVisible) {
+    public setVisibleState(isVisible:boolean):void {
+        if (this.isVisible !== isVisible) {
             this.isVisible = isVisible;
             this.isAnimating = true;
             this.wasJustOpened = true;
@@ -97,7 +97,7 @@ export class SidebarService {
         }
     }
 
-    public toggleVisibleState() {
+    public toggleVisibleState():void {
         this.setVisibleState(!this.isVisible);
     }
 }

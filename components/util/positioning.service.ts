@@ -1,9 +1,17 @@
-import {ElementRef, EventEmitter} from '@angular/core';
+import { ElementRef, EventEmitter } from "@angular/core";
 import Popper from "popper.js";
 
-export type PositioningPlacement = "inherit" | "top left" | "top" | "top right" | "bottom left" | "bottom" | "bottom right" | "left top" | "left" | "left bottom" | "right top" | "right" | "right bottom";
+export type PositioningPlacement = "inherit" |
+                                   "top left" | "top" | "top right" |
+                                   "bottom left" | "bottom" | "bottom right" |
+                                   "left top" | "left" | "left bottom" |
+                                   "right top" | "right" | "right bottom";
 
-type PopperPlacement = "inherit" | "top-start" | "top" | "top-end" | "left-start" | "left" | "left-end" | "bottom-start" | "bottom" | "bottom-end" | "right-start" | "right" | "right-end";
+type PopperPlacement = "inherit" |
+                       "top-start" | "top" | "top-end" |
+                       "left-start" | "left" | "left-end" |
+                       "bottom-start" | "bottom" | "bottom-end" |
+                       "right-start" | "right" | "right-end";
 
 export const PositioningPlacement = {
     Inherit: "inherit" as PositioningPlacement,
@@ -19,7 +27,7 @@ export const PositioningPlacement = {
     RightTop: "right top" as PositioningPlacement,
     Right: "right" as PositioningPlacement,
     RightBottom: "right bottom" as PositioningPlacement
-}
+};
 
 export interface IPositionBoundingBox {
     width:number;
@@ -31,15 +39,15 @@ export interface IPositionBoundingBox {
 }
 
 function placementToPopper(placement:PositioningPlacement):PopperPlacement {
-    if (!placement || placement == PositioningPlacement.Inherit) {
+    if (!placement || placement === PositioningPlacement.Inherit) {
         return "inherit";
     }
-    
+
     // All placements of the format: `direction alignment`, e.g. `top left`.
     const [direction, alignment] = placement.split(" ");
 
     // Direction alone covers case of just `top`, `left`, `bottom`, `right`.
-    let chosenPlacement = [direction];
+    const chosenPlacement = [direction];
 
     // Add `start` / `end` to placement, depending on alignment direction.
     switch (alignment) {
@@ -58,13 +66,13 @@ function placementToPopper(placement:PositioningPlacement):PopperPlacement {
 }
 
 function popperToPlacement(popper:string):PositioningPlacement {
-    if (!popper || popper == "inherit") {
+    if (!popper || popper === "inherit") {
         return "inherit";
     }
 
     const [direction, alignment] = popper.split("-");
 
-    let chosenPlacement = [direction];
+    const chosenPlacement = [direction];
 
     switch (direction) {
         case "top":
@@ -102,7 +110,7 @@ export class PositioningService {
     private _popperState:Popper.Data;
     private _placement:PositioningPlacement;
 
-    public get placement() {
+    public get placement():PositioningPlacement {
         return this._placement;
     }
 
@@ -112,15 +120,15 @@ export class PositioningService {
         this.update();
     }
 
-    public get actualPlacement() {
+    public get actualPlacement():PositioningPlacement {
         if (!this._popperState) {
             return PositioningPlacement.Inherit;
         }
-        
+
         return popperToPlacement(this._popperState.placement);
     }
 
-    public get state() {
+    public get state():Popper.Data {
         return this._popperState;
     }
 
@@ -129,7 +137,7 @@ export class PositioningService {
         this.subject = subject;
         this._placement = placement;
 
-        let modifiers = {
+        const modifiers = {
             applyStyle: {
                 gpuAcceleration: false
             },
@@ -156,7 +164,7 @@ export class PositioningService {
             });
     }
 
-    public update() {
+    public update():void {
         this._popper.update();
     }
 }

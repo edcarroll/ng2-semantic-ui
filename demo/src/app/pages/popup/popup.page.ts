@@ -1,6 +1,6 @@
-import {Component, Input, OnInit, OnDestroy} from '@angular/core';
-import {ApiDefinition} from "../../components/api/api.component";
-import {SuiPopupConfig} from '../../../../../components/popup/popup.service';
+import { Component, Input, OnInit, OnDestroy } from "@angular/core";
+import { ApiDefinition } from "../../components/api/api.component";
+import { SuiPopupConfig } from "../../../../../components/popup/popup.service";
 
 const exampleStandardTemplate = `
 <button class="ui green icon button" suiPopup popupHeader="Example" popupText="This is an example popup">
@@ -32,8 +32,8 @@ const examplePlacementTemplate = `
 `;
 
 @Component({
-    selector: 'demo-page-popup',
-    templateUrl: './popup.page.html'
+    selector: "demo-page-popup",
+    templateUrl: "./popup.page.html"
 })
 export class PopupPage {
     public api:ApiDefinition = [
@@ -70,7 +70,8 @@ export class PopupPage {
                 {
                     name: "popupTrigger",
                     type: "PopupTrigger",
-                    description: "Specifies the trigger for the popup. Options are: <code>hover</code>, <code>click</code>, <code>outsideClick</code>, <code>focus</code> & <code>manual</code>.",
+                    description: "Specifies the trigger for the popup. Options are: <code>hover</code>, " +
+                                 "<code>click</code>, <code>outsideClick</code>, <code>focus</code> & <code>manual</code>.",
                     defaultValue: "hover"
                 },
                 {
@@ -100,17 +101,18 @@ export class PopupPage {
                 {
                     name: "popupConfig",
                     type: "IPopupConfig",
-                    description: "Takes an <code>IPopupConfig</code> object that provides values for various configuration options simultaneously."
-                },
+                    description: "Takes an <code>IPopupConfig</code> object that provides " +
+                                 "values for various configuration options simultaneously."
+                }
             ]
         }
     ];
-    
-    public exampleStandardTemplate = exampleStandardTemplate;
-    public exampleTemplateTemplate = exampleTemplateTemplate;
-    public examplePlacementTemplate = examplePlacementTemplate;
 
-    public placements = [
+    public exampleStandardTemplate:string = exampleStandardTemplate;
+    public exampleTemplateTemplate:string = exampleTemplateTemplate;
+    public examplePlacementTemplate:string = examplePlacementTemplate;
+
+    public placements:string[] = [
         "top left",
         "top",
         "top right",
@@ -125,9 +127,9 @@ export class PopupPage {
         "right bottom"
     ];
 
-    public position = "right bottom";
+    public position:string = "right bottom";
 
-    public manualPopupMarkup = `
+    public manualPopupMarkup:string = `
 <div class="ui segment" suiPopup popupText="Manual" popupTrigger="manual" #popup="suiPopup">
     <button class="ui button" (click)="popup.open()">Open!</button>
     <button class="ui button" (click)="openPopup(popup)">Conditionally Open!</button>
@@ -136,7 +138,7 @@ export class PopupPage {
 </div>
 `;
 
-    public manualPopupCode = `
+    public manualPopupCode:string = `
 import {IPopup} from "ng2-semantic-ui";
 
 @Component({})
@@ -151,7 +153,7 @@ export class MyComponent {
 }
 `;
 
-    public globalConfigCode = `
+    public globalConfigCode:string = `
 import {SuiPopupConfig} from "ng2-semantic-ui";
 
 @Component({})
@@ -165,7 +167,7 @@ export class MyComponent {
 }
 
 @Component({
-    selector: 'popup-example-standard',
+    selector: "example-popup-standard",
     template: exampleStandardTemplate
 })
 export class PopupExampleStandard implements OnInit {
@@ -179,19 +181,19 @@ export class PopupExampleStandard implements OnInit {
         Object.assign(this.popupConfig, new SuiPopupConfig());
     }
 
-    public ngOnInit() {
+    public ngOnInit():void {
         Object.assign(this.popupConfig, this._config);
     }
 }
 
 @Component({
-    selector: 'popup-example-template',
+    selector: "example-popup-template",
     template: exampleTemplateTemplate
 })
 export class PopupExampleTemplate {}
 
 @Component({
-    selector: 'popup-example-placement',
+    selector: "example-popup-placement",
     template: examplePlacementTemplate
 })
 export class PopupExamplePlacement {

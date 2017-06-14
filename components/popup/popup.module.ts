@@ -1,12 +1,12 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from "@angular/common";
-import {SuiTransitionModule} from "../transition/transition.module";
-import {SuiPopupDirective, IPopup} from './popup.directive';
-import {SuiPopup} from './popup';
-import {SuiPopupArrow} from './popup-arrow';
-import {IPopupConfig, PopupTrigger, PopupConfig} from './popup-config';
-import {PositioningPlacement} from '../util/positioning.service';
-import {SuiPopupConfig} from './popup.service';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { SuiTransitionModule } from "../transition/transition.module";
+import { SuiPopupDirective, IPopup } from "./popup.directive";
+import { SuiPopup } from "./popup";
+import { SuiPopupArrow } from "./popup-arrow";
+import { IPopupConfig, PopupTrigger, PopupConfig } from "./popup-config";
+import { PositioningPlacement } from "../util/positioning.service";
+import { SuiPopupConfig } from "./popup.service";
 
 @NgModule({
     imports: [
@@ -32,4 +32,10 @@ import {SuiPopupConfig} from './popup.service';
 
 export class SuiPopupModule {}
 
-export {IPopup, SuiPopupConfig, IPopupConfig, PopupTrigger, PositioningPlacement as PopupPlacement};
+export {
+    IPopup,
+    SuiPopupConfig,
+    IPopupConfig,
+    PopupTrigger,
+    PositioningPlacement as PopupPlacement
+};

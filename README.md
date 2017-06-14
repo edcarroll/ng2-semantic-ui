@@ -62,8 +62,8 @@ The current list of available components with links to their docs is below:
 To generate all library files:
 
 ```bash
-$ npm run compile
-# use compile:w to watch for changes
+$ npm run compile:lib
+# use compile:lib:w to watch for changes
 ```
 
 To run the demo app (you must have [Angular-CLI](https://github.com/angular/angular-cli) installed):

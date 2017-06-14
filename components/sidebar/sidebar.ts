@@ -1,8 +1,8 @@
-import {Component, HostBinding, Input, Output, Renderer2, ElementRef, EventEmitter} from '@angular/core';
-import {SidebarService, SidebarTransition, SidebarDirection} from './sidebar.service';
+import { Component, HostBinding, Input, Output, Renderer2, ElementRef, EventEmitter } from "@angular/core";
+import { SidebarService, SidebarTransition, SidebarDirection } from "./sidebar.service";
 
 @Component({
-    selector: 'sui-sidebar',
+    selector: "sui-sidebar",
     template: `<ng-content></ng-content>`
 })
 export class SuiSidebar {
@@ -14,7 +14,7 @@ export class SuiSidebar {
     private _sidebarClasses:boolean;
 
     @Input()
-    public get transition() {
+    public get transition():SidebarTransition {
         return this.service.transition;
     }
 
@@ -27,7 +27,7 @@ export class SuiSidebar {
     }
 
     @Input()
-    public get direction() {
+    public get direction():SidebarDirection {
         return this.service.direction;
     }
 
@@ -41,7 +41,7 @@ export class SuiSidebar {
 
     @HostBinding("class.visible")
     @Input()
-    public get isVisible() {
+    public get isVisible():boolean {
         return this.service.isVisible;
     }
 
@@ -50,12 +50,12 @@ export class SuiSidebar {
     }
 
     @Output()
-    public get isVisibleChange() {
+    public get isVisibleChange():EventEmitter<boolean> {
         return this.service.isVisibleChange;
     }
 
     @HostBinding("class.animating")
-    public get isAnimating() {
+    public get isAnimating():boolean {
         return this.service.isAnimating;
     }
 
@@ -71,28 +71,28 @@ export class SuiSidebar {
         this._sidebarClasses = true;
     }
 
-    private updateDimensions() {
+    private updateDimensions():void {
         this.service.width = this._element.nativeElement.offsetWidth;
         this.service.height = this._element.nativeElement.offsetHeight;
     }
 
-    private setClass(className:string, isAdd:boolean = true) {
-        if(isAdd){
+    private setClass(className:string, isAdd:boolean = true):void {
+        if (isAdd) {
             this._renderer.addClass(this._element.nativeElement, className);
-        }else{
+        } else {
             this._renderer.removeClass(this._element.nativeElement, className);
         }
     }
 
-    public open() {
+    public open():void {
         this.service.setVisibleState(true);
     }
 
-    public close() {
+    public close():void {
         this.service.setVisibleState(false);
     }
 
-    public toggle() {
+    public toggle():void {
         this.service.toggleVisibleState();
     }
 }
