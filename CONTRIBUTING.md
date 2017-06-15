@@ -46,7 +46,7 @@ Ideally all issues are fixed as soon as possible, but before that can be done th
 
 A minimal reproduce scenario using [http://plunkr.co](http://plunkr.co) allows quick confirmation of a bug (or coding problem) and also confirms that the right problem is being fixed. Issues filed that do not include this (or a standalone git repository demonstrating the problem) won't be looked at until they do.
 
-You can file new issues by filling out the [issue form](https://github.com/edcarroll/ng2-semantic-ui/issues/new)
+You can file new issues by filling out the [issue form](https://github.com/edcarroll/ng2-semantic-ui/issues/new).
 
 ### Submitting a Pull Request
 
