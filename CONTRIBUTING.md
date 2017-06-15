@@ -2,12 +2,12 @@
 
 Your contribution will be greatly appreciated, and will help ng2-semantic-ui get even better! As a contributor, here are the guidelines to follow:
 
-* [Code of Conduct](#codeofconduct)
-* [Bug, Question or Problem?](#bugquestionorproblem)
-* [Feature Requests](#missingafeature)
-* [Submission Guidelines](#submissionguidelines)
-* [Coding Rules](#codingrules)
-* [Commit Messages](#commitmessages)
+* [Code of Conduct](#code-of-conduct)
+* [Bug, Question or Problem?](#bug-question-or-problem)
+* [Feature Requests](#missing-a-feature)
+* [Submission Guidelines](#submission-guidelines)
+* [Coding Rules](#coding-rules)
+* [Commit Messages](#commit-messages)
 
 ## Code of Conduct
 
@@ -21,7 +21,7 @@ If you've found a bug, please submit an issue. Even better would be submitting a
 
 ## Missing a Feature?
 
-You can *request* a new feature by [submitting an issue](#submittinganissue) to the GitHub
+You can *request* a new feature by [submitting an issue](#submitting-an-issue) to the GitHub
 Repository. If you would like to *implement* a new feature, please submit an issue with
 a proposal for your work first, to be sure that it can be used.
 Please consider what kind of change it is:
@@ -29,7 +29,7 @@ Please consider what kind of change it is:
 * For a **Major Feature**, first open an issue and outline your proposal so that it can be
 discussed. This will also allow better coordination of efforts, prevent duplication of work,
 and help you to craft the change so that it is successfully accepted into the project.
-* **Small Features** can be crafted and directly [submitted as a Pull Request](#submittingapullrequest).
+* **Small Features** can be crafted and directly [submitted as a Pull Request](#submitting-a-pull-request).
 
 ## Submission Guidelines
 
@@ -62,9 +62,9 @@ Before submitting a Pull Request (PR) consider the following guidelines:
 
 * Create your patch
 
-* Follow the [Coding Rules](#codingrules), running the linter (`npm run lint`) to catch any errors
+* Follow the [Coding Rules](#coding-rules), running the linter (`npm run lint`) to catch any errors
 
-* Commit your changes using a descriptive commit message that follows the [commit message conventions](#commitmessages)
+* Commit your changes using a descriptive commit message that follows the [commit message conventions](#commit-messages)
 
 * Push your branch to GitHub:
 
