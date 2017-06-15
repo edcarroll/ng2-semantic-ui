@@ -57,6 +57,10 @@ The current list of available components with links to their docs is below:
 * [Tabs](https://edcarroll.github.io/ng2-semantic-ui/#/components/tabs)
 * [Transition](https://edcarroll.github.io/ng2-semantic-ui/#/components/transition)
 
+## Want to help?
+
+Want to file a bug, contribute some code, or improve documentation? Great! Please read the [contributing guidelines](https://github.com/edcarroll/ng2-semantic-ui/blob/master/CONTRIBUTING.md) to get going.
+
 ## Development
 
 To generate all library files:
