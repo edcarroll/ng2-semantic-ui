@@ -87,7 +87,7 @@ The primary rules followed by this library are:
 
 * 4 space indentation
 * Double quotes (`"`) rather than single quotes (`'`)
-* No whitespace for type definitions (i.e. `example:string`)
+* No whitespace for type definitions (e.g. `example:string`)
 * PascalCase for class names, interfaces & **exported** constants
   - Interfaces prefixed with I
 * camelCase for local variables (`const`)
