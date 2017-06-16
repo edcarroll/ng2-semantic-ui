@@ -3,6 +3,7 @@ import { MessageConfig } from "./message-config";
 import { ActiveMessage, SuiActiveMessage } from "./active-message";
 import { SuiMessage } from "./message";
 import { SuiComponentFactory } from "../util/component-factory.service";
+import { MessageController } from "./message-controller";
 
 @Component({
     selector: "sui-message-container",
@@ -32,6 +33,11 @@ export class SuiMessageContainer {
     @Input()
     public maxShown:number;
 
+    @Input()
+    public set controller(controller:MessageController) {
+        controller.registerContainer(this);
+    }
+
     @ViewChild("top", { read: ViewContainerRef })
     public topContainer:ViewContainerRef;
 
@@ -47,9 +53,7 @@ export class SuiMessageContainer {
 
     public show(config:MessageConfig):SuiActiveMessage {
         const componentRef = this._componentFactory.createComponent(SuiMessage);
-
-        const message = componentRef.instance;
-        message.loadConfig(config);
+        componentRef.instance.loadConfig(config);
 
         const active = new ActiveMessage(config, componentRef)
             .onDismiss(() => this.onMessageClose(active));
@@ -57,7 +61,7 @@ export class SuiMessageContainer {
         if (this._messages.length < this.maxShown) {
             this.open(active);
         } else {
-            this._queue.push(active);
+            this.queue(active);
         }
 
         return active;
@@ -68,6 +72,10 @@ export class SuiMessageContainer {
 
         this._componentFactory.attachToView(this.topContainer, message.componentRef);
         message.component.show();
+    }
+
+    private queue(message:ActiveMessage):void {
+        this._queue.push(message);
     }
 
     private onMessageClose(message:ActiveMessage):void {

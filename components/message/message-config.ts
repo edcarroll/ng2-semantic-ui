@@ -38,7 +38,7 @@ export class MessageConfig {
         this.closeButton = true;
 
         this.transition = "fade";
-        this.transitionInDuration = 200;
+        this.transitionInDuration = 400;
         this.transitionOutDuration = 1000;
 
         this.onClick = new EventEmitter<void>();
