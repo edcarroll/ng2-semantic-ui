@@ -154,6 +154,11 @@ export class SuiPagination implements OnChanges {
             const page = Math.ceil(this.page / this.maxSize) - 1;
             start = page * this.maxSize;
             end = start + this.maxSize;
+
+            if (end > this.pageCount) {
+                end = this.pageCount;
+                start = end - this.maxSize;
+            }
         }
         return [start, end];
     }
