@@ -10,7 +10,7 @@ export abstract class SuiActiveMessage {
 }
 
 export class ActiveMessage implements SuiActiveMessage {
-    private _config:MessageConfig;
+    public config:MessageConfig;
     public componentRef:ComponentRef<SuiMessage>;
 
     public get component():SuiMessage {
@@ -18,19 +18,19 @@ export class ActiveMessage implements SuiActiveMessage {
     }
 
     constructor(config:MessageConfig, componentRef:ComponentRef<SuiMessage>) {
-        this._config = config;
+        this.config = config;
         this.componentRef = componentRef;
 
         this.component.onDismiss.subscribe(() => this.componentRef.destroy());
     }
 
     public onClick(callback:() => void):ActiveMessage {
-        this._config.onClick.subscribe(() => callback());
+        this.config.onClick.subscribe(() => callback());
         return this;
     }
 
     public onDismiss(callback:() => void):ActiveMessage {
-        this._config.onDismiss.subscribe(() => callback());
+        this.config.onDismiss.subscribe(() => callback());
         return this;
     }
 

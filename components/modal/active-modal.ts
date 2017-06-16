@@ -14,20 +14,20 @@ export abstract class SuiActiveModal<T, U, V> {
 
 // Helper class to support method chaining when calling `SuiModalService.open(...)`.
 export class ActiveModal<T, U, V> implements SuiActiveModal<T, U, V> {
-    private _config:ModalConfig<T, U, V>;
-    private _componentRef:ComponentRef<SuiModal<U, V>>;
+    public config:ModalConfig<T, U, V>;
+    public componentRef:ComponentRef<SuiModal<U, V>>;
 
     // Shorthand for direct access to the `SuiModal` instance.
     public get component():SuiModal<U, V> {
-        return this._componentRef.instance;
+        return this.componentRef.instance;
     }
 
     constructor(instance:ModalConfig<T, U, V>, componentRef:ComponentRef<SuiModal<U, V>>) {
-        this._config = instance;
-        this._componentRef = componentRef;
+        this.config = instance;
+        this.componentRef = componentRef;
 
         // Automatically destroy the modal component when it has been dismissed.
-        this.component.onDismiss.subscribe(() => this._componentRef.destroy());
+        this.component.onDismiss.subscribe(() => this.componentRef.destroy());
     }
 
     // Registers a callback for when `onApprove` is fired.
@@ -54,6 +54,6 @@ export class ActiveModal<T, U, V> implements SuiActiveModal<T, U, V> {
 
     // Removes the modal component instantly, without transitions or firing any events.
     public destroy():void {
-        this._componentRef.destroy();
+        this.componentRef.destroy();
     }
 }
