@@ -3,7 +3,7 @@
   "main": "bundles/ng2-semantic-ui.umd.min.js",
   "module": "index.js",
   "typings": "index.d.ts",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "description": "Angular 2 Semantic UI Components",
   "repository": {
     "type": "git",
@@ -36,7 +36,7 @@
     "build:lib": "npm run lint:lib && npm run compile:lib && npm run package:lib",
     "build:demo": "npm run lint && npm run compile",
     "build": "npm run lint && npm run compile && npm run package:lib",
-    "prepublish": "npm run build"
+    "prepublishOnly": "npm run build:lib"
   },
   "dependencies": {
     "@angular/common": "^4.1.0",
