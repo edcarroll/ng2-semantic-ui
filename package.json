@@ -36,7 +36,7 @@
     "build:lib": "npm run lint:lib && npm run compile:lib && npm run package:lib",
     "build:demo": "npm run lint && npm run compile",
     "build": "npm run lint && npm run compile && npm run package:lib",
-    "prepublish": "npm run build:lib"
+    "prepublishOnly": "npm run build:lib"
   },
   "dependencies": {
     "@angular/common": "^4.1.0",
