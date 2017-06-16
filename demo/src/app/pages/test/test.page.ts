@@ -6,17 +6,16 @@ import { MessageConfig, MessageState } from "../../../../../components/message/m
     selector: "demo-page-test",
     templateUrl: "./test.page.html"
 })
-export class TestPage implements AfterViewInit {
+export class TestPage {
 
     @ViewChild("messages")
     public messages:SuiMessageContainer;
 
     constructor() {}
 
-    public ngAfterViewInit():void {
+    public open():void {
         const message = new MessageConfig(null, MessageState.Default, "Hello, world!");
-
-        this.messages.show(message);
+        message.state = MessageState.Success;
         this.messages.show(message);
     }
 }

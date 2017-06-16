@@ -1,40 +1,44 @@
-import { Component, EventEmitter, Input } from "@angular/core";
+import { Component, EventEmitter, Input, ComponentFactoryResolver, ViewContainerRef } from "@angular/core";
 import { MessageConfig } from "./message-config";
-import { LiveMessage } from "./live-message";
 import { ActiveMessage } from "./active-message";
+import { SuiMessageTest } from "./message-test";
 
 @Component({
     selector: "sui-message-container",
     template: `
-<sui-message *ngFor="let message of _messages">
-    <div class="header" *ngIf="message.config.header">{{ message.config.header }}</div>
-    <p>{{ message.config.text }}</p>
-</sui-message>
 `
 })
 export class SuiMessageContainer {
-    private _messages:LiveMessage[];
+    private _messages:ActiveMessage[];
     private _queue:MessageConfig[];
 
     @Input()
     public maxShown:number;
 
-    constructor() {
+    constructor(private _viewContainerRef:ViewContainerRef,
+                private _componentFactoryResolver:ComponentFactoryResolver) {
+
         this._messages = [];
         this._queue = [];
 
         this.maxShown = 10;
     }
 
-    public show(message:MessageConfig):ActiveMessage {
-        if (this._messages.length === this.maxShown) {
-            this._queue.push(message);
-        } else {
-            const live = new LiveMessage(message);
+    public show(config:MessageConfig):ActiveMessage {
+        // Resolve component factory for the `SuiPopup` component.
+        const factory = this._componentFactoryResolver.resolveComponentFactory(SuiMessageTest);
 
-            this._messages.push(live);
-        }
+        // Generate a component using the view container reference and the previously resolved factory.
+        const componentRef = this._viewContainerRef.createComponent(factory);
 
-        return new ActiveMessage(message);
+        const message = componentRef.instance;
+        message.loadConfig(config);
+        message.show();
+
+        const active = new ActiveMessage(config, componentRef);
+
+        this._messages.push(active);
+
+        return active;
     }
 }

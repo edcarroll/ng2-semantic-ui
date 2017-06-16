@@ -7,7 +7,7 @@ export interface IMessage {
 }
 
 @Component({
-    selector: "sui-message",
+    selector: "sui-test-message",
     template: `
 <div class="ui message {{ class }}" *ngIf="!isDismissed" [suiTransition]="transitionController">
     <i class="close icon" *ngIf="isDismissable" (click)="dismiss()"></i>

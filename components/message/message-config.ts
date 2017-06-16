@@ -25,6 +25,7 @@ export class MessageConfig {
     public transitionOutDuration:number;
 
     public onClick:EventEmitter<void>;
+    public onDismiss:EventEmitter<void>;
 
     constructor(text:string, state?:MessageState, header?:string) {
         this.text = text;
@@ -36,10 +37,11 @@ export class MessageConfig {
 
         this.closeButton = true;
 
-        this.transition = "scale";
+        this.transition = "fade";
         this.transitionInDuration = 200;
         this.transitionOutDuration = 1000;
 
         this.onClick = new EventEmitter<void>();
+        this.onDismiss = new EventEmitter<void>();
     }
 }
