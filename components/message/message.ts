@@ -28,7 +28,10 @@ export interface IMessage {
     </div>
     <sui-progress *ngIf="isDynamic && hasProgress"
                   class="bottom attached"
-                  [value]="timeoutProgress"></sui-progress>
+                  [value]="timeoutProgress"
+                  transition="linear"
+                  [transitionDuration]="currentTimeout"
+                  [canCompletelyEmpty]="true"></sui-progress>
 </div>
 `
 })
@@ -43,6 +46,7 @@ export class SuiMessage implements IMessage {
 
     public timeout:number;
     public extendedTimeout:number;
+    public currentTimeout:number;
 
     @Input()
     public hasDismissButton:boolean;
@@ -158,6 +162,7 @@ export class SuiMessage implements IMessage {
     public beginTimer(timeout:number):void {
         if (this.isDynamic && !this.isDismissing) {
             this.timeoutProgress = 0;
+            this.currentTimeout = timeout;
             this._displayTimeout = window.setTimeout(() => this.onTimedOut(), timeout);
         }
     }
@@ -165,6 +170,7 @@ export class SuiMessage implements IMessage {
     public cancelTimer():void {
         if (this.isDynamic && !this.isDismissing) {
             this.timeoutProgress = 100;
+            this.currentTimeout = 0;
             clearTimeout(this._displayTimeout);
 
             if (this.isClosing) {

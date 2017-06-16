@@ -3,7 +3,11 @@ import { Component, Input, HostBinding } from "@angular/core";
 @Component({
     selector: "sui-progress",
     template: `
-<div class="bar" [style.width.%]="percentage">
+<div class="bar"
+     [style.width.%]="percentage"
+     [style.minWidth]="canCompletelyEmpty ? 0 : null"
+     [style.transitionTimingFunction]="transition"
+     [style.transitionDuration.ms]="transitionDuration">
     <div class="progress" *ngIf="showProgress">{{ percentage }}%</div>
 </div>
 <div class="label">
@@ -12,7 +16,6 @@ import { Component, Input, HostBinding } from "@angular/core";
 `,
     styles: [`
 .bar {
-    transition-duration: 300ms !important;
     z-index: 1;
 }
 `]
@@ -96,6 +99,15 @@ export class SuiProgress {
         return percentage.toFixed(this.precision);
     }
 
+    @Input()
+    public transition:string;
+
+    @Input()
+    public transitionDuration:number;
+
+    @Input()
+    public canCompletelyEmpty:boolean;
+
     @Input("class")
     public set classValue(classes:string) {
         if (classes.includes("attached") || classes.includes("tiny")) {
@@ -114,6 +126,10 @@ export class SuiProgress {
         this._overrideSuccess = false;
         this.autoSuccess = true;
         this.showProgress = true;
+
+        this.transition = "ease";
+        this.transitionDuration = 350;
+        this.canCompletelyEmpty = false;
 
         this._popupClasses = true;
     }
