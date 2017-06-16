@@ -1,4 +1,6 @@
-export type SuiColor = "" | "red" | "orange" | "yellow" | "olive" | "green" | "teal" | "blue" | "violet" | "purple" | "pink" | "brown" | "black";
+export type SuiColor = "" | "red" | "orange" | "yellow" | "olive" |
+                       "green" | "teal" | "blue" | "violet" |
+                       "purple" | "pink" | "brown" | "black";
 
 export const SuiColor = {
     Default: "" as SuiColor,
@@ -14,7 +16,7 @@ export const SuiColor = {
     Pink: "pink" as SuiColor,
     Brown: "brown" as SuiColor,
     Black: "black" as SuiColor
-}
+};
 
 export type SuiSize = "mini" | "tiny" | "small" | "" | "large" | "big" | "huge" | "massive";
 
@@ -27,4 +29,5 @@ export const SuiSize = {
     Big: "big" as SuiSize,
     Huge: "huge" as SuiSize,
     Massive: "massive" as SuiSize
-}
+};
+

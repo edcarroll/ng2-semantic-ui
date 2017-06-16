@@ -1,16 +1,16 @@
 import { MessageConfig } from "./message-config";
 import { ComponentRef } from "@angular/core";
-import { SuiMessageTest } from "./message-test";
+import { SuiMessage } from "./message";
 
 export class ActiveMessage {
     private _config:MessageConfig;
-    private _componentRef:ComponentRef<SuiMessageTest>;
+    private _componentRef:ComponentRef<SuiMessage>;
 
-    public get component():SuiMessageTest {
+    public get component():SuiMessage {
         return this._componentRef.instance;
     }
 
-    constructor(config:MessageConfig, componentRef:ComponentRef<SuiMessageTest>) {
+    constructor(config:MessageConfig, componentRef:ComponentRef<SuiMessage>) {
         this._config = config;
         this._componentRef = componentRef;
 

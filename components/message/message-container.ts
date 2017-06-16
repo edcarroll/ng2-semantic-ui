@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, ComponentFactoryResolver, ViewContainerRef } from "@angular/core";
 import { MessageConfig } from "./message-config";
 import { ActiveMessage } from "./active-message";
-import { SuiMessageTest } from "./message-test";
+import { SuiMessage } from "./message";
 
 @Component({
     selector: "sui-message-container",
@@ -26,7 +26,7 @@ export class SuiMessageContainer {
 
     public show(config:MessageConfig):ActiveMessage {
         // Resolve component factory for the `SuiPopup` component.
-        const factory = this._componentFactoryResolver.resolveComponentFactory(SuiMessageTest);
+        const factory = this._componentFactoryResolver.resolveComponentFactory(SuiMessage);
 
         // Generate a component using the view container reference and the previously resolved factory.
         const componentRef = this._viewContainerRef.createComponent(factory);

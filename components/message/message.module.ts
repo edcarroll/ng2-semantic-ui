@@ -1,9 +1,8 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { SuiMessage, IMessage } from "./message";
 import { SuiTransitionModule } from "../transition/transition.module";
 import { SuiMessageContainer } from "./message-container";
-import { SuiMessageTest } from "./message-test";
+import { SuiMessage, IMessage } from "./message";
 
 @NgModule({
     imports: [
@@ -12,16 +11,14 @@ import { SuiMessageTest } from "./message-test";
     ],
     declarations: [
         SuiMessage,
-        SuiMessageTest,
         SuiMessageContainer
     ],
     exports: [
         SuiMessage,
-        SuiMessageTest,
         SuiMessageContainer
     ],
     entryComponents: [
-        SuiMessageTest,
+        SuiMessage,
         SuiMessageContainer
     ]
 })
