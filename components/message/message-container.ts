@@ -16,9 +16,8 @@ export class SuiMessageContainer {
     @Input()
     public maxShown:number;
 
-    constructor(private _componentGenerator:SuiComponentFactory,
-                private _viewContainerRef:ViewContainerRef,
-                private _componentFactoryResolver:ComponentFactoryResolver) {
+    constructor(private _componentFactory:SuiComponentFactory,
+                private _viewContainerRef:ViewContainerRef) {
 
         this._messages = [];
         this._queue = [];
@@ -27,11 +26,8 @@ export class SuiMessageContainer {
     }
 
     public show(config:MessageConfig):ActiveMessage {
-        // Resolve component factory for the `SuiPopup` component.
-        const factory = this._componentFactoryResolver.resolveComponentFactory(SuiMessage);
-
-        // Generate a component using the view container reference and the previously resolved factory.
-        const componentRef = this._viewContainerRef.createComponent(factory);
+        const componentRef = this._componentFactory.createComponent(SuiMessage);
+        this._componentFactory.attachToView(this._viewContainerRef, componentRef);
 
         const message = componentRef.instance;
         message.loadConfig(config);
