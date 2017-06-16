@@ -12,19 +12,23 @@ export interface IMessage {
 @Component({
     selector: "sui-message",
     template: `
-<div class="ui message"
-     [suiTransition]="transitionController"
-     [ngClass]="dynamicClasses"
-     (mousemove)="cancelTimer()"
-     (mouseleave)="beginTimer(extendedTimeout)"
-     (click)="onClicked($event)">
+<div [suiTransition]="transitionController">
+    <div class="ui message"
+         [ngClass]="dynamicClasses"
+         (mousemove)="cancelTimer()"
+         (mouseleave)="beginTimer(extendedTimeout)"
+         (click)="onClicked($event)">
 
-    <i class="close icon" *ngIf="hasDismissButton" (click)="onDismissClicked($event)"></i>
-    <ng-content></ng-content>
-    <ng-container *ngIf="isDynamic">
-        <div class="header" *ngIf="header">{{ header }}</div>
-        <p>{{ text }}</p>
-    </ng-container>
+        <i class="close icon" *ngIf="hasDismissButton" (click)="onDismissClicked($event)"></i>
+        <ng-content></ng-content>
+        <ng-container *ngIf="isDynamic">
+            <div class="header" *ngIf="header">{{ header }}</div>
+            <p>{{ text }}</p>
+        </ng-container>
+    </div>
+    <sui-progress *ngIf="isDynamic && hasProgress"
+                  class="bottom attached"
+                  [value]="timeoutProgress"></sui-progress>
 </div>
 `
 })
@@ -42,6 +46,10 @@ export class SuiMessage implements IMessage {
 
     @Input()
     public hasDismissButton:boolean;
+
+    public hasProgress:boolean;
+
+    public timeoutProgress:number;
 
     public transitionController:TransitionController;
 
@@ -67,6 +75,10 @@ export class SuiMessage implements IMessage {
         const classes:IDynamicClasslist = {};
         classes[this.state] = true;
 
+        if (this.isDynamic && this.hasProgress) {
+            classes["attached"] = true;
+        }
+
         (this.classes || "")
             .split(" ")
             .forEach(c => classes[c] = true);
@@ -80,6 +92,7 @@ export class SuiMessage implements IMessage {
 
         this.isDynamic = false;
         this.transitionOutDuration = 300;
+        this.timeoutProgress = 100;
 
         this.transitionController = new TransitionController(false);
 
@@ -97,6 +110,7 @@ export class SuiMessage implements IMessage {
         this.extendedTimeout = config.extendedTimeout;
 
         this.hasDismissButton = config.hasDismissButton;
+        this.hasProgress = config.hasProgress;
 
         this.transition = config.transition;
         this.transitionInDuration = config.transitionInDuration;
@@ -143,12 +157,14 @@ export class SuiMessage implements IMessage {
 
     public beginTimer(timeout:number):void {
         if (this.isDynamic && !this.isDismissing) {
+            this.timeoutProgress = 0;
             this._displayTimeout = window.setTimeout(() => this.onTimedOut(), timeout);
         }
     }
 
     public cancelTimer():void {
         if (this.isDynamic && !this.isDismissing) {
+            this.timeoutProgress = 100;
             clearTimeout(this._displayTimeout);
 
             if (this.isClosing) {

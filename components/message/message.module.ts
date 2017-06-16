@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { SuiTransitionModule } from "../transition/transition.module";
+import { SuiProgressModule } from "../progress/progress.module";
 import { SuiMessageContainer } from "./message-container";
 import { SuiMessage, IMessage } from "./message";
 import { SuiUtilityModule } from "../util/util.module";
@@ -12,6 +13,7 @@ import { SuiActiveMessage } from "./active-message";
     imports: [
         CommonModule,
         SuiTransitionModule,
+        SuiProgressModule,
         SuiUtilityModule
     ],
     declarations: [
