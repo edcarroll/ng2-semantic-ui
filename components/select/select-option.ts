@@ -1,6 +1,9 @@
-import {Component, Input, HostBinding, HostListener, EventEmitter, ViewContainerRef, ViewChild, Renderer2, ElementRef, Output} from '@angular/core';
-import {SuiDropdownMenuItem} from '../dropdown/dropdown-menu';
-import {HandledMouseEvent} from '../util/util';
+import {
+    Component, Input, HostBinding, HostListener, EventEmitter, ViewContainerRef,
+    ViewChild, Renderer2, ElementRef, Output
+} from "@angular/core";
+import { SuiDropdownMenuItem } from "../dropdown/dropdown-menu";
+import { HandledEvent } from "../util/util";
 
 export type PropertyReader<T> = (obj:T) => string;
 
@@ -13,7 +16,7 @@ export interface ISelectRenderedOption<T> {
 }
 
 @Component({
-    selector: 'sui-select-option',
+    selector: "sui-select-option",
     template: `
 <span #templateSibling></span>
 <span *ngIf="!usesTemplate">{{ readLabel(value) }}</span>
@@ -21,7 +24,7 @@ export interface ISelectRenderedOption<T> {
 })
 export class SuiSelectOption<T> extends SuiDropdownMenuItem implements ISelectRenderedOption<T> {
     // Sets the Semantic UI classes on the host element.
-    @HostBinding('class.item')
+    @HostBinding("class.item")
     private _optionClasses:boolean;
 
     @Input()
@@ -31,7 +34,7 @@ export class SuiSelectOption<T> extends SuiDropdownMenuItem implements ISelectRe
     @Output()
     public onSelected:EventEmitter<T>;
 
-    @HostBinding('class.active')
+    @HostBinding("class.active")
     public isActive:boolean;
 
     // Returns the label from a given value.
@@ -40,7 +43,7 @@ export class SuiSelectOption<T> extends SuiDropdownMenuItem implements ISelectRe
     public usesTemplate:boolean;
 
     // Placeholder to draw template beside.
-    @ViewChild('templateSibling', { read: ViewContainerRef })
+    @ViewChild("templateSibling", { read: ViewContainerRef })
     public templateSibling:ViewContainerRef;
 
     constructor(renderer:Renderer2, element:ElementRef) {
@@ -58,8 +61,8 @@ export class SuiSelectOption<T> extends SuiDropdownMenuItem implements ISelectRe
         this.usesTemplate = false;
     }
 
-    @HostListener('click', ['$event'])
-    public onClick(e:HandledMouseEvent) {
+    @HostListener("click", ["$event"])
+    public onClick(e:HandledEvent & MouseEvent):void {
         e.eventHandled = true;
 
         setTimeout(() => this.onSelected.emit(this.value));

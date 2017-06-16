@@ -1,4 +1,4 @@
-import {EventEmitter} from '@angular/core';
+import { EventEmitter } from "@angular/core";
 
 export type DropdownAutoCloseType = "itemClick" | "outsideClick" | "disabled";
 
@@ -7,7 +7,7 @@ export const DropdownAutoCloseType = {
     ItemClick: "itemClick" as DropdownAutoCloseType,
     OutsideClick: "outsideClick" as DropdownAutoCloseType,
     Disabled: "disabled" as DropdownAutoCloseType
-}
+};
 
 export class DropdownService {
     // Open state of the dropdown
@@ -18,14 +18,13 @@ export class DropdownService {
     public isDisabled:boolean;
 
     // Sets the "autoclose" mode of the dropdown - i.e. what user action causes it to autoclose.
-    // Options are itemClick (close when choosing an item or clicking outside) [default], outsideClick (choose only when clicking outside) & disabled (never autoclose).
     public autoCloseMode:DropdownAutoCloseType;
 
     // Keep track of the containing dropdown so we can open it as necessary.
     public parent:DropdownService;
     // Also keep track of dropdowns nested in this one so we can close them as necessary.
     public children:DropdownService[];
-    public get isNested() {
+    public get isNested():boolean {
         return !!this.parent;
     }
 
@@ -40,8 +39,8 @@ export class DropdownService {
         this.children = [];
     }
 
-    public setOpenState(isOpen:boolean, reflectInParent:boolean = false) {
-        if (this.isOpen != isOpen && !this.isDisabled) {
+    public setOpenState(isOpen:boolean, reflectInParent:boolean = false):void {
+        if (this.isOpen !== isOpen && !this.isDisabled) {
             // Only update the state if it has changed, and the dropdown isn't disabled.
             this.isOpen = !!isOpen;
             // We must delay the emitting to avoid the 'changed after checked' Angular errors.
@@ -56,15 +55,14 @@ export class DropdownService {
                 // Open the parent dropdowns when this one opens.
                 this.parent.setOpenState(this.isOpen, true);
             }
-        }
-        else if (this.isOpen != isOpen && this.isDisabled) {
+        } else if (this.isOpen !== isOpen && this.isDisabled) {
             // If the state has changed, but the dropdown is disabled, re-emit the original isOpen value.
             this.delay(() => this.isOpenChange.emit(this.isOpen));
         }
     }
 
-    public setDisabledState(isDisabled:boolean) {
-        if (this.isDisabled != isDisabled) {
+    public setDisabledState(isDisabled:boolean):void {
+        if (this.isDisabled !== isDisabled) {
             if (!!isDisabled) {
                 // Close the dropdown as it is now disabled
                 this.setOpenState(false);
@@ -74,12 +72,12 @@ export class DropdownService {
         }
     }
 
-    public toggleOpenState() {
+    public toggleOpenState():void {
         this.setOpenState(!this.isOpen);
     }
 
     // Registers a dropdown service as a child of this service.
-    public registerChild(child:DropdownService) {
+    public registerChild(child:DropdownService):void {
         if (!this.isChildRegistered(child)) {
             this.children.push(child);
             child.parent = this;
@@ -90,11 +88,11 @@ export class DropdownService {
     public isChildRegistered(child:DropdownService):boolean {
         return this === child || !!this.children
             .find(c => !!c.children
-                .find(c => c.isChildRegistered(child)));
+                .find(cChild => cChild.isChildRegistered(child)));
     }
 
     // Wipes any nested data, so all services can be cleanly reattached.
-    public clearChildren() {
+    public clearChildren():void {
         this.children.forEach(c => {
             c.parent = null;
         });
@@ -102,7 +100,7 @@ export class DropdownService {
     }
 
     // Method for delaying an event into the next tick, to avoid Angular "changed after checked" error.
-    private delay(callback:() => void) {
+    private delay(callback:() => void):void {
         setTimeout(() => callback());
     }
 }

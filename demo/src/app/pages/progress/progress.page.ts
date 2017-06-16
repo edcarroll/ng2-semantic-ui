@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {ApiDefinition} from '../../components/api/api.component';
+import { Component } from "@angular/core";
+import { ApiDefinition } from "../../components/api/api.component";
 
 const exampleStandardTemplate = `
 <div class="ui segment">
@@ -52,8 +52,8 @@ const exampleVariationsTemplate = `
 `;
 
 @Component({
-    selector: 'demo-page-progress',
-    templateUrl: './progress.page.html'
+    selector: "demo-page-progress",
+    templateUrl: "./progress.page.html"
 })
 export class ProgressPage {
     public api:ApiDefinition = [
@@ -63,13 +63,15 @@ export class ProgressPage {
                 {
                     name: "value",
                     type: "number",
-                    description: "Sets whether or not the element is collapsed. Values not in <code>[0, ..., maximum]</code> are automatically bounded.",
+                    description: "Sets whether or not the element is collapsed. " +
+                                 "Values not in <code>[0, ..., maximum]</code> are automatically bounded.",
                     defaultValue: "0"
                 },
                 {
                     name: "maximum",
                     type: "number",
-                    description: "Sets the maximum value. When <code>value > maximum</code> the progress bar is full. Use the 1st example to try out this functionality.",
+                    description: "Sets the maximum value. When <code>value > maximum</code> the progress bar is full. " +
+                                 "Use the 1st example to try out this functionality.",
                     defaultValue: "100"
                 },
                 {
@@ -89,16 +91,16 @@ export class ProgressPage {
                     type: "boolean",
                     description: "Sets whether or not the progress bar automatically turns green when <code>value == maximum</code>.",
                     defaultValue: "true"
-                },
+                }
             ]
         }
     ];
-    public exampleStandardTemplate = exampleStandardTemplate;
-    public exampleVariationsTemplate = exampleVariationsTemplate;
+    public exampleStandardTemplate:string = exampleStandardTemplate;
+    public exampleVariationsTemplate:string = exampleVariationsTemplate;
 }
 
 @Component({
-    selector: 'progress-example-standard',
+    selector: "example-progress-standard",
     template: exampleStandardTemplate
 })
 export class ProgressExampleStandard {
@@ -109,31 +111,33 @@ export class ProgressExampleStandard {
 }
 
 @Component({
-    selector: 'progress-example-variations',
+    selector: "example-progress-variations",
     template: exampleVariationsTemplate
 })
 export class ProgressExampleVariations {
     public value:number = 55;
+
+    public changingValue:number = -20;
+    public randomValue:number = 0;
 
     constructor() {
         this.updateChangingValue();
         this.randomValue = Math.floor(Math.random() * 100) + 1;
     }
 
-    private updateChangingValue() {
-        setTimeout(() => {
-            if (this.changingValue > 120) {
-                this.changingValue = -20;
-            }
-            else {
-                this.changingValue += 2;
-            }
-            this.updateChangingValue();
-        }, 75);
+    private updateChangingValue():void {
+        setTimeout(
+            () => {
+                if (this.changingValue > 120) {
+                    this.changingValue = -20;
+                } else {
+                    this.changingValue += 2;
+                }
+                this.updateChangingValue();
+            },
+            75
+        );
     }
-
-    public changingValue = -20;
-    public randomValue = 0;
 }
 
 export const ProgressPageComponents = [ProgressPage, ProgressExampleStandard, ProgressExampleVariations];

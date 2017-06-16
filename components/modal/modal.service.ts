@@ -1,14 +1,16 @@
-import {Injectable, ApplicationRef, ComponentFactoryResolver, Injector, Type, ReflectiveInjector} from '@angular/core';
-import {ModalConfig, TemplateModalConfig, ComponentModalConfig} from './modal-config';
-import {SuiModal} from './modal';
-import {Modal} from './modal-controls';
-import {ActiveModal} from './active-modal';
+import { Injectable, ApplicationRef, ComponentFactoryResolver, Injector, Type, ReflectiveInjector } from "@angular/core";
+import { ModalConfig, TemplateModalConfig, ComponentModalConfig } from "./modal-config";
+import { SuiModal } from "./modal";
+import { Modal } from "./modal-controls";
+import { ActiveModal } from "./active-modal";
 
 @Injectable()
 export class SuiModalService {
-    constructor(private _applicationRef:ApplicationRef, private _componentFactoryResolver:ComponentFactoryResolver, private _injector:Injector) {}
+    constructor(private _applicationRef:ApplicationRef,
+                private _componentFactoryResolver:ComponentFactoryResolver,
+                private _injector:Injector) {}
 
-    public open<T, U, V>(modal:ModalConfig<T, U, V>) {
+    public open<T, U, V>(modal:ModalConfig<T, U, V>):ActiveModal<T, U, V> {
         // Resolve factory for creating `SuiModal` components.
         const factory = this._componentFactoryResolver.resolveComponentFactory<SuiModal<U, V>>(SuiModal);
 
@@ -17,7 +19,6 @@ export class SuiModalService {
         // Shorthand for the created modal component instance.
         const modalComponent = componentRef.instance;
 
-        // If the config is for a template based modal,
         if (modal instanceof TemplateModalConfig) {
             // Inject the template into the view.
             componentRef.instance.templateSibling.createEmbeddedView(modal.template, {
@@ -25,10 +26,8 @@ export class SuiModalService {
                 $implicit: modal.context,
                 // `let-modal="modal"`
                 modal: componentRef.instance.controls
-            })
-        }
-        // If the config is for a component based modal,
-        else if (modal instanceof ComponentModalConfig) {
+            });
+        } else if (modal instanceof ComponentModalConfig) {
             // Resolve factory for creating a new instance of the provided component.
             const contentComponentFactory = this._componentFactoryResolver.resolveComponentFactory(modal.component as Type<{}>);
 
@@ -39,7 +38,9 @@ export class SuiModalService {
                         provide: Modal,
                         useValue: new Modal(modalComponent.controls, modal.context)
                     }
-                ], this._injector);
+                ],
+                this._injector
+            );
 
             // Generate a component using the custom injector and the previously resolved factory.
             const contentComponentRef = contentComponentFactory.create(modalContentInjector);
@@ -51,7 +52,8 @@ export class SuiModalService {
             const contentElement = contentComponentRef.location.nativeElement as Element;
 
             // Move all of the DOM elements inside the component to the main modal element.
-            // This is done so that CSS classes apply correctly. It does stop any custom styles from working however, so other ways may have to be investigated.
+            // This is done so that CSS classes apply correctly. It does stop any custom styles from working however,
+            // so other ways may have to be investigated.
             while (contentElement.hasChildNodes()) {
                 contentElement.parentElement.appendChild(contentElement.removeChild(contentElement.firstChild));
             }

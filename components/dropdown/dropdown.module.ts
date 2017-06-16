@@ -1,9 +1,9 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from "@angular/common";
-import {SuiTransitionModule} from "../transition/transition.module";
-import {SuiDropdown} from './dropdown';
-import {SuiDropdownMenu, SuiDropdownMenuItem} from './dropdown-menu';
-import {DropdownService, DropdownAutoCloseType} from './dropdown.service';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { SuiTransitionModule } from "../transition/transition.module";
+import { SuiDropdown } from "./dropdown";
+import { SuiDropdownMenu, SuiDropdownMenuItem } from "./dropdown-menu";
+import { DropdownService, DropdownAutoCloseType } from "./dropdown.service";
 
 @NgModule({
     imports: [

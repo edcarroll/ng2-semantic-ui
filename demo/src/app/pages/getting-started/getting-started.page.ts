@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
 @Component({
-    selector: 'demo-page-getting-started',
-    templateUrl: './getting-started.page.html',
+    selector: "demo-page-getting-started",
+    templateUrl: "./getting-started.page.html",
     styles: [`
 .dividing.header {
     margin-top: 1em;
@@ -12,7 +12,10 @@ import { Component } from '@angular/core';
 })
 export class GettingStartedPage {
     public installCode:string = `$ npm install ng2-semantic-ui --save`;
-    public includeCssCode:string = `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.css">`;
+
+    public includeCssCode:string =
+`<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.css">`;
+
     public importCode:string = `import {SuiModule} from 'ng2-semantic-ui';`;
     public moduleImportCode:string = `
 import {SuiModule} from 'ng2-semantic-ui';

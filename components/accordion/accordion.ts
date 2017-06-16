@@ -1,9 +1,9 @@
-import {Component, Input, HostBinding, ContentChildren, QueryList, AfterContentInit} from "@angular/core";
-import {SuiAccordionPanel} from "./accordion-panel";
-import {SuiAccordionService} from "./accordion.service";
+import { Component, Input, HostBinding, ContentChildren, QueryList, AfterContentInit } from "@angular/core";
+import { SuiAccordionPanel } from "./accordion-panel";
+import { SuiAccordionService } from "./accordion.service";
 
 @Component({
-    selector: 'sui-accordion',
+    selector: "sui-accordion",
     template: `
 <ng-content></ng-content>
 `,
@@ -20,10 +20,10 @@ import {SuiAccordionService} from "./accordion.service";
 `]
 })
 export class SuiAccordion implements AfterContentInit {
-    @HostBinding('class.ui')
-    @HostBinding('class.accordion')
+    @HostBinding("class.ui")
+    @HostBinding("class.accordion")
     public accordionClasses:boolean;
-    
+
     @Input()
     public get closeOthers():boolean {
         return this._service.closeOthers;
@@ -37,16 +37,16 @@ export class SuiAccordion implements AfterContentInit {
     public set transition(transition:string) {
         this._service.transition = transition;
     }
-    
+
     @Input()
     public set transitionDuration(duration:number) {
         this._service.transitionDuration = duration;
     }
 
     protected _service:SuiAccordionService;
-    
+
     @ContentChildren(SuiAccordionPanel)
-    protected panels:QueryList<SuiAccordionPanel>;
+    protected _panels:QueryList<SuiAccordionPanel>;
 
     constructor() {
         // Accordion service is unique to each set of panels.
@@ -55,14 +55,14 @@ export class SuiAccordion implements AfterContentInit {
         this.accordionClasses = true;
     }
 
-    ngAfterContentInit() {
+    public ngAfterContentInit():void {
         this.updatePanels();
 
         // Reconnect panels after they have updated.
-        this.panels.changes.subscribe(() => setTimeout(() => this.updatePanels()));
+        this._panels.changes.subscribe(() => setTimeout(() => this.updatePanels()));
     }
 
-    public updatePanels() {
-        this.panels.forEach(p => this._service.addPanel(p));
+    public updatePanels():void {
+        this._panels.forEach(p => this._service.addPanel(p));
     }
 }

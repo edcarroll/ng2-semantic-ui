@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {ApiDefinition} from '../../components/api/api.component';
+import { Component } from "@angular/core";
+import { ApiDefinition } from "../../components/api/api.component";
 
 const exampleStandardTemplate = `
 <div class="ui form">
@@ -76,8 +76,8 @@ const exampleStyledTemplate = `
 `;
 
 @Component({
-    selector: 'demo-page-checkbox',
-    templateUrl: './checkbox.page.html',
+    selector: "demo-page-checkbox",
+    templateUrl: "./checkbox.page.html"
 })
 export class CheckboxPage {
     public api:ApiDefinition = [
@@ -97,13 +97,13 @@ export class CheckboxPage {
                 {
                     name: "isDisabled",
                     type: "boolean",
-                    description: " Sets whether or not the checkbox is disabled. (This only affects the UI, state can still be changed programatically)",
+                    description: "Sets whether or not the checkbox is disabled (UI only).",
                     defaultValue: "false"
                 },
                 {
                     name: "isReadonly",
                     type: "boolean",
-                    description: "Sets whether or not the checkbox is read-only. (UI only, as above)",
+                    description: "Sets whether or not the checkbox is read-only (UI only).",
                     defaultValue: "false"
                 }
             ],
@@ -142,13 +142,13 @@ export class CheckboxPage {
                 {
                     name: "isDisabled",
                     type: "boolean",
-                    description: " Sets whether or not the radio button is disabled. (This only affects the UI, state can still be changed programatically)",
+                    description: " Sets whether or not the radio button is disabled (UI only).",
                     defaultValue: "false"
                 },
                 {
                     name: "isReadonly",
                     type: "boolean",
-                    description: "Sets whether or not the radio button is read-only. (UI only, as above)",
+                    description: "Sets whether or not the radio button is read-only (UI only).",
                     defaultValue: "false"
                 }
             ],
@@ -166,13 +166,13 @@ export class CheckboxPage {
             ]
         }
     ];
-    public exampleStandardTemplate = exampleStandardTemplate;
-    public exampleRadioButtonTemplate = exampleRadioButtonTemplate;
-    public exampleStyledTemplate = exampleStyledTemplate;
+    public exampleStandardTemplate:string = exampleStandardTemplate;
+    public exampleRadioButtonTemplate:string = exampleRadioButtonTemplate;
+    public exampleStyledTemplate:string = exampleStyledTemplate;
 }
 
 @Component({
-    selector: 'checkbox-example-standard',
+    selector: "example-checkbox-standard",
     template: exampleStandardTemplate
 })
 export class CheckboxExampleStandard {
@@ -182,7 +182,7 @@ export class CheckboxExampleStandard {
 }
 
 @Component({
-    selector: 'checkbox-example-radio-button',
+    selector: "example-checkbox-radio-button",
     template: exampleRadioButtonTemplate
 })
 export class CheckboxExampleRadioButton {
@@ -190,7 +190,7 @@ export class CheckboxExampleRadioButton {
 }
 
 @Component({
-    selector: 'checkbox-example-styled',
+    selector: "example-checkbox-styled",
     template: exampleStyledTemplate
 })
 export class CheckboxExampleStyled {

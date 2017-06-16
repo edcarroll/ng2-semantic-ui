@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {ApiDefinition} from '../../components/api/api.component';
+import { Component } from "@angular/core";
+import { ApiDefinition } from "../../components/api/api.component";
 
 const exampleStandardTemplate = `
 <div class="ui segments">
@@ -20,8 +20,8 @@ const exampleStandardTemplate = `
 `;
 
 @Component({
-    selector: 'demo-page-collapse',
-    templateUrl: './collapse.page.html'
+    selector: "demo-page-collapse",
+    templateUrl: "./collapse.page.html"
 })
 export class CollapsePage {
     public api:ApiDefinition = [
@@ -43,13 +43,14 @@ export class CollapsePage {
             ]
         }
     ];
-    public exampleStandardTemplate = exampleStandardTemplate;
+    public exampleStandardTemplate:string = exampleStandardTemplate;
 
-    public polyfillInclude = `<script src="https://rawgit.com/web-animations/web-animations-js/master/web-animations.min.js"></script>`;
+    public polyfillInclude:string =
+`<script src="https://rawgit.com/web-animations/web-animations-js/master/web-animations.min.js"></script>`;
 }
 
 @Component({
-    selector: 'collapse-example-standard',
+    selector: "example-collapse-standard",
     template: exampleStandardTemplate
 })
 export class CollapseExampleStandard {

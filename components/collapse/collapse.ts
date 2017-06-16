@@ -1,37 +1,36 @@
-import {Directive, ElementRef, Input, HostBinding, Renderer2, HostListener} from '@angular/core';
+import { Directive, ElementRef, Input, HostBinding, Renderer2, HostListener } from "@angular/core";
 
 @Directive({
-    selector: '[suiCollapse]'
+    selector: "[suiCollapse]"
 })
 export class SuiCollapse {
     // Set when the collapse is open, and not animating.
-    @HostBinding('class.expanded')
+    @HostBinding("class.expanded")
     private _isExpanded:boolean;
 
     // Set when the collapse is closed, and not animating.
-    @HostBinding('class.collapsed')
-    private get isCollapsed() {
+    @HostBinding("class.collapsed")
+    private get _isCollapsed():boolean {
         return !this._isExpanded && !this._isCollapsing;
     }
 
     // Set when the collapse is animating.
-    @HostBinding('class.collapsing')
+    @HostBinding("class.collapsing")
     private _isCollapsing:boolean;
 
     // Flag that is initially true, to make the 1st animation instantaneous.
     private _pristine:boolean;
 
     @Input()
-    private get suiCollapse():boolean {
+    public get suiCollapse():boolean {
         return this._isExpanded;
     }
 
     // Sets the state of the collapse, `true` is collapsed.
-    private set suiCollapse(value:boolean) {
+    public set suiCollapse(value:boolean) {
         if (value) {
             this.hide();
-        }
-        else {
+        } else {
             this.show();
         }
     }
@@ -39,7 +38,7 @@ export class SuiCollapse {
     @Input()
     public collapseDuration:number;
 
-    private get _animationDuration() {
+    private get _animationDuration():number {
         return this._pristine ? 0 : this.collapseDuration;
     }
 
@@ -53,12 +52,12 @@ export class SuiCollapse {
         this._isCollapsing = false;
     }
 
-    public hide() {
+    public hide():void {
         this._isCollapsing = true;
         this._isExpanded = false;
 
         // Forcibly hide the overflow so that content is not visible past the boundaries of its container.
-        this._renderer.setStyle(this._element.nativeElement, 'overflow', 'hidden');
+        this._renderer.setStyle(this._element.nativeElement, "overflow", "hidden");
 
         // Animate the host element from its scroll height to 0.
         this.animate(this._element.nativeElement.scrollHeight, 0, false, () => {
@@ -66,20 +65,20 @@ export class SuiCollapse {
         });
     }
 
-    public show() {
+    public show():void {
         this._isCollapsing = true;
 
         // Animate the host element from its offset height to its scroll height.
         this.animate(this._element.nativeElement.offsetHeight, this._element.nativeElement.scrollHeight, true, () => {
             // Remove the overflow override to enable user styling once again.
-            this._renderer.removeStyle(this._element.nativeElement, 'overflow');
+            this._renderer.removeStyle(this._element.nativeElement, "overflow");
 
             this._isCollapsing = false;
             this._isExpanded = true;
         });
     }
 
-    private animate(startHeight:number, endHeight:number, removeOnComplete:boolean = false, callback:() => void = () => {}) {
+    private animate(startHeight:number, endHeight:number, removeOnComplete:boolean = false, callback:() => void = () => {}):void {
         const heightFrames = [
             {
                 offset: 0,

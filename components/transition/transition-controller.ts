@@ -1,5 +1,5 @@
-import {Renderer2, ElementRef, ChangeDetectorRef} from '@angular/core';
-import {Transition, TransitionDirection} from './transition';
+import { Renderer2, ElementRef, ChangeDetectorRef } from "@angular/core";
+import { Transition, TransitionDirection } from "./transition";
 
 export class TransitionController {
     private _renderer:Renderer2;
@@ -9,7 +9,7 @@ export class TransitionController {
     private _changeDetector:ChangeDetectorRef;
 
     // Used to delay animations until we have an element to animate.
-    private get _isReady() {
+    private get _isReady():boolean {
         return this._renderer != null && this._element != null && this._changeDetector != null;
     }
 
@@ -21,31 +21,31 @@ export class TransitionController {
 
     private _isAnimating:boolean;
 
-    public get isAnimating() {
+    public get isAnimating():boolean {
         return this._isAnimating;
     }
 
     // Set when the element is visible, and while it is transitioning out.
     private _isVisible:boolean;
 
-    public get isVisible() {
+    public get isVisible():boolean {
         return this._isVisible;
     }
 
     // Set when the element is hidden, and not while it is transitioning.
     private _isHidden:boolean;
 
-    public get isHidden() {
+    public get isHidden():boolean {
         return this._isHidden;
     }
 
     // Gets the first transition in the queue.
-    private get _queueFirst() {
+    private get _queueFirst():Transition {
         return this._queue[0];
     }
 
     // Gets the last transition in the queue.
-    private get _queueLast() {
+    private get _queueLast():Transition {
         return this._queue[this._queue.length - 1];
     }
 
@@ -64,36 +64,39 @@ export class TransitionController {
     }
 
     // Sets the renderer to be used for animating.
-    public registerRenderer(renderer:Renderer2) {
+    public registerRenderer(renderer:Renderer2):void {
         this._renderer = renderer;
         this.performTransition();
     }
 
     // Sets the element to perform the animations on.
-    public registerElement(element:ElementRef) {
+    public registerElement(element:ElementRef):void {
         this._element = element;
         this.performTransition();
     }
 
     // Sets the change detector to detect changes when using ChangeDetectionStrategy.OnPush.
-    public registerChangeDetector(changeDetector:ChangeDetectorRef) {
+    public registerChangeDetector(changeDetector:ChangeDetectorRef):void {
         this._changeDetector = changeDetector;
         this.performTransition();
     }
 
-    public animate(transition:Transition) {
+    public animate(transition:Transition):void {
         // Test if transition is one of the list that doesn't change the visible state.
         // Should these eventually become classes?
-        let isDirectionless = ["jiggle", "flash", "shake", "pulse", "tada", "bounce"].indexOf(transition.type) != -1;
+        const isDirectionless = ["jiggle", "flash", "shake", "pulse", "tada", "bounce"].indexOf(transition.type) !== -1;
         if (isDirectionless) {
             transition.direction = TransitionDirection.Static;
-        }
-        else if (transition.direction == null || transition.direction == TransitionDirection.Either) {
+        } else if (transition.direction == null || transition.direction === TransitionDirection.Either) {
             // Set the direction to the opposite of the current visible state automatically if not set, or set to either direction.
             transition.direction = this._isVisible ? TransitionDirection.Out : TransitionDirection.In;
             if (this._queueLast) {
                 // If there is an transition in the queue already, set the direction to the opposite of the direction of that transition.
-                transition.direction = this._queueLast.direction == TransitionDirection.In ? TransitionDirection.Out : TransitionDirection.In;
+                if (this._queueLast.direction === TransitionDirection.In) {
+                    transition.direction = TransitionDirection.Out;
+                } else if (this._queueLast.direction === TransitionDirection.Out) {
+                    transition.direction = TransitionDirection.In;
+                }
             }
         }
 
@@ -103,7 +106,7 @@ export class TransitionController {
         this.performTransition();
     }
 
-    private performTransition() {
+    private performTransition():void {
         if (!this._isReady || this._isAnimating || !this._queueFirst) {
             // Don't transition until we are ready, or if we are animating, or if there aren't any transitions in the queue.
             return;
@@ -111,7 +114,7 @@ export class TransitionController {
 
         this._isAnimating = true;
 
-        let transition = this._queueFirst;
+        const transition = this._queueFirst;
 
         // Set the Semantic UI classes for transitioning.
         transition.classes.forEach(c => this._renderer.addClass(this._element, c));
@@ -122,7 +125,7 @@ export class TransitionController {
         this._renderer.setStyle(this._element, `animationDuration`, `${transition.duration}ms`);
         this._renderer.setStyle(this._element, `display`, this._display);
 
-        if (transition.direction == TransitionDirection.In) {
+        if (transition.direction === TransitionDirection.In) {
             // Unset hidden if we are transitioning in.
             this._isHidden = false;
         }
@@ -132,7 +135,7 @@ export class TransitionController {
     }
 
     // Called when a transition has completed.
-    private finishTransition(transition:Transition) {
+    private finishTransition(transition:Transition):void {
         // Unset the Semantic UI classes & styles for transitioning.
         transition.classes.forEach(c => this._renderer.removeClass(this._element, c));
         this._renderer.removeClass(this._element, `animating`);
@@ -141,11 +144,10 @@ export class TransitionController {
         this._renderer.removeStyle(this._element, `animationDuration`);
         this._renderer.removeStyle(this._element, `display`);
 
-        if (transition.direction == TransitionDirection.In) {
+        if (transition.direction === TransitionDirection.In) {
             // If we have just animated in, we are now visible.
             this._isVisible = true;
-        }
-        else if (transition.direction == TransitionDirection.Out) {
+        } else if (transition.direction === TransitionDirection.Out) {
             // If we have transitioned out, we should be invisible and hidden.
             this._isVisible = false;
             this._isHidden = true;
@@ -167,7 +169,7 @@ export class TransitionController {
     }
 
     // Stops the current transition, leaves the rest of the queue intact.
-    public stop(transition:Transition = this._queueFirst) {
+    public stop(transition:Transition = this._queueFirst):void {
         if (!transition || !this._isAnimating) {
             return;
         }
@@ -177,13 +179,13 @@ export class TransitionController {
     }
 
     // Stops the current transition, and empties the queue.
-    public stopAll() {
+    public stopAll():void {
         this.clearQueue();
         this.stop();
     }
 
     // Empties the transition queue but carries on with the current transition.
-    public clearQueue() {
+    public clearQueue():void {
         if (this.isAnimating) {
             this._queue = [this._queueFirst];
             return;

@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {ApiDefinition} from '../../components/api/api.component';
+import { Component } from "@angular/core";
+import { ApiDefinition } from "../../components/api/api.component";
 
 const exampleStandardTemplate = `
 <sui-accordion [closeOthers]="false">
@@ -9,7 +9,8 @@ const exampleStandardTemplate = `
             Intially Expanded Panel
         </div>
         <div content>
-            <p>Using <code>[isOpen]</code> sets the panel to be expanded. Use <code>(isOpenChange)</code> to catch when the panel is toggled.</p>
+            <p>Using <code>[isOpen]</code> sets the panel to be expanded.</p>
+            <p>Use <code>(isOpenChange)</code> to catch when the panel is toggled.</p>
             <p>Supports <code>[(isOpen)]</code> syntax.</p>
         </div>
     </sui-accordion-panel>
@@ -73,13 +74,13 @@ const exampleManualTemplate = `
 `;
 
 @Component({
-    selector: 'demo-page-accordion',
-    templateUrl: './accordion.page.html'
+    selector: "demo-page-accordion",
+    templateUrl: "./accordion.page.html"
 })
 export class AccordionPage {
     public api:ApiDefinition = [
         {
-            selector: '<sui-accordion>',
+            selector: "<sui-accordion>",
             properties: [
                 {
                     name: "closeOthers",
@@ -102,7 +103,7 @@ export class AccordionPage {
             ]
         },
         {
-            selector: '<sui-accordion-panel>',
+            selector: "<sui-accordion-panel>",
             properties: [
                 {
                     name: "isOpen",
@@ -126,25 +127,25 @@ export class AccordionPage {
             ]
         }
     ];
-    public exampleStandardTemplate = exampleStandardTemplate;
-    public exampleStyledTemplate = exampleStyledTemplate;
-    public exampleManualTemplate = exampleManualTemplate;
+    public exampleStandardTemplate:string = exampleStandardTemplate;
+    public exampleStyledTemplate:string = exampleStyledTemplate;
+    public exampleManualTemplate:string = exampleManualTemplate;
 }
 
 @Component({
-    selector: 'accordion-example-standard',
+    selector: "example-accordion-standard",
     template: exampleStandardTemplate
 })
 export class AccordionExampleStandard {}
 
 @Component({
-    selector: 'accordion-example-styled',
+    selector: "example-accordion-styled",
     template: exampleStyledTemplate
 })
 export class AccordionExampleStyled {}
 
 @Component({
-    selector: 'accordion-example-manual',
+    selector: "example-accordion-manual",
     template: exampleManualTemplate
 })
 export class AccordionExampleManual {
@@ -152,4 +153,3 @@ export class AccordionExampleManual {
 }
 
 export const AccordionPageComponents = [AccordionPage, AccordionExampleStandard, AccordionExampleStyled, AccordionExampleManual];
-
