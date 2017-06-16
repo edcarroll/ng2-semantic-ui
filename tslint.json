@@ -38,9 +38,9 @@
       ["class", "pascal"],
       ["interface", "pascal", { "regex": "^I.*$" }],
       ["parameter", "camel"],
-      ["property", "static", "camel"],
       ["property", "private", "camel", "require-leading-underscore"],
       ["property", "protected", "camel", "require-leading-underscore"],
+      ["property", "camel"],
       ["method", "camel"],
       ["function", "camel"]
     ],

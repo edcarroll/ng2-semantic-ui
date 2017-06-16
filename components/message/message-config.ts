@@ -37,7 +37,7 @@ export class MessageConfig {
         this.extendedTimeout = 1000;
 
         this.hasDismissButton = true;
-        this.hasProgress = true;
+        this.hasProgress = false;
 
         this.transition = "fade";
         this.transitionInDuration = 400;

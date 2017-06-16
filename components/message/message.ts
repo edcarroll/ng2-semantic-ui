@@ -29,6 +29,7 @@ export interface IMessage {
     <sui-progress *ngIf="isDynamic && hasProgress"
                   class="bottom attached"
                   [value]="timeoutProgress"
+                  [autoSuccess]="false"
                   transition="linear"
                   [transitionDuration]="currentTimeout"
                   [canCompletelyEmpty]="true"></sui-progress>
@@ -141,6 +142,7 @@ export class SuiMessage implements IMessage {
     public dismiss():void {
         this.isDismissing = true;
         this.transitionOutDuration = this.transitionInDuration;
+
         this.hide();
     }
 

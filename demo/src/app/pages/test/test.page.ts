@@ -16,7 +16,7 @@ export class TestPage {
 
     public open():void {
         const message = new MessageConfig(null, MessageState.Default, Date.now().toString());
-        message.state = MessageState.Success;
+        message.state = MessageState.Default;
 
         this.controller.show(message);
     }
