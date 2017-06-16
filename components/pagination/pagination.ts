@@ -3,19 +3,19 @@ import { Component, Input, Output, OnChanges, SimpleChanges, EventEmitter, HostB
 @Component({
     selector: "sui-pagination",
     template: `
-<a *ngIf="hasBoundaryLinks" class="item"  (click)="selectPage(1)" [class.disabled]="page===1">
+<a *ngIf="hasBoundaryLinks" class="item"  (click)="setPage(1)" [class.disabled]="page===1">
     <span><i class="angle double left icon"></i></span>
 </a>
-<a *ngIf="hasNavigation" class="item" (click)="selectPage(page-1)" [class.disabled]="!hasPrevious()">
+<a *ngIf="hasNavigation" class="item" (click)="setPage(page-1)" [class.disabled]="!hasPrevious()">
     <span><i class="angle left icon"></i></span>
 </a>
-<a *ngFor="let p of pages" class="item" [class.active]="p===page" (click)="selectPage(p)">
+<a *ngFor="let p of pages" class="item" [class.active]="p===page" (click)="setPage(p)">
     {{ p }}
 </a>
-<a *ngIf="hasNavigation" class="item" (click)="selectPage(page+1)" [class.disabled]="!hasNext()">
+<a *ngIf="hasNavigation" class="item" (click)="setPage(page+1)" [class.disabled]="!hasNext()">
     <span><i class="angle right icon"></i></span>
 </a>
-<a *ngIf="hasBoundaryLinks" class="item"  (click)="selectPage(pageCount)" [class.disabled]="page===pageCount">
+<a *ngIf="hasBoundaryLinks" class="item"  (click)="setPage(pageCount)" [class.disabled]="page===pageCount">
     <span><i class="angle double right icon"></i></span>
 </a>
 `
@@ -28,7 +28,6 @@ export class SuiPagination implements OnChanges {
     private _paginationClasses:boolean;
 
     // Public members
-    public pages:number[];
     public pageCount:number;
 
     @Output()
@@ -71,7 +70,7 @@ export class SuiPagination implements OnChanges {
 
     @Input()
     public get hasNavigation():boolean {
-        return this._hasNavigation;
+        return this._hasNavigation || this._maxSize < this.pageCount;
     }
 
     public set hasNavigation(value:boolean) {
@@ -93,22 +92,26 @@ export class SuiPagination implements OnChanges {
     }
 
     public set page(value:number) {
-        if (value !== this._page) {
-            this._page = value;
-            this.pageChange.emit(this._page);
-        }
+        this.setPage(value);
+    }
+
+    public get pages():number[] {
+        const [start, end] = this.applyPagination();
+
+        return Array<number>(end - start)
+            .fill(start + 1)
+            .map((s, i) => s + i);
     }
 
     constructor() {
         this._paginationClasses = true;
-        this.pages = [];
         this.pageChange = new EventEmitter<number>();
 
-        // this._maxSize = undefined;
         this.collectionSize = 100;
         this.pageSize = 10;
         this.page = 1;
         this.hasNavigation = false;
+        this.hasBoundaryLinks = false;
     }
 
     // Public methods
@@ -120,46 +123,38 @@ export class SuiPagination implements OnChanges {
         return this.page < this.pageCount;
     }
 
-    public selectPage(newPage:number):void {
-        this.updatePages(newPage);
+    public setPage(newPage:number):void {
+        const value:number = (Number.isInteger(newPage)) ? Math.min(Math.max(newPage, 1), this.pageCount) : 1;
+        if (value !== this._page) {
+            this._page = value;
+            this.pageChange.emit(this._page);
+        }
     }
 
-    public ngOnChanges():void {
+    // Lifecycle hooks
+    public ngOnChanges(changes:SimpleChanges):void {
+        console.log(changes);
         this.updatePages(this.page);
     }
 
     // Private methods
     private updatePages(newPage:number):void {
-        this.pageCount = Math.ceil(this._collectionSize / this._pageSize);
+        this.pageCount = Math.max(1, Math.ceil(this._collectionSize / this._pageSize));
 
-        this.pages.length = 0;
-        for (let i = 0; i < this.pageCount; ++i) {
-            this.pages.push(i + 1);
-        }
-
-        this.page = this.setPageInRange(newPage);
-
-        if (this._maxSize && this._maxSize < this.pageCount) {
-            let start = 0;
-            let end = this.pageCount;
-
-            [start, end] = this.applyPagination();
-
-            this.pages = this.pages.slice(start, end);
-
-            this.hasNavigation = true;
-        }
-    }
-
-    private setPageInRange(newPage:number):number {
-        return Math.min(Math.max(newPage, 1), this.pageCount);
+        this.setPage(newPage);
     }
 
     private applyPagination():[number, number] {
-        const page = Math.ceil(this.page / this.maxSize) - 1;
-        const start = page * this.maxSize;
-        const end = start + this.maxSize;
 
+        let start = 0;
+        let end = this.pageCount;
+
+        if (this.maxSize !== undefined && this.maxSize < this.pageCount) {
+
+            const page = Math.ceil(this.page / this.maxSize) - 1;
+            start = page * this.maxSize;
+            end = start + this.maxSize;
+        }
         return [start, end];
     }
 

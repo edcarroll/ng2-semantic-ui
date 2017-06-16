@@ -23,15 +23,21 @@ const exampleStandardTemplate = `
 const exampleMaxSizeTemplate = `
 <div class="ui segments">
     <div class="ui segment">
-        <sui-pagination [collectionSize]="100" [pageSize]="10" [maxSize]="5" [hasBoundaryLinks]="showBoundary"
+        <sui-pagination [collectionSize]="100" [pageSize]="10" [maxSize]="maxSize" [hasBoundaryLinks]="showBoundary"
             [(page)]="selectedPage">
         </sui-pagination>
         <p>Current page: {{ selectedPage }}</p>
     </div>
     <div class="ui segment">
-        <button class="ui primary button" (click)="showBoundary = !showBoundary">
-            Toggle Boundary
-        </button>
+        <div class="ui small form">
+            <button class="ui primary button" (click)="showBoundary = !showBoundary">
+                Toggle Boundary
+            </button>
+            <div class="field">
+                <label>Max Size</label>
+                <input type="number" [(ngModel)]=maxSize>
+            </div>
+        </div>
     </div>
 </div>
 `;
@@ -62,7 +68,7 @@ export class PaginationPage implements OnInit {
                     name: "hasNavigation",
                     type: "boolean",
                     description: "Whetever or not the navigation links (<code><</code> and <code>></code>) are displayed. " +
-                        "Automatically set to true is maxSize < pageCount.",
+                        "Forced to be displayed when <code>maxSize</code> is lesser than required page count.",
                     defaultValue: "false"
                 },
                 {
@@ -132,12 +138,14 @@ export class PaginationExampleMaxSize implements OnInit {
 
     public selectedPage:number;
     public showBoundary:boolean;
+    public maxSize:number;
 
     constructor() { }
 
     public ngOnInit():void {
         this.selectedPage = 1;
         this.showBoundary = false;
+        this.maxSize = 5;
     }
 }
 
