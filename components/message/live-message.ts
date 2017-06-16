@@ -1,4 +1,4 @@
-import {MessageConfig} from './message-config';
+import { MessageConfig } from "./message-config";
 
 export class LiveMessage {
     public config:MessageConfig;
@@ -11,15 +11,15 @@ export class LiveMessage {
         this._displayTimeout = window.setTimeout(() => this.onTimedOut(), this.config.timeout);
     }
 
-    public onMouseEnter() {
+    public onMouseEnter():void {
         clearTimeout(this._displayTimeout);
     }
 
-    public onMouseLeave() {
+    public onMouseLeave():void {
         this._displayTimeout = window.setTimeout(() => this.onTimedOut(), this.config.extendedTimeout);
     }
 
-    public onTimedOut() {
+    public onTimedOut():void {
         console.log("bye");
     }
 }

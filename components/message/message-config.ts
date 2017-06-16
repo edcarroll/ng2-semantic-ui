@@ -1,4 +1,4 @@
-import {EventEmitter} from '@angular/core';
+import { EventEmitter } from "@angular/core";
 
 export type MessageState = "" | "info" | "success" | "warning" | "error";
 
@@ -8,7 +8,7 @@ export const MessageState = {
     Success: "success" as MessageState,
     Warning: "warning" as MessageState,
     Error: "error" as MessageState
-}
+};
 
 export class MessageConfig {
     public text:string;

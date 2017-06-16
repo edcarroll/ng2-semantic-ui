@@ -1,10 +1,10 @@
-import {Component, EventEmitter, Input} from '@angular/core';
-import {MessageConfig} from './message-config';
-import {LiveMessage} from './live-message';
-import {ActiveMessage} from './active-message';
+import { Component, EventEmitter, Input } from "@angular/core";
+import { MessageConfig } from "./message-config";
+import { LiveMessage } from "./live-message";
+import { ActiveMessage } from "./active-message";
 
 @Component({
-    selector: 'sui-message-container',
+    selector: "sui-message-container",
     template: `
 <sui-message *ngFor="let message of _messages">
     <div class="header" *ngIf="message.config.header">{{ message.config.header }}</div>
@@ -26,11 +26,10 @@ export class SuiMessageContainer {
         this.maxShown = 10;
     }
 
-    public show(message:MessageConfig) {
-        if (this._messages.length == this.maxShown) {
+    public show(message:MessageConfig):ActiveMessage {
+        if (this._messages.length === this.maxShown) {
             this._queue.push(message);
-        }
-        else {
+        } else {
             const live = new LiveMessage(message);
 
             this._messages.push(live);
