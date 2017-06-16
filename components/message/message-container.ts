@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, ComponentFactoryResolver, ViewContainer
 import { MessageConfig } from "./message-config";
 import { ActiveMessage } from "./active-message";
 import { SuiMessage } from "./message";
+import { SuiComponentFactory } from "../util/component-factory.service";
 
 @Component({
     selector: "sui-message-container",
@@ -15,7 +16,8 @@ export class SuiMessageContainer {
     @Input()
     public maxShown:number;
 
-    constructor(private _viewContainerRef:ViewContainerRef,
+    constructor(private _componentGenerator:SuiComponentFactory,
+                private _viewContainerRef:ViewContainerRef,
                 private _componentFactoryResolver:ComponentFactoryResolver) {
 
         this._messages = [];

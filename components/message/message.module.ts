@@ -3,11 +3,13 @@ import { CommonModule } from "@angular/common";
 import { SuiTransitionModule } from "../transition/transition.module";
 import { SuiMessageContainer } from "./message-container";
 import { SuiMessage, IMessage } from "./message";
+import { SuiUtilityModule } from "../util/util.module";
 
 @NgModule({
     imports: [
         CommonModule,
-        SuiTransitionModule
+        SuiTransitionModule,
+        SuiUtilityModule
     ],
     declarations: [
         SuiMessage,

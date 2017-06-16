@@ -1,4 +1,4 @@
-import { TemplateRef } from "@angular/core";
+import { TemplateRef, Type } from "@angular/core";
 import { ModalControls, ModalResult } from "./modal-controls";
 import { ModalTemplate } from "./modal-template";
 
@@ -64,9 +64,9 @@ export class TemplateModalConfig<T, U = null, V = null> extends ModalConfig<T, U
 
 // Used when creating a modal from an existing component.
 export class ComponentModalConfig<T, U = null, V = null> extends ModalConfig<T, U, V> {
-    public component:Function;
+    public component:Type<any>;
 
-    constructor(component:Function, context:T = null, isClosable:boolean = true) {
+    constructor(component:Type<any>, context:T = null, isClosable:boolean = true) {
         super(context, isClosable);
 
         this.component = component;

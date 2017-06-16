@@ -8,12 +8,14 @@ import { Modal, ModalResult, ModalControls } from "./modal-controls";
 import { ActiveModal } from "./active-modal";
 import { ModalConfig, TemplateModalConfig, ComponentModalConfig, ModalSize } from "./modal-config";
 import { ModalTemplate } from "./modal-template";
+import { SuiUtilityModule } from "../util/util.module";
 
 @NgModule({
     imports: [
         CommonModule,
         SuiDimmerModule,
-        SuiTransitionModule
+        SuiTransitionModule,
+        SuiUtilityModule
     ],
     declarations: [
         SuiModal
