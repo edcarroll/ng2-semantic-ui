@@ -35,7 +35,7 @@ export class SuiComponentFactory {
 
     // Inserts the component into the specified view container.
     public attachToView<T>(viewContainer:ViewContainerRef, componentRef:ComponentRef<T>):void {
-        viewContainer.insert(componentRef.hostView);
+        viewContainer.insert(componentRef.hostView, 0);
     }
 
     // Inserts the component in the root application node.
