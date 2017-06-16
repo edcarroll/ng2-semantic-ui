@@ -39,8 +39,8 @@ export class SuiMessage implements IMessage {
     public timeout:number;
     public extendedTimeout:number;
 
-    @Input("isDismissable")
-    public closeButton:boolean;
+    @Input()
+    public hasDismissButton:boolean;
 
     public transitionController:TransitionController;
 
@@ -90,7 +90,7 @@ export class SuiMessage implements IMessage {
         this.timeout = config.timeout;
         this.extendedTimeout = config.extendedTimeout;
 
-        this.closeButton = config.closeButton;
+        this.hasDismissButton = config.hasDismissButton;
 
         this.transition = config.transition;
         this.transitionInDuration = config.transitionInDuration;

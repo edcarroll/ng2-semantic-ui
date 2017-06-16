@@ -11,7 +11,7 @@ const exampleStandardTemplate = `
 `;
 
 const exampleNoDismissTemplate = `
-<sui-message class="attached warning" [isDismissable]="false">
+<sui-message class="attached warning" [hasDismissButton]="false">
     <div class="header">
         Attached message!
     </div>
@@ -32,7 +32,7 @@ export class MessagePage {
             selector: "<sui-message>",
             properties: [
                 {
-                    name: "isDismissable",
+                    name: "hasDismissButton",
                     type: "boolean",
                     description: "Sets whether or not the message has a dismiss button.",
                     defaultValue: "true"

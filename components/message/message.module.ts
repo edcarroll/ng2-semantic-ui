@@ -4,6 +4,9 @@ import { SuiTransitionModule } from "../transition/transition.module";
 import { SuiMessageContainer } from "./message-container";
 import { SuiMessage, IMessage } from "./message";
 import { SuiUtilityModule } from "../util/util.module";
+import { MessageController } from "./message-controller";
+import { MessageConfig, MessageState } from "./message-config";
+import { SuiActiveMessage } from "./active-message";
 
 @NgModule({
     imports: [
@@ -26,4 +29,11 @@ import { SuiUtilityModule } from "../util/util.module";
 })
 export class SuiMessageModule {}
 
-export {IMessage};
+export {
+    IMessage,
+    SuiMessageContainer,
+    MessageController,
+    MessageConfig,
+    SuiActiveMessage,
+    MessageState
+};

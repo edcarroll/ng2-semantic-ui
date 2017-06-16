@@ -18,7 +18,7 @@ export class MessageConfig {
     public timeout:number;
     public extendedTimeout:number;
 
-    public closeButton:boolean;
+    public hasDismissButton:boolean;
 
     public transition:string;
     public transitionInDuration:number;
@@ -35,7 +35,7 @@ export class MessageConfig {
         this.timeout = 5000;
         this.extendedTimeout = 1000;
 
-        this.closeButton = true;
+        this.hasDismissButton = true;
 
         this.transition = "fade";
         this.transitionInDuration = 400;
