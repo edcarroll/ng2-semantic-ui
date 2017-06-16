@@ -11,10 +11,20 @@ export class MessageController {
     }
 
     public show(config:MessageConfig):SuiActiveMessage {
+        this.throwContainerError();
+
+        return this._container.show(config);
+    }
+
+    public dismissAll():void {
+        this.throwContainerError();
+
+        return this._container.dismissAll();
+    }
+
+    private throwContainerError() {
         if (!this._container) {
             throw new Error("You must pass this controller to a message container.");
         }
-
-        return this._container.show(config);
     }
 }

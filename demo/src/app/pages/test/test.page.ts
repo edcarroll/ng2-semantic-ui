@@ -15,8 +15,9 @@ export class TestPage {
     }
 
     public open():void {
-        const message = new MessageConfig(null, MessageState.Default, Date.now().toString());
+        const message = new MessageConfig("hello, world!", MessageState.Default, "Header");
         message.state = MessageState.Default;
+        message.hasProgress = true;
 
         this.controller.show(message);
     }

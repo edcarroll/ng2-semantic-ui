@@ -85,6 +85,11 @@ export class SuiMessageContainer {
         this._queue.push(message);
     }
 
+    public dismissAll():void {
+        this._queue = [];
+        this._messages.forEach(m => m.dismiss());
+    }
+
     private onMessageClose(message:ActiveMessage):void {
         this._messages = this._messages.filter(m => m !== message);
 
