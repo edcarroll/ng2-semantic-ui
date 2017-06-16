@@ -2,8 +2,18 @@ import { ModalConfig } from "./modal-config";
 import { SuiModal } from "./modal";
 import { ComponentRef } from "@angular/core";
 
+export abstract class SuiActiveModal<T, U, V> {
+    public abstract onApprove(callback:(result:U) => void):SuiActiveModal<T, U, V>;
+    public abstract onDeny(callback:(result:V) => void):SuiActiveModal<T, U, V>;
+
+    public abstract approve(result:U):void;
+    public abstract deny(result:V):void;
+
+    public abstract destroy():void;
+}
+
 // Helper class to support method chaining when calling `SuiModalService.open(...)`.
-export class ActiveModal<T, U, V> {
+export class ActiveModal<T, U, V> implements SuiActiveModal<T, U, V> {
     private _config:ModalConfig<T, U, V>;
     private _componentRef:ComponentRef<SuiModal<U, V>>;
 

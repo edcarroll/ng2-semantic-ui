@@ -2,14 +2,14 @@ import { Injectable, ApplicationRef, ComponentFactoryResolver, Injector, Type, R
 import { ModalConfig, TemplateModalConfig, ComponentModalConfig } from "./modal-config";
 import { SuiModal } from "./modal";
 import { Modal } from "./modal-controls";
-import { ActiveModal } from "./active-modal";
+import { ActiveModal, SuiActiveModal } from "./active-modal";
 import { SuiComponentFactory } from "../util/component-factory.service";
 
 @Injectable()
 export class SuiModalService {
     constructor(private _componentFactory:SuiComponentFactory) {}
 
-    public open<T, U, V>(modal:ModalConfig<T, U, V>):ActiveModal<T, U, V> {
+    public open<T, U, V>(modal:ModalConfig<T, U, V>):SuiActiveModal<T, U, V> {
         // Generate the modal component to be shown.
         const componentRef = this._componentFactory.createComponent<SuiModal<U, V>>(SuiModal);
 

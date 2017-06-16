@@ -6,7 +6,7 @@ import { SuiUtilityModule } from "../util/util.module";
 import { SuiModalService } from "./modal.service";
 import { SuiModal } from "./modal";
 import { Modal, ModalResult, ModalControls } from "./modal-controls";
-import { ActiveModal } from "./active-modal";
+import { ActiveModal, SuiActiveModal } from "./active-modal";
 import { ModalConfig, TemplateModalConfig, ComponentModalConfig, ModalSize } from "./modal-config";
 import { ModalTemplate } from "./modal-template";
 
@@ -37,7 +37,7 @@ export {
     Modal as SuiModal,
     ModalResult,
     ModalControls,
-    ActiveModal as SuiActiveModal,
+    SuiActiveModal,
     ModalConfig,
     TemplateModalConfig,
     ComponentModalConfig,
