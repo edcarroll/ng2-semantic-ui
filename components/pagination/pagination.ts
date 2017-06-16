@@ -1,60 +1,54 @@
-import { Component, Input, Output, OnChanges, SimpleChanges, EventEmitter } from "@angular/core";
+import { Component, Input, Output, OnChanges, SimpleChanges, EventEmitter, HostBinding } from "@angular/core";
 
 @Component({
     selector: "sui-pagination",
     template: `
-<div class="ui pagination menu">
-    <a *ngIf="showBoundary" class="item"  (click)="selectPage(1)" [ngClass]="{'disabled': page===1}">
-        <i class="fast backward icon"></i>
-    </a>
-    <a *ngIf="showNavigation" class="item" (click)="selectPage(page-1)" [ngClass]="{'disabled': !hasPrevious()}">
-        <i class="step backward icon"></i>
-    </a>
-    <a *ngFor="let p of pages" class="item" [ngClass]="{'active':p==page}" (click)="page=p">
-        {{ p }}
-    </a>
-    <a *ngIf="showNavigation" class="item" (click)="selectPage(page+1)" [ngClass]="{'disabled': !hasNext()}">
-        <i class="step forward icon"></i>
-    </a>
-    <a *ngIf="showBoundary" class="item"  (click)="selectPage(pageCount)" [ngClass]="{'disabled': page===pageCount}">
-        <i class="fast forward icon"></i>
-    </a>
-</div>
+<a *ngIf="hasBoundaryLinks" class="item"  (click)="selectPage(1)" [class.disabled]="page===1">
+    <span><i class="angle double left icon"></i></span>
+</a>
+<a *ngIf="hasNavigation" class="item" (click)="selectPage(page-1)" [class.disabled]="!hasPrevious()">
+    <span><i class="angle left icon"></i></span>
+</a>
+<a *ngFor="let p of pages" class="item" [class.active]="p===page" (click)="selectPage(p)">
+    {{ p }}
+</a>
+<a *ngIf="hasNavigation" class="item" (click)="selectPage(page+1)" [class.disabled]="!hasNext()">
+    <span><i class="angle right icon"></i></span>
+</a>
+<a *ngIf="hasBoundaryLinks" class="item"  (click)="selectPage(pageCount)" [class.disabled]="page===pageCount">
+    <span><i class="angle double right icon"></i></span>
+</a>
 `
 })
 export class SuiPagination implements OnChanges {
 
+    @HostBinding("class.ui")
+    @HostBinding("class.pagination")
+    @HostBinding("class.menu")
+    private _paginationClasses:boolean;
+
     // Public members
-    public pages:number[] = [];
+    public pages:number[];
     public pageCount:number;
 
     @Output()
-    public pageChanged:EventEmitter<number> = new EventEmitter<number>();
+    public pageChange:EventEmitter<number>;
 
     // Private members
-    private _maxSize:number;
+    private _maxSize?:number;
     private _collectionSize:number;
     private _pageSize:number;
     private _page:number;
-    private _showBoundary:boolean;
-    private _showNavigation:boolean;
+    private _hasBoundaryLinks:boolean;
+    private _hasNavigation:boolean;
 
-    constructor() {
-        this.maxSize = 0;
-        this.collectionSize = 100;
-        this.pageSize = 10;
-        this.page = 0;
-        this.showNavigation = false;
-    }
-
-    // Public methods
     @Input()
     public get maxSize():number {
         return this._maxSize;
     }
 
     public set maxSize(value:number) {
-        this._maxSize = value;
+        this._maxSize = (value !== undefined) ? Math.max(value, 1) : undefined;
     }
 
     @Input()
@@ -63,7 +57,7 @@ export class SuiPagination implements OnChanges {
     }
 
     public set collectionSize(value:number) {
-        this._collectionSize = value;
+        this._collectionSize = Math.max(value, 0);
     }
 
     @Input()
@@ -76,23 +70,24 @@ export class SuiPagination implements OnChanges {
     }
 
     @Input()
-    public get showNavigation():boolean {
-        return this._showNavigation;
+    public get hasNavigation():boolean {
+        return this._hasNavigation;
     }
 
-    public set showNavigation(value:boolean) {
-        this._showNavigation = value;
+    public set hasNavigation(value:boolean) {
+        this._hasNavigation = value;
     }
 
     @Input()
-    public get showBoundary():boolean {
-        return this._showBoundary;
+    public get hasBoundaryLinks():boolean {
+        return this._hasBoundaryLinks;
     }
 
-    public set showBoundary(value:boolean) {
-        this._showBoundary = value;
+    public set hasBoundaryLinks(value:boolean) {
+        this._hasBoundaryLinks = value;
     }
 
+    @Input()
     public get page():number {
         return this._page;
     }
@@ -100,10 +95,23 @@ export class SuiPagination implements OnChanges {
     public set page(value:number) {
         if (value !== this._page) {
             this._page = value;
-            this.pageChanged.emit(this._page);
+            this.pageChange.emit(this._page);
         }
     }
 
+    constructor() {
+        this._paginationClasses = true;
+        this.pages = [];
+        this.pageChange = new EventEmitter<number>();
+
+        // this._maxSize = undefined;
+        this.collectionSize = 100;
+        this.pageSize = 10;
+        this.page = 1;
+        this.hasNavigation = false;
+    }
+
+    // Public methods
     public hasPrevious():boolean {
         return this.page > 1;
     }
@@ -116,7 +124,7 @@ export class SuiPagination implements OnChanges {
         this.updatePages(newPage);
     }
 
-    public ngOnChanges(chages:SimpleChanges):void {
+    public ngOnChanges():void {
         this.updatePages(this.page);
     }
 
@@ -131,7 +139,7 @@ export class SuiPagination implements OnChanges {
 
         this.page = this.setPageInRange(newPage);
 
-        if (this._maxSize > 0 && this._maxSize < this.pageCount) {
+        if (this._maxSize && this._maxSize < this.pageCount) {
             let start = 0;
             let end = this.pageCount;
 
@@ -139,20 +147,15 @@ export class SuiPagination implements OnChanges {
 
             this.pages = this.pages.slice(start, end);
 
-            this.showNavigation = true;
+            this.hasNavigation = true;
         }
     }
 
     private setPageInRange(newPage:number):number {
-        if (newPage < 1) {
-            return 1;
-        } else if (newPage > this.pageCount) {
-            return this.pageCount;
-        }
-        return newPage;
+        return Math.min(Math.max(newPage, 1), this.pageCount);
     }
 
-    private applyPagination():number[] {
+    private applyPagination():[number, number] {
         const page = Math.ceil(this.page / this.maxSize) - 1;
         const start = page * this.maxSize;
         const end = start + this.maxSize;

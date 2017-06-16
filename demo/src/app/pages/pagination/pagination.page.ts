@@ -4,8 +4,8 @@ import { ApiDefinition } from "../../components/api/api.component";
 const exampleStandardTemplate = `
 <div class="ui segments">
     <div class="ui segment">
-        <sui-pagination [collectionSize]="100" [pageSize]="10" [showNavigation]="showNavigation" [showBoundary]="showBoundary"
-            (pageChanged)="onPageChanged($event)">
+        <sui-pagination [collectionSize]="100" [pageSize]="10" [hasNavigation]="showNavigation" [hasBoundaryLinks]="showBoundary"
+            [(page)]="selectedPage">
         </sui-pagination>
         <p>Current page: {{ selectedPage }}</p>
     </div>
@@ -23,8 +23,8 @@ const exampleStandardTemplate = `
 const exampleMaxSizeTemplate = `
 <div class="ui segments">
     <div class="ui segment">
-        <sui-pagination [collectionSize]="100" [pageSize]="10" [maxSize]="5" [showBoundary]="showBoundary"
-            (pageChanged)="onPageChanged($event)">
+        <sui-pagination [collectionSize]="100" [pageSize]="10" [maxSize]="5" [hasBoundaryLinks]="showBoundary"
+            [(page)]="selectedPage">
         </sui-pagination>
         <p>Current page: {{ selectedPage }}</p>
     </div>
@@ -48,35 +48,49 @@ export class PaginationPage implements OnInit {
                 {
                     name: "collectionSize",
                     type: "number",
-                    description: "The number of items in the collection",
+                    description: "Sets the number of items in the collection.",
                     defaultValue: "100",
                     required: true
                 },
                 {
+                    name: "hasBoundaryLinks",
+                    type: "boolean",
+                    description: "Whetever or not the boundary links (<code><<</code> and <code>>></code>) are displayed.",
+                    defaultValue: "false"
+                },
+                {
+                    name: "hasNavigation",
+                    type: "boolean",
+                    description: "Whetever or not the navigation links (<code><</code> and <code>></code>) are displayed. " +
+                        "Automatically set to true is maxSize < pageCount.",
+                    defaultValue: "false"
+                },
+                {
                     name: "maxSize",
                     type: "number",
-                    description: "The maximum number of items shown",
+                    description: "Sets the maximum number of links shown (boundary and navigation excluded).",
                     defaultValue: "0"
+                },
+                {
+                    name: "page",
+                    type: "number",
+                    description: "Sets the current page.",
+                    defaultValue: "1",
+                    required: true
                 },
                 {
                     name: "pageSize",
                     type: "number",
-                    description: "The number of items in each page",
+                    description: "Sets the number of items in each page.",
                     defaultValue: "10",
                     required: true
-                },
-                {
-                    name: "showNavigation",
-                    type: "boolean",
-                    description: "Show/Hide te prev/next items. Automatically set to true is maxSize < pageCount",
-                    defaultValue: "false"
                 }
             ],
             events: [
                 {
-                    name: "pageChanged",
+                    name: "pageChange",
                     type: "number",
-                    description: "Event fired when the current page changes"
+                    description: "Fires whenever the current page is changed. <code>[(page)]</code> syntax is supported."
                 }
             ]
         }
@@ -104,12 +118,9 @@ export class PaginationExampleStandard implements OnInit {
     constructor() { }
 
     public ngOnInit():void {
+        this.selectedPage = 1;
         this.showNavigation = false;
         this.showBoundary = false;
-    }
-
-    public onPageChanged($event:number):void {
-        this.selectedPage = $event;
     }
 }
 
@@ -125,11 +136,8 @@ export class PaginationExampleMaxSize implements OnInit {
     constructor() { }
 
     public ngOnInit():void {
+        this.selectedPage = 1;
         this.showBoundary = false;
-    }
-
-    public onPageChanged($event:number):void {
-        this.selectedPage = $event;
     }
 }
 
