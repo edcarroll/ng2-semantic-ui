@@ -19,7 +19,7 @@ export interface IMessage {
      (mouseleave)="beginTimer(extendedTimeout)"
      (click)="onClicked($event)">
 
-    <i class="close icon" *ngIf="closeButton" (click)="dismiss($event)"></i>
+    <i class="close icon" *ngIf="hasDismissButton" (click)="dismiss($event)"></i>
     <ng-content></ng-content>
     <ng-container *ngIf="isDynamic">
         <div class="header" *ngIf="header">{{ header }}</div>

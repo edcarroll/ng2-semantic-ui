@@ -34,7 +34,7 @@ export class SuiComponentFactory {
     }
 
     // Inserts the component into the specified view container.
-    public attachToView<T>(viewContainer:ViewContainerRef, componentRef:ComponentRef<T>):void {
+    public attachToView<T>(componentRef:ComponentRef<T>, viewContainer:ViewContainerRef):void {
         viewContainer.insert(componentRef.hostView, 0);
     }
 
@@ -44,12 +44,12 @@ export class SuiComponentFactory {
     }
 
     // Moves the component to the specified DOM element.
-    public moveToElement<T>(element:Element, componentRef:ComponentRef<T>):void {
+    public moveToElement<T>(componentRef:ComponentRef<T>, element:Element):void {
         element.appendChild(componentRef.location.nativeElement);
     }
 
     // Moves the component to the document body.
     public moveToDocumentBody<T>(componentRef:ComponentRef<T>):void {
-        this.moveToElement(document.querySelector("body"), componentRef);
+        this.moveToElement(componentRef, document.querySelector("body"));
     }
 }

@@ -27,7 +27,7 @@ export class MessageConfig {
     public onClick:EventEmitter<void>;
     public onDismiss:EventEmitter<void>;
 
-    constructor(text:string, state?:MessageState, header?:string) {
+    constructor(text:string, state:MessageState = MessageState.Default, header?:string) {
         this.text = text;
         this.state = state;
         this.header = header;

@@ -38,7 +38,7 @@ export class SuiModalService {
             );
 
             // Insert the new component into the content of the modal.
-            this._componentFactory.attachToView(modalComponent.templateSibling, contentComponentRef);
+            this._componentFactory.attachToView(contentComponentRef, modalComponent.templateSibling);
 
             // Shorthand for access to the content component's DOM element.
             const contentElement = contentComponentRef.location.nativeElement as Element;

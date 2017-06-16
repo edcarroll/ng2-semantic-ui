@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, ComponentFactoryResolver, ViewContainerRef, ViewChild } from "@angular/core";
+import { Component, EventEmitter, Input, ComponentFactoryResolver, ViewContainerRef, ViewChild, ElementRef } from "@angular/core";
 import { MessageConfig } from "./message-config";
 import { ActiveMessage, SuiActiveMessage } from "./active-message";
 import { SuiMessage } from "./message";
@@ -8,8 +8,7 @@ import { MessageController } from "./message-controller";
 @Component({
     selector: "sui-message-container",
     template: `
-<div #top></div>
-<div #bottom></div>
+<div #containerSibling></div>
 `,
     styles: [`
 :host {
@@ -34,21 +33,22 @@ export class SuiMessageContainer {
     public maxShown:number;
 
     @Input()
+    public showNewestFirst:boolean;
+
+    @Input()
     public set controller(controller:MessageController) {
         controller.registerContainer(this);
     }
 
-    @ViewChild("top", { read: ViewContainerRef })
-    public topContainer:ViewContainerRef;
+    @ViewChild("containerSibling", { read: ViewContainerRef })
+    public containerSibling:ViewContainerRef;
 
-    @ViewChild("bottom", { read: ViewContainerRef })
-    public bottomContainer:ViewContainerRef;
-
-    constructor(private _componentFactory:SuiComponentFactory) {
+    constructor(private _componentFactory:SuiComponentFactory, private _element:ElementRef) {
         this._messages = [];
         this._queue = [];
 
         this.maxShown = 7;
+        this.showNewestFirst = true;
     }
 
     public show(config:MessageConfig):SuiActiveMessage {
@@ -70,7 +70,10 @@ export class SuiMessageContainer {
     private open(message:ActiveMessage):void {
         this._messages.push(message);
 
-        this._componentFactory.attachToView(this.topContainer, message.componentRef);
+        this._componentFactory.attachToView(message.componentRef, this.containerSibling);
+        if (!this.showNewestFirst) {
+            this._componentFactory.moveToElement(message.componentRef, this._element.nativeElement);
+        }
         message.component.show();
     }
 
