@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output, HostBinding } from "@angular/core";
 import { TransitionController } from "../transition/transition-controller";
 import { MessageState, MessageConfig } from "./message-config";
 import { Transition, TransitionDirection } from "../transition/transition";
@@ -19,7 +19,7 @@ export interface IMessage {
      (mouseleave)="beginTimer(extendedTimeout)"
      (click)="onClicked($event)">
 
-    <i class="close icon" *ngIf="hasDismissButton" (click)="dismiss($event)"></i>
+    <i class="close icon" *ngIf="hasDismissButton" (click)="onDismissClicked($event)"></i>
     <ng-content></ng-content>
     <ng-container *ngIf="isDynamic">
         <div class="header" *ngIf="header">{{ header }}</div>
@@ -31,6 +31,7 @@ export interface IMessage {
 export class SuiMessage implements IMessage {
     public isDynamic:boolean;
     public isClosing:boolean;
+    public isDismissing:boolean;
 
     public text:string;
     public header:string;
@@ -65,7 +66,11 @@ export class SuiMessage implements IMessage {
     public get dynamicClasses():IDynamicClasslist {
         const classes:IDynamicClasslist = {};
         classes[this.state] = true;
-        this.classes.split(" ").forEach(c => classes[c] = true);
+
+        (this.classes || "")
+            .split(" ")
+            .forEach(c => classes[c] = true);
+
         return classes;
     }
 
@@ -74,7 +79,8 @@ export class SuiMessage implements IMessage {
         this.loadConfig(config);
 
         this.isDynamic = false;
-        this.classes = "";
+        this.transitionOutDuration = 300;
+
         this.transitionController = new TransitionController(false);
 
         this.show();
@@ -114,10 +120,9 @@ export class SuiMessage implements IMessage {
                 }));
     }
 
-    public dismiss(e?:HandledEvent):void {
-        if (e) {
-            e.eventHandled = true;
-        }
+    public dismiss():void {
+        this.isDismissing = true;
+        this.transitionOutDuration = this.transitionInDuration;
         this.hide();
     }
 
@@ -137,13 +142,13 @@ export class SuiMessage implements IMessage {
     }
 
     public beginTimer(timeout:number):void {
-        if (this.isDynamic) {
+        if (this.isDynamic && !this.isDismissing) {
             this._displayTimeout = window.setTimeout(() => this.onTimedOut(), timeout);
         }
     }
 
     public cancelTimer():void {
-        if (this.isDynamic) {
+        if (this.isDynamic && !this.isDismissing) {
             clearTimeout(this._displayTimeout);
 
             if (this.isClosing) {
@@ -159,6 +164,11 @@ export class SuiMessage implements IMessage {
             this.cancelTimer();
             this.onClick.emit();
         }
+    }
+
+    public onDismissClicked(e:HandledEvent):void {
+        e.eventHandled = true;
+        this.dismiss();
     }
 
     private onTimedOut():void {

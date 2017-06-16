@@ -5,6 +5,8 @@ import { SuiMessage } from "./message";
 export abstract class SuiActiveMessage {
     public abstract onClick(callback:() => void):SuiActiveMessage;
     public abstract onDismiss(callback:() => void):SuiActiveMessage;
+
+    public abstract dismiss():void;
 }
 
 export class ActiveMessage implements SuiActiveMessage {
@@ -30,5 +32,9 @@ export class ActiveMessage implements SuiActiveMessage {
     public onDismiss(callback:() => void):ActiveMessage {
         this._config.onDismiss.subscribe(() => callback());
         return this;
+    }
+
+    public dismiss():void {
+        this.component.dismiss();
     }
 }

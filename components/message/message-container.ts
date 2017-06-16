@@ -23,6 +23,10 @@ import { MessageController } from "./message-controller";
 :host >>> sui-message:last-of-type {
     margin-bottom: 0;
 }
+
+:host >>> sui-message {
+    cursor: pointer;
+}
 `]
 })
 export class SuiMessageContainer {
