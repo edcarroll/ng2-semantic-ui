@@ -14,7 +14,7 @@ export class TestPage {
     constructor() {}
 
     public open():void {
-        const message = new MessageConfig(null, MessageState.Default, "Hello, world!");
+        const message = new MessageConfig(null, MessageState.Default, Date.now().toString());
         message.state = MessageState.Success;
         this.messages.show(message);
     }

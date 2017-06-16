@@ -2,23 +2,33 @@ import { MessageConfig } from "./message-config";
 import { ComponentRef } from "@angular/core";
 import { SuiMessage } from "./message";
 
-export class ActiveMessage {
+export abstract class SuiActiveMessage {
+    public abstract onClick(callback:() => void):SuiActiveMessage;
+    public abstract onDismiss(callback:() => void):SuiActiveMessage;
+}
+
+export class ActiveMessage implements SuiActiveMessage {
     private _config:MessageConfig;
-    private _componentRef:ComponentRef<SuiMessage>;
+    public componentRef:ComponentRef<SuiMessage>;
 
     public get component():SuiMessage {
-        return this._componentRef.instance;
+        return this.componentRef.instance;
     }
 
     constructor(config:MessageConfig, componentRef:ComponentRef<SuiMessage>) {
         this._config = config;
-        this._componentRef = componentRef;
+        this.componentRef = componentRef;
 
-        this.component.onDismiss.subscribe(() => this._componentRef.destroy());
+        this.component.onDismiss.subscribe(() => this.componentRef.destroy());
     }
 
     public onClick(callback:() => void):ActiveMessage {
         this._config.onClick.subscribe(() => callback());
+        return this;
+    }
+
+    public onDismiss(callback:() => void):ActiveMessage {
+        this._config.onDismiss.subscribe(() => callback());
         return this;
     }
 }

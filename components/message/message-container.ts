@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, ComponentFactoryResolver, ViewContainerRef, ViewChild } from "@angular/core";
 import { MessageConfig } from "./message-config";
-import { ActiveMessage } from "./active-message";
+import { ActiveMessage, SuiActiveMessage } from "./active-message";
 import { SuiMessage } from "./message";
 import { SuiComponentFactory } from "../util/component-factory.service";
 
@@ -11,6 +11,10 @@ import { SuiComponentFactory } from "../util/component-factory.service";
 <div #bottom></div>
 `,
     styles: [`
+:host {
+    display: block;
+}
+
 :host >>> sui-message {
     display: block;
     margin-bottom: 1rem;
@@ -23,7 +27,7 @@ import { SuiComponentFactory } from "../util/component-factory.service";
 })
 export class SuiMessageContainer {
     private _messages:ActiveMessage[];
-    private _queue:MessageConfig[];
+    private _queue:ActiveMessage[];
 
     @Input()
     public maxShown:number;
@@ -38,21 +42,41 @@ export class SuiMessageContainer {
         this._messages = [];
         this._queue = [];
 
-        this.maxShown = 10;
+        this.maxShown = 7;
     }
 
-    public show(config:MessageConfig):ActiveMessage {
+    public show(config:MessageConfig):SuiActiveMessage {
         const componentRef = this._componentFactory.createComponent(SuiMessage);
-        this._componentFactory.attachToView(this.topContainer, componentRef);
 
         const message = componentRef.instance;
         message.loadConfig(config);
-        message.show();
 
-        const active = new ActiveMessage(config, componentRef);
+        const active = new ActiveMessage(config, componentRef)
+            .onDismiss(() => this.onMessageClose(active));
 
-        this._messages.push(active);
+        if (this._messages.length < this.maxShown) {
+            this.open(active);
+        } else {
+            this._queue.push(active);
+        }
 
         return active;
+    }
+
+    private open(message:ActiveMessage):void {
+        this._messages.push(message);
+
+        this._componentFactory.attachToView(this.topContainer, message.componentRef);
+        message.component.show();
+    }
+
+    private onMessageClose(message:ActiveMessage):void {
+        this._messages = this._messages.filter(m => m !== message);
+
+        if (this._queue.length > 0) {
+            const queued = this._queue.shift();
+
+            this.open(queued);
+        }
     }
 }
