@@ -7,6 +7,7 @@ import { PositioningPlacement } from "../util/positioning.service";
 import { ITemplateRefContext, parseBooleanAttribute } from "../util/util";
 import { PopupConfig, IPopupConfig, PopupTrigger } from "./popup-config";
 import { SuiPopupConfig } from "./popup.service";
+import { SuiComponentFactory } from "../util/component-factory.service";
 
 export interface IPopup {
     open():void;
@@ -92,8 +93,7 @@ export class SuiPopupDirective implements IPopup {
     private _openingTimeout:number;
 
     constructor(private _element:ElementRef,
-                private _viewContainerRef:ViewContainerRef,
-                private _componentFactoryResolver:ComponentFactoryResolver,
+                private _componentFactory:SuiComponentFactory,
                 popupDefaults:SuiPopupConfig) {
 
         this.config = new PopupConfig(popupDefaults);
@@ -107,15 +107,13 @@ export class SuiPopupDirective implements IPopup {
         this._openingTimeout = window.setTimeout(
             () => {
                 if (!this._componentRef) {
-                    // Resolve component factory for the `SuiPopup` component.
-                    const factory = this._componentFactoryResolver.resolveComponentFactory(SuiPopup);
-
-                    // Generate a component using the view container reference and the previously resolved factory.
-                    this._componentRef = this._viewContainerRef.createComponent(factory);
+                    // Generate a new SuiPopup component and attach it to the application view.
+                    this._componentRef = this._componentFactory.createComponent(SuiPopup);
+                    this._componentFactory.attachToApplication(this._componentRef);
 
                     // If there is a template, inject it into the view.
                     if (this.config.template) {
-                        this._popup.templateSibling.createEmbeddedView(this.config.template, { $implicit: this._popup });
+                        this._componentFactory.createView(this._popup.templateSibling, this.config.template, { $implicit: this._popup });
                     }
 
                     // Configure popup with provided config, and attach a reference to the anchor element.
@@ -123,7 +121,7 @@ export class SuiPopupDirective implements IPopup {
                     this._popup.anchor = this._element;
 
                     // Move the generated element to the body to avoid any positioning issues.
-                    document.querySelector("body").appendChild(this._componentRef.location.nativeElement);
+                    this._componentFactory.moveToDocumentBody(this._componentRef);
 
                     // When the popup is closed (onClose fires on animation complete),
                     this._popup.onClose.subscribe(() => {
