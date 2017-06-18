@@ -55,7 +55,6 @@ export class SuiMessageGlobalContainer {
     public controller:MessageController;
 
     public position:MessagePosition;
-
     public width:number;
 
     public get dynamicClasses():IDynamicClasslist {
@@ -80,11 +79,6 @@ export class SuiMessageGlobalContainer {
         }
 
         return width;
-    }
-
-    constructor() {
-        this.position = MessagePosition.Top;
-        this.width = 480;
     }
 
     @HostListener("window:resize")

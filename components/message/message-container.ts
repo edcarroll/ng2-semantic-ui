@@ -3,7 +3,7 @@ import { MessageConfig } from "./message-config";
 import { ActiveMessage, SuiActiveMessage } from "./active-message";
 import { SuiMessage } from "./message";
 import { SuiComponentFactory } from "../util/component-factory.service";
-import { MessageController } from "./message-controller";
+import { MessageController, IMessageController } from "./message-controller";
 
 @Component({
     selector: "sui-message-container",
@@ -34,12 +34,6 @@ export class SuiMessageContainer {
     private _queue:ActiveMessage[];
 
     @Input()
-    public maxShown:number;
-
-    @Input()
-    public showNewestFirst:boolean;
-
-    @Input()
     public set controller(controller:MessageController) {
         controller.registerContainer(this);
     }
@@ -50,20 +44,17 @@ export class SuiMessageContainer {
     constructor(private _componentFactory:SuiComponentFactory, private _element:ElementRef) {
         this._messages = [];
         this._queue = [];
-
-        this.maxShown = 7;
-        this.showNewestFirst = true;
     }
 
-    public show(config:MessageConfig):SuiActiveMessage {
+    public show(config:MessageConfig, maxShown:number, showNewestFirst:boolean):SuiActiveMessage {
         const componentRef = this._componentFactory.createComponent(SuiMessage);
         componentRef.instance.loadConfig(config);
 
         const active = new ActiveMessage(config, componentRef)
-            .onDismiss(() => this.onMessageClose(active));
+            .onDismiss(() => this.onMessageClose(active, showNewestFirst));
 
-        if (this._messages.length < this.maxShown) {
-            this.open(active);
+        if (this._messages.length < maxShown) {
+            this.open(active, showNewestFirst);
         } else {
             this.queue(active);
         }
@@ -71,11 +62,11 @@ export class SuiMessageContainer {
         return active;
     }
 
-    private open(message:ActiveMessage):void {
+    private open(message:ActiveMessage, showNewestFirst:boolean):void {
         this._messages.push(message);
 
         this._componentFactory.attachToView(message.componentRef, this.containerSibling);
-        if (!this.showNewestFirst) {
+        if (!showNewestFirst) {
             this._componentFactory.moveToElement(message.componentRef, this._element.nativeElement);
         }
 
@@ -91,13 +82,13 @@ export class SuiMessageContainer {
         this._messages.forEach(m => m.dismiss());
     }
 
-    private onMessageClose(message:ActiveMessage):void {
+    private onMessageClose(message:ActiveMessage, showNewestFirst:boolean):void {
         this._messages = this._messages.filter(m => m !== message);
 
         if (this._queue.length > 0) {
             const queued = this._queue.shift();
 
-            this.open(queued);
+            this.open(queued, showNewestFirst);
         }
     }
 }
