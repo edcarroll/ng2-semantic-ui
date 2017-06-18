@@ -2,7 +2,6 @@ import { MessageConfig } from "./message-config";
 import { SuiActiveMessage } from "./active-message";
 import { SuiMessageContainer } from "./message-container";
 
-
 export class MessageController {
     private _container:SuiMessageContainer;
 
@@ -22,7 +21,7 @@ export class MessageController {
         return this._container.dismissAll();
     }
 
-    private throwContainerError() {
+    private throwContainerError():void {
         if (!this._container) {
             throw new Error("You must pass this controller to a message container.");
         }

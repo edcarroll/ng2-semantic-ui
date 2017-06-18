@@ -78,6 +78,7 @@ export class SuiMessageContainer {
         if (!this.showNewestFirst) {
             this._componentFactory.moveToElement(message.componentRef, this._element.nativeElement);
         }
+
         message.component.show();
     }
 

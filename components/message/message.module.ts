@@ -8,6 +8,8 @@ import { SuiUtilityModule } from "../util/util.module";
 import { MessageController } from "./message-controller";
 import { MessageConfig, MessageState } from "./message-config";
 import { SuiActiveMessage } from "./active-message";
+import { SuiMessageGlobalContainer } from "./message-global-container";
+import { SuiMessageService } from "./message-service";
 
 @NgModule({
     imports: [
@@ -18,15 +20,20 @@ import { SuiActiveMessage } from "./active-message";
     ],
     declarations: [
         SuiMessage,
-        SuiMessageContainer
+        SuiMessageContainer,
+        SuiMessageGlobalContainer
     ],
     exports: [
         SuiMessage,
-        SuiMessageContainer
+        SuiMessageContainer,
+        SuiMessageGlobalContainer
+    ],
+    providers: [
+        SuiMessageService
     ],
     entryComponents: [
         SuiMessage,
-        SuiMessageContainer
+        SuiMessageGlobalContainer
     ]
 })
 export class SuiMessageModule {}

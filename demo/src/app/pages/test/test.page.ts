@@ -2,6 +2,7 @@ import { Component, AfterViewInit, ViewChild, TemplateRef } from "@angular/core"
 import { SuiMessageContainer } from "../../../../../components/message/message-container";
 import { MessageConfig, MessageState } from "../../../../../components/message/message-config";
 import { MessageController } from "../../../../../components/message/message-controller";
+import { SuiMessageService } from "../../../../../components/message/message-service";
 
 @Component({
     selector: "demo-page-test",
@@ -10,7 +11,7 @@ import { MessageController } from "../../../../../components/message/message-con
 export class TestPage {
     public controller:MessageController;
 
-    constructor() {
+    constructor(private _messageService:SuiMessageService) {
         this.controller = new MessageController();
     }
 
