@@ -8,6 +8,11 @@ import { KeyCode, parseBooleanAttribute, getDocumentFontSize } from "../util/uti
 import { ModalControls, ModalResult } from "./modal-controls";
 import { ModalConfig, ModalSize } from "./modal-config";
 
+export interface IModal<T, U> {
+    approve(result:T):void;
+    deny(result:U):void;
+}
+
 @Component({
     selector: "sui-modal",
     template: `
@@ -44,7 +49,7 @@ import { ModalConfig, ModalSize } from "./modal-config";
 }
 `]
 })
-export class SuiModal<T, U> implements OnInit, AfterViewInit {
+export class SuiModal<T, U> implements IModal<T, U>, OnInit, AfterViewInit {
     @Input()
     // Determines whether the modal can be closed with a close button, clicking outside, or the escape key.
     public isClosable:boolean;

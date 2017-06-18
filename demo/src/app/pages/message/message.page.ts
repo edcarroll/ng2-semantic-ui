@@ -55,6 +55,11 @@ export class MessagePage {
                     name: "dismiss",
                     type: "void",
                     description: "Fires when the message is dismissed by the user."
+                },
+                {
+                    name: "click",
+                    type: "void",
+                    description: "Fires when the message is clicked by the user."
                 }
             ]
         }

@@ -127,7 +127,7 @@ export class PopupPage {
         "right bottom"
     ];
 
-    public position:string = "right bottom";
+    public position:string = "top right";
 
     public manualPopupMarkup:string = `
 <div class="ui segment" suiPopup popupText="Manual" popupTrigger="manual" #popup="suiPopup">
@@ -198,7 +198,7 @@ export class PopupExampleTemplate {}
 })
 export class PopupExamplePlacement {
     @Input()
-    public position:string = "right bottom";
+    public position:string = "top right";
 }
 
 export const PopupPageComponents = [PopupPage, PopupExampleStandard, PopupExampleTemplate, PopupExamplePlacement];

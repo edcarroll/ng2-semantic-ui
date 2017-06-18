@@ -22,8 +22,8 @@ export class ActiveModal<T, U, V> implements SuiActiveModal<T, U, V> {
         return this.componentRef.instance;
     }
 
-    constructor(instance:ModalConfig<T, U, V>, componentRef:ComponentRef<SuiModal<U, V>>) {
-        this.config = instance;
+    constructor(config:ModalConfig<T, U, V>, componentRef:ComponentRef<SuiModal<U, V>>) {
+        this.config = config;
         this.componentRef = componentRef;
 
         // Automatically destroy the modal component when it has been dismissed.
