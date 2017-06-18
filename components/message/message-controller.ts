@@ -2,7 +2,12 @@ import { MessageConfig } from "./message-config";
 import { SuiActiveMessage } from "./active-message";
 import { SuiMessageContainer } from "./message-container";
 
-export class MessageController {
+export interface IMessageController {
+    show(config:MessageConfig):SuiActiveMessage;
+    dismissAll():void;
+}
+
+export class MessageController implements IMessageController {
     private _container:SuiMessageContainer;
 
     public registerContainer(container:SuiMessageContainer):void {

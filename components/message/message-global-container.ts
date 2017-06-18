@@ -9,4 +9,6 @@ import { SuiMessageService } from "./message-service";
 })
 export class SuiMessageGlobalContainer {
     public controller:MessageController;
+
+    
 }

@@ -1,10 +1,12 @@
 import { Injectable, ComponentRef } from "@angular/core";
 import { SuiComponentFactory } from "../util/component-factory.service";
 import { SuiMessageGlobalContainer } from "./message-global-container";
-import { MessageController } from "./message-controller";
+import { MessageController, IMessageController } from "./message-controller";
+import { MessageConfig } from "./message-config";
+import { SuiActiveMessage } from "./active-message";
 
 @Injectable()
-export class SuiMessageService {
+export class SuiMessageService implements IMessageController {
     private _controller:MessageController;
     private _containerRef:ComponentRef<SuiMessageGlobalContainer>;
 
@@ -20,5 +22,13 @@ export class SuiMessageService {
 
         this._componentFactory.attachToApplication(this._containerRef);
         this._componentFactory.moveToDocumentBody(this._containerRef);
+    }
+
+    public show(config:MessageConfig):SuiActiveMessage {
+        return this._controller.show(config);
+    }
+
+    public dismissAll():void {
+        return this._controller.dismissAll();
     }
 }
