@@ -4,7 +4,7 @@ import {
 } from "@angular/core";
 import { TransitionController } from "../transition/transition-controller";
 import { Transition, TransitionDirection } from "../transition/transition";
-import { KeyCode, parseBooleanAttribute } from "../util/util";
+import { KeyCode, parseBooleanAttribute, getDocumentFontSize } from "../util/util";
 import { ModalControls, ModalResult } from "./modal-controls";
 import { ModalConfig, ModalSize } from "./modal-config";
 
@@ -219,8 +219,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     // Decides whether the modal needs to reposition to allow scrolling.
     private updateScroll():void {
         // Semantic UI modal margin is 3.5rem, which is relative to the global font size, so for compatibility:
-        const fontSize = parseFloat(window.getComputedStyle(document.documentElement, null).getPropertyValue("font-size"));
-        const margin = fontSize * 3.5;
+        const margin = getDocumentFontSize() * 3.5;
 
         // _mustAlwaysScroll works by stopping _mustScroll from being automatically updated, so it stays `true`.
         if (!this._mustAlwaysScroll && this._modalElement) {

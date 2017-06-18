@@ -56,3 +56,9 @@ export function parseBooleanAttribute(attributeValue:boolean):boolean {
 
     return value;
 }
+
+export function getDocumentFontSize():number {
+    return parseFloat(window
+        .getComputedStyle(document.documentElement, null)
+        .getPropertyValue("font-size"));
+}
