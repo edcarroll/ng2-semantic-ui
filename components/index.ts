@@ -1,6 +1,7 @@
 export * from "./accordion/accordion.module";
 export * from "./checkbox/checkbox.module";
 export * from "./collapse/collapse.module";
+export * from "./datepicker/datepicker.module";
 export * from "./dimmer/dimmer.module";
 export * from "./dropdown/dropdown.module";
 export * from "./message/message.module";

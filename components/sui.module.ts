@@ -3,6 +3,7 @@ import { NgModule } from "@angular/core";
 import { SuiAccordionModule } from "./accordion/accordion.module";
 import { SuiCheckboxModule } from "./checkbox/checkbox.module";
 import { SuiCollapseModule } from "./collapse/collapse.module";
+import { SuiDatepickerModule } from "./datepicker/datepicker.module";
 import { SuiDimmerModule } from "./dimmer/dimmer.module";
 import { SuiDropdownModule } from "./dropdown/dropdown.module";
 import { SuiMessageModule } from "./message/message.module";
@@ -21,6 +22,7 @@ import { SuiTransitionModule } from "./transition/transition.module";
         SuiAccordionModule,
         SuiCheckboxModule,
         SuiCollapseModule,
+        SuiDatepickerModule,
         SuiDimmerModule,
         SuiDropdownModule,
         SuiMessageModule,
