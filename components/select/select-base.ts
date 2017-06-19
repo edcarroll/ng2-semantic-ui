@@ -93,11 +93,11 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     }
 
     @Input()
-    public get labelField():string {
+    public get labelField():string | undefined {
         return this.searchService.optionsField;
     }
 
-    public set labelField(field:string) {
+    public set labelField(field:string | undefined) {
         this.searchService.optionsField = field;
     }
 
@@ -188,7 +188,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
 
     public abstract selectOption(option:T):void;
 
-    protected findOption(options:T[], value:U):T {
+    protected findOption(options:T[], value:U):T | undefined {
         // Tries to find an option in options array
         return options.find(o => value === this.valueGetter(o));
     }

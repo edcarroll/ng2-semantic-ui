@@ -75,7 +75,7 @@ export class SuiSearch<T> implements AfterViewInit, ICustomValueAccessorHost<T> 
     }
 
     public set query(query:string) {
-        this.selectedItem = null;
+        this.selectedItem = undefined;
         // Initialise a delayed search.
         this.searchService.updateQueryDelayed(query, () =>
             // Set the results open state depending on whether a query has been entered.
@@ -115,7 +115,7 @@ export class SuiSearch<T> implements AfterViewInit, ICustomValueAccessorHost<T> 
     }
 
     // Stores the currently selected item.
-    public selectedItem:T;
+    public selectedItem?:T;
 
     // Emits whenever a new item is selected.
     @Output()

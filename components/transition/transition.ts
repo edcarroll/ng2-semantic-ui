@@ -22,6 +22,8 @@ export class Transition {
             case TransitionDirection.In: return "in";
             case TransitionDirection.Out: return "out";
         }
+
+        return "";
     }
 
     // Stores the individual classes for the transition, e.g. "fade out" -> ["fade", "out"].

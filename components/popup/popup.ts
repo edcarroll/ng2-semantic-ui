@@ -90,7 +90,7 @@ export class SuiPopup implements IPopup {
     }
 
     // Returns the direction (`top`, `left`, `right`, `bottom`) of the current placement.
-    public get direction():string {
+    public get direction():string | undefined {
         if (this.positioningService) {
             return this.positioningService.actualPlacement.split(" ").shift();
         }

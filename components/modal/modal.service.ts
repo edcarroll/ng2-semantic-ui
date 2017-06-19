@@ -54,7 +54,7 @@ export class SuiModalService {
             // Move all of the DOM elements inside the component to the main modal element.
             // This is done so that CSS classes apply correctly. It does stop any custom styles from working however,
             // so other ways may have to be investigated.
-            while (contentElement.hasChildNodes()) {
+            while (contentElement.hasChildNodes() && contentElement.parentElement && contentElement.firstChild) {
                 contentElement.parentElement.appendChild(contentElement.removeChild(contentElement.firstChild));
             }
             // Remove the generated component's 'empty shell' from the DOM.
@@ -69,7 +69,7 @@ export class SuiModalService {
         this._applicationRef.attachView(componentRef.hostView);
 
         // Move the new modal component DOM to the document body.
-        document.querySelector("body").appendChild(componentRef.location.nativeElement);
+        document.querySelector("body")!.appendChild(componentRef.location.nativeElement);
 
         // Initialise the generated modal with the provided config.
         modalComponent.loadConfig(modal);

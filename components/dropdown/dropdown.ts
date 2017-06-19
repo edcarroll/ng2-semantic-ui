@@ -58,8 +58,8 @@ export class SuiDropdown implements AfterContentInit {
     }
 
     @HostBinding("attr.tabindex")
-    public get tabIndex():number {
-        return (this.isDisabled || this.service.isNested) ? null : 0;
+    public get tabIndex():number | undefined {
+        return (this.isDisabled || this.service.isNested) ? undefined : 0;
     }
 
     @Input()

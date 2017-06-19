@@ -37,12 +37,12 @@ export class SuiCheckbox implements ICustomValueAccessorHost<boolean> {
     @Input()
     public isReadonly:boolean;
 
-    public get checkedAttribute():string {
-        return this.isChecked ? "" : null;
+    public get checkedAttribute():string | undefined {
+        return this.isChecked ? "" : undefined;
     }
 
-    public get isDisabledAttribute():string {
-        return this.isDisabled ? "disabled" : null;
+    public get isDisabledAttribute():string | undefined {
+        return this.isDisabled ? "disabled" : undefined;
     }
 
     constructor() {

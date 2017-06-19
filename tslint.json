@@ -113,7 +113,8 @@
     "no-inferred-empty-object-type": true,
     "no-invalid-template-strings": true,
     "no-invalid-this": true,
-    "no-non-null-assertion": true,
+    "no-non-null-assertion": false,
+    "no-null-keyword": true,
     "no-object-literal-type-assertion": true,
     "no-param-reassign": true,
     "no-reference": true,
@@ -189,7 +190,7 @@
     ],
     "triple-equals": [
       true,
-      "allow-null-check"
+      "allow-undefined-check"
     ],
     "type-literal-delimiter": true,
     "typedef": [
