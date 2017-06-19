@@ -15,7 +15,7 @@ interface IAlertModalContext {
     <p>{{ modal.context.message }}</p>
 </div>
 <div class="actions">
-    <button class="ui green button" (click)="modal.approve(null)">OK</button>
+    <button class="ui green button" (click)="modal.approve(undefined)">OK</button>
 </div>
 `
 })

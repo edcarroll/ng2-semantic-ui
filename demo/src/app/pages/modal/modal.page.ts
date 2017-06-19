@@ -34,8 +34,8 @@ const exampleComponentModalTemplate = `
     <p>{{ modal.context.question }}</p>
 </div>
 <div class="actions">
-    <button class="ui red button" (click)="modal.deny(null)">Cancel</button>
-    <button class="ui green button" (click)="modal.approve(null)">OK</button>
+    <button class="ui red button" (click)="modal.deny(undefined)">Cancel</button>
+    <button class="ui green button" (click)="modal.approve(undefined)">OK</button>
 </div>
 `;
 

@@ -21,7 +21,7 @@ export class DropdownService {
     public autoCloseMode:DropdownAutoCloseType;
 
     // Keep track of the containing dropdown so we can open it as necessary.
-    public parent:DropdownService;
+    public parent?:DropdownService;
     // Also keep track of dropdowns nested in this one so we can close them as necessary.
     public children:DropdownService[];
     public get isNested():boolean {
@@ -94,7 +94,7 @@ export class DropdownService {
     // Wipes any nested data, so all services can be cleanly reattached.
     public clearChildren():void {
         this.children.forEach(c => {
-            c.parent = null;
+            c.parent = undefined;
         });
         this.children = [];
     }

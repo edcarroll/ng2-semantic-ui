@@ -11,14 +11,14 @@ export const ModalSize = {
 };
 
 // Stores a basic set of configuration options for a modal.
-export class ModalConfig<T, U = null, V = null> {
+export class ModalConfig<T, U = undefined, V = undefined> {
     // Determines whether the modal can be closed with a close button, clicking outside, or the escape key.
     public isClosable:boolean;
     // Value to deny with when closing via `isClosable`.
     public closeResult:V;
 
     // Data to pass to the modal instance when opened.
-    public context:T;
+    public context?:T;
 
     // Size used to display the modal.
     public size:ModalSize;
@@ -35,7 +35,7 @@ export class ModalConfig<T, U = null, V = null> {
     // Duration of the modal & dimmer transitions.
     public transitionDuration:number;
 
-    constructor(context:T = null, isClosable:boolean = true) {
+    constructor(context:T | undefined = undefined, isClosable:boolean = true) {
         // Initialise with default values.
         this.isClosable = isClosable;
         this.context = context;
@@ -52,10 +52,10 @@ export class ModalConfig<T, U = null, V = null> {
 }
 
 // Used when creating a modal from a `TemplateRef`.
-export class TemplateModalConfig<T, U = null, V = null> extends ModalConfig<T, U, V> {
+export class TemplateModalConfig<T, U = undefined, V = undefined> extends ModalConfig<T, U, V> {
     public template:ModalTemplate<T, U, V>;
 
-    constructor(template:ModalTemplate<T, U, V>, context:T = null, isClosable:boolean = true) {
+    constructor(template:ModalTemplate<T, U, V>, context:T | undefined = undefined, isClosable:boolean = true) {
         super(context, isClosable);
 
         this.template = template;
@@ -63,10 +63,10 @@ export class TemplateModalConfig<T, U = null, V = null> extends ModalConfig<T, U
 }
 
 // Used when creating a modal from an existing component.
-export class ComponentModalConfig<T, U = null, V = null> extends ModalConfig<T, U, V> {
+export class ComponentModalConfig<T, U = undefined, V = undefined> extends ModalConfig<T, U, V> {
     public component:Function;
 
-    constructor(component:Function, context:T = null, isClosable:boolean = true) {
+    constructor(component:Function, context:T | undefined = undefined, isClosable:boolean = true) {
         super(context, isClosable);
 
         this.component = component;

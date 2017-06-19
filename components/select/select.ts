@@ -37,9 +37,9 @@ export type SingleItemLookup<T, U> = (query:string, initial?:U) => Promise<T>;
 `
 })
 export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValueAccessorHost<U> {
-    public selectedOption:T;
+    public selectedOption?:T;
     // Stores the value written by ngModel before it can be matched to an option from `options`.
-    private _writtenOption:U;
+    private _writtenOption?:U;
 
     @ViewChild("optionTemplateSibling", { read: ViewContainerRef })
     private _optionTemplateSibling:ViewContainerRef;
@@ -60,7 +60,7 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValue
             // If there was an value written by ngModel before the options had been loaded, this runs to fix it.
             this.selectedOption = this.findOption(this.searchService.options, this._writtenOption);
             if (this.selectedOption) {
-                this._writtenOption = null;
+                this._writtenOption = undefined;
                 this.drawSelectedOption();
             }
         }
@@ -68,7 +68,7 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValue
 
     protected queryUpdateHook():void {
         // When the query is updated, we just abandon the current selection.
-        this.selectedOption = null;
+        this.selectedOption = undefined;
     }
 
     public selectOption(option:T):void {
@@ -90,7 +90,7 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValue
     }
 
     public writeValue(value:U):void {
-        if (value != null) {
+        if (value != undefined) {
             if (this.searchService.options.length > 0) {
                 // If the options have already been loaded, we can immediately match the ngModel value to an option.
                 this.selectedOption = this.findOption(this.searchService.options, value);

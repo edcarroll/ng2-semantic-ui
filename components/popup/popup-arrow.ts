@@ -77,13 +77,13 @@ export class SuiPopupArrow {
     @Input()
     public inverted:boolean;
 
-    public get direction():string {
+    public get direction():string | undefined {
         if (this.placement) {
             return this.placement.split(" ").shift();
         }
     }
 
-    public get alignment():string {
+    public get alignment():string | undefined {
         if (this.placement) {
             const alignment = this.placement.split(" ").pop();
             if (alignment === this.direction) {
