@@ -4,8 +4,9 @@ import { DateUtils } from "./date-utils";
 
 export interface ICalendarItem {
     associatedDate:Date;
-    isDisabled:boolean;
     humanReadable:string;
+    isDisabled:boolean;
+    isActive:boolean;
 }
 
 @Directive({
@@ -18,6 +19,11 @@ export class SuiCalendarItem {
     @HostBinding("class.disabled")
     public get isDisabled():boolean {
         return this.item.isDisabled;
+    }
+
+    @HostBinding("class.active")
+    public get isActive():boolean {
+        return this.item.isActive;
     }
 
     @HostBinding("class.today")

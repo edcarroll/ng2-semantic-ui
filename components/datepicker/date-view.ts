@@ -104,8 +104,9 @@ export class SuiCalendarDateView {
 
                 week.push({
                     associatedDate: date,
+                    humanReadable: date.getDate().toString(),
                     isDisabled: date.getMonth() !== month,
-                    humanReadable: date.getDate().toString()
+                    isActive: DateUtils.datesEqual(date, this._selectedDate)
                 });
             }
 
