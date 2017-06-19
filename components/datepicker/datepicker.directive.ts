@@ -17,10 +17,7 @@ import { SuiDatepicker } from "./datepicker";
 export class SuiDatepickerDirective extends SuiPopupBaseDirective {
     private _datepickerRef:ComponentRef<SuiDatepicker>;
 
-    constructor(element:ElementRef,
-                renderer:Renderer2,
-                componentFactory:SuiComponentFactory) {
-
+    constructor(element:ElementRef, renderer:Renderer2, componentFactory:SuiComponentFactory) {
         const datepickerRef = componentFactory.createComponent(SuiDatepicker);
 
         super(element, componentFactory, new PopupConfig({
@@ -29,10 +26,8 @@ export class SuiDatepickerDirective extends SuiPopupBaseDirective {
             component: datepickerRef
         }));
 
-        this.onOpen.subscribe(() => {
-            renderer.addClass(this._popup.elementRef.nativeElement, "ui");
-            renderer.addClass(this._popup.elementRef.nativeElement, "calendar");
-        });
+        renderer.addClass(this._popup.elementRef.nativeElement, "ui");
+        renderer.addClass(this._popup.elementRef.nativeElement, "calendar");
 
         this._datepickerRef = datepickerRef;
     }

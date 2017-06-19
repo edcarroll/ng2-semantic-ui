@@ -106,6 +106,9 @@ export class SuiPopup implements IPopup {
         this.transitionController = new TransitionController(false);
 
         this._isOpen = false;
+
+        this.onOpen = new EventEmitter<void>();
+        this.onClose = new EventEmitter<void>();
     }
 
     public open():void {
@@ -120,6 +123,7 @@ export class SuiPopup implements IPopup {
                 new Transition(this.config.transition, this.config.transitionDuration, TransitionDirection.In));
 
             // Refresh the popup position after a brief delay to allow for browser processing time.
+            this.positioningService.placement = this.config.placement;
             setTimeout(() => this.positioningService.update());
 
             // Finally, set the popup to be open.

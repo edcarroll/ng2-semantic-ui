@@ -15,36 +15,41 @@ export interface IPopup {
 
 export abstract class SuiPopupBaseDirective implements IPopup {
     // Stores reference to generated popup component.
-    protected _componentRef?:ComponentRef<SuiPopup>;
+    protected _componentRef:ComponentRef<SuiPopup>;
 
     // Returns generated popup instance.
     protected get _popup():SuiPopup {
         // Use non-null assertion as we only access this when a popup exists.
-        return this._componentRef!.instance;
+        return this._componentRef.instance;
     }
 
     // `setTimeout` timer pointer for delayed popup open.
     private _openingTimeout:number;
 
-    public onOpen:EventEmitter<void>;
-    public onClose:EventEmitter<void>;
+    public get onOpen():EventEmitter<void> {
+        return this._popup.onOpen;
+    }
+
+    public get onClose():EventEmitter<void> {
+        return this._popup.onClose;
+    }
 
     constructor(private _element:ElementRef,
                 private _componentFactory:SuiComponentFactory,
                 protected _popupConfig:PopupConfig) {
 
-        this.onOpen = new EventEmitter<void>();
-        this.onClose = new EventEmitter<void>();
+        // Generate a new SuiPopup component and attach it to the application view.
+        this._componentRef = this._componentFactory.createComponent(SuiPopup);
+        this._componentFactory.attachToApplication(this._componentRef);
+        this._componentFactory.detachFromDocument(this._componentRef);
+
+        // Configure popup with provided config, and attach a reference to the anchor element.
+        this._popup.config = _popupConfig;
+        this._popup.anchor = this._element;
 
         // When the popup is closed (onClose fires on animation complete),
         this.onClose.subscribe(() => {
-            if (this._componentRef) {
-                // Destroy the component reference (which removes the popup from the DOM).
-                // this._componentRef.destroy();
-                // Unset the reference pointer to enable a new popup to be created on next open.
-                // this._componentRef = undefined;
-                this._componentFactory.detachFromDocument(this._componentRef);
-            }
+            this._componentFactory.detachFromDocument(this._componentRef);
         });
     }
 
@@ -55,26 +60,14 @@ export abstract class SuiPopupBaseDirective implements IPopup {
         // Start the popup opening after the specified delay interval.
         this._openingTimeout = window.setTimeout(
             () => {
-                if (!this._componentRef) {
-                    // Generate a new SuiPopup component and attach it to the application view.
-                    this._componentRef = this._componentFactory.createComponent(SuiPopup);
-                    this._componentFactory.attachToApplication(this._componentRef);
-
-                    // If there is a template, inject it into the view.
-                    if (this._popupConfig.template) {
-                        this._componentFactory.createView(this._popup.templateSibling, this._popupConfig.template, {
-                            $implicit: this._popup
-                        });
-                    } else if (this._popupConfig.component) {
-                        this._componentFactory.attachToView(this._popupConfig.component, this._popup.templateSibling);
-                    }
-
-                    // Configure popup with provided config, and attach a reference to the anchor element.
-                    this._popup.config = this._popupConfig;
-                    this._popup.anchor = this._element;
-
-                    this._popup.onOpen = this.onOpen;
-                    this._popup.onClose = this.onClose;
+                // If there is a template, inject it into the view.
+                this._popup.templateSibling.clear();
+                if (this._popupConfig.template) {
+                    this._componentFactory.createView(this._popup.templateSibling, this._popupConfig.template, {
+                        $implicit: this._popup
+                    });
+                } else if (this._popupConfig.component) {
+                    this._componentFactory.attachToView(this._popupConfig.component, this._popup.templateSibling);
                 }
 
                 // Move the generated element to the body to avoid any positioning issues.
