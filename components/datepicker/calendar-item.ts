@@ -1,28 +1,27 @@
 
-import { Directive, HostBinding, HostListener } from "@angular/core";
+import { Directive, HostBinding, HostListener, Input } from "@angular/core";
+import { DateUtils } from "./date-utils";
+
+export interface ICalendarItem {
+    associatedDate:Date;
+    isDisabled:boolean;
+    humanReadable:string;
+}
 
 @Directive({
-    selector: "td.calendar.item"
+    selector: "[calendarItem]"
 })
 export class SuiCalendarItem {
-    @HostBinding("class.link")
-    private _classes:boolean;
+    @Input("calendarItem")
+    public item:ICalendarItem;
 
-    @HostBinding("class.active")
-    public isFocussed:boolean;
-
-    constructor() {
-        this._classes = true;
-        this.isFocussed = false;
+    @HostBinding("class.disabled")
+    public get isDisabled():boolean {
+        return this.item.isDisabled;
     }
 
-    @HostListener("mouseenter", ["$event"])
-    public onMouseEnter(e:MouseEvent):void {
-        this.isFocussed = true;
-    }
-
-    @HostListener("mouseleave", ["$event"])
-    public onMouseLeave(e:MouseEvent):void {
-        this.isFocussed = false;
+    @HostBinding("class.today")
+    public get isToday():boolean {
+        return DateUtils.datesEqual(new Date(), this.item.associatedDate);
     }
 }

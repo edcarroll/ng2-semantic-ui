@@ -16,6 +16,7 @@ import { SuiSidebarModule } from "./sidebar/sidebar.module";
 import { SuiTabsModule } from "./tabs/tab.module";
 import { SuiSelectModule } from "./select/select.module";
 import { SuiTransitionModule } from "./transition/transition.module";
+import { SuiUtilityModule } from "./util/util.module";
 
 @NgModule({
     exports: [
@@ -34,7 +35,9 @@ import { SuiTransitionModule } from "./transition/transition.module";
         SuiSelectModule,
         SuiSidebarModule,
         SuiTabsModule,
-        SuiTransitionModule
+        SuiTransitionModule,
+
+        SuiUtilityModule
     ]
 })
 export class SuiModule {}

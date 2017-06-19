@@ -1,11 +1,12 @@
 
 import { Component, Input, Output, EventEmitter, HostBinding } from "@angular/core";
 import { DateUtils } from "./date-utils";
+import { SuiLocalizationService } from "../util/localization.service";
 
 @Component({
-    selector: "sui-monthpicker",
+    selector: "sui-calendar-month-view",
     template: `
-<table class="ui celled center aligned unstackable selectable table three column month">
+<table class="ui celled center aligned unstackable table three column month">
 <thead>
     <tr>
         <th colspan="3">
@@ -21,7 +22,7 @@ import { DateUtils } from "./date-utils";
 </thead>
 <tbody>
     <tr *ngFor="let group of groupedMonths">
-        <td class="calendar item"
+        <td class="link"
             *ngFor="let month of group"
             (click)="setMonth(month)">{{ months[month] }}</td>
     </tr>
@@ -34,33 +35,33 @@ import { DateUtils } from "./date-utils";
 }
 `]
 })
-export class SuiMonthpicker {
+export class SuiCalendarMonthView {
     @HostBinding("class.ui")
     @HostBinding("class.calendar")
     private _calendarClasses:boolean = true;
 
     public get year():number {
-        return this._selectedDate.getFullYear();
+        return this._displayedDate.getFullYear();
     }
 
-    public months:string[] = [
-        "Jan", "Feb", "Mar", "Apr",
-        "May", "Jun", "Jul", "Aug",
-        "Sep", "Oct", "Nov", "Dec"
-    ];
+    public get months():string[] {
+        return this.localizationService.getValues().datepicker.months;
+    }
     public groupedMonths:number[][];
 
     private _selectedDate:Date;
+    private _displayedDate:Date;
 
     @Input()
     public set selectedDate(date:Date) {
         this._selectedDate = DateUtils.clone(date);
+        this._displayedDate = DateUtils.clone(date);
     }
 
     @Output("monthSelected")
     public onMonthSelected:EventEmitter<Date>;
 
-    constructor() {
+    constructor(public localizationService:SuiLocalizationService) {
         this.onMonthSelected = new EventEmitter<Date>();
         this.groupedMonths = this.groupMonths();
     }
@@ -80,14 +81,15 @@ export class SuiMonthpicker {
     }
 
     public nextYear():void {
-        this._selectedDate.setFullYear(this.year + 1);
+        this._displayedDate.setFullYear(this.year + 1);
     }
 
     public prevYear():void {
-        this._selectedDate.setFullYear(this.year - 1);
+        this._displayedDate.setFullYear(this.year - 1);
     }
 
     public setMonth(month:number):void {
+        this._selectedDate.setFullYear(this._displayedDate.getFullYear());
         this._selectedDate.setMonth(month);
 
         this.onMonthSelected.emit(this._selectedDate);

@@ -14,5 +14,6 @@ export * from "./select/select.module";
 export * from "./sidebar/sidebar.module";
 export * from "./tabs/tab.module";
 export * from "./transition/transition.module";
+export * from "./util/util.module";
 
 export * from "./sui.module";
