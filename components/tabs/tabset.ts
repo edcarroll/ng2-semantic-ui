@@ -72,13 +72,15 @@ export class SuiTabset implements AfterContentInit {
             // Filter out the loaded headers with attached tab instances.
             .filter(tH => !this.tabs.find(t => t.header === tH))
             .forEach(tH => {
-                // Create a new tab instance for this header & content combo.
-                const tab = new Tab(tH, this._tabContents.find(tC => tC.id === tH.id));
+                const content = this._tabContents.find(tC => tC.id === tH.id);
 
-                if (!tab.content) {
+                if (!content) {
                     // Error if an associated tab content cannot be found for the given header.
                     throw new Error("A [suiTabHeader] must have a related [suiTabContent].");
                 }
+
+                // Create a new tab instance for this header & content combo.
+                const tab = new Tab(tH, content);
 
                 // Subscribe to any external changes in the tab header's active state. External changes are triggered by user input.
                 tab.header.isActiveExternalChange.subscribe(() => this.onHeaderActiveChanged(tab));
@@ -89,7 +91,12 @@ export class SuiTabset implements AfterContentInit {
 
         // Assign each tab an index (which denotes the order they physically appear in).
         this._tabHeaders
-            .forEach((tH, i) => this.tabs.find(t => t.header === tH).index = i);
+            .forEach((tH, i) => {
+                const tab = this.tabs.find(t => t.header === tH);
+                if (tab) {
+                    tab.index = i;
+                }
+            });
 
         // Sort the tabs by their index.
         this.tabs.sort((a, b) => a.index - b.index);
@@ -135,7 +142,7 @@ export class SuiTabset implements AfterContentInit {
 
     // Activates the closest available tab to a given one.
     public activateClosestTab(tab:Tab):void {
-        let nextAvailable:Tab;
+        let nextAvailable:Tab | undefined;
 
         // When the exited tab's index is higher than all available tabs,
         if (tab.index >= this.tabs.length) {

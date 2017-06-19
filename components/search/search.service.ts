@@ -2,10 +2,10 @@ import { readValue } from "../util/util";
 
 // Define useful types to avoid any.
 export type LookupFnResult<T> = T | Promise<T>;
-export type LookupFn<T> = (query:string) => LookupFnResult<T> | LookupFnResult<T[]>;
+export type LookupFn<T> = (query:string | undefined) => LookupFnResult<T> | LookupFnResult<T[]>;
 export type QueryLookupFn<T> = (query:string) => LookupFnResult<T[]>;
-export type ItemLookupFn<T, U> = (query:string, initial:U) => LookupFnResult<T>;
-export type ItemsLookupFn<T, U> = (query:string, initial:U[]) => LookupFnResult<T[]>;
+export type ItemLookupFn<T, U> = (query:string | undefined, initial:U) => LookupFnResult<T>;
+export type ItemsLookupFn<T, U> = (query:string | undefined, initial:U[]) => LookupFnResult<T[]>;
 
 interface ICachedArray<T> { [query:string]:T[]; }
 
@@ -13,9 +13,9 @@ export class SearchService<T> {
     // Stores the available options.
     private _options:T[];
     // Converts a query string into an array of options. Must be a function returning a promise.
-    private _optionsLookup:LookupFn<T>;
+    private _optionsLookup?:LookupFn<T>;
     // Field that options are searched & displayed on.
-    private _optionsField:string;
+    private _optionsField?:string;
 
     public get options():T[] {
         return this._options;
@@ -24,16 +24,16 @@ export class SearchService<T> {
     public set options(options:T[]) {
         this._options = options || [];
         // We cannot use both local & remote options simultaneously.
-        this._optionsLookup = null;
+        this._optionsLookup = undefined;
         // Reset entire service with new options.
         this.reset();
     }
 
-    public get optionsLookup():LookupFn<T> {
+    public get optionsLookup():LookupFn<T> | undefined {
         return this._optionsLookup;
     }
 
-    public set optionsLookup(lookupFn:LookupFn<T>) {
+    public set optionsLookup(lookupFn:LookupFn<T> | undefined) {
         this._optionsLookup = lookupFn;
         // As before, cannot use local & remote options simultaneously.
         this._options = [];
@@ -45,14 +45,14 @@ export class SearchService<T> {
     }
 
     public get hasItemLookup():boolean {
-        return this.optionsLookup && this.optionsLookup.length === 2;
+        return !!this.optionsLookup && this.optionsLookup.length === 2;
     }
 
-    public get optionsField():string {
+    public get optionsField():string | undefined {
         return this._optionsField;
     }
 
-    public set optionsField(field:string) {
+    public set optionsField(field:string | undefined) {
         this._optionsField = field;
         // We need to reset otherwise we would now be showing invalid search results.
         this.reset();
@@ -114,14 +114,14 @@ export class SearchService<T> {
         if (this._query === "" && !this.allowEmptyQuery) {
             // Don't update if the new query is empty (and we don't allow empty queries).
             // Don't reset so that when animating closed we don't get a judder.
-            return callback(null);
+            return callback();
         }
 
         if (this._resultsCache.hasOwnProperty(this._query)) {
             // If the query is already cached, make use of it.
             this._results = this._resultsCache[this._query];
 
-            return callback(null);
+            return callback();
         }
 
         if (this._optionsLookup) {
@@ -131,7 +131,7 @@ export class SearchService<T> {
                 this._isSearching = false;
 
                 this.updateResults(results);
-                return callback(null);
+                return callback();
             };
 
             const queryLookup = this.queryLookup(this._query);
@@ -151,20 +151,22 @@ export class SearchService<T> {
             return;
         }
 
-        // Convert the query string to a RegExp.
-        const regex = this.toRegex(this._query);
+        if (this.optionsField) {
+            // Convert the query string to a RegExp.
+            const regex = this.toRegex(this._query);
 
-        if (regex instanceof RegExp) {
-            // Only update the results if the query was valid regex.
-            // This avoids the results suddenly becoming empty if an invalid regex string is inputted.
-            this.updateResults(this._options
-                // Filter on the options with a string match on the field we are testing.
-                .filter(o => readValue<T, string>(o, this._optionsField)
-                    .toString()
-                    .match(regex)));
+            if (regex instanceof RegExp) {
+                // Only update the results if the query was valid regex.
+                // This avoids the results suddenly becoming empty if an invalid regex string is inputted.
+                this.updateResults(this._options
+                    // Filter on the options with a string match on the field we are testing.
+                    .filter(o => readValue<T, string>(o, this._optionsField)
+                        .toString()
+                        .match(regex)));
+            }
+
+            return callback();
         }
-
-        return callback(null);
     }
 
     // Updates & caches the new set of results.

@@ -10,7 +10,7 @@ export class TransitionController {
 
     // Used to delay animations until we have an element to animate.
     private get _isReady():boolean {
-        return this._renderer != null && this._element != null && this._changeDetector != null;
+        return this._renderer != undefined && this._element != undefined && this._changeDetector != undefined;
     }
 
     // Sets the 'display' style when visible.
@@ -87,7 +87,7 @@ export class TransitionController {
         const isDirectionless = ["jiggle", "flash", "shake", "pulse", "tada", "bounce"].indexOf(transition.type) !== -1;
         if (isDirectionless) {
             transition.direction = TransitionDirection.Static;
-        } else if (transition.direction == null || transition.direction === TransitionDirection.Either) {
+        } else if (transition.direction == undefined || transition.direction === TransitionDirection.Either) {
             // Set the direction to the opposite of the current visible state automatically if not set, or set to either direction.
             transition.direction = this._isVisible ? TransitionDirection.Out : TransitionDirection.In;
             if (this._queueLast) {

@@ -48,7 +48,7 @@ import { customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHo
 export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterViewInit, ICustomValueAccessorHost<U[]> {
     public selectedOptions:T[];
     // Stores the values written by ngModel before it can be matched to an option from `options`.
-    private _writtenOptions:U[];
+    private _writtenOptions?:U[];
 
     // Since we are rendering the selected options with an ngFor, we need to track them in the same manner as the base class.
     @ViewChildren(SuiMultiSelectLabel)
@@ -73,7 +73,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
     public maxSelected:number;
 
     public get maxSelectedReached():boolean {
-        if (this.maxSelected == null) {
+        if (this.maxSelected == undefined) {
             // If there is no maximum then we can immediately return.
             return false;
         }
@@ -100,10 +100,12 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
         if (this._writtenOptions && this.searchService.options.length > 0) {
             // If there were values written by ngModel before the options had been loaded, this runs to fix it.
             this.selectedOptions = this._writtenOptions
-                .map(v => this.searchService.options.find(o => v === this.valueGetter(o)));
+                // non-null assertion added here because Typescript doesn't recognise the non-null filter.
+                .map(v => this.searchService.options.find(o => v === this.valueGetter(o))!)
+                .filter(v => v != undefined);
 
             if (this.selectedOptions.length === this._writtenOptions.length) {
-                this._writtenOptions = null;
+                this._writtenOptions = undefined;
             }
         }
     }
@@ -125,7 +127,10 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
         if (values instanceof Array) {
             if (this.searchService.options.length > 0) {
                 // If the options have already been loaded, we can immediately match the ngModel values to options.
-                this.selectedOptions = values.map(v => this.findOption(this.searchService.options, v));
+                this.selectedOptions = values
+                    // non-null assertion added here because Typescript doesn't recognise the non-null filter.
+                    .map(v => this.findOption(this.searchService.options, v)!)
+                    .filter(v => !!v);
             }
             if (values.length > 0 && this.selectedOptions.length === 0) {
                 if (this.valueField && this.searchService.hasItemLookup) {

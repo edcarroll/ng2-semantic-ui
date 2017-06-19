@@ -18,16 +18,12 @@ export interface ITemplateRefContext<T> { $implicit:T; }
 
 // This involves some fun type fuckery (It can be likened to RAA) - this is essentially a function to retrive the value at a given path.
 // If anyone has a better way, please do let me know :)
-export function deepValue<T, U>(object:T, path:string):U {
-    if (!object) {
-        return;
-    }
-
+export function deepValue<T, U>(object:T, path?:string):U {
     if (!path) {
         return object as any as U;
     }
 
-    let recursed:IRecursiveObject;
+    let recursed:IRecursiveObject | undefined;
 
     for (let i = 0, p = path.split("."), len = p.length; i < len; i++) {
         recursed = (object as any as IRecursiveObject)[p[i]];
@@ -36,7 +32,7 @@ export function deepValue<T, U>(object:T, path:string):U {
     return recursed as any as U;
 }
 
-export function readValue<T, U>(object:T, field:string):U {
+export function readValue<T, U>(object:T, field?:string):U {
     return deepValue<T, U>(object, field);
 }
 

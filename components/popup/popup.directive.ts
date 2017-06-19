@@ -81,11 +81,12 @@ export class SuiPopupDirective implements IPopup {
     }
 
     // Stores reference to generated popup component.
-    private _componentRef:ComponentRef<SuiPopup>;
+    private _componentRef?:ComponentRef<SuiPopup>;
 
     // Returns generated popup instance.
     private get _popup():SuiPopup {
-        return this._componentRef.instance;
+        // Use non-null assertion as we only access this when a popup exists.
+        return this._componentRef!.instance;
     }
 
     // `setTimeout` timer pointer for delayed popup open.
@@ -123,14 +124,16 @@ export class SuiPopupDirective implements IPopup {
                     this._popup.anchor = this._element;
 
                     // Move the generated element to the body to avoid any positioning issues.
-                    document.querySelector("body").appendChild(this._componentRef.location.nativeElement);
+                    document.querySelector("body")!.appendChild(this._componentRef.location.nativeElement);
 
                     // When the popup is closed (onClose fires on animation complete),
                     this._popup.onClose.subscribe(() => {
-                        // Destroy the component reference (which removes the popup from the DOM).
-                        this._componentRef.destroy();
-                        // Unset the reference pointer to enable a new popup to be created on next open.
-                        this._componentRef = null;
+                        if (this._componentRef) {
+                            // Destroy the component reference (which removes the popup from the DOM).
+                            this._componentRef.destroy();
+                            // Unset the reference pointer to enable a new popup to be created on next open.
+                            this._componentRef = undefined;
+                        }
                     });
                 }
 

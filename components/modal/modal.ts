@@ -138,7 +138,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
 
     constructor(private _renderer:Renderer2) {
         // Initialise with default configuration from `ModalConfig` (to avoid writing defaults twice).
-        const config = new ModalConfig<null, T, U>();
+        const config = new ModalConfig<undefined, T, U>();
         this.loadConfig(config);
 
         // Event emitters for each of the possible modal outcomes.
@@ -219,7 +219,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     // Decides whether the modal needs to reposition to allow scrolling.
     private updateScroll():void {
         // Semantic UI modal margin is 3.5rem, which is relative to the global font size, so for compatibility:
-        const fontSize = parseFloat(window.getComputedStyle(document.documentElement, null).getPropertyValue("font-size"));
+        const fontSize = parseFloat(window.getComputedStyle(document.documentElement).getPropertyValue("font-size"));
         const margin = fontSize * 3.5;
 
         // _mustAlwaysScroll works by stopping _mustScroll from being automatically updated, so it stays `true`.
