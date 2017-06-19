@@ -151,22 +151,20 @@ export class SearchService<T> {
             return;
         }
 
-        if (this.optionsField) {
             // Convert the query string to a RegExp.
-            const regex = this.toRegex(this._query);
+        const regex = this.toRegex(this._query);
 
-            if (regex instanceof RegExp) {
+        if (regex instanceof RegExp) {
                 // Only update the results if the query was valid regex.
                 // This avoids the results suddenly becoming empty if an invalid regex string is inputted.
-                this.updateResults(this._options
-                    // Filter on the options with a string match on the field we are testing.
-                    .filter(o => readValue<T, string>(o, this._optionsField)
-                        .toString()
-                        .match(regex)));
-            }
-
-            return callback();
+            this.updateResults(this._options
+                // Filter on the options with a string match on the field we are testing.
+                .filter(o => readValue<T, string>(o, this._optionsField)
+                    .toString()
+                    .match(regex)));
         }
+
+        return callback();
     }
 
     // Updates & caches the new set of results.
