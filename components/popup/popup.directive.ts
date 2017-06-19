@@ -8,6 +8,7 @@ import { ITemplateRefContext, parseBooleanAttribute } from "../util/util";
 import { PopupConfig, IPopupConfig, PopupTrigger } from "./popup-config";
 import { SuiPopupConfig } from "./popup.service";
 import { SuiPopupBaseDirective } from "./popup-base.directive";
+import { SuiComponentFactory } from "../util/component-factory.service";
 
 @Directive({
     selector: "[suiPopup]",
@@ -74,10 +75,9 @@ export class SuiPopupDirective extends SuiPopupBaseDirective {
     }
 
     constructor(element:ElementRef,
-                viewContainerRef:ViewContainerRef,
-                componentFactoryResolver:ComponentFactoryResolver,
+                componentFactory:SuiComponentFactory,
                 popupDefaults:SuiPopupConfig) {
 
-        super(element, viewContainerRef, componentFactoryResolver, new PopupConfig(popupDefaults));
+        super(element, componentFactory, new PopupConfig(popupDefaults));
     }
 }
