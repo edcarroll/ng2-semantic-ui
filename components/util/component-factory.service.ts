@@ -52,4 +52,9 @@ export class SuiComponentFactory {
     public moveToDocumentBody<T>(componentRef:ComponentRef<T>):void {
         this.moveToElement(componentRef, document.querySelector("body")!);
     }
+
+    public detachFromDocument<T>(componentRef:ComponentRef<T>):void {
+        const element = componentRef.location.nativeElement as Element;
+        element.remove();
+    }
 }

@@ -40,9 +40,10 @@ export abstract class SuiPopupBaseDirective implements IPopup {
         this.onClose.subscribe(() => {
             if (this._componentRef) {
                 // Destroy the component reference (which removes the popup from the DOM).
-                this._componentRef.destroy();
+                // this._componentRef.destroy();
                 // Unset the reference pointer to enable a new popup to be created on next open.
-                this._componentRef = undefined;
+                // this._componentRef = undefined;
+                this._componentFactory.detachFromDocument(this._componentRef);
             }
         });
     }
@@ -74,10 +75,10 @@ export abstract class SuiPopupBaseDirective implements IPopup {
 
                     this._popup.onOpen = this.onOpen;
                     this._popup.onClose = this.onClose;
-
-                    // Move the generated element to the body to avoid any positioning issues.
-                    this._componentFactory.moveToDocumentBody(this._componentRef);
                 }
+
+                // Move the generated element to the body to avoid any positioning issues.
+                this._componentFactory.moveToDocumentBody(this._componentRef);
 
                 // Start popup open transition.
                 this._popup.open();
