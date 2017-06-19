@@ -64,6 +64,7 @@ export class SuiCalendarDateView {
     public set selectedDate(date:Date) {
         this._selectedDate = DateUtils.clone(date);
         this._displayedDate = DateUtils.clone(date);
+
         this.displayedDates = this.groupDates();
     }
 
@@ -77,12 +78,10 @@ export class SuiCalendarDateView {
     public onZoomOut:EventEmitter<void>;
 
     constructor(public localizationService:SuiLocalizationService) {
-        this.selectedDate = new Date();
-
         this.firstDayOfWeek = this.localizationService
             .getValues().datepicker.firstDayOfWeek;
 
-        this.firstDayOfWeek = 0;
+        this.selectedDate = new Date();
 
         this.onDateSelected = new EventEmitter<Date>();
         this.onZoomOut = new EventEmitter<void>();
