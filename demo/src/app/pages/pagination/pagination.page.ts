@@ -42,6 +42,28 @@ const exampleMaxSizeTemplate = `
 </div>
 `;
 
+const exampleRotationTemplate = `
+<div class="ui segments">
+    <div class="ui segment">
+        <sui-pagination [collectionSize]="100" [pageSize]="10" [maxSize]="maxSize" [hasBoundaryLinks]="showBoundary"
+            [(page)]="selectedPage" [hasRotation]="true">
+        </sui-pagination>
+        <p>Current page: {{ selectedPage }}</p>
+    </div>
+    <div class="ui segment">
+        <div class="ui small form">
+            <button class="ui primary button" (click)="showBoundary = !showBoundary">
+                Toggle Boundary
+            </button>
+            <div class="field">
+                <label>Max Size</label>
+                <input type="number" [(ngModel)]=maxSize>
+            </div>
+        </div>
+    </div>
+</div>
+`;
+
 @Component({
     selector: "demo-page-pagination",
     templateUrl: "./pagination.page.html"
@@ -68,7 +90,14 @@ export class PaginationPage implements OnInit {
                     name: "hasNavigation",
                     type: "boolean",
                     description: "Whetever or not the navigation links (<code><</code> and <code>></code>) are displayed. " +
-                        "Forced to be displayed when <code>maxSize</code> is lesser than required page count.",
+                        "Forced to be displayed when <code>maxSize</code> < number of pages.",
+                    defaultValue: "false"
+                },
+                {
+                    name: "hasRotation",
+                    type: "boolean",
+                    description: "Whetever to rotate pages when <code>maxSize</code> > number of pages. " +
+                        "Current page will be in the middle.",
                     defaultValue: "false"
                 },
                 {
@@ -104,6 +133,7 @@ export class PaginationPage implements OnInit {
 
     public exampleStandardTemplate:string = exampleStandardTemplate;
     public exampleMaxSizeTemplate:string = exampleMaxSizeTemplate;
+    public exampleRotationTemplate:string = exampleRotationTemplate;
 
     constructor() { }
 
@@ -149,4 +179,24 @@ export class PaginationExampleMaxSize implements OnInit {
     }
 }
 
-export const PaginationPageComponents = [PaginationPage, PaginationExampleStandard, PaginationExampleMaxSize];
+@Component({
+    selector: "example-pagination-rotation",
+    template: exampleRotationTemplate
+})
+export class PaginationExampleRotation implements OnInit {
+
+    public selectedPage:number;
+    public showBoundary:boolean;
+    public maxSize:number;
+
+    constructor() { }
+
+    public ngOnInit():void {
+        this.selectedPage = 1;
+        this.showBoundary = false;
+        this.maxSize = 5;
+    }
+}
+
+
+export const PaginationPageComponents = [PaginationPage, PaginationExampleStandard, PaginationExampleMaxSize, PaginationExampleRotation];

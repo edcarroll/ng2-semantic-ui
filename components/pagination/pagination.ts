@@ -40,13 +40,14 @@ export class SuiPagination implements OnChanges {
     private _page:number;
     private _hasBoundaryLinks:boolean;
     private _hasNavigation:boolean;
+    private _hasRotation:boolean;
 
     @Input()
-    public get maxSize():number {
+    public get maxSize():number|undefined {
         return this._maxSize;
     }
 
-    public set maxSize(value:number) {
+    public set maxSize(value:number | undefined) {
         this._maxSize = (value !== undefined) ? Math.max(value, 1) : undefined;
     }
 
@@ -70,7 +71,8 @@ export class SuiPagination implements OnChanges {
 
     @Input()
     public get hasNavigation():boolean {
-        return this._hasNavigation || this._maxSize < this.pageCount;
+        const maxSize = this._maxSize || this.pageCount;
+        return this._hasNavigation || maxSize < this.pageCount;
     }
 
     public set hasNavigation(value:boolean) {
@@ -84,6 +86,15 @@ export class SuiPagination implements OnChanges {
 
     public set hasBoundaryLinks(value:boolean) {
         this._hasBoundaryLinks = value;
+    }
+
+    @Input()
+    public get hasRotation():boolean {
+        return this._hasRotation;
+    }
+
+    public set hasRotation(value:boolean) {
+        this._hasRotation = value;
     }
 
     @Input()
@@ -112,6 +123,7 @@ export class SuiPagination implements OnChanges {
         this.page = 1;
         this.hasNavigation = false;
         this.hasBoundaryLinks = false;
+        this.hasRotation = false;
     }
 
     // Public methods
@@ -133,7 +145,6 @@ export class SuiPagination implements OnChanges {
 
     // Lifecycle hooks
     public ngOnChanges(changes:SimpleChanges):void {
-        console.log(changes);
         this.updatePages(this.page);
     }
 
@@ -146,21 +157,27 @@ export class SuiPagination implements OnChanges {
 
     private applyPagination():[number, number] {
 
+        const maxSize = (this.maxSize !== undefined) ? Math.min(this.maxSize, this.pageCount) : this.pageCount;
         let start = 0;
         let end = this.pageCount;
 
-        if (this.maxSize !== undefined && this.maxSize < this.pageCount) {
+        if (this.hasRotation) {
+            const leftOffset = Math.floor(maxSize / 2);
+            const rightOffset = maxSize % 2 === 0 ? leftOffset - 1 : leftOffset;
 
-            const page = Math.ceil(this.page / this.maxSize) - 1;
-            start = page * this.maxSize;
-            end = start + this.maxSize;
-
-            if (end > this.pageCount) {
-                end = this.pageCount;
-                start = end - this.maxSize;
+            if (this.page  <= leftOffset) {
+                end = maxSize;
+            } else if (this.pageCount - this.page < leftOffset) {
+                start = this.pageCount - maxSize;
+            } else {
+                start = this.page - leftOffset - 1;
+                end = this.page + rightOffset;
             }
+        } else {
+            const page = Math.ceil(this.page / maxSize) - 1;
+            start = page * maxSize;
+            end = start + maxSize;
         }
         return [start, end];
     }
-
 }
