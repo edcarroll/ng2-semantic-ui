@@ -1,16 +1,19 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { SuiYearpicker } from "./yearpicker";
+import { SuiMonthpicker } from "./monthpicker";
 
 @NgModule({
     imports: [
         CommonModule
     ],
     declarations: [
-        SuiYearpicker
+        SuiYearpicker,
+        SuiMonthpicker
     ],
     exports: [
-        SuiYearpicker
+        SuiYearpicker,
+        SuiMonthpicker
     ]
 })
 export class SuiDatepickerModule {}

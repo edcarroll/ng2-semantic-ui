@@ -5,6 +5,8 @@ import { Component, AfterViewInit, ViewChild, TemplateRef } from "@angular/core"
     templateUrl: "./test.page.html"
 })
 export class TestPage {
+    public date:Date = new Date();
+
     public log(item:any):void {
         console.log(item);
     }

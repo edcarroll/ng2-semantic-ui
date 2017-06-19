@@ -1,5 +1,6 @@
 
 import { Component, HostBinding, Input, Output, EventEmitter } from "@angular/core";
+import { DateUtils } from "./date-utils";
 
 @Component({
     selector: "sui-yearpicker",
@@ -36,7 +37,11 @@ import { Component, HostBinding, Input, Output, EventEmitter } from "@angular/co
 export class SuiYearpicker {
     @HostBinding("class.ui")
     @HostBinding("class.calendar")
-    public calendarClasses:boolean = true;
+    private _calendarClasses:boolean = true;
+
+    public get startYear():number {
+        return Math.floor(this._selectedDate.getFullYear() / 10) * 10 + 1;
+    }
 
     public get displayedYears():number[][] {
         const years = Array<number>(12)
@@ -52,31 +57,33 @@ export class SuiYearpicker {
         return grouped;
     }
 
-    public startYear:number;
+    private _selectedDate:Date;
 
     @Input()
-    public set selectedYear(year:number) {
-        this.startYear = Math.floor(year / 10) * 10 + 1;
+    public set selectedDate(date:Date) {
+        this._selectedDate = DateUtils.clone(date);
     }
 
     @Output("yearSelected")
-    public onYearSelected:EventEmitter<number>;
+    public onYearSelected:EventEmitter<Date>;
 
     constructor() {
-        this.onYearSelected = new EventEmitter<number>();
+        this.onYearSelected = new EventEmitter<Date>();
 
-        this.startYear = new Date().getFullYear();
+        this._selectedDate = new Date();
     }
 
     public nextDecade():void {
-        this.startYear += 10;
+        this._selectedDate.setFullYear(this._selectedDate.getFullYear() + 10);
     }
 
     public prevDecade():void {
-        this.startYear -= 10;
+        this._selectedDate.setFullYear(this._selectedDate.getFullYear() - 10);
     }
 
     public setYear(year:number):void {
-        this.onYearSelected.emit(year);
+        this._selectedDate.setFullYear(year);
+
+        this.onYearSelected.emit(this._selectedDate);
     }
 }
