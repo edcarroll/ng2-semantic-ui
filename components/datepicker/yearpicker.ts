@@ -43,19 +43,7 @@ export class SuiYearpicker {
         return Math.floor(this._selectedDate.getFullYear() / 10) * 10 + 1;
     }
 
-    public get displayedYears():number[][] {
-        const years = Array<number>(12)
-            .fill(this.startYear)
-            .map((y, i) => y + i);
-
-        const grouped:number[][] = [];
-
-        while (years.length > 0) {
-            grouped.push(years.splice(0, 3));
-        }
-
-        return grouped;
-    }
+    public displayedYears:number[][];
 
     private _selectedDate:Date;
 
@@ -73,12 +61,28 @@ export class SuiYearpicker {
         this._selectedDate = new Date();
     }
 
+    private groupYears():number[][] {
+        const years = Array<number>(12)
+            .fill(this.startYear)
+            .map((y, i) => y + i);
+
+        const grouped:number[][] = [];
+
+        while (years.length > 0) {
+            grouped.push(years.splice(0, 3));
+        }
+
+        return grouped;
+    }
+
     public nextDecade():void {
         this._selectedDate.setFullYear(this._selectedDate.getFullYear() + 10);
+        this.displayedYears = this.groupYears();
     }
 
     public prevDecade():void {
         this._selectedDate.setFullYear(this._selectedDate.getFullYear() - 10);
+        this.displayedYears = this.groupYears();
     }
 
     public setYear(year:number):void {

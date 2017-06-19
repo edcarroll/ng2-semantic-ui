@@ -5,7 +5,7 @@ import { DateUtils } from "./date-utils";
 @Component({
     selector: "sui-monthpicker",
     template: `
-<table class="ui celled center aligned unstackable table three column month">
+<table class="ui celled center aligned unstackable selectable table three column month">
 <thead>
     <tr>
         <th colspan="3">
@@ -20,8 +20,8 @@ import { DateUtils } from "./date-utils";
     </tr>
 </thead>
 <tbody>
-    <tr *ngFor="let group of displayedMonths">
-        <td class="link"
+    <tr *ngFor="let group of groupedMonths">
+        <td class="calendar item"
             *ngFor="let month of group"
             (click)="setMonth(month)">{{ months[month] }}</td>
     </tr>
@@ -48,20 +48,7 @@ export class SuiMonthpicker {
         "May", "Jun", "Jul", "Aug",
         "Sep", "Oct", "Nov", "Dec"
     ];
-
-    public get displayedMonths():number[][] {
-        const months = Array<number>(12)
-            .fill(0)
-            .map((y, i) => y + i);
-
-        const grouped:number[][] = [];
-
-        while (months.length > 0) {
-            grouped.push(months.splice(0, 3));
-        }
-
-        return grouped;
-    }
+    public groupedMonths:number[][];
 
     private _selectedDate:Date;
 
@@ -75,6 +62,21 @@ export class SuiMonthpicker {
 
     constructor() {
         this.onMonthSelected = new EventEmitter<Date>();
+        this.groupedMonths = this.groupMonths();
+    }
+
+    private groupMonths():number[][] {
+        const months = Array<number>(12)
+            .fill(0)
+            .map((y, i) => y + i);
+
+        const grouped:number[][] = [];
+
+        while (months.length > 0) {
+            grouped.push(months.splice(0, 3));
+        }
+
+        return grouped;
     }
 
     public nextYear():void {

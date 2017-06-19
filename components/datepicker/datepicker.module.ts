@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { SuiYearpicker } from "./yearpicker";
 import { SuiMonthpicker } from "./monthpicker";
+import { SuiCalendarItem } from "./calendar-item";
 
 @NgModule({
     imports: [
@@ -9,9 +10,11 @@ import { SuiMonthpicker } from "./monthpicker";
     ],
     declarations: [
         SuiYearpicker,
-        SuiMonthpicker
+        SuiMonthpicker,
+        SuiCalendarItem
     ],
     exports: [
+        // Delete all of these!
         SuiYearpicker,
         SuiMonthpicker
     ]
