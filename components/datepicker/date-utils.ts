@@ -1,13 +1,4 @@
 export class DateUtils {
-    public static get initialDate():Date {
-        const d = new Date();
-
-        d.setFullYear(0);
-        this.startOfYear(d);
-
-        return d;
-    }
-
     public static startOfYear(date:Date):Date {
         this.startOfMonth(date);
         date.setMonth(0);
