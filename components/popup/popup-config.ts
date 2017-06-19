@@ -1,4 +1,4 @@
-import { TemplateRef } from "@angular/core";
+import { TemplateRef, ComponentRef } from "@angular/core";
 import { ITemplateRefContext } from "../util/util";
 import { PositioningPlacement } from "../util/positioning.service";
 import { IPopup } from "./popup-base.directive";
@@ -17,6 +17,7 @@ export interface IPopupConfig {
     header?:string;
     text?:string;
     template?:TemplateRef<ITemplateRefContext<IPopup>>;
+    component?:ComponentRef<any>;
     placement?:PositioningPlacement;
     trigger?:PopupTrigger;
     isInverted?:boolean;
@@ -30,6 +31,7 @@ export class PopupConfig implements IPopupConfig {
     public header:string;
     public text:string;
     public template:TemplateRef<ITemplateRefContext<IPopup>>;
+    public component:ComponentRef<any>;
     public placement:PositioningPlacement;
     public trigger:PopupTrigger;
     public isInverted:boolean;

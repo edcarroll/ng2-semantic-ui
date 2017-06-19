@@ -73,6 +73,8 @@ export class SuiPopup implements IPopup {
     // `setTimeout` timer pointer for cancelling popup close.
     private _closingTimeout:number;
 
+    // Fires when the popup opens (and the animation is completed).
+    public onOpen:EventEmitter<void>;
     // Fires when the popup closes (and the animation is completed).
     public onClose:EventEmitter<void>;
 
@@ -104,7 +106,6 @@ export class SuiPopup implements IPopup {
         this.transitionController = new TransitionController(false);
 
         this._isOpen = false;
-        this.onClose = new EventEmitter<void>();
     }
 
     public open():void {
@@ -123,6 +124,7 @@ export class SuiPopup implements IPopup {
 
             // Finally, set the popup to be open.
             this._isOpen = true;
+            this.onOpen.emit();
         }
     }
 

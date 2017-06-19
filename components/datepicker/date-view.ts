@@ -41,10 +41,6 @@ import { ICalendarItem } from "./calendar-item";
 `]
 })
 export class SuiCalendarDateView {
-    @HostBinding("class.ui")
-    @HostBinding("class.calendar")
-    private _calendarClasses:boolean = true;
-
     public get dynamicDays():string[] {
         const days = this.localizationService.getValues().datepicker.weekdaysShort;
         return days.map((d, i) => days[(i + this.firstDayOfWeek) % days.length]);
@@ -81,6 +77,8 @@ export class SuiCalendarDateView {
     public onZoomOut:EventEmitter<void>;
 
     constructor(public localizationService:SuiLocalizationService) {
+        this.selectedDate = new Date();
+
         this.firstDayOfWeek = this.localizationService
             .getValues().datepicker.firstDayOfWeek;
 

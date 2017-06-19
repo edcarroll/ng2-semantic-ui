@@ -35,10 +35,6 @@ import { DateUtils } from "./date-utils";
 `]
 })
 export class SuiCalendarYearView {
-    @HostBinding("class.ui")
-    @HostBinding("class.calendar")
-    private _calendarClasses:boolean = true;
-
     public get startYear():number {
         return Math.floor(this._displayedDate.getFullYear() / 10) * 10 + 1;
     }
@@ -52,6 +48,7 @@ export class SuiCalendarYearView {
     public set selectedDate(date:Date) {
         this._selectedDate = DateUtils.clone(date);
         this._displayedDate = DateUtils.clone(date);
+        this.displayedYears = this.groupYears();
     }
 
     @Output("yearSelected")
@@ -61,6 +58,8 @@ export class SuiCalendarYearView {
     public onZoomOut:EventEmitter<void>;
 
     constructor() {
+        this.selectedDate = new Date();
+
         this.onYearSelected = new EventEmitter<Date>();
         this.onZoomOut = new EventEmitter<void>();
     }

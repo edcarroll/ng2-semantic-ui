@@ -36,10 +36,6 @@ import { SuiLocalizationService } from "../util/localization.service";
 `]
 })
 export class SuiCalendarMonthView {
-    @HostBinding("class.ui")
-    @HostBinding("class.calendar")
-    private _calendarClasses:boolean = true;
-
     public get year():number {
         return this._displayedDate.getFullYear();
     }
@@ -65,6 +61,8 @@ export class SuiCalendarMonthView {
     public onZoomOut:EventEmitter<void>;
 
     constructor(public localizationService:SuiLocalizationService) {
+        this.selectedDate = new Date();
+
         this.groupedMonths = this.groupMonths();
 
         this.onMonthSelected = new EventEmitter<Date>();

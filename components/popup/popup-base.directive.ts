@@ -1,4 +1,7 @@
-import { ComponentRef, ElementRef, ViewContainerRef, ComponentFactoryResolver, HostListener } from "@angular/core";
+import {
+    ComponentRef, ElementRef, ViewContainerRef, ComponentFactoryResolver,
+    HostListener, EventEmitter
+} from "@angular/core";
 import { PopupConfig, PopupTrigger } from "./popup-config";
 import { SuiPopup } from "./popup";
 import { SuiPopupConfig } from "./popup.service";
@@ -12,10 +15,10 @@ export interface IPopup {
 
 export abstract class SuiPopupBaseDirective implements IPopup {
     // Stores reference to generated popup component.
-    private _componentRef?:ComponentRef<SuiPopup>;
+    protected _componentRef?:ComponentRef<SuiPopup>;
 
     // Returns generated popup instance.
-    private get _popup():SuiPopup {
+    protected get _popup():SuiPopup {
         // Use non-null assertion as we only access this when a popup exists.
         return this._componentRef!.instance;
     }
@@ -23,9 +26,25 @@ export abstract class SuiPopupBaseDirective implements IPopup {
     // `setTimeout` timer pointer for delayed popup open.
     private _openingTimeout:number;
 
+    public onOpen:EventEmitter<void>;
+    public onClose:EventEmitter<void>;
+
     constructor(private _element:ElementRef,
                 private _componentFactory:SuiComponentFactory,
                 protected _popupConfig:PopupConfig) {
+
+        this.onOpen = new EventEmitter<void>();
+        this.onClose = new EventEmitter<void>();
+
+        // When the popup is closed (onClose fires on animation complete),
+        this.onClose.subscribe(() => {
+            if (this._componentRef) {
+                // Destroy the component reference (which removes the popup from the DOM).
+                this._componentRef.destroy();
+                // Unset the reference pointer to enable a new popup to be created on next open.
+                this._componentRef = undefined;
+            }
+        });
     }
 
     public open():void {
@@ -45,24 +64,19 @@ export abstract class SuiPopupBaseDirective implements IPopup {
                         this._componentFactory.createView(this._popup.templateSibling, this._popupConfig.template, {
                             $implicit: this._popup
                         });
+                    } else if (this._popupConfig.component) {
+                        this._componentFactory.attachToView(this._popupConfig.component, this._popup.templateSibling);
                     }
 
                     // Configure popup with provided config, and attach a reference to the anchor element.
                     this._popup.config = this._popupConfig;
                     this._popup.anchor = this._element;
 
+                    this._popup.onOpen = this.onOpen;
+                    this._popup.onClose = this.onClose;
+
                     // Move the generated element to the body to avoid any positioning issues.
                     this._componentFactory.moveToDocumentBody(this._componentRef);
-
-                    // When the popup is closed (onClose fires on animation complete),
-                    this._popup.onClose.subscribe(() => {
-                        if (this._componentRef) {
-                            // Destroy the component reference (which removes the popup from the DOM).
-                            this._componentRef.destroy();
-                            // Unset the reference pointer to enable a new popup to be created on next open.
-                            this._componentRef = undefined;
-                        }
-                    });
                 }
 
                 // Start popup open transition.
