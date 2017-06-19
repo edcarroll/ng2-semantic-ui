@@ -10,7 +10,7 @@ import { ICalendarItem } from "./calendar-item";
 <thead>
     <tr>
         <th colspan="7">
-            <span class="link">{{ month }} {{ year }}</span>
+            <span class="link" (click)="onZoomOut.emit()">{{ month }} {{ year }}</span>
             <span class="prev link" (click)="prevMonth()">
                 <i class="chevron left icon"></i>
             </span>
@@ -77,6 +77,9 @@ export class SuiCalendarDateView {
     @Output("dateSelected")
     public onDateSelected:EventEmitter<Date>;
 
+    @Output("zoomOut")
+    public onZoomOut:EventEmitter<void>;
+
     constructor(public localizationService:SuiLocalizationService) {
         this.firstDayOfWeek = this.localizationService
             .getValues().datepicker.firstDayOfWeek;
@@ -84,6 +87,7 @@ export class SuiCalendarDateView {
         this.firstDayOfWeek = 0;
 
         this.onDateSelected = new EventEmitter<Date>();
+        this.onZoomOut = new EventEmitter<void>();
     }
 
     public groupDates():ICalendarItem[][] {
@@ -125,6 +129,8 @@ export class SuiCalendarDateView {
     }
 
     public setDate(date:Date):void {
+        this._selectedDate = date;
 
+        this.onDateSelected.emit(this._selectedDate);
     }
 }

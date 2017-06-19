@@ -10,7 +10,7 @@ import { SuiLocalizationService } from "../util/localization.service";
 <thead>
     <tr>
         <th colspan="3">
-            <span class="link">{{ year }}</span>
+            <span class="link" (click)="onZoomOut.emit()">{{ year }}</span>
             <span class="prev link" (click)="prevYear()">
                 <i class="chevron left icon"></i>
             </span>
@@ -61,9 +61,14 @@ export class SuiCalendarMonthView {
     @Output("monthSelected")
     public onMonthSelected:EventEmitter<Date>;
 
+    @Output("zoomOut")
+    public onZoomOut:EventEmitter<void>;
+
     constructor(public localizationService:SuiLocalizationService) {
-        this.onMonthSelected = new EventEmitter<Date>();
         this.groupedMonths = this.groupMonths();
+
+        this.onMonthSelected = new EventEmitter<Date>();
+        this.onZoomOut = new EventEmitter<void>();
     }
 
     private groupMonths():number[][] {

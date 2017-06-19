@@ -9,7 +9,7 @@ import { DateUtils } from "./date-utils";
 <thead>
     <tr>
         <th colspan="3">
-            <span class="link">{{ startYear }} - {{ startYear + 10 }}</span>
+            <span class="link" (click)="onZoomOut.emit()">{{ startYear }} - {{ startYear + 10 }}</span>
             <span class="prev link" (click)="prevDecade()">
                 <i class="chevron left icon"></i>
             </span>
@@ -57,8 +57,12 @@ export class SuiCalendarYearView {
     @Output("yearSelected")
     public onYearSelected:EventEmitter<Date>;
 
+    @Output("zoomOut")
+    public onZoomOut:EventEmitter<void>;
+
     constructor() {
         this.onYearSelected = new EventEmitter<Date>();
+        this.onZoomOut = new EventEmitter<void>();
     }
 
     private groupYears():number[][] {

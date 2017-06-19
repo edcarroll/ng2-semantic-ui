@@ -1,7 +1,7 @@
 import { TemplateRef } from "@angular/core";
 import { ITemplateRefContext } from "../util/util";
 import { PositioningPlacement } from "../util/positioning.service";
-import { IPopup } from "./popup.directive";
+import { IPopup } from "./popup-base.directive";
 
 export type PopupTrigger = "hover" | "click" | "outsideClick" | "focus" | "manual";
 

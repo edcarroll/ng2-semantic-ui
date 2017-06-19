@@ -3,7 +3,7 @@ import { SuiTransition, Transition, TransitionDirection } from "../transition/tr
 import { TransitionController } from "../transition/transition-controller";
 import { PositioningService, PositioningPlacement } from "../util/positioning.service";
 import { ITemplateRefContext } from "../util/util";
-import { IPopup } from "./popup.directive";
+import { IPopup } from "./popup-base.directive";
 import { PopupConfig } from "./popup-config";
 import Popper from "popper.js";
 
