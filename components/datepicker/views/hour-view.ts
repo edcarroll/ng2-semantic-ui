@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { CalendarView } from "./calendar-view";
+import { CalendarView, CalendarViewType } from "./calendar-view";
 import { SuiLocalizationService } from "../../util/services/localization.service";
 import { CalendarTimeItem } from "../directives/calendar-item";
 import { Util } from "../../util/util";
@@ -45,7 +45,7 @@ export class SuiCalendarHourView extends CalendarView {
     }
 
     constructor(public localizationService:SuiLocalizationService) {
-        super("hour");
+        super(CalendarViewType.Hour);
 
         this.renderItems();
     }

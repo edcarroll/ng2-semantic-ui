@@ -1,7 +1,7 @@
 
 import { Component, Input, Output, EventEmitter, HostBinding } from "@angular/core";
 import { SuiLocalizationService } from "../../util/services/localization.service";
-import { CalendarView } from "./calendar-view";
+import { CalendarView, CalendarViewType } from "./calendar-view";
 import { CalendarMonthItem } from "../directives/calendar-item";
 import { Util } from "../../util/util";
 
@@ -41,7 +41,7 @@ export class SuiCalendarMonthView extends CalendarView {
     }
 
     constructor(public localizationService:SuiLocalizationService) {
-        super("month");
+        super(CalendarViewType.Month);
 
         this.renderItems();
     }

@@ -7,31 +7,31 @@ import { CalendarViewType, CalendarViewResult } from "./views/calendar-view";
     selector: "sui-datepicker",
     template: `
 <ng-container [ngSwitch]="currentView">
-    <ng-container *ngSwitchCase="'year'">
+    <ng-container *ngSwitchCase="0">
     <sui-calendar-year-view [initialDate]="currentDate"
                             [selectedDate]="selectedDate"
                             (dateSelected)="onDateChanged($event)"
                             (zoomOut)="onZoomOut($event)"></sui-calendar-year-view>
     </ng-container>
-    <ng-container *ngSwitchCase="'month'">
+    <ng-container *ngSwitchCase="1">
         <sui-calendar-month-view [initialDate]="currentDate"
                                  [selectedDate]="selectedDate"
                                  (dateSelected)="onDateChanged($event)"
                                  (zoomOut)="onZoomOut($event)"></sui-calendar-month-view>    
     </ng-container>
-    <ng-container *ngSwitchCase="'date'">
+    <ng-container *ngSwitchCase="2">
         <sui-calendar-date-view [initialDate]="currentDate"
                                 [selectedDate]="selectedDate"
                                 (dateSelected)="onDateChanged($event)"
                                 (zoomOut)="onZoomOut($event)"></sui-calendar-date-view>    
     </ng-container>
-    <ng-container *ngSwitchCase="'hour'">
+    <ng-container *ngSwitchCase="3">
         <sui-calendar-hour-view [initialDate]="currentDate"
                                 [selectedDate]="selectedDate"
                                 (dateSelected)="onDateChanged($event)"
                                 (zoomOut)="onZoomOut($event)"></sui-calendar-hour-view>    
     </ng-container>
-    <ng-container *ngSwitchCase="'minute'">
+    <ng-container *ngSwitchCase="4">
         <sui-calendar-minute-view [initialDate]="currentDate"
                                 [selectedDate]="selectedDate"
                                 (dateSelected)="onDateChanged($event)"
@@ -63,7 +63,8 @@ export class SuiDatepicker {
         if (date) {
             this._selectedDate = Util.Date.clone(date);
             this.currentDate = Util.Date.clone(date);
-            this.currentView = "date";
+
+            this.currentView = CalendarViewType.Date;
         }
     }
 
@@ -74,19 +75,19 @@ export class SuiDatepicker {
         this.reset();
 
         this.changedMappings = new Map<CalendarViewType, CalendarViewType>([
-            ["year", "month"],
-            ["month", "date"],
-            ["date", "hour"],
-            ["hour", "minute"],
-            ["minute", "minute"]
+            [CalendarViewType.Year, CalendarViewType.Month],
+            [CalendarViewType.Month, CalendarViewType.Date],
+            [CalendarViewType.Date, CalendarViewType.Hour],
+            [CalendarViewType.Hour, CalendarViewType.Minute],
+            [CalendarViewType.Minute, CalendarViewType.Minute]
         ]);
 
         this.zoomMappings = new Map<CalendarViewType, CalendarViewType>([
-            ["year", "date"],
-            ["month", "year"],
-            ["date", "month"],
-            ["hour", "date"],
-            ["minute", "date"]
+            [CalendarViewType.Year, CalendarViewType.Date],
+            [CalendarViewType.Month, CalendarViewType.Year],
+            [CalendarViewType.Date, CalendarViewType.Month],
+            [CalendarViewType.Hour, CalendarViewType.Date],
+            [CalendarViewType.Minute, CalendarViewType.Date]
         ]);
 
         this.calendarClasses = true;
@@ -95,7 +96,7 @@ export class SuiDatepicker {
     public onDateChanged([date, viewType]:CalendarViewResult):void {
         this.currentDate = date;
 
-        if (viewType === "minute") {
+        if (viewType === CalendarViewType.Minute) {
             this.selectedDate = date;
         }
 
@@ -105,7 +106,7 @@ export class SuiDatepicker {
     public reset():void {
         if (!this._selectedDate) {
             this.currentDate = new Date();
-            this.currentView = "year";
+            this.currentView = CalendarViewType.Year;
         }
     }
 

@@ -1,6 +1,6 @@
 
 import { Component, HostBinding, Input, Output, EventEmitter } from "@angular/core";
-import { CalendarView } from "./calendar-view";
+import { CalendarView, CalendarViewType } from "./calendar-view";
 import { CalendarYearItem } from "../directives/calendar-item";
 import { Util } from "../../util/util";
 
@@ -40,7 +40,7 @@ export class SuiCalendarYearView extends CalendarView {
     }
 
     constructor() {
-        super("year");
+        super(CalendarViewType.Year);
 
         this.renderItems();
     }

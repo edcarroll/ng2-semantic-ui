@@ -2,7 +2,13 @@ import { Input, Output, EventEmitter } from "@angular/core";
 import { CalendarDateItem } from "../directives/calendar-item";
 import { Util } from "../../util/util";
 
-export type CalendarViewType = "year" | "month" | "date" | "hour" | "minute";
+export enum CalendarViewType {
+    Year = 0,
+    Month = 1,
+    Date = 2,
+    Hour = 3,
+    Minute = 4
+}
 export type CalendarViewResult = [Date, CalendarViewType];
 
 export abstract class CalendarView {

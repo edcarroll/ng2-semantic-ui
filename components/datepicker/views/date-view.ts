@@ -1,7 +1,7 @@
 import { Component, HostBinding, EventEmitter, Output, Input } from "@angular/core";
 import { SuiLocalizationService } from "../../util/services/localization.service";
 import { CalendarDateItem } from "../directives/calendar-item";
-import { CalendarView } from "./calendar-view";
+import { CalendarView, CalendarViewType } from "./calendar-view";
 import { Util } from "../../util/util";
 
 @Component({
@@ -56,7 +56,7 @@ export class SuiCalendarDateView extends CalendarView {
     public firstDayOfWeek:number;
 
     constructor(public localizationService:SuiLocalizationService) {
-        super("date");
+        super(CalendarViewType.Date);
 
         this.firstDayOfWeek = this.localizationService
             .getValues().datepicker.firstDayOfWeek;
