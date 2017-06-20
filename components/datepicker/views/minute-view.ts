@@ -26,7 +26,6 @@ import { Util } from "../../util/util";
         <td class="link"
             *ngFor="let item of group"
             [calendarItem]="item"
-            calendarFocusable
             (click)="setDate(item)">{{ item.humanReadable }}
         </td>
     </tr>
@@ -45,7 +44,7 @@ export class SuiCalendarMinuteView extends CalendarView {
     }
 
     constructor(public localizationService:SuiLocalizationService) {
-        super(CalendarViewType.Minute);
+        super(CalendarViewType.Minute, 3);
 
         this.renderItems();
     }

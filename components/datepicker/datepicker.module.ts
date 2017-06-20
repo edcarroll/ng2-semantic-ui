@@ -9,7 +9,6 @@ import { SuiDatepickerDirective } from "./datepicker.directive";
 import { SuiDatepicker } from "./datepicker";
 import { SuiCalendarHourView } from "./views/hour-view";
 import { SuiCalendarMinuteView } from "./views/minute-view";
-import { SuiCalendarFocusable } from "./directives/calendar-focusable";
 
 @NgModule({
     imports: [
@@ -18,7 +17,6 @@ import { SuiCalendarFocusable } from "./directives/calendar-focusable";
     ],
     declarations: [
         SuiCalendarItem,
-        SuiCalendarFocusable,
 
         SuiCalendarYearView,
         SuiCalendarMonthView,

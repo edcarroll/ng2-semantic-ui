@@ -23,6 +23,7 @@ import { CalendarService } from "./services/calendar.service";
 })
 export class SuiDatepicker {
     @HostBinding("class.ui")
+    @HostBinding("class.active")
     @HostBinding("class.calendar")
     public calendarClasses:boolean;
 

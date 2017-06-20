@@ -59,4 +59,17 @@ export class SuiCalendarItem {
     public get isToday():boolean {
         return this.item.isToday;
     }
+
+    @HostBinding("class.focus")
+    public hasFocus:boolean;
+
+    @HostListener("mousemove")
+    public onMouseMove():void {
+        this.hasFocus = true;
+    }
+
+    @HostListener("mouseleave")
+    public onMouseLeave():void {
+        this.hasFocus = false;
+    }
 }

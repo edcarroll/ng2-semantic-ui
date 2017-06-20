@@ -28,7 +28,6 @@ export class SuiDatepickerDirective extends SuiPopupController<SuiDatepicker> {
 
         this.popup.onOpen.subscribe(() => {
             if (this._contentComponentRef) {
-                this._contentComponentRef.instance.calendarClasses = false;
                 // this._contentComponentRef.instance.selectedDate = new Date();
             }
         });

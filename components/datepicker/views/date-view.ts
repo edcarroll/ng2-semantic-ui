@@ -29,7 +29,6 @@ import { Util } from "../../util/util";
         <td class="link"
             *ngFor="let item of group"
             [calendarItem]="item"
-            calendarFocusable
             (click)="setDate(item)">{{ item.humanReadable }}
         </td>
     </tr>
@@ -56,7 +55,7 @@ export class SuiCalendarDateView extends CalendarView {
     public firstDayOfWeek:number;
 
     constructor(public localizationService:SuiLocalizationService) {
-        super(CalendarViewType.Date);
+        super(CalendarViewType.Date, 7);
 
         this.firstDayOfWeek = this.localizationService
             .getValues().datepicker.firstDayOfWeek;

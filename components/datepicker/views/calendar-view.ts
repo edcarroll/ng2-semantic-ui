@@ -1,5 +1,5 @@
-import { Input, Output, EventEmitter } from "@angular/core";
-import { CalendarDateItem } from "../directives/calendar-item";
+import { Input, Output, EventEmitter, QueryList, ViewChildren, AfterViewInit } from "@angular/core";
+import { CalendarDateItem, SuiCalendarItem } from "../directives/calendar-item";
 import { Util } from "../../util/util";
 import { CalendarService } from "../services/calendar.service";
 
@@ -12,10 +12,14 @@ export enum CalendarViewType {
 }
 export type CalendarViewResult = [Date, CalendarViewType];
 
-export abstract class CalendarView {
+export abstract class CalendarView implements AfterViewInit {
     private _type:CalendarViewType;
 
     private _service:CalendarService | undefined;
+
+    @ViewChildren(SuiCalendarItem)
+    private _renderedItems:QueryList<SuiCalendarItem>;
+    private _highlightedItem:SuiCalendarItem;
 
     @Input()
     public set service(service:CalendarService | undefined) {
@@ -39,10 +43,17 @@ export abstract class CalendarView {
         }
     }
 
+    private _renderedColumns:number;
     public renderedItems:CalendarDateItem[][];
 
-    constructor(viewType:CalendarViewType) {
+    constructor(viewType:CalendarViewType, renderedColumns:number) {
         this._type = viewType;
+        this._renderedColumns = renderedColumns;
+    }
+
+    public ngAfterViewInit():void {
+
+        console.log(this._renderedItems);
     }
 
     public abstract renderItems():void;
