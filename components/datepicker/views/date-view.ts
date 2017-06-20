@@ -60,7 +60,7 @@ export class SuiCalendarDateView extends CalendarView {
     public firstDayOfWeek:number;
 
     constructor(public localizationService:SuiLocalizationService) {
-        super();
+        super("date");
 
         this.firstDayOfWeek = this.localizationService
             .getValues().datepicker.firstDayOfWeek;

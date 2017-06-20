@@ -2,7 +2,12 @@ import { Input, Output, EventEmitter } from "@angular/core";
 import { CalendarDateItem } from "../calendar-item";
 import { Util } from "../../util/util";
 
+export type CalendarViewType = "year" | "month" | "date" | "hour" | "minute";
+export type CalendarViewResult = [Date, CalendarViewType];
+
 export abstract class CalendarView {
+    private _type:CalendarViewType;
+
     public renderedItems:CalendarDateItem[][];
 
     protected _selectedDate?:Date;
@@ -28,16 +33,18 @@ export abstract class CalendarView {
     }
 
     @Output("dateSelected")
-    public onDateSelected:EventEmitter<Date>;
+    public onDateSelected:EventEmitter<CalendarViewResult>;
 
     @Output("zoomOut")
-    public onZoomOut:EventEmitter<void>;
+    public onZoomOut:EventEmitter<CalendarViewType>;
 
-    constructor() {
+    constructor(viewType:CalendarViewType) {
+        this._type = viewType;
+
         this.renderedDate = new Date();
 
-        this.onDateSelected = new EventEmitter<Date>();
-        this.onZoomOut = new EventEmitter<void>();
+        this.onDateSelected = new EventEmitter<CalendarViewResult>();
+        this.onZoomOut = new EventEmitter<CalendarViewType>();
     }
 
     public abstract renderItems():void;
@@ -49,10 +56,10 @@ export abstract class CalendarView {
     public setDate(selected:CalendarDateItem):void {
         this._selectedDate = selected.date;
 
-        this.onDateSelected.emit(this._selectedDate);
+        this.onDateSelected.emit([this._selectedDate, this._type]);
     }
 
     public zoomOut():void {
-        this.onZoomOut.emit();
+        this.onZoomOut.emit(this._type);
     }
 }

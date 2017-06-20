@@ -1,8 +1,7 @@
 
 import { Component, HostBinding } from "@angular/core";
 import { Util } from "../util/util";
-
-export type CalendarViewType = "year" | "month" | "date" | "hour" | "minute" | "exit";
+import { CalendarViewType, CalendarViewResult } from "./views/calendar-view";
 
 @Component({
     selector: "sui-datepicker",
@@ -11,32 +10,32 @@ export type CalendarViewType = "year" | "month" | "date" | "hour" | "minute" | "
     <ng-container *ngSwitchCase="'year'">
     <sui-calendar-year-view [initialDate]="currentDate"
                             [selectedDate]="selectedDate"
-                            (dateSelected)="onDateChanged($event, 'year')"
-                            (zoomOut)="onZoomOut('year')"></sui-calendar-year-view>
+                            (dateSelected)="onDateChanged($event)"
+                            (zoomOut)="onZoomOut($event)"></sui-calendar-year-view>
     </ng-container>
     <ng-container *ngSwitchCase="'month'">
         <sui-calendar-month-view [initialDate]="currentDate"
                                  [selectedDate]="selectedDate"
-                                 (dateSelected)="onDateChanged($event, 'month')"
-                                 (zoomOut)="onZoomOut('month')"></sui-calendar-month-view>    
+                                 (dateSelected)="onDateChanged($event)"
+                                 (zoomOut)="onZoomOut($event)"></sui-calendar-month-view>    
     </ng-container>
     <ng-container *ngSwitchCase="'date'">
         <sui-calendar-date-view [initialDate]="currentDate"
                                 [selectedDate]="selectedDate"
-                                (dateSelected)="onDateChanged($event, 'date')"
-                                (zoomOut)="onZoomOut('date')"></sui-calendar-date-view>    
+                                (dateSelected)="onDateChanged($event)"
+                                (zoomOut)="onZoomOut($event)"></sui-calendar-date-view>    
     </ng-container>
     <ng-container *ngSwitchCase="'hour'">
         <sui-calendar-hour-view [initialDate]="currentDate"
                                 [selectedDate]="selectedDate"
-                                (dateSelected)="onDateChanged($event, 'hour')"
-                                (zoomOut)="onZoomOut('hour')"></sui-calendar-hour-view>    
+                                (dateSelected)="onDateChanged($event)"
+                                (zoomOut)="onZoomOut($event)"></sui-calendar-hour-view>    
     </ng-container>
     <ng-container *ngSwitchCase="'minute'">
         <sui-calendar-minute-view [initialDate]="currentDate"
                                 [selectedDate]="selectedDate"
-                                (dateSelected)="onDateChanged($event, 'minute')"
-                                (zoomOut)="onZoomOut('minute')"></sui-calendar-minute-view>    
+                                (dateSelected)="onDateChanged($event)"
+                                (zoomOut)="onZoomOut($event)"></sui-calendar-minute-view>    
     </ng-container>
 </ng-container>
 `
@@ -88,14 +87,14 @@ export class SuiDatepicker {
         this.calendarClasses = true;
     }
 
-    public onDateChanged(date:Date, view:CalendarViewType):void {
+    public onDateChanged([date, viewType]:CalendarViewResult):void {
         this.currentDate = date;
 
-        if (view === "hour") {
+        if (viewType === "minute") {
             this.selectedDate = date;
         }
 
-        this.updateView(this.changedMappings, view);
+        this.updateView(this.changedMappings, viewType);
     }
 
     public reset():void {
@@ -105,8 +104,8 @@ export class SuiDatepicker {
         }
     }
 
-    public onZoomOut(view:CalendarViewType):void {
-        this.updateView(this.zoomMappings, view);
+    public onZoomOut(viewType:CalendarViewType):void {
+        this.updateView(this.zoomMappings, viewType);
     }
 
     private updateView(mappings:Map<CalendarViewType, CalendarViewType>, fromView:CalendarViewType):void {

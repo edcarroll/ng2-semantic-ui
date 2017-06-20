@@ -44,7 +44,7 @@ export class SuiCalendarYearView extends CalendarView {
     }
 
     constructor() {
-        super();
+        super("year");
 
         this.renderItems();
     }

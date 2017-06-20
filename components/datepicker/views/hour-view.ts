@@ -49,7 +49,7 @@ export class SuiCalendarHourView extends CalendarView {
     }
 
     constructor(public localizationService:SuiLocalizationService) {
-        super();
+        super("hour");
 
         this.renderItems();
     }

@@ -49,7 +49,7 @@ export class SuiCalendarMinuteView extends CalendarView {
     }
 
     constructor(public localizationService:SuiLocalizationService) {
-        super();
+        super("minute");
 
         this.renderItems();
     }
