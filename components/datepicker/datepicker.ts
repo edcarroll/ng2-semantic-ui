@@ -54,8 +54,7 @@ export class SuiDatepicker {
     public zoomMappings:Map<CalendarViewType, CalendarViewType>;
 
     constructor() {
-        this.currentView = "year";
-        this.currentDate = new Date();
+        this.reset();
 
         this.changedMappings = new Map<CalendarViewType, CalendarViewType>([
             ["year", "month"],
@@ -80,6 +79,13 @@ export class SuiDatepicker {
         }
 
         this.updateView(this.changedMappings, view);
+    }
+
+    public reset():void {
+        if (!this._selectedDate) {
+            this.currentDate = new Date();
+            this.currentView = "year";
+        }
     }
 
     public onZoomOut(view:CalendarViewType):void {
