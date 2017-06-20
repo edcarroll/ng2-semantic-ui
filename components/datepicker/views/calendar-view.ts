@@ -107,28 +107,31 @@ export abstract class CalendarView implements AfterViewInit {
 
     @HostListener("document:keydown", ["$event"])
     private onDocumentKeydown(e:KeyboardEvent):void {
-        const items = this._renderedItems.toArray();
-
-        const index = items.findIndex(i => i.item === this._highlightedItem);
+        const items = this._renderedItems.filter(i => !i.item.isOutsideRange);
+        const highlightedIndex = items.findIndex(i => i.item === this._highlightedItem);
+        const highlightedItem = items[highlightedIndex];
 
         let nextIndex:number | undefined;
         let isMovingForward:boolean | undefined;
 
         switch (e.keyCode) {
+            case KeyCode.Enter:
+                this.setDate(highlightedItem.item);
+                return;
             case KeyCode.Right:
-                nextIndex = index + 1;
+                nextIndex = highlightedIndex + 1;
                 isMovingForward = true;
                 break;
             case KeyCode.Left:
-                nextIndex = index - 1;
+                nextIndex = highlightedIndex - 1;
                 isMovingForward = false;
                 break;
             case KeyCode.Down:
-                nextIndex = index + this._calculatedColumns;
+                nextIndex = highlightedIndex + this._calculatedColumns;
                 isMovingForward = true;
                 break;
             case KeyCode.Up:
-                nextIndex = index - this._calculatedColumns;
+                nextIndex = highlightedIndex - this._calculatedColumns;
                 isMovingForward = false;
                 break;
         }
@@ -138,17 +141,21 @@ export abstract class CalendarView implements AfterViewInit {
         }
 
         if (nextIndex != undefined && (nextIndex < 0 || nextIndex >= items.length)) {
+
             if (isMovingForward) {
                 this.nextDateRange();
-                nextIndex -= items.filter(i => !i.item.isOutsideRange).length;
+                nextIndex -= items.length;
             } else {
                 this.prevDateRange();
-                nextIndex += items.filter(i => !i.item.isOutsideRange).length;
             }
 
             const newItems = Util.Array
                 .flatten(this.calculatedItems)
                 .filter(i => !i.isOutsideRange);
+
+            if (!isMovingForward) {
+                nextIndex += newItems.length;
+            }
 
             this._highlightedItem = newItems[nextIndex];
 
@@ -156,18 +163,6 @@ export abstract class CalendarView implements AfterViewInit {
         }
 
         const nextItem = items[nextIndex];
-        if (nextItem && nextItem.item.isOutsideRange) {
-            this._highlightedItem = nextItem.item;
-
-            if (isMovingForward) {
-                this.nextDateRange();
-            } else {
-                this.prevDateRange();
-            }
-
-            return;
-        }
-
-        this.focusItem(nextItem!);
+        this.focusItem(nextItem);
     }
 }
