@@ -38,6 +38,7 @@ export class SuiPagination implements OnChanges {
     private _collectionSize:number;
     private _pageSize:number;
     private _page:number;
+    private _pages:number[];
     private _hasBoundaryLinks:boolean;
     private _hasNavigation:boolean;
     private _hasRotation:boolean;
@@ -107,11 +108,7 @@ export class SuiPagination implements OnChanges {
     }
 
     public get pages():number[] {
-        const [start, end] = this.applyPagination();
-
-        return Array<number>(end - start)
-            .fill(start + 1)
-            .map((s, i) => s + i);
+        return this._pages;
     }
 
     constructor() {
@@ -120,7 +117,8 @@ export class SuiPagination implements OnChanges {
 
         this.collectionSize = 100;
         this.pageSize = 10;
-        this.page = 1;
+        this._page = 1;
+        this._pages = [];
         this.hasNavigation = false;
         this.hasBoundaryLinks = false;
         this.hasRotation = false;
@@ -153,6 +151,12 @@ export class SuiPagination implements OnChanges {
         this.pageCount = Math.max(1, Math.ceil(this._collectionSize / this._pageSize));
 
         this.setPage(newPage);
+        const [start, end] = this.applyPagination();
+
+        this._pages.length = 0;
+        this._pages = Array<number>(end - start)
+            .fill(start + 1)
+            .map((s, i) => s + i);
     }
 
     private applyPagination():[number, number] {
