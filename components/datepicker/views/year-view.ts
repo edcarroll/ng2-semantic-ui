@@ -58,12 +58,9 @@ export class SuiCalendarYearView extends CalendarView {
             const date = Util.Date.clone(decadeStart);
             date.setFullYear(y);
 
-            years.push(
-                new CalendarYearItem(
-                    date,
-                    date.getFullYear().toString(),
-                    false,
-                    !!this._selectedDate && Util.Date.yearsEqual(date, this._selectedDate)));
+            const isActive = !!this._selectedDate && Util.Date.yearsEqual(date, this._selectedDate);
+
+            years.push(new CalendarYearItem(date, date.getFullYear().toString(), false, isActive));
         });
 
         this.renderedItems = Util.Array.group(years, 3);

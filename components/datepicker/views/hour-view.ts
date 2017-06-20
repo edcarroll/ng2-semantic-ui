@@ -62,12 +62,10 @@ export class SuiCalendarHourView extends CalendarView {
             const date = Util.Date.clone(dayStart);
             date.setHours(h);
 
-            hours.push(
-                new CalendarTimeItem(
-                    date,
-                    `${Util.String.padLeft(date.getHours().toString(), 2, "0")}:00`,
-                    false,
-                    !!this._selectedDate && Util.Date.hoursEqual(date, this._selectedDate)));
+            const hR = `${Util.String.padLeft(date.getHours().toString(), 2, "0")}:00`;
+            const isActive = !!this._selectedDate && Util.Date.hoursEqual(date, this._selectedDate);
+
+            hours.push(new CalendarTimeItem(date, hR, false, isActive));
         });
 
         this.renderedItems = Util.Array.group(hours, 4);

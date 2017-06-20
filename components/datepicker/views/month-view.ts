@@ -58,12 +58,10 @@ export class SuiCalendarMonthView extends CalendarView {
             const date = Util.Date.clone(yearStart);
             date.setMonth(m);
 
-            months.push(
-                new CalendarMonthItem(
-                    date,
-                    this.localizationService.getValues().datepicker.monthsShort[m],
-                    false,
-                    !!this._selectedDate && Util.Date.monthsEqual(date, this._selectedDate)));
+            const hR = this.localizationService.getValues().datepicker.monthsShort[m];
+            const isActive = !!this._selectedDate && Util.Date.monthsEqual(date, this._selectedDate);
+
+            months.push(new CalendarMonthItem(date, hR, false, isActive));
         });
 
         this.renderedItems = Util.Array.group(months, 3);
