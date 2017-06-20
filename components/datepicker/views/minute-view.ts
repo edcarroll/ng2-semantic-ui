@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { CalendarView } from "./calendar-view";
 import { SuiLocalizationService } from "../../util/services/localization.service";
-import { CalendarTimeItem } from "../calendar-item";
+import { CalendarTimeItem } from "../directives/calendar-item";
 import { Util } from "../../util/util";
 
 @Component({
@@ -26,17 +26,13 @@ import { Util } from "../../util/util";
         <td class="link"
             *ngFor="let item of group"
             [calendarItem]="item"
+            calendarFocusable
             (click)="setDate(item)">{{ item.humanReadable }}
         </td>
     </tr>
 </tbody>
 </table>
-`,
-    styles: [`
-:host {
-    user-select: none;
-}
-`]
+`
 })
 export class SuiCalendarMinuteView extends CalendarView {
     public get date():string {

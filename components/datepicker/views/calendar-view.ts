@@ -1,5 +1,5 @@
 import { Input, Output, EventEmitter } from "@angular/core";
-import { CalendarDateItem } from "../calendar-item";
+import { CalendarDateItem } from "../directives/calendar-item";
 import { Util } from "../../util/util";
 
 export type CalendarViewType = "year" | "month" | "date" | "hour" | "minute";

@@ -2,7 +2,7 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from "@angular/core";
 import { SuiLocalizationService } from "../../util/services/localization.service";
 import { CalendarView } from "./calendar-view";
-import { CalendarMonthItem } from "../calendar-item";
+import { CalendarMonthItem } from "../directives/calendar-item";
 import { Util } from "../../util/util";
 
 @Component({
@@ -27,17 +27,13 @@ import { Util } from "../../util/util";
         <td class="link"
             *ngFor="let item of group"
             [calendarItem]="item"
+            calendarFocusable
             (click)="setDate(item)">{{ item.humanReadable }}
         </td>
     </tr>
 </tbody>
 </table>
-`,
-    styles: [`
-:host {
-    user-select: none;
-}
-`]
+`
 })
 export class SuiCalendarMonthView extends CalendarView {
     public get year():number {

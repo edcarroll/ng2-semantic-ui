@@ -38,7 +38,12 @@ import { CalendarViewType, CalendarViewResult } from "./views/calendar-view";
                                 (zoomOut)="onZoomOut($event)"></sui-calendar-minute-view>    
     </ng-container>
 </ng-container>
-`
+`,
+    styles: [`
+:host {
+    user-select: none;
+}
+`]
 })
 export class SuiDatepicker {
     @HostBinding("class.ui")

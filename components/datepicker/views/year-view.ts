@@ -1,7 +1,7 @@
 
 import { Component, HostBinding, Input, Output, EventEmitter } from "@angular/core";
 import { CalendarView } from "./calendar-view";
-import { CalendarYearItem } from "../calendar-item";
+import { CalendarYearItem } from "../directives/calendar-item";
 import { Util } from "../../util/util";
 
 @Component({
@@ -26,17 +26,13 @@ import { Util } from "../../util/util";
         <td class="link"
             *ngFor="let item of group"
             [calendarItem]="item"
+            calendarFocusable
             (click)="setDate(item)">{{ item.humanReadable }}
         </td>
     </tr>
 </tbody>
 </table>
-`,
-    styles: [`
-:host {
-    user-select: none;
-}
-`]
+`
 })
 export class SuiCalendarYearView extends CalendarView {
     public get decadeStart():number {

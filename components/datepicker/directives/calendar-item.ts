@@ -1,6 +1,6 @@
 
 import { Directive, HostBinding, HostListener, Input, ElementRef } from "@angular/core";
-import { Util } from "../util/util";
+import { Util } from "../../util/util";
 
 export class CalendarDateItem {
     public date:Date;
@@ -58,22 +58,5 @@ export class SuiCalendarItem {
     @HostBinding("class.today")
     public get isToday():boolean {
         return this.item.isToday;
-    }
-
-    @HostBinding("attr.tabindex")
-    public tabIndex:number;
-
-    constructor(private _element:ElementRef) {
-        this.tabIndex = 0;
-    }
-
-    @HostListener("mousemove")
-    public onMouseMove():void {
-        this._element.nativeElement.focus();
-    }
-
-    @HostListener("mouseleave")
-    public onMouseLeave():void {
-        this._element.nativeElement.blur();
     }
 }
