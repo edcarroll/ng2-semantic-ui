@@ -7,71 +7,71 @@ import { PositioningPlacement } from "../util/positioning.service";
 import { ITemplateRefContext, parseBooleanAttribute } from "../util/util";
 import { PopupConfig, IPopupConfig, PopupTrigger } from "./popup-config";
 import { SuiPopupConfig } from "./popup.service";
-import { SuiPopupBaseDirective } from "./popup-base.directive";
+import { SuiPopupController } from "./popup-controller";
 import { SuiComponentFactory } from "../util/component-factory.service";
 
 @Directive({
     selector: "[suiPopup]",
     exportAs: "suiPopup"
 })
-export class SuiPopupDirective extends SuiPopupBaseDirective {
+export class SuiPopupDirective extends SuiPopupController {
     @Input()
     public set popupTemplate(template:TemplateRef<ITemplateRefContext<SuiPopup>>) {
-        this._popupConfig.template = template;
+        this.popup.config.template = template;
     }
 
     @Input()
     public set popupHeader(header:string) {
-        this._popupConfig.header = header;
+        this.popup.config.header = header;
     }
 
     @Input()
     public set popupText(text:string) {
-        this._popupConfig.text = text;
+        this.popup.config.text = text;
     }
 
     @Input()
     public set popupInverted(inverted:boolean) {
-        this._popupConfig.isInverted = parseBooleanAttribute(inverted);
+        this.popup.config.isInverted = parseBooleanAttribute(inverted);
     }
 
     @Input()
     public set popupBasic(basic:boolean) {
-        this._popupConfig.isBasic = parseBooleanAttribute(basic);
+        this.popup.config.isBasic = parseBooleanAttribute(basic);
     }
 
     @Input()
     public set popupTransition(transition:string) {
-        this._popupConfig.transition = transition;
+        this.popup.config.transition = transition;
     }
 
     @Input()
     public set popupTransitionDuration(duration:number) {
-        this._popupConfig.transitionDuration = duration;
+        this.popup.config.transitionDuration = duration;
     }
 
     @Input()
     public set popupPlacement(placement:PositioningPlacement) {
-        this._popupConfig.placement = placement;
+        this.popup.config.placement = placement;
     }
 
     @Input()
     public set popupDelay(delay:number) {
-        this._popupConfig.delay = delay;
+        this.popup.config.delay = delay;
     }
 
     @Input()
     public get popupTrigger():PopupTrigger {
-        return this._popupConfig.trigger;
+        return this.popup.config.trigger;
     }
 
     public set popupTrigger(trigger:PopupTrigger) {
-        this._popupConfig.trigger = trigger;
+        this.popup.config.trigger = trigger;
     }
 
     @Input()
     public set popupConfig(config:PopupConfig) {
-        this._popupConfig.batch(config);
+        this.popup.config.batch(config);
     }
 
     constructor(element:ElementRef,

@@ -8,7 +8,7 @@ import { SuiPopupArrow } from "./popup-arrow";
 import { IPopupConfig, PopupTrigger, PopupConfig } from "./popup-config";
 import { PositioningPlacement } from "../util/positioning.service";
 import { SuiPopupConfig } from "./popup.service";
-import { IPopup } from "./popup-base.directive";
+import { IPopup } from "./popup-controller";
 
 @NgModule({
     imports: [
