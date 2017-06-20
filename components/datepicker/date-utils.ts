@@ -34,11 +34,17 @@ export class DateUtils {
         return date;
     }
 
+    public static minutesEqual(date1:Date, date2:Date):boolean {
+        let equal = true;
+        equal = equal && this.hoursEqual(date1, date2);
+        equal = equal && date1.getMinutes() === date2.getMinutes();
+        return equal;
+    }
+
     public static hoursEqual(date1:Date, date2:Date):boolean {
         let equal = true;
         equal = equal && this.datesEqual(date1, date2);
         equal = equal && date1.getHours() === date2.getHours();
-        // equal = equal && date1.getMinutes() === date2.getMinutes();
         return equal;
     }
 

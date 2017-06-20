@@ -6,7 +6,7 @@ import { ICalendarItem } from "../calendar-item";
 import { padLeft } from "../../util/util";
 
 @Component({
-    selector: "sui-calendar-hour-view",
+    selector: "sui-calendar-minute-view",
     template: `
 <table class="ui celled center aligned unstackable table four column hour">
 <thead>
@@ -39,7 +39,7 @@ import { padLeft } from "../../util/util";
 }
 `]
 })
-export class SuiCalendarHourView extends CalendarView {
+export class SuiCalendarMinuteView extends CalendarView {
     public get date():string {
         const month = this.localizationService
             .getValues().datepicker.months[this.renderedDate.getMonth()];
@@ -56,30 +56,33 @@ export class SuiCalendarHourView extends CalendarView {
     }
 
     public renderItems():void {
-        const dayStart = DateUtils.startOfDay(DateUtils.clone(this.renderedDate));
+        const dayStart = DateUtils.startOfHour(DateUtils.clone(this.renderedDate));
 
-        const hourNumbers = Array<number>(24)
+        const minuteNumbers = Array<number>(12)
             .fill(0)
-            .map((h, i) => h + i);
+            .map((m, i) => m + i * 5);
 
-        const hours:ICalendarItem[] = [];
+        const minutes:ICalendarItem[] = [];
 
-        hourNumbers.forEach(h => {
+        minuteNumbers.forEach(m => {
             const date = DateUtils.clone(dayStart);
-            date.setHours(h);
+            date.setMinutes(m);
 
-            hours.push({
+            const hs = padLeft(date.getHours().toString(), 2, "0");
+            const ms = padLeft(date.getMinutes().toString(), 2, "0");
+
+            minutes.push({
                 associatedDate: date,
-                humanReadable: `${padLeft(date.getHours().toString(), 2, "0")}:00`,
+                humanReadable: `${hs}:${ms}`,
                 isDisabled: false,
-                isActive: !!this._selectedDate && DateUtils.hoursEqual(date, this._selectedDate)
+                isActive: !!this._selectedDate && DateUtils.minutesEqual(date, this._selectedDate)
             });
         });
 
         this.renderedItems = [];
 
-        while (hours.length > 0) {
-            this.renderedItems.push(hours.splice(0, 4));
+        while (minutes.length > 0) {
+            this.renderedItems.push(minutes.splice(0, 3));
         }
     }
 

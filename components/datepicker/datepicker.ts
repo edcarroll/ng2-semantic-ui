@@ -32,6 +32,12 @@ export type CalendarViewType = "year" | "month" | "date" | "hour" | "minute" | "
                                 (dateSelected)="onDateChanged($event, 'hour')"
                                 (zoomOut)="onZoomOut('hour')"></sui-calendar-hour-view>    
     </ng-container>
+    <ng-container *ngSwitchCase="'minute'">
+        <sui-calendar-minute-view [initialDate]="currentDate"
+                                [selectedDate]="selectedDate"
+                                (dateSelected)="onDateChanged($event, 'minute')"
+                                (zoomOut)="onZoomOut('minute')"></sui-calendar-minute-view>    
+    </ng-container>
 </ng-container>
 `
 })
@@ -67,14 +73,16 @@ export class SuiDatepicker {
             ["year", "month"],
             ["month", "date"],
             ["date", "hour"],
-            ["hour", "hour"]
+            ["hour", "minute"],
+            ["minute", "minute"]
         ]);
 
         this.zoomMappings = new Map<CalendarViewType, CalendarViewType>([
             ["year", "date"],
             ["month", "year"],
             ["date", "month"],
-            ["hour", "date"]
+            ["hour", "date"],
+            ["minute", "date"]
         ]);
 
         this.calendarClasses = true;

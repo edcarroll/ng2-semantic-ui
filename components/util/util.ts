@@ -56,3 +56,11 @@ export function parseBooleanAttribute(attributeValue:boolean):boolean {
 export interface IDynamicClasses {
     [name:string]:true;
 }
+
+export function padLeft(str:string, length:number, padding:string):string {
+    let s = str;
+    while (s.length < length) {
+        s = padding + s;
+    }
+    return s;
+}

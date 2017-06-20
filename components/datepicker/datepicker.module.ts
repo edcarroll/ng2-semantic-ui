@@ -8,6 +8,7 @@ import { SuiUtilityModule } from "../util/util.module";
 import { SuiDatepickerDirective } from "./datepicker.directive";
 import { SuiDatepicker } from "./datepicker";
 import { SuiCalendarHourView } from "./views/hour-view";
+import { SuiCalendarMinuteView } from "./views/minute-view";
 
 @NgModule({
     imports: [
@@ -19,6 +20,7 @@ import { SuiCalendarHourView } from "./views/hour-view";
         SuiCalendarMonthView,
         SuiCalendarDateView,
         SuiCalendarHourView,
+        SuiCalendarMinuteView,
         SuiCalendarItem,
         SuiDatepicker,
         SuiDatepickerDirective
