@@ -11,7 +11,7 @@ import { Util } from "../../util/util";
 <thead>
     <tr>
         <th colspan="3">
-            <span class="link" (click)="onZoomOut.emit()">{{ decadeStart }} - {{ decadeStart + 10 }}</span>
+            <span class="link" (click)="zoomOut()">{{ decadeStart }} - {{ decadeStart + 10 }}</span>
             <span class="prev link" (click)="prevDateRange()">
                 <i class="chevron left icon"></i>
             </span>
