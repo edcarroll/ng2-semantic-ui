@@ -1,6 +1,8 @@
 
 import { Component, HostBinding, Input, Output, EventEmitter } from "@angular/core";
 import { DateUtils } from "./date-utils";
+import { CalendarView } from "./calendar-view";
+import { ICalendarItem } from "./calendar-item";
 
 @Component({
     selector: "sui-calendar-year-view",
@@ -9,21 +11,23 @@ import { DateUtils } from "./date-utils";
 <thead>
     <tr>
         <th colspan="3">
-            <span class="link" (click)="onZoomOut.emit()">{{ startYear }} - {{ startYear + 10 }}</span>
-            <span class="prev link" (click)="prevDecade()">
+            <span class="link" (click)="onZoomOut.emit()">{{ decadeStart }} - {{ decadeStart + 10 }}</span>
+            <span class="prev link" (click)="prevDateRange()">
                 <i class="chevron left icon"></i>
             </span>
-            <span class="next link" (click)="nextDecade()">
+            <span class="next link" (click)="nextDateRange()">
                 <i class="chevron right icon"></i>
             </span>
         </th>
     </tr>
 </thead>
 <tbody>
-    <tr *ngFor="let group of displayedYears">
+    <tr *ngFor="let group of renderedItems">
         <td class="link"
-            *ngFor="let year of group"
-            (click)="setYear(year)">{{ year }}</td>
+            *ngFor="let item of group"
+            [calendarItem]="item"
+            (click)="setDate(item)">{{ item.humanReadable }}
+        </td>
     </tr>
 </tbody>
 </table>
@@ -34,63 +38,53 @@ import { DateUtils } from "./date-utils";
 }
 `]
 })
-export class SuiCalendarYearView {
-    public get startYear():number {
-        return Math.floor(this._displayedDate.getFullYear() / 10) * 10 + 1;
+export class SuiCalendarYearView extends CalendarView {
+    public get decadeStart():number {
+        return Math.floor(this.renderedDate.getFullYear() / 10) * 10 + 1;
     }
-
-    public displayedYears:number[][];
-
-    private _selectedDate:Date;
-    private _displayedDate:Date;
-
-    @Input()
-    public set selectedDate(date:Date) {
-        this._selectedDate = DateUtils.clone(date);
-        this._displayedDate = DateUtils.clone(date);
-        this.displayedYears = this.groupYears();
-    }
-
-    @Output("yearSelected")
-    public onYearSelected:EventEmitter<Date>;
-
-    @Output("zoomOut")
-    public onZoomOut:EventEmitter<void>;
 
     constructor() {
-        this.selectedDate = new Date();
+        super();
 
-        this.onYearSelected = new EventEmitter<Date>();
-        this.onZoomOut = new EventEmitter<void>();
+        this.renderItems();
     }
 
-    private groupYears():number[][] {
-        const years = Array<number>(12)
-            .fill(this.startYear)
+    public renderItems():void {
+        const decadeStart = DateUtils.startOfYear(DateUtils.clone(this.renderedDate));
+        decadeStart.setFullYear(this.decadeStart);
+
+        const yearNumbers = Array<number>(12)
+            .fill(this.decadeStart)
             .map((y, i) => y + i);
 
-        const grouped:number[][] = [];
+        const years:ICalendarItem[] = [];
+
+        yearNumbers.forEach(y => {
+            const date = DateUtils.clone(decadeStart);
+            date.setFullYear(y);
+
+            years.push({
+                associatedDate: date,
+                humanReadable: date.getFullYear().toString(),
+                isDisabled: false,
+                isActive: DateUtils.yearsEqual(date, this._selectedDate)
+            });
+        });
+
+        this.renderedItems = [];
 
         while (years.length > 0) {
-            grouped.push(years.splice(0, 3));
+            this.renderedItems.push(years.splice(0, 3));
         }
-
-        return grouped;
     }
 
-    public nextDecade():void {
-        this._displayedDate.setFullYear(this._displayedDate.getFullYear() + 10);
-        this.displayedYears = this.groupYears();
+    public nextDateRange():void {
+        this.renderedDate.setFullYear(this.renderedDate.getFullYear() + 10);
+        this.renderItems();
     }
 
-    public prevDecade():void {
-        this._displayedDate.setFullYear(this._displayedDate.getFullYear() - 10);
-        this.displayedYears = this.groupYears();
-    }
-
-    public setYear(year:number):void {
-        this._selectedDate.setFullYear(year);
-
-        this.onYearSelected.emit(this._selectedDate);
+    public prevDateRange():void {
+        this.renderedDate.setFullYear(this.renderedDate.getFullYear() - 10);
+        this.renderItems();
     }
 }

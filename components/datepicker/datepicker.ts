@@ -2,15 +2,16 @@
 import { Component, HostBinding } from "@angular/core";
 import { DateUtils } from "./date-utils";
 
-export type CalendarView = "year" | "month" | "date" | "exit";
+export type CalendarViewType = "year" | "month" | "date" | "exit";
 
 @Component({
     selector: "sui-datepicker",
     template: `
 <ng-container [ngSwitch]="currentView">
     <ng-container *ngSwitchCase="'year'">
-    <sui-calendar-year-view [selectedDate]="currentDate"
-                            (yearSelected)="onDateChanged($event, 'year')"
+    <sui-calendar-year-view [initialDate]="currentDate"
+                            [selectedDate]="selectedDate"
+                            (dateSelected)="onDateChanged($event, 'year')"
                             (zoomOut)="onZoomOut('year')"></sui-calendar-year-view>
     </ng-container>
     <ng-container *ngSwitchCase="'month'">
@@ -35,7 +36,7 @@ export class SuiDatepicker {
 
     private _selectedDate:Date;
 
-    public currentView:CalendarView;
+    public currentView:CalendarViewType;
     public currentDate:Date;
 
     public get selectedDate():Date {
@@ -47,20 +48,20 @@ export class SuiDatepicker {
         this.currentDate = DateUtils.clone(date);
     }
 
-    public changedMappings:Map<CalendarView, CalendarView>;
-    public zoomMappings:Map<CalendarView, CalendarView>;
+    public changedMappings:Map<CalendarViewType, CalendarViewType>;
+    public zoomMappings:Map<CalendarViewType, CalendarViewType>;
 
     constructor() {
         this.currentView = "year";
         this.selectedDate = new Date();
 
-        this.changedMappings = new Map<CalendarView, CalendarView>([
+        this.changedMappings = new Map<CalendarViewType, CalendarViewType>([
             ["year", "month"],
             ["month", "date"],
             ["date", "date"]
         ]);
 
-        this.zoomMappings = new Map<CalendarView, CalendarView>([
+        this.zoomMappings = new Map<CalendarViewType, CalendarViewType>([
             ["year", "date"],
             ["month", "year"],
             ["date", "month"]
@@ -69,7 +70,7 @@ export class SuiDatepicker {
         this.calendarClasses = true;
     }
 
-    public onDateChanged(date:Date, view:CalendarView):void {
+    public onDateChanged(date:Date, view:CalendarViewType):void {
         this.currentDate = date;
 
         if (view === "date") {
@@ -79,11 +80,11 @@ export class SuiDatepicker {
         this.updateView(this.changedMappings, view);
     }
 
-    public onZoomOut(view:CalendarView):void {
+    public onZoomOut(view:CalendarViewType):void {
         this.updateView(this.zoomMappings, view);
     }
 
-    private updateView(mappings:Map<CalendarView, CalendarView>, fromView:CalendarView):void {
+    private updateView(mappings:Map<CalendarViewType, CalendarViewType>, fromView:CalendarViewType):void {
         const mapping = mappings.get(fromView);
         if (!mapping) {
             throw new Error("Unknown view type.");

@@ -43,8 +43,14 @@ export class DateUtils {
 
     public static monthsEqual(date1:Date, date2:Date):boolean {
         let equal = true;
-        equal = equal && date1.getFullYear() === date2.getFullYear();
+        equal = equal && this.yearsEqual(date1, date2);
         equal = equal && date1.getMonth() === date2.getMonth();
+        return equal;
+    }
+
+    public static yearsEqual(date1:Date, date2:Date):boolean {
+        let equal = true;
+        equal = equal && date1.getFullYear() === date2.getFullYear();
         return equal;
     }
 
