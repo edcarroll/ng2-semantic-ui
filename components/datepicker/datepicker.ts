@@ -14,8 +14,9 @@ export type CalendarView = "year" | "month" | "date" | "exit";
                             (zoomOut)="onZoomOut('year')"></sui-calendar-year-view>
     </ng-container>
     <ng-container *ngSwitchCase="'month'">
-        <sui-calendar-month-view [selectedDate]="currentDate"
-                                 (monthSelected)="onDateChanged($event, 'month')"
+        <sui-calendar-month-view [initialDate]="currentDate"
+                                 [selectedDate]="selectedDate"
+                                 (dateSelected)="onDateChanged($event, 'month')"
                                  (zoomOut)="onZoomOut('month')"></sui-calendar-month-view>    
     </ng-container>
     <ng-container *ngSwitchCase="'date'">

@@ -36,9 +36,15 @@ export class DateUtils {
 
     public static datesEqual(date1:Date, date2:Date):boolean {
         let equal = true;
+        equal = equal && this.monthsEqual(date1, date2);
+        equal = equal && date1.getDate() === date2.getDate();
+        return equal;
+    }
+
+    public static monthsEqual(date1:Date, date2:Date):boolean {
+        let equal = true;
         equal = equal && date1.getFullYear() === date2.getFullYear();
         equal = equal && date1.getMonth() === date2.getMonth();
-        equal = equal && date1.getDate() === date2.getDate();
         return equal;
     }
 

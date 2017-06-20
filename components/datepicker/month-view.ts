@@ -2,6 +2,8 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from "@angular/core";
 import { DateUtils } from "./date-utils";
 import { SuiLocalizationService } from "../util/localization.service";
+import { CalendarView } from "./calendar-view";
+import { ICalendarItem } from "./calendar-item";
 
 @Component({
     selector: "sui-calendar-month-view",
@@ -10,21 +12,23 @@ import { SuiLocalizationService } from "../util/localization.service";
 <thead>
     <tr>
         <th colspan="3">
-            <span class="link" (click)="onZoomOut.emit()">{{ year }}</span>
-            <span class="prev link" (click)="prevYear()">
+            <span class="link" (click)="zoomOut()">{{ year }}</span>
+            <span class="prev link" (click)="prevDateRange()">
                 <i class="chevron left icon"></i>
             </span>
-            <span class="next link" (click)="nextYear()">
+            <span class="next link" (click)="nextDateRange()">
                 <i class="chevron right icon"></i>
             </span>
         </th>
     </tr>
 </thead>
 <tbody>
-    <tr *ngFor="let group of groupedMonths">
+    <tr *ngFor="let group of renderedItems">
         <td class="link"
-            *ngFor="let month of group"
-            (click)="setMonth(month)">{{ months[month] }}</td>
+            *ngFor="let item of group"
+            [calendarItem]="item"
+            (click)="setDate(item)">{{ item.humanReadable }}
+        </td>
     </tr>
 </tbody>
 </table>
@@ -35,66 +39,52 @@ import { SuiLocalizationService } from "../util/localization.service";
 }
 `]
 })
-export class SuiCalendarMonthView {
+export class SuiCalendarMonthView extends CalendarView {
     public get year():number {
-        return this._displayedDate.getFullYear();
+        return this.renderedDate.getFullYear();
     }
-
-    public get months():string[] {
-        return this.localizationService.getValues().datepicker.months;
-    }
-    public groupedMonths:number[][];
-
-    private _selectedDate:Date;
-    private _displayedDate:Date;
-
-    @Input()
-    public set selectedDate(date:Date) {
-        this._selectedDate = DateUtils.clone(date);
-        this._displayedDate = DateUtils.clone(date);
-    }
-
-    @Output("monthSelected")
-    public onMonthSelected:EventEmitter<Date>;
-
-    @Output("zoomOut")
-    public onZoomOut:EventEmitter<void>;
 
     constructor(public localizationService:SuiLocalizationService) {
-        this.selectedDate = new Date();
+        super();
 
-        this.groupedMonths = this.groupMonths();
-
-        this.onMonthSelected = new EventEmitter<Date>();
-        this.onZoomOut = new EventEmitter<void>();
+        this.renderItems();
     }
 
-    private groupMonths():number[][] {
-        const months = Array<number>(12)
+    public renderItems():void {
+        const yearStart = DateUtils.startOfYear(DateUtils.clone(this.renderedDate));
+
+        const monthNumbers = Array<number>(12)
             .fill(0)
             .map((y, i) => y + i);
 
-        const grouped:number[][] = [];
+        const months:ICalendarItem[] = [];
+
+        monthNumbers.forEach(m => {
+            const date = DateUtils.clone(yearStart);
+            date.setMonth(m);
+
+            months.push({
+                associatedDate: date,
+                humanReadable: this.localizationService.getValues().datepicker.monthsShort[m],
+                isDisabled: false,
+                isActive: DateUtils.monthsEqual(date, this._selectedDate)
+            });
+        });
+
+        this.renderedItems = [];
 
         while (months.length > 0) {
-            grouped.push(months.splice(0, 3));
+            this.renderedItems.push(months.splice(0, 3));
         }
-
-        return grouped;
     }
 
-    public nextYear():void {
-        this._displayedDate.setFullYear(this.year + 1);
+    public nextDateRange():void {
+        this.renderedDate.setFullYear(this.year + 1);
+        this.renderItems();
     }
 
-    public prevYear():void {
-        this._displayedDate.setFullYear(this.year - 1);
-    }
-
-    public setMonth(month:number):void {
-        this._selectedDate.setFullYear(this._displayedDate.getFullYear());
-        this._selectedDate.setMonth(month);
-
-        this.onMonthSelected.emit(this._selectedDate);
+    public prevDateRange():void {
+        this.renderedDate.setFullYear(this.year - 1);
+        this.renderItems();
     }
 }
