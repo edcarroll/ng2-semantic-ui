@@ -41,6 +41,9 @@ export const Util = {
                 groups.push(items.splice(0, groupLength));
             }
             return groups;
+        },
+        flatten<T>(items:T[][]):T[] {
+            return items.reduce((is, i) => is.concat(i), []);
         }
     },
 

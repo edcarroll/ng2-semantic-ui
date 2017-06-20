@@ -19,7 +19,7 @@ export abstract class CalendarView implements AfterViewInit {
 
     @ViewChildren(SuiCalendarItem)
     private _renderedItems:QueryList<SuiCalendarItem>;
-    private _highlightedItem:SuiCalendarItem;
+    private _highlightedItem:CalendarDateItem;
 
     @Input()
     public set service(service:CalendarService | undefined) {
@@ -84,53 +84,88 @@ export abstract class CalendarView implements AfterViewInit {
             }
         }));
 
-        const initial = items.find(i => i.item.compareDates(i.item.date, this.renderedDate));
-        if (initial) {
-            this.focusItem(initial);
+        if (this._highlightedItem) {
+            const highlighted = items.find(i => i.item.compareDates(i.item.date, this._highlightedItem.date));
+            if (highlighted) {
+                this.focusItem(highlighted);
+            }
+        } else {
+            const initial = items.find(i => i.item.compareDates(i.item.date, this.renderedDate));
+            if (initial) {
+                this.focusItem(initial);
+            }
         }
+
     }
 
     private focusItem(item:SuiCalendarItem):void {
         this._renderedItems.forEach(i => i.hasFocus = false);
         item.hasFocus = true;
 
-        this._highlightedItem = item;
+        this._highlightedItem = item.item;
     }
 
     @HostListener("document:keydown", ["$event"])
     private onDocumentKeydown(e:KeyboardEvent):void {
         const items = this._renderedItems.toArray();
 
-        const index = items.findIndex(i => i === this._highlightedItem);
+        const index = items.findIndex(i => i.item === this._highlightedItem);
 
-        let nextItem:SuiCalendarItem | undefined;
+        let nextIndex:number | undefined;
         let isMovingForward:boolean | undefined;
 
         switch (e.keyCode) {
             case KeyCode.Right:
-                nextItem = items[index + 1];
+                nextIndex = index + 1;
                 isMovingForward = true;
                 break;
             case KeyCode.Left:
-                nextItem = items[index - 1];
+                nextIndex = index - 1;
                 isMovingForward = false;
                 break;
             case KeyCode.Down:
-                nextItem = items[index + this._calculatedColumns];
+                nextIndex = index + this._calculatedColumns;
                 isMovingForward = true;
                 break;
             case KeyCode.Up:
-                nextItem = items[index - this._calculatedColumns];
+                nextIndex = index - this._calculatedColumns;
                 isMovingForward = false;
                 break;
         }
 
+        if (nextIndex == undefined) {
+            return;
+        }
+
+        if (nextIndex != undefined && (nextIndex < 0 || nextIndex >= items.length)) {
+            if (isMovingForward) {
+                this.nextDateRange();
+                nextIndex -= items.filter(i => !i.item.isOutsideRange).length;
+            } else {
+                this.prevDateRange();
+                nextIndex += items.filter(i => !i.item.isOutsideRange).length;
+            }
+
+            const newItems = Util.Array
+                .flatten(this.calculatedItems)
+                .filter(i => !i.isOutsideRange);
+
+            this._highlightedItem = newItems[nextIndex];
+
+            return;
+        }
+
+        const nextItem = items[nextIndex];
         if (nextItem && nextItem.item.isOutsideRange) {
+            this._highlightedItem = nextItem.item;
+
             if (isMovingForward) {
                 this.nextDateRange();
             } else {
                 this.prevDateRange();
             }
+
+            return;
         }
 
         this.focusItem(nextItem!);
