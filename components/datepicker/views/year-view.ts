@@ -45,7 +45,7 @@ export class SuiCalendarYearView extends CalendarView {
     }
 
     public calculateItems():void {
-        const decadeStart = Util.Date.startOfYear(Util.Date.clone(this.renderedDate));
+        const decadeStart = Util.Date.clone(this.renderedDate);
         decadeStart.setFullYear(this.decadeStart);
         const years:CalendarYearItem[] = [];
 

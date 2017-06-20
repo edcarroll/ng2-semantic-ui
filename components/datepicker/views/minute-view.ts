@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { CalendarView, CalendarViewType } from "./calendar-view";
 import { SuiLocalizationService } from "../../util/services/localization.service";
-import { CalendarTimeItem } from "../directives/calendar-item";
+import { CalendarMinutesItem } from "../directives/calendar-item";
 import { Util } from "../../util/util";
 
 @Component({
@@ -51,7 +51,7 @@ export class SuiCalendarMinuteView extends CalendarView {
 
     public calculateItems():void {
         const dayStart = Util.Date.startOfHour(Util.Date.clone(this.renderedDate));
-        const minutes:CalendarTimeItem[] = [];
+        const minutes:CalendarMinutesItem[] = [];
 
         Util.Array.range(12).forEach(i => {
             const date = Util.Date.clone(dayStart);
@@ -61,7 +61,7 @@ export class SuiCalendarMinuteView extends CalendarView {
             const ms = Util.String.padLeft(date.getMinutes().toString(), 2, "0");
             const isActive = !!this.selectedDate && Util.Date.minutesEqual(date, this.selectedDate);
 
-            minutes.push(new CalendarTimeItem(date, `${hs}:${ms}`, false, isActive, false));
+            minutes.push(new CalendarMinutesItem(date, `${hs}:${ms}`, false, isActive, false));
         });
 
         this.calculatedItems = Util.Array.group(minutes, 3);

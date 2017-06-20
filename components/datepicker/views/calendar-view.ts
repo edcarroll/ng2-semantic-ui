@@ -25,7 +25,6 @@ export abstract class CalendarView implements AfterViewInit {
     public set service(service:CalendarService | undefined) {
         if (service) {
             this._service = service;
-
             this.calculateItems();
         }
     }

@@ -44,6 +44,23 @@ export class CalendarTimeItem extends CalendarDateItem {
     }
 }
 
+export class CalendarHoursItem extends CalendarTimeItem {
+    public compareDates(date1:Date, date2:Date):boolean {
+        return Util.Date.hoursEqual(date1, date2);
+    }
+}
+
+export class CalendarMinutesItem extends CalendarTimeItem {
+    public compareDates(date1:Date, date2:Date):boolean {
+        const d1 = Util.Date.clone(date1);
+        d1.setMinutes(Math.floor(d1.getMinutes() / 5) * 5);
+        const d2 = Util.Date.clone(date2);
+        d2.setMinutes(Math.floor(d2.getMinutes() / 5) * 5);
+
+        return Util.Date.minutesEqual(d1, d2);
+    }
+}
+
 @Directive({
     selector: "[calendarItem]"
 })

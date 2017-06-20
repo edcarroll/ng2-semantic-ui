@@ -14,33 +14,23 @@ export interface IDateUtil {
 
 export const DateUtil:IDateUtil = {
     startOfYear(date:Date):Date {
-        DateUtil.startOfMonth(date);
         date.setMonth(0);
-
         return date;
     },
     startOfMonth(date:Date):Date {
-        DateUtil.startOfDay(date);
         date.setDate(1);
-
         return date;
     },
     startOfDay(date:Date):Date {
-        DateUtil.startOfHour(date);
         date.setHours(0);
-
         return date;
     },
     startOfHour(date:Date):Date {
-        DateUtil.startOfMinute(date);
         date.setMinutes(0);
-
         return date;
     },
     startOfMinute(date:Date):Date {
-        date.setMilliseconds(0);
         date.setSeconds(0);
-
         return date;
     },
 
