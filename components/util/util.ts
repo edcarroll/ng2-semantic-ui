@@ -52,3 +52,7 @@ export function parseBooleanAttribute(attributeValue:boolean):boolean {
 
     return value;
 }
+
+export interface IDynamicClasses {
+    [name:string]:true;
+}

@@ -2,7 +2,7 @@ import { Component, ViewChild, ViewContainerRef, ElementRef, Renderer2, EventEmi
 import { SuiTransition, Transition, TransitionDirection } from "../transition/transition";
 import { TransitionController } from "../transition/transition-controller";
 import { PositioningService, PositioningPlacement } from "../util/positioning.service";
-import { ITemplateRefContext } from "../util/util";
+import { ITemplateRefContext, IDynamicClasses } from "../util/util";
 import { IPopup } from "./popup-controller";
 import { PopupConfig } from "./popup-config";
 import Popper from "popper.js";
@@ -11,8 +11,7 @@ import Popper from "popper.js";
     selector: "sui-popup",
     template: `
 <div class="ui popup"
-     [class.inverted]="config.isInverted"
-     [class.basic]="config.isBasic"
+     [ngClass]="dynamicClasses"
      [suiTransition]="transitionController"
      [attr.direction]="direction"
      #container>
@@ -96,6 +95,30 @@ export class SuiPopup implements IPopup {
         if (this.positioningService) {
             return this.positioningService.actualPlacement.split(" ").shift();
         }
+    }
+
+    // Returns the alignment (`top`, `left`, `right`, `bottom`) of the current placement.
+    public get alignment():string | undefined {
+        if (this.positioningService) {
+            return this.positioningService.actualPlacement.split(" ").pop();
+        }
+    }
+
+    public get dynamicClasses():IDynamicClasses {
+        const classes:IDynamicClasses = {};
+        if (this.direction) {
+            classes[this.direction] = true;
+        }
+        if (this.alignment) {
+            classes[this.alignment] = true;
+        }
+        if (this.config.isInverted) {
+            classes.inverted = true;
+        }
+        if (this.config.isBasic) {
+            classes.basic = true;
+        }
+        return classes;
     }
 
     // `ViewContainerRef` for the element the template gets injected as a sibling of.
