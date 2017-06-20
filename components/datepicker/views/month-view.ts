@@ -55,7 +55,7 @@ export class SuiCalendarMonthView extends CalendarView {
             date.setMonth(m);
 
             const hR = this.localizationService.getValues().datepicker.monthsShort[m];
-            const isActive = !!this._selectedDate && Util.Date.monthsEqual(date, this._selectedDate);
+            const isActive = !!this.selectedDate && Util.Date.monthsEqual(date, this.selectedDate);
 
             months.push(new CalendarMonthItem(date, hR, false, isActive));
         });

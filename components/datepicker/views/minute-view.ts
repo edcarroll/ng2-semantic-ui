@@ -60,7 +60,7 @@ export class SuiCalendarMinuteView extends CalendarView {
 
             const hs = Util.String.padLeft(date.getHours().toString(), 2, "0");
             const ms = Util.String.padLeft(date.getMinutes().toString(), 2, "0");
-            const isActive = !!this._selectedDate && Util.Date.minutesEqual(date, this._selectedDate);
+            const isActive = !!this.selectedDate && Util.Date.minutesEqual(date, this.selectedDate);
 
             minutes.push(new CalendarTimeItem(date, `${hs}:${ms}`, false, isActive));
         });

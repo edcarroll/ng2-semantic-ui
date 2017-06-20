@@ -75,7 +75,7 @@ export class SuiCalendarDateView extends CalendarView {
             const date = Util.Date.clone(monthStart);
             date.setDate(date.getDate() + i);
 
-            const isActive = !!this._selectedDate && Util.Date.datesEqual(date, this._selectedDate);
+            const isActive = !!this.selectedDate && Util.Date.datesEqual(date, this.selectedDate);
 
             dates.push(new CalendarDateItem(date, date.getDate().toString(), date.getMonth() !== month, isActive));
         });

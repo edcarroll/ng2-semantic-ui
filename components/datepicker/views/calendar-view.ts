@@ -1,6 +1,7 @@
 import { Input, Output, EventEmitter } from "@angular/core";
 import { CalendarDateItem } from "../directives/calendar-item";
 import { Util } from "../../util/util";
+import { CalendarService } from "../services/calendar.service";
 
 export enum CalendarViewType {
     Year = 0,
@@ -14,43 +15,34 @@ export type CalendarViewResult = [Date, CalendarViewType];
 export abstract class CalendarView {
     private _type:CalendarViewType;
 
-    public renderedItems:CalendarDateItem[][];
-
-    protected _selectedDate?:Date;
-    public renderedDate:Date;
-
-    public get selectedDate():Date | undefined {
-        return this._selectedDate;
-    }
+    private _service:CalendarService | undefined;
 
     @Input()
-    public set selectedDate(date:Date | undefined) {
-        if (date) {
-            this._selectedDate = Util.Date.clone(date);
-        }
-    }
+    public set service(service:CalendarService | undefined) {
+        if (service) {
+            this._service = service;
 
-    @Input()
-    public set initialDate(date:Date | undefined) {
-        if (date) {
-            this.renderedDate = Util.Date.clone(date);
             this.renderItems();
         }
     }
 
-    @Output("dateSelected")
-    public onDateSelected:EventEmitter<CalendarViewResult>;
+    public get renderedDate():Date {
+        if (this._service) {
+            return this._service.currentDate;
+        }
+        return new Date();
+    }
 
-    @Output("zoomOut")
-    public onZoomOut:EventEmitter<CalendarViewType>;
+    public get selectedDate():Date | undefined {
+        if (this._service) {
+            return this._service.selectedDate;
+        }
+    }
+
+    public renderedItems:CalendarDateItem[][];
 
     constructor(viewType:CalendarViewType) {
         this._type = viewType;
-
-        this.renderedDate = new Date();
-
-        this.onDateSelected = new EventEmitter<CalendarViewResult>();
-        this.onZoomOut = new EventEmitter<CalendarViewType>();
     }
 
     public abstract renderItems():void;
@@ -60,12 +52,16 @@ export abstract class CalendarView {
     public abstract prevDateRange():void;
 
     public setDate(selected:CalendarDateItem):void {
-        this._selectedDate = selected.date;
+        if (this._service) {
+            this._service.changeDate(selected.date, this._type);
 
-        this.onDateSelected.emit([this._selectedDate, this._type]);
+            this.renderItems();
+        }
     }
 
     public zoomOut():void {
-        this.onZoomOut.emit(this._type);
+        if (this._service) {
+            this._service.zoomOut(this._type);
+        }
     }
 }
