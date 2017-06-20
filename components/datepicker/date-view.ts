@@ -11,25 +11,25 @@ import { CalendarView } from "./calendar-view";
 <thead>
     <tr>
         <th colspan="7">
-            <span class="link" (click)="onZoomOut.emit()">{{ month }} {{ year }}</span>
-            <span class="prev link" (click)="prevMonth()">
+            <span class="link" (click)="zoomOut()">{{ month }} {{ year }}</span>
+            <span class="prev link" (click)="prevDateRange()">
                 <i class="chevron left icon"></i>
             </span>
-            <span class="next link" (click)="nextMonth()">
+            <span class="next link" (click)="nextDateRange()">
                 <i class="chevron right icon"></i>
             </span>
         </th>
     </tr>
     <tr>
-        <th *ngFor="let day of dynamicDays">{{ day }}</th>
+        <th *ngFor="let day of days">{{ day }}</th>
     </tr>
 </thead>
 <tbody>
-    <tr *ngFor="let group of displayedDates">
+    <tr *ngFor="let group of renderedItems">
         <td class="link"
             *ngFor="let item of group"
             [calendarItem]="item"
-            (click)="setDate(item.associatedDate)">{{ item.humanReadable }}
+            (click)="setDate(item)">{{ item.humanReadable }}
         </td>
     </tr>
 </tbody>
@@ -41,59 +41,35 @@ import { CalendarView } from "./calendar-view";
 }
 `]
 })
-export class SuiCalendarDateView {
-    public get dynamicDays():string[] {
+export class SuiCalendarDateView extends CalendarView {
+    public get days():string[] {
         const days = this.localizationService.getValues().datepicker.weekdaysShort;
         return days.map((d, i) => days[(i + this.firstDayOfWeek) % days.length]);
     }
 
     public get year():number {
-        return this._displayedDate.getFullYear();
+        return this.renderedDate.getFullYear();
     }
 
     public get month():string {
         return this.localizationService
-            .getValues().datepicker.months[this._displayedDate.getMonth()];
-    }
-
-    public displayedDates:ICalendarItem[][];
-
-    private _selectedDate:Date;
-    private _displayedDate:Date;
-
-    @Input()
-    public set selectedDate(date:Date) {
-        this._selectedDate = DateUtils.clone(date);
-    }
-
-    @Input()
-    public set initialDate(date:Date) {
-        this._displayedDate = DateUtils.clone(date);
-        this.displayedDates = this.groupDates();
+            .getValues().datepicker.months[this.renderedDate.getMonth()];
     }
 
     @Input()
     public firstDayOfWeek:number;
 
-    @Output("dateSelected")
-    public onDateSelected:EventEmitter<Date>;
-
-    @Output("zoomOut")
-    public onZoomOut:EventEmitter<void>;
-
     constructor(public localizationService:SuiLocalizationService) {
+        super();
+
         this.firstDayOfWeek = this.localizationService
             .getValues().datepicker.firstDayOfWeek;
 
-        this.selectedDate = new Date();
-        this.initialDate = new Date();
-
-        this.onDateSelected = new EventEmitter<Date>();
-        this.onZoomOut = new EventEmitter<void>();
+        this.renderItems();
     }
 
-    public groupDates():ICalendarItem[][] {
-        const monthStart = DateUtils.startOfMonth(DateUtils.clone(this._displayedDate));
+    public renderItems():void {
+        const monthStart = DateUtils.startOfMonth(DateUtils.clone(this.renderedDate));
         const month = monthStart.getMonth();
         monthStart.setDate((1 - monthStart.getDay() + this.firstDayOfWeek - 7) % 7);
 
@@ -118,22 +94,16 @@ export class SuiCalendarDateView {
             dates.push(week);
         }
 
-        return dates;
+        this.renderedItems = dates;
     }
 
-    public nextMonth():void {
-        this._displayedDate.setMonth(this._displayedDate.getMonth() + 1);
-        this.displayedDates = this.groupDates();
+    public nextDateRange():void {
+        this.renderedDate.setMonth(this.renderedDate.getMonth() + 1);
+        this.renderItems();
     }
 
-    public prevMonth():void {
-        this._displayedDate.setMonth(this._displayedDate.getMonth() - 1);
-        this.displayedDates = this.groupDates();
-    }
-
-    public setDate(date:Date):void {
-        this._selectedDate = date;
-
-        this.onDateSelected.emit(this._selectedDate);
+    public prevDateRange():void {
+        this.renderedDate.setMonth(this.renderedDate.getMonth() - 1);
+        this.renderItems();
     }
 }

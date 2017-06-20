@@ -1,12 +1,11 @@
-import { Input, Output } from "@angular/core";
+import { Input, Output, EventEmitter } from "@angular/core";
 import { ICalendarItem } from "./calendar-item";
 import { DateUtils } from "./date-utils";
-import { EventEmitter } from "events";
 
 export abstract class CalendarView {
     public renderedItems:ICalendarItem[][];
 
-    private _selectedDate:Date;
+    protected _selectedDate:Date;
     public renderedDate:Date;
 
     public get selectedDate():Date {
@@ -31,10 +30,10 @@ export abstract class CalendarView {
     public onZoomOut:EventEmitter<void>;
 
     constructor() {
-        this.selectedDate = new Date();
-        this.initialDate = new Date();
+        this._selectedDate = new Date();
+        this.renderedDate = new Date();
 
-        this.onDateSelected = new EventEmitter<void>();
+        this.onDateSelected = new EventEmitter<Date>();
         this.onZoomOut = new EventEmitter<void>();
     }
 
