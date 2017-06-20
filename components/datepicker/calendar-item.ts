@@ -2,11 +2,40 @@
 import { Directive, HostBinding, HostListener, Input, ElementRef } from "@angular/core";
 import { Util } from "../util/util";
 
-export interface ICalendarItem {
-    associatedDate:Date;
-    humanReadable:string;
-    isDisabled:boolean;
-    isActive:boolean;
+export class CalendarDateItem {
+    public date:Date;
+    public humanReadable:string;
+    public isDisabled:boolean;
+    public isActive:boolean;
+
+    public get isToday():boolean {
+        return Util.Date.datesEqual(new Date(), this.date);
+    }
+
+    constructor(date:Date, humanReadable:string, isDisabled:boolean, isActive:boolean) {
+        this.date = date;
+        this.humanReadable = humanReadable;
+        this.isDisabled = isDisabled;
+        this.isActive = isActive;
+    }
+}
+
+export class CalendarYearItem extends CalendarDateItem {
+    public get isToday():boolean {
+        return Util.Date.yearsEqual(new Date(), this.date);
+    }
+}
+
+export class CalendarMonthItem extends CalendarDateItem {
+    public get isToday():boolean {
+        return Util.Date.monthsEqual(new Date(), this.date);
+    }
+}
+
+export class CalendarTimeItem extends CalendarDateItem {
+    public get isToday():boolean {
+        return false;
+    }
 }
 
 @Directive({
@@ -14,7 +43,7 @@ export interface ICalendarItem {
 })
 export class SuiCalendarItem {
     @Input("calendarItem")
-    public item:ICalendarItem;
+    public item:CalendarDateItem;
 
     @HostBinding("class.disabled")
     public get isDisabled():boolean {
@@ -28,7 +57,7 @@ export class SuiCalendarItem {
 
     @HostBinding("class.today")
     public get isToday():boolean {
-        return Util.Date.datesEqual(new Date(), this.item.associatedDate);
+        return this.item.isToday;
     }
 
     @HostBinding("attr.tabindex")

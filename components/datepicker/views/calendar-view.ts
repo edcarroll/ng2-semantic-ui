@@ -1,9 +1,9 @@
 import { Input, Output, EventEmitter } from "@angular/core";
-import { ICalendarItem } from "../calendar-item";
+import { CalendarDateItem } from "../calendar-item";
 import { Util } from "../../util/util";
 
 export abstract class CalendarView {
-    public renderedItems:ICalendarItem[][];
+    public renderedItems:CalendarDateItem[][];
 
     protected _selectedDate?:Date;
     public renderedDate:Date;
@@ -46,8 +46,8 @@ export abstract class CalendarView {
 
     public abstract prevDateRange():void;
 
-    public setDate(selected:ICalendarItem):void {
-        this._selectedDate = selected.associatedDate;
+    public setDate(selected:CalendarDateItem):void {
+        this._selectedDate = selected.date;
 
         this.onDateSelected.emit(this._selectedDate);
     }
