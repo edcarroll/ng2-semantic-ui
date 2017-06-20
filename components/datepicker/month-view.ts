@@ -67,7 +67,7 @@ export class SuiCalendarMonthView extends CalendarView {
                 associatedDate: date,
                 humanReadable: this.localizationService.getValues().datepicker.monthsShort[m],
                 isDisabled: false,
-                isActive: DateUtils.monthsEqual(date, this._selectedDate)
+                isActive: !!this._selectedDate && DateUtils.monthsEqual(date, this._selectedDate)
             });
         });
 

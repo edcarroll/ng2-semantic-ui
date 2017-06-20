@@ -87,7 +87,7 @@ export class SuiCalendarDateView extends CalendarView {
                     associatedDate: date,
                     humanReadable: date.getDate().toString(),
                     isDisabled: date.getMonth() !== month,
-                    isActive: DateUtils.datesEqual(date, this._selectedDate)
+                    isActive: !!this._selectedDate && DateUtils.datesEqual(date, this._selectedDate)
                 });
             }
 

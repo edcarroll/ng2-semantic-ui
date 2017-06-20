@@ -34,18 +34,20 @@ export class SuiDatepicker {
     @HostBinding("class.calendar")
     public calendarClasses:boolean;
 
-    private _selectedDate:Date;
+    private _selectedDate?:Date;
 
     public currentView:CalendarViewType;
     public currentDate:Date;
 
-    public get selectedDate():Date {
+    public get selectedDate():Date | undefined {
         return this._selectedDate;
     }
 
-    public set selectedDate(date:Date) {
-        this._selectedDate = DateUtils.clone(date);
-        this.currentDate = DateUtils.clone(date);
+    public set selectedDate(date:Date | undefined) {
+        if (date) {
+            this._selectedDate = DateUtils.clone(date);
+            this.currentDate = DateUtils.clone(date);
+        }
     }
 
     public changedMappings:Map<CalendarViewType, CalendarViewType>;
@@ -53,7 +55,7 @@ export class SuiDatepicker {
 
     constructor() {
         this.currentView = "year";
-        this.selectedDate = new Date();
+        this.currentDate = new Date();
 
         this.changedMappings = new Map<CalendarViewType, CalendarViewType>([
             ["year", "month"],

@@ -67,7 +67,7 @@ export class SuiCalendarYearView extends CalendarView {
                 associatedDate: date,
                 humanReadable: date.getFullYear().toString(),
                 isDisabled: false,
-                isActive: DateUtils.yearsEqual(date, this._selectedDate)
+                isActive: !!this._selectedDate && DateUtils.yearsEqual(date, this._selectedDate)
             });
         });
 

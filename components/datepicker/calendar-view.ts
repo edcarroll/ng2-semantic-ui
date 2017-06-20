@@ -5,22 +5,26 @@ import { DateUtils } from "./date-utils";
 export abstract class CalendarView {
     public renderedItems:ICalendarItem[][];
 
-    protected _selectedDate:Date;
+    protected _selectedDate?:Date;
     public renderedDate:Date;
 
-    public get selectedDate():Date {
+    public get selectedDate():Date | undefined {
         return this._selectedDate;
     }
 
     @Input()
-    public set selectedDate(date:Date) {
-        this._selectedDate = DateUtils.clone(date);
+    public set selectedDate(date:Date | undefined) {
+        if (date) {
+            this._selectedDate = DateUtils.clone(date);
+        }
     }
 
     @Input()
-    public set initialDate(date:Date) {
-        this.renderedDate = DateUtils.clone(date);
-        this.renderItems();
+    public set initialDate(date:Date | undefined) {
+        if (date) {
+            this.renderedDate = DateUtils.clone(date);
+            this.renderItems();
+        }
     }
 
     @Output("dateSelected")
@@ -30,7 +34,6 @@ export abstract class CalendarView {
     public onZoomOut:EventEmitter<void>;
 
     constructor() {
-        this._selectedDate = new Date();
         this.renderedDate = new Date();
 
         this.onDateSelected = new EventEmitter<Date>();
