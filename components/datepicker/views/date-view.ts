@@ -3,6 +3,7 @@ import { DateUtils } from "../date-utils";
 import { SuiLocalizationService } from "../../util/localization.service";
 import { ICalendarItem } from "../calendar-item";
 import { CalendarView } from "./calendar-view";
+import { Util } from "../../util/util";
 
 @Component({
     selector: "sui-calendar-date-view",
@@ -73,28 +74,21 @@ export class SuiCalendarDateView extends CalendarView {
         const month = monthStart.getMonth();
         monthStart.setDate((1 - monthStart.getDay() + this.firstDayOfWeek - 7) % 7);
 
-        const dates:ICalendarItem[][] = [];
-        const weeksToShow = 6;
-        const weekLength = 7;
-        for (let w = 0; w < weeksToShow; w++) {
-            const week:ICalendarItem[] = [];
+        const dates:ICalendarItem[] = [];
 
-            for (let d = 0; d < weekLength; d++) {
-                const date = DateUtils.clone(monthStart);
-                date.setDate(date.getDate() + (w * weekLength + d));
+        Util.Array.range(6 * 7).forEach(i => {
+            const date = DateUtils.clone(monthStart);
+            date.setDate(date.getDate() + i);
 
-                week.push({
-                    associatedDate: date,
-                    humanReadable: date.getDate().toString(),
-                    isDisabled: date.getMonth() !== month,
-                    isActive: !!this._selectedDate && DateUtils.datesEqual(date, this._selectedDate)
-                });
-            }
+            dates.push({
+                associatedDate: date,
+                humanReadable: date.getDate().toString(),
+                isDisabled: date.getMonth() !== month,
+                isActive: !!this._selectedDate && DateUtils.datesEqual(date, this._selectedDate)
+            });
+        });
 
-            dates.push(week);
-        }
-
-        this.renderedItems = dates;
+        this.renderedItems = this.group(dates, 7);
     }
 
     public nextDateRange():void {

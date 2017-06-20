@@ -4,6 +4,7 @@ import { DateUtils } from "../date-utils";
 import { SuiLocalizationService } from "../../util/localization.service";
 import { CalendarView } from "./calendar-view";
 import { ICalendarItem } from "../calendar-item";
+import { Util } from "../../util/util";
 
 @Component({
     selector: "sui-calendar-month-view",
@@ -52,14 +53,9 @@ export class SuiCalendarMonthView extends CalendarView {
 
     public renderItems():void {
         const yearStart = DateUtils.startOfYear(DateUtils.clone(this.renderedDate));
-
-        const monthNumbers = Array<number>(12)
-            .fill(0)
-            .map((y, i) => y + i);
-
         const months:ICalendarItem[] = [];
 
-        monthNumbers.forEach(m => {
+        Util.Array.range(12).forEach(m => {
             const date = DateUtils.clone(yearStart);
             date.setMonth(m);
 
@@ -71,11 +67,7 @@ export class SuiCalendarMonthView extends CalendarView {
             });
         });
 
-        this.renderedItems = [];
-
-        while (months.length > 0) {
-            this.renderedItems.push(months.splice(0, 3));
-        }
+        this.renderedItems = this.group(months, 3);
     }
 
     public nextDateRange():void {

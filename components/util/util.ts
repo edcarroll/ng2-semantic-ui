@@ -57,10 +57,28 @@ export interface IDynamicClasses {
     [name:string]:true;
 }
 
-export function padLeft(str:string, length:number, padding:string):string {
-    let s = str;
-    while (s.length < length) {
-        s = padding + s;
-    }
-    return s;
+export interface IUtil {
+    Array:{
+        range(n:number, offset?:number):number[];
+    };
+    String:{
+        padLeft(str:string, length:number, padding:string):string;
+    };
 }
+
+export const Util:IUtil = {
+    Array: {
+        range: (n:number, offset:number = 0) => {
+            return Array(n).fill(0).map((z, i) => i + offset);
+        }
+    },
+    String: {
+        padLeft: (str:string, length:number, padding:string) => {
+            let s = str;
+            while (s.length < length) {
+                s = padding + s;
+            }
+            return s;
+        }
+    }
+};

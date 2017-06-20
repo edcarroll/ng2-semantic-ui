@@ -3,7 +3,7 @@ import { CalendarView } from "./calendar-view";
 import { SuiLocalizationService } from "../../util/localization.service";
 import { DateUtils } from "../date-utils";
 import { ICalendarItem } from "../calendar-item";
-import { padLeft } from "../../util/util";
+import { Util } from "../../util/util";
 
 @Component({
     selector: "sui-calendar-hour-view",
@@ -57,30 +57,21 @@ export class SuiCalendarHourView extends CalendarView {
 
     public renderItems():void {
         const dayStart = DateUtils.startOfDay(DateUtils.clone(this.renderedDate));
-
-        const hourNumbers = Array<number>(24)
-            .fill(0)
-            .map((h, i) => h + i);
-
         const hours:ICalendarItem[] = [];
 
-        hourNumbers.forEach(h => {
+        Util.Array.range(24).forEach(h => {
             const date = DateUtils.clone(dayStart);
             date.setHours(h);
 
             hours.push({
                 associatedDate: date,
-                humanReadable: `${padLeft(date.getHours().toString(), 2, "0")}:00`,
+                humanReadable: `${Util.String.padLeft(date.getHours().toString(), 2, "0")}:00`,
                 isDisabled: false,
                 isActive: !!this._selectedDate && DateUtils.hoursEqual(date, this._selectedDate)
             });
         });
 
-        this.renderedItems = [];
-
-        while (hours.length > 0) {
-            this.renderedItems.push(hours.splice(0, 4));
-        }
+        this.renderedItems = this.group(hours, 4);
     }
 
     public nextDateRange():void {

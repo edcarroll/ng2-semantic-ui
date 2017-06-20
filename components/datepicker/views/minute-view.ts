@@ -3,7 +3,7 @@ import { CalendarView } from "./calendar-view";
 import { SuiLocalizationService } from "../../util/localization.service";
 import { DateUtils } from "../date-utils";
 import { ICalendarItem } from "../calendar-item";
-import { padLeft } from "../../util/util";
+import { Util } from "../../util/util";
 
 @Component({
     selector: "sui-calendar-minute-view",
@@ -57,19 +57,14 @@ export class SuiCalendarMinuteView extends CalendarView {
 
     public renderItems():void {
         const dayStart = DateUtils.startOfHour(DateUtils.clone(this.renderedDate));
-
-        const minuteNumbers = Array<number>(12)
-            .fill(0)
-            .map((m, i) => m + i * 5);
-
         const minutes:ICalendarItem[] = [];
 
-        minuteNumbers.forEach(m => {
+        Util.Array.range(12).forEach(i => {
             const date = DateUtils.clone(dayStart);
-            date.setMinutes(m);
+            date.setMinutes(i * 5);
 
-            const hs = padLeft(date.getHours().toString(), 2, "0");
-            const ms = padLeft(date.getMinutes().toString(), 2, "0");
+            const hs = Util.String.padLeft(date.getHours().toString(), 2, "0");
+            const ms = Util.String.padLeft(date.getMinutes().toString(), 2, "0");
 
             minutes.push({
                 associatedDate: date,
@@ -79,11 +74,7 @@ export class SuiCalendarMinuteView extends CalendarView {
             });
         });
 
-        this.renderedItems = [];
-
-        while (minutes.length > 0) {
-            this.renderedItems.push(minutes.splice(0, 3));
-        }
+        this.renderedItems = this.group(minutes, 3);
     }
 
     public nextDateRange():void {

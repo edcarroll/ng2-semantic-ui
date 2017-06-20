@@ -3,6 +3,7 @@ import { Component, HostBinding, Input, Output, EventEmitter } from "@angular/co
 import { DateUtils } from "../date-utils";
 import { CalendarView } from "./calendar-view";
 import { ICalendarItem } from "../calendar-item";
+import { Util } from "../../util/util";
 
 @Component({
     selector: "sui-calendar-year-view",
@@ -52,14 +53,9 @@ export class SuiCalendarYearView extends CalendarView {
     public renderItems():void {
         const decadeStart = DateUtils.startOfYear(DateUtils.clone(this.renderedDate));
         decadeStart.setFullYear(this.decadeStart);
-
-        const yearNumbers = Array<number>(12)
-            .fill(this.decadeStart)
-            .map((y, i) => y + i);
-
         const years:ICalendarItem[] = [];
 
-        yearNumbers.forEach(y => {
+        Util.Array.range(12, this.decadeStart).forEach(y => {
             const date = DateUtils.clone(decadeStart);
             date.setFullYear(y);
 
@@ -71,11 +67,7 @@ export class SuiCalendarYearView extends CalendarView {
             });
         });
 
-        this.renderedItems = [];
-
-        while (years.length > 0) {
-            this.renderedItems.push(years.splice(0, 3));
-        }
+        this.renderedItems = this.group(years, 3);
     }
 
     public nextDateRange():void {

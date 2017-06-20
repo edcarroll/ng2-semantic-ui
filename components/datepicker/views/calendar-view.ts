@@ -42,6 +42,14 @@ export abstract class CalendarView {
 
     public abstract renderItems():void;
 
+    protected group<T>(items:T[], groupLength:number):T[][] {
+        const groups:T[][] = [];
+        while (items.length > 0) {
+            groups.push(items.splice(0, groupLength));
+        }
+        return groups;
+    }
+
     public abstract nextDateRange():void;
 
     public abstract prevDateRange():void;
