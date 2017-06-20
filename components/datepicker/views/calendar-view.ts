@@ -1,6 +1,6 @@
 import { Input, Output, EventEmitter } from "@angular/core";
-import { ICalendarItem } from "./calendar-item";
-import { DateUtils } from "./date-utils";
+import { ICalendarItem } from "../calendar-item";
+import { DateUtils } from "../date-utils";
 
 export abstract class CalendarView {
     public renderedItems:ICalendarItem[][];

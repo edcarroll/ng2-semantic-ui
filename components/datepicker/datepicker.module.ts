@@ -1,9 +1,9 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { SuiCalendarYearView } from "./year-view";
-import { SuiCalendarMonthView } from "./month-view";
+import { SuiCalendarYearView } from "./views/year-view";
+import { SuiCalendarMonthView } from "./views/month-view";
 import { SuiCalendarItem } from "./calendar-item";
-import { SuiCalendarDateView } from "./date-view";
+import { SuiCalendarDateView } from "./views/date-view";
 import { SuiUtilityModule } from "../util/util.module";
 import { SuiDatepickerDirective } from "./datepicker.directive";
 import { SuiDatepicker } from "./datepicker";
@@ -23,11 +23,7 @@ import { SuiDatepicker } from "./datepicker";
     ],
     exports: [
         SuiDatepicker,
-        SuiDatepickerDirective,
-        // Delete all of these!
-        SuiCalendarYearView,
-        SuiCalendarMonthView,
-        SuiCalendarDateView
+        SuiDatepickerDirective
     ],
     entryComponents: [
         SuiDatepicker

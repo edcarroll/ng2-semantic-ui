@@ -1,9 +1,9 @@
 
 import { Component, Input, Output, EventEmitter, HostBinding } from "@angular/core";
-import { DateUtils } from "./date-utils";
-import { SuiLocalizationService } from "../util/localization.service";
-import { CalendarView } from "./calendar-view";
-import { ICalendarItem } from "./calendar-item";
+import { DateUtils } from "../date-utils";
+import { SuiLocalizationService } from "../../util/localization.service";
+import { CalendarView } from "../calendar-view";
+import { ICalendarItem } from "../calendar-item";
 
 @Component({
     selector: "sui-calendar-month-view",
