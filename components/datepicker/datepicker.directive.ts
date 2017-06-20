@@ -22,8 +22,15 @@ export class SuiDatepickerDirective extends SuiPopupController<SuiDatepicker> {
             component: SuiDatepicker
         }));
 
+        // This ensures the popup is drawn correctly (i.e. no border).
         renderer.addClass(this.popup.elementRef.nativeElement, "ui");
         renderer.addClass(this.popup.elementRef.nativeElement, "calendar");
+
+        this.popup.onOpen.subscribe(() => {
+            if (this._contentComponentRef) {
+                this._contentComponentRef.instance.calendarClasses = false;
+                this._contentComponentRef.instance.selectedDate = new Date();
+            }
+        });
     }
 }
-

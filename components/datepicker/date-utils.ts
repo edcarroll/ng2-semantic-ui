@@ -34,6 +34,14 @@ export class DateUtils {
         return date;
     }
 
+    public static hoursEqual(date1:Date, date2:Date):boolean {
+        let equal = true;
+        equal = equal && this.datesEqual(date1, date2);
+        equal = equal && date1.getHours() === date2.getHours();
+        // equal = equal && date1.getMinutes() === date2.getMinutes();
+        return equal;
+    }
+
     public static datesEqual(date1:Date, date2:Date):boolean {
         let equal = true;
         equal = equal && this.monthsEqual(date1, date2);
@@ -51,15 +59,6 @@ export class DateUtils {
     public static yearsEqual(date1:Date, date2:Date):boolean {
         let equal = true;
         equal = equal && date1.getFullYear() === date2.getFullYear();
-        return equal;
-    }
-
-    public static timesEqual(date1:Date, date2:Date):boolean {
-        let equal = true;
-        equal = equal && this.datesEqual(date1, date2);
-        equal = equal && date1.getHours() === date2.getHours();
-        equal = equal && date1.getMinutes() === date2.getMinutes();
-        equal = equal && date1.getSeconds() === date2.getSeconds();
         return equal;
     }
 

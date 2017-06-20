@@ -3,7 +3,7 @@ import { SuiTransition, Transition, TransitionDirection } from "../transition/tr
 import { TransitionController } from "../transition/transition-controller";
 import { PositioningService, PositioningPlacement } from "../util/positioning.service";
 import { ITemplateRefContext } from "../util/util";
-import { IPopup } from "./popup-base.directive";
+import { IPopup } from "./popup-controller";
 import { PopupConfig } from "./popup-config";
 import Popper from "popper.js";
 
@@ -17,7 +17,7 @@ import Popper from "popper.js";
      [attr.direction]="direction"
      #container>
 
-    <ng-container *ngIf="!config.template">
+    <ng-container *ngIf="!config.template && !config.component">
         <div class="header" *ngIf="config.header">{{ config.header }}</div>
         <div class="content">{{ config.text }}</div>
     </ng-container>

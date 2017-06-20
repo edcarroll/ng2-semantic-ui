@@ -2,7 +2,7 @@
 import { Component, HostBinding } from "@angular/core";
 import { DateUtils } from "./date-utils";
 
-export type CalendarViewType = "year" | "month" | "date" | "exit";
+export type CalendarViewType = "year" | "month" | "date" | "hour" | "minute" | "exit";
 
 @Component({
     selector: "sui-datepicker",
@@ -26,6 +26,12 @@ export type CalendarViewType = "year" | "month" | "date" | "exit";
                                 (dateSelected)="onDateChanged($event, 'date')"
                                 (zoomOut)="onZoomOut('date')"></sui-calendar-date-view>    
     </ng-container>
+    <ng-container *ngSwitchCase="'hour'">
+        <sui-calendar-hour-view [initialDate]="currentDate"
+                                [selectedDate]="selectedDate"
+                                (dateSelected)="onDateChanged($event, 'hour')"
+                                (zoomOut)="onZoomOut('hour')"></sui-calendar-hour-view>    
+    </ng-container>
 </ng-container>
 `
 })
@@ -47,6 +53,7 @@ export class SuiDatepicker {
         if (date) {
             this._selectedDate = DateUtils.clone(date);
             this.currentDate = DateUtils.clone(date);
+            this.currentView = "date";
         }
     }
 
@@ -59,13 +66,15 @@ export class SuiDatepicker {
         this.changedMappings = new Map<CalendarViewType, CalendarViewType>([
             ["year", "month"],
             ["month", "date"],
-            ["date", "date"]
+            ["date", "hour"],
+            ["hour", "hour"]
         ]);
 
         this.zoomMappings = new Map<CalendarViewType, CalendarViewType>([
             ["year", "date"],
             ["month", "year"],
-            ["date", "month"]
+            ["date", "month"],
+            ["hour", "date"]
         ]);
 
         this.calendarClasses = true;
@@ -74,7 +83,7 @@ export class SuiDatepicker {
     public onDateChanged(date:Date, view:CalendarViewType):void {
         this.currentDate = date;
 
-        if (view === "date") {
+        if (view === "hour") {
             this.selectedDate = date;
         }
 
