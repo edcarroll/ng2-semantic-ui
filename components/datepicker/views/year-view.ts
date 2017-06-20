@@ -22,7 +22,7 @@ import { Util } from "../../util/util";
     </tr>
 </thead>
 <tbody>
-    <tr *ngFor="let group of renderedItems">
+    <tr *ngFor="let group of calculatedItems">
         <td class="link"
             *ngFor="let item of group"
             [calendarItem]="item"
@@ -41,10 +41,10 @@ export class SuiCalendarYearView extends CalendarView {
     constructor() {
         super(CalendarViewType.Year, 3);
 
-        this.renderItems();
+        this.calculateItems();
     }
 
-    public renderItems():void {
+    public calculateItems():void {
         const decadeStart = Util.Date.startOfYear(Util.Date.clone(this.renderedDate));
         decadeStart.setFullYear(this.decadeStart);
         const years:CalendarYearItem[] = [];
@@ -53,21 +53,22 @@ export class SuiCalendarYearView extends CalendarView {
             const date = Util.Date.clone(decadeStart);
             date.setFullYear(y);
 
+            const hR = date.getFullYear().toString();
             const isActive = !!this.selectedDate && Util.Date.yearsEqual(date, this.selectedDate);
 
-            years.push(new CalendarYearItem(date, date.getFullYear().toString(), false, isActive));
+            years.push(new CalendarYearItem(date, hR.toString(), false, isActive, date.getFullYear() >= this.decadeStart + 10));
         });
 
-        this.renderedItems = Util.Array.group(years, 3);
+        this.calculatedItems = Util.Array.group(years, 3);
     }
 
     public nextDateRange():void {
         this.renderedDate.setFullYear(this.renderedDate.getFullYear() + 10);
-        this.renderItems();
+        this.calculateItems();
     }
 
     public prevDateRange():void {
         this.renderedDate.setFullYear(this.renderedDate.getFullYear() - 10);
-        this.renderItems();
+        this.calculateItems();
     }
 }

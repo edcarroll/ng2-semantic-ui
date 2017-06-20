@@ -25,7 +25,7 @@ import { Util } from "../../util/util";
     </tr>
 </thead>
 <tbody>
-    <tr *ngFor="let group of renderedItems">
+    <tr *ngFor="let group of calculatedItems">
         <td class="link"
             *ngFor="let item of group"
             [calendarItem]="item"
@@ -60,10 +60,10 @@ export class SuiCalendarDateView extends CalendarView {
         this.firstDayOfWeek = this.localizationService
             .getValues().datepicker.firstDayOfWeek;
 
-        this.renderItems();
+        this.calculateItems();
     }
 
-    public renderItems():void {
+    public calculateItems():void {
         const monthStart = Util.Date.startOfMonth(Util.Date.clone(this.renderedDate));
         const month = monthStart.getMonth();
         monthStart.setDate((1 - monthStart.getDay() + this.firstDayOfWeek - 7) % 7);
@@ -74,21 +74,22 @@ export class SuiCalendarDateView extends CalendarView {
             const date = Util.Date.clone(monthStart);
             date.setDate(date.getDate() + i);
 
+            const hR = date.getDate().toString();
             const isActive = !!this.selectedDate && Util.Date.datesEqual(date, this.selectedDate);
 
-            dates.push(new CalendarDateItem(date, date.getDate().toString(), date.getMonth() !== month, isActive));
+            dates.push(new CalendarDateItem(date, hR, date.getMonth() !== month, isActive, date.getMonth() !== month));
         });
 
-        this.renderedItems = Util.Array.group(dates, 7);
+        this.calculatedItems = Util.Array.group(dates, 7);
     }
 
     public nextDateRange():void {
         this.renderedDate.setMonth(this.renderedDate.getMonth() + 1);
-        this.renderItems();
+        this.calculateItems();
     }
 
     public prevDateRange():void {
         this.renderedDate.setMonth(this.renderedDate.getMonth() - 1);
-        this.renderItems();
+        this.calculateItems();
     }
 }

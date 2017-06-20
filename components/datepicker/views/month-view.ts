@@ -23,7 +23,7 @@ import { Util } from "../../util/util";
     </tr>
 </thead>
 <tbody>
-    <tr *ngFor="let group of renderedItems">
+    <tr *ngFor="let group of calculatedItems">
         <td class="link"
             *ngFor="let item of group"
             [calendarItem]="item"
@@ -42,10 +42,10 @@ export class SuiCalendarMonthView extends CalendarView {
     constructor(public localizationService:SuiLocalizationService) {
         super(CalendarViewType.Month, 3);
 
-        this.renderItems();
+        this.calculateItems();
     }
 
-    public renderItems():void {
+    public calculateItems():void {
         const yearStart = Util.Date.startOfYear(Util.Date.clone(this.renderedDate));
         const months:CalendarMonthItem[] = [];
 
@@ -56,19 +56,19 @@ export class SuiCalendarMonthView extends CalendarView {
             const hR = this.localizationService.getValues().datepicker.monthsShort[m];
             const isActive = !!this.selectedDate && Util.Date.monthsEqual(date, this.selectedDate);
 
-            months.push(new CalendarMonthItem(date, hR, false, isActive));
+            months.push(new CalendarMonthItem(date, hR, false, isActive, false));
         });
 
-        this.renderedItems = Util.Array.group(months, 3);
+        this.calculatedItems = Util.Array.group(months, 3);
     }
 
     public nextDateRange():void {
         this.renderedDate.setFullYear(this.year + 1);
-        this.renderItems();
+        this.calculateItems();
     }
 
     public prevDateRange():void {
         this.renderedDate.setFullYear(this.year - 1);
-        this.renderItems();
+        this.calculateItems();
     }
 }

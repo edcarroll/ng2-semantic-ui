@@ -1,5 +1,5 @@
 
-import { Directive, HostBinding, HostListener, Input, ElementRef } from "@angular/core";
+import { Directive, HostBinding, HostListener, Input, ElementRef, EventEmitter, Renderer2 } from "@angular/core";
 import { Util } from "../../util/util";
 
 export class CalendarDateItem {
@@ -7,28 +7,34 @@ export class CalendarDateItem {
     public humanReadable:string;
     public isDisabled:boolean;
     public isActive:boolean;
+    public isOutsideRange:boolean;
 
     public get isToday():boolean {
-        return Util.Date.datesEqual(new Date(), this.date);
+        return this.compareDates(new Date(), this.date);
     }
 
-    constructor(date:Date, humanReadable:string, isDisabled:boolean, isActive:boolean) {
+    constructor(date:Date, humanReadable:string, isDisabled:boolean, isActive:boolean, isOutsideRange:boolean) {
         this.date = date;
         this.humanReadable = humanReadable;
         this.isDisabled = isDisabled;
         this.isActive = isActive;
+        this.isOutsideRange = isOutsideRange;
+    }
+
+    public compareDates(date1:Date, date2:Date):boolean {
+        return Util.Date.datesEqual(date1, date2);
     }
 }
 
 export class CalendarYearItem extends CalendarDateItem {
-    public get isToday():boolean {
-        return Util.Date.yearsEqual(new Date(), this.date);
+    public compareDates(date1:Date, date2:Date):boolean {
+        return Util.Date.yearsEqual(date1, date2);
     }
 }
 
 export class CalendarMonthItem extends CalendarDateItem {
-    public get isToday():boolean {
-        return Util.Date.monthsEqual(new Date(), this.date);
+    public compareDates(date1:Date, date2:Date):boolean {
+        return Util.Date.monthsEqual(date1, date2);
     }
 }
 
@@ -60,16 +66,39 @@ export class SuiCalendarItem {
         return this.item.isToday;
     }
 
-    @HostBinding("class.focus")
-    public hasFocus:boolean;
+    private _hasFocus:boolean;
+
+    public get hasFocus():boolean {
+        return this._hasFocus;
+    }
+
+    public set hasFocus(value:boolean) {
+        this._hasFocus = value;
+
+        if (value) {
+            this._renderer.addClass(this.element.nativeElement, "focus");
+        } else {
+            this._renderer.removeClass(this.element.nativeElement, "focus");
+        }
+    }
+
+    public onFocussed:EventEmitter<boolean>;
+
+    constructor(private _renderer:Renderer2, public element:ElementRef) {
+        this.hasFocus = false;
+
+        this.onFocussed = new EventEmitter<boolean>();
+    }
 
     @HostListener("mousemove")
     public onMouseMove():void {
         this.hasFocus = true;
+        this.onFocussed.emit(this.hasFocus);
     }
 
     @HostListener("mouseleave")
     public onMouseLeave():void {
         this.hasFocus = false;
+        this.onFocussed.emit(this.hasFocus);
     }
 }
