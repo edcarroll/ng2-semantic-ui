@@ -116,7 +116,7 @@ export class SuiDatepicker {
 
     private updateView(mappings:Map<CalendarViewType, CalendarViewType>, fromView:CalendarViewType):void {
         const mapping = mappings.get(fromView);
-        if (!mapping) {
+        if (mapping == undefined) {
             throw new Error("Unknown view type.");
         }
         this.currentView = mapping;
