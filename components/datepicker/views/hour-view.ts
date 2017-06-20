@@ -50,7 +50,6 @@ export class SuiCalendarHourView extends CalendarView {
     }
 
     public calculateItems():void {
-        console.log(this.renderedDate);
         const dayStart = Util.Date.startOfDay(Util.Date.clone(this.renderedDate));
         const hours:CalendarHoursItem[] = [];
 

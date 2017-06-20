@@ -84,5 +84,17 @@ export const Util = {
         }
     },
 
+    Math: {
+        round(r:number, n:number):number {
+            return Math.round(r / n) * n;
+        },
+        roundUp(r:number, n:number):number {
+            return Math.ceil(r / n) * n;
+        },
+        roundDown(r:number, n:number):number {
+            return Math.floor(r / n) * n;
+        }
+    },
+
     Date: DateUtil
 };
