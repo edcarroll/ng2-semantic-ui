@@ -1,4 +1,4 @@
-import { readValue } from "../util/util";
+import { Util } from "../util/util";
 
 // Define useful types to avoid any.
 export type LookupFnResult<T> = T | Promise<T>;
@@ -159,7 +159,7 @@ export class SearchService<T> {
                 // This avoids the results suddenly becoming empty if an invalid regex string is inputted.
             this.updateResults(this._options
                 // Filter on the options with a string match on the field we are testing.
-                .filter(o => readValue<T, string>(o, this._optionsField)
+                .filter(o => Util.Object.readValue<T, string>(o, this._optionsField)
                     .toString()
                     .match(regex)));
         }

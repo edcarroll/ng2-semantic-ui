@@ -4,8 +4,8 @@ import {
 } from "@angular/core";
 import { DropdownService, DropdownAutoCloseType } from "../dropdown/dropdown.service";
 import { SearchService, LookupFn } from "../search/search.service";
-import { readValue, KeyCode, HandledEvent, IAugmentedElement, ITemplateRefContext } from "../util/util";
-import { PositioningService, PositioningPlacement } from "../util/positioning.service";
+import { Util, KeyCode, HandledEvent, IAugmentedElement, ITemplateRefContext } from "../util/util";
+import { PositioningService, PositioningPlacement } from "../util/services/positioning.service";
 import { SuiDropdownMenu, SuiDropdownMenuItem } from "../dropdown/dropdown-menu";
 import { SuiSelectOption, ISelectRenderedOption } from "./select-option";
 import { Subscription } from "rxjs/Subscription";
@@ -103,7 +103,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
 
     public get labelGetter():(obj:T) => string {
         // Helper function to retrieve the label from an item.
-        return (obj:T) => readValue<T, string>(obj, this.labelField);
+        return (obj:T) => Util.Object.readValue<T, string>(obj, this.labelField);
     }
 
     @Input()
@@ -111,7 +111,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
 
     public get valueGetter():(obj:T) => U {
         // Helper function to retrieve the value from an item.
-        return (obj:T) => readValue<T, U>(obj, this.valueField);
+        return (obj:T) => Util.Object.readValue<T, U>(obj, this.valueField);
     }
 
     @Input()

@@ -6,7 +6,7 @@ import { SuiPopupDirective } from "./popup.directive";
 import { SuiPopup } from "./popup";
 import { SuiPopupArrow } from "./popup-arrow";
 import { IPopupConfig, PopupTrigger, PopupConfig } from "./popup-config";
-import { PositioningPlacement } from "../util/positioning.service";
+import { PositioningPlacement } from "../util/services/positioning.service";
 import { SuiPopupConfig } from "./popup.service";
 import { IPopup } from "./popup-controller";
 

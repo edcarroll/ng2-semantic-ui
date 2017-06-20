@@ -6,7 +6,7 @@ import { SuiSelectBase } from "./select-base";
 import { SuiMultiSelectLabel } from "./multi-select-label";
 import { Subscription } from "rxjs/Subscription";
 import { KeyCode } from "../util/util";
-import { customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHost } from "../util/custom-value-accessor";
+import { customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHost } from "../util/helpers/custom-value-accessor";
 
 @Component({
     selector: "sui-multi-select",

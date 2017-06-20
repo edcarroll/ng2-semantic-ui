@@ -1,7 +1,7 @@
 import { Component, ViewChild, ViewContainerRef, ElementRef, Renderer2, EventEmitter, TemplateRef, HostListener } from "@angular/core";
 import { SuiTransition, Transition, TransitionDirection } from "../transition/transition";
 import { TransitionController } from "../transition/transition-controller";
-import { PositioningService, PositioningPlacement } from "../util/positioning.service";
+import { PositioningService, PositioningPlacement } from "../util/services/positioning.service";
 import { ITemplateRefContext, IDynamicClasses } from "../util/util";
 import { IPopup } from "./popup-controller";
 import { PopupConfig } from "./popup-config";

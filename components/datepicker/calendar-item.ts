@@ -1,6 +1,6 @@
 
 import { Directive, HostBinding, HostListener, Input, ElementRef } from "@angular/core";
-import { DateUtils } from "./date-utils";
+import { Util } from "../util/util";
 
 export interface ICalendarItem {
     associatedDate:Date;
@@ -28,7 +28,7 @@ export class SuiCalendarItem {
 
     @HostBinding("class.today")
     public get isToday():boolean {
-        return DateUtils.datesEqual(new Date(), this.item.associatedDate);
+        return Util.Date.datesEqual(new Date(), this.item.associatedDate);
     }
 
     @HostBinding("attr.tabindex")

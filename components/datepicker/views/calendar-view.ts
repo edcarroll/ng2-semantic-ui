@@ -1,6 +1,6 @@
 import { Input, Output, EventEmitter } from "@angular/core";
 import { ICalendarItem } from "../calendar-item";
-import { DateUtils } from "../date-utils";
+import { Util } from "../../util/util";
 
 export abstract class CalendarView {
     public renderedItems:ICalendarItem[][];
@@ -15,14 +15,14 @@ export abstract class CalendarView {
     @Input()
     public set selectedDate(date:Date | undefined) {
         if (date) {
-            this._selectedDate = DateUtils.clone(date);
+            this._selectedDate = Util.Date.clone(date);
         }
     }
 
     @Input()
     public set initialDate(date:Date | undefined) {
         if (date) {
-            this.renderedDate = DateUtils.clone(date);
+            this.renderedDate = Util.Date.clone(date);
             this.renderItems();
         }
     }
@@ -41,14 +41,6 @@ export abstract class CalendarView {
     }
 
     public abstract renderItems():void;
-
-    protected group<T>(items:T[], groupLength:number):T[][] {
-        const groups:T[][] = [];
-        while (items.length > 0) {
-            groups.push(items.splice(0, groupLength));
-        }
-        return groups;
-    }
 
     public abstract nextDateRange():void;
 

@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { SuiLocalizationService } from "./localization.service";
-import { SuiComponentFactory } from "./component-factory.service";
+import { SuiLocalizationService } from "./services/localization.service";
+import { SuiComponentFactory } from "./services/component-factory.service";
 
 
 @NgModule({

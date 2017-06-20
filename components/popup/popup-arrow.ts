@@ -1,5 +1,5 @@
 import { Component, Input, Renderer2, ElementRef, HostBinding } from "@angular/core";
-import { PositioningPlacement } from "../util/positioning.service";
+import { PositioningPlacement } from "../util/services/positioning.service";
 import Popper from "popper.js";
 
 @Component({

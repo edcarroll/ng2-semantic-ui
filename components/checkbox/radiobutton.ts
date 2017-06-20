@@ -1,5 +1,5 @@
 import { Component, Directive, Input, Output, HostListener, HostBinding, EventEmitter, forwardRef } from "@angular/core";
-import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor } from "../util/custom-value-accessor";
+import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor } from "../util/helpers/custom-value-accessor";
 
 @Component({
     selector: "sui-radio-button[ngModel]",

@@ -7,8 +7,8 @@ import { SuiPopupDirective } from "../popup/popup.directive";
 import { SuiPopupConfig } from "../popup/popup.service";
 import { SuiPopupController } from "../popup/popup-controller";
 import { PopupConfig, PopupTrigger } from "../popup/popup-config";
-import { PositioningPlacement } from "../util/positioning.service";
-import { SuiComponentFactory } from "../util/component-factory.service";
+import { PositioningPlacement } from "../util/services/positioning.service";
+import { SuiComponentFactory } from "../util/services/component-factory.service";
 import { SuiDatepicker } from "./datepicker";
 
 @Directive({

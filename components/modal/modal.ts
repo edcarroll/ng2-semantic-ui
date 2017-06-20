@@ -4,7 +4,7 @@ import {
 } from "@angular/core";
 import { TransitionController } from "../transition/transition-controller";
 import { Transition, TransitionDirection } from "../transition/transition";
-import { KeyCode, parseBooleanAttribute } from "../util/util";
+import { KeyCode, Util } from "../util/util";
 import { ModalControls, ModalResult } from "./modal-controls";
 import { ModalConfig, ModalSize } from "./modal-config";
 
@@ -93,7 +93,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     }
 
     public set isFullScreen(fullScreen:boolean) {
-        this._isFullScreen = parseBooleanAttribute(fullScreen);
+        this._isFullScreen = Util.DOM.parseBooleanAttribute(fullScreen);
     }
 
     // Whether or not the modal has basic styles applied.

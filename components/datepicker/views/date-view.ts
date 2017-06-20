@@ -1,6 +1,5 @@
 import { Component, HostBinding, EventEmitter, Output, Input } from "@angular/core";
-import { DateUtils } from "../date-utils";
-import { SuiLocalizationService } from "../../util/localization.service";
+import { SuiLocalizationService } from "../../util/services/localization.service";
 import { ICalendarItem } from "../calendar-item";
 import { CalendarView } from "./calendar-view";
 import { Util } from "../../util/util";
@@ -70,25 +69,25 @@ export class SuiCalendarDateView extends CalendarView {
     }
 
     public renderItems():void {
-        const monthStart = DateUtils.startOfMonth(DateUtils.clone(this.renderedDate));
+        const monthStart = Util.Date.startOfMonth(Util.Date.clone(this.renderedDate));
         const month = monthStart.getMonth();
         monthStart.setDate((1 - monthStart.getDay() + this.firstDayOfWeek - 7) % 7);
 
         const dates:ICalendarItem[] = [];
 
         Util.Array.range(6 * 7).forEach(i => {
-            const date = DateUtils.clone(monthStart);
+            const date = Util.Date.clone(monthStart);
             date.setDate(date.getDate() + i);
 
             dates.push({
                 associatedDate: date,
                 humanReadable: date.getDate().toString(),
                 isDisabled: date.getMonth() !== month,
-                isActive: !!this._selectedDate && DateUtils.datesEqual(date, this._selectedDate)
+                isActive: !!this._selectedDate && Util.Date.datesEqual(date, this._selectedDate)
             });
         });
 
-        this.renderedItems = this.group(dates, 7);
+        this.renderedItems = Util.Array.group(dates, 7);
     }
 
     public nextDateRange():void {

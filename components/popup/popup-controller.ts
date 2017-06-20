@@ -5,7 +5,7 @@ import {
 import { PopupConfig, PopupTrigger } from "./popup-config";
 import { SuiPopup } from "./popup";
 import { SuiPopupConfig } from "./popup.service";
-import { SuiComponentFactory } from "../util/component-factory.service";
+import { SuiComponentFactory } from "../util/services/component-factory.service";
 
 export interface IPopup {
     open():void;

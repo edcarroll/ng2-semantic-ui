@@ -1,6 +1,6 @@
 
 import { Component, HostBinding } from "@angular/core";
-import { DateUtils } from "./date-utils";
+import { Util } from "../util/util";
 
 export type CalendarViewType = "year" | "month" | "date" | "hour" | "minute" | "exit";
 
@@ -57,8 +57,8 @@ export class SuiDatepicker {
 
     public set selectedDate(date:Date | undefined) {
         if (date) {
-            this._selectedDate = DateUtils.clone(date);
-            this.currentDate = DateUtils.clone(date);
+            this._selectedDate = Util.Date.clone(date);
+            this.currentDate = Util.Date.clone(date);
             this.currentView = "date";
         }
     }

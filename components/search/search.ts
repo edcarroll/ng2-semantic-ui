@@ -5,9 +5,9 @@ import {
 import { DropdownService } from "../dropdown/dropdown.service";
 import { SuiDropdownMenu } from "../dropdown/dropdown-menu";
 import { SearchService, LookupFn } from "./search.service";
-import { readValue } from "../util/util";
-import { PositioningService, PositioningPlacement } from "../util/positioning.service";
-import { customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHost } from "../util/custom-value-accessor";
+import { PositioningService, PositioningPlacement } from "../util/services/positioning.service";
+import { customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHost } from "../util/helpers/custom-value-accessor";
+import { Util } from "../util/util";
 
 @Component({
     selector: "sui-search",
@@ -170,7 +170,7 @@ export class SuiSearch<T> implements AfterViewInit, ICustomValueAccessorHost<T> 
 
     // Reads the specified field from an item.
     public readValue(object:T):string {
-        return readValue<T, string>(object, this.searchService.optionsField);
+        return Util.Object.readValue<T, string>(object, this.searchService.optionsField);
     }
 
     // Sets a specific item to be selected, updating the query automatically.

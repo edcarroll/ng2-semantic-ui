@@ -3,12 +3,12 @@ import {
     ComponentRef, HostListener, TemplateRef, Renderer
 } from "@angular/core";
 import { SuiPopup } from "./popup";
-import { PositioningPlacement } from "../util/positioning.service";
-import { ITemplateRefContext, parseBooleanAttribute } from "../util/util";
+import { PositioningPlacement } from "../util/services/positioning.service";
+import { ITemplateRefContext, Util } from "../util/util";
 import { PopupConfig, IPopupConfig, PopupTrigger } from "./popup-config";
 import { SuiPopupConfig } from "./popup.service";
 import { SuiPopupController } from "./popup-controller";
-import { SuiComponentFactory } from "../util/component-factory.service";
+import { SuiComponentFactory } from "../util/services/component-factory.service";
 
 @Directive({
     selector: "[suiPopup]",
@@ -32,12 +32,12 @@ export class SuiPopupDirective extends SuiPopupController {
 
     @Input()
     public set popupInverted(inverted:boolean) {
-        this.popup.config.isInverted = parseBooleanAttribute(inverted);
+        this.popup.config.isInverted = Util.DOM.parseBooleanAttribute(inverted);
     }
 
     @Input()
     public set popupBasic(basic:boolean) {
-        this.popup.config.isBasic = parseBooleanAttribute(basic);
+        this.popup.config.isBasic = Util.DOM.parseBooleanAttribute(basic);
     }
 
     @Input()

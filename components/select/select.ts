@@ -1,7 +1,7 @@
 import { Component, ViewContainerRef, ViewChild, Output, EventEmitter, ElementRef, Renderer2, forwardRef, Directive } from "@angular/core";
 import { SuiSelectBase } from "./select-base";
 import { ISelectRenderedOption } from "./select-option";
-import { customValueAccessorFactory, ICustomValueAccessorHost, CustomValueAccessor } from "../util/custom-value-accessor";
+import { customValueAccessorFactory, ICustomValueAccessorHost, CustomValueAccessor } from "../util/helpers/custom-value-accessor";
 
 export type SingleItemLookup<T, U> = (query:string, initial?:U) => Promise<T>;
 

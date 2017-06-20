@@ -6,7 +6,7 @@ import { SuiTransition, Transition } from "../transition/transition";
 import { TransitionController } from "../transition/transition-controller";
 import { DropdownService, DropdownAutoCloseType } from "./dropdown.service";
 import { SuiDropdownMenu } from "./dropdown-menu";
-import { PositioningService, PositioningPlacement } from "../util/positioning.service";
+import { PositioningService, PositioningPlacement } from "../util/services/positioning.service";
 import { KeyCode, HandledEvent } from "../util/util";
 
 @Directive({

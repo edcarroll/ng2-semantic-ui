@@ -1,7 +1,6 @@
 
 import { Component, Input, Output, EventEmitter, HostBinding } from "@angular/core";
-import { DateUtils } from "../date-utils";
-import { SuiLocalizationService } from "../../util/localization.service";
+import { SuiLocalizationService } from "../../util/services/localization.service";
 import { CalendarView } from "./calendar-view";
 import { ICalendarItem } from "../calendar-item";
 import { Util } from "../../util/util";
@@ -52,22 +51,22 @@ export class SuiCalendarMonthView extends CalendarView {
     }
 
     public renderItems():void {
-        const yearStart = DateUtils.startOfYear(DateUtils.clone(this.renderedDate));
+        const yearStart = Util.Date.startOfYear(Util.Date.clone(this.renderedDate));
         const months:ICalendarItem[] = [];
 
         Util.Array.range(12).forEach(m => {
-            const date = DateUtils.clone(yearStart);
+            const date = Util.Date.clone(yearStart);
             date.setMonth(m);
 
             months.push({
                 associatedDate: date,
                 humanReadable: this.localizationService.getValues().datepicker.monthsShort[m],
                 isDisabled: false,
-                isActive: !!this._selectedDate && DateUtils.monthsEqual(date, this._selectedDate)
+                isActive: !!this._selectedDate && Util.Date.monthsEqual(date, this._selectedDate)
             });
         });
 
-        this.renderedItems = this.group(months, 3);
+        this.renderedItems = Util.Array.group(months, 3);
     }
 
     public nextDateRange():void {

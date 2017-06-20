@@ -1,7 +1,6 @@
 import { Component } from "@angular/core";
 import { CalendarView } from "./calendar-view";
-import { SuiLocalizationService } from "../../util/localization.service";
-import { DateUtils } from "../date-utils";
+import { SuiLocalizationService } from "../../util/services/localization.service";
 import { ICalendarItem } from "../calendar-item";
 import { Util } from "../../util/util";
 
@@ -56,22 +55,22 @@ export class SuiCalendarHourView extends CalendarView {
     }
 
     public renderItems():void {
-        const dayStart = DateUtils.startOfDay(DateUtils.clone(this.renderedDate));
+        const dayStart = Util.Date.startOfDay(Util.Date.clone(this.renderedDate));
         const hours:ICalendarItem[] = [];
 
         Util.Array.range(24).forEach(h => {
-            const date = DateUtils.clone(dayStart);
+            const date = Util.Date.clone(dayStart);
             date.setHours(h);
 
             hours.push({
                 associatedDate: date,
                 humanReadable: `${Util.String.padLeft(date.getHours().toString(), 2, "0")}:00`,
                 isDisabled: false,
-                isActive: !!this._selectedDate && DateUtils.hoursEqual(date, this._selectedDate)
+                isActive: !!this._selectedDate && Util.Date.hoursEqual(date, this._selectedDate)
             });
         });
 
-        this.renderedItems = this.group(hours, 4);
+        this.renderedItems = Util.Array.group(hours, 4);
     }
 
     public nextDateRange():void {
