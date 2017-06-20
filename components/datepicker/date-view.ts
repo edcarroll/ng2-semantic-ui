@@ -2,6 +2,7 @@ import { Component, HostBinding, EventEmitter, Output, Input } from "@angular/co
 import { DateUtils } from "./date-utils";
 import { SuiLocalizationService } from "../util/localization.service";
 import { ICalendarItem } from "./calendar-item";
+import { CalendarView } from "./calendar-view";
 
 @Component({
     selector: "sui-calendar-date-view",
@@ -63,8 +64,11 @@ export class SuiCalendarDateView {
     @Input()
     public set selectedDate(date:Date) {
         this._selectedDate = DateUtils.clone(date);
-        this._displayedDate = DateUtils.clone(date);
+    }
 
+    @Input()
+    public set initialDate(date:Date) {
+        this._displayedDate = DateUtils.clone(date);
         this.displayedDates = this.groupDates();
     }
 
@@ -82,6 +86,7 @@ export class SuiCalendarDateView {
             .getValues().datepicker.firstDayOfWeek;
 
         this.selectedDate = new Date();
+        this.initialDate = new Date();
 
         this.onDateSelected = new EventEmitter<Date>();
         this.onZoomOut = new EventEmitter<void>();

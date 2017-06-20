@@ -1,5 +1,5 @@
 
-import { Directive, HostBinding, HostListener, Input } from "@angular/core";
+import { Directive, HostBinding, HostListener, Input, ElementRef } from "@angular/core";
 import { DateUtils } from "./date-utils";
 
 export interface ICalendarItem {
@@ -29,5 +29,22 @@ export class SuiCalendarItem {
     @HostBinding("class.today")
     public get isToday():boolean {
         return DateUtils.datesEqual(new Date(), this.item.associatedDate);
+    }
+
+    @HostBinding("attr.tabindex")
+    public tabIndex:number;
+
+    constructor(private _element:ElementRef) {
+        this.tabIndex = 0;
+    }
+
+    @HostListener("mousemove")
+    public onMouseMove():void {
+        this._element.nativeElement.focus();
+    }
+
+    @HostListener("mouseleave")
+    public onMouseLeave():void {
+        this._element.nativeElement.blur();
     }
 }

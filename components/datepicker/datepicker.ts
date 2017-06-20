@@ -1,5 +1,6 @@
 
 import { Component, HostBinding } from "@angular/core";
+import { DateUtils } from "./date-utils";
 
 export type CalendarView = "year" | "month" | "date" | "exit";
 
@@ -18,7 +19,8 @@ export type CalendarView = "year" | "month" | "date" | "exit";
                                  (zoomOut)="onZoomOut('month')"></sui-calendar-month-view>    
     </ng-container>
     <ng-container *ngSwitchCase="'date'">
-        <sui-calendar-date-view [selectedDate]="currentDate"
+        <sui-calendar-date-view [initialDate]="currentDate"
+                                [selectedDate]="selectedDate"
                                 (dateSelected)="onDateChanged($event, 'date')"
                                 (zoomOut)="onZoomOut('date')"></sui-calendar-date-view>    
     </ng-container>
@@ -30,15 +32,26 @@ export class SuiDatepicker {
     @HostBinding("class.calendar")
     public calendarClasses:boolean;
 
+    private _selectedDate:Date;
+
     public currentView:CalendarView;
     public currentDate:Date;
+
+    public get selectedDate():Date {
+        return this._selectedDate;
+    }
+
+    public set selectedDate(date:Date) {
+        this._selectedDate = DateUtils.clone(date);
+        this.currentDate = DateUtils.clone(date);
+    }
 
     public changedMappings:Map<CalendarView, CalendarView>;
     public zoomMappings:Map<CalendarView, CalendarView>;
 
     constructor() {
         this.currentView = "year";
-        this.currentDate = new Date();
+        this.selectedDate = new Date();
 
         this.changedMappings = new Map<CalendarView, CalendarView>([
             ["year", "month"],
@@ -47,9 +60,9 @@ export class SuiDatepicker {
         ]);
 
         this.zoomMappings = new Map<CalendarView, CalendarView>([
-            ["year", "month"],
-            ["month", "date"],
-            ["date", "year"]
+            ["year", "date"],
+            ["month", "year"],
+            ["date", "month"]
         ]);
 
         this.calendarClasses = true;
@@ -57,6 +70,10 @@ export class SuiDatepicker {
 
     public onDateChanged(date:Date, view:CalendarView):void {
         this.currentDate = date;
+
+        if (view === "date") {
+            this.selectedDate = date;
+        }
 
         this.updateView(this.changedMappings, view);
     }
