@@ -5,11 +5,7 @@ import { CalendarViewType, CalendarViewResult } from "../views/calendar-view";
 export type CalendarMapping = Map<CalendarViewType, CalendarViewType>;
 
 export class CalendarService {
-    private _currentView:CalendarViewType;
-
-    public get currentView():CalendarViewType {
-        return this._currentView;
-    }
+    public currentView:CalendarViewType;
 
     public currentDate:Date;
     private _selectedDate?:Date;
@@ -23,7 +19,7 @@ export class CalendarService {
             this._selectedDate = Util.Date.clone(date);
             this.currentDate = Util.Date.clone(date);
 
-            this._currentView = CalendarViewType.Date;
+            this.currentView = CalendarViewType.Year;
         }
     }
 
@@ -48,7 +44,7 @@ export class CalendarService {
         if (!this._selectedDate) {
             this.currentDate = new Date();
 
-            this._currentView = CalendarViewType.Year;
+            this.currentView = CalendarViewType.Year;
         }
     }
 
@@ -73,6 +69,6 @@ export class CalendarService {
         if (mapping == undefined) {
             throw new Error("Unknown view type.");
         }
-        this._currentView = mapping;
+        this.currentView = mapping;
     }
 }

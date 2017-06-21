@@ -1,36 +1,35 @@
-export interface IDateUtil {
-    startOfYear(date:Date):Date;
-    startOfMonth(date:Date):Date;
-    startOfDay(date:Date):Date;
-    startOfHour(date:Date):Date;
-    startOfMinute(date:Date):Date;
-    minutesEqual(date1:Date, date2:Date):boolean;
-    hoursEqual(date1:Date, date2:Date):boolean;
-    datesEqual(date1:Date, date2:Date):boolean;
-    monthsEqual(date1:Date, date2:Date):boolean;
-    yearsEqual(date1:Date, date2:Date):boolean;
-    clone(date:Date):Date;
-}
-
-export const DateUtil:IDateUtil = {
-    startOfYear(date:Date):Date {
+export const DateUtil = {
+    startOfYear(date:Date, resetAll:boolean = false):Date {
         date.setMonth(0);
+        if (resetAll) {
+            DateUtil.startOfMonth(date, resetAll);
+        }
         return date;
     },
-    startOfMonth(date:Date):Date {
+    startOfMonth(date:Date, resetAll:boolean = false):Date {
         date.setDate(1);
+        if (resetAll) {
+            DateUtil.startOfDay(date, resetAll);
+        }
         return date;
     },
-    startOfDay(date:Date):Date {
+    startOfDay(date:Date, resetAll:boolean = false):Date {
         date.setHours(0);
+        if (resetAll) {
+            DateUtil.startOfHour(date, resetAll);
+        }
         return date;
     },
-    startOfHour(date:Date):Date {
+    startOfHour(date:Date, resetAll:boolean = false):Date {
         date.setMinutes(0);
+        if (resetAll) {
+            DateUtil.startOfMinute(date, resetAll);
+        }
         return date;
     },
-    startOfMinute(date:Date):Date {
+    startOfMinute(date:Date, resetAll:boolean = false):Date {
         date.setSeconds(0);
+        date.setMilliseconds(0);
         return date;
     },
 

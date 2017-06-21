@@ -29,7 +29,7 @@ export abstract class SuiPopupController<T = undefined> implements IPopup, OnDes
     // `setTimeout` timer pointer for delayed popup open.
     private _openingTimeout:number;
 
-    constructor(private _element:ElementRef,
+    constructor(protected _element:ElementRef,
                 private _componentFactory:SuiComponentFactory,
                 config:PopupConfig) {
 

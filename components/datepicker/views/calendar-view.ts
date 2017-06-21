@@ -1,4 +1,4 @@
-import { Input, Output, EventEmitter, QueryList, ViewChildren, AfterViewInit, HostListener } from "@angular/core";
+import { Input, Output, EventEmitter, QueryList, ViewChildren, AfterViewInit, HostListener, HostBinding } from "@angular/core";
 import { CalendarItem, SuiCalendarItem } from "../directives/calendar-item";
 import { Util, KeyCode } from "../../util/util";
 import { CalendarService } from "../services/calendar.service";
@@ -13,6 +13,11 @@ export enum CalendarViewType {
 export type CalendarViewResult = [Date, CalendarViewType];
 
 export abstract class CalendarView implements AfterViewInit {
+    @HostBinding("class.ui")
+    // @HostBinding("class.active")
+    @HostBinding("class.calendar")
+    private _calendarClasses:boolean;
+
     private _type:CalendarViewType;
 
     private _service:CalendarService | undefined;
@@ -52,6 +57,8 @@ export abstract class CalendarView implements AfterViewInit {
 
         this.calculatedItems = [];
         this.groupItems();
+
+        this._calendarClasses = true;
     }
 
     public updateItems():void {

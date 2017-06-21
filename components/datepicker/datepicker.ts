@@ -3,7 +3,6 @@ import { Component, HostBinding, Directive, EventEmitter, Output } from "@angula
 import { Util } from "../util/util";
 import { CalendarViewType, CalendarViewResult } from "./views/calendar-view";
 import { CalendarService } from "./services/calendar.service";
-import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor } from "../util/helpers/custom-value-accessor";
 
 @Component({
     selector: "sui-datepicker",
@@ -22,7 +21,7 @@ import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccess
 }
 `]
 })
-export class SuiDatepicker implements ICustomValueAccessorHost<Date> {
+export class SuiDatepicker {
     @HostBinding("class.ui")
     @HostBinding("class.active")
     @HostBinding("class.calendar")
@@ -30,45 +29,28 @@ export class SuiDatepicker implements ICustomValueAccessorHost<Date> {
 
     public service:CalendarService;
 
-    @Output("dateChange")
-    public get onDateChange():EventEmitter<Date> {
-        return this.service.onDateChange;
-    }
+    @HostBinding("attr.tabindex")
+    public tabIndex:number;
 
     constructor() {
         this.service = new CalendarService(
-            CalendarViewType.Minute,
+            CalendarViewType.Date, /*Minute,*/
             new Map<CalendarViewType, CalendarViewType>([
                 [CalendarViewType.Year, CalendarViewType.Month],
                 [CalendarViewType.Month, CalendarViewType.Date],
-                [CalendarViewType.Date, CalendarViewType.Hour],
+                [CalendarViewType.Date, CalendarViewType.Date]/*,
                 [CalendarViewType.Hour, CalendarViewType.Minute],
-                [CalendarViewType.Minute, CalendarViewType.Minute]
+                [CalendarViewType.Minute, CalendarViewType.Minute]*/
             ]),
             new Map<CalendarViewType, CalendarViewType>([
                 [CalendarViewType.Year, CalendarViewType.Date],
                 [CalendarViewType.Month, CalendarViewType.Year],
-                [CalendarViewType.Date, CalendarViewType.Month],
+                [CalendarViewType.Date, CalendarViewType.Month]/*,
                 [CalendarViewType.Hour, CalendarViewType.Date],
-                [CalendarViewType.Minute, CalendarViewType.Date]
+                [CalendarViewType.Minute, CalendarViewType.Date]*/
             ]));
 
         this.calendarClasses = true;
-    }
-
-    public writeValue(value:Date | undefined):void {
-        this.service.selectedDate = value;
-    }
-}
-
-
-@Directive({
-    selector: "sui-datepicker",
-    host: { "(dateChange)": "onChange($event)" },
-    providers: [customValueAccessorFactory(SuiDatepickerValueAccessor)]
-})
-export class SuiDatepickerValueAccessor extends CustomValueAccessor<Date, SuiDatepicker> {
-    constructor(host:SuiDatepicker) {
-        super(host);
+        this.tabIndex = 0;
     }
 }
