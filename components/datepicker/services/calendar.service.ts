@@ -18,12 +18,13 @@ export class CalendarService {
         if (date) {
             this._selectedDate = Util.Date.clone(date);
             this.currentDate = Util.Date.clone(date);
-
-            this.currentView = CalendarViewType.Year;
+        } else {
+            this._selectedDate = undefined;
         }
     }
 
     public onDateChange:EventEmitter<Date>;
+    public onManualUpdate:EventEmitter<void>;
 
     private _finalView:CalendarViewType;
     private _changedMappings:CalendarMapping;
@@ -36,6 +37,7 @@ export class CalendarService {
         this._zoomMappings = zoomMappings;
 
         this.onDateChange = new EventEmitter<Date>();
+        this.onManualUpdate = new EventEmitter<void>();
 
         this.reset();
     }

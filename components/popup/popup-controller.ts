@@ -120,7 +120,11 @@ export abstract class SuiPopupController<T = undefined> implements IPopup, OnDes
             this.popup.config.trigger === PopupTrigger.OutsideClick) {
 
             // Repeated clicks require a toggle, rather than just opening the popup each time.
-            this.toggle();
+            if (this.popup.config.toggleOnClick) {
+                this.toggle();
+            } else if (!this.popup.isOpen) {
+                this.open();
+            }
         }
     }
 

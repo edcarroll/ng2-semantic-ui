@@ -1,7 +1,8 @@
-import { Input, Output, EventEmitter, QueryList, ViewChildren, AfterViewInit, HostListener, HostBinding } from "@angular/core";
+import { Input, Output, EventEmitter, QueryList, ViewChildren, AfterViewInit, HostListener, HostBinding, OnDestroy } from "@angular/core";
 import { CalendarItem, SuiCalendarItem } from "../directives/calendar-item";
 import { Util, KeyCode } from "../../util/util";
 import { CalendarService } from "../services/calendar.service";
+import { Subscription } from "rxjs/Subscription";
 
 export enum CalendarViewType {
     Year = 0,
@@ -12,7 +13,7 @@ export enum CalendarViewType {
 }
 export type CalendarViewResult = [Date, CalendarViewType];
 
-export abstract class CalendarView implements AfterViewInit {
+export abstract class CalendarView implements AfterViewInit, OnDestroy {
     @HostBinding("class.ui")
     // @HostBinding("class.active")
     @HostBinding("class.calendar")
@@ -21,6 +22,7 @@ export abstract class CalendarView implements AfterViewInit {
     private _type:CalendarViewType;
 
     private _service:CalendarService | undefined;
+    private _updateSub:Subscription | undefined;
 
     @ViewChildren(SuiCalendarItem)
     private _renderedItems:QueryList<SuiCalendarItem>;
@@ -30,6 +32,12 @@ export abstract class CalendarView implements AfterViewInit {
     public set service(service:CalendarService | undefined) {
         if (service) {
             this._service = service;
+            this._updateSub = this._service.onManualUpdate.subscribe(() => {
+                delete this._highlightedItem;
+                console.log(this._service);
+                this.updateItems();
+            });
+
             this.updateItems();
         }
     }
@@ -193,6 +201,12 @@ export abstract class CalendarView implements AfterViewInit {
             }
 
             this._highlightedItem = updatedItems[adjustedIndex + delta];
+        }
+    }
+
+    public ngOnDestroy():void {
+        if (this._updateSub) {
+            this._updateSub.unsubscribe();
         }
     }
 }

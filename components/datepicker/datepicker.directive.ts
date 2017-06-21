@@ -68,7 +68,8 @@ export class SuiDatepickerDirective extends SuiPopupController<SuiDatepicker> im
         super(element, componentFactory, new PopupConfig({
             trigger: PopupTrigger.OutsideClick,
             placement: PositioningPlacement.BottomLeft,
-            component: SuiDatepicker
+            component: SuiDatepicker,
+            toggleOnClick: false
         }));
 
         // This ensures the popup is drawn correctly (i.e. no border).
@@ -92,15 +93,26 @@ export class SuiDatepickerDirective extends SuiPopupController<SuiDatepicker> im
         });
     }
 
+    private updateDate(date:Date | undefined):void {
+        this.selectedDate = date;
+        if (this._contentComponentRef) {
+            this._contentComponentRef.instance.service.selectedDate = date;
+            this._contentComponentRef.instance.service.onManualUpdate.emit();
+        }
+    }
+
     public writeValue(value:Date | undefined):void {
-        this.selectedDate = value;
+        if (value) {
+            Util.Date.startOfDay(value, true);
+        }
+        this.updateDate(value);
     }
 
     public typeValue(value:string | undefined):void {
         this._currentValue = value;
 
         if (!value) {
-            this.selectedDate = undefined;
+            this.updateDate(undefined);
             return;
         }
 
@@ -121,14 +133,13 @@ export class SuiDatepickerDirective extends SuiPopupController<SuiDatepicker> im
                 throw new Error("Invalid date.");
             }
 
-            this.selectedDate = parsed;
+            this.updateDate(parsed);
 
             return;
         } catch (e) {
-            this.selectedDate = undefined;
+            this.updateDate(undefined);
             return;
         }
-
     }
 }
 
