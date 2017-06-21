@@ -56,7 +56,7 @@ export class CalendarService {
         if (fromView === this._finalView) {
             this.selectedDate = date;
 
-            this.onDateChange.emit(this.selectedDate);
+            this.onDateChange.emit(date);
         }
 
         this.updateView(this._changedMappings, fromView);

@@ -1,4 +1,4 @@
-import { DateUtil, IDateUtil } from "./helpers/date";
+import { DateUtil } from "./helpers/date";
 
 // Keyboard keycodes.
 export enum KeyCode {

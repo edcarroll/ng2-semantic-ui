@@ -22,7 +22,7 @@ export abstract class CalendarView implements AfterViewInit, OnDestroy {
     private _type:CalendarViewType;
 
     private _service:CalendarService | undefined;
-    private _updateSub:Subscription | undefined;
+    private _manualUpdateSub:Subscription | undefined;
 
     @ViewChildren(SuiCalendarItem)
     private _renderedItems:QueryList<SuiCalendarItem>;
@@ -32,9 +32,8 @@ export abstract class CalendarView implements AfterViewInit, OnDestroy {
     public set service(service:CalendarService | undefined) {
         if (service) {
             this._service = service;
-            this._updateSub = this._service.onManualUpdate.subscribe(() => {
+            this._manualUpdateSub = this._service.onManualUpdate.subscribe(() => {
                 delete this._highlightedItem;
-                console.log(this._service);
                 this.updateItems();
             });
 
@@ -205,8 +204,8 @@ export abstract class CalendarView implements AfterViewInit, OnDestroy {
     }
 
     public ngOnDestroy():void {
-        if (this._updateSub) {
-            this._updateSub.unsubscribe();
+        if (this._manualUpdateSub) {
+            this._manualUpdateSub.unsubscribe();
         }
     }
 }

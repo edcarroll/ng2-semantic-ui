@@ -11,7 +11,6 @@ import { SuiComponentFactory } from "../util/services/component-factory.service"
 import { SuiDatepicker } from "./datepicker";
 import { customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHost } from "../util/helpers/custom-value-accessor";
 import { CalendarViewType } from "./views/calendar-view";
-import { SuiLocalizationService } from "../util/services/localization.service";
 import { Util } from "../util/util";
 
 @Directive({
@@ -60,11 +59,7 @@ export class SuiDatepickerDirective extends SuiPopupController<SuiDatepicker> im
     @Output("dateChange")
     public onDateChange:EventEmitter<Date>;
 
-    constructor(element:ElementRef,
-                private _renderer:Renderer2,
-                componentFactory:SuiComponentFactory,
-                public localizationService:SuiLocalizationService) {
-
+    constructor(element:ElementRef, private _renderer:Renderer2, componentFactory:SuiComponentFactory) {
         super(element, componentFactory, new PopupConfig({
             trigger: PopupTrigger.OutsideClick,
             placement: PositioningPlacement.BottomLeft,
@@ -86,6 +81,9 @@ export class SuiDatepickerDirective extends SuiPopupController<SuiDatepicker> im
                 instance.service.currentView = CalendarViewType.Date;
 
                 instance.service.onDateChange.subscribe((d:Date) => {
+                    Util.Date.startOfDay(d, true);
+                    Util.Date.rewriteTimezone(d);
+
                     this.selectedDate = d;
                     this.close();
                 });
@@ -102,9 +100,6 @@ export class SuiDatepickerDirective extends SuiPopupController<SuiDatepicker> im
     }
 
     public writeValue(value:Date | undefined):void {
-        if (value) {
-            Util.Date.startOfDay(value, true);
-        }
         this.updateDate(value);
     }
 
@@ -125,6 +120,8 @@ export class SuiDatepickerDirective extends SuiPopupController<SuiDatepicker> im
             parsed.setFullYear(year);
             parsed.setMonth(month - 1);
             parsed.setDate(date);
+
+            Util.Date.rewriteTimezone(parsed);
 
             if (parsed.getFullYear() !== year ||
                     parsed.getMonth() + 1 !== month ||
