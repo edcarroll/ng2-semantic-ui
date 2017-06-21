@@ -12,6 +12,8 @@ import { SuiDatepicker } from "./datepicker";
 import { customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHost } from "../util/helpers/custom-value-accessor";
 import { CalendarViewType } from "./views/calendar-view";
 import { Util } from "../util/util";
+import { DateParser } from "./date-parser";
+import { SuiLocalizationService } from "../util/services/localization.service";
 
 @Directive({
     selector: "[suiDatepicker]"
@@ -29,7 +31,7 @@ export class SuiDatepickerDirective extends SuiPopupController<SuiDatepicker> im
 
         if (date) {
             if (this.selectedDateString !== this._currentValue) {
-                this._renderer.setProperty(this._element.nativeElement, "value", this.selectedDateString);
+                this.renderer.setProperty(this._element.nativeElement, "value", this.selectedDateString);
                 this._currentValue = this.selectedDateString;
             }
         }
@@ -43,13 +45,11 @@ export class SuiDatepickerDirective extends SuiPopupController<SuiDatepicker> im
 
     public get selectedDateString():string | undefined {
         if (this.selectedDate) {
-            const year = Util.String.padLeft(this.selectedDate.getFullYear().toString(), 4, "0");
-            const month = Util.String.padLeft((this.selectedDate.getMonth() + 1).toString(), 2, "0");
-            const day = Util.String.padLeft(this.selectedDate.getDate().toString(), 2, "0");
-
-            return `${year}-${month}-${day}`;
+            return this.parser.format(this.selectedDate);
         }
     }
+
+    public parser:DateParser;
 
     @HostBinding("attr.type")
     public get HTMLType():string {
@@ -59,7 +59,11 @@ export class SuiDatepickerDirective extends SuiPopupController<SuiDatepicker> im
     @Output("dateChange")
     public onDateChange:EventEmitter<Date>;
 
-    constructor(element:ElementRef, private _renderer:Renderer2, componentFactory:SuiComponentFactory) {
+    constructor(element:ElementRef,
+                public renderer:Renderer2,
+                componentFactory:SuiComponentFactory,
+                public localizationService:SuiLocalizationService) {
+
         super(element, componentFactory, new PopupConfig({
             trigger: PopupTrigger.OutsideClick,
             placement: PositioningPlacement.BottomLeft,
@@ -68,9 +72,10 @@ export class SuiDatepickerDirective extends SuiPopupController<SuiDatepicker> im
         }));
 
         // This ensures the popup is drawn correctly (i.e. no border).
-        this._renderer.addClass(this.popup.elementRef.nativeElement, "ui");
-        this._renderer.addClass(this.popup.elementRef.nativeElement, "calendar");
+        this.renderer.addClass(this.popup.elementRef.nativeElement, "ui");
+        this.renderer.addClass(this.popup.elementRef.nativeElement, "calendar");
 
+        this.parser = new DateParser(localizationService.getValues());
         this.onDateChange = new EventEmitter<Date>();
 
         this.popup.onOpen.subscribe(() => {
@@ -93,6 +98,7 @@ export class SuiDatepickerDirective extends SuiPopupController<SuiDatepicker> im
 
     private updateDate(date:Date | undefined):void {
         this.selectedDate = date;
+
         if (this._contentComponentRef) {
             this._contentComponentRef.instance.service.selectedDate = date;
             this._contentComponentRef.instance.service.onManualUpdate.emit();
@@ -112,30 +118,9 @@ export class SuiDatepickerDirective extends SuiPopupController<SuiDatepicker> im
         }
 
         try {
-            const [, year, month, date] = (value
-                    .match(/^(\d{4})-(\d{2})-(\d{2})$/) as string[])
-                    .map(i => parseInt(i, 10));
-
-            const parsed = Util.Date.startOfDay(new Date(), true);
-            parsed.setFullYear(year);
-            parsed.setMonth(month - 1);
-            parsed.setDate(date);
-
-            Util.Date.rewriteTimezone(parsed);
-
-            if (parsed.getFullYear() !== year ||
-                    parsed.getMonth() + 1 !== month ||
-                    parsed.getDate() !== date) {
-
-                throw new Error("Invalid date.");
-            }
-
-            this.updateDate(parsed);
-
-            return;
+            this.parser.parse(value);
         } catch (e) {
             this.updateDate(undefined);
-            return;
         }
     }
 }
