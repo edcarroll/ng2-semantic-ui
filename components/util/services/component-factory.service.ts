@@ -55,6 +55,9 @@ export class SuiComponentFactory {
 
     public detachFromDocument<T>(componentRef:ComponentRef<T>):void {
         const element = componentRef.location.nativeElement as Element;
-        element.remove();
+        // We can't use `element.remove()` due to lack of IE11 support.
+        if (element.parentNode) {
+            element.parentNode.removeChild(element);
+        }
     }
 }
