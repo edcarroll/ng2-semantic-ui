@@ -1,5 +1,5 @@
 import { Input, Output, EventEmitter, QueryList, ViewChildren, AfterViewInit, HostListener } from "@angular/core";
-import { CalendarDateItem, SuiCalendarItem } from "../directives/calendar-item";
+import { CalendarItem, SuiCalendarItem } from "../directives/calendar-item";
 import { Util, KeyCode } from "../../util/util";
 import { CalendarService } from "../services/calendar.service";
 
@@ -19,7 +19,7 @@ export abstract class CalendarView implements AfterViewInit {
 
     @ViewChildren(SuiCalendarItem)
     private _renderedItems:QueryList<SuiCalendarItem>;
-    private _highlightedItem:CalendarDateItem;
+    private _highlightedDate:Date;
 
     @Input()
     public set service(service:CalendarService | undefined) {
@@ -43,7 +43,7 @@ export abstract class CalendarView implements AfterViewInit {
     }
 
     private _calculatedColumns:number;
-    public calculatedItems:CalendarDateItem[][];
+    public calculatedItems:CalendarItem[][];
 
     constructor(viewType:CalendarViewType, renderedColumns:number) {
         this._type = viewType;
@@ -63,9 +63,9 @@ export abstract class CalendarView implements AfterViewInit {
 
     public abstract prevDateRange():void;
 
-    public setDate(selected:CalendarDateItem):void {
+    public setDate(date:Date):void {
         if (this._service) {
-            this._service.changeDate(selected.date, this._type);
+            this._service.changeDate(date, this._type);
 
             this.calculateItems();
         }
@@ -86,32 +86,24 @@ export abstract class CalendarView implements AfterViewInit {
         const items = this._renderedItems.toArray();
         items.forEach(i => i.onFocussed.subscribe((hasFocus:boolean) => {
             if (hasFocus) {
-                this.focusItem(i.item);
+                this.focusDate(i.item.date);
             }
         }));
 
-        if (this._highlightedItem) {
-            const highlighted = items.find(i => i.item.compareDates(i.item.date, this._highlightedItem.date));
-            if (highlighted) {
-                this.focusItem(highlighted.item);
-            }
-        } else {
-            const initial = items.find(i => i.item.compareDates(i.item.date, this.renderedDate));
-            if (initial) {
-                this.focusItem(initial.item);
-            }
+        if (!this._highlightedDate) {
+            this._highlightedDate = this.renderedDate;
         }
-
+        this.focusDate(this._highlightedDate);
     }
 
-    private focusItem(item:CalendarDateItem):void {
+    private focusDate(date:Date):void {
         this._renderedItems.forEach(i => i.hasFocus = false);
-        const rendered = this._renderedItems.find(ri => ri.item.compareDates(ri.item.date, item.date));
+        const rendered = this._renderedItems.find(ri => ri.item.compareDates(date));
         if (rendered) {
             rendered.hasFocus = true;
         }
 
-        this._highlightedItem = item;
+        this._highlightedDate = date;
     }
 
     @HostListener("document:keydown", ["$event"])
@@ -120,11 +112,11 @@ export abstract class CalendarView implements AfterViewInit {
         const itemsInRange = items.filter(i => !i.item.isOutsideRange);
 
         if (e.keyCode === KeyCode.Enter) {
-            this.setDate(this._highlightedItem);
+            this.setDate(this._highlightedDate);
             return;
         }
 
-        const index = items.findIndex(i => i.item === this._highlightedItem);
+        const index = items.findIndex(i => i.item.compareDates(this._highlightedDate));
         let isMovingForward = true;
         let delta = 0;
 
@@ -145,7 +137,7 @@ export abstract class CalendarView implements AfterViewInit {
                 break;
         }
 
-        let nextItem:CalendarDateItem | undefined;
+        let nextItem:CalendarItem | undefined;
         if (items[index + delta]) {
             nextItem = items[index + delta].item;
         }
@@ -159,7 +151,7 @@ export abstract class CalendarView implements AfterViewInit {
         }
 
         if (!nextItem) {
-            let adjustedIndex = itemsInRange.findIndex(i => i.item === this._highlightedItem);
+            let adjustedIndex = itemsInRange.findIndex(i => i.item.compareDates(this._highlightedDate));
 
             this.updateDateRange(isMovingForward);
             const updatedItems = Util.Array.flatten(this.calculatedItems).filter(i => !i.isOutsideRange);
@@ -173,6 +165,6 @@ export abstract class CalendarView implements AfterViewInit {
             nextItem = updatedItems[adjustedIndex + delta];
         }
 
-        this.focusItem(nextItem);
+        this.focusDate(nextItem.date);
     }
 }

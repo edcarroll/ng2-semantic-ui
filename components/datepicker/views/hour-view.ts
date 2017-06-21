@@ -26,7 +26,7 @@ import { Util } from "../../util/util";
         <td class="link"
             *ngFor="let item of group"
             [calendarItem]="item"
-            (click)="setDate(item)">{{ item.humanReadable }}
+            (click)="setDate(item.date)">{{ item.humanReadable }}
         </td>
     </tr>
 </tbody>
