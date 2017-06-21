@@ -7,8 +7,10 @@
 <demo-page-content>
     <h2 class="ui dividing header">Examples</h2>
     <div class="ui segment">
-        <div class="ui input">
-            <input type="text" placeholder="Search..." suiDatepicker>
+        <div class="ui fluid input">
+            <input type="text" suiDatepicker [(ngModel)]="date">
         </div>
+
+        <sui-datepicker [(ngModel)]="date"></sui-datepicker>
     </div>
 </demo-page-content>

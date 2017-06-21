@@ -1,3 +1,4 @@
+import { EventEmitter } from "@angular/core";
 import { Util } from "../../util/util";
 import { CalendarViewType, CalendarViewResult } from "../views/calendar-view";
 
@@ -21,8 +22,12 @@ export class CalendarService {
         if (date) {
             this._selectedDate = Util.Date.clone(date);
             this.currentDate = Util.Date.clone(date);
+
+            this._currentView = CalendarViewType.Date;
         }
     }
+
+    public onDateChange:EventEmitter<Date>;
 
     private _finalView:CalendarViewType;
     private _changedMappings:CalendarMapping;
@@ -33,6 +38,8 @@ export class CalendarService {
 
         this._changedMappings = changedMappings;
         this._zoomMappings = zoomMappings;
+
+        this.onDateChange = new EventEmitter<Date>();
 
         this.reset();
     }
@@ -50,6 +57,8 @@ export class CalendarService {
 
         if (fromView === this._finalView) {
             this.selectedDate = date;
+
+            this.onDateChange.emit(this.selectedDate);
         }
 
         this.updateView(this._changedMappings, fromView);

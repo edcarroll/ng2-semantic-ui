@@ -1,8 +1,9 @@
 
-import { Component, HostBinding } from "@angular/core";
+import { Component, HostBinding, Directive, EventEmitter, Output } from "@angular/core";
 import { Util } from "../util/util";
 import { CalendarViewType, CalendarViewResult } from "./views/calendar-view";
 import { CalendarService } from "./services/calendar.service";
+import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor } from "../util/helpers/custom-value-accessor";
 
 @Component({
     selector: "sui-datepicker",
@@ -21,13 +22,18 @@ import { CalendarService } from "./services/calendar.service";
 }
 `]
 })
-export class SuiDatepicker {
+export class SuiDatepicker implements ICustomValueAccessorHost<Date> {
     @HostBinding("class.ui")
     @HostBinding("class.active")
     @HostBinding("class.calendar")
     public calendarClasses:boolean;
 
     public service:CalendarService;
+
+    @Output("dateChange")
+    public get onDateChange():EventEmitter<Date> {
+        return this.service.onDateChange;
+    }
 
     constructor() {
         this.service = new CalendarService(
@@ -48,5 +54,21 @@ export class SuiDatepicker {
             ]));
 
         this.calendarClasses = true;
+    }
+
+    public writeValue(value:Date | undefined):void {
+        this.service.selectedDate = value;
+    }
+}
+
+
+@Directive({
+    selector: "sui-datepicker",
+    host: { "(dateChange)": "onChange($event)" },
+    providers: [customValueAccessorFactory(SuiDatepickerValueAccessor)]
+})
+export class SuiDatepickerValueAccessor extends CustomValueAccessor<Date, SuiDatepicker> {
+    constructor(host:SuiDatepicker) {
+        super(host);
     }
 }

@@ -6,7 +6,7 @@ import { SuiCalendarItem } from "./directives/calendar-item";
 import { SuiCalendarDateView } from "./views/date-view";
 import { SuiUtilityModule } from "../util/util.module";
 import { SuiDatepickerDirective } from "./datepicker.directive";
-import { SuiDatepicker } from "./datepicker";
+import { SuiDatepicker, SuiDatepickerValueAccessor } from "./datepicker";
 import { SuiCalendarHourView } from "./views/hour-view";
 import { SuiCalendarMinuteView } from "./views/minute-view";
 
@@ -25,10 +25,12 @@ import { SuiCalendarMinuteView } from "./views/minute-view";
         SuiCalendarMinuteView,
 
         SuiDatepicker,
+        SuiDatepickerValueAccessor,
         SuiDatepickerDirective
     ],
     exports: [
         SuiDatepicker,
+        SuiDatepickerValueAccessor,
         SuiDatepickerDirective
     ],
     entryComponents: [
