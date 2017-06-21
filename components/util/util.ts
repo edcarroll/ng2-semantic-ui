@@ -36,9 +36,11 @@ export const Util = {
             return Array(n).fill(0).map((z, i) => i + offset);
         },
         group<T>(items:T[], groupLength:number):T[][] {
+            const mutable = items.slice(0);
+
             const groups:T[][] = [];
-            while (items.length > 0) {
-                groups.push(items.splice(0, groupLength));
+            while (mutable.length > 0) {
+                groups.push(mutable.splice(0, groupLength));
             }
             return groups;
         },

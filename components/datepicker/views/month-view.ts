@@ -23,11 +23,11 @@ import { Util } from "../../util/util";
     </tr>
 </thead>
 <tbody>
-    <tr *ngFor="let group of calculatedItems">
+    <tr *ngFor="let group of groupedItems">
         <td class="link"
             *ngFor="let item of group"
             [calendarItem]="item"
-            (click)="setDate(item.date)">{{ item.humanReadable }}
+            (click)="setDate(item)">{{ item.humanReadable }}
         </td>
     </tr>
 </tbody>
@@ -42,12 +42,12 @@ export class SuiCalendarMonthView extends CalendarView {
     constructor(public localizationService:SuiLocalizationService) {
         super(CalendarViewType.Month, 3);
 
-        this.calculateItems();
+        this.updateItems();
     }
 
     public calculateItems():void {
         const yearStart = Util.Date.startOfYear(Util.Date.clone(this.renderedDate));
-        const months:CalendarMonthItem[] = [];
+        this.calculatedItems = [];
 
         Util.Array.range(12).forEach(m => {
             const date = Util.Date.clone(yearStart);
@@ -56,19 +56,17 @@ export class SuiCalendarMonthView extends CalendarView {
             const hR = this.localizationService.getValues().datepicker.monthsShort[m];
             const isActive = !!this.selectedDate && Util.Date.monthsEqual(date, this.selectedDate);
 
-            months.push(new CalendarMonthItem(date, hR, false, isActive, false));
+            this.calculatedItems.push(new CalendarMonthItem(date, hR, false, isActive, false));
         });
-
-        this.calculatedItems = Util.Array.group(months, 3);
     }
 
     public nextDateRange():void {
         this.renderedDate.setFullYear(this.year + 1);
-        this.calculateItems();
+        this.updateItems();
     }
 
     public prevDateRange():void {
         this.renderedDate.setFullYear(this.year - 1);
-        this.calculateItems();
+        this.updateItems();
     }
 }

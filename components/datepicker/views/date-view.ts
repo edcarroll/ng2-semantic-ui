@@ -25,11 +25,11 @@ import { Util } from "../../util/util";
     </tr>
 </thead>
 <tbody>
-    <tr *ngFor="let group of calculatedItems">
+    <tr *ngFor="let group of groupedItems">
         <td class="link"
             *ngFor="let item of group"
             [calendarItem]="item"
-            (click)="setDate(item.date)">{{ item.humanReadable }}
+            (click)="setDate(item)">{{ item.humanReadable }}
         </td>
     </tr>
 </tbody>
@@ -60,7 +60,7 @@ export class SuiCalendarDateView extends CalendarView {
         this.firstDayOfWeek = this.localizationService
             .getValues().datepicker.firstDayOfWeek;
 
-        this.calculateItems();
+        this.updateItems();
     }
 
     public calculateItems():void {
@@ -68,7 +68,7 @@ export class SuiCalendarDateView extends CalendarView {
         const month = monthStart.getMonth();
         monthStart.setDate((1 - monthStart.getDay() + this.firstDayOfWeek - 7) % 7);
 
-        const dates:CalendarDateItem[] = [];
+        this.calculatedItems = [];
 
         Util.Array.range(6 * 7).forEach(i => {
             const date = Util.Date.clone(monthStart);
@@ -77,19 +77,17 @@ export class SuiCalendarDateView extends CalendarView {
             const hR = date.getDate().toString();
             const isActive = !!this.selectedDate && Util.Date.datesEqual(date, this.selectedDate);
 
-            dates.push(new CalendarDateItem(date, hR, date.getMonth() !== month, isActive, date.getMonth() !== month));
+            this.calculatedItems.push(new CalendarDateItem(date, hR, date.getMonth() !== month, isActive, date.getMonth() !== month));
         });
-
-        this.calculatedItems = Util.Array.group(dates, 7);
     }
 
     public nextDateRange():void {
         this.renderedDate.setMonth(this.renderedDate.getMonth() + 1);
-        this.calculateItems();
+        this.updateItems();
     }
 
     public prevDateRange():void {
         this.renderedDate.setMonth(this.renderedDate.getMonth() - 1);
-        this.calculateItems();
+        this.updateItems();
     }
 }

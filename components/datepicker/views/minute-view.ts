@@ -22,11 +22,11 @@ import { Util } from "../../util/util";
     </tr>
 </thead>
 <tbody>
-    <tr *ngFor="let group of calculatedItems">
+    <tr *ngFor="let group of groupedItems">
         <td class="link"
             *ngFor="let item of group"
             [calendarItem]="item"
-            (click)="setDate(item.date)">{{ item.humanReadable }}
+            (click)="setDate(item)">{{ item.humanReadable }}
         </td>
     </tr>
 </tbody>
@@ -46,34 +46,32 @@ export class SuiCalendarMinuteView extends CalendarView {
     constructor(public localizationService:SuiLocalizationService) {
         super(CalendarViewType.Minute, 3);
 
-        this.calculateItems();
+        this.updateItems();
     }
 
     public calculateItems():void {
         const dayStart = Util.Date.startOfHour(Util.Date.clone(this.renderedDate));
-        const minutes:CalendarMinutesItem[] = [];
+        this.calculatedItems = [];
 
         Util.Array.range(12).forEach(i => {
-            const date = Util.Date.clone(dayStart);
+            const date = Util.Date.startOfMinute(Util.Date.clone(dayStart));
             date.setMinutes(i * 5);
 
             const hs = Util.String.padLeft(date.getHours().toString(), 2, "0");
             const ms = Util.String.padLeft(date.getMinutes().toString(), 2, "0");
             const isActive = !!this.selectedDate && Util.Date.minutesEqual(date, this.selectedDate);
 
-            minutes.push(new CalendarMinutesItem(date, `${hs}:${ms}`, false, isActive, false));
+            this.calculatedItems.push(new CalendarMinutesItem(date, `${hs}:${ms}`, false, isActive, false));
         });
-
-        this.calculatedItems = Util.Array.group(minutes, 3);
     }
 
     public nextDateRange():void {
         this.renderedDate.setDate(this.renderedDate.getDate() + 1);
-        this.calculateItems();
+        this.updateItems();
     }
 
     public prevDateRange():void {
         this.renderedDate.setDate(this.renderedDate.getDate() - 1);
-        this.calculateItems();
+        this.updateItems();
     }
 }
