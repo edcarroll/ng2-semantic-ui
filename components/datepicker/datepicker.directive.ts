@@ -27,17 +27,16 @@ export class SuiDatepickerDirective extends SuiPopupController<SuiDatepicker> im
 
     public set selectedDate(date:Date | undefined) {
         this._selectedDate = date;
-        this.onDateChange.emit(date);
-
-        if (date) {
-            if (this.selectedDateString !== this._currentValue) {
-                this.renderer.setProperty(this._element.nativeElement, "value", this.selectedDateString);
-                this._currentValue = this.selectedDateString;
-            }
-        }
 
         if (this._contentComponentRef) {
             this._contentComponentRef.instance.service.selectedDate = date;
+        }
+
+        this.onDateChange.emit(date);
+
+        if (this.selectedDateString && this.selectedDateString !== this._currentValue) {
+            this.renderer.setProperty(this._element.nativeElement, "value", this.selectedDateString);
+            this._currentValue = this.selectedDateString;
         }
     }
 
@@ -96,31 +95,22 @@ export class SuiDatepickerDirective extends SuiPopupController<SuiDatepicker> im
         });
     }
 
-    private updateDate(date:Date | undefined):void {
-        this.selectedDate = date;
-
-        if (this._contentComponentRef) {
-            this._contentComponentRef.instance.service.selectedDate = date;
-            this._contentComponentRef.instance.service.onManualUpdate.emit();
-        }
-    }
-
     public writeValue(value:Date | undefined):void {
-        this.updateDate(value);
+        this.selectedDate = value;
     }
 
     public typeValue(value:string | undefined):void {
         this._currentValue = value;
 
         if (!value) {
-            this.updateDate(undefined);
+            this.writeValue(undefined);
             return;
         }
 
         try {
-            this.parser.parse(value);
+            this.writeValue(this.parser.parse(value));
         } catch (e) {
-            this.updateDate(undefined);
+            this.writeValue(undefined);
         }
     }
 }

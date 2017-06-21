@@ -21,6 +21,8 @@ export class CalendarService {
         } else {
             this._selectedDate = undefined;
         }
+
+        this.onManualUpdate.emit();
     }
 
     public onDateChange:EventEmitter<Date>;

@@ -53,7 +53,7 @@ export class SuiCalendarYearView extends CalendarView {
             const date = Util.Date.clone(decadeStart);
             date.setFullYear(y);
 
-            const hR = date.getFullYear().toString();
+            const hR = Util.String.padLeft(date.getFullYear().toString(), 4, "0");
             const isActive = !!this.selectedDate && Util.Date.yearsEqual(date, this.selectedDate);
 
             this.calculatedItems.push(
