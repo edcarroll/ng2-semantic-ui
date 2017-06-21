@@ -52,6 +52,13 @@ export abstract class CalendarView implements AfterViewInit {
 
     public abstract calculateItems():void;
 
+    private updateDateRange(moveForwards:boolean = true):void {
+        if (moveForwards) {
+            return this.nextDateRange();
+        }
+        return this.prevDateRange();
+    }
+
     public abstract nextDateRange():void;
 
     public abstract prevDateRange():void;
@@ -79,89 +86,93 @@ export abstract class CalendarView implements AfterViewInit {
         const items = this._renderedItems.toArray();
         items.forEach(i => i.onFocussed.subscribe((hasFocus:boolean) => {
             if (hasFocus) {
-                this.focusItem(i);
+                this.focusItem(i.item);
             }
         }));
 
         if (this._highlightedItem) {
             const highlighted = items.find(i => i.item.compareDates(i.item.date, this._highlightedItem.date));
             if (highlighted) {
-                this.focusItem(highlighted);
+                this.focusItem(highlighted.item);
             }
         } else {
             const initial = items.find(i => i.item.compareDates(i.item.date, this.renderedDate));
             if (initial) {
-                this.focusItem(initial);
+                this.focusItem(initial.item);
             }
         }
 
     }
 
-    private focusItem(item:SuiCalendarItem):void {
+    private focusItem(item:CalendarDateItem):void {
         this._renderedItems.forEach(i => i.hasFocus = false);
-        item.hasFocus = true;
+        const rendered = this._renderedItems.find(ri => ri.item.compareDates(ri.item.date, item.date));
+        if (rendered) {
+            rendered.hasFocus = true;
+        }
 
-        this._highlightedItem = item.item;
+        this._highlightedItem = item;
     }
 
     @HostListener("document:keydown", ["$event"])
     private onDocumentKeydown(e:KeyboardEvent):void {
-        const items = this._renderedItems.filter(i => !i.item.isOutsideRange);
-        const highlightedIndex = items.findIndex(i => i.item === this._highlightedItem);
-        const highlightedItem = items[highlightedIndex];
+        const items = this._renderedItems.toArray();
+        const itemsInRange = items.filter(i => !i.item.isOutsideRange);
 
-        let nextIndex:number | undefined;
-        let isMovingForward:boolean | undefined;
+        if (e.keyCode === KeyCode.Enter) {
+            this.setDate(this._highlightedItem);
+            return;
+        }
+
+        const index = items.findIndex(i => i.item === this._highlightedItem);
+        let isMovingForward = true;
+        let delta = 0;
 
         switch (e.keyCode) {
-            case KeyCode.Enter:
-                this.setDate(highlightedItem.item);
-                return;
             case KeyCode.Right:
-                nextIndex = highlightedIndex + 1;
-                isMovingForward = true;
+                delta += 1;
                 break;
             case KeyCode.Left:
-                nextIndex = highlightedIndex - 1;
+                delta -= 1;
                 isMovingForward = false;
                 break;
             case KeyCode.Down:
-                nextIndex = highlightedIndex + this._calculatedColumns;
-                isMovingForward = true;
+                delta += this._calculatedColumns;
                 break;
             case KeyCode.Up:
-                nextIndex = highlightedIndex - this._calculatedColumns;
+                delta -= this._calculatedColumns;
                 isMovingForward = false;
                 break;
         }
 
-        if (nextIndex == undefined) {
-            return;
+        let nextItem:CalendarDateItem | undefined;
+        if (items[index + delta]) {
+            nextItem = items[index + delta].item;
         }
 
-        if (nextIndex != undefined && (nextIndex < 0 || nextIndex >= items.length)) {
+        if (nextItem && nextItem.isOutsideRange) {
+            if (index + delta >= itemsInRange.length) {
+                isMovingForward = true;
+            }
+
+            this.updateDateRange(isMovingForward);
+        }
+
+        if (!nextItem) {
+            let adjustedIndex = itemsInRange.findIndex(i => i.item === this._highlightedItem);
+
+            this.updateDateRange(isMovingForward);
+            const updatedItems = Util.Array.flatten(this.calculatedItems).filter(i => !i.isOutsideRange);
 
             if (isMovingForward) {
-                this.nextDateRange();
-                nextIndex -= items.length;
+                adjustedIndex -= itemsInRange.length;
             } else {
-                this.prevDateRange();
+                adjustedIndex += updatedItems.length;
             }
 
-            const newItems = Util.Array
-                .flatten(this.calculatedItems)
-                .filter(i => !i.isOutsideRange);
-
-            if (!isMovingForward) {
-                nextIndex += newItems.length;
-            }
-
-            this._highlightedItem = newItems[nextIndex];
-
-            return;
+            nextItem = updatedItems[adjustedIndex + delta];
         }
 
-        const nextItem = items[nextIndex];
         this.focusItem(nextItem);
     }
 }
