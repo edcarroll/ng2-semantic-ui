@@ -14,10 +14,10 @@ import { DateComparer } from "../classes/date-comparer";
     <tr>
         <th colspan="7">
             <span class="link" (click)="zoomOut()">{{ month }} {{ year }}</span>
-            <span class="prev link" (click)="prevDateRange()">
+            <span class="prev link" (click)="ranges.movePrevious()">
                 <i class="chevron left icon"></i>
             </span>
-            <span class="next link" (click)="nextDateRange()">
+            <span class="next link" (click)="ranges.moveNext()">
                 <i class="chevron right icon"></i>
             </span>
         </th>
@@ -27,7 +27,7 @@ import { DateComparer } from "../classes/date-comparer";
     </tr>
 </thead>
 <tbody>
-    <tr *ngFor="let group of groupedItems">
+    <tr *ngFor="let group of ranges.current.groupedItems">
         <td class="link"
             *ngFor="let item of group"
             [calendarItem]="item"
@@ -63,19 +63,19 @@ export class SuiCalendarDateView extends CalendarView {
             .getValues().datepicker.firstDayOfWeek;
     }
 
-    public calculateRangeStart():Date {
-        const monthStart = Util.Date.startOf(DatePrecision.Month, Util.Date.clone(this.renderedDate));
+    public calculateRangeStart(start:Date):Date {
+        const monthStart = Util.Date.startOf(DatePrecision.Month, Util.Date.clone(start));
         monthStart.setDate((1 - monthStart.getDay() + this.firstDayOfWeek - 7) % 7);
         return monthStart;
     }
 
-    public calculateItem(date:Date):CalendarDateItem {
+    public calculateItem(date:Date, baseDate:Date):CalendarDateItem {
         const comparer = new DateComparer(date);
         return new CalendarDateItem(
             date,
             date.getDate().toString(),
             !comparer.isBetween(this.service.minDate, this.service.maxDate),
             comparer.isEqualTo(this.selectedDate),
-            date.getMonth() !== this.renderedDate.getMonth());
+            date.getMonth() !== baseDate.getMonth());
     }
 }

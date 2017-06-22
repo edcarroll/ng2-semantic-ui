@@ -81,12 +81,12 @@ export class SuiDatepickerDirective
         if (this.componentInstance) {
             this.componentInstance.selectedDate = this.selectedDate;
 
-            // this.componentInstance.maxDate = new Date();
-            // this.componentInstance.maxDate.setDate(this.componentInstance.maxDate.getDate() + 3);
+            this.componentInstance.maxDate = new Date();
+            this.componentInstance.maxDate.setDate(this.componentInstance.maxDate.getDate() + 3);
 
-            // this.componentInstance.minDate = new Date();
-            // this.componentInstance.minDate.setMonth(this.componentInstance.minDate.getMonth() - 1);
-            // this.componentInstance.minDate.setDate(this.componentInstance.minDate.getDate() - 3);
+            this.componentInstance.minDate = new Date();
+            this.componentInstance.minDate.setMonth(this.componentInstance.minDate.getMonth() - 2);
+            this.componentInstance.minDate.setDate(this.componentInstance.minDate.getDate() - 3);
 
             this.componentInstance.service.reset();
 

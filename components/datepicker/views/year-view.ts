@@ -14,17 +14,17 @@ import { YearComparer } from "../classes/date-comparer";
     <tr>
         <th colspan="3">
             <span class="link" (click)="zoomOut()">{{ pad(decadeStart) }} - {{ pad(decadeStart + 10) }}</span>
-            <span class="prev link" (click)="prevDateRange()">
+            <span class="prev link" (click)="ranges.movePrevious()">
                 <i class="chevron left icon"></i>
             </span>
-            <span class="next link" (click)="nextDateRange()">
+            <span class="next link" (click)="ranges.moveNext()">
                 <i class="chevron right icon"></i>
             </span>
         </th>
     </tr>
 </thead>
 <tbody>
-    <tr *ngFor="let group of groupedItems">
+    <tr *ngFor="let group of ranges.current.groupedItems">
         <td class="link"
             *ngFor="let item of group"
             [calendarItem]="item"
@@ -48,7 +48,7 @@ export class SuiCalendarYearView extends CalendarView {
         return Util.String.padLeft(year.toString(), 4, "0");
     }
 
-    public calculateItem(date:Date):CalendarYearItem {
+    public calculateItem(date:Date, baseDate:Date):CalendarYearItem {
         const comparer = new YearComparer(date);
         return new CalendarYearItem(
             date,

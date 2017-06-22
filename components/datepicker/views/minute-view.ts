@@ -15,17 +15,17 @@ import { CalendarMode } from "../services/calendar.service";
     <tr>
         <th colspan="4">
             <span class="link" (click)="zoomOut()">{{ date }}</span>
-            <span class="prev link" (click)="prevDateRange()">
+            <span class="prev link" (click)="ranges.movePrevious()">
                 <i class="chevron left icon"></i>
             </span>
-            <span class="next link" (click)="nextDateRange()">
+            <span class="next link" (click)="ranges.moveNext()">
                 <i class="chevron right icon"></i>
             </span>
         </th>
     </tr>
 </thead>
 <tbody>
-    <tr *ngFor="let group of groupedItems">
+    <tr *ngFor="let group of ranges.current.groupedItems">
         <td class="link"
             *ngFor="let item of group"
             [calendarItem]="item"
@@ -56,17 +56,17 @@ export class SuiCalendarMinuteView extends CalendarView {
         super(CalendarViewType.Minute, 4, 3, DatePrecision.Hour);
     }
 
-    public calculateRangeStart():Date {
-        return Util.Date.startOf(DatePrecision.Hour, Util.Date.clone(this.renderedDate), true);
+    public calculateRangeStart(start:Date):Date {
+        return Util.Date.startOf(DatePrecision.Hour, Util.Date.clone(start), true);
     }
 
     public calculateRange(rangeStart:Date):Date[] {
         return Util.Array
-            .range(this.rangeLength)
+            .range(this.ranges.length)
             .map(i => Util.Date.add(DatePrecision.Minute, Util.Date.clone(rangeStart), i * 5));
     }
 
-    public calculateItem(date:Date):CalendarMinuteItem {
+    public calculateItem(date:Date, baseDate:Date):CalendarMinuteItem {
         const comparer = new MinuteComparer(date);
 
         const hs = Util.String.padLeft(date.getHours().toString(), 2, "0");

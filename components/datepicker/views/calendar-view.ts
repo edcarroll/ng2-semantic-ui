@@ -4,6 +4,7 @@ import { Util, KeyCode } from "../../util/util";
 import { CalendarService } from "../services/calendar.service";
 import { Subscription } from "rxjs/Subscription";
 import { DatePrecision } from "../../util/helpers/date";
+import { CalendarRangeService } from "../services/calendar-range.service";
 
 export enum CalendarViewType {
     Year = 0,
@@ -27,25 +28,20 @@ export abstract class CalendarView implements AfterViewInit {
         this._service = service;
         this.service.onManualUpdate = () => {
             delete this._highlightedItem;
-            this.updateItems();
+
+            this.ranges.refresh(this.renderedDate);
+            this.autoHighlight();
         };
 
-        this.updateItems();
+        this.ranges.refresh(this.renderedDate);
+        this.autoHighlight();
     }
 
     public get service():CalendarService {
         return this._service;
     }
 
-    private _rangeInterval:DatePrecision;
-    private _calculatedColumns:number;
-    private _calculatedRows:number;
-    public get rangeLength():number {
-        return this._calculatedRows * this._calculatedColumns;
-    }
-
-    public rangeStart:Date;
-
+    public ranges:CalendarRangeService;
 
     public get renderedDate():Date {
         return this.service.currentDate;
@@ -55,97 +51,34 @@ export abstract class CalendarView implements AfterViewInit {
         return this.service.selectedDate;
     }
 
-    private _calculatedItems:CalendarItem[];
-
-    public get calculatedItems():CalendarItem[] {
-        return this._calculatedItems;
-    }
-
-    public set calculatedItems(items:CalendarItem[]) {
-        this._calculatedItems = items;
-        this.groupedItems = Util.Array.group(this.calculatedItems, this._calculatedColumns);
-
-    }
-
-    public get inRangeCalculatedItems():CalendarItem[] {
-        return this.calculatedItems.filter(i => !i.isOutsideRange);
-    }
-    public groupedItems:CalendarItem[][];
-
     constructor(viewType:CalendarViewType, renderedRows:number, renderedColumns:number, rangeInterval:DatePrecision) {
         this._type = viewType;
-        this._calculatedRows = renderedRows;
-        this._calculatedColumns = renderedColumns;
-        this._rangeInterval = rangeInterval;
+        this.ranges = new CalendarRangeService(rangeInterval, renderedRows, renderedColumns);
+
+        this.ranges.registerCalculators(
+            d => this.calculateRangeStart(d),
+            s => this.calculateRange(s),
+            (ds, b) => this.calculateItems(ds, b));
     }
 
     // Date Range Calculations
 
-    public calculateRangeStart():Date {
-        return Util.Date.startOf(this._rangeInterval, Util.Date.clone(this.renderedDate));
+    public calculateRangeStart(date:Date):Date {
+        return Util.Date.startOf(this.ranges.interval, Util.Date.clone(date));
     }
 
     public calculateRange(rangeStart:Date):Date[] {
         return Util.Array
-            .range(this.rangeLength)
-            .map(i => Util.Date.add(this._rangeInterval as number + 1, Util.Date.clone(rangeStart), i));
+            .range(this.ranges.length)
+            .map(i => Util.Date.add(this.ranges.interval as number + 1, Util.Date.clone(rangeStart), i));
 
     }
 
-    public calculateItems(dateRange:Date[]):CalendarItem[] {
-        return dateRange.map(date => this.calculateItem(date));
+    public calculateItems(dateRange:Date[], baseDate:Date):CalendarItem[] {
+        return dateRange.map(date => this.calculateItem(date, baseDate));
     }
 
-    public abstract calculateItem(date:Date):CalendarItem;
-
-    private updateItems():void {
-        this.calculatedItems = this.calculateItems(this.calculateRange(this.calculateRangeStart()));
-
-        let date = this.selectedDate && this.dateInRange(this.selectedDate) ? this.selectedDate : this.renderedDate;
-        if (this._highlightedItem && this.dateInRange(this._highlightedItem.date)) {
-            date = this._highlightedItem.date;
-        }
-
-        const initiallyHighlighted = this.calculatedItems.find(i => i.isEqualTo(date));
-        if (initiallyHighlighted && !initiallyHighlighted.isDisabled) {
-            this._highlightedItem = initiallyHighlighted;
-        }
-    }
-
-    private dateInRange(date:Date):boolean {
-        return !!this.inRangeCalculatedItems.find(i => i.isEqualTo(date));
-    }
-
-    // Date Range Updates
-
-    private calculateNextRangeStart():Date {
-        return Util.Date.next(this._rangeInterval, Util.Date.clone(this.renderedDate));
-    }
-
-    private calculatePrevRangeStart():Date {
-        return Util.Date.previous(this._rangeInterval, Util.Date.clone(this.renderedDate));
-    }
-
-    private calculateMovedRangeStart(moveForwards:boolean):Date {
-        if (moveForwards) {
-            return this.calculateNextRangeStart();
-        }
-        return this.calculatePrevRangeStart();
-    }
-
-    // DEPRECATED
-
-    public nextDateRange():void {
-        Util.Date.next(this._rangeInterval, this.renderedDate);
-        this.updateItems();
-    }
-
-    public prevDateRange():void {
-        Util.Date.previous(this._rangeInterval, this.renderedDate);
-        this.updateItems();
-    }
-
-    // / DEPRECATED
+    public abstract calculateItem(date:Date, baseDate:Date):CalendarItem;
 
     // Template Methods
 
@@ -175,6 +108,18 @@ export abstract class CalendarView implements AfterViewInit {
         this.highlightItem(this._highlightedItem);
     }
 
+    private autoHighlight():void {
+        let date = this.selectedDate && this.ranges.current.containsDate(this.selectedDate) ? this.selectedDate : this.renderedDate;
+        if (this._highlightedItem && this.ranges.current.containsDate(this._highlightedItem.date)) {
+            date = this._highlightedItem.date;
+        }
+
+        const initiallyHighlighted = this.ranges.current.items.find(i => i.isEqualTo(date));
+        if (initiallyHighlighted && !initiallyHighlighted.isDisabled) {
+            this._highlightedItem = initiallyHighlighted;
+        }
+    }
+
     private highlightItem(item:CalendarItem):void {
         this._renderedItems.forEach(i => i.hasFocus = false);
         const rendered = this._renderedItems.find(ri => ri.item === item);
@@ -187,8 +132,8 @@ export abstract class CalendarView implements AfterViewInit {
 
     @HostListener("document:keydown", ["$event"])
     private onDocumentKeydown(e:KeyboardEvent):void {
-        const items = this.calculatedItems;
-        const itemsInRange = this.inRangeCalculatedItems;
+        const items = this.ranges.current.items;
+        const itemsInRange = this.ranges.current.itemsInRange;
 
         if (e.keyCode === KeyCode.Enter) {
             this.setDate(this._highlightedItem);
@@ -208,10 +153,10 @@ export abstract class CalendarView implements AfterViewInit {
                 isMovingForward = false;
                 break;
             case KeyCode.Down:
-                delta += this._calculatedColumns;
+                delta += this.ranges.columns;
                 break;
             case KeyCode.Up:
-                delta -= this._calculatedColumns;
+                delta -= this.ranges.columns;
                 isMovingForward = false;
                 break;
             default:
@@ -232,37 +177,28 @@ export abstract class CalendarView implements AfterViewInit {
             if (index + delta >= itemsInRange.length) {
                 isMovingForward = true;
             }
-
-            this._highlightedItem = nextItem;
-
-            this.rangeStart = this.calculateMovedRangeStart(isMovingForward);
-            this.updateItems();
-            // this.calculatedItems = this.calculateItems(this.calculateRange(this.rangeStart));
         }
 
         if (!nextItem) {
             let adjustedIndex = itemsInRange.findIndex(i => i.isEqualTo(this._highlightedItem.date));
 
-            const nextRange = this.calculateMovedRangeStart(isMovingForward);
-            const nextItems = this.calculateItems(this.calculateRange(nextRange));
+            const nextItems = this.ranges.calc(isMovingForward).itemsInRange;
 
-            const updatedItems = nextItems.filter(i => !i.isOutsideRange);
             if (isMovingForward) {
                 adjustedIndex -= itemsInRange.length;
             } else {
-                adjustedIndex += updatedItems.length;
+                adjustedIndex += nextItems.length;
             }
 
-            nextItem = updatedItems[adjustedIndex + delta];
+            nextItem = nextItems[adjustedIndex + delta];
 
             if (nextItem.isDisabled) {
+                // this._highlightedItem = highlighted;
                 return;
             }
-
-            this.rangeStart = nextRange;
-            this.calculatedItems = nextItems;
-
-            this._highlightedItem = nextItem;
         }
+
+        this.ranges.move(isMovingForward);
+        this._highlightedItem = this.ranges.current.find(nextItem);
     }
 }

@@ -14,17 +14,17 @@ import { HourComparer } from "../classes/date-comparer";
     <tr>
         <th colspan="4">
             <span class="link" (click)="zoomOut()">{{ date }}</span>
-            <span class="prev link" (click)="prevDateRange()">
+            <span class="prev link" (click)="ranges.movePrevious()">
                 <i class="chevron left icon"></i>
             </span>
-            <span class="next link" (click)="nextDateRange()">
+            <span class="next link" (click)="ranges.moveNext()">
                 <i class="chevron right icon"></i>
             </span>
         </th>
     </tr>
 </thead>
 <tbody>
-    <tr *ngFor="let group of groupedItems">
+    <tr *ngFor="let group of ranges.current.groupedItems">
         <td class="link"
             *ngFor="let item of group"
             [calendarItem]="item"
@@ -49,7 +49,7 @@ export class SuiCalendarHourView extends CalendarView {
         super(CalendarViewType.Hour, 6, 4, DatePrecision.Date);
     }
 
-    public calculateItem(date:Date):CalendarHourItem {
+    public calculateItem(date:Date, baseDate:Date):CalendarHourItem {
         const comparer = new HourComparer(date);
         return new CalendarHourItem(
             date,

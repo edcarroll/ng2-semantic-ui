@@ -15,17 +15,17 @@ import { MonthComparer } from "../classes/date-comparer";
     <tr>
         <th colspan="3">
             <span class="link" (click)="zoomOut()">{{ year }}</span>
-            <span class="prev link" (click)="prevDateRange()">
+            <span class="prev link" (click)="ranges.movePrevious()">
                 <i class="chevron left icon"></i>
             </span>
-            <span class="next link" (click)="nextDateRange()">
+            <span class="next link" (click)="ranges.moveNext()">
                 <i class="chevron right icon"></i>
             </span>
         </th>
     </tr>
 </thead>
 <tbody>
-    <tr *ngFor="let group of groupedItems">
+    <tr *ngFor="let group of ranges.current.groupedItems">
         <td class="link"
             *ngFor="let item of group"
             [calendarItem]="item"
@@ -45,7 +45,7 @@ export class SuiCalendarMonthView extends CalendarView {
         super(CalendarViewType.Month, 4, 3, DatePrecision.Year);
     }
 
-    public calculateItem(date:Date):CalendarMonthItem {
+    public calculateItem(date:Date, baseDate:Date):CalendarMonthItem {
         const comparer = new MonthComparer(date);
         return new CalendarMonthItem(
             date,

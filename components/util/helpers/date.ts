@@ -116,7 +116,7 @@ export const DateUtil = {
                 break;
             case DatePrecision.Month:
                 date.setMonth(month + i);
-                if (date.getMonth() !== Util.Math.mod(month + i, 12)) {
+                if (date.getMonth() !== Util.Math.mod(month + i, 11)) {
                     date.setDate(0);
                 }
                 break;
@@ -153,7 +153,7 @@ export const DateUtil = {
                 break;
             case DatePrecision.Month:
                 date.setMonth(month - 1);
-                if (date.getMonth() !== Util.Math.mod(month - 1, 12)) {
+                if (date.getMonth() !== Util.Math.mod(month - 1, 11)) {
                     date.setDate(0);
                 }
                 break;
