@@ -49,7 +49,7 @@ export class CalendarService {
 
     public get minDate():Date | undefined {
         if (this._minDate && this.config.dateMinBound) {
-            return new Date(Math.max(this._minDate.getTime(), this.config.dateMinBound.getTime()));
+            return this._minDate > this.config.dateMinBound ? this._minDate : this.config.dateMinBound;
         }
         return this._minDate || this.config.dateMinBound;
     }
@@ -60,7 +60,7 @@ export class CalendarService {
 
     public get maxDate():Date | undefined {
         if (this._maxDate && this.config.dateMaxBound) {
-            return new Date(Math.max(this._maxDate.getTime(), this.config.dateMaxBound.getTime()));
+            return this._maxDate < this.config.dateMaxBound ? this._maxDate : this.config.dateMaxBound;
         }
         return this._maxDate || this.config.dateMaxBound;
     }

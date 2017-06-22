@@ -15,11 +15,11 @@ export abstract class Comparer {
     }
 
     public isLessThan(date:Date | undefined):boolean {
-        return !date || (!!date && Util.Date.endOf(this._precision, Util.Date.clone(date)) > this._date);
+        return !date || (Util.Date.endOf(this._precision, Util.Date.clone(date)) > this._date);
     }
 
     public isGreaterThan(date:Date | undefined):boolean {
-        return !date || (!!date && Util.Date.startOf(this._precision, Util.Date.clone(date)) <= this._date);
+        return !date || (Util.Date.startOf(this._precision, Util.Date.clone(date)) < this._date);
     }
 
     public isBetween(a:Date | undefined, b:Date | undefined):boolean {
@@ -60,5 +60,13 @@ export class MinuteComparer extends Comparer {
         return !!date &&
                Util.Date.equal(DatePrecision.Hour, date, this._date) &&
                Util.Math.roundDown(date.getMinutes(), 5) === Util.Math.roundDown(this._date.getMinutes(), 5);
+    }
+
+    public isLessThan(date:Date | undefined):boolean {
+        return !date || (date > this._date);
+    }
+
+    public isGreaterThan(date:Date | undefined):boolean {
+        return !date || (date < this._date);
     }
 }

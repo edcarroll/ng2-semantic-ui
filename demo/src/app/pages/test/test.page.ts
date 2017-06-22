@@ -9,7 +9,6 @@ export class TestPage {
 
     constructor() {
         this.date = new Date();
-        this.date.setDate(0);
     }
 
     public log(item:any):void {

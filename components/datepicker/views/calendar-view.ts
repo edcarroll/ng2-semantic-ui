@@ -67,9 +67,6 @@ export abstract class CalendarView implements AfterViewInit {
         this._calculatedRows = renderedRows;
         this._calculatedColumns = renderedColumns;
         this._rangeInterval = rangeInterval;
-
-        this.calculatedItems = [];
-        this.groupItems();
     }
 
     // Date Range Calculations
@@ -93,7 +90,7 @@ export abstract class CalendarView implements AfterViewInit {
 
     public updateItems():void {
         this.calculatedItems = this.calculateItems(this.calculateRange(this.calculateRangeStart()));
-        this.groupItems();
+        this.groupedItems = Util.Array.group(this.calculatedItems, this._calculatedColumns);
 
         let date = this.selectedDate && this.dateInRange(this.selectedDate) ? this.selectedDate : this.renderedDate;
         if (this._highlightedItem && this.dateInRange(this._highlightedItem.date)) {
@@ -106,15 +103,28 @@ export abstract class CalendarView implements AfterViewInit {
         }
     }
 
-    public groupItems():void {
-        this.groupedItems = Util.Array.group(this.calculatedItems, this._calculatedColumns);
-    }
-
     private dateInRange(date:Date):boolean {
         return !!this.inRangeCalculatedItems.find(i => i.isEqualTo(date));
     }
 
     // Date Range Updates
+
+    private calculateNextRangeStart():Date {
+        return Util.Date.next(this._rangeInterval, Util.Date.clone(this.renderedDate));
+    }
+
+    private calculatePrevRangeStart():Date {
+        return Util.Date.previous(this._rangeInterval, Util.Date.clone(this.renderedDate));
+    }
+
+    private calculateMovedRangeStart(moveForwards:boolean):Date {
+        if (moveForwards) {
+            return this.calculateNextRangeStart();
+        }
+        return this.calculatePrevRangeStart();
+    }
+
+    // DEPRECATED
 
     private updateDateRange(moveForwards:boolean = true):void {
         if (moveForwards) {
@@ -132,6 +142,8 @@ export abstract class CalendarView implements AfterViewInit {
         Util.Date.previous(this._rangeInterval, this.renderedDate);
         this.updateItems();
     }
+
+    // / DEPRECATED
 
     // Template Methods
 
@@ -183,7 +195,6 @@ export abstract class CalendarView implements AfterViewInit {
             return;
         }
 
-        const highlighted = this._highlightedItem;
         const index = items.findIndex(i => i.isEqualTo(this._highlightedItem ? this._highlightedItem.date : undefined));
         let isMovingForward = true;
         let delta = 0;
@@ -230,9 +241,10 @@ export abstract class CalendarView implements AfterViewInit {
         if (!nextItem) {
             let adjustedIndex = itemsInRange.findIndex(i => i.isEqualTo(this._highlightedItem.date));
 
-            this.updateDateRange(isMovingForward);
-            const updatedItems = this.inRangeCalculatedItems;
+            const nextRange = this.calculateMovedRangeStart(isMovingForward);
+            const nextItems = this.calculateItems(this.calculateRange(nextRange));
 
+            const updatedItems = nextItems.filter(i => !i.isOutsideRange);
             if (isMovingForward) {
                 adjustedIndex -= itemsInRange.length;
             } else {
@@ -242,9 +254,11 @@ export abstract class CalendarView implements AfterViewInit {
             nextItem = updatedItems[adjustedIndex + delta];
 
             if (nextItem.isDisabled) {
-                this._highlightedItem = highlighted;
-                return this.updateDateRange(!isMovingForward);
+                return;
             }
+
+            this.rangeStart = nextRange;
+            this.updateItems();
 
             this._highlightedItem = nextItem;
         }

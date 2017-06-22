@@ -56,6 +56,10 @@ export class SuiCalendarMinuteView extends CalendarView {
         super(CalendarViewType.Minute, 4, 3, DatePrecision.Hour);
     }
 
+    public calculateRangeStart():Date {
+        return Util.Date.startOf(DatePrecision.Hour, Util.Date.clone(this.renderedDate), true);
+    }
+
     public calculateRange(rangeStart:Date):Date[] {
         return Util.Array
             .range(this.rangeLength)
