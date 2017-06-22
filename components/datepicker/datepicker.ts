@@ -25,7 +25,7 @@ export class SuiDatepicker {
     @HostBinding("class.ui")
     @HostBinding("class.active")
     @HostBinding("class.calendar")
-    public calendarClasses:boolean;
+    private _calendarClasses:boolean;
 
     public service:CalendarService;
 
@@ -50,7 +50,7 @@ export class SuiDatepicker {
                 [CalendarViewType.Minute, CalendarViewType.Date]*/
             ]));
 
-        this.calendarClasses = true;
+        this._calendarClasses = true;
         this.tabIndex = 0;
     }
 }

@@ -40,8 +40,6 @@ export class SuiCalendarYearView extends CalendarView {
 
     constructor() {
         super(CalendarViewType.Year, 3);
-
-        this.updateItems();
     }
 
     public calculateItems():void {

@@ -45,8 +45,6 @@ export class SuiCalendarHourView extends CalendarView {
 
     constructor(public localizationService:SuiLocalizationService) {
         super(CalendarViewType.Hour, 4);
-
-        this.updateItems();
     }
 
     public calculateItems():void {

@@ -45,8 +45,6 @@ export class SuiCalendarMinuteView extends CalendarView {
 
     constructor(public localizationService:SuiLocalizationService) {
         super(CalendarViewType.Minute, 3);
-
-        this.updateItems();
     }
 
     public calculateItems():void {

@@ -14,11 +14,6 @@ export enum CalendarViewType {
 export type CalendarViewResult = [Date, CalendarViewType];
 
 export abstract class CalendarView implements AfterViewInit, OnDestroy {
-    @HostBinding("class.ui")
-    // @HostBinding("class.active")
-    @HostBinding("class.calendar")
-    private _calendarClasses:boolean;
-
     private _type:CalendarViewType;
 
     private _service:CalendarService | undefined;
@@ -56,6 +51,9 @@ export abstract class CalendarView implements AfterViewInit, OnDestroy {
 
     private _calculatedColumns:number;
     public calculatedItems:CalendarItem[];
+    public get inRangeCalculatedItems():CalendarItem[] {
+        return this.calculatedItems.filter(i => !i.isOutsideRange);
+    }
     public groupedItems:CalendarItem[][];
 
     constructor(viewType:CalendarViewType, renderedColumns:number) {
@@ -64,16 +62,16 @@ export abstract class CalendarView implements AfterViewInit, OnDestroy {
 
         this.calculatedItems = [];
         this.groupItems();
-
-        this._calendarClasses = true;
     }
+
+    // Date Range Calculations
 
     public updateItems():void {
         this.calculateItems();
         this.groupItems();
 
-        let date = this.renderedDate;
-        if (this._highlightedItem) {
+        let date = this.selectedDate && this.dateInRange(this.selectedDate) ? this.selectedDate : this.renderedDate;
+        if (this._highlightedItem && this.dateInRange(this._highlightedItem.date)) {
             date = this._highlightedItem.date;
         }
 
@@ -89,6 +87,12 @@ export abstract class CalendarView implements AfterViewInit, OnDestroy {
         this.groupedItems = Util.Array.group(this.calculatedItems, this._calculatedColumns);
     }
 
+    private dateInRange(date:Date):boolean {
+        return !!this.inRangeCalculatedItems.find(i => i.compareDates(date));
+    }
+
+    // Date Range Updates
+
     private updateDateRange(moveForwards:boolean = true):void {
         if (moveForwards) {
             return this.nextDateRange();
@@ -99,6 +103,8 @@ export abstract class CalendarView implements AfterViewInit, OnDestroy {
     public abstract nextDateRange():void;
 
     public abstract prevDateRange():void;
+
+    // Template Methods
 
     public setDate(item:CalendarItem):void {
         if (this._service) {
@@ -113,6 +119,8 @@ export abstract class CalendarView implements AfterViewInit, OnDestroy {
             this._service.zoomOut(this._type);
         }
     }
+
+    // Keyboard Control
 
     public ngAfterViewInit():void {
         this._renderedItems.changes.subscribe(() => this.onRenderedItemsChanged());
@@ -143,7 +151,7 @@ export abstract class CalendarView implements AfterViewInit, OnDestroy {
     @HostListener("document:keydown", ["$event"])
     private onDocumentKeydown(e:KeyboardEvent):void {
         const items = this.calculatedItems;
-        const itemsInRange = items.filter(i => !i.isOutsideRange);
+        const itemsInRange = this.inRangeCalculatedItems;
 
         if (e.keyCode === KeyCode.Enter) {
             this.setDate(this._highlightedItem);
@@ -169,6 +177,8 @@ export abstract class CalendarView implements AfterViewInit, OnDestroy {
                 delta -= this._calculatedColumns;
                 isMovingForward = false;
                 break;
+            default:
+                return;
         }
 
         const nextItem = items[index + delta];
@@ -191,7 +201,7 @@ export abstract class CalendarView implements AfterViewInit, OnDestroy {
             let adjustedIndex = itemsInRange.findIndex(i => i.compareDates(this._highlightedItem.date));
 
             this.updateDateRange(isMovingForward);
-            const updatedItems = this.calculatedItems.filter(i => !i.isOutsideRange);
+            const updatedItems = this.inRangeCalculatedItems;
 
             if (isMovingForward) {
                 adjustedIndex -= itemsInRange.length;

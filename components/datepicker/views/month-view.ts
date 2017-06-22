@@ -41,8 +41,6 @@ export class SuiCalendarMonthView extends CalendarView {
 
     constructor(public localizationService:SuiLocalizationService) {
         super(CalendarViewType.Month, 3);
-
-        this.updateItems();
     }
 
     public calculateItems():void {

@@ -59,8 +59,6 @@ export class SuiCalendarDateView extends CalendarView {
 
         this.firstDayOfWeek = this.localizationService
             .getValues().datepicker.firstDayOfWeek;
-
-        this.updateItems();
     }
 
     public calculateItems():void {
