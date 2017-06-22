@@ -133,7 +133,9 @@ export abstract class SuiPopupController implements IPopup, OnDestroy, IPopupLif
 
             // Repeated clicks require a toggle, rather than just opening the popup each time.
             this.toggleDelayed();
-        } else if (!this._componentFactory && this.popup.config.trigger === PopupTrigger.Focus) {
+        } else if (this.popup.config.trigger === PopupTrigger.Focus &&
+                   (!this._componentRef || (this._componentRef && !this.popup.isOpen))) {
+            // Repeated clicks with a focus trigger requires an open (as focus isn't ever lost on repeated click).
             this.openDelayed();
         }
     }
