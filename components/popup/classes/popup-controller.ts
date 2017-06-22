@@ -3,9 +3,9 @@ import {
     HostListener, EventEmitter, Type, OnDestroy
 } from "@angular/core";
 import { PopupConfig, PopupTrigger } from "./popup-config";
-import { SuiPopup } from "./popup";
-import { SuiPopupConfig } from "./popup.service";
-import { SuiComponentFactory } from "../util/services/component-factory.service";
+import { SuiPopup } from "../components/popup";
+import { SuiPopupConfig } from "../services/popup.service";
+import { SuiComponentFactory } from "../../util/services/component-factory.service";
 
 export interface IPopup {
     open():void;
@@ -52,32 +52,31 @@ export abstract class SuiPopupController<T = undefined> implements IPopup, OnDes
         });
     }
 
-    public open():void {
+    public openDelayed():void {
         // Cancel the opening timer.
         clearTimeout(this._openingTimeout);
 
         // Start the popup opening after the specified delay interval.
-        this._openingTimeout = window.setTimeout(
-            () => {
-                // If there is a template, inject it into the view.
-                this.popup.templateSibling.clear();
-                if (this.popup.config.template) {
-                    this._componentFactory.createView(this.popup.templateSibling, this.popup.config.template, {
-                        $implicit: this.popup
-                    });
-                } else if (this.popup.config.component) {
-                    this._contentComponentRef = this._componentFactory.createComponent(this.popup.config.component as Type<T>);
-                    this._componentFactory.attachToView(this._contentComponentRef, this.popup.templateSibling);
-                }
+        this._openingTimeout = window.setTimeout(() => this.open(), this.popup.config.delay);
+    }
 
-                // Move the generated element to the body to avoid any positioning issues.
-                this._componentFactory.moveToDocumentBody(this._componentRef);
+    public open():void {
+        // If there is a template, inject it into the view.
+        this.popup.templateSibling.clear();
+        if (this.popup.config.template) {
+            this._componentFactory.createView(this.popup.templateSibling, this.popup.config.template, {
+                $implicit: this.popup
+            });
+        } else if (this.popup.config.component) {
+            this._contentComponentRef = this._componentFactory.createComponent(this.popup.config.component as Type<T>);
+            this._componentFactory.attachToView(this._contentComponentRef, this.popup.templateSibling);
+        }
 
-                // Start popup open transition.
-                this.popup.open();
+        // Move the generated element to the body to avoid any positioning issues.
+        this._componentFactory.moveToDocumentBody(this._componentRef);
 
-            },
-            this.popup.config.delay);
+        // Start popup open transition.
+        this.popup.open();
     }
 
     public close():void {
@@ -88,6 +87,16 @@ export abstract class SuiPopupController<T = undefined> implements IPopup, OnDes
             // Start popup close transition.
             this.popup.close();
         }
+    }
+
+    public toggleDelayed():void {
+        // If the popup hasn't been created, or it has but it isn't currently open, open the popup.
+        if (!this._componentRef || (this._componentRef && !this.popup.isOpen)) {
+            return this.openDelayed();
+        }
+
+        // O'wise, close it.
+        return this.close();
     }
 
     public toggle():void {
@@ -103,7 +112,7 @@ export abstract class SuiPopupController<T = undefined> implements IPopup, OnDes
     @HostListener("mouseenter")
     private onMouseEnter():void {
         if (this.popup.config.trigger === PopupTrigger.Hover) {
-            this.open();
+            this.openDelayed();
         }
     }
 
@@ -121,9 +130,9 @@ export abstract class SuiPopupController<T = undefined> implements IPopup, OnDes
 
             // Repeated clicks require a toggle, rather than just opening the popup each time.
             if (this.popup.config.toggleOnClick) {
-                this.toggle();
+                this.toggleDelayed();
             } else if (!this.popup.isOpen) {
-                this.open();
+                this.openDelayed();
             }
         }
     }
@@ -143,7 +152,7 @@ export abstract class SuiPopupController<T = undefined> implements IPopup, OnDes
     @HostListener("focus")
     private onFocus():void {
         if (this.popup.config.trigger === PopupTrigger.Focus) {
-            this.open();
+            this.openDelayed();
         }
     }
 

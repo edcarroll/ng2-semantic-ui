@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { PopupConfig } from "./popup-config";
+import { PopupConfig } from "../classes/popup-config";
 
 @Injectable()
 export class SuiPopupConfig extends PopupConfig {

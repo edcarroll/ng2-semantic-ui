@@ -2,13 +2,13 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { SuiTransitionModule } from "../transition/transition.module";
 import { SuiUtilityModule } from "../util/util.module";
-import { SuiPopupDirective } from "./popup.directive";
-import { SuiPopup } from "./popup";
-import { SuiPopupArrow } from "./popup-arrow";
-import { IPopupConfig, PopupTrigger, PopupConfig } from "./popup-config";
+import { SuiPopupDirective } from "./directives/popup.directive";
+import { SuiPopupArrow } from "./components/popup-arrow";
+import { SuiPopup } from "./components/popup";
+import { SuiPopupConfig } from "./services/popup.service";
+import { IPopup } from "./classes/popup-controller";
+import { IPopupConfig, PopupTrigger } from "./classes/popup-config";
 import { PositioningPlacement } from "../util/services/positioning.service";
-import { SuiPopupConfig } from "./popup.service";
-import { IPopup } from "./popup-controller";
 
 @NgModule({
     imports: [

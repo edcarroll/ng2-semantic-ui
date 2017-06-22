@@ -2,13 +2,13 @@ import {
     Directive, Input, ElementRef, ComponentFactoryResolver, ViewContainerRef,
     ComponentRef, HostListener, TemplateRef, Renderer
 } from "@angular/core";
-import { SuiPopup } from "./popup";
-import { PositioningPlacement } from "../util/services/positioning.service";
-import { ITemplateRefContext, Util } from "../util/util";
-import { PopupConfig, IPopupConfig, PopupTrigger } from "./popup-config";
-import { SuiPopupConfig } from "./popup.service";
-import { SuiPopupController } from "./popup-controller";
-import { SuiComponentFactory } from "../util/services/component-factory.service";
+import { SuiPopup } from "../components/popup";
+import { PositioningPlacement } from "../../util/services/positioning.service";
+import { ITemplateRefContext, Util } from "../../util/util";
+import { PopupConfig, IPopupConfig, PopupTrigger } from "../classes/popup-config";
+import { SuiPopupConfig } from "../services/popup.service";
+import { SuiPopupController } from "../classes/popup-controller";
+import { SuiComponentFactory } from "../../util/services/component-factory.service";
 
 @Directive({
     selector: "[suiPopup]",
