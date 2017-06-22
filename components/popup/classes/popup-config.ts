@@ -24,7 +24,6 @@ export interface IPopupConfig {
     isBasic?:boolean;
     transition?:string;
     transitionDuration?:number;
-    toggleOnClick?:boolean;
 }
 
 export class PopupConfig implements IPopupConfig {
@@ -38,7 +37,6 @@ export class PopupConfig implements IPopupConfig {
     public isBasic:boolean;
     public transition:string;
     public transitionDuration:number;
-    public toggleOnClick:boolean;
 
     constructor(defaults:IPopupConfig = {}) {
         this.placement = PositioningPlacement.TopLeft;
@@ -48,7 +46,6 @@ export class PopupConfig implements IPopupConfig {
         this.isBasic = false;
         this.transition = "scale";
         this.transitionDuration = 200;
-        this.toggleOnClick = false;
 
         Object.assign(this, defaults);
     }

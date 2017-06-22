@@ -5,12 +5,11 @@ import { Component, AfterViewInit, ViewChild, TemplateRef } from "@angular/core"
     templateUrl: "./test.page.html"
 })
 export class TestPage {
-    public date:Date;
+    public date:Date = new Date(2017, 5, 14);
 
-    constructor() {
-        this.date = new Date();
-        this.date.setMonth(2, 26);
-    }
+    public maxDate:Date = new Date(2017, 8, 5);
+
+    constructor() {}
 
     public log(item:any):void {
         console.log(item);

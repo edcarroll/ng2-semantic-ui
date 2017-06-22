@@ -1,5 +1,5 @@
 
-import { Component, HostBinding, Directive, EventEmitter, Output } from "@angular/core";
+import { Component, HostBinding, Directive, EventEmitter, Output, HostListener } from "@angular/core";
 import { Util } from "../util/util";
 import { CalendarViewType, CalendarViewResult } from "./views/calendar-view";
 import { CalendarService, CalendarMode } from "./services/calendar.service";

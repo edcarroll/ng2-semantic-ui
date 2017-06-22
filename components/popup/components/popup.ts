@@ -181,6 +181,11 @@ export class SuiPopup implements IPopup {
         }
     }
 
+    @HostListener("mousedown", ["$event"])
+    public onMouseDown(e:MouseEvent):void {
+        e.preventDefault();
+    }
+
     @HostListener("click", ["$event"])
     public onClick(event:MouseEvent):void {
         // Makes sense here, as the popup shouldn't be attached to any DOM element.

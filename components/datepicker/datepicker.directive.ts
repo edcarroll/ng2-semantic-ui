@@ -1,7 +1,7 @@
 
 import {
     Directive, ElementRef, ViewContainerRef, ComponentFactoryResolver, ComponentRef,
-    Renderer2, EventEmitter, Output, HostBinding, Input
+    Renderer2, EventEmitter, Output, HostBinding, Input, HostListener
 } from "@angular/core";
 import { DatePipe } from "@angular/common";
 import { SuiPopupComponentController } from "../popup/classes/popup-component-controller";
@@ -76,9 +76,8 @@ export class SuiDatepickerDirective
                 public localizationService:SuiLocalizationService) {
 
         super(element, componentFactory, SuiDatepicker, new PopupConfig({
-            trigger: PopupTrigger.OutsideClick,
-            placement: PositioningPlacement.BottomLeft,
-            toggleOnClick: false
+            trigger: PopupTrigger.Focus,
+            placement: PositioningPlacement.BottomLeft
         }));
 
         // This ensures the popup is drawn correctly (i.e. no border).
