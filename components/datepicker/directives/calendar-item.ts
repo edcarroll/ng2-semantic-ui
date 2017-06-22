@@ -67,13 +67,13 @@ export class CalendarTimeItem extends CalendarItem {
     }
 }
 
-export class CalendarHoursItem extends CalendarTimeItem {
+export class CalendarHourItem extends CalendarTimeItem {
     protected get _comparer():HourComparer {
         return new HourComparer(this.date);
     }
 }
 
-export class CalendarMinutesItem extends CalendarTimeItem {
+export class CalendarMinuteItem extends CalendarTimeItem {
     protected get _comparer():MinuteComparer {
         return new MinuteComparer(this.date);
     }

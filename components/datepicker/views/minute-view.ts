@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { CalendarView, CalendarViewType } from "./calendar-view";
 import { SuiLocalizationService } from "../../util/services/localization.service";
-import { CalendarMinutesItem } from "../directives/calendar-item";
+import { CalendarMinuteItem } from "../directives/calendar-item";
 import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";
 import { MinuteComparer } from "../classes/date-comparer";
@@ -56,24 +56,23 @@ export class SuiCalendarMinuteView extends CalendarView {
         super(CalendarViewType.Minute, 4, 3, DatePrecision.Hour);
     }
 
-    public calculateItems():void {
-        const dayStart = this.calculateRangeStart();
-        this.calculatedItems = [];
+    public calculateRange(rangeStart:Date):Date[] {
+        return Util.Array
+            .range(this.rangeLength)
+            .map(i => Util.Date.add(DatePrecision.Minute, Util.Date.clone(rangeStart), i * 5));
+    }
 
-        Util.Array.range(12).forEach(i => {
-            const date = Util.Date.startOf(DatePrecision.Minute, Util.Date.clone(dayStart));
-            date.setMinutes(i * 5);
-            const comparer = new MinuteComparer(date);
+    public calculateItem(date:Date):CalendarMinuteItem {
+        const comparer = new MinuteComparer(date);
 
-            const hs = Util.String.padLeft(date.getHours().toString(), 2, "0");
-            const ms = Util.String.padLeft(date.getMinutes().toString(), 2, "0");
+        const hs = Util.String.padLeft(date.getHours().toString(), 2, "0");
+        const ms = Util.String.padLeft(date.getMinutes().toString(), 2, "0");
 
-            this.calculatedItems.push(new CalendarMinutesItem(
-                date,
-                `${hs}:${ms}`,
-                !comparer.isBetween(this.service.minDate, this.service.maxDate),
-                comparer.isEqualTo(this.selectedDate),
-                false));
-        });
+        return new CalendarMinuteItem(
+            date,
+            `${hs}:${ms}`,
+            !comparer.isBetween(this.service.minDate, this.service.maxDate),
+            comparer.isEqualTo(this.selectedDate),
+            false);
     }
 }

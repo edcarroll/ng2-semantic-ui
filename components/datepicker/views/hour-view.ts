@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { CalendarView, CalendarViewType } from "./calendar-view";
 import { SuiLocalizationService } from "../../util/services/localization.service";
-import { CalendarHoursItem } from "../directives/calendar-item";
+import { CalendarHourItem } from "../directives/calendar-item";
 import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";
 import { HourComparer } from "../classes/date-comparer";
@@ -49,19 +49,13 @@ export class SuiCalendarHourView extends CalendarView {
         super(CalendarViewType.Hour, 6, 4, DatePrecision.Date);
     }
 
-    public calculateItems():void {
-        this.calculatedItems = [];
-
-        this.calculateRange(this.calculateRangeStart()).forEach(date => {
-            const comparer = new HourComparer(date);
-
-            this.calculatedItems.push(
-                new CalendarHoursItem(
-                    date,
-                    `${Util.String.padLeft(date.getHours().toString(), 2, "0")}:00`,
-                    !comparer.isBetween(this.service.minDate, this.service.maxDate),
-                    !!this.selectedDate && Util.Date.equal(DatePrecision.Hour, date, this.selectedDate),
-                    false));
-        });
+    public calculateItem(date:Date):CalendarHourItem {
+        const comparer = new HourComparer(date);
+        return new CalendarHourItem(
+            date,
+            `${Util.String.padLeft(date.getHours().toString(), 2, "0")}:00`,
+            !comparer.isBetween(this.service.minDate, this.service.maxDate),
+            !!this.selectedDate && Util.Date.equal(DatePrecision.Hour, date, this.selectedDate),
+            false);
     }
 }

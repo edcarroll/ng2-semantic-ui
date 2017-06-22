@@ -80,18 +80,19 @@ export abstract class CalendarView implements AfterViewInit {
 
     public calculateRange(rangeStart:Date):Date[] {
         return Util.Array
-            .range(this.rangeLength - 1)
-            .reduce(
-                ([d, ...ds], i) => [Util.Date.next(this._rangeInterval + 1, Util.Date.clone(d)), d, ...ds],
-                [rangeStart])
-            .reverse();
+            .range(this.rangeLength)
+            .map(i => Util.Date.add(this._rangeInterval as number + 1, Util.Date.clone(rangeStart), i));
 
     }
 
-    public abstract calculateItems():void;
+    public calculateItems(dateRange:Date[]):CalendarItem[] {
+        return dateRange.map(date => this.calculateItem(date));
+    }
+
+    public abstract calculateItem(date:Date):CalendarItem;
 
     public updateItems():void {
-        this.calculateItems();
+        this.calculatedItems = this.calculateItems(this.calculateRange(this.calculateRangeStart()));
         this.groupItems();
 
         let date = this.selectedDate && this.dateInRange(this.selectedDate) ? this.selectedDate : this.renderedDate;

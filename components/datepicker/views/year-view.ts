@@ -44,19 +44,13 @@ export class SuiCalendarYearView extends CalendarView {
         super(CalendarViewType.Year, 4, 3, DatePrecision.Decade);
     }
 
-    public calculateItems():void {
-        this.calculatedItems = [];
-
-        this.calculateRange(this.calculateRangeStart()).forEach(date => {
-            const comparer = new YearComparer(date);
-
-            this.calculatedItems.push(
-                new CalendarYearItem(
-                    date,
-                    Util.String.padLeft(date.getFullYear().toString(), 4, "0"),
-                    !comparer.isBetween(this.service.minDate, this.service.maxDate),
-                    comparer.isEqualTo(this.selectedDate),
-                    date.getFullYear() >= this.decadeStart + 10));
-        });
+    public calculateItem(date:Date):CalendarYearItem {
+        const comparer = new YearComparer(date);
+        return new CalendarYearItem(
+            date,
+            Util.String.padLeft(date.getFullYear().toString(), 4, "0"),
+            !comparer.isBetween(this.service.minDate, this.service.maxDate),
+            comparer.isEqualTo(this.selectedDate),
+            date.getFullYear() >= this.decadeStart + 10);
     }
 }

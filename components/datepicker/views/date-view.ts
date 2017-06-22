@@ -69,19 +69,13 @@ export class SuiCalendarDateView extends CalendarView {
         return monthStart;
     }
 
-    public calculateItems():void {
-        this.calculatedItems = [];
-
-        this.calculateRange(this.calculateRangeStart()).forEach(date => {
-            const comparer = new DateComparer(date);
-
-            this.calculatedItems.push(
-                new CalendarDateItem(
-                    date,
-                    date.getDate().toString(),
-                    !comparer.isBetween(this.service.minDate, this.service.maxDate),
-                    comparer.isEqualTo(this.selectedDate),
-                    date.getMonth() !== this.renderedDate.getMonth()));
-        });
+    public calculateItem(date:Date):CalendarDateItem {
+        const comparer = new DateComparer(date);
+        return new CalendarDateItem(
+            date,
+            date.getDate().toString(),
+            !comparer.isBetween(this.service.minDate, this.service.maxDate),
+            comparer.isEqualTo(this.selectedDate),
+            date.getMonth() !== this.renderedDate.getMonth());
     }
 }

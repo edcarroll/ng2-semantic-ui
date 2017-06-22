@@ -93,34 +93,41 @@ export const DateUtil = {
     },
 
     next(precision:DatePrecision, date:Date):Date {
+        return DateUtil.add(precision, date, 1);
+    },
+
+    add(precision:DatePrecision, date:Date, i:number):Date {
         const year = date.getFullYear();
         const month = date.getMonth();
         const day = date.getDate();
 
         switch (precision) {
             case DatePrecision.Decade:
-                date.setFullYear(year + 10);
+                date.setFullYear(year + i * 10);
                 if (date.getMonth() !== month) {
                     date.setDate(0);
                 }
                 break;
             case DatePrecision.Year:
-                date.setFullYear(year + 1);
+                date.setFullYear(year + i);
                 if (date.getMonth() !== month) {
                     date.setDate(0);
                 }
                 break;
             case DatePrecision.Month:
-                date.setMonth(month + 1);
-                if (date.getMonth() !== Util.Math.mod(month + 1, 12)) {
+                date.setMonth(month + i);
+                if (date.getMonth() !== Util.Math.mod(month + i, 12)) {
                     date.setDate(0);
                 }
                 break;
             case DatePrecision.Date:
-                date.setDate(day + 1);
+                date.setDate(day + i);
                 break;
             case DatePrecision.Hour:
-                date.setHours(date.getHours() + 1);
+                date.setHours(date.getHours() + i);
+                break;
+            case DatePrecision.Minute:
+                date.setMinutes(date.getMinutes() + i);
                 break;
         }
         return date;
