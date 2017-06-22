@@ -152,7 +152,10 @@ export const DateUtil = {
                 }
                 break;
             case DatePrecision.Month:
-                date.setDate(0);
+                date.setMonth(month - 1);
+                if (date.getMonth() !== Util.Math.mod(month - 1, 12)) {
+                    date.setDate(0);
+                }
                 break;
             case DatePrecision.Date:
                 date.setDate(day - 1);

@@ -34,7 +34,7 @@ export class SuiDatepicker {
         return this.service.selectedDate;
     }
 
-    public set selectedDate(date:Date| undefined) {
+    public set selectedDate(date:Date | undefined) {
         this.service.selectedDate = date;
     }
 

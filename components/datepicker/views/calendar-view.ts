@@ -55,8 +55,18 @@ export abstract class CalendarView implements AfterViewInit {
         return this.service.selectedDate;
     }
 
+    private _calculatedItems:CalendarItem[];
 
-    public calculatedItems:CalendarItem[];
+    public get calculatedItems():CalendarItem[] {
+        return this._calculatedItems;
+    }
+
+    public set calculatedItems(items:CalendarItem[]) {
+        this._calculatedItems = items;
+        this.groupedItems = Util.Array.group(this.calculatedItems, this._calculatedColumns);
+
+    }
+
     public get inRangeCalculatedItems():CalendarItem[] {
         return this.calculatedItems.filter(i => !i.isOutsideRange);
     }
@@ -88,9 +98,8 @@ export abstract class CalendarView implements AfterViewInit {
 
     public abstract calculateItem(date:Date):CalendarItem;
 
-    public updateItems():void {
+    private updateItems():void {
         this.calculatedItems = this.calculateItems(this.calculateRange(this.calculateRangeStart()));
-        this.groupedItems = Util.Array.group(this.calculatedItems, this._calculatedColumns);
 
         let date = this.selectedDate && this.dateInRange(this.selectedDate) ? this.selectedDate : this.renderedDate;
         if (this._highlightedItem && this.dateInRange(this._highlightedItem.date)) {
@@ -126,13 +135,6 @@ export abstract class CalendarView implements AfterViewInit {
 
     // DEPRECATED
 
-    private updateDateRange(moveForwards:boolean = true):void {
-        if (moveForwards) {
-            return this.nextDateRange();
-        }
-        return this.prevDateRange();
-    }
-
     public nextDateRange():void {
         Util.Date.next(this._rangeInterval, this.renderedDate);
         this.updateItems();
@@ -149,8 +151,6 @@ export abstract class CalendarView implements AfterViewInit {
 
     public setDate(item:CalendarItem):void {
         this.service.changeDate(item.date, this._type);
-
-        this.updateItems();
     }
 
     public zoomOut():void {
@@ -235,7 +235,9 @@ export abstract class CalendarView implements AfterViewInit {
 
             this._highlightedItem = nextItem;
 
-            this.updateDateRange(isMovingForward);
+            this.rangeStart = this.calculateMovedRangeStart(isMovingForward);
+            this.updateItems();
+            // this.calculatedItems = this.calculateItems(this.calculateRange(this.rangeStart));
         }
 
         if (!nextItem) {
@@ -258,7 +260,7 @@ export abstract class CalendarView implements AfterViewInit {
             }
 
             this.rangeStart = nextRange;
-            this.updateItems();
+            this.calculatedItems = nextItems;
 
             this._highlightedItem = nextItem;
         }

@@ -34,10 +34,6 @@ export class SuiDatepickerDirective
         this._selectedDate = date;
         this.onDateChange.emit(date);
 
-        if (this.componentInstance) {
-            this.componentInstance.selectedDate = date;
-        }
-
         if (this.selectedDateString && this.selectedDateString !== this._currentInputValue) {
             this.renderer.setProperty(this._element.nativeElement, "value", this.selectedDateString);
             this._currentInputValue = this.selectedDateString;
@@ -85,12 +81,12 @@ export class SuiDatepickerDirective
         if (this.componentInstance) {
             this.componentInstance.selectedDate = this.selectedDate;
 
-            this.componentInstance.maxDate = new Date();
-            this.componentInstance.maxDate.setDate(this.componentInstance.maxDate.getDate() + 3);
+            // this.componentInstance.maxDate = new Date();
+            // this.componentInstance.maxDate.setDate(this.componentInstance.maxDate.getDate() + 3);
 
-            this.componentInstance.minDate = new Date();
-            this.componentInstance.minDate.setDate(this.componentInstance.minDate.getDate() - 3);
-            console.log(this.componentInstance.minDate);
+            // this.componentInstance.minDate = new Date();
+            // this.componentInstance.minDate.setMonth(this.componentInstance.minDate.getMonth() - 1);
+            // this.componentInstance.minDate.setDate(this.componentInstance.minDate.getDate() - 3);
 
             this.componentInstance.service.reset();
 
@@ -108,6 +104,10 @@ export class SuiDatepickerDirective
 
     public writeValue(value:Date | undefined):void {
         this.selectedDate = value;
+
+        if (this.componentInstance) {
+            this.componentInstance.selectedDate = value;
+        }
     }
 
     public typeValue(value:string | undefined):void {
