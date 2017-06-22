@@ -53,11 +53,11 @@ export class SuiCalendarMinuteView extends CalendarView {
     }
 
     constructor(public localizationService:SuiLocalizationService) {
-        super(CalendarViewType.Minute, 3, DatePrecision.Hour);
+        super(CalendarViewType.Minute, 4, 3, DatePrecision.Hour);
     }
 
     public calculateItems():void {
-        const dayStart = Util.Date.startOf(DatePrecision.Hour, Util.Date.clone(this.renderedDate));
+        const dayStart = this.calculateRangeStart();
         this.calculatedItems = [];
 
         Util.Array.range(12).forEach(i => {

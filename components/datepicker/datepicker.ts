@@ -70,7 +70,7 @@ export class SuiDatepicker {
     public tabIndex:number;
 
     constructor() {
-        this.service = new CalendarService(new YearConfig());
+        this.service = new CalendarService(new DatetimeConfig());
 
         this._calendarClasses = true;
         this.tabIndex = 0;

@@ -41,17 +41,13 @@ export class SuiCalendarYearView extends CalendarView {
     }
 
     constructor() {
-        super(CalendarViewType.Year, 3, DatePrecision.Decade);
+        super(CalendarViewType.Year, 4, 3, DatePrecision.Decade);
     }
 
     public calculateItems():void {
-        const decadeStart = Util.Date.clone(this.renderedDate);
-        decadeStart.setFullYear(this.decadeStart);
         this.calculatedItems = [];
 
-        Util.Array.range(12, this.decadeStart).forEach(y => {
-            const date = Util.Date.clone(decadeStart);
-            date.setFullYear(y);
+        this.calculateRange(this.calculateRangeStart()).forEach(date => {
             const comparer = new YearComparer(date);
 
             this.calculatedItems.push(

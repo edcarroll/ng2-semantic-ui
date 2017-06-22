@@ -42,25 +42,19 @@ export class SuiCalendarMonthView extends CalendarView {
     }
 
     constructor(public localizationService:SuiLocalizationService) {
-        super(CalendarViewType.Month, 3, DatePrecision.Year);
+        super(CalendarViewType.Month, 4, 3, DatePrecision.Year);
     }
 
     public calculateItems():void {
-        const yearStart = Util.Date.startOf(DatePrecision.Year, Util.Date.clone(this.renderedDate));
         this.calculatedItems = [];
 
-        Util.Array.range(12).forEach(m => {
-            const date = Util.Date.clone(yearStart);
-            date.setMonth(m);
-            if (date.getMonth() !== m) {
-                date.setDate(0);
-            }
+        this.calculateRange(this.calculateRangeStart()).forEach(date => {
             const comparer = new MonthComparer(date);
 
             this.calculatedItems.push(
                 new CalendarMonthItem(
                     date,
-                    this.localizationService.getValues().datepicker.monthsShort[m],
+                    this.localizationService.getValues().datepicker.monthsShort[date.getMonth()],
                     !comparer.isBetween(this.service.minDate, this.service.maxDate),
                     comparer.isEqualTo(this.selectedDate),
                     false));

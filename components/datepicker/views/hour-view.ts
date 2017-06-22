@@ -46,17 +46,13 @@ export class SuiCalendarHourView extends CalendarView {
     }
 
     constructor(public localizationService:SuiLocalizationService) {
-        super(CalendarViewType.Hour, 4, DatePrecision.Date);
+        super(CalendarViewType.Hour, 6, 4, DatePrecision.Date);
     }
 
     public calculateItems():void {
-        const dayStart = Util.Date.startOf(DatePrecision.Date, Util.Date.clone(this.renderedDate));
         this.calculatedItems = [];
 
-        Util.Array.range(24).forEach(h => {
-            const date = Util.Date.clone(dayStart);
-            date.setHours(h);
-
+        this.calculateRange(this.calculateRangeStart()).forEach(date => {
             const comparer = new HourComparer(date);
 
             this.calculatedItems.push(

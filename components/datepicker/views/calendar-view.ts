@@ -16,8 +16,6 @@ export type CalendarViewResult = [Date, CalendarViewType];
 
 export abstract class CalendarView implements AfterViewInit {
     private _type:CalendarViewType;
-    private _rangeInterval:DatePrecision;
-
     private _service:CalendarService;
 
     @ViewChildren(SuiCalendarItem)
@@ -39,6 +37,16 @@ export abstract class CalendarView implements AfterViewInit {
         return this._service;
     }
 
+    private _rangeInterval:DatePrecision;
+    private _calculatedColumns:number;
+    private _calculatedRows:number;
+    public get rangeLength():number {
+        return this._calculatedRows * this._calculatedColumns;
+    }
+
+    public rangeStart:Date;
+
+
     public get renderedDate():Date {
         return this.service.currentDate;
     }
@@ -47,15 +55,16 @@ export abstract class CalendarView implements AfterViewInit {
         return this.service.selectedDate;
     }
 
-    private _calculatedColumns:number;
+
     public calculatedItems:CalendarItem[];
     public get inRangeCalculatedItems():CalendarItem[] {
         return this.calculatedItems.filter(i => !i.isOutsideRange);
     }
     public groupedItems:CalendarItem[][];
 
-    constructor(viewType:CalendarViewType, renderedColumns:number, rangeInterval:DatePrecision) {
+    constructor(viewType:CalendarViewType, renderedRows:number, renderedColumns:number, rangeInterval:DatePrecision) {
         this._type = viewType;
+        this._calculatedRows = renderedRows;
         this._calculatedColumns = renderedColumns;
         this._rangeInterval = rangeInterval;
 
@@ -64,6 +73,22 @@ export abstract class CalendarView implements AfterViewInit {
     }
 
     // Date Range Calculations
+
+    public calculateRangeStart():Date {
+        return Util.Date.startOf(this._rangeInterval, Util.Date.clone(this.renderedDate));
+    }
+
+    public calculateRange(rangeStart:Date):Date[] {
+        return Util.Array
+            .range(this.rangeLength - 1)
+            .reduce(
+                ([d, ...ds], i) => [Util.Date.next(this._rangeInterval + 1, Util.Date.clone(d)), d, ...ds],
+                [rangeStart])
+            .reverse();
+
+    }
+
+    public abstract calculateItems():void;
 
     public updateItems():void {
         this.calculateItems();
@@ -79,8 +104,6 @@ export abstract class CalendarView implements AfterViewInit {
             this._highlightedItem = initiallyHighlighted;
         }
     }
-
-    public abstract calculateItems():void;
 
     public groupItems():void {
         this.groupedItems = Util.Array.group(this.calculatedItems, this._calculatedColumns);

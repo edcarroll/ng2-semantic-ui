@@ -57,24 +57,22 @@ export class SuiCalendarDateView extends CalendarView {
     public firstDayOfWeek:number;
 
     constructor(public localizationService:SuiLocalizationService) {
-        super(CalendarViewType.Date, 7, DatePrecision.Month);
+        super(CalendarViewType.Date, 6, 7, DatePrecision.Month);
 
         this.firstDayOfWeek = this.localizationService
             .getValues().datepicker.firstDayOfWeek;
     }
 
-    public calculateItems():void {
-        const weekLength = 7;
-
+    public calculateRangeStart():Date {
         const monthStart = Util.Date.startOf(DatePrecision.Month, Util.Date.clone(this.renderedDate));
-        const month = monthStart.getMonth();
-        monthStart.setDate((1 - monthStart.getDay() + this.firstDayOfWeek - weekLength) % weekLength);
+        monthStart.setDate((1 - monthStart.getDay() + this.firstDayOfWeek - 7) % 7);
+        return monthStart;
+    }
 
+    public calculateItems():void {
         this.calculatedItems = [];
 
-        Util.Array.range(weekLength * 6).forEach(i => {
-            const date = Util.Date.clone(monthStart);
-            date.setDate(date.getDate() + i);
+        this.calculateRange(this.calculateRangeStart()).forEach(date => {
             const comparer = new DateComparer(date);
 
             this.calculatedItems.push(
@@ -83,7 +81,7 @@ export class SuiCalendarDateView extends CalendarView {
                     date.getDate().toString(),
                     !comparer.isBetween(this.service.minDate, this.service.maxDate),
                     comparer.isEqualTo(this.selectedDate),
-                    date.getMonth() !== month));
+                    date.getMonth() !== this.renderedDate.getMonth()));
         });
     }
 }

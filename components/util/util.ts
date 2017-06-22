@@ -95,6 +95,13 @@ export const Util = {
         },
         roundDown(r:number, n:number):number {
             return Math.floor(r / n) * n;
+        },
+        mod(r:number, n:number):number {
+            const rem = r % n;
+            if (rem < 0) {
+                return rem + n;
+            }
+            return rem;
         }
     },
 

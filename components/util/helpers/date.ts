@@ -1,15 +1,23 @@
+import { Util } from "../util";
 export enum DatePrecision {
-    Decade,
-    Year,
-    Month,
-    Date,
-    Hour,
-    Minute
+    Decade = 0,
+    Year = 1,
+    Month = 2,
+    Date = 3,
+    Hour = 4,
+    Minute = 5
 }
 
 export const DateUtil = {
     startOf(precision:DatePrecision, date:Date, resetAll:boolean = false):Date {
         switch (precision) {
+            case DatePrecision.Decade:
+                const start = Math.floor(date.getFullYear() / 10) * 10 + 1;
+                date.setFullYear(start);
+                if (!resetAll) {
+                    break;
+                }
+                // falls through
             case DatePrecision.Year:
                 date.setMonth(0);
                 if (!resetAll) {
@@ -104,7 +112,7 @@ export const DateUtil = {
                 break;
             case DatePrecision.Month:
                 date.setMonth(month + 1);
-                if (date.getMonth() !== month + 1) {
+                if (date.getMonth() !== Util.Math.mod(month + 1, 12)) {
                     date.setDate(0);
                 }
                 break;
@@ -145,7 +153,7 @@ export const DateUtil = {
             case DatePrecision.Hour:
                 const hours = date.getHours();
                 date.setHours(hours - 1);
-                if (date.getHours() !== hours - 1) {
+                if (date.getHours() !== Util.Math.mod(hours - 1, 24)) {
                     date.setHours(hours - 2);
                 }
                 break;
