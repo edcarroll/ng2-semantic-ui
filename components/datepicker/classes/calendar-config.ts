@@ -15,7 +15,10 @@ export class CalendarConfig {
         this.mappings = mappings;
     }
 
-    public updateBounds(providedDate?:Date):void {}
+    public updateBounds(providedDate?:Date):void {
+        this.dateMinBound = Util.Date.startOf(DatePrecision.Year, new Date(), true);
+        this.dateMinBound.setFullYear(0);
+    }
 
     public postProcess(date:Date):void {}
 }

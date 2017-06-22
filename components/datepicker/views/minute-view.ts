@@ -53,7 +53,7 @@ export class SuiCalendarMinuteView extends CalendarView {
     }
 
     constructor(public localizationService:SuiLocalizationService) {
-        super(CalendarViewType.Minute, 3);
+        super(CalendarViewType.Minute, 3, DatePrecision.Hour);
     }
 
     public calculateItems():void {
@@ -75,15 +75,5 @@ export class SuiCalendarMinuteView extends CalendarView {
                 comparer.isEqualTo(this.selectedDate),
                 false));
         });
-    }
-
-    public nextDateRange():void {
-        Util.Date.next(DatePrecision.Hour, this.renderedDate);
-        this.updateItems();
-    }
-
-    public prevDateRange():void {
-        Util.Date.previous(DatePrecision.Hour, this.renderedDate);
-        this.updateItems();
     }
 }

@@ -32,8 +32,6 @@ export class DateParser implements IDateParser {
         parsed.setMonth(month - 1);
         parsed.setDate(date);
 
-        Util.Date.rewriteTimezone(parsed);
-
         if (parsed.getFullYear() !== year ||
             parsed.getMonth() + 1 !== month ||
             parsed.getDate() !== date) {

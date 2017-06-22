@@ -41,7 +41,7 @@ export class SuiCalendarYearView extends CalendarView {
     }
 
     constructor() {
-        super(CalendarViewType.Year, 3);
+        super(CalendarViewType.Year, 3, DatePrecision.Decade);
     }
 
     public calculateItems():void {
@@ -62,15 +62,5 @@ export class SuiCalendarYearView extends CalendarView {
                     comparer.isEqualTo(this.selectedDate),
                     date.getFullYear() >= this.decadeStart + 10));
         });
-    }
-
-    public nextDateRange():void {
-        Util.Date.next(DatePrecision.Decade, this.renderedDate);
-        this.updateItems();
-    }
-
-    public prevDateRange():void {
-        Util.Date.previous(DatePrecision.Decade, this.renderedDate);
-        this.updateItems();
     }
 }

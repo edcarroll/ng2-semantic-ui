@@ -46,7 +46,7 @@ export class SuiCalendarHourView extends CalendarView {
     }
 
     constructor(public localizationService:SuiLocalizationService) {
-        super(CalendarViewType.Hour, 4);
+        super(CalendarViewType.Hour, 4, DatePrecision.Date);
     }
 
     public calculateItems():void {
@@ -67,15 +67,5 @@ export class SuiCalendarHourView extends CalendarView {
                     !!this.selectedDate && Util.Date.equal(DatePrecision.Hour, date, this.selectedDate),
                     false));
         });
-    }
-
-    public nextDateRange():void {
-        Util.Date.next(DatePrecision.Date, this.renderedDate);
-        this.updateItems();
-    }
-
-    public prevDateRange():void {
-        Util.Date.previous(DatePrecision.Date, this.renderedDate);
-        this.updateItems();
     }
 }

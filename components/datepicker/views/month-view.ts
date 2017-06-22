@@ -42,7 +42,7 @@ export class SuiCalendarMonthView extends CalendarView {
     }
 
     constructor(public localizationService:SuiLocalizationService) {
-        super(CalendarViewType.Month, 3);
+        super(CalendarViewType.Month, 3, DatePrecision.Year);
     }
 
     public calculateItems():void {
@@ -65,15 +65,5 @@ export class SuiCalendarMonthView extends CalendarView {
                     comparer.isEqualTo(this.selectedDate),
                     false));
         });
-    }
-
-    public nextDateRange():void {
-        Util.Date.next(DatePrecision.Year, this.renderedDate);
-        this.updateItems();
-    }
-
-    public prevDateRange():void {
-        Util.Date.previous(DatePrecision.Year, this.renderedDate);
-        this.updateItems();
     }
 }

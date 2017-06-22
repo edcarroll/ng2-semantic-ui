@@ -3,6 +3,7 @@ import { CalendarItem, SuiCalendarItem } from "../directives/calendar-item";
 import { Util, KeyCode } from "../../util/util";
 import { CalendarService } from "../services/calendar.service";
 import { Subscription } from "rxjs/Subscription";
+import { DatePrecision } from "../../util/helpers/date";
 
 export enum CalendarViewType {
     Year = 0,
@@ -15,6 +16,7 @@ export type CalendarViewResult = [Date, CalendarViewType];
 
 export abstract class CalendarView implements AfterViewInit {
     private _type:CalendarViewType;
+    private _rangeInterval:DatePrecision;
 
     private _service:CalendarService;
 
@@ -52,9 +54,10 @@ export abstract class CalendarView implements AfterViewInit {
     }
     public groupedItems:CalendarItem[][];
 
-    constructor(viewType:CalendarViewType, renderedColumns:number) {
+    constructor(viewType:CalendarViewType, renderedColumns:number, rangeInterval:DatePrecision) {
         this._type = viewType;
         this._calculatedColumns = renderedColumns;
+        this._rangeInterval = rangeInterval;
 
         this.calculatedItems = [];
         this.groupItems();
@@ -96,9 +99,15 @@ export abstract class CalendarView implements AfterViewInit {
         return this.prevDateRange();
     }
 
-    public abstract nextDateRange():void;
+    public nextDateRange():void {
+        Util.Date.next(this._rangeInterval, this.renderedDate);
+        this.updateItems();
+    }
 
-    public abstract prevDateRange():void;
+    public prevDateRange():void {
+        Util.Date.previous(this._rangeInterval, this.renderedDate);
+        this.updateItems();
+    }
 
     // Template Methods
 
@@ -151,7 +160,7 @@ export abstract class CalendarView implements AfterViewInit {
         }
 
         const highlighted = this._highlightedItem;
-        const index = items.findIndex(i => i.isEqualTo(this._highlightedItem.date));
+        const index = items.findIndex(i => i.isEqualTo(this._highlightedItem ? this._highlightedItem.date : undefined));
         let isMovingForward = true;
         let delta = 0;
 

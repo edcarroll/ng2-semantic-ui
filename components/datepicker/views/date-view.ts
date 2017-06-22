@@ -57,7 +57,7 @@ export class SuiCalendarDateView extends CalendarView {
     public firstDayOfWeek:number;
 
     constructor(public localizationService:SuiLocalizationService) {
-        super(CalendarViewType.Date, 7);
+        super(CalendarViewType.Date, 7, DatePrecision.Month);
 
         this.firstDayOfWeek = this.localizationService
             .getValues().datepicker.firstDayOfWeek;
@@ -85,15 +85,5 @@ export class SuiCalendarDateView extends CalendarView {
                     comparer.isEqualTo(this.selectedDate),
                     date.getMonth() !== month));
         });
-    }
-
-    public nextDateRange():void {
-        Util.Date.next(DatePrecision.Month, this.renderedDate);
-        this.updateItems();
-    }
-
-    public prevDateRange():void {
-        Util.Date.previous(DatePrecision.Month, this.renderedDate);
-        this.updateItems();
     }
 }
