@@ -3,19 +3,18 @@ import {
     Directive, ElementRef, ViewContainerRef, ComponentFactoryResolver, ComponentRef,
     Renderer2, EventEmitter, Output, HostBinding, Input, HostListener
 } from "@angular/core";
-import { DatePipe } from "@angular/common";
-import { SuiPopupComponentController } from "../popup/classes/popup-component-controller";
-import { PopupConfig, PopupTrigger } from "../popup/classes/popup-config";
-import { PositioningPlacement } from "../util/services/positioning.service";
-import { SuiComponentFactory } from "../util/services/component-factory.service";
-import { SuiDatepicker, DatepickerMode } from "./datepicker";
-import { customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHost } from "../util/helpers/custom-value-accessor";
-import { CalendarViewType } from "./views/calendar-view";
-import { Util } from "../util/util";
-import { DateParser, IDateParser } from "./classes/date-parser";
-import { SuiLocalizationService } from "../util/services/localization.service";
-import { PopupAfterOpen } from "../popup/classes/popup-lifecycle";
-import { CalendarService } from "./services/calendar.service";
+import { SuiPopupComponentController } from "../../popup/classes/popup-component-controller";
+import { PopupConfig, PopupTrigger } from "../../popup/classes/popup-config";
+import { PositioningPlacement } from "../../util/services/positioning.service";
+import { SuiComponentFactory } from "../../util/services/component-factory.service";
+import { SuiDatepicker, DatepickerMode } from "../components/datepicker";
+import { customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHost } from "../../util/helpers/custom-value-accessor";
+import { CalendarViewType } from "../views/calendar-view";
+import { Util, KeyCode } from "../../util/util";
+import { DateParser, IDateParser } from "../classes/date-parser";
+import { SuiLocalizationService } from "../../util/services/localization.service";
+import { PopupAfterOpen } from "../../popup/classes/popup-lifecycle";
+import { CalendarService } from "../services/calendar.service";
 
 @Directive({
     selector: "[suiDatepicker]"
@@ -127,6 +126,13 @@ export class SuiDatepickerDirective
             this.writeValue(this.parser.parse(value));
         } catch (e) {
             this.writeValue(undefined);
+        }
+    }
+
+    @HostListener("keydown", ["$event"])
+    public onKeyDown(e:KeyboardEvent):void {
+        if (e.keyCode === KeyCode.Escape) {
+            this.close();
         }
     }
 }

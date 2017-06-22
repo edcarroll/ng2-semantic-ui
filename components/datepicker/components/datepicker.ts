@@ -1,10 +1,10 @@
 
 import { Component, HostBinding, Directive, EventEmitter, Output, HostListener } from "@angular/core";
-import { Util } from "../util/util";
-import { CalendarViewType, CalendarViewResult } from "./views/calendar-view";
-import { CalendarService, CalendarMode } from "./services/calendar.service";
-import { DatetimeConfig, TimeConfig, DateConfig, MonthConfig, YearConfig } from "./classes/calendar-config";
-import { SuiLocalizationService } from "../util/services/localization.service";
+import { Util } from "../../util/util";
+import { CalendarViewType, CalendarViewResult } from "./../views/calendar-view";
+import { CalendarService, CalendarMode } from "./../services/calendar.service";
+import { DatetimeConfig, TimeConfig, DateConfig, MonthConfig, YearConfig } from "./../classes/calendar-config";
+import { SuiLocalizationService } from "../../util/services/localization.service";
 
 export type DatepickerMode = "year" | "month" | "date" | "datetime" | "time";
 
