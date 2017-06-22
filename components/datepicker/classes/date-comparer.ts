@@ -15,11 +15,11 @@ export abstract class Comparer {
     }
 
     public isLessThan(date:Date | undefined):boolean {
-        return !!date && Util.Date.endOf(this._precision, Util.Date.clone(date)) > this._date;
+        return !date || (!!date && Util.Date.endOf(this._precision, Util.Date.clone(date)) > this._date);
     }
 
     public isGreaterThan(date:Date | undefined):boolean {
-        return !!date && Util.Date.startOf(this._precision, Util.Date.clone(date)) < this._date;
+        return !date || (!!date && Util.Date.startOf(this._precision, Util.Date.clone(date)) <= this._date);
     }
 
     public isBetween(a:Date | undefined, b:Date | undefined):boolean {

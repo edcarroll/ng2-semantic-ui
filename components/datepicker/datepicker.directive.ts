@@ -12,7 +12,7 @@ import { SuiDatepicker } from "./datepicker";
 import { customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHost } from "../util/helpers/custom-value-accessor";
 import { CalendarViewType } from "./views/calendar-view";
 import { Util } from "../util/util";
-import { DateParser, IDateParser } from "./date-parser";
+import { DateParser, IDateParser } from "./classes/date-parser";
 import { SuiLocalizationService } from "../util/services/localization.service";
 import { PopupAfterOpen } from "../popup/classes/popup-lifecycle";
 import { CalendarService } from "./services/calendar.service";
@@ -85,11 +85,11 @@ export class SuiDatepickerDirective
         if (this.componentInstance) {
             this.componentInstance.selectedDate = this.selectedDate;
 
-            this.componentInstance.maxDate = new Date();
-            this.componentInstance.maxDate.setDate(this.componentInstance.maxDate.getDate() + 3);
+            // this.componentInstance.maxDate = new Date();
+            // this.componentInstance.maxDate.setDate(this.componentInstance.maxDate.getDate() + 3);
 
-            this.componentInstance.minDate = new Date();
-            this.componentInstance.minDate.setDate(this.componentInstance.minDate.getDate() - 3);
+            // this.componentInstance.minDate = new Date();
+            // this.componentInstance.minDate.setDate(this.componentInstance.minDate.getDate() - 3);
 
             this.componentInstance.service.reset();
 

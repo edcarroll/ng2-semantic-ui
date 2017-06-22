@@ -1,4 +1,5 @@
 export enum DatePrecision {
+    Decade,
     Year,
     Month,
     Date,
@@ -49,13 +50,13 @@ export const DateUtil = {
                 date.setMonth(date.getMonth() + 1, 0);
                 // falls through
             case DatePrecision.Date:
-                date.setHours(24, 0, 0, 0);
+                date.setHours(23, 59, 59, 999);
                 break;
             case DatePrecision.Hour:
-                date.setMinutes(60, 0, 0);
+                date.setMinutes(59, 59, 999);
                 break;
             case DatePrecision.Minute:
-                date.setSeconds(60, 0);
+                date.setSeconds(59, 999);
                 break;
         }
 
@@ -81,6 +82,75 @@ export const DateUtil = {
                 equal = equal && a.getFullYear() === b.getFullYear();
         }
         return equal;
+    },
+
+    next(precision:DatePrecision, date:Date):Date {
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const day = date.getDate();
+
+        switch (precision) {
+            case DatePrecision.Decade:
+                date.setFullYear(year + 10);
+                if (date.getMonth() !== month) {
+                    date.setDate(0);
+                }
+                break;
+            case DatePrecision.Year:
+                date.setFullYear(year + 1);
+                if (date.getMonth() !== month) {
+                    date.setDate(0);
+                }
+                break;
+            case DatePrecision.Month:
+                date.setMonth(month + 1);
+                if (date.getMonth() !== month + 1) {
+                    date.setDate(0);
+                }
+                break;
+            case DatePrecision.Date:
+                date.setDate(day + 1);
+                break;
+            case DatePrecision.Hour:
+                date.setHours(date.getHours() + 1);
+                break;
+        }
+        return date;
+    },
+
+    previous(precision:DatePrecision, date:Date):Date {
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const day = date.getDate();
+
+        switch (precision) {
+            case DatePrecision.Decade:
+                date.setFullYear(year - 10);
+                if (date.getMonth() !== month) {
+                    date.setDate(0);
+                }
+                break;
+            case DatePrecision.Year:
+                date.setFullYear(year - 1);
+                if (date.getMonth() !== month) {
+                    date.setDate(0);
+                }
+                break;
+            case DatePrecision.Month:
+                date.setDate(0);
+                break;
+            case DatePrecision.Date:
+                date.setDate(day - 1);
+                break;
+            case DatePrecision.Hour:
+                const hours = date.getHours();
+                date.setHours(hours - 1);
+                if (date.getHours() !== hours - 1) {
+                    date.setHours(hours - 2);
+                }
+                break;
+        }
+        return date;
     },
 
     clone(date:Date):Date {

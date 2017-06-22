@@ -65,12 +65,12 @@ export class SuiCalendarYearView extends CalendarView {
     }
 
     public nextDateRange():void {
-        this.renderedDate.setFullYear(this.renderedDate.getFullYear() + 10);
+        Util.Date.next(DatePrecision.Decade, this.renderedDate);
         this.updateItems();
     }
 
     public prevDateRange():void {
-        this.renderedDate.setFullYear(this.renderedDate.getFullYear() - 10);
+        Util.Date.previous(DatePrecision.Decade, this.renderedDate);
         this.updateItems();
     }
 }

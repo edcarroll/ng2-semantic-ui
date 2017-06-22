@@ -1,6 +1,6 @@
-import { ILocalizationValues } from "../util/services/localization.service";
-import { Util } from "../util/util";
-import { DatePrecision } from "../util/helpers/date";
+import { ILocalizationValues } from "../../util/services/localization.service";
+import { Util } from "../../util/util";
+import { DatePrecision } from "../../util/helpers/date";
 
 export interface IDateParser {
     format(date:Date):string;

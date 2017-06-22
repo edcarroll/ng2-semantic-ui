@@ -52,6 +52,9 @@ export class SuiCalendarMonthView extends CalendarView {
         Util.Array.range(12).forEach(m => {
             const date = Util.Date.clone(yearStart);
             date.setMonth(m);
+            if (date.getMonth() !== m) {
+                date.setDate(0);
+            }
             const comparer = new MonthComparer(date);
 
             this.calculatedItems.push(
@@ -65,12 +68,12 @@ export class SuiCalendarMonthView extends CalendarView {
     }
 
     public nextDateRange():void {
-        this.renderedDate.setFullYear(this.year + 1);
+        Util.Date.next(DatePrecision.Year, this.renderedDate);
         this.updateItems();
     }
 
     public prevDateRange():void {
-        this.renderedDate.setFullYear(this.year - 1);
+        Util.Date.previous(DatePrecision.Year, this.renderedDate);
         this.updateItems();
     }
 }

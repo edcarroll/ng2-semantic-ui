@@ -88,12 +88,12 @@ export class SuiCalendarDateView extends CalendarView {
     }
 
     public nextDateRange():void {
-        this.renderedDate.setMonth(this.renderedDate.getMonth() + 1);
+        Util.Date.next(DatePrecision.Month, this.renderedDate);
         this.updateItems();
     }
 
     public prevDateRange():void {
-        this.renderedDate.setMonth(this.renderedDate.getMonth() - 1);
+        Util.Date.previous(DatePrecision.Month, this.renderedDate);
         this.updateItems();
     }
 }

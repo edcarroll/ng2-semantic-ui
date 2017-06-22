@@ -4,7 +4,6 @@ export type CalendarMapping = Map<CalendarViewType, CalendarViewType>;
 
 export abstract class CalendarMappings {
     public initialView:CalendarViewType;
-    public initialDateView:CalendarViewType;
     public finalView:CalendarViewType;
     public changed:CalendarMapping;
     public zoom:CalendarMapping;
@@ -15,7 +14,6 @@ export class DateMappings extends CalendarMappings {
         super();
 
         this.initialView = CalendarViewType.Year;
-        this.initialDateView = CalendarViewType.Date;
         this.finalView = CalendarViewType.Date;
 
         this.changed = new Map<CalendarViewType, CalendarViewType>([
@@ -35,8 +33,8 @@ export class DateMappings extends CalendarMappings {
 export class TimeMappings extends CalendarMappings {
     constructor() {
         super();
+
         this.initialView = CalendarViewType.Hour;
-        this.initialDateView = CalendarViewType.Minute;
         this.finalView = CalendarViewType.Minute;
 
         this.changed = new Map<CalendarViewType, CalendarViewType>([
@@ -54,8 +52,8 @@ export class TimeMappings extends CalendarMappings {
 export class DatetimeMappings extends CalendarMappings {
     constructor() {
         super();
+
         this.initialView = CalendarViewType.Year;
-        this.initialDateView = CalendarViewType.Minute;
         this.finalView = CalendarViewType.Minute;
 
         this.changed = new Map<CalendarViewType, CalendarViewType>([
@@ -71,7 +69,26 @@ export class DatetimeMappings extends CalendarMappings {
             [CalendarViewType.Month, CalendarViewType.Year],
             [CalendarViewType.Date, CalendarViewType.Month],
             [CalendarViewType.Hour, CalendarViewType.Date],
-            [CalendarViewType.Minute, CalendarViewType.Date]
+            [CalendarViewType.Minute, CalendarViewType.Hour]
+        ]);
+    }
+}
+
+export class MonthMappings extends CalendarMappings {
+    constructor() {
+        super();
+
+        this.initialView = CalendarViewType.Year;
+        this.finalView = CalendarViewType.Month;
+
+        this.changed = new Map<CalendarViewType, CalendarViewType>([
+            [CalendarViewType.Year, CalendarViewType.Month],
+            [CalendarViewType.Month, CalendarViewType.Month]
+        ]);
+
+        this.zoom = new Map<CalendarViewType, CalendarViewType>([
+            [CalendarViewType.Year, CalendarViewType.Month],
+            [CalendarViewType.Month, CalendarViewType.Year]
         ]);
     }
 }

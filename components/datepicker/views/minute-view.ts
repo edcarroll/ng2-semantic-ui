@@ -5,12 +5,13 @@ import { CalendarMinutesItem } from "../directives/calendar-item";
 import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";
 import { MinuteComparer } from "../classes/date-comparer";
+import { CalendarMode } from "../services/calendar.service";
 
 @Component({
     selector: "sui-calendar-minute-view",
     template: `
 <table class="ui celled center aligned unstackable table three column minute">
-<thead *ngIf="service.mode != 1">
+<thead>
     <tr>
         <th colspan="4">
             <span class="link" (click)="zoomOut()">{{ date }}</span>
@@ -43,7 +44,12 @@ export class SuiCalendarMinuteView extends CalendarView {
         const date = this.renderedDate.getDate();
         const hour = Util.String.padLeft(this.renderedDate.getHours().toString(), 2, "0");
 
-        return `${month} ${date}, ${year} ${hour}:00`;
+        let formatted = `${hour}:00`;
+        if (this.service.config.mode !== CalendarMode.TimeOnly) {
+            formatted = `${month} ${date}, ${year} ${formatted}`;
+        }
+
+        return formatted;
     }
 
     constructor(public localizationService:SuiLocalizationService) {
@@ -72,12 +78,12 @@ export class SuiCalendarMinuteView extends CalendarView {
     }
 
     public nextDateRange():void {
-        this.renderedDate.setHours(this.renderedDate.getHours() + 1);
+        Util.Date.next(DatePrecision.Hour, this.renderedDate);
         this.updateItems();
     }
 
     public prevDateRange():void {
-        this.renderedDate.setHours(this.renderedDate.getHours() - 1);
+        Util.Date.previous(DatePrecision.Hour, this.renderedDate);
         this.updateItems();
     }
 }

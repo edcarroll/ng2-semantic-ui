@@ -10,7 +10,7 @@ import { HourComparer } from "../classes/date-comparer";
     selector: "sui-calendar-hour-view",
     template: `
 <table class="ui celled center aligned unstackable table four column hour">
-<thead *ngIf="service.mode != 1">
+<thead *ngIf="service.config.mode != 1">
     <tr>
         <th colspan="4">
             <span class="link" (click)="zoomOut()">{{ date }}</span>
@@ -56,6 +56,7 @@ export class SuiCalendarHourView extends CalendarView {
         Util.Array.range(24).forEach(h => {
             const date = Util.Date.clone(dayStart);
             date.setHours(h);
+
             const comparer = new HourComparer(date);
 
             this.calculatedItems.push(
@@ -69,12 +70,12 @@ export class SuiCalendarHourView extends CalendarView {
     }
 
     public nextDateRange():void {
-        this.renderedDate.setDate(this.renderedDate.getDate() + 1);
+        Util.Date.next(DatePrecision.Date, this.renderedDate);
         this.updateItems();
     }
 
     public prevDateRange():void {
-        this.renderedDate.setDate(this.renderedDate.getDate() - 1);
+        Util.Date.previous(DatePrecision.Date, this.renderedDate);
         this.updateItems();
     }
 }
