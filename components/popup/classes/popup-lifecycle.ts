@@ -7,3 +7,8 @@ export interface PopupAfterOpen {
 export interface PopupAfterClose {
     popupAfterClose():void;
 }
+
+export interface IPopupLifecycle {
+    popupAfterOpen?():void;
+    popupAfterClose?():void;
+}

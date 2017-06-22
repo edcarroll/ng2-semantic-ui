@@ -6,6 +6,7 @@ import { PopupConfig, PopupTrigger } from "./popup-config";
 import { SuiPopup } from "../components/popup";
 import { SuiPopupConfig } from "../services/popup.service";
 import { SuiComponentFactory } from "../../util/services/component-factory.service";
+import { IPopupLifecycle } from "./popup-lifecycle";
 
 export interface IPopup {
     open():void;
@@ -13,12 +14,9 @@ export interface IPopup {
     toggle():void;
 }
 
-export abstract class SuiPopupController<T = undefined> implements IPopup, OnDestroy {
+export abstract class SuiPopupController implements IPopup, OnDestroy, IPopupLifecycle {
     // Stores reference to generated popup component.
     private _componentRef:ComponentRef<SuiPopup>;
-
-    // Stores reference to generated content component.
-    protected _contentComponentRef?:ComponentRef<T>;
 
     // Returns generated popup instance.
     public get popup():SuiPopup {
@@ -30,7 +28,7 @@ export abstract class SuiPopupController<T = undefined> implements IPopup, OnDes
     private _openingTimeout:number;
 
     constructor(protected _element:ElementRef,
-                private _componentFactory:SuiComponentFactory,
+                protected _componentFactory:SuiComponentFactory,
                 config:PopupConfig) {
 
         // Generate a new SuiPopup component and attach it to the application view.
@@ -43,13 +41,8 @@ export abstract class SuiPopupController<T = undefined> implements IPopup, OnDes
         this.popup.anchor = this._element;
 
         // When the popup is closed (onClose fires on animation complete),
-        this.popup.onClose.subscribe(() => {
-            if (this._contentComponentRef) {
-                this._contentComponentRef.destroy();
-                this._contentComponentRef = undefined;
-            }
-            this._componentFactory.detachFromDocument(this._componentRef);
-        });
+        this.popup.onClose.subscribe(() =>
+            this._componentFactory.detachFromDocument(this._componentRef));
     }
 
     public openDelayed():void {
@@ -62,14 +55,12 @@ export abstract class SuiPopupController<T = undefined> implements IPopup, OnDes
 
     public open():void {
         // If there is a template, inject it into the view.
-        this.popup.templateSibling.clear();
         if (this.popup.config.template) {
+            this.popup.templateSibling.clear();
+
             this._componentFactory.createView(this.popup.templateSibling, this.popup.config.template, {
                 $implicit: this.popup
             });
-        } else if (this.popup.config.component) {
-            this._contentComponentRef = this._componentFactory.createComponent(this.popup.config.component as Type<T>);
-            this._componentFactory.attachToView(this._contentComponentRef, this.popup.templateSibling);
         }
 
         // Move the generated element to the body to avoid any positioning issues.
@@ -77,6 +68,12 @@ export abstract class SuiPopupController<T = undefined> implements IPopup, OnDes
 
         // Start popup open transition.
         this.popup.open();
+
+        // Call lifecyle hook
+        const lifecycle = (this as IPopupLifecycle).popupAfterOpen;
+        if (lifecycle) {
+            lifecycle.call(this);
+        }
     }
 
     public close():void {
@@ -86,6 +83,12 @@ export abstract class SuiPopupController<T = undefined> implements IPopup, OnDes
         if (this._componentRef) {
             // Start popup close transition.
             this.popup.close();
+        }
+
+        // Call lifecyle hook
+        const lifecycle = (this as IPopupLifecycle).popupAfterClose;
+        if (lifecycle) {
+            lifecycle.call(this);
         }
     }
 

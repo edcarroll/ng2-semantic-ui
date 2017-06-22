@@ -4,8 +4,8 @@ import {
     Renderer2, EventEmitter, Output, HostBinding, Input
 } from "@angular/core";
 import { DatePipe } from "@angular/common";
-import { SuiPopupController } from "../popup/popup-controller";
-import { PopupConfig, PopupTrigger } from "../popup/popup-config";
+import { SuiPopupComponentController } from "../popup/classes/popup-component-controller";
+import { PopupConfig, PopupTrigger } from "../popup/classes/popup-config";
 import { PositioningPlacement } from "../util/services/positioning.service";
 import { SuiComponentFactory } from "../util/services/component-factory.service";
 import { SuiDatepicker } from "./datepicker";
@@ -14,11 +14,12 @@ import { CalendarViewType } from "./views/calendar-view";
 import { Util } from "../util/util";
 import { DateParser } from "./date-parser";
 import { SuiLocalizationService } from "../util/services/localization.service";
+import { PopupAfterOpen } from "../popup/classes/popup-lifecycle";
 
 @Directive({
     selector: "[suiDatepicker]"
 })
-export class SuiDatepickerDirective extends SuiPopupController<SuiDatepicker> implements ICustomValueAccessorHost<Date> {
+export class SuiDatepickerDirective extends SuiPopupComponentController<SuiDatepicker> implements ICustomValueAccessorHost<Date>, PopupAfterOpen {
     private _selectedDate?:Date;
 
     public get selectedDate():Date | undefined {
@@ -28,8 +29,8 @@ export class SuiDatepickerDirective extends SuiPopupController<SuiDatepicker> im
     public set selectedDate(date:Date | undefined) {
         this._selectedDate = date;
 
-        if (this._contentComponentRef) {
-            this._contentComponentRef.instance.service.selectedDate = date;
+        if (this.componentInstance) {
+            this.componentInstance.service.selectedDate = date;
         }
 
         this.onDateChange.emit(date);
@@ -63,10 +64,9 @@ export class SuiDatepickerDirective extends SuiPopupController<SuiDatepicker> im
                 componentFactory:SuiComponentFactory,
                 public localizationService:SuiLocalizationService) {
 
-        super(element, componentFactory, new PopupConfig({
+        super(element, componentFactory, SuiDatepicker, new PopupConfig({
             trigger: PopupTrigger.OutsideClick,
             placement: PositioningPlacement.BottomLeft,
-            component: SuiDatepicker,
             toggleOnClick: false
         }));
 
@@ -76,23 +76,21 @@ export class SuiDatepickerDirective extends SuiPopupController<SuiDatepicker> im
 
         this.parser = new DateParser(localizationService.getValues());
         this.onDateChange = new EventEmitter<Date>();
+    }
 
-        this.popup.onOpen.subscribe(() => {
-            if (this._contentComponentRef) {
-                const instance = this._contentComponentRef.instance;
+    public popupAfterOpen():void {
+        if (this.componentInstance) {
+            this.componentInstance.service.selectedDate = this.selectedDate;
+            this.componentInstance.service.currentView = CalendarViewType.Date;
 
-                instance.service.selectedDate = this.selectedDate;
-                instance.service.currentView = CalendarViewType.Date;
+            this.componentInstance.service.onDateChange.subscribe((d:Date) => {
+                Util.Date.startOfDay(d, true);
+                Util.Date.rewriteTimezone(d);
 
-                instance.service.onDateChange.subscribe((d:Date) => {
-                    Util.Date.startOfDay(d, true);
-                    Util.Date.rewriteTimezone(d);
-
-                    this.selectedDate = d;
-                    this.close();
-                });
-            }
-        });
+                this.selectedDate = d;
+                this.close();
+            });
+        }
     }
 
     public writeValue(value:Date | undefined):void {

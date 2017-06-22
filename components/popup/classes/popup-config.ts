@@ -17,7 +17,6 @@ export interface IPopupConfig {
     header?:string;
     text?:string;
     template?:TemplateRef<ITemplateRefContext<IPopup>>;
-    component?:Function;
     placement?:PositioningPlacement;
     trigger?:PopupTrigger;
     isInverted?:boolean;
@@ -32,7 +31,6 @@ export class PopupConfig implements IPopupConfig {
     public header:string;
     public text:string;
     public template:TemplateRef<ITemplateRefContext<IPopup>>;
-    public component:Function;
     public placement:PositioningPlacement;
     public trigger:PopupTrigger;
     public isInverted:boolean;
