@@ -4,6 +4,16 @@ import { SuiModal } from "./modal";
 import { Modal } from "./modal-controls";
 import { ActiveModal } from "./active-modal";
 
+if (!("remove" in Element.prototype)) {
+    Element.prototype.remove = function():void {
+        // tslint:disable-next-line:no-invalid-this
+        const node = this;
+        if (node.parentNode) {
+            node.parentNode.removeChild(node);
+        }
+    };
+}
+
 @Injectable()
 export class SuiModalService {
     constructor(private _applicationRef:ApplicationRef,

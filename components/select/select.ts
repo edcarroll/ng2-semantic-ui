@@ -8,7 +8,7 @@ export type SingleItemLookup<T, U> = (query:string, initial?:U) => Promise<T>;
 @Component({
     selector: "sui-select",
     template: `
-<i class="dropdown icon"></i>
+<i class="dropdown icon" (click)="onCaretClick($event)"></i>
 <!-- Query input -->
 <input [hidden]="!isSearchable"
        class="search"
