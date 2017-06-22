@@ -12,7 +12,7 @@ import { SuiDatepicker } from "./datepicker";
 import { customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHost } from "../util/helpers/custom-value-accessor";
 import { CalendarViewType } from "./views/calendar-view";
 import { Util } from "../util/util";
-import { DateParser } from "./date-parser";
+import { DateParser, IDateParser } from "./date-parser";
 import { SuiLocalizationService } from "../util/services/localization.service";
 import { PopupAfterOpen } from "../popup/classes/popup-lifecycle";
 import { CalendarService } from "./services/calendar.service";
@@ -52,7 +52,7 @@ export class SuiDatepickerDirective
         }
     }
 
-    public parser:DateParser;
+    public parser:IDateParser;
 
     @HostBinding("attr.type")
     public get HTMLType():string {
@@ -91,7 +91,9 @@ export class SuiDatepickerDirective
             this.componentInstance.minDate = new Date();
             this.componentInstance.minDate.setDate(this.componentInstance.minDate.getDate() - 3);
 
-            this.componentInstance.currentView = CalendarViewType.Date;
+            this.componentInstance.service.reset();
+
+            // this.componentInstance.currentView = CalendarViewType.Date;
 
             this.componentInstance.onDateChange.subscribe((d:Date) => {
                 // Util.Date.startOfDay(d, true);

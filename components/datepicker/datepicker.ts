@@ -2,7 +2,7 @@
 import { Component, HostBinding, Directive, EventEmitter, Output } from "@angular/core";
 import { Util } from "../util/util";
 import { CalendarViewType, CalendarViewResult } from "./views/calendar-view";
-import { CalendarService } from "./services/calendar.service";
+import { CalendarService, CalendarMode } from "./services/calendar.service";
 
 @Component({
     selector: "sui-datepicker",
@@ -69,22 +69,8 @@ export class SuiDatepicker {
     public tabIndex:number;
 
     constructor() {
-        this.service = new CalendarService(
-            CalendarViewType.Minute,
-            new Map<CalendarViewType, CalendarViewType>([
-                [CalendarViewType.Year, CalendarViewType.Month],
-                [CalendarViewType.Month, CalendarViewType.Date],
-                [CalendarViewType.Date, CalendarViewType.Hour],
-                [CalendarViewType.Hour, CalendarViewType.Minute],
-                [CalendarViewType.Minute, CalendarViewType.Minute]
-            ]),
-            new Map<CalendarViewType, CalendarViewType>([
-                [CalendarViewType.Year, CalendarViewType.Date],
-                [CalendarViewType.Month, CalendarViewType.Year],
-                [CalendarViewType.Date, CalendarViewType.Month],
-                [CalendarViewType.Hour, CalendarViewType.Date],
-                [CalendarViewType.Minute, CalendarViewType.Date]
-            ]));
+        this.service = new CalendarService();
+        this.service.mode = CalendarMode.Both;
 
         this._calendarClasses = true;
         this.tabIndex = 0;

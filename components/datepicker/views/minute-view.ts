@@ -10,7 +10,7 @@ import { MinuteComparer } from "../classes/date-comparer";
     selector: "sui-calendar-minute-view",
     template: `
 <table class="ui celled center aligned unstackable table three column minute">
-<thead>
+<thead *ngIf="service.mode != 1">
     <tr>
         <th colspan="4">
             <span class="link" (click)="zoomOut()">{{ date }}</span>
@@ -37,12 +37,13 @@ import { MinuteComparer } from "../classes/date-comparer";
 })
 export class SuiCalendarMinuteView extends CalendarView {
     public get date():string {
+        const year = this.renderedDate.getFullYear();
         const month = this.localizationService
             .getValues().datepicker.months[this.renderedDate.getMonth()];
         const date = this.renderedDate.getDate();
-        const year = this.renderedDate.getFullYear();
+        const hour = Util.String.padLeft(this.renderedDate.getHours().toString(), 2, "0");
 
-        return `${month} ${date}, ${year}`;
+        return `${month} ${date}, ${year} ${hour}:00`;
     }
 
     constructor(public localizationService:SuiLocalizationService) {
@@ -71,12 +72,12 @@ export class SuiCalendarMinuteView extends CalendarView {
     }
 
     public nextDateRange():void {
-        this.renderedDate.setDate(this.renderedDate.getDate() + 1);
+        this.renderedDate.setHours(this.renderedDate.getHours() + 1);
         this.updateItems();
     }
 
     public prevDateRange():void {
-        this.renderedDate.setDate(this.renderedDate.getDate() - 1);
+        this.renderedDate.setHours(this.renderedDate.getHours() - 1);
         this.updateItems();
     }
 }

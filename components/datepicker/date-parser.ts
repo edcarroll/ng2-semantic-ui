@@ -2,7 +2,12 @@ import { ILocalizationValues } from "../util/services/localization.service";
 import { Util } from "../util/util";
 import { DatePrecision } from "../util/helpers/date";
 
-export class DateParser {
+export interface IDateParser {
+    format(date:Date):string;
+    parse(dateString:string):Date;
+}
+
+export class DateParser implements IDateParser {
     private _localization:ILocalizationValues;
 
     constructor(localizationValues:ILocalizationValues) {

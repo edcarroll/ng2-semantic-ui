@@ -114,8 +114,10 @@ export class SuiCalendarItem {
 
     @HostListener("mousemove")
     public onMouseMove():void {
-        this.hasFocus = true;
-        this.onFocussed.emit(this.hasFocus);
+        if (!this.hasFocus) {
+            this.hasFocus = true;
+            this.onFocussed.emit(this.hasFocus);
+        }
     }
 
     @HostListener("mouseleave")

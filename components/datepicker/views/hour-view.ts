@@ -10,7 +10,7 @@ import { HourComparer } from "../classes/date-comparer";
     selector: "sui-calendar-hour-view",
     template: `
 <table class="ui celled center aligned unstackable table four column hour">
-<thead>
+<thead *ngIf="service.mode != 1">
     <tr>
         <th colspan="4">
             <span class="link" (click)="zoomOut()">{{ date }}</span>

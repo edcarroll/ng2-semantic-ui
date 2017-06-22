@@ -1,10 +1,40 @@
 import { EventEmitter } from "@angular/core";
 import { Util } from "../../util/util";
 import { CalendarViewType, CalendarViewResult } from "../views/calendar-view";
+import { CalendarMapping, CalendarMappings, DateMappings, TimeMappings, DatetimeMappings } from "../classes/calendar-mappings";
 
-export type CalendarMapping = Map<CalendarViewType, CalendarViewType>;
+export enum CalendarMode {
+    DateOnly = 0,
+    TimeOnly = 1,
+    Both = 2
+}
 
 export class CalendarService {
+    private _mode:CalendarMode;
+    private _mappings:CalendarMappings;
+
+    public get mode():CalendarMode {
+        return this._mode;
+    }
+
+    public set mode(mode:CalendarMode) {
+        this._mode = mode;
+
+        switch (mode) {
+            case CalendarMode.DateOnly:
+                this._mappings = new DateMappings();
+                break;
+            case CalendarMode.TimeOnly:
+                this._mappings = new TimeMappings();
+                break;
+            case CalendarMode.Both:
+                this._mappings = new DatetimeMappings();
+                break;
+        }
+
+        this.reset();
+    }
+
     public currentView:CalendarViewType;
 
     public currentDate:Date;
@@ -25,21 +55,29 @@ export class CalendarService {
         this.onManualUpdate();
     }
 
-    public minDate?:Date;
-    public maxDate?:Date;
+    private _minDate?:Date;
+    private _maxDate?:Date;
+
+    public get minDate():Date | undefined {
+        return this._minDate;
+    }
+
+    public set minDate(min:Date | undefined) {
+        this._minDate = min;
+    }
+
+    public get maxDate():Date | undefined {
+        return this._maxDate;
+    }
+
+    public set maxDate(max:Date | undefined) {
+        this._maxDate = max;
+    }
 
     public onDateChange:EventEmitter<Date>;
 
-    private _finalView:CalendarViewType;
-    private _changedMappings:CalendarMapping;
-    private _zoomMappings:CalendarMapping;
-
-    constructor(finalView:CalendarViewType, changedMappings:CalendarMapping, zoomMappings:CalendarMapping) {
-        this._finalView = finalView;
-
-        this._changedMappings = changedMappings;
-        this._zoomMappings = zoomMappings;
-
+    constructor() {
+        this.mode = CalendarMode.DateOnly;
         this.onDateChange = new EventEmitter<Date>();
 
         this.reset();
@@ -48,27 +86,29 @@ export class CalendarService {
     public onManualUpdate:() => void = () => {};
 
     public reset():void {
+        this.currentView = this._mappings.initialDateView;
+
         if (!this._selectedDate) {
             this.currentDate = new Date();
 
-            this.currentView = CalendarViewType.Year;
+            this.currentView = this._mappings.initialView;
         }
     }
 
     public changeDate(date:Date, fromView:CalendarViewType):void {
         this.currentDate = date;
 
-        if (fromView === this._finalView) {
+        if (fromView === this._mappings.finalView) {
             this.selectedDate = date;
 
-            this.onDateChange.emit(date);
+            return this.onDateChange.emit(date);
         }
 
-        this.updateView(this._changedMappings, fromView);
+        this.updateView(this._mappings.changed, fromView);
     }
 
     public zoomOut(fromView:CalendarViewType):void {
-        this.updateView(this._zoomMappings, fromView);
+        this.updateView(this._mappings.zoom, fromView);
     }
 
     private updateView(mappings:Map<CalendarViewType, CalendarViewType>, fromView:CalendarViewType):void {

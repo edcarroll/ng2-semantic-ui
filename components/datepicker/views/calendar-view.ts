@@ -133,7 +133,7 @@ export abstract class CalendarView implements AfterViewInit {
     private highlightItem(item:CalendarItem):void {
         this._renderedItems.forEach(i => i.hasFocus = false);
         const rendered = this._renderedItems.find(ri => ri.item === item);
-        if (rendered) {
+        if (rendered && !rendered.hasFocus) {
             setTimeout(() => rendered.hasFocus = true);
         }
 
