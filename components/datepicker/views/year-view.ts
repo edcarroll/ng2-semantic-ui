@@ -28,10 +28,10 @@ export class CalendarRangeYearService extends CalendarRangeService {
     <tr>
         <th colspan="3">
             <span class="link" (click)="zoomOut()">{{ pad(decadeStart) }} - {{ pad(decadeStart + 10) }}</span>
-            <span class="prev link" (click)="ranges.movePrevious()">
+            <span class="prev link" [class.disabled]="!ranges.canMovePrevious" (click)="ranges.movePrevious()">
                 <i class="chevron left icon"></i>
             </span>
-            <span class="next link" (click)="ranges.moveNext()">
+            <span class="next link" [class.disabled]="!ranges.canMoveNext" (click)="ranges.moveNext()">
                 <i class="chevron right icon"></i>
             </span>
         </th>

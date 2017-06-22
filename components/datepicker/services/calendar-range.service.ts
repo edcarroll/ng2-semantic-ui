@@ -50,6 +50,22 @@ export abstract class CalendarRangeService {
         return this.rows * this.columns;
     }
 
+    public get canMoveNext():boolean {
+        const firstItem = this.next.inRange[0];
+        if (firstItem && this.service.maxDate) {
+            return firstItem.date < this.service.maxDate;
+        }
+        return true;
+    }
+
+    public get canMovePrevious():boolean {
+        const lastItem = this.previous.inRange.slice(-1).pop();
+        if (lastItem && this.service.maxDate) {
+            return lastItem.date > this.service.minDate;
+        }
+        return true;
+    }
+
     constructor(interval:DatePrecision, rows:number, columns:number) {
         this.interval = interval;
         this.rows = rows;
