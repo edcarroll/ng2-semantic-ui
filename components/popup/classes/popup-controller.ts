@@ -70,7 +70,7 @@ export abstract class SuiPopupController implements IPopup, OnDestroy, IPopupLif
         this.popup.open();
 
         // Call lifecyle hook
-        const lifecycle = (this as IPopupLifecycle).popupAfterOpen;
+        const lifecycle = (this as IPopupLifecycle).popupOnOpen;
         if (lifecycle) {
             lifecycle.call(this);
         }
@@ -86,7 +86,7 @@ export abstract class SuiPopupController implements IPopup, OnDestroy, IPopupLif
         }
 
         // Call lifecyle hook
-        const lifecycle = (this as IPopupLifecycle).popupAfterClose;
+        const lifecycle = (this as IPopupLifecycle).popupOnClose;
         if (lifecycle) {
             lifecycle.call(this);
         }

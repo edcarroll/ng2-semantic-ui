@@ -19,7 +19,10 @@ import { PopupAfterOpen } from "../popup/classes/popup-lifecycle";
 @Directive({
     selector: "[suiDatepicker]"
 })
-export class SuiDatepickerDirective extends SuiPopupComponentController<SuiDatepicker> implements ICustomValueAccessorHost<Date>, PopupAfterOpen {
+export class SuiDatepickerDirective
+       extends SuiPopupComponentController<SuiDatepicker>
+       implements ICustomValueAccessorHost<Date>, PopupAfterOpen {
+
     private _selectedDate?:Date;
 
     public get selectedDate():Date | undefined {
@@ -28,12 +31,11 @@ export class SuiDatepickerDirective extends SuiPopupComponentController<SuiDatep
 
     public set selectedDate(date:Date | undefined) {
         this._selectedDate = date;
+        this.onDateChange.emit(date);
 
         if (this.componentInstance) {
             this.componentInstance.service.selectedDate = date;
         }
-
-        this.onDateChange.emit(date);
 
         if (this.selectedDateString && this.selectedDateString !== this._currentValue) {
             this.renderer.setProperty(this._element.nativeElement, "value", this.selectedDateString);
@@ -78,7 +80,7 @@ export class SuiDatepickerDirective extends SuiPopupComponentController<SuiDatep
         this.onDateChange = new EventEmitter<Date>();
     }
 
-    public popupAfterOpen():void {
+    public popupOnOpen():void {
         if (this.componentInstance) {
             this.componentInstance.service.selectedDate = this.selectedDate;
             this.componentInstance.service.currentView = CalendarViewType.Date;

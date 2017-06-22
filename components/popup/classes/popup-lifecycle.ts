@@ -1,14 +1,14 @@
 // tslint:disable-next-line:ext-variable-name
 export interface PopupAfterOpen {
-    popupAfterOpen():void;
+    popupOnOpen():void;
 }
 
 // tslint:disable-next-line:ext-variable-name
 export interface PopupAfterClose {
-    popupAfterClose():void;
+    popupOnClose():void;
 }
 
 export interface IPopupLifecycle {
-    popupAfterOpen?():void;
-    popupAfterClose?():void;
+    popupOnOpen?():void;
+    popupOnClose?():void;
 }
