@@ -9,7 +9,7 @@
     <div class="ui segment">
         <div class="ui fluid left icon input">
             <i class="calendar icon"></i>
-            <input suiDatepicker [(ngModel)]="date">
+            <input suiDatepicker [(ngModel)]="date" pickerMode="date" [pickerFirstDayOfWeek]="3">
         </div>
         <br>
         <p>{{ date }}</p>

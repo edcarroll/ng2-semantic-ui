@@ -42,12 +42,14 @@ export class SuiDatepicker {
     public service:CalendarService;
     private _mode:DatepickerMode;
 
-    public get mode():DatepickerMode {
+    public get mode():DatepickerMode | undefined {
         return this._mode;
     }
 
-    public set mode(mode:DatepickerMode) {
-        this._mode = mode;
+    public set mode(mode:DatepickerMode | undefined) {
+        if (mode) {
+            this._mode = mode;
+        }
         switch (mode) {
             case DatepickerMode.Year:
                 this.service.config = new YearConfig();
@@ -95,8 +97,18 @@ export class SuiDatepicker {
         return this.service.minDate;
     }
 
-    public set minDate(min:Date| undefined) {
+    public set minDate(min:Date | undefined) {
         this.service.minDate = min;
+    }
+
+    public get firstDayOfWeek():number | undefined {
+        return this.service.firstDayOfWeek;
+    }
+
+    public set firstDayOfWeek(firstDayOfWeek:number | undefined) {
+        if (firstDayOfWeek) {
+            this.service.firstDayOfWeek = Math.max(0, Math.min(6, firstDayOfWeek));
+        }
     }
 
     public get onDateChange():EventEmitter<Date> {

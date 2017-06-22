@@ -40,6 +40,18 @@ export class SuiDatepickerDirective
         }
     }
 
+    @Input("pickerMode")
+    public mode?:DatepickerMode;
+
+    @Input("pickerMaxDate")
+    public maxDate?:Date;
+
+    @Input("pickerMinDate")
+    public minDate?:Date;
+
+    @Input("pickerFirstDayOfWeek")
+    public firstDayOfWeek?:number;
+
     private _currentInputValue:string | undefined;
 
     public get selectedDateString():string | undefined {
@@ -80,23 +92,16 @@ export class SuiDatepickerDirective
     public popupOnOpen():void {
         if (this.componentInstance) {
             this.componentInstance.mode = DatepickerMode.Time;
+
+            this.componentInstance.mode = this.mode;
             this.componentInstance.selectedDate = this.selectedDate;
-
-            // this.componentInstance.maxDate = new Date();
-            // this.componentInstance.maxDate.setDate(this.componentInstance.maxDate.getDate() + 3);
-
-            // this.componentInstance.minDate = new Date();
-            // this.componentInstance.minDate.setMonth(this.componentInstance.minDate.getMonth() - 2);
-            // this.componentInstance.minDate.setDate(this.componentInstance.minDate.getDate() - 3);
+            this.componentInstance.maxDate = this.maxDate;
+            this.componentInstance.minDate = this.minDate;
+            this.componentInstance.firstDayOfWeek = this.firstDayOfWeek;
 
             this.componentInstance.service.reset();
 
-            // this.componentInstance.currentView = CalendarViewType.Date;
-
             this.componentInstance.onDateChange.subscribe((d:Date) => {
-                // Util.Date.startOfDay(d, true);
-                // Util.Date.rewriteTimezone(d);
-
                 this.selectedDate = d;
                 this.close();
             });
