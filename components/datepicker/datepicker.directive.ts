@@ -24,12 +24,6 @@ export class SuiDatepickerDirective
        extends SuiPopupComponentController<SuiDatepicker>
        implements ICustomValueAccessorHost<Date>, PopupAfterOpen {
 
-    private get _service():CalendarService | undefined {
-        if (this.componentInstance) {
-            return this.componentInstance.service;
-        }
-    }
-
     private _selectedDate?:Date;
 
     public get selectedDate():Date | undefined {
@@ -40,8 +34,8 @@ export class SuiDatepickerDirective
         this._selectedDate = date;
         this.onDateChange.emit(date);
 
-        if (this._service) {
-            this._service.selectedDate = date;
+        if (this.componentInstance) {
+            this.componentInstance.selectedDate = date;
         }
 
         if (this.selectedDateString && this.selectedDateString !== this._currentValue) {
@@ -88,18 +82,18 @@ export class SuiDatepickerDirective
     }
 
     public popupOnOpen():void {
-        if (this._service) {
-            this._service.selectedDate = this.selectedDate;
+        if (this.componentInstance) {
+            this.componentInstance.selectedDate = this.selectedDate;
 
-            this._service.maxDate = new Date();
-            this._service.maxDate.setDate(this._service.maxDate.getDate() + 100);
+            this.componentInstance.maxDate = new Date();
+            this.componentInstance.maxDate.setDate(this.componentInstance.maxDate.getDate() + 100);
 
-            this._service.minDate = new Date();
-            this._service.minDate.setDate(this._service.minDate.getDate() - 1);
+            this.componentInstance.minDate = new Date();
+            this.componentInstance.minDate.setDate(this.componentInstance.minDate.getDate() - 100);
 
-            this._service.currentView = CalendarViewType.Date;
+            this.componentInstance.currentView = CalendarViewType.Date;
 
-            this._service.onDateChange.subscribe((d:Date) => {
+            this.componentInstance.onDateChange.subscribe((d:Date) => {
                 // Util.Date.startOfDay(d, true);
                 // Util.Date.rewriteTimezone(d);
 
