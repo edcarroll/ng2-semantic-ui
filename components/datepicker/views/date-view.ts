@@ -73,9 +73,18 @@ export class SuiCalendarDateView extends CalendarView {
             date.setDate(date.getDate() + i);
 
             const hR = date.getDate().toString();
+            let isDisabled = date.getMonth() !== month;
+            if (this.service.maxDate) {
+                const max = Util.Date.endOfDay(Util.Date.clone(this.service.maxDate));
+                isDisabled = isDisabled || max < date;
+            }
+            if (this.service.minDate) {
+                const min = Util.Date.startOfDay(Util.Date.clone(this.service.minDate));
+                isDisabled = isDisabled || min > date;
+            }
             const isActive = !!this.selectedDate && Util.Date.datesEqual(date, this.selectedDate);
 
-            this.calculatedItems.push(new CalendarDateItem(date, hR, date.getMonth() !== month, isActive, date.getMonth() !== month));
+            this.calculatedItems.push(new CalendarDateItem(date, hR, isDisabled, isActive, date.getMonth() !== month));
         });
     }
 

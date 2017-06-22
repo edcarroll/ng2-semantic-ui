@@ -56,9 +56,18 @@ export class SuiCalendarHourView extends CalendarView {
             date.setHours(h);
 
             const hR = `${Util.String.padLeft(date.getHours().toString(), 2, "0")}:00`;
+            let isDisabled = false;
+            if (this.service.maxDate) {
+                const max = Util.Date.endOfHour(Util.Date.clone(this.service.maxDate));
+                isDisabled = isDisabled || max < date;
+            }
+            if (this.service.minDate) {
+                const min = Util.Date.startOfHour(Util.Date.clone(this.service.minDate));
+                isDisabled = isDisabled || min > date;
+            }
             const isActive = !!this.selectedDate && Util.Date.hoursEqual(date, this.selectedDate);
 
-            this.calculatedItems.push(new CalendarHoursItem(date, hR, false, isActive, false));
+            this.calculatedItems.push(new CalendarHoursItem(date, hR, isDisabled, isActive, false));
         });
     }
 

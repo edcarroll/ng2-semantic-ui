@@ -15,6 +15,7 @@ import { Util } from "../util/util";
 import { DateParser } from "./date-parser";
 import { SuiLocalizationService } from "../util/services/localization.service";
 import { PopupAfterOpen } from "../popup/classes/popup-lifecycle";
+import { CalendarService } from "./services/calendar.service";
 
 @Directive({
     selector: "[suiDatepicker]"
@@ -22,6 +23,12 @@ import { PopupAfterOpen } from "../popup/classes/popup-lifecycle";
 export class SuiDatepickerDirective
        extends SuiPopupComponentController<SuiDatepicker>
        implements ICustomValueAccessorHost<Date>, PopupAfterOpen {
+
+    private get _service():CalendarService | undefined {
+        if (this.componentInstance) {
+            return this.componentInstance.service;
+        }
+    }
 
     private _selectedDate?:Date;
 
@@ -33,8 +40,8 @@ export class SuiDatepickerDirective
         this._selectedDate = date;
         this.onDateChange.emit(date);
 
-        if (this.componentInstance) {
-            this.componentInstance.service.selectedDate = date;
+        if (this._service) {
+            this._service.selectedDate = date;
         }
 
         if (this.selectedDateString && this.selectedDateString !== this._currentValue) {
@@ -81,13 +88,20 @@ export class SuiDatepickerDirective
     }
 
     public popupOnOpen():void {
-        if (this.componentInstance) {
-            this.componentInstance.service.selectedDate = this.selectedDate;
-            this.componentInstance.service.currentView = CalendarViewType.Date;
+        if (this._service) {
+            this._service.selectedDate = this.selectedDate;
 
-            this.componentInstance.service.onDateChange.subscribe((d:Date) => {
-                Util.Date.startOfDay(d, true);
-                Util.Date.rewriteTimezone(d);
+            this._service.maxDate = new Date();
+            this._service.maxDate.setDate(this._service.maxDate.getDate() + 100);
+
+            this._service.minDate = new Date();
+            this._service.minDate.setDate(this._service.minDate.getDate() - 1);
+
+            this._service.currentView = CalendarViewType.Date;
+
+            this._service.onDateChange.subscribe((d:Date) => {
+                // Util.Date.startOfDay(d, true);
+                // Util.Date.rewriteTimezone(d);
 
                 this.selectedDate = d;
                 this.close();

@@ -16,37 +16,34 @@ export type CalendarViewResult = [Date, CalendarViewType];
 export abstract class CalendarView implements AfterViewInit, OnDestroy {
     private _type:CalendarViewType;
 
-    private _service:CalendarService | undefined;
-    private _manualUpdateSub:Subscription | undefined;
+    private _service:CalendarService;
+    private _manualUpdateSub:Subscription;
 
     @ViewChildren(SuiCalendarItem)
     private _renderedItems:QueryList<SuiCalendarItem>;
     private _highlightedItem:CalendarItem;
 
     @Input()
-    public set service(service:CalendarService | undefined) {
-        if (service) {
-            this._service = service;
-            this._manualUpdateSub = this._service.onManualUpdate.subscribe(() => {
-                delete this._highlightedItem;
-                this.updateItems();
-            });
-
+    public set service(service:CalendarService) {
+        this._service = service;
+        this._manualUpdateSub = this.service.onManualUpdate.subscribe(() => {
+            delete this._highlightedItem;
             this.updateItems();
-        }
+        });
+
+        this.updateItems();
+    }
+
+    public get service():CalendarService {
+        return this._service;
     }
 
     public get renderedDate():Date {
-        if (this._service) {
-            return this._service.currentDate;
-        }
-        return new Date();
+        return this.service.currentDate;
     }
 
     public get selectedDate():Date | undefined {
-        if (this._service) {
-            return this._service.selectedDate;
-        }
+        return this.service.selectedDate;
     }
 
     private _calculatedColumns:number;
@@ -107,17 +104,13 @@ export abstract class CalendarView implements AfterViewInit, OnDestroy {
     // Template Methods
 
     public setDate(item:CalendarItem):void {
-        if (this._service) {
-            this._service.changeDate(item.date, this._type);
+        this.service.changeDate(item.date, this._type);
 
-            this.updateItems();
-        }
+        this.updateItems();
     }
 
     public zoomOut():void {
-        if (this._service) {
-            this._service.zoomOut(this._type);
-        }
+        this.service.zoomOut(this._type);
     }
 
     // Keyboard Control
@@ -214,8 +207,6 @@ export abstract class CalendarView implements AfterViewInit, OnDestroy {
     }
 
     public ngOnDestroy():void {
-        if (this._manualUpdateSub) {
-            this._manualUpdateSub.unsubscribe();
-        }
+        this._manualUpdateSub.unsubscribe();
     }
 }

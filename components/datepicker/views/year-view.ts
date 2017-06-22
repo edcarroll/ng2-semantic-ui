@@ -52,10 +52,19 @@ export class SuiCalendarYearView extends CalendarView {
             date.setFullYear(y);
 
             const hR = Util.String.padLeft(date.getFullYear().toString(), 4, "0");
+            let isDisabled = false;
+            if (this.service.maxDate) {
+                const max = Util.Date.endOfYear(Util.Date.clone(this.service.maxDate));
+                isDisabled = isDisabled || max < date;
+            }
+            if (this.service.minDate) {
+                const min = Util.Date.startOfYear(Util.Date.clone(this.service.minDate));
+                isDisabled = isDisabled || min > date;
+            }
             const isActive = !!this.selectedDate && Util.Date.yearsEqual(date, this.selectedDate);
 
             this.calculatedItems.push(
-                new CalendarYearItem(date, hR.toString(), false, isActive, date.getFullYear() >= this.decadeStart + 10));
+                new CalendarYearItem(date, hR.toString(), isDisabled, isActive, date.getFullYear() >= this.decadeStart + 10));
         });
     }
 

@@ -52,9 +52,18 @@ export class SuiCalendarMonthView extends CalendarView {
             date.setMonth(m);
 
             const hR = this.localizationService.getValues().datepicker.monthsShort[m];
+            let isDisabled = false;
+            if (this.service.maxDate) {
+                const max = Util.Date.endOfMonth(Util.Date.clone(this.service.maxDate));
+                isDisabled = isDisabled || max < date;
+            }
+            if (this.service.minDate) {
+                const min = Util.Date.startOfMonth(Util.Date.clone(this.service.minDate));
+                isDisabled = isDisabled || min > date;
+            }
             const isActive = !!this.selectedDate && Util.Date.monthsEqual(date, this.selectedDate);
 
-            this.calculatedItems.push(new CalendarMonthItem(date, hR, false, isActive, false));
+            this.calculatedItems.push(new CalendarMonthItem(date, hR, isDisabled, isActive, false));
         });
     }
 

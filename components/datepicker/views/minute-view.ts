@@ -57,9 +57,16 @@ export class SuiCalendarMinuteView extends CalendarView {
 
             const hs = Util.String.padLeft(date.getHours().toString(), 2, "0");
             const ms = Util.String.padLeft(date.getMinutes().toString(), 2, "0");
+            let isDisabled = false;
+            if (this.service.maxDate) {
+                isDisabled = isDisabled || this.service.maxDate < date;
+            }
+            if (this.service.minDate) {
+                isDisabled = isDisabled || this.service.minDate > date;
+            }
             const isActive = !!this.selectedDate && Util.Date.minutesEqual(date, this.selectedDate);
 
-            this.calculatedItems.push(new CalendarMinutesItem(date, `${hs}:${ms}`, false, isActive, false));
+            this.calculatedItems.push(new CalendarMinutesItem(date, `${hs}:${ms}`, isDisabled, isActive, false));
         });
     }
 

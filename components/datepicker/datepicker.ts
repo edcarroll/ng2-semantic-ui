@@ -34,20 +34,20 @@ export class SuiDatepicker {
 
     constructor() {
         this.service = new CalendarService(
-            CalendarViewType.Date, /*Minute,*/
+            CalendarViewType.Minute,
             new Map<CalendarViewType, CalendarViewType>([
                 [CalendarViewType.Year, CalendarViewType.Month],
                 [CalendarViewType.Month, CalendarViewType.Date],
-                [CalendarViewType.Date, CalendarViewType.Date]/*,
+                [CalendarViewType.Date, CalendarViewType.Hour],
                 [CalendarViewType.Hour, CalendarViewType.Minute],
-                [CalendarViewType.Minute, CalendarViewType.Minute]*/
+                [CalendarViewType.Minute, CalendarViewType.Minute]
             ]),
             new Map<CalendarViewType, CalendarViewType>([
                 [CalendarViewType.Year, CalendarViewType.Date],
                 [CalendarViewType.Month, CalendarViewType.Year],
-                [CalendarViewType.Date, CalendarViewType.Month]/*,
+                [CalendarViewType.Date, CalendarViewType.Month],
                 [CalendarViewType.Hour, CalendarViewType.Date],
-                [CalendarViewType.Minute, CalendarViewType.Date]*/
+                [CalendarViewType.Minute, CalendarViewType.Date]
             ]));
 
         this._calendarClasses = true;

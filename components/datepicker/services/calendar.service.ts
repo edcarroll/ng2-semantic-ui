@@ -25,6 +25,9 @@ export class CalendarService {
         this.onManualUpdate.emit();
     }
 
+    public minDate?:Date;
+    public maxDate?:Date;
+
     public onDateChange:EventEmitter<Date>;
     public onManualUpdate:EventEmitter<void>;
 

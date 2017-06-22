@@ -28,8 +28,30 @@ export const DateUtil = {
         return date;
     },
     startOfMinute(date:Date, resetAll:boolean = false):Date {
-        date.setSeconds(0);
-        date.setMilliseconds(0);
+        date.setSeconds(0, 0);
+        return date;
+    },
+
+    endOfYear(date:Date):Date {
+        date.setMonth(12, 0);
+        DateUtil.startOfDay(date, true);
+        return date;
+    },
+    endOfMonth(date:Date):Date {
+        date.setMonth(date.getMonth() + 1, 0);
+        DateUtil.startOfDay(date, true);
+        return date;
+    },
+    endOfDay(date:Date):Date {
+        date.setHours(24, 0, 0, 0);
+        return date;
+    },
+    endOfHour(date:Date):Date {
+        date.setMinutes(60, 0, 0);
+        return date;
+    },
+    endOfMinute(date:Date):Date {
+        date.setSeconds(60, 0);
         return date;
     },
 
@@ -64,7 +86,7 @@ export const DateUtil = {
     },
 
     clone(date:Date):Date {
-        return new Date(date.toString());
+        return new Date(date.getTime());
     },
 
     rewriteTimezone(date:Date):Date {
