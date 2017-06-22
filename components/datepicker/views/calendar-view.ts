@@ -21,20 +21,20 @@ export abstract class CalendarView implements AfterViewInit {
 
     @ViewChildren(SuiCalendarItem)
     private _renderedItems:QueryList<SuiCalendarItem>;
-    private _highlightedItem:CalendarItem;
+    private _highlightedItem?:CalendarItem;
 
     @Input()
     public set service(service:CalendarService) {
         this._service = service;
-        this.service.onManualUpdate = () => {
-            delete this._highlightedItem;
+        this.ranges.loadService(service);
+        this.autoHighlight();
 
-            this.ranges.refresh(this.renderedDate);
+        this.service.onManualUpdate = () => {
+            this.ranges.refresh();
+
+            delete this._highlightedItem;
             this.autoHighlight();
         };
-
-        this.ranges.refresh(this.renderedDate);
-        this.autoHighlight();
     }
 
     public get service():CalendarService {
@@ -120,27 +120,30 @@ export abstract class CalendarView implements AfterViewInit {
         }
     }
 
-    private highlightItem(item:CalendarItem):void {
-        this._renderedItems.forEach(i => i.hasFocus = false);
-        const rendered = this._renderedItems.find(ri => ri.item === item);
-        if (rendered && !rendered.hasFocus) {
-            setTimeout(() => rendered.hasFocus = true);
-        }
+    private highlightItem(item:CalendarItem | undefined):void {
+        if (item) {
+            this._renderedItems.forEach(i => i.hasFocus = false);
+            const rendered = this._renderedItems.find(ri => ri.item === item);
+            if (rendered && !rendered.hasFocus) {
+                setTimeout(() => rendered.hasFocus = true);
+            }
 
-        this._highlightedItem = item;
+            this._highlightedItem = item;
+        }
     }
 
     @HostListener("document:keydown", ["$event"])
     private onDocumentKeydown(e:KeyboardEvent):void {
-        const items = this.ranges.current.items;
-        const itemsInRange = this.ranges.current.itemsInRange;
-
-        if (e.keyCode === KeyCode.Enter) {
+        if (this._highlightedItem && e.keyCode === KeyCode.Enter) {
             this.setDate(this._highlightedItem);
             return;
         }
 
-        const index = items.findIndex(i => i.isEqualTo(this._highlightedItem ? this._highlightedItem.date : undefined));
+        if (!this._highlightedItem) {
+            this.autoHighlight();
+        }
+
+        const index = this.ranges.current.findIndex(this._highlightedItem);
         let isMovingForward = true;
         let delta = 0;
 
@@ -163,7 +166,7 @@ export abstract class CalendarView implements AfterViewInit {
                 return;
         }
 
-        let nextItem = items[index + delta];
+        let nextItem = this.ranges.current.items[index + delta];
 
         if (nextItem && nextItem.isDisabled) {
             return;
@@ -174,18 +177,18 @@ export abstract class CalendarView implements AfterViewInit {
         }
 
         if (nextItem && nextItem.isOutsideRange) {
-            if (index + delta >= itemsInRange.length) {
+            if (index + delta >= this.ranges.current.inRange.length) {
                 isMovingForward = true;
             }
         }
 
         if (!nextItem) {
-            let adjustedIndex = itemsInRange.findIndex(i => i.isEqualTo(this._highlightedItem.date));
+            let adjustedIndex = this.ranges.current.findIndex(this._highlightedItem);
 
-            const nextItems = this.ranges.calc(isMovingForward).itemsInRange;
+            const nextItems = this.ranges.calc(isMovingForward).inRange;
 
             if (isMovingForward) {
-                adjustedIndex -= itemsInRange.length;
+                adjustedIndex -= this.ranges.current.inRange.length;
             } else {
                 adjustedIndex += nextItems.length;
             }
@@ -193,7 +196,6 @@ export abstract class CalendarView implements AfterViewInit {
             nextItem = nextItems[adjustedIndex + delta];
 
             if (nextItem.isDisabled) {
-                // this._highlightedItem = highlighted;
                 return;
             }
         }
