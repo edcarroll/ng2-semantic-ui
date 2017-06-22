@@ -13,11 +13,10 @@ export enum CalendarViewType {
 }
 export type CalendarViewResult = [Date, CalendarViewType];
 
-export abstract class CalendarView implements AfterViewInit, OnDestroy {
+export abstract class CalendarView implements AfterViewInit {
     private _type:CalendarViewType;
 
     private _service:CalendarService;
-    private _manualUpdateSub:Subscription;
 
     @ViewChildren(SuiCalendarItem)
     private _renderedItems:QueryList<SuiCalendarItem>;
@@ -26,10 +25,10 @@ export abstract class CalendarView implements AfterViewInit, OnDestroy {
     @Input()
     public set service(service:CalendarService) {
         this._service = service;
-        this._manualUpdateSub = this.service.onManualUpdate.subscribe(() => {
+        this.service.onManualUpdate = () => {
             delete this._highlightedItem;
             this.updateItems();
-        });
+        };
 
         this.updateItems();
     }
@@ -216,9 +215,5 @@ export abstract class CalendarView implements AfterViewInit, OnDestroy {
 
             this._highlightedItem = nextItem;
         }
-    }
-
-    public ngOnDestroy():void {
-        this._manualUpdateSub.unsubscribe();
     }
 }

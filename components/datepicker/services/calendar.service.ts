@@ -22,14 +22,13 @@ export class CalendarService {
             this._selectedDate = undefined;
         }
 
-        this.onManualUpdate.emit();
+        this.onManualUpdate();
     }
 
     public minDate?:Date;
     public maxDate?:Date;
 
     public onDateChange:EventEmitter<Date>;
-    public onManualUpdate:EventEmitter<void>;
 
     private _finalView:CalendarViewType;
     private _changedMappings:CalendarMapping;
@@ -42,10 +41,11 @@ export class CalendarService {
         this._zoomMappings = zoomMappings;
 
         this.onDateChange = new EventEmitter<Date>();
-        this.onManualUpdate = new EventEmitter<void>();
 
         this.reset();
     }
+
+    public onManualUpdate:() => void = () => {};
 
     public reset():void {
         if (!this._selectedDate) {

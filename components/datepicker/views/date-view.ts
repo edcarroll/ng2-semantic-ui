@@ -64,13 +64,15 @@ export class SuiCalendarDateView extends CalendarView {
     }
 
     public calculateItems():void {
+        const weekLength = 7;
+
         const monthStart = Util.Date.startOf(DatePrecision.Month, Util.Date.clone(this.renderedDate));
         const month = monthStart.getMonth();
-        monthStart.setDate((1 - monthStart.getDay() + this.firstDayOfWeek - 7) % 7);
+        monthStart.setDate((1 - monthStart.getDay() + this.firstDayOfWeek - weekLength) % weekLength);
 
         this.calculatedItems = [];
 
-        Util.Array.range(6 * 7).forEach(i => {
+        Util.Array.range(weekLength * 6).forEach(i => {
             const date = Util.Date.clone(monthStart);
             date.setDate(date.getDate() + i);
             const comparer = new DateComparer(date);
