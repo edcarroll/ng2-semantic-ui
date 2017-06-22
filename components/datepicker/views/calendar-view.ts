@@ -43,7 +43,7 @@ export abstract class CalendarView implements AfterViewInit {
 
     public ranges:CalendarRangeService;
 
-    public get renderedDate():Date {
+    public get currentDate():Date {
         return this.service.currentDate;
     }
 
@@ -51,34 +51,10 @@ export abstract class CalendarView implements AfterViewInit {
         return this.service.selectedDate;
     }
 
-    constructor(viewType:CalendarViewType, renderedRows:number, renderedColumns:number, rangeInterval:DatePrecision) {
+    constructor(viewType:CalendarViewType, ranges:CalendarRangeService) {
         this._type = viewType;
-        this.ranges = new CalendarRangeService(rangeInterval, renderedRows, renderedColumns);
-
-        this.ranges.registerCalculators(
-            d => this.calculateRangeStart(d),
-            s => this.calculateRange(s),
-            (ds, b) => this.calculateItems(ds, b));
+        this.ranges = ranges;
     }
-
-    // Date Range Calculations
-
-    public calculateRangeStart(date:Date):Date {
-        return Util.Date.startOf(this.ranges.interval, Util.Date.clone(date));
-    }
-
-    public calculateRange(rangeStart:Date):Date[] {
-        return Util.Array
-            .range(this.ranges.length)
-            .map(i => Util.Date.add(this.ranges.interval as number + 1, Util.Date.clone(rangeStart), i));
-
-    }
-
-    public calculateItems(dateRange:Date[], baseDate:Date):CalendarItem[] {
-        return dateRange.map(date => this.calculateItem(date, baseDate));
-    }
-
-    public abstract calculateItem(date:Date, baseDate:Date):CalendarItem;
 
     // Template Methods
 
@@ -109,7 +85,7 @@ export abstract class CalendarView implements AfterViewInit {
     }
 
     private autoHighlight():void {
-        let date = this.selectedDate && this.ranges.current.containsDate(this.selectedDate) ? this.selectedDate : this.renderedDate;
+        let date = this.selectedDate && this.ranges.current.containsDate(this.selectedDate) ? this.selectedDate : this.currentDate;
         if (this._highlightedItem && this.ranges.current.containsDate(this._highlightedItem.date)) {
             date = this._highlightedItem.date;
         }

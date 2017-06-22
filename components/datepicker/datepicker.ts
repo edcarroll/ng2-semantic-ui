@@ -4,6 +4,7 @@ import { Util } from "../util/util";
 import { CalendarViewType, CalendarViewResult } from "./views/calendar-view";
 import { CalendarService, CalendarMode } from "./services/calendar.service";
 import { DatetimeConfig, TimeConfig, DateConfig, MonthConfig, YearConfig } from "./classes/calendar-config";
+import { SuiLocalizationService } from "../util/services/localization.service";
 
 @Component({
     selector: "sui-datepicker",
@@ -69,8 +70,8 @@ export class SuiDatepicker {
     @HostBinding("attr.tabindex")
     public tabIndex:number;
 
-    constructor() {
-        this.service = new CalendarService(new DatetimeConfig());
+    constructor(localizationService:SuiLocalizationService) {
+        this.service = new CalendarService(new DatetimeConfig(), localizationService.getValues());
 
         this._calendarClasses = true;
         this.tabIndex = 0;

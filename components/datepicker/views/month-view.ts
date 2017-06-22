@@ -6,6 +6,19 @@ import { CalendarMonthItem } from "../directives/calendar-item";
 import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";
 import { MonthComparer } from "../classes/date-comparer";
+import { CalendarRangeService } from "../services/calendar-range.service";
+
+export class CalendarRangeMonthService extends CalendarRangeService {
+    public calcItem(date:Date, baseDate:Date):CalendarMonthItem {
+        const comparer = new MonthComparer(date);
+        return new CalendarMonthItem(
+            date,
+            this.service.localizationValues.datepicker.monthsShort[date.getMonth()],
+            !comparer.isBetween(this.service.minDate, this.service.maxDate),
+            comparer.isEqualTo(this.service.selectedDate),
+            false);
+    }
+}
 
 @Component({
     selector: "sui-calendar-month-view",
@@ -38,20 +51,10 @@ import { MonthComparer } from "../classes/date-comparer";
 })
 export class SuiCalendarMonthView extends CalendarView {
     public get year():string {
-        return Util.String.padLeft(this.renderedDate.getFullYear().toString(), 4, "0");
+        return Util.String.padLeft(this.currentDate.getFullYear().toString(), 4, "0");
     }
 
-    constructor(public localizationService:SuiLocalizationService) {
-        super(CalendarViewType.Month, 4, 3, DatePrecision.Year);
-    }
-
-    public calculateItem(date:Date, baseDate:Date):CalendarMonthItem {
-        const comparer = new MonthComparer(date);
-        return new CalendarMonthItem(
-            date,
-            this.localizationService.getValues().datepicker.monthsShort[date.getMonth()],
-            !comparer.isBetween(this.service.minDate, this.service.maxDate),
-            comparer.isEqualTo(this.selectedDate),
-            false);
+    constructor() {
+        super(CalendarViewType.Month, new CalendarRangeMonthService(DatePrecision.Year, 4, 3));
     }
 }

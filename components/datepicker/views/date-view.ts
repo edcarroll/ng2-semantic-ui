@@ -5,6 +5,25 @@ import { CalendarView, CalendarViewType } from "./calendar-view";
 import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";
 import { DateComparer } from "../classes/date-comparer";
+import { CalendarRangeService } from "../services/calendar-range.service";
+
+export class CalendarRangeDateService extends CalendarRangeService {
+    public calcStart(start:Date):Date {
+        const monthStart = Util.Date.startOf(DatePrecision.Month, Util.Date.clone(start));
+        monthStart.setDate((1 - monthStart.getDay() + this.service.firstDayOfWeek - 7) % 7);
+        return monthStart;
+    }
+
+    public calcItem(date:Date, baseDate:Date):CalendarDateItem {
+        const comparer = new DateComparer(date);
+        return new CalendarDateItem(
+            date,
+            date.getDate().toString(),
+            !comparer.isBetween(this.service.minDate, this.service.maxDate),
+            comparer.isEqualTo(this.service.selectedDate),
+            date.getMonth() !== baseDate.getMonth());
+    }
+}
 
 @Component({
     selector: "sui-calendar-date-view",
@@ -40,42 +59,19 @@ import { DateComparer } from "../classes/date-comparer";
 })
 export class SuiCalendarDateView extends CalendarView {
     public get days():string[] {
-        const days = this.localizationService.getValues().datepicker.weekdaysShort;
-        return days.map((d, i) => days[(i + this.firstDayOfWeek) % days.length]);
+        const days = this.service.localizationValues.datepicker.weekdaysShort;
+        return days.map((d, i) => days[(i + this.service.firstDayOfWeek) % days.length]);
     }
 
     public get year():number {
-        return this.renderedDate.getFullYear();
+        return this.currentDate.getFullYear();
     }
 
     public get month():string {
-        return this.localizationService
-            .getValues().datepicker.months[this.renderedDate.getMonth()];
+        return this.service.localizationValues.datepicker.months[this.currentDate.getMonth()];
     }
 
-    @Input()
-    public firstDayOfWeek:number;
-
-    constructor(public localizationService:SuiLocalizationService) {
-        super(CalendarViewType.Date, 6, 7, DatePrecision.Month);
-
-        this.firstDayOfWeek = this.localizationService
-            .getValues().datepicker.firstDayOfWeek;
-    }
-
-    public calculateRangeStart(start:Date):Date {
-        const monthStart = Util.Date.startOf(DatePrecision.Month, Util.Date.clone(start));
-        monthStart.setDate((1 - monthStart.getDay() + this.firstDayOfWeek - 7) % 7);
-        return monthStart;
-    }
-
-    public calculateItem(date:Date, baseDate:Date):CalendarDateItem {
-        const comparer = new DateComparer(date);
-        return new CalendarDateItem(
-            date,
-            date.getDate().toString(),
-            !comparer.isBetween(this.service.minDate, this.service.maxDate),
-            comparer.isEqualTo(this.selectedDate),
-            date.getMonth() !== baseDate.getMonth());
+    constructor() {
+        super(CalendarViewType.Date, new CalendarRangeDateService(DatePrecision.Month, 6, 7));
     }
 }

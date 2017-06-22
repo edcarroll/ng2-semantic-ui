@@ -35,7 +35,7 @@ export class CalendarRange {
     }
 }
 
-export class CalendarRangeService {
+export abstract class CalendarRangeService {
     public previous:CalendarRange;
     public current:CalendarRange;
     public next:CalendarRange;
@@ -60,15 +60,6 @@ export class CalendarRangeService {
         this.service = service;
 
         this.refresh();
-    }
-
-    public registerCalculators(start:(date:Date) => Date,
-                               dates:(start:Date) => Date[],
-                               items:(dates:Date[], baseDate:Date) => CalendarItem[]):void {
-
-        this.calcStart = start;
-        this.calcDates = dates;
-        this.calcItems = items;
     }
 
     public refresh():void {
@@ -129,7 +120,5 @@ export class CalendarRangeService {
         return dateRange.map(date => this.calcItem(date, baseDate));
     }
 
-    public calcItem(date:Date, baseDate:Date):CalendarItem {
-        throw new Error("This needs to be implemented!");
-    }
+    public abstract calcItem(date:Date, baseDate:Date):CalendarItem;
 }

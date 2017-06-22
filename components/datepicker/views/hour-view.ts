@@ -5,6 +5,19 @@ import { CalendarHourItem } from "../directives/calendar-item";
 import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";
 import { HourComparer } from "../classes/date-comparer";
+import { CalendarRangeService } from "../services/calendar-range.service";
+
+export class CalendarRangeHourService extends CalendarRangeService {
+    public calcItem(date:Date, baseDate:Date):CalendarHourItem {
+        const comparer = new HourComparer(date);
+        return new CalendarHourItem(
+            date,
+            `${Util.String.padLeft(date.getHours().toString(), 2, "0")}:00`,
+            !comparer.isBetween(this.service.minDate, this.service.maxDate),
+            comparer.isEqualTo(this.service.selectedDate),
+            false);
+    }
+}
 
 @Component({
     selector: "sui-calendar-hour-view",
@@ -37,25 +50,15 @@ import { HourComparer } from "../classes/date-comparer";
 })
 export class SuiCalendarHourView extends CalendarView {
     public get date():string {
-        const month = this.localizationService
-            .getValues().datepicker.months[this.renderedDate.getMonth()];
-        const date = this.renderedDate.getDate();
-        const year = this.renderedDate.getFullYear();
+        const month = this.service.localizationValues.datepicker
+            .months[this.currentDate.getMonth()];
+        const date = this.currentDate.getDate();
+        const year = this.currentDate.getFullYear();
 
         return `${month} ${date}, ${year}`;
     }
 
-    constructor(public localizationService:SuiLocalizationService) {
-        super(CalendarViewType.Hour, 6, 4, DatePrecision.Date);
-    }
-
-    public calculateItem(date:Date, baseDate:Date):CalendarHourItem {
-        const comparer = new HourComparer(date);
-        return new CalendarHourItem(
-            date,
-            `${Util.String.padLeft(date.getHours().toString(), 2, "0")}:00`,
-            !comparer.isBetween(this.service.minDate, this.service.maxDate),
-            !!this.selectedDate && Util.Date.equal(DatePrecision.Hour, date, this.selectedDate),
-            false);
+    constructor() {
+        super(CalendarViewType.Hour, new CalendarRangeHourService(DatePrecision.Date, 6, 4));
     }
 }

@@ -6,6 +6,33 @@ import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";
 import { MinuteComparer } from "../classes/date-comparer";
 import { CalendarMode } from "../services/calendar.service";
+import { CalendarRangeService } from "../services/calendar-range.service";
+
+export class CalendarRangeMinuteService extends CalendarRangeService {
+    public calcStart(start:Date):Date {
+        return Util.Date.startOf(DatePrecision.Hour, Util.Date.clone(start), true);
+    }
+
+    public calcDates(start:Date):Date[] {
+        return Util.Array
+            .range(this.length)
+            .map(i => Util.Date.add(DatePrecision.Minute, Util.Date.clone(start), i * 5));
+    }
+
+    public calcItem(date:Date, baseDate:Date):CalendarMinuteItem {
+        const comparer = new MinuteComparer(date);
+
+        const hs = Util.String.padLeft(date.getHours().toString(), 2, "0");
+        const ms = Util.String.padLeft(date.getMinutes().toString(), 2, "0");
+
+        return new CalendarMinuteItem(
+            date,
+            `${hs}:${ms}`,
+            !comparer.isBetween(this.service.minDate, this.service.maxDate),
+            comparer.isEqualTo(this.service.selectedDate),
+            false);
+    }
+}
 
 @Component({
     selector: "sui-calendar-minute-view",
@@ -38,11 +65,11 @@ import { CalendarMode } from "../services/calendar.service";
 })
 export class SuiCalendarMinuteView extends CalendarView {
     public get date():string {
-        const year = this.renderedDate.getFullYear();
-        const month = this.localizationService
-            .getValues().datepicker.months[this.renderedDate.getMonth()];
-        const date = this.renderedDate.getDate();
-        const hour = Util.String.padLeft(this.renderedDate.getHours().toString(), 2, "0");
+        const year = this.currentDate.getFullYear();
+        const month = this.service.localizationValues.datepicker
+            .months[this.currentDate.getMonth()];
+        const date = this.currentDate.getDate();
+        const hour = Util.String.padLeft(this.currentDate.getHours().toString(), 2, "0");
 
         let formatted = `${hour}:00`;
         if (this.service.config.mode !== CalendarMode.TimeOnly) {
@@ -52,31 +79,7 @@ export class SuiCalendarMinuteView extends CalendarView {
         return formatted;
     }
 
-    constructor(public localizationService:SuiLocalizationService) {
-        super(CalendarViewType.Minute, 4, 3, DatePrecision.Hour);
-    }
-
-    public calculateRangeStart(start:Date):Date {
-        return Util.Date.startOf(DatePrecision.Hour, Util.Date.clone(start), true);
-    }
-
-    public calculateRange(rangeStart:Date):Date[] {
-        return Util.Array
-            .range(this.ranges.length)
-            .map(i => Util.Date.add(DatePrecision.Minute, Util.Date.clone(rangeStart), i * 5));
-    }
-
-    public calculateItem(date:Date, baseDate:Date):CalendarMinuteItem {
-        const comparer = new MinuteComparer(date);
-
-        const hs = Util.String.padLeft(date.getHours().toString(), 2, "0");
-        const ms = Util.String.padLeft(date.getMinutes().toString(), 2, "0");
-
-        return new CalendarMinuteItem(
-            date,
-            `${hs}:${ms}`,
-            !comparer.isBetween(this.service.minDate, this.service.maxDate),
-            comparer.isEqualTo(this.selectedDate),
-            false);
+    constructor() {
+        super(CalendarViewType.Minute, new CalendarRangeMinuteService(DatePrecision.Hour, 4, 3));
     }
 }
