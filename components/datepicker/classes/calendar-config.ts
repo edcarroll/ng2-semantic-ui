@@ -1,5 +1,5 @@
 import { CalendarMode } from "../services/calendar.service";
-import { CalendarMappings, DatetimeMappings, DateMappings, TimeMappings, MonthMappings } from "./calendar-mappings";
+import { CalendarMappings, DatetimeMappings, DateMappings, TimeMappings, MonthMappings, YearMappings } from "./calendar-mappings";
 import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";
 
@@ -59,6 +59,17 @@ export class MonthConfig extends CalendarConfig {
 
     public postProcess(date:Date):void {
         Util.Date.startOf(DatePrecision.Month, date, true);
+        Util.Date.rewriteTimezone(date);
+    }
+}
+
+export class YearConfig extends CalendarConfig {
+    constructor() {
+        super(CalendarMode.DateOnly, new YearMappings());
+    }
+
+    public postProcess(date:Date):void {
+        Util.Date.startOf(DatePrecision.Year, date, true);
         Util.Date.rewriteTimezone(date);
     }
 }

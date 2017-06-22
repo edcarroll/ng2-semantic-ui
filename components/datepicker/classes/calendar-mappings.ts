@@ -92,3 +92,20 @@ export class MonthMappings extends CalendarMappings {
         ]);
     }
 }
+
+export class YearMappings extends CalendarMappings {
+    constructor() {
+        super();
+
+        this.initialView = CalendarViewType.Year;
+        this.finalView = CalendarViewType.Year;
+
+        this.changed = new Map<CalendarViewType, CalendarViewType>([
+            [CalendarViewType.Year, CalendarViewType.Year]
+        ]);
+
+        this.zoom = new Map<CalendarViewType, CalendarViewType>([
+            [CalendarViewType.Year, CalendarViewType.Year]
+        ]);
+    }
+}

@@ -3,7 +3,7 @@ import { Component, HostBinding, Directive, EventEmitter, Output } from "@angula
 import { Util } from "../util/util";
 import { CalendarViewType, CalendarViewResult } from "./views/calendar-view";
 import { CalendarService, CalendarMode } from "./services/calendar.service";
-import { DatetimeConfig, TimeConfig, DateConfig, MonthConfig } from "./classes/calendar-config";
+import { DatetimeConfig, TimeConfig, DateConfig, MonthConfig, YearConfig } from "./classes/calendar-config";
 
 @Component({
     selector: "sui-datepicker",
@@ -70,7 +70,7 @@ export class SuiDatepicker {
     public tabIndex:number;
 
     constructor() {
-        this.service = new CalendarService(new DatetimeConfig());
+        this.service = new CalendarService(new YearConfig());
 
         this._calendarClasses = true;
         this.tabIndex = 0;
