@@ -3,6 +3,8 @@ import { CalendarView, CalendarViewType } from "./calendar-view";
 import { SuiLocalizationService } from "../../util/services/localization.service";
 import { CalendarHoursItem } from "../directives/calendar-item";
 import { Util } from "../../util/util";
+import { DatePrecision } from "../../util/helpers/date";
+import { HourComparer } from "../classes/date-comparer";
 
 @Component({
     selector: "sui-calendar-hour-view",
@@ -48,26 +50,21 @@ export class SuiCalendarHourView extends CalendarView {
     }
 
     public calculateItems():void {
-        const dayStart = Util.Date.startOfDay(Util.Date.clone(this.renderedDate));
+        const dayStart = Util.Date.startOf(DatePrecision.Date, Util.Date.clone(this.renderedDate));
         this.calculatedItems = [];
 
         Util.Array.range(24).forEach(h => {
             const date = Util.Date.clone(dayStart);
             date.setHours(h);
+            const comparer = new HourComparer(date);
 
-            const hR = `${Util.String.padLeft(date.getHours().toString(), 2, "0")}:00`;
-            let isDisabled = false;
-            if (this.service.maxDate) {
-                const max = Util.Date.endOfHour(Util.Date.clone(this.service.maxDate));
-                isDisabled = isDisabled || max < date;
-            }
-            if (this.service.minDate) {
-                const min = Util.Date.startOfHour(Util.Date.clone(this.service.minDate));
-                isDisabled = isDisabled || min > date;
-            }
-            const isActive = !!this.selectedDate && Util.Date.hoursEqual(date, this.selectedDate);
-
-            this.calculatedItems.push(new CalendarHoursItem(date, hR, isDisabled, isActive, false));
+            this.calculatedItems.push(
+                new CalendarHoursItem(
+                    date,
+                    `${Util.String.padLeft(date.getHours().toString(), 2, "0")}:00`,
+                    !comparer.isBetween(this.service.minDate, this.service.maxDate),
+                    !!this.selectedDate && Util.Date.equal(DatePrecision.Hour, date, this.selectedDate),
+                    false));
         });
     }
 

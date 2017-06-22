@@ -1,87 +1,85 @@
+export enum DatePrecision {
+    Year,
+    Month,
+    Date,
+    Hour,
+    Minute
+}
+
 export const DateUtil = {
-    startOfYear(date:Date, resetAll:boolean = false):Date {
-        date.setMonth(0);
-        if (resetAll) {
-            DateUtil.startOfMonth(date, resetAll);
+    startOf(precision:DatePrecision, date:Date, resetAll:boolean = false):Date {
+        switch (precision) {
+            case DatePrecision.Year:
+                date.setMonth(0);
+                if (!resetAll) {
+                    break;
+                }
+                // falls through
+            case DatePrecision.Month:
+                date.setDate(1);
+                if (!resetAll) {
+                    break;
+                }
+                // falls through
+            case DatePrecision.Date:
+                date.setHours(0);
+                if (!resetAll) {
+                    break;
+                }
+                // falls through
+            case DatePrecision.Hour:
+                date.setMinutes(0);
+                if (!resetAll) {
+                    break;
+                }
+                // falls through
+            case DatePrecision.Minute:
+                date.setSeconds(0, 0);
         }
-        return date;
-    },
-    startOfMonth(date:Date, resetAll:boolean = false):Date {
-        date.setDate(1);
-        if (resetAll) {
-            DateUtil.startOfDay(date, resetAll);
-        }
-        return date;
-    },
-    startOfDay(date:Date, resetAll:boolean = false):Date {
-        date.setHours(0);
-        if (resetAll) {
-            DateUtil.startOfHour(date, resetAll);
-        }
-        return date;
-    },
-    startOfHour(date:Date, resetAll:boolean = false):Date {
-        date.setMinutes(0);
-        if (resetAll) {
-            DateUtil.startOfMinute(date, resetAll);
-        }
-        return date;
-    },
-    startOfMinute(date:Date, resetAll:boolean = false):Date {
-        date.setSeconds(0, 0);
+
         return date;
     },
 
-    endOfYear(date:Date):Date {
-        date.setMonth(12, 0);
-        DateUtil.startOfDay(date, true);
-        return date;
-    },
-    endOfMonth(date:Date):Date {
-        date.setMonth(date.getMonth() + 1, 0);
-        DateUtil.startOfDay(date, true);
-        return date;
-    },
-    endOfDay(date:Date):Date {
-        date.setHours(24, 0, 0, 0);
-        return date;
-    },
-    endOfHour(date:Date):Date {
-        date.setMinutes(60, 0, 0);
-        return date;
-    },
-    endOfMinute(date:Date):Date {
-        date.setSeconds(60, 0);
+    endOf(precision:DatePrecision, date:Date):Date {
+        switch (precision) {
+            case DatePrecision.Year:
+                date.setMonth(12, 0);
+                // falls through
+            case DatePrecision.Month:
+                date.setMonth(date.getMonth() + 1, 0);
+                // falls through
+            case DatePrecision.Date:
+                date.setHours(24, 0, 0, 0);
+                break;
+            case DatePrecision.Hour:
+                date.setMinutes(60, 0, 0);
+                break;
+            case DatePrecision.Minute:
+                date.setSeconds(60, 0);
+                break;
+        }
+
         return date;
     },
 
-    minutesEqual(date1:Date, date2:Date):boolean {
+    equal(precision:DatePrecision, a:Date, b:Date):boolean {
         let equal = true;
-        equal = equal && DateUtil.hoursEqual(date1, date2);
-        equal = equal && date1.getMinutes() === date2.getMinutes();
-        return equal;
-    },
-    hoursEqual(date1:Date, date2:Date):boolean {
-        let equal = true;
-        equal = equal && DateUtil.datesEqual(date1, date2);
-        equal = equal && date1.getHours() === date2.getHours();
-        return equal;
-    },
-    datesEqual(date1:Date, date2:Date):boolean {
-        let equal = true;
-        equal = equal && DateUtil.monthsEqual(date1, date2);
-        equal = equal && date1.getDate() === date2.getDate();
-        return equal;
-    },
-    monthsEqual(date1:Date, date2:Date):boolean {
-        let equal = true;
-        equal = equal && DateUtil.yearsEqual(date1, date2);
-        equal = equal && date1.getMonth() === date2.getMonth();
-        return equal;
-    },
-    yearsEqual(date1:Date, date2:Date):boolean {
-        let equal = true;
-        equal = equal && date1.getFullYear() === date2.getFullYear();
+        switch (precision) {
+            case DatePrecision.Minute:
+                equal = equal && a.getMinutes() === b.getMinutes();
+                // falls through
+            case DatePrecision.Hour:
+                equal = equal && a.getHours() === b.getHours();
+                // falls through
+            case DatePrecision.Date:
+                equal = equal && a.getDate() === b.getDate();
+                // falls through
+            case DatePrecision.Month:
+                equal = equal && a.getMonth() === b.getMonth();
+                // falls through
+            case DatePrecision.Year:
+                equal = equal && a.getFullYear() === b.getFullYear();
+        }
         return equal;
     },
 

@@ -3,6 +3,8 @@ import { Component, HostBinding, Input, Output, EventEmitter } from "@angular/co
 import { CalendarView, CalendarViewType } from "./calendar-view";
 import { CalendarYearItem } from "../directives/calendar-item";
 import { Util } from "../../util/util";
+import { DatePrecision } from "../../util/helpers/date";
+import { YearComparer } from "../classes/date-comparer";
 
 @Component({
     selector: "sui-calendar-year-view",
@@ -50,21 +52,15 @@ export class SuiCalendarYearView extends CalendarView {
         Util.Array.range(12, this.decadeStart).forEach(y => {
             const date = Util.Date.clone(decadeStart);
             date.setFullYear(y);
-
-            const hR = Util.String.padLeft(date.getFullYear().toString(), 4, "0");
-            let isDisabled = false;
-            if (this.service.maxDate) {
-                const max = Util.Date.endOfYear(Util.Date.clone(this.service.maxDate));
-                isDisabled = isDisabled || max < date;
-            }
-            if (this.service.minDate) {
-                const min = Util.Date.startOfYear(Util.Date.clone(this.service.minDate));
-                isDisabled = isDisabled || min > date;
-            }
-            const isActive = !!this.selectedDate && Util.Date.yearsEqual(date, this.selectedDate);
+            const comparer = new YearComparer(date);
 
             this.calculatedItems.push(
-                new CalendarYearItem(date, hR.toString(), isDisabled, isActive, date.getFullYear() >= this.decadeStart + 10));
+                new CalendarYearItem(
+                    date,
+                    Util.String.padLeft(date.getFullYear().toString(), 4, "0"),
+                    !comparer.isBetween(this.service.minDate, this.service.maxDate),
+                    comparer.isEqualTo(this.selectedDate),
+                    date.getFullYear() >= this.decadeStart + 10));
         });
     }
 

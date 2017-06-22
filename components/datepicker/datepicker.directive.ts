@@ -38,13 +38,13 @@ export class SuiDatepickerDirective
             this.componentInstance.selectedDate = date;
         }
 
-        if (this.selectedDateString && this.selectedDateString !== this._currentValue) {
+        if (this.selectedDateString && this.selectedDateString !== this._currentInputValue) {
             this.renderer.setProperty(this._element.nativeElement, "value", this.selectedDateString);
-            this._currentValue = this.selectedDateString;
+            this._currentInputValue = this.selectedDateString;
         }
     }
 
-    private _currentValue:string | undefined;
+    private _currentInputValue:string | undefined;
 
     public get selectedDateString():string | undefined {
         if (this.selectedDate) {
@@ -86,10 +86,10 @@ export class SuiDatepickerDirective
             this.componentInstance.selectedDate = this.selectedDate;
 
             this.componentInstance.maxDate = new Date();
-            this.componentInstance.maxDate.setDate(this.componentInstance.maxDate.getDate() + 100);
+            this.componentInstance.maxDate.setDate(this.componentInstance.maxDate.getDate() + 3);
 
             this.componentInstance.minDate = new Date();
-            this.componentInstance.minDate.setDate(this.componentInstance.minDate.getDate() - 100);
+            this.componentInstance.minDate.setDate(this.componentInstance.minDate.getDate() - 3);
 
             this.componentInstance.currentView = CalendarViewType.Date;
 
@@ -108,7 +108,7 @@ export class SuiDatepickerDirective
     }
 
     public typeValue(value:string | undefined):void {
-        this._currentValue = value;
+        this._currentInputValue = value;
 
         if (!value) {
             this.writeValue(undefined);
@@ -129,9 +129,9 @@ export class SuiDatepickerDirective
         "(input)": "manualChange($event.target.value)",
         "(dateChange)": "onChange($event)"
     },
-    providers: [customValueAccessorFactory(SuiDatepickerValueAccessor)]
+    providers: [customValueAccessorFactory(SuiDatepickerDirectiveValueAccessor)]
 })
-export class SuiDatepickerValueAccessor extends CustomValueAccessor<Date, SuiDatepickerDirective> {
+export class SuiDatepickerDirectiveValueAccessor extends CustomValueAccessor<Date, SuiDatepickerDirective> {
     constructor(public host:SuiDatepickerDirective) {
         super(host);
     }

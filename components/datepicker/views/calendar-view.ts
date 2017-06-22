@@ -72,8 +72,8 @@ export abstract class CalendarView implements AfterViewInit, OnDestroy {
             date = this._highlightedItem.date;
         }
 
-        const initiallyHighlighted = this.calculatedItems.find(i => i.compareDates(date));
-        if (initiallyHighlighted) {
+        const initiallyHighlighted = this.calculatedItems.find(i => i.isEqualTo(date));
+        if (initiallyHighlighted && !initiallyHighlighted.isDisabled) {
             this._highlightedItem = initiallyHighlighted;
         }
     }
@@ -85,7 +85,7 @@ export abstract class CalendarView implements AfterViewInit, OnDestroy {
     }
 
     private dateInRange(date:Date):boolean {
-        return !!this.inRangeCalculatedItems.find(i => i.compareDates(date));
+        return !!this.inRangeCalculatedItems.find(i => i.isEqualTo(date));
     }
 
     // Date Range Updates
@@ -124,14 +124,14 @@ export abstract class CalendarView implements AfterViewInit, OnDestroy {
         this._renderedItems.forEach(i =>
             i.onFocussed.subscribe((hasFocus:boolean) => {
                 if (hasFocus) {
-                    this.focusItem(i.item);
+                    this.highlightItem(i.item);
                 }
             }));
 
-        this.focusItem(this._highlightedItem);
+        this.highlightItem(this._highlightedItem);
     }
 
-    private focusItem(item:CalendarItem):void {
+    private highlightItem(item:CalendarItem):void {
         this._renderedItems.forEach(i => i.hasFocus = false);
         const rendered = this._renderedItems.find(ri => ri.item === item);
         if (rendered) {
@@ -151,7 +151,8 @@ export abstract class CalendarView implements AfterViewInit, OnDestroy {
             return;
         }
 
-        const index = items.findIndex(i => i.compareDates(this._highlightedItem.date));
+        const highlighted = this._highlightedItem;
+        const index = items.findIndex(i => i.isEqualTo(this._highlightedItem.date));
         let isMovingForward = true;
         let delta = 0;
 
@@ -174,10 +175,14 @@ export abstract class CalendarView implements AfterViewInit, OnDestroy {
                 return;
         }
 
-        const nextItem = items[index + delta];
+        let nextItem = items[index + delta];
+
+        if (nextItem && nextItem.isDisabled) {
+            return;
+        }
 
         if (nextItem && !nextItem.isOutsideRange) {
-            return this.focusItem(nextItem);
+            return this.highlightItem(nextItem);
         }
 
         if (nextItem && nextItem.isOutsideRange) {
@@ -191,7 +196,7 @@ export abstract class CalendarView implements AfterViewInit, OnDestroy {
         }
 
         if (!nextItem) {
-            let adjustedIndex = itemsInRange.findIndex(i => i.compareDates(this._highlightedItem.date));
+            let adjustedIndex = itemsInRange.findIndex(i => i.isEqualTo(this._highlightedItem.date));
 
             this.updateDateRange(isMovingForward);
             const updatedItems = this.inRangeCalculatedItems;
@@ -202,7 +207,14 @@ export abstract class CalendarView implements AfterViewInit, OnDestroy {
                 adjustedIndex += updatedItems.length;
             }
 
-            this._highlightedItem = updatedItems[adjustedIndex + delta];
+            nextItem = updatedItems[adjustedIndex + delta];
+
+            if (nextItem.isDisabled) {
+                this._highlightedItem = highlighted;
+                return this.updateDateRange(!isMovingForward);
+            }
+
+            this._highlightedItem = nextItem;
         }
     }
 

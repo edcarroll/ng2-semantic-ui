@@ -1,8 +1,13 @@
 
 import { Directive, HostBinding, HostListener, Input, ElementRef, EventEmitter, Renderer2 } from "@angular/core";
 import { Util } from "../../util/util";
+import { Comparer, YearComparer, MonthComparer, HourComparer, MinuteComparer, DateComparer } from "../classes/date-comparer";
 
 export abstract class CalendarItem {
+    protected get _comparer():Comparer {
+        return new DateComparer(this.date);
+    }
+
     public date:Date;
     public humanReadable:string;
     public isDisabled:boolean;
@@ -10,7 +15,11 @@ export abstract class CalendarItem {
     public isOutsideRange:boolean;
 
     public get isToday():boolean {
-        return this.compareDates(new Date());
+        return this.isEqualTo(new Date());
+    }
+
+    public get isVisuallyDisabled():boolean {
+        return this.isDisabled;
     }
 
     constructor(date:Date, humanReadable:string, isDisabled:boolean, isActive:boolean, isOutsideRange:boolean) {
@@ -21,24 +30,36 @@ export abstract class CalendarItem {
         this.isOutsideRange = isOutsideRange;
     }
 
-    public compareDates(date:Date):boolean {
-        return Util.Date.datesEqual(date, this.date);
+    public isEqualTo(date:Date | undefined):boolean {
+        return this._comparer.isEqualTo(date);
+    }
+
+    public isLessThan(date:Date | undefined):boolean {
+        return this._comparer.isLessThan(date);
+    }
+
+    public isGreaterThan(date:Date | undefined):boolean {
+        return this._comparer.isGreaterThan(date);
     }
 }
 
 export class CalendarYearItem extends CalendarItem {
-    public compareDates(date:Date):boolean {
-        return Util.Date.yearsEqual(date, this.date);
+    protected get _comparer():YearComparer {
+        return new YearComparer(this.date);
     }
 }
 
 export class CalendarMonthItem extends CalendarItem {
-    public compareDates(date:Date):boolean {
-        return Util.Date.monthsEqual(date, this.date);
+    protected get _comparer():MonthComparer {
+        return new MonthComparer(this.date);
     }
 }
 
-export class CalendarDateItem extends CalendarItem {}
+export class CalendarDateItem extends CalendarItem {
+    public get isVisuallyDisabled():boolean {
+        return this.isDisabled || this.isOutsideRange;
+    }
+}
 
 export class CalendarTimeItem extends CalendarItem {
     public get isToday():boolean {
@@ -47,15 +68,14 @@ export class CalendarTimeItem extends CalendarItem {
 }
 
 export class CalendarHoursItem extends CalendarTimeItem {
-    public compareDates(date:Date):boolean {
-        return Util.Date.hoursEqual(date, this.date);
+    protected get _comparer():HourComparer {
+        return new HourComparer(this.date);
     }
 }
 
 export class CalendarMinutesItem extends CalendarTimeItem {
-    public compareDates(date:Date):boolean {
-        return Util.Date.hoursEqual(date, this.date) &&
-               Util.Math.roundDown(date.getMinutes(), 5) === Util.Math.roundDown(this.date.getMinutes(), 5);
+    protected get _comparer():MinuteComparer {
+        return new MinuteComparer(this.date);
     }
 }
 
@@ -68,7 +88,7 @@ export class SuiCalendarItem {
 
     @HostBinding("class.disabled")
     public get isDisabled():boolean {
-        return this.item.isDisabled;
+        return this.item.isVisuallyDisabled;
     }
 
     @HostBinding("class.active")

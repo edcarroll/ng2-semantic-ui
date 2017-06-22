@@ -3,6 +3,8 @@ import { CalendarView, CalendarViewType } from "./calendar-view";
 import { SuiLocalizationService } from "../../util/services/localization.service";
 import { CalendarMinutesItem } from "../directives/calendar-item";
 import { Util } from "../../util/util";
+import { DatePrecision } from "../../util/helpers/date";
+import { MinuteComparer } from "../classes/date-comparer";
 
 @Component({
     selector: "sui-calendar-minute-view",
@@ -48,25 +50,23 @@ export class SuiCalendarMinuteView extends CalendarView {
     }
 
     public calculateItems():void {
-        const dayStart = Util.Date.startOfHour(Util.Date.clone(this.renderedDate));
+        const dayStart = Util.Date.startOf(DatePrecision.Hour, Util.Date.clone(this.renderedDate));
         this.calculatedItems = [];
 
         Util.Array.range(12).forEach(i => {
-            const date = Util.Date.startOfMinute(Util.Date.clone(dayStart));
+            const date = Util.Date.startOf(DatePrecision.Minute, Util.Date.clone(dayStart));
             date.setMinutes(i * 5);
+            const comparer = new MinuteComparer(date);
 
             const hs = Util.String.padLeft(date.getHours().toString(), 2, "0");
             const ms = Util.String.padLeft(date.getMinutes().toString(), 2, "0");
-            let isDisabled = false;
-            if (this.service.maxDate) {
-                isDisabled = isDisabled || this.service.maxDate < date;
-            }
-            if (this.service.minDate) {
-                isDisabled = isDisabled || this.service.minDate > date;
-            }
-            const isActive = !!this.selectedDate && Util.Date.minutesEqual(date, this.selectedDate);
 
-            this.calculatedItems.push(new CalendarMinutesItem(date, `${hs}:${ms}`, isDisabled, isActive, false));
+            this.calculatedItems.push(new CalendarMinutesItem(
+                date,
+                `${hs}:${ms}`,
+                !comparer.isBetween(this.service.minDate, this.service.maxDate),
+                comparer.isEqualTo(this.selectedDate),
+                false));
         });
     }
 

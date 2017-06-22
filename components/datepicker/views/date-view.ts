@@ -3,6 +3,8 @@ import { SuiLocalizationService } from "../../util/services/localization.service
 import { CalendarDateItem } from "../directives/calendar-item";
 import { CalendarView, CalendarViewType } from "./calendar-view";
 import { Util } from "../../util/util";
+import { DatePrecision } from "../../util/helpers/date";
+import { DateComparer } from "../classes/date-comparer";
 
 @Component({
     selector: "sui-calendar-date-view",
@@ -62,7 +64,7 @@ export class SuiCalendarDateView extends CalendarView {
     }
 
     public calculateItems():void {
-        const monthStart = Util.Date.startOfMonth(Util.Date.clone(this.renderedDate));
+        const monthStart = Util.Date.startOf(DatePrecision.Month, Util.Date.clone(this.renderedDate));
         const month = monthStart.getMonth();
         monthStart.setDate((1 - monthStart.getDay() + this.firstDayOfWeek - 7) % 7);
 
@@ -71,20 +73,15 @@ export class SuiCalendarDateView extends CalendarView {
         Util.Array.range(6 * 7).forEach(i => {
             const date = Util.Date.clone(monthStart);
             date.setDate(date.getDate() + i);
+            const comparer = new DateComparer(date);
 
-            const hR = date.getDate().toString();
-            let isDisabled = date.getMonth() !== month;
-            if (this.service.maxDate) {
-                const max = Util.Date.endOfDay(Util.Date.clone(this.service.maxDate));
-                isDisabled = isDisabled || max < date;
-            }
-            if (this.service.minDate) {
-                const min = Util.Date.startOfDay(Util.Date.clone(this.service.minDate));
-                isDisabled = isDisabled || min > date;
-            }
-            const isActive = !!this.selectedDate && Util.Date.datesEqual(date, this.selectedDate);
-
-            this.calculatedItems.push(new CalendarDateItem(date, hR, isDisabled, isActive, date.getMonth() !== month));
+            this.calculatedItems.push(
+                new CalendarDateItem(
+                    date,
+                    date.getDate().toString(),
+                    !comparer.isBetween(this.service.minDate, this.service.maxDate),
+                    comparer.isEqualTo(this.selectedDate),
+                    date.getMonth() !== month));
         });
     }
 

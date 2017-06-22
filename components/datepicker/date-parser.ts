@@ -1,5 +1,6 @@
 import { ILocalizationValues } from "../util/services/localization.service";
 import { Util } from "../util/util";
+import { DatePrecision } from "../util/helpers/date";
 
 export class DateParser {
     private _localization:ILocalizationValues;
@@ -21,7 +22,7 @@ export class DateParser {
                     .match(/^(\d{4})-(\d{2})-(\d{2})$/) as string[])
                     .map(i => parseInt(i, 10));
 
-        const parsed = Util.Date.startOfDay(new Date(), true);
+        const parsed = Util.Date.startOf(DatePrecision.Date, new Date(), true);
         parsed.setFullYear(year);
         parsed.setMonth(month - 1);
         parsed.setDate(date);
