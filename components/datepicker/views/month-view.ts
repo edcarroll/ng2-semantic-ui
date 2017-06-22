@@ -37,8 +37,8 @@ import { MonthComparer } from "../classes/date-comparer";
 `
 })
 export class SuiCalendarMonthView extends CalendarView {
-    public get year():number {
-        return this.renderedDate.getFullYear();
+    public get year():string {
+        return Util.String.padLeft(this.renderedDate.getFullYear().toString(), 4, "0");
     }
 
     constructor(public localizationService:SuiLocalizationService) {

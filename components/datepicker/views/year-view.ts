@@ -13,7 +13,7 @@ import { YearComparer } from "../classes/date-comparer";
 <thead>
     <tr>
         <th colspan="3">
-            <span class="link" (click)="zoomOut()">{{ decadeStart }} - {{ decadeStart + 10 }}</span>
+            <span class="link" (click)="zoomOut()">{{ pad(decadeStart) }} - {{ pad(decadeStart + 10) }}</span>
             <span class="prev link" (click)="prevDateRange()">
                 <i class="chevron left icon"></i>
             </span>
@@ -42,6 +42,10 @@ export class SuiCalendarYearView extends CalendarView {
 
     constructor() {
         super(CalendarViewType.Year, 4, 3, DatePrecision.Decade);
+    }
+
+    public pad(year:number):string {
+        return Util.String.padLeft(year.toString(), 4, "0");
     }
 
     public calculateItem(date:Date):CalendarYearItem {
