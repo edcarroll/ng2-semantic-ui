@@ -135,7 +135,7 @@ export abstract class CalendarView implements AfterViewInit, OnDestroy {
         this._renderedItems.forEach(i => i.hasFocus = false);
         const rendered = this._renderedItems.find(ri => ri.item === item);
         if (rendered) {
-            rendered.hasFocus = true;
+            setTimeout(() => rendered.hasFocus = true);
         }
 
         this._highlightedItem = item;

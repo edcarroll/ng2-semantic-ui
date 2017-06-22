@@ -1,5 +1,5 @@
 
-import { Directive, HostBinding, HostListener, Input, ElementRef, EventEmitter, Renderer2 } from "@angular/core";
+import { Directive, HostBinding, HostListener, Input, EventEmitter } from "@angular/core";
 import { Util } from "../../util/util";
 import { Comparer, YearComparer, MonthComparer, HourComparer, MinuteComparer, DateComparer } from "../classes/date-comparer";
 
@@ -101,25 +101,12 @@ export class SuiCalendarItem {
         return this.item.isToday;
     }
 
-    private _hasFocus:boolean;
-
-    public get hasFocus():boolean {
-        return this._hasFocus;
-    }
-
-    public set hasFocus(value:boolean) {
-        this._hasFocus = value;
-
-        if (value) {
-            this._renderer.addClass(this.element.nativeElement, "focus");
-        } else {
-            this._renderer.removeClass(this.element.nativeElement, "focus");
-        }
-    }
+    @HostBinding("class.focus")
+    public hasFocus:boolean;
 
     public onFocussed:EventEmitter<boolean>;
 
-    constructor(private _renderer:Renderer2, public element:ElementRef) {
+    constructor() {
         this.hasFocus = false;
 
         this.onFocussed = new EventEmitter<boolean>();
