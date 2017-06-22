@@ -3,7 +3,7 @@ import { CalendarMappings, DatetimeMappings, DateMappings, TimeMappings, MonthMa
 import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";
 
-export class CalendarConfig {
+export abstract class CalendarConfig {
     public mode:CalendarMode;
     public mappings:CalendarMappings;
 
@@ -50,8 +50,8 @@ export class TimeConfig extends CalendarConfig {
             return;
         }
 
-        this.dateMinBound = Util.Date.startOf(DatePrecision.Date, Util.Date.clone(providedDate), true);
         this.dateMaxBound = Util.Date.endOf(DatePrecision.Date, Util.Date.clone(providedDate));
+        this.dateMinBound = Util.Date.previous(DatePrecision.Date, Util.Date.clone(this.dateMaxBound));
     }
 }
 

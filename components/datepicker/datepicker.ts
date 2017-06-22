@@ -6,6 +6,16 @@ import { CalendarService, CalendarMode } from "./services/calendar.service";
 import { DatetimeConfig, TimeConfig, DateConfig, MonthConfig, YearConfig } from "./classes/calendar-config";
 import { SuiLocalizationService } from "../util/services/localization.service";
 
+export type DatepickerMode = "year" | "month" | "date" | "datetime" | "time";
+
+export const DatepickerMode = {
+    Year: "year" as DatepickerMode,
+    Month: "month" as DatepickerMode,
+    Date: "date" as DatepickerMode,
+    Datetime: "datetime" as DatepickerMode,
+    Time: "time" as DatepickerMode
+};
+
 @Component({
     selector: "sui-datepicker",
     template: `
@@ -30,6 +40,32 @@ export class SuiDatepicker {
     private _calendarClasses:boolean;
 
     public service:CalendarService;
+    private _mode:DatepickerMode;
+
+    public get mode():DatepickerMode {
+        return this._mode;
+    }
+
+    public set mode(mode:DatepickerMode) {
+        this._mode = mode;
+        switch (mode) {
+            case DatepickerMode.Year:
+                this.service.config = new YearConfig();
+                break;
+            case DatepickerMode.Month:
+                this.service.config = new MonthConfig();
+                break;
+            case DatepickerMode.Datetime:
+                this.service.config = new DatetimeConfig();
+                break;
+            case DatepickerMode.Time:
+                this.service.config = new TimeConfig();
+                break;
+            case DatepickerMode.Date:
+            default:
+                this.service.config = new DateConfig();
+        }
+    }
 
     public get selectedDate():Date | undefined {
         return this.service.selectedDate;
@@ -71,7 +107,7 @@ export class SuiDatepicker {
     public tabIndex:number;
 
     constructor(localizationService:SuiLocalizationService) {
-        this.service = new CalendarService(new DatetimeConfig(), localizationService.getValues());
+        this.service = new CalendarService(new DateConfig(), localizationService.getValues());
 
         this._calendarClasses = true;
         this.tabIndex = 0;

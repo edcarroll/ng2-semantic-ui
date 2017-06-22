@@ -1,6 +1,8 @@
 import { CalendarViewType } from "../views/calendar-view";
+import { DateComparer, YearComparer, MonthComparer } from "./date-comparer";
+import { Type } from "@angular/core";
 
-export type CalendarMapping = Map<CalendarViewType, CalendarViewType>;
+export type CalendarMapping<T = CalendarViewType> = Map<CalendarViewType, T>;
 
 export abstract class CalendarMappings {
     public initialView:CalendarViewType;

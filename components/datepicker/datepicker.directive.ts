@@ -8,7 +8,7 @@ import { SuiPopupComponentController } from "../popup/classes/popup-component-co
 import { PopupConfig, PopupTrigger } from "../popup/classes/popup-config";
 import { PositioningPlacement } from "../util/services/positioning.service";
 import { SuiComponentFactory } from "../util/services/component-factory.service";
-import { SuiDatepicker } from "./datepicker";
+import { SuiDatepicker, DatepickerMode } from "./datepicker";
 import { customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHost } from "../util/helpers/custom-value-accessor";
 import { CalendarViewType } from "./views/calendar-view";
 import { Util } from "../util/util";
@@ -79,14 +79,15 @@ export class SuiDatepickerDirective
 
     public popupOnOpen():void {
         if (this.componentInstance) {
+            this.componentInstance.mode = DatepickerMode.Time;
             this.componentInstance.selectedDate = this.selectedDate;
 
-            this.componentInstance.maxDate = new Date();
-            this.componentInstance.maxDate.setDate(this.componentInstance.maxDate.getDate() + 3);
+            // this.componentInstance.maxDate = new Date();
+            // this.componentInstance.maxDate.setDate(this.componentInstance.maxDate.getDate() + 3);
 
-            this.componentInstance.minDate = new Date();
-            this.componentInstance.minDate.setMonth(this.componentInstance.minDate.getMonth() - 2);
-            this.componentInstance.minDate.setDate(this.componentInstance.minDate.getDate() - 3);
+            // this.componentInstance.minDate = new Date();
+            // this.componentInstance.minDate.setMonth(this.componentInstance.minDate.getMonth() - 2);
+            // this.componentInstance.minDate.setDate(this.componentInstance.minDate.getDate() - 3);
 
             this.componentInstance.service.reset();
 

@@ -9,6 +9,7 @@ export class TestPage {
 
     constructor() {
         this.date = new Date();
+        this.date.setMonth(2, 26);
     }
 
     public log(item:any):void {

@@ -5,6 +5,7 @@ import { CalendarMapping, CalendarMappings, DateMappings, TimeMappings, Datetime
 import { CalendarConfig } from "../classes/calendar-config";
 import { DatePrecision } from "../../util/helpers/date";
 import { ILocalizationValues } from "../../util/services/localization.service";
+import { DateComparer } from "../classes/date-comparer";
 
 export enum CalendarMode {
     DateOnly = 0,
