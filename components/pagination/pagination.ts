@@ -18,7 +18,13 @@ import { Component, Input, Output, OnChanges, SimpleChanges, EventEmitter, HostB
 <a *ngIf="hasBoundaryLinks" class="item"  (click)="setPage(pageCount)" [class.disabled]="page===pageCount">
     <span><i class="angle double right icon"></i></span>
 </a>
+`,
+    styles: [`
+:host .item {
+    transition: none;
+}
 `
+    ]
 })
 export class SuiPagination implements OnChanges {
 
