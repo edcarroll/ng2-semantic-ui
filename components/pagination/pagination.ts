@@ -149,14 +149,13 @@ export class SuiPagination implements OnChanges {
 
     // Lifecycle hooks
     public ngOnChanges(changes:SimpleChanges):void {
-        this.updatePages(this.page);
+        this.updatePages();
     }
 
     // Private methods
-    private updatePages(newPage:number):void {
+    private updatePages():void {
         this.pageCount = Math.max(1, Math.ceil(this._collectionSize / this._pageSize));
 
-        this.setPage(newPage);
         const [start, end] = this.applyPagination();
 
         this._pages.length = 0;
