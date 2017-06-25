@@ -6,30 +6,22 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "strictNullChecks": true,
+        "noEmitOnError": true,
         "noImplicitAny": true,
         "module": "es2015",
         "moduleResolution": "node",
-        "paths": {
-            "@angular/core": ["node_modules/@angular/core"],
-            "@angular/common": ["node_modules/@angular/common"],
-            "@angular/forms": ["node_modules/@angular/form"],
-            "rxjs": ["node_modules/rxjs"]
-        },
-        "rootDir": ".",
+        "outDir": "../dist",
         "sourceMap": true,
         "inlineSources": true,
         "target": "es5",
-        "skipLibCheck": true,
-        "lib": [
-            "es2015",
-            "dom"
-        ]
+        "lib": ["es2015", "dom"]
     },
-    "files": [
-        "index.ts"
+    "inclues": [
+        "**/*.ts"
     ],
     "angularCompilerOptions": {
-        "annotateForClosureCompiler": true,
+        "genDir": "../dist",
+        "skipTemplateCodegen": true,
         "strictMetadataEmit": true
     }
 }

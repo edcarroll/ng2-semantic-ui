@@ -43,6 +43,11 @@ export class SuiComponentFactory {
         this._applicationRef.attachView(componentRef.hostView);
     }
 
+    // Detaches the component from the root application node.
+    public detachFromApplication<T>(componentRef:ComponentRef<T>):void {
+        this._applicationRef.detachView(componentRef.hostView);
+    }
+
     // Moves the component to the specified DOM element.
     public moveToElement<T>(componentRef:ComponentRef<T>, element:Element):void {
         element.appendChild(componentRef.location.nativeElement);

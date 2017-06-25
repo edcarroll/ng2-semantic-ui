@@ -33,8 +33,6 @@ export abstract class SuiPopupController implements IPopup, OnDestroy, IPopupLif
 
         // Generate a new SuiPopup component and attach it to the application view.
         this._componentRef = this._componentFactory.createComponent(SuiPopup);
-        this._componentFactory.attachToApplication(this._componentRef);
-        this._componentFactory.detachFromDocument(this._componentRef);
 
         // Configure popup with provided config, and attach a reference to the anchor element.
         this.popup.config = config;
@@ -42,7 +40,7 @@ export abstract class SuiPopupController implements IPopup, OnDestroy, IPopupLif
 
         // When the popup is closed (onClose fires on animation complete),
         this.popup.onClose.subscribe(() =>
-            this._componentFactory.detachFromDocument(this._componentRef));
+            this._componentFactory.detachFromApplication(this._componentRef));
     }
 
     public openDelayed():void {
@@ -64,6 +62,7 @@ export abstract class SuiPopupController implements IPopup, OnDestroy, IPopupLif
         }
 
         // Move the generated element to the body to avoid any positioning issues.
+        this._componentFactory.attachToApplication(this._componentRef);
         this._componentFactory.moveToDocumentBody(this._componentRef);
 
         // Start popup open transition.
