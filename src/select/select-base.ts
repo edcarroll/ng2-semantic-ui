@@ -62,6 +62,11 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         this.dropdownService.isDisabled = !!value;
     }
 
+    @HostBinding("class.loading")
+    public get isSearching():boolean {
+        return this.searchService.isSearching;
+    }
+
     @ViewChild("queryInput")
     private _queryInput:ElementRef;
 
