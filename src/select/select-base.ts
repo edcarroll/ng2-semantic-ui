@@ -203,7 +203,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
 
     @HostListener("click", ["$event"])
     public onClick(e:HandledEvent):void {
-        if (!e.eventHandled) {
+        if (!e.eventHandled && !this.dropdownService.isAnimating) {
             e.eventHandled = true;
 
             // Immediately focus the search input whenever clicking on the select.
@@ -212,6 +212,16 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
             // If the dropdown is searchable, clicking should keep it open, otherwise we toggle the open state.
             this.dropdownService.setOpenState(this.isSearchable ? true : !this.dropdownService.isOpen);
         }
+    }
+
+    @HostListener("focusin")
+    private onFocusIn():void {
+        this.dropdownService.setOpenState(true);
+    }
+
+    @HostListener("focusout")
+    private onFocusOut():void {
+        this.dropdownService.setOpenState(false);
     }
 
     @HostListener("keypress", ["$event"])
