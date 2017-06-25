@@ -3,7 +3,7 @@
   "main": "bundles/ng2-semantic-ui.umd.min.js",
   "module": "index.js",
   "typings": "index.d.ts",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "description": "Angular 2 Semantic UI Components",
   "repository": {
     "type": "git",
@@ -42,9 +42,9 @@
     "@angular/common": "^4.1.0",
     "@angular/core": "^4.1.0",
     "@angular/forms": "^4.1.0",
-    "@types/popper.js": "^1.8.0",
+    "@types/popper.js": "^1.10.0",
     "element-closest": "^2.0.2",
-    "popper.js": "^1.0.6",
+    "popper.js": "^1.10.5",
     "rxjs": "^5.0.1"
   },
   "devDependencies": {

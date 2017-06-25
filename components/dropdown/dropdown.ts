@@ -37,6 +37,9 @@ export class SuiDropdown implements AfterContentInit {
         return this.service.isOpen && !this.service.isNested;
     }
 
+    // Tracks dropdown open state between `mousedown` and `click`.
+    private _isOpenOnMouseDown:boolean;
+
     @Input()
     public get isOpen():boolean {
         return this.service.isOpen;
@@ -115,9 +118,14 @@ export class SuiDropdown implements AfterContentInit {
         }
     }
 
+    @HostListener("document:mousedown", ["$event"])
+    public onDocumentMouseDown(e:MouseEvent):void {
+        this._isOpenOnMouseDown = this.isOpen;
+    }
+
     @HostListener("document:click", ["$event"])
     public onDocumentClick(e:MouseEvent):void {
-        if (!this._element.nativeElement.contains(e.target)) {
+        if (!this._element.nativeElement.contains(e.target) && this._isOpenOnMouseDown) {
             if (this.service.autoCloseMode === DropdownAutoCloseType.ItemClick ||
                 this.service.autoCloseMode === DropdownAutoCloseType.OutsideClick) {
                 // No need to reflect in parent since they are also bound to document.

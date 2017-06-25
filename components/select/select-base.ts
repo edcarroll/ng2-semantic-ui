@@ -193,8 +193,16 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         return options.find(o => value === this.valueGetter(o));
     }
 
+    public onCaretClick(e:HandledEvent):void {
+        if (!e.eventHandled) {
+            e.eventHandled = true;
+
+            this.dropdownService.setOpenState(!this.dropdownService.isOpen);
+        }
+    }
+
     @HostListener("click", ["$event"])
-    public onClick(e:HandledEvent & MouseEvent):void {
+    public onClick(e:HandledEvent):void {
         if (!e.eventHandled) {
             e.eventHandled = true;
 
