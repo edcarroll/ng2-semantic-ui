@@ -132,7 +132,7 @@ export class PositioningService {
         this._placement = placement;
 
         const modifiers = {
-            applyStyle: {
+            computeStyle: {
                 gpuAcceleration: false
             },
             preventOverflow: {
