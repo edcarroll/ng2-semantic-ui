@@ -1,9 +1,9 @@
 import { Component, ViewChild } from "@angular/core";
 import { ApiDefinition } from "app/components/api/api.component";
-import { SuiModalService } from "../../../../../components/modal/modal.service";
-import { ModalTemplate } from "../../../../../components/modal/modal-template";
-import { TemplateModalConfig, ComponentModalConfig, ModalSize } from "../../../../../components/modal/modal-config";
-import { Modal } from "../../../../../components/modal/modal-controls";
+import { SuiModalService } from "../../../../../src/modal/modal.service";
+import { ModalTemplate } from "../../../../../src/modal/modal-template";
+import { TemplateModalConfig, ComponentModalConfig, ModalSize } from "../../../../../src/modal/modal-config";
+import { Modal } from "../../../../../src/modal/modal-controls";
 import { AlertModal } from "../../modals/alert.modal";
 
 const exampleTemplateModalTemplate = `
