@@ -160,7 +160,9 @@ export class SuiSearch<T> implements AfterViewInit, ICustomValueAccessorHost<T> 
 
     @HostListener("focusin")
     private onFocusIn():void {
-        this.open();
+        if (!this.dropdownService.isAnimating) {
+            this.open();
+        }
     }
 
     private open():void {

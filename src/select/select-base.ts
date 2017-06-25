@@ -216,7 +216,9 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
 
     @HostListener("focusin")
     private onFocusIn():void {
-        this.dropdownService.setOpenState(true);
+        if (!this.dropdownService.isAnimating) {
+            this.dropdownService.setOpenState(true);
+        }
     }
 
     @HostListener("focusout")
