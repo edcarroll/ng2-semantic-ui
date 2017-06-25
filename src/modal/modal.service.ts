@@ -4,16 +4,6 @@ import { SuiModal } from "./modal";
 import { Modal } from "./modal-controls";
 import { ActiveModal } from "./active-modal";
 
-if (!("remove" in Element.prototype)) {
-    Element.prototype.remove = function():void {
-        // tslint:disable-next-line:no-invalid-this
-        const node = this;
-        if (node.parentNode) {
-            node.parentNode.removeChild(node);
-        }
-    };
-}
-
 @Injectable()
 export class SuiModalService {
     constructor(private _applicationRef:ApplicationRef,
@@ -71,15 +61,9 @@ export class SuiModalService {
             contentElement.remove();
         }
 
-        // Remove the template div from the DOM. This is to fix some styling issues.
-        const templateElement = modalComponent.templateSibling.element.nativeElement as Element;
-        templateElement.remove();
-
         // Attach the new modal component to the application.
+        // The component will move itself to the document body for correctl styling.
         this._applicationRef.attachView(componentRef.hostView);
-
-        // Move the new modal component DOM to the document body.
-        document.querySelector("body")!.appendChild(componentRef.location.nativeElement);
 
         // Initialise the generated modal with the provided config.
         modalComponent.loadConfig(modal);
