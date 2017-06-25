@@ -231,6 +231,20 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         }
     }
 
+    @HostListener("document:keydown", ["$event"])
+    public onDocumentKeyDown(e:KeyboardEvent):void {
+        if (e.target === this._element.nativeElement &&
+            !this.dropdownService.isOpen &&
+            e.keyCode === KeyCode.Down) {
+
+            // Enables support for focussing and opening with the keyboard alone.
+            // Using directly because Renderer2 doesn't have invokeElementMethod method anymore.
+            this._element.nativeElement.click();
+
+            e.preventDefault();
+        }
+    }
+
     protected focusInput():void {
         if (this.isSearchable) {
             // Focusses the search input only when searchable.
