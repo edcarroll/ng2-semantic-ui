@@ -1,20 +1,14 @@
 import { ElementRef, EventEmitter } from "@angular/core";
 import Popper from "popper.js";
 
-export type PositioningPlacement = "inherit" |
+export type PositioningPlacement = "auto" |
                                    "top left" | "top" | "top right" |
                                    "bottom left" | "bottom" | "bottom right" |
                                    "left top" | "left" | "left bottom" |
                                    "right top" | "right" | "right bottom";
 
-type PopperPlacement = "inherit" |
-                       "top-start" | "top" | "top-end" |
-                       "left-start" | "left" | "left-end" |
-                       "bottom-start" | "bottom" | "bottom-end" |
-                       "right-start" | "right" | "right-end";
-
 export const PositioningPlacement = {
-    Inherit: "inherit" as PositioningPlacement,
+    Auto: "auto" as PositioningPlacement,
     TopLeft: "top left" as PositioningPlacement,
     Top: "top" as PositioningPlacement,
     TopRight: "top right" as PositioningPlacement,
@@ -38,9 +32,9 @@ export interface IPositionBoundingBox {
     right:number;
 }
 
-function placementToPopper(placement:PositioningPlacement):PopperPlacement {
-    if (!placement || placement === PositioningPlacement.Inherit) {
-        return "inherit";
+function placementToPopper(placement:PositioningPlacement):Popper.Placement {
+    if (!placement || placement === PositioningPlacement.Auto) {
+        return "auto";
     }
 
     // All placements of the format: `direction alignment`, e.g. `top left`.
@@ -62,12 +56,12 @@ function placementToPopper(placement:PositioningPlacement):PopperPlacement {
     }
 
     // Join with hyphen to create Popper compatible placement.
-    return chosenPlacement.join("-") as PopperPlacement;
+    return chosenPlacement.join("-") as Popper.Placement;
 }
 
 function popperToPlacement(popper:string):PositioningPlacement {
-    if (!popper || popper === "inherit") {
-        return "inherit";
+    if (!popper || popper === "auto") {
+        return "auto";
     }
 
     const [direction, alignment] = popper.split("-");
@@ -122,7 +116,7 @@ export class PositioningService {
 
     public get actualPlacement():PositioningPlacement {
         if (!this._popperState) {
-            return PositioningPlacement.Inherit;
+            return PositioningPlacement.Auto;
         }
 
         return popperToPlacement(this._popperState.placement);
