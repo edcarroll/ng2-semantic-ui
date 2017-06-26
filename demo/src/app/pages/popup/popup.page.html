@@ -18,15 +18,19 @@
     <demo-example [code]="exampleTemplateTemplate">
         <div info>
             <h4 class="ui header">Template</h4>
-            <p>You can use a <code>template</code> element for a popup</p>
+            <p>You can use a <code>template</code> element for a popup.</p>
+            <p>
+                If you need to access a local variable, such as within an <code>*ngFor</code>,
+                place the template within the scope of the repeated elements.
+            </p>
         </div>
         <example-popup-template result></example-popup-template>
     </demo-example>
     
     <demo-example [code]="examplePlacementTemplate">
         <div info>
-            <h4 class="ui header">Template</h4>
-            <p>You can use a <code>template</code> element for a popup</p>
+            <h4 class="ui header">Placement</h4>
+            <p>You can control the placement (position) of each popup.</p>
         </div>
         <div result>
             <example-popup-placement class="ui cards" [position]="position"></example-popup-placement>

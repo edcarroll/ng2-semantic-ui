@@ -1,5 +1,5 @@
 import { Component, HostBinding } from "@angular/core";
-import { SuiPopupConfig } from "../../../components/popup/popup.service";
+import { SuiPopupConfig } from "../../../src/popup/popup.service";
 
 @Component({
     selector: "demo-root",

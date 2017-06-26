@@ -44,6 +44,10 @@ export class HandledEvent {
     public eventHandled:boolean;
 }
 
+export interface IDynamicClasses {
+    [name:string]:true;
+}
+
 export function parseBooleanAttribute(attributeValue:boolean):boolean {
     let value = attributeValue;
     if (typeof attributeValue === "string") {

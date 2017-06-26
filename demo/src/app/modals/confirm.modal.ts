@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
-import { Modal } from "../../../../components/modal/modal-controls";
-import { ComponentModalConfig, ModalSize } from "../../../../components/modal/modal-config";
+import { Modal } from "../../../../src/modal/modal-controls";
+import { ComponentModalConfig, ModalSize } from "../../../../src/modal/modal-config";
 
 interface IConfirmModalContext {
     question:string;

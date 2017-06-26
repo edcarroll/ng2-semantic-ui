@@ -12,6 +12,8 @@ export const DropdownAutoCloseType = {
 export class DropdownService {
     // Open state of the dropdown
     public isOpen:boolean;
+    // Animating state of the dropdown.
+    public isAnimating:boolean;
     // Emitter for when dropdown open state changes.
     public isOpenChange:EventEmitter<boolean>;
 
@@ -43,6 +45,7 @@ export class DropdownService {
         if (this.isOpen !== isOpen && !this.isDisabled) {
             // Only update the state if it has changed, and the dropdown isn't disabled.
             this.isOpen = !!isOpen;
+            this.isAnimating = true;
             // We must delay the emitting to avoid the 'changed after checked' Angular errors.
             this.delay(() => this.isOpenChange.emit(this.isOpen));
 

@@ -203,7 +203,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
 
     @HostListener("click", ["$event"])
     public onClick(e:HandledEvent):void {
-        if (!e.eventHandled) {
+        if (!e.eventHandled && !this.dropdownService.isAnimating) {
             e.eventHandled = true;
 
             // Immediately focus the search input whenever clicking on the select.
@@ -212,6 +212,18 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
             // If the dropdown is searchable, clicking should keep it open, otherwise we toggle the open state.
             this.dropdownService.setOpenState(this.isSearchable ? true : !this.dropdownService.isOpen);
         }
+    }
+
+    @HostListener("focusin")
+    private onFocusIn():void {
+        if (!this.dropdownService.isAnimating) {
+            this.dropdownService.setOpenState(true);
+        }
+    }
+
+    @HostListener("focusout")
+    private onFocusOut():void {
+        this.dropdownService.setOpenState(false);
     }
 
     @HostListener("keypress", ["$event"])
@@ -228,6 +240,20 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         const target = e.target as IAugmentedElement;
         if (!this._element.nativeElement.contains(e.target)) {
             this.dropdownService.setOpenState(false);
+        }
+    }
+
+    @HostListener("document:keydown", ["$event"])
+    public onDocumentKeyDown(e:KeyboardEvent):void {
+        if (e.target === this._element.nativeElement &&
+            !this.dropdownService.isOpen &&
+            e.keyCode === KeyCode.Down) {
+
+            // Enables support for focussing and opening with the keyboard alone.
+            // Using directly because Renderer2 doesn't have invokeElementMethod method anymore.
+            this._element.nativeElement.click();
+
+            e.preventDefault();
         }
     }
 

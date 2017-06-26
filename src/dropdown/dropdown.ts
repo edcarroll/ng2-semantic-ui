@@ -37,9 +37,6 @@ export class SuiDropdown implements AfterContentInit {
         return this.service.isOpen && !this.service.isNested;
     }
 
-    // Tracks dropdown open state between `mousedown` and `click`.
-    private _isOpenOnMouseDown:boolean;
-
     @Input()
     public get isOpen():boolean {
         return this.service.isOpen;
@@ -105,6 +102,11 @@ export class SuiDropdown implements AfterContentInit {
         }
     }
 
+    @HostListener("focusout")
+    private onFocusOut():void {
+        this.externallyClose();
+    }
+
     @HostListener("keypress", ["$event"])
     public onKeypress(e:HandledEvent & KeyboardEvent):void {
         // Block the keyboard event from being fired on parent dropdowns.
@@ -118,19 +120,18 @@ export class SuiDropdown implements AfterContentInit {
         }
     }
 
-    @HostListener("document:mousedown", ["$event"])
-    public onDocumentMouseDown(e:MouseEvent):void {
-        this._isOpenOnMouseDown = this.isOpen;
-    }
-
     @HostListener("document:click", ["$event"])
     public onDocumentClick(e:MouseEvent):void {
-        if (!this._element.nativeElement.contains(e.target) && this._isOpenOnMouseDown) {
-            if (this.service.autoCloseMode === DropdownAutoCloseType.ItemClick ||
+        if (!this._element.nativeElement.contains(e.target) && this.isOpen && !this.service.isAnimating) {
+            this.externallyClose();
+        }
+    }
+
+    private externallyClose():void {
+        if (this.service.autoCloseMode === DropdownAutoCloseType.ItemClick ||
                 this.service.autoCloseMode === DropdownAutoCloseType.OutsideClick) {
                 // No need to reflect in parent since they are also bound to document.
-                this.service.setOpenState(false);
-            }
+            this.service.setOpenState(false);
         }
     }
 }

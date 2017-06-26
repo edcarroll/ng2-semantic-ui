@@ -1,4 +1,7 @@
-import { Component, Directive, Input, Output, HostListener, HostBinding, EventEmitter, forwardRef } from "@angular/core";
+import {
+    Component, Directive, Input, Output, HostListener, HostBinding,
+    EventEmitter, forwardRef, ViewChild, ElementRef
+} from "@angular/core";
 import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor } from "../util/custom-value-accessor";
 
 @Component({
@@ -11,7 +14,8 @@ import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccess
        [attr.checked]="checkedAttribute"
        [attr.disabled]="isDisabledAttribute"
        [ngModel]="isChecked"
-       (ngModel)="currentValue = value">
+       (ngModel)="currentValue = value"
+       #radio>
 <label>
     <ng-content></ng-content>
 </label>
@@ -44,6 +48,9 @@ export class SuiRadioButton<T> implements ICustomValueAccessorHost<T> {
     @Input()
     public isReadonly:boolean;
 
+    @ViewChild("radio")
+    private _radioElement:ElementRef;
+
     public get checkedAttribute():string | undefined {
         return this.isChecked ? "" : undefined;
     }
@@ -68,6 +75,7 @@ export class SuiRadioButton<T> implements ICustomValueAccessorHost<T> {
             this.currentValue = this.value;
             this.currentValueChange.emit(this.currentValue);
             this.update();
+            this.focusRadio();
         }
     }
 
@@ -78,6 +86,10 @@ export class SuiRadioButton<T> implements ICustomValueAccessorHost<T> {
     public writeValue(value:T):void {
         this.currentValue = value;
         this.update();
+    }
+
+    private focusRadio():void {
+        this._radioElement.nativeElement.focus();
     }
 }
 

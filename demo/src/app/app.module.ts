@@ -3,7 +3,7 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 
-import { SuiSidebarModule } from "../../../components/sidebar/sidebar.module";
+import { SuiSidebarModule } from "../../../src/sidebar/sidebar.module";
 import { DemoRoutingModule } from "./app.routing";
 import { DemoComponentsModule } from "./components/demo-components.module";
 import { DemoModalsModule } from "./modals/demo-modals.module";
