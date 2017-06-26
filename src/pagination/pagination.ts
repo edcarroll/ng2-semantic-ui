@@ -161,14 +161,14 @@ export class SuiPagination implements OnChanges {
         const maxSize = (this.maxSize != undefined) ? Math.min(this.maxSize, this.pageCount) : this.pageCount;
 
         const page = Math.ceil(this.page / maxSize) - 1;
-        let start = page * maxSize;
-        let end = start + maxSize;
+        let start = 0;
+        let end = this.pageCount;
 
         if (this.canRotate) {
             const leftOffset = Math.floor(maxSize / 2);
             const rightOffset = maxSize % 2 === 0 ? leftOffset - 1 : leftOffset;
 
-            if (this.page  <= leftOffset) {
+            if (this.page <= leftOffset) {
                 end = maxSize;
             } else if (this.pageCount - this.page < leftOffset) {
                 start = this.pageCount - maxSize;
@@ -176,6 +176,9 @@ export class SuiPagination implements OnChanges {
                 start = this.page - leftOffset - 1;
                 end = this.page + rightOffset;
             }
+        } else {
+            start = page * maxSize;
+            end = start + maxSize;
         }
 
         return [start, Math.min(end, this.pageCount)];
