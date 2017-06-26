@@ -72,7 +72,7 @@ export class DatepickerPage {
             selector: "input[suiDatepicker]",
             properties: [
                 {
-                    name: "useNativeOnMobile",
+                    name: "pickerUseNativeOnMobile",
                     type: "boolean",
                     description: "Whether the datepicker should use the native HTML5 pickers when on a mobile device.",
                     defaultValue: "true"

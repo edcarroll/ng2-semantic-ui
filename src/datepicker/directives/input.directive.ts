@@ -13,7 +13,7 @@ const mobileDetect = new MobileDetect(window.navigator.userAgent);
 export class SuiDatepickerInputDirective {
     private _useNativeOnMobile:boolean;
 
-    @Input()
+    @Input("pickerUseNativeOnMobile")
     public get useNativeOnMobile():boolean {
         return this._useNativeOnMobile;
     }
