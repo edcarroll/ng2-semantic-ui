@@ -4,8 +4,11 @@ import { ApiDefinition } from "../../components/api/api.component";
 const exampleStandardTemplate = `
 <div class="ui segments">
     <div class="ui segment">
-        <sui-pagination [collectionSize]="100" [pageSize]="10" [hasNavigationLinks]="navigation" [hasBoundaryLinks]="boundary"
-            [(page)]="selectedPage">
+        <sui-pagination [collectionSize]="100"
+                        [pageSize]="10"
+                        [hasNavigationLinks]="navigation"
+                        [hasBoundaryLinks]="boundary"
+                        [(page)]="selectedPage">
         </sui-pagination>
     </div>
     <div class="ui segment">
@@ -51,16 +54,20 @@ const exampleMaxSizeTemplate = `
 const exampleRotationTemplate = `
 <div class="ui segments">
     <div class="ui segment">
-        <sui-pagination [collectionSize]="100" [pageSize]="10" [maxSize]="maxSize" [hasBoundaryLinks]="showBoundary"
-            [(page)]="selectedPage" [canRotate]="true">
+        <sui-pagination [collectionSize]="100"
+                        [pageSize]="10"
+                        [maxSize]="maxSize"
+                        [hasEllipses]="ellipses"
+                        [canRotate]="true"
+                        [(page)]="selectedPage">
         </sui-pagination>
-        <p>Current page: {{ selectedPage }}</p>
     </div>
     <div class="ui segment">
+        <p>Current page: {{ selectedPage }}</p>
         <div class="ui small form">
-            <button class="ui primary button" (click)="showBoundary = !showBoundary">
-                Toggle Boundary
-            </button>
+            <div class="field">
+                <sui-checkbox [(ngModel)]="ellipses">Ellipses?</sui-checkbox>    
+            </div>
             <div class="field">
                 <label>Max Size</label>
                 <input type="number" [(ngModel)]=maxSize>
@@ -190,14 +197,14 @@ export class PaginationExampleMaxSize implements OnInit {
 export class PaginationExampleRotation implements OnInit {
 
     public selectedPage:number;
-    public showBoundary:boolean;
+    public ellipses:boolean;
     public maxSize:number;
 
     constructor() { }
 
     public ngOnInit():void {
         this.selectedPage = 1;
-        this.showBoundary = false;
+        this.ellipses = false;
         this.maxSize = 5;
     }
 }
