@@ -9,7 +9,7 @@ import { Component, Input, Output, OnChanges, SimpleChanges, EventEmitter, HostB
 <a *ngIf="hasNavigationLinks" class="item" (click)="setPage(page-1)" [class.disabled]="!hasPrevious()">
     <span><i class="angle left icon"></i></span>
 </a>
-<ng-container>
+<ng-container *ngIf="hasEllipses">
     <a class="item" (click)="setPage(1)" *ngIf="pages[0] !== 1">
         <span>1</span>
     </a>
@@ -18,7 +18,7 @@ import { Component, Input, Output, OnChanges, SimpleChanges, EventEmitter, HostB
 <a *ngFor="let p of pages" class="item" [class.active]="p===page" (click)="setPage(p)">
     {{ p }}
 </a>
-<ng-container>
+<ng-container *ngIf="hasEllipses">
     <a class="disabled item" *ngIf="pages[pages.length - 1] < pageCount - 1">...</a>
     <a class="item" (click)="setPage(pageCount)" *ngIf="pages[pages.length - 1] !== pageCount">
         <span>{{ pageCount }}</span>
@@ -35,8 +35,7 @@ import { Component, Input, Output, OnChanges, SimpleChanges, EventEmitter, HostB
 :host .item {
     transition: none;
 }
-`
-    ]
+`]
 })
 export class SuiPagination implements OnChanges {
 
