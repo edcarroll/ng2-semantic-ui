@@ -14,7 +14,6 @@ export class CalendarRangeYearService extends CalendarRangeService {
     }
 }
 
-
 @Component({
     selector: "sui-calendar-year-view",
     template: `

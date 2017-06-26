@@ -17,7 +17,7 @@ export class CalendarRangeDateService extends CalendarRangeService {
     public configureItem(item:CalendarItem, baseDate:Date):void {
         item.humanReadable = item.date.getDate().toString();
         item.isOutsideRange = item.date.getMonth() !== baseDate.getMonth();
-        item.isVisuallyDisabled = item.isDisabled || item.isOutsideRange;
+        item.isSelectable = item.isDisabled || item.isOutsideRange;
     }
 }
 

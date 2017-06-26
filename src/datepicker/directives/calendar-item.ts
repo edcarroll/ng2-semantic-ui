@@ -11,7 +11,7 @@ export class CalendarItem {
     public isActive:boolean;
     public isOutsideRange:boolean;
     public isToday:boolean;
-    public isVisuallyDisabled:boolean;
+    public isSelectable:boolean;
 
     constructor(date:Date) {
         this.date = date;
@@ -26,8 +26,8 @@ export class SuiCalendarItem {
     public item:CalendarItem;
 
     @HostBinding("class.disabled")
-    public get isDisabled():boolean {
-        return this.item.isVisuallyDisabled;
+    public get isSelectable():boolean {
+        return this.item.isSelectable;
     }
 
     @HostBinding("class.active")

@@ -23,18 +23,18 @@ export class CalendarRange {
     }
 
     public find(item:CalendarItem):CalendarItem | undefined {
-        return this.items.find(i => this._comparer.isEqualTo(i.date, item.date));
+        return this.items.find(i => this._comparer.equal(i.date, item.date));
     }
 
     public findIndex(item:CalendarItem | undefined):number {
         if (!item) {
             return -1;
         }
-        return this.items.findIndex(i => this._comparer.isEqualTo(i.date, item.date));
+        return this.items.findIndex(i => this._comparer.equal(i.date, item.date));
     }
 
     public containsDate(date:Date):boolean {
-        return !!this.inRange.find(i => this._comparer.isEqualTo(i.date, date));
+        return !!this.inRange.find(i => this._comparer.equal(i.date, date));
     }
 }
 
@@ -148,10 +148,10 @@ export abstract class CalendarRangeService {
         return dateRange.map(date => {
             const item = new CalendarItem(date);
 
-            item.isDisabled = !this.dateComparer.isBetween(item.date, this.service.minDate, this.service.maxDate);
-            item.isActive = this.dateComparer.isEqualTo(item.date, this.service.selectedDate);
-            item.isToday = this.dateComparer.isEqualTo(item.date, new Date());
-            item.isVisuallyDisabled = item.isDisabled;
+            item.isDisabled = !this.dateComparer.between(item.date, this.service.minDate, this.service.maxDate);
+            item.isActive = this.dateComparer.equal(item.date, this.service.selectedDate);
+            item.isToday = this.dateComparer.equal(item.date, new Date());
+            item.isSelectable = item.isDisabled;
 
             this.configureItem(item, baseDate);
 

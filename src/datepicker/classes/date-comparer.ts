@@ -10,7 +10,7 @@ export class DateComparer {
         this._isSmallest = isSmallest;
     }
 
-    public isEqualTo(a:Date, b:Date | undefined):boolean {
+    public equal(a:Date, b:Date | undefined):boolean {
         if (this._precision === DatePrecision.Minute) {
             return !!b &&
                Util.Date.equal(DatePrecision.Hour, b, a) &&
@@ -20,7 +20,7 @@ export class DateComparer {
         return !!b && Util.Date.equal(this._precision, a, b);
     }
 
-    public isLessThan(a:Date, b:Date | undefined):boolean {
+    public lessThan(a:Date, b:Date | undefined):boolean {
         if (this._isSmallest) {
             return !b || (b > a);
         }
@@ -28,7 +28,7 @@ export class DateComparer {
         return !b || (Util.Date.endOf(this._precision, Util.Date.clone(b)) > a);
     }
 
-    public isGreaterThan(a:Date, b:Date | undefined):boolean {
+    public greaterThan(a:Date, b:Date | undefined):boolean {
         if (this._isSmallest) {
             return !b || (b < a);
         }
@@ -36,7 +36,7 @@ export class DateComparer {
         return !b || (Util.Date.startOf(this._precision, Util.Date.clone(b)) < a);
     }
 
-    public isBetween(date:Date, left:Date | undefined, right:Date | undefined):boolean {
-        return this.isGreaterThan(date, left) && this.isLessThan(date, right);
+    public between(date:Date, left:Date | undefined, right:Date | undefined):boolean {
+        return this.greaterThan(date, left) && this.lessThan(date, right);
     }
 }
