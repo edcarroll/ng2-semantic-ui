@@ -3,7 +3,7 @@ import { Component, HostBinding, Directive, EventEmitter, Output, HostListener }
 import { Util } from "../../util/util";
 import { CalendarViewType, CalendarViewResult } from "./../views/calendar-view";
 import { CalendarService, CalendarMode } from "./../services/calendar.service";
-import { DatetimeConfig, TimeConfig, DateConfig, MonthConfig, YearConfig } from "./../classes/calendar-config";
+import { DateConfig } from "./../classes/calendar-config";
 import { SuiLocalizationService } from "../../util/services/localization.service";
 import { CalendarConfig } from "../classes/calendar-config";
 

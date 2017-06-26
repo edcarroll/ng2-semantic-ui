@@ -116,7 +116,10 @@ export class SuiDatepickerDirective
             this.componentInstance.service.selectedDate = this.selectedDate;
             this.componentInstance.service.maxDate = this.maxDate;
             this.componentInstance.service.minDate = this.minDate;
-            this.componentInstance.service.firstDayOfWeek = this.firstDayOfWeek;
+
+            if (this.firstDayOfWeek != undefined) {
+                this.componentInstance.service.firstDayOfWeek = this.firstDayOfWeek;
+            }
 
             this.componentInstance.service.reset();
 

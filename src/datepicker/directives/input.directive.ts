@@ -3,20 +3,23 @@ import { Directive, Host, Input, ElementRef, HostBinding, HostListener } from "@
 import { SuiDatepickerDirective } from "./datepicker.directive";
 import { IDateParser, DateParser } from "../classes/date-parser";
 import { PopupTrigger } from "../../popup/classes/popup-config";
+import * as MobileDetect from "mobile-detect";
+
+const mobileDetect = new MobileDetect(window.navigator.userAgent);
 
 @Directive({
     selector: "input[suiDatepicker]"
 })
 export class SuiDatepickerInputDirective {
-    private _mobileFallback:boolean;
+    private _useNativeOnMobile:boolean;
 
-    public get mobileFallback():boolean {
-        return this._mobileFallback;
+    public get useNativeOnMobile():boolean {
+        return this._useNativeOnMobile;
     }
 
-    public set mobileFallback(fallback:boolean) {
-        this._mobileFallback = fallback;
-
+    public set useNativeOnMobile(fallback:boolean) {
+        this._useNativeOnMobile = fallback;
+        this.fallbackActive = this.useNativeOnMobile ? !!mobileDetect.mobile() : false;
     }
 
     private _fallbackActive:boolean;
@@ -56,8 +59,8 @@ export class SuiDatepickerInputDirective {
     }
 
     constructor(@Host() public datepicker:SuiDatepickerDirective, public element:ElementRef) {
-        this.mobileFallback = true;
-        this.fallbackActive = true;
+        this.useNativeOnMobile = true;
+        this.fallbackActive = false;
 
         // Whenever the datepicker value updates, update the input text alongside it.
         this.datepicker.onDateChange.subscribe(() =>

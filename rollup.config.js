@@ -4,7 +4,7 @@ import uglify from 'rollup-plugin-uglify'
 
 export default {
     moduleName: 'ng2-semantic-ui',
-    entry: 'index.js',
+    entry: 'dist/index.js',
     dest: 'bundles/ng2-semantic-ui.umd.min.js', // output a single application bundle
     sourceMap: false,
     format: 'umd',
@@ -31,7 +31,8 @@ export default {
         commonjs({
             include: [
                 'node_modules/element-closest/**',
-                'node_modules/popper.js/**'
+                'node_modules/popper.js/**',
+                'node_modules/mobile-detect/**'
             ]
         }),
         uglify()

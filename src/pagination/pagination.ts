@@ -63,7 +63,7 @@ export class SuiPagination implements OnChanges {
     }
 
     public set maxSize(value:number | undefined) {
-        this._maxSize = (value !== undefined) ? Math.max(value, 1) : undefined;
+        this._maxSize = (value != undefined) ? Math.max(value, 1) : undefined;
     }
 
     @Input()

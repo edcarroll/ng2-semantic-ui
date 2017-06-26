@@ -76,11 +76,11 @@ export class CalendarService {
 
     private _firstDayOfWeek:number;
 
-    public get firstDayOfWeek():number | undefined {
+    public get firstDayOfWeek():number {
         return this._firstDayOfWeek;
     }
 
-    public set firstDayOfWeek(firstDayOfWeek:number | undefined) {
+    public set firstDayOfWeek(firstDayOfWeek:number) {
         if (firstDayOfWeek) {
             this._firstDayOfWeek = Math.max(0, Math.min(6, firstDayOfWeek));
         }
