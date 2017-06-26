@@ -46,7 +46,7 @@ const exampleRotationTemplate = `
 <div class="ui segments">
     <div class="ui segment">
         <sui-pagination [collectionSize]="100" [pageSize]="10" [maxSize]="maxSize" [hasBoundaryLinks]="showBoundary"
-            [(page)]="selectedPage" [hasRotation]="true">
+            [(page)]="selectedPage" [canRotate]="true">
         </sui-pagination>
         <p>Current page: {{ selectedPage }}</p>
     </div>
@@ -68,7 +68,7 @@ const exampleRotationTemplate = `
     selector: "demo-page-pagination",
     templateUrl: "./pagination.page.html"
 })
-export class PaginationPage implements OnInit {
+export class PaginationPage {
     public api:ApiDefinition = [
         {
             selector: "<sui-pagination>",
@@ -77,48 +77,50 @@ export class PaginationPage implements OnInit {
                     name: "collectionSize",
                     type: "number",
                     description: "Sets the number of items in the collection.",
-                    defaultValue: "100",
                     required: true
+                },
+                {
+                    name: "maxSize",
+                    type: "number",
+                    description: "Sets the maximum number of pages shown (boundary, navigation & ellipses excluded)."
                 },
                 {
                     name: "hasBoundaryLinks",
                     type: "boolean",
-                    description: "Whetever or not the boundary links (<code><<</code> and <code>>></code>) are displayed.",
+                    description: "Whether to show the boundary links (<code><<</code> and <code>>></code>).",
                     defaultValue: "false"
                 },
                 {
                     name: "hasNavigation",
                     type: "boolean",
-                    description: "Whetever or not the navigation links (<code><</code> and <code>></code>) are displayed. " +
-                        "Forced to be displayed when <code>maxSize</code> < number of pages.",
+                    description: "Whether to show the navigation links (<code><</code> and <code>></code>). " +
+                        "Forced to be displayed when <code>maxSize > pageCount</code>.",
                     defaultValue: "false"
                 },
                 {
-                    name: "hasRotation",
+                    name: "hasEllipses",
                     type: "boolean",
-                    description: "Whetever to rotate pages when <code>maxSize</code> > number of pages. " +
+                    description: "Whether to show ellipsis symbols & first/last page numbers when <code>maxSize > pageCount</code>.",
+                    defaultValue: "true"
+                },
+                {
+                    name: "canRotate",
+                    type: "boolean",
+                    description: "Whether to rotate pages when <code>maxSize > pageCount</code>. " +
                         "Current page will be in the middle.",
                     defaultValue: "false"
-                },
-                {
-                    name: "maxSize",
-                    type: "number",
-                    description: "Sets the maximum number of links shown (boundary and navigation excluded).",
-                    defaultValue: "0"
                 },
                 {
                     name: "page",
                     type: "number",
                     description: "Sets the current page.",
-                    defaultValue: "1",
-                    required: true
+                    defaultValue: "1"
                 },
                 {
                     name: "pageSize",
                     type: "number",
                     description: "Sets the number of items in each page.",
-                    defaultValue: "10",
-                    required: true
+                    defaultValue: "10"
                 }
             ],
             events: [
@@ -134,10 +136,6 @@ export class PaginationPage implements OnInit {
     public exampleStandardTemplate:string = exampleStandardTemplate;
     public exampleMaxSizeTemplate:string = exampleMaxSizeTemplate;
     public exampleRotationTemplate:string = exampleRotationTemplate;
-
-    constructor() { }
-
-    public ngOnInit():void { }
 }
 
 
