@@ -9,9 +9,21 @@ import { Component, Input, Output, OnChanges, SimpleChanges, EventEmitter, HostB
 <a *ngIf="hasNavigation" class="item" (click)="setPage(page-1)" [class.disabled]="!hasPrevious()">
     <span><i class="angle left icon"></i></span>
 </a>
+<ng-container>
+    <a class="item" (click)="setPage(1)" *ngIf="pages[0] !== 1">
+        <span>1</span>
+    </a>
+    <a class="disabled item" *ngIf="pages[0] > 2">...</a>
+</ng-container>
 <a *ngFor="let p of pages" class="item" [class.active]="p===page" (click)="setPage(p)">
     {{ p }}
 </a>
+<ng-container>
+    <a class="disabled item" *ngIf="pages[pages.length - 1] < pageCount - 1">...</a>
+    <a class="item" (click)="setPage(pageCount)" *ngIf="pages[pages.length - 1] !== pageCount">
+        <span>{{ pageCount }}</span>
+    </a>
+</ng-container>
 <a *ngIf="hasNavigation" class="item" (click)="setPage(page+1)" [class.disabled]="!hasNext()">
     <span><i class="angle right icon"></i></span>
 </a>
@@ -42,12 +54,9 @@ export class SuiPagination implements OnChanges {
     // Private members
     private _maxSize?:number;
     private _collectionSize:number;
-    private _pageSize:number;
     private _page:number;
     private _pages:number[];
-    private _hasBoundaryLinks:boolean;
     private _hasNavigation:boolean;
-    private _hasRotation:boolean;
 
     @Input()
     public get maxSize():number|undefined {
@@ -68,13 +77,7 @@ export class SuiPagination implements OnChanges {
     }
 
     @Input()
-    public get pageSize():number {
-        return this._pageSize;
-    }
-
-    public set pageSize(value:number) {
-        this._pageSize = value;
-    }
+    public pageSize:number;
 
     @Input()
     public get hasNavigation():boolean {
@@ -87,22 +90,13 @@ export class SuiPagination implements OnChanges {
     }
 
     @Input()
-    public get hasBoundaryLinks():boolean {
-        return this._hasBoundaryLinks;
-    }
-
-    public set hasBoundaryLinks(value:boolean) {
-        this._hasBoundaryLinks = value;
-    }
+    public hasBoundaryLinks:boolean;
 
     @Input()
-    public get canRotate():boolean {
-        return this._hasRotation;
-    }
+    public canRotate:boolean;
 
-    public set canRotate(value:boolean) {
-        this._hasRotation = value;
-    }
+    @Input()
+    public hasEllipses:boolean;
 
     @Input()
     public get page():number {
@@ -128,6 +122,7 @@ export class SuiPagination implements OnChanges {
         this.hasNavigation = false;
         this.hasBoundaryLinks = false;
         this.canRotate = false;
+        this.hasEllipses = true;
     }
 
     // Public methods
@@ -154,7 +149,7 @@ export class SuiPagination implements OnChanges {
 
     // Private methods
     private updatePages():void {
-        this.pageCount = Math.max(1, Math.ceil(this._collectionSize / this._pageSize));
+        this.pageCount = Math.max(1, Math.ceil(this._collectionSize / this.pageSize));
 
         const [start, end] = this.applyPagination();
 
