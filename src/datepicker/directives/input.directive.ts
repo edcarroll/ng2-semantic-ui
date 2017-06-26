@@ -27,7 +27,9 @@ export class SuiDatepickerInputDirective {
 
     public set fallbackActive(active:boolean) {
         this._fallbackActive = active;
+        // If the fallback is active, then the trigger must be manual so the datepicker never opens.
         this.datepicker.popup.config.trigger = this.fallbackActive ? PopupTrigger.Manual : PopupTrigger.Focus;
+        // Update the input value (this will insert the `T` as required).
         this.updateValue(this.selectedDateString);
     }
 
@@ -36,7 +38,9 @@ export class SuiDatepickerInputDirective {
     public get selectedDateString():string | undefined {
         if (this.datepicker.selectedDate) {
             const formatted = this.datepicker.config.parser.format(this.datepicker.selectedDate);
+            // If the fallback is currently active...
             if (this.fallbackActive) {
+                // ...replace the space between the date and time with `T` to support datetime-local.
                 return formatted.replace(" ", "T");
             }
             return formatted;
@@ -55,11 +59,14 @@ export class SuiDatepickerInputDirective {
         this.mobileFallback = true;
         this.fallbackActive = true;
 
+        // Whenever the datepicker value updates, update the input text alongside it.
         this.datepicker.onDateChange.subscribe(() =>
             this.updateValue(this.selectedDateString));
     }
 
     private updateValue(value:string | undefined):void {
+        // Only update the current value if it is different to what it's being updated to.
+        // This is so that the editing position isn't changed when manually typing the date.
         if (value && value !== this._currentInputValue) {
             this._currentInputValue = value;
             this.datepicker.renderer.setProperty(this.element.nativeElement, "value", this.selectedDateString);
@@ -71,15 +78,24 @@ export class SuiDatepickerInputDirective {
         this._currentInputValue = value;
 
         if (!value) {
-            this.datepicker.writeValue(undefined);
-            return;
+            // Delete the selected date if no date was entered manually.
+            return this.datepicker.writeValue(undefined);
         }
 
         try {
-            const parsed = this.datepicker.config.parser.parse(value);
+            // Parse the typed date, replacing `T` (for datetime-local support).
+            // Use the currently selected date as the base date.
+            const parsed = this.datepicker.config.parser.parse(
+                value.replace("T", " "),
+                this.datepicker.selectedDate);
+
+            // Run the parsed date through the configured post processors.
             this.datepicker.config.postProcess(parsed);
+
+            // Finally write the value to the datepicker.
             this.datepicker.writeValue(parsed);
         } catch (e) {
+            // If there are any errors encountered, delete the selected date.
             this.datepicker.writeValue(undefined);
         }
     }

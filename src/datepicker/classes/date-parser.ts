@@ -10,7 +10,7 @@ export interface IDateParser {
 export type ComponentParser = [number, string, (d:Date) => number, (d:Date, n:number) => void, DatePrecision];
 
 export const dateComponentParsers:ComponentParser[] = [
-    [4, "", d => d.getFullYear(), (d, y) => d.setFullYear(y), DatePrecision.Year],
+    [4, " ", d => d.getFullYear(), (d, y) => d.setFullYear(y), DatePrecision.Year],
     [2, "-", d => d.getMonth() + 1, (d, m) => d.setMonth(m - 1), DatePrecision.Month],
     [2, "-", d => d.getDate(), (d, a) => d.setDate(a), DatePrecision.Date],
     [2, " ", d => d.getHours(), (d, h) => d.setHours(h), DatePrecision.Hour],
@@ -28,16 +28,17 @@ export class DateParser implements IDateParser {
     }
 
     public format(date:Date):string {
-        // Join the accumulator with each new component using the provided separator.
-        // Using `join` ensures that we don't get any extra separators anywhere.
+        // Concat the accumulator with each new component using the provided separator.
         return this._parsers
-            .reduce((d, [i, s, outFn]) => [d, Util.String.padLeft(outFn(date).toString(), i, "0")].join(s), "");
+            .reduce((d, [i, s, outFn]) => `${d}${s}${Util.String.padLeft(outFn(date).toString(), i, "0")}`, "")
+            .slice(1);
     }
 
     public parse(dateString:string, baseDate:Date = new Date()):Date {
         // Generate a RegExp for the parts of the date we are parsing.
         const matcher = this._parsers
-            .reduce((regex, [i, s]) => [regex, `(\\d{${i}})`].join(s), "");
+            .reduce((regex, [i, s]) => `${regex}${s}(\\d{${i}})`, "")
+            .slice(1);
 
         // Generate an initial date based from the provided base date.
         const date = Util.Date.startOf(this._precision, Util.Date.clone(baseDate), true);
