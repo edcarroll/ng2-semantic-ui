@@ -45,7 +45,7 @@ export class CalendarService {
             this._selectedDate = undefined;
         }
 
-        this.config.updateBounds(this._selectedDate);
+        this.config.updateBounds(this._selectedDate || this.currentDate);
         this.onManualUpdate();
     }
 
@@ -101,6 +101,7 @@ export class CalendarService {
             if (this._maxDate) {
                 today = Math.min(today, this._maxDate.getTime());
             }
+
             this.currentDate = new Date(today);
             this.config.updateBounds(this.currentDate);
 

@@ -30,13 +30,11 @@ import { SuiDatepickerInputDirective } from "./directives/input.directive";
         SuiDatepicker,
         SuiDatepickerDirective,
         SuiDatepickerDirectiveValueAccessor,
-
         SuiDatepickerInputDirective
     ],
     exports: [
         SuiDatepickerDirective,
         SuiDatepickerDirectiveValueAccessor,
-
         SuiDatepickerInputDirective
     ],
     entryComponents: [

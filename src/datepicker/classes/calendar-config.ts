@@ -15,7 +15,7 @@ export abstract class CalendarConfig {
         this.mappings = mappings;
     }
 
-    public updateBounds(providedDate?:Date):void {
+    public updateBounds(providedDate:Date):void {
         this.dateMinBound = Util.Date.startOf(DatePrecision.Year, new Date(), true);
         this.dateMinBound.setFullYear(0);
     }
@@ -44,32 +44,22 @@ export class TimeConfig extends CalendarConfig {
         super(CalendarMode.TimeOnly, new TimeMappings());
     }
 
-    public updateBounds(providedDate?:Date):void {
-        if (!providedDate) {
-            return;
-        }
-
+    public updateBounds(providedDate:Date):void {
         this.dateMaxBound = Util.Date.endOf(DatePrecision.Date, Util.Date.clone(providedDate));
         this.dateMinBound = Util.Date.previous(DatePrecision.Date, Util.Date.clone(this.dateMaxBound));
     }
 }
 
-export class MonthConfig extends CalendarConfig {
+export class MonthConfig extends DateConfig {
     constructor() {
-        super(CalendarMode.DateOnly, new MonthMappings());
-    }
-
-    public postProcess(date:Date):void {
-        Util.Date.rewriteTimezone(date);
+        super();
+        this.mappings = new MonthMappings();
     }
 }
 
-export class YearConfig extends CalendarConfig {
+export class YearConfig extends DateConfig {
     constructor() {
-        super(CalendarMode.DateOnly, new YearMappings());
-    }
-
-    public postProcess(date:Date):void {
-        Util.Date.rewriteTimezone(date);
+        super();
+        this.mappings = new YearMappings();
     }
 }
