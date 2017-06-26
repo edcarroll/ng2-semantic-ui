@@ -13,14 +13,8 @@ export class CalendarItem {
     public isToday:boolean;
     public isVisuallyDisabled:boolean;
 
-    constructor(date:Date, humanReadable:string, isDisabled:boolean, isActive:boolean, isOutsideRange:boolean, isToday:boolean) {
+    constructor(date:Date) {
         this.date = date;
-        this.humanReadable = humanReadable;
-        this.isDisabled = isDisabled;
-        this.isActive = isActive;
-        this.isOutsideRange = isOutsideRange;
-        this.isToday = isToday;
-        this.isVisuallyDisabled = this.isDisabled;
     }
 }
 

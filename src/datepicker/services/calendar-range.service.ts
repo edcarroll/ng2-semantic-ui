@@ -145,8 +145,19 @@ export abstract class CalendarRangeService {
     }
 
     protected calcItems(dateRange:Date[], baseDate:Date):CalendarItem[] {
-        return dateRange.map(date => this.calcItem(date, baseDate, this.dateComparer));
+        return dateRange.map(date => {
+            const item = new CalendarItem(date);
+
+            item.isDisabled = !this.dateComparer.isBetween(item.date, this.service.minDate, this.service.maxDate);
+            item.isActive = this.dateComparer.isEqualTo(item.date, this.service.selectedDate);
+            item.isToday = this.dateComparer.isEqualTo(item.date, new Date());
+            item.isVisuallyDisabled = item.isDisabled;
+
+            this.configureItem(item, baseDate);
+
+            return item;
+        });
     }
 
-    public abstract calcItem(date:Date, baseDate:Date, comparer:DateComparer):CalendarItem;
+    public abstract configureItem(item:CalendarItem, baseDate:Date):void;
 }

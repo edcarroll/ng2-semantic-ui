@@ -8,14 +8,9 @@ import { DateComparer } from "../classes/date-comparer";
 import { CalendarRangeService } from "../services/calendar-range.service";
 
 export class CalendarRangeYearService extends CalendarRangeService {
-    public calcItem(date:Date, baseDate:Date, comparer:DateComparer):CalendarItem {
-        return new CalendarItem(
-            date,
-            Util.String.padLeft(date.getFullYear().toString(), 4, "0"),
-            !comparer.isBetween(date, this.service.minDate, this.service.maxDate),
-            comparer.isEqualTo(date, this.service.selectedDate),
-            date.getFullYear() >= baseDate.getFullYear() + 10,
-            comparer.isEqualTo(date, new Date()));
+    public configureItem(item:CalendarItem, baseDate:Date):void {
+        item.humanReadable = Util.String.padLeft(item.date.getFullYear().toString(), 4, "0");
+        item.isOutsideRange = item.date.getFullYear() >= this.calcStart(baseDate).getFullYear() + 10;
     }
 }
 

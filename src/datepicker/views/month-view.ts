@@ -9,14 +9,9 @@ import { DateComparer } from "../classes/date-comparer";
 import { CalendarRangeService } from "../services/calendar-range.service";
 
 export class CalendarRangeMonthService extends CalendarRangeService {
-    public calcItem(date:Date, baseDate:Date, comparer:DateComparer):CalendarItem {
-        return new CalendarItem(
-            date,
-            this.service.localizationValues.datepicker.monthsShort[date.getMonth()],
-            !comparer.isBetween(date, this.service.minDate, this.service.maxDate),
-            comparer.isEqualTo(date, this.service.selectedDate),
-            false,
-            comparer.isEqualTo(date, new Date()));
+    public configureItem(item:CalendarItem, baseDate:Date):void {
+        item.humanReadable = this.service.localizationValues.datepicker.monthsShort[item.date.getMonth()];
+        item.isOutsideRange = false;
     }
 }
 

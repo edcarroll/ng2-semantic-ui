@@ -14,14 +14,10 @@ export class CalendarRangeDateService extends CalendarRangeService {
         return monthStart;
     }
 
-    public calcItem(date:Date, baseDate:Date, comparer:DateComparer):CalendarItem {
-        return new CalendarItem(
-            date,
-            date.getDate().toString(),
-            !comparer.isBetween(date, this.service.minDate, this.service.maxDate),
-            comparer.isEqualTo(date, this.service.selectedDate),
-            date.getMonth() !== baseDate.getMonth(),
-            comparer.isEqualTo(date, new Date()));
+    public configureItem(item:CalendarItem, baseDate:Date):void {
+        item.humanReadable = item.date.getDate().toString();
+        item.isOutsideRange = item.date.getMonth() !== baseDate.getMonth();
+        item.isVisuallyDisabled = item.isDisabled || item.isOutsideRange;
     }
 }
 

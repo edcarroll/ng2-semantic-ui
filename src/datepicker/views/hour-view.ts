@@ -8,14 +8,10 @@ import { DateComparer } from "../classes/date-comparer";
 import { CalendarRangeService } from "../services/calendar-range.service";
 
 export class CalendarRangeHourService extends CalendarRangeService {
-    public calcItem(date:Date, baseDate:Date, comparer:DateComparer):CalendarItem {
-        return new CalendarItem(
-            date,
-            `${Util.String.padLeft(date.getHours().toString(), 2, "0")}:00`,
-            !comparer.isBetween(date, this.service.minDate, this.service.maxDate),
-            comparer.isEqualTo(date, this.service.selectedDate),
-            false,
-            false);
+    public configureItem(item:CalendarItem, baseDate:Date):void {
+        item.humanReadable = `${Util.String.padLeft(item.date.getHours().toString(), 2, "0")}:00`;
+        item.isOutsideRange = false;
+        item.isToday = false;
     }
 }
 
