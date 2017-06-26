@@ -2,6 +2,7 @@ import { CalendarItem } from "../directives/calendar-item";
 import { DatePrecision } from "../../util/helpers/date";
 import { Util } from "../../util/util";
 import { CalendarService } from "./calendar.service";
+import { DateComparer } from "../classes/date-comparer";
 
 export class CalendarRange {
     public start:Date;
@@ -43,6 +44,7 @@ export abstract class CalendarRangeService {
     public service:CalendarService;
 
     public interval:DatePrecision;
+    public marginal:DatePrecision;
     public rows:number;
     public columns:number;
 
@@ -68,6 +70,7 @@ export abstract class CalendarRangeService {
 
     constructor(interval:DatePrecision, rows:number, columns:number) {
         this.interval = interval;
+        this.marginal = interval as number + 1;
         this.rows = rows;
         this.columns = columns;
     }
@@ -128,13 +131,13 @@ export abstract class CalendarRangeService {
     protected calcDates(rangeStart:Date):Date[] {
         return Util.Array
             .range(this.length)
-            .map(i => Util.Date.add(this.interval as number + 1, Util.Date.clone(rangeStart), i));
+            .map(i => Util.Date.add(this.marginal, Util.Date.clone(rangeStart), i));
 
     }
 
     protected calcItems(dateRange:Date[], baseDate:Date):CalendarItem[] {
-        return dateRange.map(date => this.calcItem(date, baseDate));
+        return dateRange.map(date => this.calcItem(date, baseDate, new DateComparer(this.marginal, date)));
     }
 
-    public abstract calcItem(date:Date, baseDate:Date):CalendarItem;
+    public abstract calcItem(date:Date, baseDate:Date, comparer:DateComparer):CalendarItem;
 }

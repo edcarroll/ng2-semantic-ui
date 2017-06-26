@@ -4,12 +4,11 @@ import { CalendarView, CalendarViewType } from "./calendar-view";
 import { CalendarYearItem } from "../directives/calendar-item";
 import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";
-import { YearComparer } from "../classes/date-comparer";
+import { DateComparer } from "../classes/date-comparer";
 import { CalendarRangeService } from "../services/calendar-range.service";
 
 export class CalendarRangeYearService extends CalendarRangeService {
-    public calcItem(date:Date, baseDate:Date):CalendarYearItem {
-        const comparer = new YearComparer(date);
+    public calcItem(date:Date, baseDate:Date, comparer:DateComparer):CalendarYearItem {
         return new CalendarYearItem(
             date,
             Util.String.padLeft(date.getFullYear().toString(), 4, "0"),

@@ -4,7 +4,7 @@ import { SuiLocalizationService } from "../../util/services/localization.service
 import { CalendarMinuteItem } from "../directives/calendar-item";
 import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";
-import { MinuteComparer } from "../classes/date-comparer";
+import { DateComparer } from "../classes/date-comparer";
 import { CalendarMode } from "../services/calendar.service";
 import { CalendarRangeService } from "../services/calendar-range.service";
 
@@ -19,9 +19,7 @@ export class CalendarRangeMinuteService extends CalendarRangeService {
             .map(i => Util.Date.add(DatePrecision.Minute, Util.Date.clone(start), i * 5));
     }
 
-    public calcItem(date:Date, baseDate:Date):CalendarMinuteItem {
-        const comparer = new MinuteComparer(date);
-
+    public calcItem(date:Date, baseDate:Date, comparer:DateComparer):CalendarMinuteItem {
         const hs = Util.String.padLeft(date.getHours().toString(), 2, "0");
         const ms = Util.String.padLeft(date.getMinutes().toString(), 2, "0");
 

@@ -1,11 +1,12 @@
 
 import { Directive, HostBinding, HostListener, Input, EventEmitter } from "@angular/core";
 import { Util } from "../../util/util";
-import { Comparer, YearComparer, MonthComparer, HourComparer, MinuteComparer, DateComparer } from "../classes/date-comparer";
+import { DateComparer } from "../classes/date-comparer";
+import { DatePrecision } from "../../util/helpers/date";
 
 export abstract class CalendarItem {
-    protected get _comparer():Comparer {
-        return new DateComparer(this.date);
+    protected get _comparer():DateComparer {
+        return new DateComparer(DatePrecision.Date, this.date);
     }
 
     public date:Date;
@@ -44,14 +45,14 @@ export abstract class CalendarItem {
 }
 
 export class CalendarYearItem extends CalendarItem {
-    protected get _comparer():YearComparer {
-        return new YearComparer(this.date);
+    protected get _comparer():DateComparer {
+        return new DateComparer(DatePrecision.Year, this.date);
     }
 }
 
 export class CalendarMonthItem extends CalendarItem {
-    protected get _comparer():MonthComparer {
-        return new MonthComparer(this.date);
+    protected get _comparer():DateComparer {
+        return new DateComparer(DatePrecision.Month, this.date);
     }
 }
 
@@ -68,14 +69,14 @@ export class CalendarTimeItem extends CalendarItem {
 }
 
 export class CalendarHourItem extends CalendarTimeItem {
-    protected get _comparer():HourComparer {
-        return new HourComparer(this.date);
+    protected get _comparer():DateComparer {
+        return new DateComparer(DatePrecision.Hour, this.date);
     }
 }
 
 export class CalendarMinuteItem extends CalendarTimeItem {
-    protected get _comparer():MinuteComparer {
-        return new MinuteComparer(this.date);
+    protected get _comparer():DateComparer {
+        return new DateComparer(DatePrecision.Minute, this.date);
     }
 }
 

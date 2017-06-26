@@ -5,12 +5,11 @@ import { CalendarView, CalendarViewType } from "./calendar-view";
 import { CalendarMonthItem } from "../directives/calendar-item";
 import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";
-import { MonthComparer } from "../classes/date-comparer";
+import { DateComparer } from "../classes/date-comparer";
 import { CalendarRangeService } from "../services/calendar-range.service";
 
 export class CalendarRangeMonthService extends CalendarRangeService {
-    public calcItem(date:Date, baseDate:Date):CalendarMonthItem {
-        const comparer = new MonthComparer(date);
+    public calcItem(date:Date, baseDate:Date, comparer:DateComparer):CalendarMonthItem {
         return new CalendarMonthItem(
             date,
             this.service.localizationValues.datepicker.monthsShort[date.getMonth()],

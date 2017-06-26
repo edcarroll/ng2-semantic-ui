@@ -1,7 +1,7 @@
 import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";
 
-export abstract class Comparer {
+export class DateComparer {
     protected _precision:DatePrecision;
     protected _date:Date;
 
@@ -11,62 +11,32 @@ export abstract class Comparer {
     }
 
     public isEqualTo(date:Date | undefined):boolean {
+        if (this._precision === DatePrecision.Minute) {
+            return !!date &&
+               Util.Date.equal(DatePrecision.Hour, date, this._date) &&
+               Util.Math.roundDown(date.getMinutes(), 5) === Util.Math.roundDown(this._date.getMinutes(), 5);
+        }
+
         return !!date && Util.Date.equal(this._precision, this._date, date);
     }
 
     public isLessThan(date:Date | undefined):boolean {
+        if (this._precision === DatePrecision.Minute) {
+            return !date || (date > this._date);
+        }
+
         return !date || (Util.Date.endOf(this._precision, Util.Date.clone(date)) > this._date);
     }
 
     public isGreaterThan(date:Date | undefined):boolean {
+        if (this._precision === DatePrecision.Minute) {
+            return !date || (date < this._date);
+        }
+
         return !date || (Util.Date.startOf(this._precision, Util.Date.clone(date)) < this._date);
     }
 
     public isBetween(a:Date | undefined, b:Date | undefined):boolean {
         return this.isGreaterThan(a) && this.isLessThan(b);
-    }
-}
-
-export class YearComparer extends Comparer {
-    constructor(date:Date) {
-        super(DatePrecision.Year, date);
-    }
-}
-
-export class MonthComparer extends Comparer {
-    constructor(date:Date) {
-        super(DatePrecision.Month, date);
-    }
-}
-
-export class DateComparer extends Comparer {
-    constructor(date:Date) {
-        super(DatePrecision.Date, date);
-    }
-}
-
-export class HourComparer extends Comparer {
-    constructor(date:Date) {
-        super(DatePrecision.Hour, date);
-    }
-}
-
-export class MinuteComparer extends Comparer {
-    constructor(date:Date) {
-        super(DatePrecision.Minute, date);
-    }
-
-    public isEqualTo(date:Date | undefined):boolean {
-        return !!date &&
-               Util.Date.equal(DatePrecision.Hour, date, this._date) &&
-               Util.Math.roundDown(date.getMinutes(), 5) === Util.Math.roundDown(this._date.getMinutes(), 5);
-    }
-
-    public isLessThan(date:Date | undefined):boolean {
-        return !date || (date > this._date);
-    }
-
-    public isGreaterThan(date:Date | undefined):boolean {
-        return !date || (date < this._date);
     }
 }

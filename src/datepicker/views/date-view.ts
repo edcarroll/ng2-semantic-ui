@@ -14,8 +14,7 @@ export class CalendarRangeDateService extends CalendarRangeService {
         return monthStart;
     }
 
-    public calcItem(date:Date, baseDate:Date):CalendarDateItem {
-        const comparer = new DateComparer(date);
+    public calcItem(date:Date, baseDate:Date, comparer:DateComparer):CalendarDateItem {
         return new CalendarDateItem(
             date,
             date.getDate().toString(),

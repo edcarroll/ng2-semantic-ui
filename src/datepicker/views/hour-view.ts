@@ -4,12 +4,11 @@ import { SuiLocalizationService } from "../../util/services/localization.service
 import { CalendarHourItem } from "../directives/calendar-item";
 import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";
-import { HourComparer } from "../classes/date-comparer";
+import { DateComparer } from "../classes/date-comparer";
 import { CalendarRangeService } from "../services/calendar-range.service";
 
 export class CalendarRangeHourService extends CalendarRangeService {
-    public calcItem(date:Date, baseDate:Date):CalendarHourItem {
-        const comparer = new HourComparer(date);
+    public calcItem(date:Date, baseDate:Date, comparer:DateComparer):CalendarHourItem {
         return new CalendarHourItem(
             date,
             `${Util.String.padLeft(date.getHours().toString(), 2, "0")}:00`,
