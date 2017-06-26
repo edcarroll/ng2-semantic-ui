@@ -96,11 +96,11 @@ export class SuiPagination implements OnChanges {
     }
 
     @Input()
-    public get hasRotation():boolean {
+    public get canRotate():boolean {
         return this._hasRotation;
     }
 
-    public set hasRotation(value:boolean) {
+    public set canRotate(value:boolean) {
         this._hasRotation = value;
     }
 
@@ -127,7 +127,7 @@ export class SuiPagination implements OnChanges {
         this.pageCount = 1;
         this.hasNavigation = false;
         this.hasBoundaryLinks = false;
-        this.hasRotation = false;
+        this.canRotate = false;
     }
 
     // Public methods
@@ -172,7 +172,7 @@ export class SuiPagination implements OnChanges {
         let start = page * maxSize;
         let end = start + maxSize;
 
-        if (this.hasRotation) {
+        if (this.canRotate) {
             const leftOffset = Math.floor(maxSize / 2);
             const rightOffset = maxSize % 2 === 0 ? leftOffset - 1 : leftOffset;
 
