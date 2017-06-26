@@ -121,10 +121,10 @@ export class SuiPagination implements OnChanges {
         this._paginationClasses = true;
         this.pageChange = new EventEmitter<number>();
 
-        this.collectionSize = 100;
         this.pageSize = 10;
         this._page = 1;
         this._pages = [];
+        this.pageCount = 1;
         this.hasNavigation = false;
         this.hasBoundaryLinks = false;
         this.hasRotation = false;
@@ -166,9 +166,11 @@ export class SuiPagination implements OnChanges {
 
     private applyPagination():[number, number] {
 
-        const maxSize = (this.maxSize !== undefined) ? Math.min(this.maxSize, this.pageCount) : this.pageCount;
-        let start = 0;
-        let end = this.pageCount;
+        const maxSize = (this.maxSize != undefined) ? Math.min(this.maxSize, this.pageCount) : this.pageCount;
+
+        const page = Math.ceil(this.page / maxSize) - 1;
+        let start = page * maxSize;
+        let end = start + maxSize;
 
         if (this.hasRotation) {
             const leftOffset = Math.floor(maxSize / 2);
@@ -182,11 +184,8 @@ export class SuiPagination implements OnChanges {
                 start = this.page - leftOffset - 1;
                 end = this.page + rightOffset;
             }
-        } else {
-            const page = Math.ceil(this.page / maxSize) - 1;
-            start = page * maxSize;
-            end = start + maxSize;
         }
+
         return [start, end];
     }
 }
