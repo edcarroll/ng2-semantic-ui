@@ -15,7 +15,7 @@ import { PopupAfterOpen } from "../../popup/classes/popup-lifecycle";
 import { CalendarService } from "../services/calendar.service";
 
 @Directive({
-    selector: "input[suiDatepicker]"
+    selector: "[suiDatepicker]"
 })
 export class SuiDatepickerDirective
        extends SuiPopupComponentController<SuiDatepicker>

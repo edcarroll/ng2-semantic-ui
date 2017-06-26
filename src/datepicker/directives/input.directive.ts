@@ -1,12 +1,11 @@
 
-import { Directive, Host, Input, ElementRef, HostBinding } from "@angular/core";
+import { Directive, Host, Input, ElementRef, HostBinding, HostListener } from "@angular/core";
 import { SuiDatepickerDirective } from "./datepicker.directive";
 import { IDateParser, DateParser } from "../classes/date-parser";
 import { SuiLocalizationService } from "../../util/services/localization.service";
 
 @Directive({
-    selector: "input[suiDatepicker]",
-    host: { "(input)": "typeValue($event.target.value)" }
+    selector: "input[suiDatepicker]"
 })
 export class SuiDatepickerInputDirective {
     @Input()
@@ -42,6 +41,7 @@ export class SuiDatepickerInputDirective {
         });
     }
 
+    @HostListener("input", ["$event.target.value"])
     public typeValue(value:string | undefined):void {
         this._currentInputValue = value;
 
