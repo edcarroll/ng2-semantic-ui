@@ -1,6 +1,6 @@
 import { CalendarMode } from "../services/calendar.service";
 import { CalendarMappings, DatetimeMappings, DateMappings, TimeMappings, MonthMappings, YearMappings } from "./calendar-mappings";
-import { IDateParser, DatetimeParser, DateParser, TimeParser, MonthParser, YearParser } from "./date-parser";
+import { IDateParser, DateParser, dateComponentParsers } from "./date-parser";
 import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";
 
@@ -9,13 +9,16 @@ export abstract class CalendarConfig {
     public mappings:CalendarMappings;
     public parser:IDateParser;
 
+    public fallback:string;
+
     public dateMinBound?:Date;
     public dateMaxBound?:Date;
 
-    constructor(mode:CalendarMode, mappings:CalendarMappings, parser:IDateParser) {
+    constructor(mode:CalendarMode, mappings:CalendarMappings, parser:IDateParser, fallback:string) {
         this.mode = mode;
         this.mappings = mappings;
         this.parser = parser;
+        this.fallback = fallback;
     }
 
     public updateBounds(providedDate:Date):void {
@@ -26,15 +29,9 @@ export abstract class CalendarConfig {
     public postProcess(date:Date):void {}
 }
 
-export class DatetimeConfig extends CalendarConfig {
-    constructor() {
-        super(CalendarMode.Both, new DatetimeMappings(), new DatetimeParser());
-    }
-}
-
-export class DateConfig extends CalendarConfig {
-    constructor() {
-        super(CalendarMode.DateOnly, new DateMappings(), new DateParser());
+export class DateConfigBase extends CalendarConfig {
+    constructor(mappings:CalendarMappings, parser:IDateParser, fallback:string) {
+        super(CalendarMode.DateOnly, mappings, parser, fallback);
     }
 
     public postProcess(date:Date):void {
@@ -42,29 +39,37 @@ export class DateConfig extends CalendarConfig {
     }
 }
 
+export class YearConfig extends DateConfigBase {
+    constructor() {
+        super(new YearMappings(), new DateParser(dateComponentParsers.slice(0, 1)), "number");
+    }
+}
+
+export class MonthConfig extends DateConfigBase {
+    constructor() {
+        super(new MonthMappings(), new DateParser(dateComponentParsers.slice(0, 2)), "month");
+    }
+}
+
+export class DateConfig extends DateConfigBase {
+    constructor() {
+        super(new DateMappings(), new DateParser(dateComponentParsers.slice(0, 3)), "date");
+    }
+}
+
+export class DatetimeConfig extends CalendarConfig {
+    constructor() {
+        super(CalendarMode.Both, new DatetimeMappings(), new DateParser(dateComponentParsers), "datetime-local");
+    }
+}
+
 export class TimeConfig extends CalendarConfig {
     constructor() {
-        super(CalendarMode.TimeOnly, new TimeMappings(), new TimeParser());
+        super(CalendarMode.TimeOnly, new TimeMappings(), new DateParser(dateComponentParsers.slice(-2)), "time");
     }
 
     public updateBounds(providedDate:Date):void {
         this.dateMaxBound = Util.Date.endOf(DatePrecision.Date, Util.Date.clone(providedDate));
         this.dateMinBound = Util.Date.previous(DatePrecision.Date, Util.Date.clone(this.dateMaxBound));
-    }
-}
-
-export class MonthConfig extends DateConfig {
-    constructor() {
-        super();
-        this.mappings = new MonthMappings();
-        this.parser = new MonthParser();
-    }
-}
-
-export class YearConfig extends DateConfig {
-    constructor() {
-        super();
-        this.mappings = new YearMappings();
-        this.parser = new YearParser();
     }
 }
