@@ -1,5 +1,4 @@
 import { CalendarViewType } from "../views/calendar-view";
-import { DateComparer, YearComparer, MonthComparer } from "./date-comparer";
 import { Type } from "@angular/core";
 
 export type CalendarMapping<T = CalendarViewType> = Map<CalendarViewType, T>;
