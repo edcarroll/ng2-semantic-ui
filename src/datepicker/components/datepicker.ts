@@ -42,60 +42,6 @@ export class SuiDatepicker {
 
     public service:CalendarService;
 
-    public get config():CalendarConfig {
-        return this.service.config;
-    }
-
-    public set config(config:CalendarConfig) {
-        this.service.config = config;
-    }
-
-    public get selectedDate():Date | undefined {
-        return this.service.selectedDate;
-    }
-
-    public set selectedDate(date:Date | undefined) {
-        this.service.selectedDate = date;
-    }
-
-    public get currentView():CalendarViewType {
-        return this.service.currentView;
-    }
-
-    public set currentView(view:CalendarViewType) {
-        this.service.currentView = view;
-    }
-
-    public get maxDate():Date | undefined {
-        return this.service.maxDate;
-    }
-
-    public set maxDate(max:Date| undefined) {
-        this.service.maxDate = max;
-    }
-
-    public get minDate():Date | undefined {
-        return this.service.minDate;
-    }
-
-    public set minDate(min:Date | undefined) {
-        this.service.minDate = min;
-    }
-
-    public get firstDayOfWeek():number | undefined {
-        return this.service.firstDayOfWeek;
-    }
-
-    public set firstDayOfWeek(firstDayOfWeek:number | undefined) {
-        if (firstDayOfWeek) {
-            this.service.firstDayOfWeek = Math.max(0, Math.min(6, firstDayOfWeek));
-        }
-    }
-
-    public get onDateChange():EventEmitter<Date> {
-        return this.service.onDateChange;
-    }
-
     @HostBinding("attr.tabindex")
     public tabIndex:number;
 

@@ -74,7 +74,17 @@ export class CalendarService {
         this._maxDate = max;
     }
 
-    public firstDayOfWeek:number;
+    private _firstDayOfWeek:number;
+
+    public get firstDayOfWeek():number | undefined {
+        return this._firstDayOfWeek;
+    }
+
+    public set firstDayOfWeek(firstDayOfWeek:number | undefined) {
+        if (firstDayOfWeek) {
+            this._firstDayOfWeek = Math.max(0, Math.min(6, firstDayOfWeek));
+        }
+    }
 
     public onDateChange:EventEmitter<Date>;
 

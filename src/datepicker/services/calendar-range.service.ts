@@ -159,5 +159,5 @@ export abstract class CalendarRangeService {
         });
     }
 
-    public abstract configureItem(item:CalendarItem, baseDate:Date):void;
+    protected abstract configureItem(item:CalendarItem, baseDate:Date):void;
 }

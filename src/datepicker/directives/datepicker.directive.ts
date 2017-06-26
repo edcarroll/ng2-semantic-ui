@@ -82,13 +82,25 @@ export class SuiDatepickerDirective
         this.popup.config.placement = placement;
     }
 
+    @Input("pickerTransition")
+    public set transition(transition:string) {
+        this.popup.config.transition = transition;
+    }
+
+    @Input("pickerTransitionDuration")
+    public set transitionDuration(duration:number) {
+        this.popup.config.transitionDuration = duration;
+    }
+
     constructor(element:ElementRef,
                 public renderer:Renderer2,
                 componentFactory:SuiComponentFactory) {
 
         super(element, componentFactory, SuiDatepicker, new PopupConfig({
             trigger: PopupTrigger.Focus,
-            placement: PositioningPlacement.BottomLeft
+            placement: PositioningPlacement.BottomLeft,
+            transition: "scale",
+            transitionDuration: 200
         }));
 
         // This ensures the popup is drawn correctly (i.e. no border).
@@ -100,15 +112,15 @@ export class SuiDatepickerDirective
 
     public popupOnOpen():void {
         if (this.componentInstance) {
-            this.componentInstance.config = this.config;
-            this.componentInstance.selectedDate = this.selectedDate;
-            this.componentInstance.maxDate = this.maxDate;
-            this.componentInstance.minDate = this.minDate;
-            this.componentInstance.firstDayOfWeek = this.firstDayOfWeek;
+            this.componentInstance.service.config = this.config;
+            this.componentInstance.service.selectedDate = this.selectedDate;
+            this.componentInstance.service.maxDate = this.maxDate;
+            this.componentInstance.service.minDate = this.minDate;
+            this.componentInstance.service.firstDayOfWeek = this.firstDayOfWeek;
 
             this.componentInstance.service.reset();
 
-            this.componentInstance.onDateChange.subscribe((d:Date) => {
+            this.componentInstance.service.onDateChange.subscribe((d:Date) => {
                 this.selectedDate = d;
                 this.close();
             });
@@ -119,7 +131,7 @@ export class SuiDatepickerDirective
         this.selectedDate = value;
 
         if (this.componentInstance) {
-            this.componentInstance.selectedDate = value;
+            this.componentInstance.service.selectedDate = value;
         }
     }
 
