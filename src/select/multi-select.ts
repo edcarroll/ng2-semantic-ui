@@ -11,7 +11,6 @@ import { customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHo
 @Component({
     selector: "sui-multi-select",
     template: `
-<i class="dropdown icon" (click)="onCaretClick($event)"></i>
 <!-- Multi-select labels -->
 <sui-multi-select-label *ngFor="let selected of selectedOptions;" [value]="selected"></sui-multi-select-label>
 <!-- Query input -->
@@ -25,6 +24,8 @@ import { customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHo
 
 <!-- Placeholder text -->
 <div class="default text" [class.filtered]="!!query">{{ placeholder }}</div>
+<!-- Dropdown icon -->
+<i class="dropdown icon" (click)="onCaretClick($event)"></i>
 <!-- Select dropdown menu -->
 <div class="menu"
      suiDropdownMenu

@@ -62,7 +62,7 @@ export class SuiSelectOption<T> extends SuiDropdownMenuItem implements ISelectRe
     }
 
     @HostListener("click", ["$event"])
-    public onClick(e:HandledEvent & MouseEvent):void {
+    public onClick(e:HandledEvent):void {
         e.eventHandled = true;
 
         setTimeout(() => this.onSelected.emit(this.value));

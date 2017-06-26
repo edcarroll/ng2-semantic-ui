@@ -201,6 +201,11 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         }
     }
 
+    @HostListener("mousedown", ["$event"])
+    public onMouseDown(e:MouseEvent):void {
+        e.preventDefault();
+    }
+
     @HostListener("click", ["$event"])
     public onClick(e:HandledEvent):void {
         if (!e.eventHandled && !this.dropdownService.isAnimating) {

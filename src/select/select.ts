@@ -8,7 +8,6 @@ export type SingleItemLookup<T, U> = (query:string, initial?:U) => Promise<T>;
 @Component({
     selector: "sui-select",
     template: `
-<i class="dropdown icon" (click)="onCaretClick($event)"></i>
 <!-- Query input -->
 <input [hidden]="!isSearchable"
        class="search"
@@ -24,6 +23,8 @@ export type SingleItemLookup<T, U> = (query:string, initial?:U) => Promise<T>;
     <span #optionTemplateSibling></span>
     <span *ngIf="!optionTemplate && selectedOption">{{ labelGetter(selectedOption) }}</span>
 </div>
+<!-- Dropdown icon -->
+<i class="dropdown icon" (click)="onCaretClick($event)"></i>
 <!-- Select dropdown menu -->
 <div class="menu"
      suiDropdownMenu
