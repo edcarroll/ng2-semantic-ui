@@ -14,6 +14,7 @@ import { DimmerPageComponents } from "./dimmer/dimmer.page";
 import { DropdownPageComponents } from "./dropdown/dropdown.page";
 import { MessagePageComponents } from "./message/message.page";
 import { ModalPageComponents, ConfirmModalComponent } from "./modal/modal.page";
+import { PaginationPageComponents } from "./pagination/pagination.page";
 import { PopupPageComponents } from "./popup/popup.page";
 import { ProgressPageComponents } from "./progress/progress.page";
 import { RatingPageComponents } from "./rating/rating.page";
@@ -43,6 +44,7 @@ import { RouterModule } from "@angular/router";
         DropdownPageComponents,
         MessagePageComponents,
         ModalPageComponents,
+        PaginationPageComponents,
         PopupPageComponents,
         ProgressPageComponents,
         RatingPageComponents,

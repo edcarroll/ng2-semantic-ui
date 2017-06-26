@@ -8,6 +8,7 @@ import { CollapsePage } from "./pages/collapse/collapse.page";
 import { DimmerPage } from "./pages/dimmer/dimmer.page";
 import { DropdownPage } from "./pages/dropdown/dropdown.page";
 import { MessagePage } from "./pages/message/message.page";
+import { PaginationPage } from "./pages/pagination/pagination.page";
 import { PopupPage } from "./pages/popup/popup.page";
 import { ProgressPage } from "./pages/progress/progress.page";
 import { RatingPage } from "./pages/rating/rating.page";
@@ -51,6 +52,10 @@ const appRoutes:Routes = [
     {
         path: "components/modal",
         component: ModalPage
+    },
+    {
+        path: "components/pagination",
+        component: PaginationPage
     },
     {
         path: "components/popup",

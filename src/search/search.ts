@@ -155,10 +155,26 @@ export class SuiSearch<T> implements AfterViewInit, ICustomValueAccessorHost<T> 
     }
 
     public onClick(e:MouseEvent):void {
+        this.open();
+    }
+
+    @HostListener("focusin")
+    private onFocusIn():void {
+        if (!this.dropdownService.isAnimating) {
+            this.open();
+        }
+    }
+
+    private open():void {
         if (this.searchService.query.length > 0) {
             // Only open on click when there is a query entered.
             this.dropdownService.setOpenState(true);
         }
+    }
+
+    @HostListener("focusout")
+    private onFocusOut():void {
+        this.dropdownService.setOpenState(false);
     }
 
     @HostListener("document:click", ["$event"])

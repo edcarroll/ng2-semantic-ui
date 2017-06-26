@@ -4,9 +4,20 @@ import {
 } from "@angular/core";
 import { TransitionController } from "../transition/transition-controller";
 import { Transition, TransitionDirection } from "../transition/transition";
-import { KeyCode, Util } from "../util/util";
+import { KeyCode, Util, IDynamicClasses } from "../util/util";
 import { ModalControls, ModalResult } from "./modal-controls";
 import { ModalConfig, ModalSize } from "./modal-config";
+import { SuiModalService } from "./modal.service";
+
+if (!("remove" in Element.prototype)) {
+    Element.prototype.remove = function():void {
+        // tslint:disable-next-line:no-invalid-this
+        const node = this;
+        if (node.parentNode) {
+            node.parentNode.removeChild(node);
+        }
+    };
+}
 
 @Component({
     selector: "sui-modal",
@@ -19,12 +30,13 @@ import { ModalConfig, ModalSize } from "./modal-config";
             (click)="close()"></sui-dimmer>
 
 <!-- Modal component, with transition component attached -->
-<div class="ui modal {{ size }}"
+<div class="ui modal"
      [suiTransition]="transitionController"
      [class.active]="transitionController?.isVisible"
      [class.fullscreen]="isFullScreen"
      [class.basic]="isBasic"
-     [class.scrolling]="mustScroll"
+     [class.scroll]="mustScroll"
+     [ngClass]="dynamicClasses"
      #modal>
 
     <!-- Configurable close icon -->
@@ -36,7 +48,8 @@ import { ModalConfig, ModalSize } from "./modal-config";
 </div>
 `,
     styles: [`
-.scrolling {
+/* avoid .scrolling as Semantic UI adds unwanted styles. */
+.scroll {
     position: absolute !important;
     margin-top: 3.5rem !important;
     margin-bottom: 3.5rem !important;
@@ -136,7 +149,15 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     @ViewChild("templateSibling", { read: ViewContainerRef })
     public templateSibling:ViewContainerRef;
 
-    constructor(private _renderer:Renderer2) {
+    public get dynamicClasses():IDynamicClasses {
+        const classes:IDynamicClasses = {};
+        if (this.size) {
+            classes[this.size] = true;
+        }
+        return classes;
+    }
+
+    constructor(private _renderer:Renderer2, private _element:ElementRef) {
         // Initialise with default configuration from `ModalConfig` (to avoid writing defaults twice).
         const config = new ModalConfig<undefined, T, U>();
         this.loadConfig(config);
@@ -158,15 +179,16 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     }
 
     public ngOnInit():void {
-        // Use a slight delay as the `<sui-dimmer>` cancels the initial transition.
-        setTimeout(() => {
-            // Transition the modal to be visible.
-            this.transitionController.animate(new Transition(this.transition, this.transitionDuration, TransitionDirection.In));
-            this.dimBackground = true;
-        });
+        // Transition the modal to be visible.
+        this.transitionController.animate(new Transition(this.transition, this.transitionDuration, TransitionDirection.In));
+        this.dimBackground = true;
     }
 
     public ngAfterViewInit():void {
+        // Move the modal to the document body to ensure correct scrolling.
+        document.querySelector("body")!.appendChild(this._element.nativeElement);
+        // Remove the #templateSibling element from the DOM to fix bottom border styles.
+        this.templateSibling.element.nativeElement.remove();
         // Update margin offset to center modal correctly on-screen.
         const element = this._modalElement.nativeElement as Element;
         setTimeout(() => {

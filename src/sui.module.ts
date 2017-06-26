@@ -8,6 +8,7 @@ import { SuiDimmerModule } from "./dimmer/dimmer.module";
 import { SuiDropdownModule } from "./dropdown/dropdown.module";
 import { SuiMessageModule } from "./message/message.module";
 import { SuiModalModule } from "./modal/modal.module";
+import { SuiPaginationModule } from "./pagination/pagination.module";
 import { SuiPopupModule } from "./popup/popup.module";
 import { SuiProgressModule } from "./progress/progress.module";
 import { SuiRatingModule } from "./rating/rating.module";
@@ -28,6 +29,7 @@ import { SuiUtilityModule } from "./util/util.module";
         SuiDropdownModule,
         SuiMessageModule,
         SuiModalModule,
+        SuiPaginationModule,
         SuiPopupModule,
         SuiProgressModule,
         SuiRatingModule,

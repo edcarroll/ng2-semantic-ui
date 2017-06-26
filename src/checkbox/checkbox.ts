@@ -1,4 +1,7 @@
-import { Component, Directive, Input, Output, HostListener, HostBinding, EventEmitter, forwardRef } from "@angular/core";
+import {
+    Component, Directive, Input, Output, HostListener, HostBinding,
+    EventEmitter, forwardRef, ViewChild, ElementRef
+} from "@angular/core";
 import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor } from "../util/helpers/custom-value-accessor";
 
 @Component({
@@ -10,7 +13,8 @@ import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccess
        [attr.name]="name"
        [attr.checked]="checkedAttribute"
        [attr.disabled]="isDisabledAttribute"
-       [(ngModel)]="isChecked">
+       [(ngModel)]="isChecked"
+       #checkbox>
 <label>
     <ng-content></ng-content>
 </label>
@@ -45,6 +49,9 @@ export class SuiCheckbox implements ICustomValueAccessorHost<boolean> {
         return this.isDisabled ? "disabled" : undefined;
     }
 
+    @ViewChild("checkbox")
+    private _checkboxElement:ElementRef;
+
     constructor() {
         this.isChecked = false;
         this.checkChange = new EventEmitter<boolean>();
@@ -59,6 +66,7 @@ export class SuiCheckbox implements ICustomValueAccessorHost<boolean> {
     public onClick():void {
         if (!this.isDisabled && !this.isReadonly) {
             this.toggle();
+            this.focusCheckbox();
         }
     }
 
@@ -69,6 +77,10 @@ export class SuiCheckbox implements ICustomValueAccessorHost<boolean> {
 
     public writeValue(value:boolean):void {
         this.isChecked = value;
+    }
+
+    private focusCheckbox():void {
+        this._checkboxElement.nativeElement.focus();
     }
 }
 

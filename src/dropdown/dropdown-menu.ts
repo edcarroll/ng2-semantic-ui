@@ -8,6 +8,7 @@ import { TransitionController } from "../transition/transition-controller";
 import { KeyCode, IAugmentedElement, HandledEvent } from "../util/util";
 // Polyfill for IE
 import "element-closest";
+import { TransitionDirection } from "../index";
 
 @Directive({
     // We must attach to every '.item' as Angular doesn't support > selectors.
@@ -82,7 +83,12 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
             if (isOpen !== previousIsOpen) {
                 // Only run transitions if the open state has changed.
                 this._transitionController.stopAll();
-                this._transitionController.animate(new Transition(this.menuTransition, this.menuTransitionDuration));
+                this._transitionController.animate(
+                    new Transition(
+                        this.menuTransition,
+                        this.menuTransitionDuration,
+                        TransitionDirection.Either,
+                        () => this._service.isAnimating = false));
             }
 
             if (!isOpen) {
@@ -160,7 +166,8 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
         if (this._service.isOpen && !this._service.isNested) {
             // Stop document events like scrolling while open.
             const target = e.target as Element;
-            if (!/input/i.test(target.tagName) || e.keyCode === KeyCode.Enter) {
+            if (!/input/i.test(target.tagName) &&
+                [KeyCode.Escape, KeyCode.Enter, KeyCode.Up, KeyCode.Down, KeyCode.Left, KeyCode.Right].find(kC => kC === e.keyCode)) {
                 e.preventDefault();
             }
 
