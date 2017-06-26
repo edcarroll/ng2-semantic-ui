@@ -3,42 +3,40 @@ import { DatePrecision } from "../../util/helpers/date";
 
 export class DateComparer {
     private _precision:DatePrecision;
-    private _final:boolean;
-    private _date:Date;
+    private _isSmallest:boolean;
 
-    constructor(precision:DatePrecision, final:boolean, date:Date) {
+    constructor(precision:DatePrecision, isSmallest:boolean) {
         this._precision = precision;
-        this._final = final;
-        this._date = date;
+        this._isSmallest = isSmallest;
     }
 
-    public isEqualTo(date:Date | undefined):boolean {
+    public isEqualTo(a:Date, b:Date | undefined):boolean {
         if (this._precision === DatePrecision.Minute) {
-            return !!date &&
-               Util.Date.equal(DatePrecision.Hour, date, this._date) &&
-               Util.Math.roundDown(date.getMinutes(), 5) === Util.Math.roundDown(this._date.getMinutes(), 5);
+            return !!b &&
+               Util.Date.equal(DatePrecision.Hour, b, a) &&
+               Util.Math.roundDown(b.getMinutes(), 5) === Util.Math.roundDown(a.getMinutes(), 5);
         }
 
-        return !!date && Util.Date.equal(this._precision, this._date, date);
+        return !!b && Util.Date.equal(this._precision, a, b);
     }
 
-    public isLessThan(date:Date | undefined):boolean {
-        if (this._final) {
-            return !date || (date > this._date);
+    public isLessThan(a:Date, b:Date | undefined):boolean {
+        if (this._isSmallest) {
+            return !b || (b > a);
         }
 
-        return !date || (Util.Date.endOf(this._precision, Util.Date.clone(date)) > this._date);
+        return !b || (Util.Date.endOf(this._precision, Util.Date.clone(b)) > a);
     }
 
-    public isGreaterThan(date:Date | undefined):boolean {
-        if (this._final) {
-            return !date || (date < this._date);
+    public isGreaterThan(a:Date, b:Date | undefined):boolean {
+        if (this._isSmallest) {
+            return !b || (b < a);
         }
 
-        return !date || (Util.Date.startOf(this._precision, Util.Date.clone(date)) < this._date);
+        return !b || (Util.Date.startOf(this._precision, Util.Date.clone(b)) < a);
     }
 
-    public isBetween(a:Date | undefined, b:Date | undefined):boolean {
-        return this.isGreaterThan(a) && this.isLessThan(b);
+    public isBetween(date:Date, left:Date | undefined, right:Date | undefined):boolean {
+        return this.isGreaterThan(date, left) && this.isLessThan(date, right);
     }
 }

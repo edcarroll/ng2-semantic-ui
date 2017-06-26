@@ -12,8 +12,8 @@ export class CalendarRangeHourService extends CalendarRangeService {
         return new CalendarHourItem(
             date,
             `${Util.String.padLeft(date.getHours().toString(), 2, "0")}:00`,
-            !comparer.isBetween(this.service.minDate, this.service.maxDate),
-            comparer.isEqualTo(this.service.selectedDate),
+            !comparer.isBetween(date, this.service.minDate, this.service.maxDate),
+            comparer.isEqualTo(date, this.service.selectedDate),
             false);
     }
 }

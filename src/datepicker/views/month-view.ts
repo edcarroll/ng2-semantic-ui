@@ -13,8 +13,8 @@ export class CalendarRangeMonthService extends CalendarRangeService {
         return new CalendarMonthItem(
             date,
             this.service.localizationValues.datepicker.monthsShort[date.getMonth()],
-            !comparer.isBetween(this.service.minDate, this.service.maxDate),
-            comparer.isEqualTo(this.service.selectedDate),
+            !comparer.isBetween(date, this.service.minDate, this.service.maxDate),
+            comparer.isEqualTo(date, this.service.selectedDate),
             false);
     }
 }

@@ -12,27 +12,29 @@ export class CalendarRange {
         return this.items.filter(i => !i.isOutsideRange);
     }
     public groupedItems:CalendarItem[][];
+    private _comparer:DateComparer;
 
-    constructor(start:Date, dates:Date[], items:CalendarItem[], grouped:CalendarItem[][]) {
+    constructor(start:Date, dates:Date[], items:CalendarItem[], grouped:CalendarItem[][], comparer:DateComparer) {
         this.start = start;
         this.dates = dates;
         this.items = items;
         this.groupedItems = grouped;
+        this._comparer = comparer;
     }
 
     public find(item:CalendarItem):CalendarItem | undefined {
-        return this.items.find(i => i.isEqualTo(item.date));
+        return this.items.find(i => this._comparer.isEqualTo(i.date, item.date));
     }
 
     public findIndex(item:CalendarItem | undefined):number {
         if (!item) {
             return -1;
         }
-        return this.items.findIndex(i => i.isEqualTo(item.date));
+        return this.items.findIndex(i => this._comparer.isEqualTo(i.date, item.date));
     }
 
     public containsDate(date:Date):boolean {
-        return !!this.inRange.find(i => i.isEqualTo(date));
+        return !!this.inRange.find(i => this._comparer.isEqualTo(i.date, date));
     }
 }
 
@@ -47,6 +49,10 @@ export abstract class CalendarRangeService {
     public marginal:DatePrecision;
     public rows:number;
     public columns:number;
+
+    public get dateComparer():DateComparer {
+        return new DateComparer(this.marginal, this.service.inFinalView);
+    }
 
     public get length():number {
         return this.rows * this.columns;
@@ -109,13 +115,6 @@ export abstract class CalendarRangeService {
         this.previous = this.calcRange(Util.Date.previous(this.interval, Util.Date.clone(this.service.currentDate)));
     }
 
-    protected comparerFactory(date:Date):DateComparer {
-        return new DateComparer(
-            this.marginal,
-            this.service.currentView === this.service.config.mappings.finalView,
-            date);
-    }
-
     public calc(forwards:boolean):CalendarRange {
         if (forwards) {
             return this.next;
@@ -125,10 +124,13 @@ export abstract class CalendarRangeService {
 
     private calcRange(startDate:Date):CalendarRange {
         const start = this.calcStart(startDate);
+        if (this.service.inFinalView) {
+            Util.Date.startOf(this.marginal, start, true);
+        }
         const dates = this.calcDates(start);
         const items = this.calcItems(dates, startDate);
 
-        return new CalendarRange(start, dates, items, Util.Array.group(items, this.columns));
+        return new CalendarRange(start, dates, items, Util.Array.group(items, this.columns), this.dateComparer);
     }
 
     protected calcStart(date:Date):Date {
@@ -143,9 +145,7 @@ export abstract class CalendarRangeService {
     }
 
     protected calcItems(dateRange:Date[], baseDate:Date):CalendarItem[] {
-        const items = dateRange.map(date => this.calcItem(date, baseDate, this.comparerFactory(date)));
-        items.forEach(i => i.comparer = this.comparerFactory(i.date));
-        return items;
+        return dateRange.map(date => this.calcItem(date, baseDate, this.dateComparer));
     }
 
     public abstract calcItem(date:Date, baseDate:Date, comparer:DateComparer):CalendarItem;

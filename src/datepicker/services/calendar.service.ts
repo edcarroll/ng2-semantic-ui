@@ -26,6 +26,9 @@ export class CalendarService {
     }
 
     public currentView:CalendarViewType;
+    public get inFinalView():boolean {
+        return this.currentView === this.config.mappings.finalView;
+    }
 
     public currentDate:Date;
     private _selectedDate?:Date;

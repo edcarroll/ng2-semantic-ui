@@ -90,7 +90,7 @@ export abstract class CalendarView implements AfterViewInit {
             date = this._highlightedItem.date;
         }
 
-        const initiallyHighlighted = this.ranges.current.items.find(i => i.isEqualTo(date));
+        const initiallyHighlighted = this.ranges.current.items.find(i => this.ranges.dateComparer.isEqualTo(i.date, date));
         if (initiallyHighlighted && !initiallyHighlighted.isDisabled) {
             this._highlightedItem = initiallyHighlighted;
         }

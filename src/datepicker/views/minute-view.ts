@@ -26,8 +26,8 @@ export class CalendarRangeMinuteService extends CalendarRangeService {
         return new CalendarMinuteItem(
             date,
             `${hs}:${ms}`,
-            !comparer.isBetween(this.service.minDate, this.service.maxDate),
-            comparer.isEqualTo(this.service.selectedDate),
+            !comparer.isBetween(date, this.service.minDate, this.service.maxDate),
+            comparer.isEqualTo(date, this.service.selectedDate),
             false);
     }
 }

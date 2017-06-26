@@ -13,7 +13,8 @@ export abstract class CalendarItem {
     public comparer:DateComparer;
 
     public get isToday():boolean {
-        return this.isEqualTo(new Date());
+        // return this.isEqualTo(new Date());
+        return false;
     }
 
     public get isVisuallyDisabled():boolean {
@@ -26,18 +27,6 @@ export abstract class CalendarItem {
         this.isDisabled = isDisabled;
         this.isActive = isActive;
         this.isOutsideRange = isOutsideRange;
-    }
-
-    public isEqualTo(date:Date | undefined):boolean {
-        return this.comparer.isEqualTo(date);
-    }
-
-    public isLessThan(date:Date | undefined):boolean {
-        return this.comparer.isLessThan(date);
-    }
-
-    public isGreaterThan(date:Date | undefined):boolean {
-        return this.comparer.isGreaterThan(date);
     }
 }
 

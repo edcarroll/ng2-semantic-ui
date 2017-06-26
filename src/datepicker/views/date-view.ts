@@ -18,8 +18,8 @@ export class CalendarRangeDateService extends CalendarRangeService {
         return new CalendarDateItem(
             date,
             date.getDate().toString(),
-            !comparer.isBetween(this.service.minDate, this.service.maxDate),
-            comparer.isEqualTo(this.service.selectedDate),
+            !comparer.isBetween(date, this.service.minDate, this.service.maxDate),
+            comparer.isEqualTo(date, this.service.selectedDate),
             date.getMonth() !== baseDate.getMonth());
     }
 }

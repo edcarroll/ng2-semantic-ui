@@ -10,7 +10,10 @@ export class TestPage {
     public minDate:Date = new Date(2017, 4, 20);
     public maxDate:Date = new Date(2017, 8, 5);
 
-    constructor() {}
+    constructor() {
+        console.log(this.minDate);
+        console.log(this.maxDate);
+    }
 
     public log(item:any):void {
         console.log(item);

@@ -35,7 +35,6 @@ export class DateConfig extends CalendarConfig {
     }
 
     public postProcess(date:Date):void {
-        Util.Date.startOf(DatePrecision.Date, date, true);
         Util.Date.rewriteTimezone(date);
     }
 }
@@ -61,7 +60,6 @@ export class MonthConfig extends CalendarConfig {
     }
 
     public postProcess(date:Date):void {
-        Util.Date.startOf(DatePrecision.Month, date, true);
         Util.Date.rewriteTimezone(date);
     }
 }
@@ -72,7 +70,6 @@ export class YearConfig extends CalendarConfig {
     }
 
     public postProcess(date:Date):void {
-        Util.Date.startOf(DatePrecision.Year, date, true);
         Util.Date.rewriteTimezone(date);
     }
 }

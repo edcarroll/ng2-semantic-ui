@@ -12,8 +12,8 @@ export class CalendarRangeYearService extends CalendarRangeService {
         return new CalendarYearItem(
             date,
             Util.String.padLeft(date.getFullYear().toString(), 4, "0"),
-            !comparer.isBetween(this.service.minDate, this.service.maxDate),
-            comparer.isEqualTo(this.service.selectedDate),
+            !comparer.isBetween(date, this.service.minDate, this.service.maxDate),
+            comparer.isEqualTo(date, this.service.selectedDate),
             date.getFullYear() >= baseDate.getFullYear() + 10);
     }
 }
