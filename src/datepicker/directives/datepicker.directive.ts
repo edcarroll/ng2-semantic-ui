@@ -30,7 +30,7 @@ export class SuiDatepickerDirective
 
     public set selectedDate(date:Date | undefined) {
         this._selectedDate = date;
-        this.onDateChange.emit(date);
+        this.onSelectedDateChange.emit(date);
     }
 
     private _mode:DatepickerMode;
@@ -74,8 +74,8 @@ export class SuiDatepickerDirective
     @Input("pickerFirstDayOfWeek")
     public firstDayOfWeek?:number;
 
-    @Output("dateChange")
-    public onDateChange:EventEmitter<Date>;
+    @Output("selectedDateChange")
+    public onSelectedDateChange:EventEmitter<Date>;
 
     @Input("pickerPlacement")
     public set placement(placement:PositioningPlacement) {
@@ -107,7 +107,8 @@ export class SuiDatepickerDirective
         this.renderer.addClass(this.popup.elementRef.nativeElement, "ui");
         this.renderer.addClass(this.popup.elementRef.nativeElement, "calendar");
 
-        this.onDateChange = new EventEmitter<Date>();
+        this.mode = DatepickerMode.Datetime;
+        this.onSelectedDateChange = new EventEmitter<Date>();
     }
 
     public popupOnOpen():void {
@@ -149,7 +150,7 @@ export class SuiDatepickerDirective
 @Directive({
     selector: "[suiDatepicker]",
     host: {
-        "(dateChange)": "onChange($event)"
+        "(selectedDateChange)": "onChange($event)"
     },
     providers: [customValueAccessorFactory(SuiDatepickerDirectiveValueAccessor)]
 })

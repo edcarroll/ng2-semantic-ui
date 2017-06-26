@@ -3,9 +3,8 @@ import { Component, HostBinding, Directive, EventEmitter, Output, HostListener }
 import { Util } from "../../util/util";
 import { CalendarViewType, CalendarViewResult } from "./../views/calendar-view";
 import { CalendarService, CalendarMode } from "./../services/calendar.service";
-import { DateConfig } from "./../classes/calendar-config";
 import { SuiLocalizationService } from "../../util/services/localization.service";
-import { CalendarConfig } from "../classes/calendar-config";
+import { DatetimeConfig } from "../classes/calendar-config";
 
 export type DatepickerMode = "year" | "month" | "date" | "datetime" | "time";
 
@@ -46,7 +45,7 @@ export class SuiDatepicker {
     public tabIndex:number;
 
     constructor(localizationService:SuiLocalizationService) {
-        this.service = new CalendarService(new DateConfig(), localizationService.getValues());
+        this.service = new CalendarService(new DatetimeConfig(), localizationService.getValues());
 
         this._calendarClasses = true;
         this.tabIndex = 0;

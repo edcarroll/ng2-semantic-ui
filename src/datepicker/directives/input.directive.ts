@@ -13,6 +13,7 @@ const mobileDetect = new MobileDetect(window.navigator.userAgent);
 export class SuiDatepickerInputDirective {
     private _useNativeOnMobile:boolean;
 
+    @Input()
     public get useNativeOnMobile():boolean {
         return this._useNativeOnMobile;
     }
@@ -63,7 +64,7 @@ export class SuiDatepickerInputDirective {
         this.fallbackActive = false;
 
         // Whenever the datepicker value updates, update the input text alongside it.
-        this.datepicker.onDateChange.subscribe(() =>
+        this.datepicker.onSelectedDateChange.subscribe(() =>
             this.updateValue(this.selectedDateString));
     }
 
