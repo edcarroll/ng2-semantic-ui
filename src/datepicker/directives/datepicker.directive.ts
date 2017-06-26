@@ -94,6 +94,7 @@ export class SuiDatepickerDirective
         // This ensures the popup is drawn correctly (i.e. no border).
         this.renderer.addClass(this.popup.elementRef.nativeElement, "ui");
         this.renderer.addClass(this.popup.elementRef.nativeElement, "calendar");
+
         this.onDateChange = new EventEmitter<Date>();
     }
 

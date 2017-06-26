@@ -143,6 +143,9 @@ export abstract class CalendarView implements AfterViewInit {
                 return;
         }
 
+        // Stop these keypresses being captured elsewhere.
+        e.preventDefault();
+
         let nextItem = this.ranges.current.items[index + delta];
 
         if (nextItem && nextItem.isDisabled) {

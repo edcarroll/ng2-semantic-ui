@@ -24,7 +24,6 @@ export class SuiDatepickerInputDirective {
     }
 
     constructor(@Host() public datepicker:SuiDatepickerDirective, public element:ElementRef) {
-
         this.mobileFallback = true;
 
         this.datepicker.onDateChange.subscribe(() => {
