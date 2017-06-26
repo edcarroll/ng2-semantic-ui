@@ -11,13 +11,11 @@ import { SuiDatepicker, DatepickerMode } from "../components/datepicker";
 import { customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHost } from "../../util/helpers/custom-value-accessor";
 import { CalendarViewType } from "../views/calendar-view";
 import { Util, KeyCode } from "../../util/util";
-import { DateParser, IDateParser } from "../classes/date-parser";
-import { SuiLocalizationService } from "../../util/services/localization.service";
 import { PopupAfterOpen } from "../../popup/classes/popup-lifecycle";
 import { CalendarService } from "../services/calendar.service";
 
 @Directive({
-    selector: "[suiDatepicker]"
+    selector: "input[suiDatepicker]"
 })
 export class SuiDatepickerDirective
        extends SuiPopupComponentController<SuiDatepicker>
@@ -32,11 +30,6 @@ export class SuiDatepickerDirective
     public set selectedDate(date:Date | undefined) {
         this._selectedDate = date;
         this.onDateChange.emit(date);
-
-        if (this.selectedDateString && this.selectedDateString !== this._currentInputValue) {
-            this.renderer.setProperty(this._element.nativeElement, "value", this.selectedDateString);
-            this._currentInputValue = this.selectedDateString;
-        }
     }
 
     @Input("pickerMode")
@@ -51,21 +44,6 @@ export class SuiDatepickerDirective
     @Input("pickerFirstDayOfWeek")
     public firstDayOfWeek?:number;
 
-    private _currentInputValue:string | undefined;
-
-    public get selectedDateString():string | undefined {
-        if (this.selectedDate) {
-            return this.parser.format(this.selectedDate);
-        }
-    }
-
-    public parser:IDateParser;
-
-    @HostBinding("attr.type")
-    public get HTMLType():string {
-        return "text";
-    }
-
     @Output("dateChange")
     public onDateChange:EventEmitter<Date>;
 
@@ -76,8 +54,7 @@ export class SuiDatepickerDirective
 
     constructor(element:ElementRef,
                 public renderer:Renderer2,
-                componentFactory:SuiComponentFactory,
-                public localizationService:SuiLocalizationService) {
+                componentFactory:SuiComponentFactory) {
 
         super(element, componentFactory, SuiDatepicker, new PopupConfig({
             trigger: PopupTrigger.Focus,
@@ -87,8 +64,6 @@ export class SuiDatepickerDirective
         // This ensures the popup is drawn correctly (i.e. no border).
         this.renderer.addClass(this.popup.elementRef.nativeElement, "ui");
         this.renderer.addClass(this.popup.elementRef.nativeElement, "calendar");
-
-        this.parser = new DateParser(localizationService.getValues());
         this.onDateChange = new EventEmitter<Date>();
     }
 
@@ -119,21 +94,6 @@ export class SuiDatepickerDirective
         }
     }
 
-    public typeValue(value:string | undefined):void {
-        this._currentInputValue = value;
-
-        if (!value) {
-            this.writeValue(undefined);
-            return;
-        }
-
-        try {
-            this.writeValue(this.parser.parse(value));
-        } catch (e) {
-            this.writeValue(undefined);
-        }
-    }
-
     @HostListener("keydown", ["$event"])
     public onKeyDown(e:KeyboardEvent):void {
         if (e.keyCode === KeyCode.Escape) {
@@ -145,7 +105,6 @@ export class SuiDatepickerDirective
 @Directive({
     selector: "[suiDatepicker]",
     host: {
-        "(input)": "manualChange($event.target.value)",
         "(dateChange)": "onChange($event)"
     },
     providers: [customValueAccessorFactory(SuiDatepickerDirectiveValueAccessor)]
@@ -153,9 +112,5 @@ export class SuiDatepickerDirective
 export class SuiDatepickerDirectiveValueAccessor extends CustomValueAccessor<Date, SuiDatepickerDirective> {
     constructor(public host:SuiDatepickerDirective) {
         super(host);
-    }
-
-    public manualChange(value:string | undefined):void {
-        this.host.typeValue(value);
     }
 }

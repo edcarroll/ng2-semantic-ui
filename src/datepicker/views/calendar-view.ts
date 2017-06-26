@@ -101,7 +101,8 @@ export abstract class CalendarView implements AfterViewInit {
             this._renderedItems.forEach(i => i.hasFocus = false);
             const rendered = this._renderedItems.find(ri => ri.item === item);
             if (rendered && !rendered.hasFocus) {
-                setTimeout(() => rendered.hasFocus = true);
+                rendered.hasFocus = true;
+                rendered.changeDetector.detectChanges();
             }
 
             this._highlightedItem = item;

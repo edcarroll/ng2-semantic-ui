@@ -10,6 +10,7 @@ import { SuiDatepickerDirective, SuiDatepickerDirectiveValueAccessor } from "./d
 import { SuiDatepicker } from "./components/datepicker";
 import { SuiCalendarHourView } from "./views/hour-view";
 import { SuiCalendarMinuteView } from "./views/minute-view";
+import { SuiDatepickerInputDirective } from "./directives/input.directive";
 
 @NgModule({
     imports: [
@@ -28,11 +29,15 @@ import { SuiCalendarMinuteView } from "./views/minute-view";
 
         SuiDatepicker,
         SuiDatepickerDirective,
-        SuiDatepickerDirectiveValueAccessor
+        SuiDatepickerDirectiveValueAccessor,
+
+        SuiDatepickerInputDirective
     ],
     exports: [
         SuiDatepickerDirective,
-        SuiDatepickerDirectiveValueAccessor
+        SuiDatepickerDirectiveValueAccessor,
+
+        SuiDatepickerInputDirective
     ],
     entryComponents: [
         SuiDatepicker

@@ -1,5 +1,5 @@
 
-import { Directive, HostBinding, HostListener, Input, EventEmitter } from "@angular/core";
+import { Directive, HostBinding, HostListener, Input, EventEmitter, ChangeDetectorRef } from "@angular/core";
 import { Util } from "../../util/util";
 import { DateComparer } from "../classes/date-comparer";
 import { DatePrecision } from "../../util/helpers/date";
@@ -107,7 +107,7 @@ export class SuiCalendarItem {
 
     public onFocussed:EventEmitter<boolean>;
 
-    constructor() {
+    constructor(public changeDetector:ChangeDetectorRef) {
         this.hasFocus = false;
 
         this.onFocussed = new EventEmitter<boolean>();
