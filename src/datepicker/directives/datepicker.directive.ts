@@ -69,6 +69,11 @@ export class SuiDatepickerDirective
     @Output("dateChange")
     public onDateChange:EventEmitter<Date>;
 
+    @Input("pickerPlacement")
+    public set placement(placement:PositioningPlacement) {
+        this.popup.config.placement = placement;
+    }
+
     constructor(element:ElementRef,
                 public renderer:Renderer2,
                 componentFactory:SuiComponentFactory,
