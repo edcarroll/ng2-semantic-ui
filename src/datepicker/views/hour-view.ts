@@ -1,19 +1,20 @@
 import { Component } from "@angular/core";
 import { CalendarView, CalendarViewType } from "./calendar-view";
 import { SuiLocalizationService } from "../../util/services/localization.service";
-import { CalendarHourItem } from "../directives/calendar-item";
+import { CalendarItem } from "../directives/calendar-item";
 import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";
 import { DateComparer } from "../classes/date-comparer";
 import { CalendarRangeService } from "../services/calendar-range.service";
 
 export class CalendarRangeHourService extends CalendarRangeService {
-    public calcItem(date:Date, baseDate:Date, comparer:DateComparer):CalendarHourItem {
-        return new CalendarHourItem(
+    public calcItem(date:Date, baseDate:Date, comparer:DateComparer):CalendarItem {
+        return new CalendarItem(
             date,
             `${Util.String.padLeft(date.getHours().toString(), 2, "0")}:00`,
             !comparer.isBetween(date, this.service.minDate, this.service.maxDate),
             comparer.isEqualTo(date, this.service.selectedDate),
+            false,
             false);
     }
 }

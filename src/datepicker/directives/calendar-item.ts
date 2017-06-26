@@ -4,51 +4,25 @@ import { Util } from "../../util/util";
 import { DateComparer } from "../classes/date-comparer";
 import { DatePrecision } from "../../util/helpers/date";
 
-export abstract class CalendarItem {
+export class CalendarItem {
     public date:Date;
     public humanReadable:string;
     public isDisabled:boolean;
     public isActive:boolean;
     public isOutsideRange:boolean;
-    public comparer:DateComparer;
+    public isToday:boolean;
+    public isVisuallyDisabled:boolean;
 
-    public get isToday():boolean {
-        // return this.isEqualTo(new Date());
-        return false;
-    }
-
-    public get isVisuallyDisabled():boolean {
-        return this.isDisabled;
-    }
-
-    constructor(date:Date, humanReadable:string, isDisabled:boolean, isActive:boolean, isOutsideRange:boolean) {
+    constructor(date:Date, humanReadable:string, isDisabled:boolean, isActive:boolean, isOutsideRange:boolean, isToday:boolean) {
         this.date = date;
         this.humanReadable = humanReadable;
         this.isDisabled = isDisabled;
         this.isActive = isActive;
         this.isOutsideRange = isOutsideRange;
+        this.isToday = isToday;
+        this.isVisuallyDisabled = this.isDisabled;
     }
 }
-
-export class CalendarYearItem extends CalendarItem {}
-
-export class CalendarMonthItem extends CalendarItem {}
-
-export class CalendarDateItem extends CalendarItem {
-    public get isVisuallyDisabled():boolean {
-        return this.isDisabled || this.isOutsideRange;
-    }
-}
-
-export class CalendarTimeItem extends CalendarItem {
-    public get isToday():boolean {
-        return false;
-    }
-}
-
-export class CalendarHourItem extends CalendarTimeItem {}
-
-export class CalendarMinuteItem extends CalendarTimeItem {}
 
 @Directive({
     selector: "[calendarItem]"

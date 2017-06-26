@@ -1,6 +1,6 @@
 import { Component, HostBinding, EventEmitter, Output, Input } from "@angular/core";
 import { SuiLocalizationService } from "../../util/services/localization.service";
-import { CalendarDateItem } from "../directives/calendar-item";
+import { CalendarItem } from "../directives/calendar-item";
 import { CalendarView, CalendarViewType } from "./calendar-view";
 import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";
@@ -14,13 +14,14 @@ export class CalendarRangeDateService extends CalendarRangeService {
         return monthStart;
     }
 
-    public calcItem(date:Date, baseDate:Date, comparer:DateComparer):CalendarDateItem {
-        return new CalendarDateItem(
+    public calcItem(date:Date, baseDate:Date, comparer:DateComparer):CalendarItem {
+        return new CalendarItem(
             date,
             date.getDate().toString(),
             !comparer.isBetween(date, this.service.minDate, this.service.maxDate),
             comparer.isEqualTo(date, this.service.selectedDate),
-            date.getMonth() !== baseDate.getMonth());
+            date.getMonth() !== baseDate.getMonth(),
+            comparer.isEqualTo(date, new Date()));
     }
 }
 

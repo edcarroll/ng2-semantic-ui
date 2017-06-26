@@ -1,20 +1,21 @@
 
 import { Component, HostBinding, Input, Output, EventEmitter } from "@angular/core";
 import { CalendarView, CalendarViewType } from "./calendar-view";
-import { CalendarYearItem } from "../directives/calendar-item";
+import { CalendarItem } from "../directives/calendar-item";
 import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";
 import { DateComparer } from "../classes/date-comparer";
 import { CalendarRangeService } from "../services/calendar-range.service";
 
 export class CalendarRangeYearService extends CalendarRangeService {
-    public calcItem(date:Date, baseDate:Date, comparer:DateComparer):CalendarYearItem {
-        return new CalendarYearItem(
+    public calcItem(date:Date, baseDate:Date, comparer:DateComparer):CalendarItem {
+        return new CalendarItem(
             date,
             Util.String.padLeft(date.getFullYear().toString(), 4, "0"),
             !comparer.isBetween(date, this.service.minDate, this.service.maxDate),
             comparer.isEqualTo(date, this.service.selectedDate),
-            date.getFullYear() >= baseDate.getFullYear() + 10);
+            date.getFullYear() >= baseDate.getFullYear() + 10,
+            comparer.isEqualTo(date, new Date()));
     }
 }
 

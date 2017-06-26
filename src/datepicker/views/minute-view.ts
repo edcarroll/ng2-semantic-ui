@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { CalendarView, CalendarViewType } from "./calendar-view";
 import { SuiLocalizationService } from "../../util/services/localization.service";
-import { CalendarMinuteItem } from "../directives/calendar-item";
+import { CalendarItem } from "../directives/calendar-item";
 import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";
 import { DateComparer } from "../classes/date-comparer";
@@ -19,15 +19,16 @@ export class CalendarRangeMinuteService extends CalendarRangeService {
             .map(i => Util.Date.add(DatePrecision.Minute, Util.Date.clone(start), i * 5));
     }
 
-    public calcItem(date:Date, baseDate:Date, comparer:DateComparer):CalendarMinuteItem {
+    public calcItem(date:Date, baseDate:Date, comparer:DateComparer):CalendarItem {
         const hs = Util.String.padLeft(date.getHours().toString(), 2, "0");
         const ms = Util.String.padLeft(date.getMinutes().toString(), 2, "0");
 
-        return new CalendarMinuteItem(
+        return new CalendarItem(
             date,
             `${hs}:${ms}`,
             !comparer.isBetween(date, this.service.minDate, this.service.maxDate),
             comparer.isEqualTo(date, this.service.selectedDate),
+            false,
             false);
     }
 }

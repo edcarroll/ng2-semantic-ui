@@ -2,20 +2,21 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from "@angular/core";
 import { SuiLocalizationService } from "../../util/services/localization.service";
 import { CalendarView, CalendarViewType } from "./calendar-view";
-import { CalendarMonthItem } from "../directives/calendar-item";
+import { CalendarItem } from "../directives/calendar-item";
 import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";
 import { DateComparer } from "../classes/date-comparer";
 import { CalendarRangeService } from "../services/calendar-range.service";
 
 export class CalendarRangeMonthService extends CalendarRangeService {
-    public calcItem(date:Date, baseDate:Date, comparer:DateComparer):CalendarMonthItem {
-        return new CalendarMonthItem(
+    public calcItem(date:Date, baseDate:Date, comparer:DateComparer):CalendarItem {
+        return new CalendarItem(
             date,
             this.service.localizationValues.datepicker.monthsShort[date.getMonth()],
             !comparer.isBetween(date, this.service.minDate, this.service.maxDate),
             comparer.isEqualTo(date, this.service.selectedDate),
-            false);
+            false,
+            comparer.isEqualTo(date, new Date()));
     }
 }
 
