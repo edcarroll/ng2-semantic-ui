@@ -11,9 +11,10 @@
             <i class="calendar icon"></i>
             <input suiDatepicker
                    [(ngModel)]="date"
-                   pickerMode="date"
+                   pickerMode="month"
                    [pickerFirstDayOfWeek]="3"
-                   [pickerMaxDate]="maxDate">
+                   [pickerMaxDate]="maxDate"
+                   [pickerMinDate]="minDate">
         </div>
         <br>
         <p>{{ date }}</p>

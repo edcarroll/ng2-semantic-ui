@@ -5,15 +5,12 @@ import { DateComparer } from "../classes/date-comparer";
 import { DatePrecision } from "../../util/helpers/date";
 
 export abstract class CalendarItem {
-    protected get _comparer():DateComparer {
-        return new DateComparer(DatePrecision.Date, this.date);
-    }
-
     public date:Date;
     public humanReadable:string;
     public isDisabled:boolean;
     public isActive:boolean;
     public isOutsideRange:boolean;
+    public comparer:DateComparer;
 
     public get isToday():boolean {
         return this.isEqualTo(new Date());
@@ -32,29 +29,21 @@ export abstract class CalendarItem {
     }
 
     public isEqualTo(date:Date | undefined):boolean {
-        return this._comparer.isEqualTo(date);
+        return this.comparer.isEqualTo(date);
     }
 
     public isLessThan(date:Date | undefined):boolean {
-        return this._comparer.isLessThan(date);
+        return this.comparer.isLessThan(date);
     }
 
     public isGreaterThan(date:Date | undefined):boolean {
-        return this._comparer.isGreaterThan(date);
+        return this.comparer.isGreaterThan(date);
     }
 }
 
-export class CalendarYearItem extends CalendarItem {
-    protected get _comparer():DateComparer {
-        return new DateComparer(DatePrecision.Year, this.date);
-    }
-}
+export class CalendarYearItem extends CalendarItem {}
 
-export class CalendarMonthItem extends CalendarItem {
-    protected get _comparer():DateComparer {
-        return new DateComparer(DatePrecision.Month, this.date);
-    }
-}
+export class CalendarMonthItem extends CalendarItem {}
 
 export class CalendarDateItem extends CalendarItem {
     public get isVisuallyDisabled():boolean {
@@ -68,17 +57,9 @@ export class CalendarTimeItem extends CalendarItem {
     }
 }
 
-export class CalendarHourItem extends CalendarTimeItem {
-    protected get _comparer():DateComparer {
-        return new DateComparer(DatePrecision.Hour, this.date);
-    }
-}
+export class CalendarHourItem extends CalendarTimeItem {}
 
-export class CalendarMinuteItem extends CalendarTimeItem {
-    protected get _comparer():DateComparer {
-        return new DateComparer(DatePrecision.Minute, this.date);
-    }
-}
+export class CalendarMinuteItem extends CalendarTimeItem {}
 
 @Directive({
     selector: "[calendarItem]"

@@ -2,11 +2,13 @@ import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";
 
 export class DateComparer {
-    protected _precision:DatePrecision;
-    protected _date:Date;
+    private _precision:DatePrecision;
+    private _final:boolean;
+    private _date:Date;
 
-    constructor(precision:DatePrecision, date:Date) {
+    constructor(precision:DatePrecision, final:boolean, date:Date) {
         this._precision = precision;
+        this._final = final;
         this._date = date;
     }
 
@@ -21,7 +23,7 @@ export class DateComparer {
     }
 
     public isLessThan(date:Date | undefined):boolean {
-        if (this._precision === DatePrecision.Minute) {
+        if (this._final) {
             return !date || (date > this._date);
         }
 
@@ -29,7 +31,7 @@ export class DateComparer {
     }
 
     public isGreaterThan(date:Date | undefined):boolean {
-        if (this._precision === DatePrecision.Minute) {
+        if (this._final) {
             return !date || (date < this._date);
         }
 

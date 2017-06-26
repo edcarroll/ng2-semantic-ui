@@ -109,6 +109,13 @@ export abstract class CalendarRangeService {
         this.previous = this.calcRange(Util.Date.previous(this.interval, Util.Date.clone(this.service.currentDate)));
     }
 
+    protected comparerFactory(date:Date):DateComparer {
+        return new DateComparer(
+            this.marginal,
+            this.service.currentView === this.service.config.mappings.finalView,
+            date);
+    }
+
     public calc(forwards:boolean):CalendarRange {
         if (forwards) {
             return this.next;
@@ -136,7 +143,9 @@ export abstract class CalendarRangeService {
     }
 
     protected calcItems(dateRange:Date[], baseDate:Date):CalendarItem[] {
-        return dateRange.map(date => this.calcItem(date, baseDate, new DateComparer(this.marginal, date)));
+        const items = dateRange.map(date => this.calcItem(date, baseDate, this.comparerFactory(date)));
+        items.forEach(i => i.comparer = this.comparerFactory(i.date));
+        return items;
     }
 
     public abstract calcItem(date:Date, baseDate:Date, comparer:DateComparer):CalendarItem;
