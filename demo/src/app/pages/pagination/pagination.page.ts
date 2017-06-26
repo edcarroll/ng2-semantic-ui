@@ -4,18 +4,12 @@ import { ApiDefinition } from "../../components/api/api.component";
 const exampleStandardTemplate = `
 <div class="ui segments">
     <div class="ui segment">
-        <sui-pagination [collectionSize]="100" [pageSize]="10" [hasNavigation]="showNavigation" [hasBoundaryLinks]="showBoundary"
+        <sui-pagination [collectionSize]="100" [pageSize]="10" [hasNavigationLinks]="showNavigation" [hasBoundaryLinks]="showBoundary"
             [(page)]="selectedPage">
         </sui-pagination>
-        <p>Current page: {{ selectedPage }}</p>
     </div>
     <div class="ui segment">
-        <button class="ui primary button" (click)="showNavigation = !showNavigation">
-            Toggle Navigation
-        </button>
-        <button class="ui primary button" (click)="showBoundary = !showBoundary">
-            Toggle Boundary
-        </button>
+        <p>Current page: {{ selectedPage }}</p>
     </div>
 </div>
 `;
@@ -91,11 +85,11 @@ export class PaginationPage {
                     defaultValue: "false"
                 },
                 {
-                    name: "hasNavigation",
+                    name: "hasNavigationLinks",
                     type: "boolean",
                     description: "Whether to show the navigation links (<code><</code> and <code>></code>). " +
                         "Forced to be displayed when <code>maxSize > pageCount</code>.",
-                    defaultValue: "false"
+                    defaultValue: "true"
                 },
                 {
                     name: "hasEllipses",

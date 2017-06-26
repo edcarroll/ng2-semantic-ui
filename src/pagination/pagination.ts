@@ -6,7 +6,7 @@ import { Component, Input, Output, OnChanges, SimpleChanges, EventEmitter, HostB
 <a *ngIf="hasBoundaryLinks" class="item"  (click)="setPage(1)" [class.disabled]="page===1">
     <span><i class="angle double left icon"></i></span>
 </a>
-<a *ngIf="hasNavigation" class="item" (click)="setPage(page-1)" [class.disabled]="!hasPrevious()">
+<a *ngIf="hasNavigationLinks" class="item" (click)="setPage(page-1)" [class.disabled]="!hasPrevious()">
     <span><i class="angle left icon"></i></span>
 </a>
 <ng-container>
@@ -24,7 +24,7 @@ import { Component, Input, Output, OnChanges, SimpleChanges, EventEmitter, HostB
         <span>{{ pageCount }}</span>
     </a>
 </ng-container>
-<a *ngIf="hasNavigation" class="item" (click)="setPage(page+1)" [class.disabled]="!hasNext()">
+<a *ngIf="hasNavigationLinks" class="item" (click)="setPage(page+1)" [class.disabled]="!hasNext()">
     <span><i class="angle right icon"></i></span>
 </a>
 <a *ngIf="hasBoundaryLinks" class="item"  (click)="setPage(pageCount)" [class.disabled]="page===pageCount">
@@ -56,7 +56,7 @@ export class SuiPagination implements OnChanges {
     private _collectionSize:number;
     private _page:number;
     private _pages:number[];
-    private _hasNavigation:boolean;
+    private _hasNavigationLinks:boolean;
 
     @Input()
     public get maxSize():number|undefined {
@@ -80,13 +80,13 @@ export class SuiPagination implements OnChanges {
     public pageSize:number;
 
     @Input()
-    public get hasNavigation():boolean {
+    public get hasNavigationLinks():boolean {
         const maxSize = this._maxSize || this.pageCount;
-        return this._hasNavigation || maxSize < this.pageCount;
+        return this._hasNavigationLinks || maxSize < this.pageCount;
     }
 
-    public set hasNavigation(value:boolean) {
-        this._hasNavigation = value;
+    public set hasNavigationLinks(value:boolean) {
+        this._hasNavigationLinks = value;
     }
 
     @Input()
@@ -119,7 +119,7 @@ export class SuiPagination implements OnChanges {
         this._page = 1;
         this._pages = [];
         this.pageCount = 1;
-        this.hasNavigation = false;
+        this.hasNavigationLinks = true;
         this.hasBoundaryLinks = false;
         this.canRotate = false;
         this.hasEllipses = true;
