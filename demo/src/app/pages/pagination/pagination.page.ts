@@ -4,12 +4,20 @@ import { ApiDefinition } from "../../components/api/api.component";
 const exampleStandardTemplate = `
 <div class="ui segments">
     <div class="ui segment">
-        <sui-pagination [collectionSize]="100" [pageSize]="10" [hasNavigationLinks]="showNavigation" [hasBoundaryLinks]="showBoundary"
+        <sui-pagination [collectionSize]="100" [pageSize]="10" [hasNavigationLinks]="navigation" [hasBoundaryLinks]="boundary"
             [(page)]="selectedPage">
         </sui-pagination>
     </div>
     <div class="ui segment">
         <p>Current page: {{ selectedPage }}</p>
+        <div class="ui small form">
+            <div class="field">
+                <sui-checkbox [(ngModel)]="navigation">Navigation Links?</sui-checkbox>    
+            </div>
+            <div class="field">
+                <sui-checkbox [(ngModel)]="boundary">Boundary Links?</sui-checkbox>
+            </div>
+        </div>
     </div>
 </div>
 `;
@@ -17,16 +25,20 @@ const exampleStandardTemplate = `
 const exampleMaxSizeTemplate = `
 <div class="ui segments">
     <div class="ui segment">
-        <sui-pagination [collectionSize]="100" [pageSize]="10" [maxSize]="maxSize" [hasBoundaryLinks]="showBoundary"
-            [(page)]="selectedPage">
+        <sui-pagination [collectionSize]="100"
+                        [pageSize]="10"
+                        [maxSize]="maxSize"
+                        [hasBoundaryLinks]="boundary"
+                        [hasEllipses]="ellipses"
+                        [(page)]="selectedPage">
         </sui-pagination>
-        <p>Current page: {{ selectedPage }}</p>
     </div>
     <div class="ui segment">
+        <p>Current page: {{ selectedPage }}</p>
         <div class="ui small form">
-            <button class="ui primary button" (click)="showBoundary = !showBoundary">
-                Toggle Boundary
-            </button>
+            <div class="field">
+                <sui-checkbox [(ngModel)]="ellipses">Ellipses?</sui-checkbox>    
+            </div>
             <div class="field">
                 <label>Max Size</label>
                 <input type="number" [(ngModel)]=maxSize>
@@ -140,15 +152,15 @@ export class PaginationPage {
 export class PaginationExampleStandard implements OnInit {
 
     public selectedPage:number;
-    public showNavigation:boolean;
-    public showBoundary:boolean;
+    public navigation:boolean;
+    public boundary:boolean;
 
     constructor() { }
 
     public ngOnInit():void {
         this.selectedPage = 1;
-        this.showNavigation = false;
-        this.showBoundary = false;
+        this.navigation = true;
+        this.boundary = false;
     }
 }
 
@@ -159,14 +171,14 @@ export class PaginationExampleStandard implements OnInit {
 export class PaginationExampleMaxSize implements OnInit {
 
     public selectedPage:number;
-    public showBoundary:boolean;
+    public ellipses:boolean;
     public maxSize:number;
 
     constructor() { }
 
     public ngOnInit():void {
         this.selectedPage = 1;
-        this.showBoundary = false;
+        this.ellipses = true;
         this.maxSize = 5;
     }
 }

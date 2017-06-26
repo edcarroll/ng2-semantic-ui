@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnChanges, SimpleChanges, EventEmitter, HostBinding } from "@angular/core";
+import { Component, Input, Output, OnChanges, EventEmitter, HostBinding } from "@angular/core";
 
 @Component({
     selector: "sui-pagination",
@@ -142,7 +142,7 @@ export class SuiPagination implements OnChanges {
     }
 
     // Lifecycle hooks
-    public ngOnChanges(changes:SimpleChanges):void {
+    public ngOnChanges():void {
         this.updatePages();
     }
 
@@ -152,14 +152,12 @@ export class SuiPagination implements OnChanges {
 
         const [start, end] = this.applyPagination();
 
-        this._pages.length = 0;
         this._pages = Array<number>(end - start)
             .fill(start + 1)
             .map((s, i) => s + i);
     }
 
     private applyPagination():[number, number] {
-
         const maxSize = (this.maxSize != undefined) ? Math.min(this.maxSize, this.pageCount) : this.pageCount;
 
         const page = Math.ceil(this.page / maxSize) - 1;
@@ -180,6 +178,6 @@ export class SuiPagination implements OnChanges {
             }
         }
 
-        return [start, end];
+        return [start, Math.min(end, this.pageCount)];
     }
 }
