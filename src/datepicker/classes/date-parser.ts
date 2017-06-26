@@ -4,41 +4,76 @@ import { DatePrecision } from "../../util/helpers/date";
 
 export interface IDateParser {
     format(date:Date):string;
-    parse(dateString:string):Date;
+    parse(dateString:string, baseDate?:Date):Date;
 }
 
-export class DateParser implements IDateParser {
-    private _localization:ILocalizationValues;
+export type ComponentParser = [number, string, (d:Date) => number, (d:Date, n:number) => void];
 
-    constructor(localizationValues:ILocalizationValues) {
-        this._localization = localizationValues;
+const componentParsers:ComponentParser[] = [
+    [4, "", d => d.getFullYear(), (d, y) => d.setFullYear(y)],
+    [2, "-", d => d.getMonth() + 1, (d, m) => d.setMonth(m - 1)],
+    [2, "-", d => d.getDate(), (d, a) => d.setDate(a)],
+    [2, " ", d => d.getHours(), (d, h) => d.setHours(h)],
+    [2, ":", d => d.getMinutes(), (d, m) => d.setMinutes(m)]
+];
+
+export class DateParserBase implements IDateParser {
+    private _parsers:ComponentParser[];
+    private _precision:DatePrecision;
+
+    constructor(precision:DatePrecision, parsers:ComponentParser[]) {
+        this._precision = precision;
+        this._parsers = parsers;
     }
 
     public format(date:Date):string {
-        const year = Util.String.padLeft(date.getFullYear().toString(), 4, "0");
-        const month = Util.String.padLeft((date.getMonth() + 1).toString(), 2, "0");
-        const day = Util.String.padLeft(date.getDate().toString(), 2, "0");
-
-        return `${year}-${month}-${day}`;
+        return this._parsers
+            .reduce((d, [i, s, outFn]) => [d, Util.String.padLeft(outFn(date).toString(), i, "0")].join(s), "");
     }
 
-    public parse(dateString:string):Date {
-        const [, year, month, date] = (dateString
-                    .match(/^(\d{4})-(\d{2})-(\d{2})$/) as string[])
-                    .map(i => parseInt(i, 10));
+    public parse(dateString:string, baseDate:Date = new Date()):Date {
+        const matcher = this._parsers
+            .reduce((regex, [i, s]) => [regex, `(\\d{${i}})`].join(s), "");
 
-        const parsed = Util.Date.startOf(DatePrecision.Date, new Date(), true);
-        parsed.setFullYear(year);
-        parsed.setMonth(month - 1);
-        parsed.setDate(date);
+        const date = Util.Date.startOf(this._precision, Util.Date.clone(baseDate), true);
 
-        if (parsed.getFullYear() !== year ||
-            parsed.getMonth() + 1 !== month ||
-            parsed.getDate() !== date) {
+        const components = (dateString
+            .match(`^${matcher}`) as string[])
+            .map(i => parseInt(i, 10))
+            .slice(1, this._parsers.length + 1);
 
-            throw new Error("Invalid date.");
-        }
+        this._parsers.forEach(([i, s, outFn, inFn], index) => inFn(date, components[index]));
 
-        return parsed;
+        return date;
+    }
+}
+
+export class YearParser extends DateParserBase {
+    constructor() {
+        super(DatePrecision.Year, componentParsers.slice(0, 1));
+    }
+}
+
+export class MonthParser extends DateParserBase {
+    constructor() {
+        super(DatePrecision.Month, componentParsers.slice(0, 2));
+    }
+}
+
+export class DateParser extends DateParserBase {
+    constructor() {
+        super(DatePrecision.Date, componentParsers.slice(0, 3));
+    }
+}
+
+export class DatetimeParser extends DateParserBase {
+    constructor() {
+        super(DatePrecision.Minute, componentParsers);
+    }
+}
+
+export class TimeParser extends DateParserBase {
+    constructor() {
+        super(DatePrecision.Minute, componentParsers.slice(-2));
     }
 }

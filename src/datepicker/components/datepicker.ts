@@ -5,6 +5,7 @@ import { CalendarViewType, CalendarViewResult } from "./../views/calendar-view";
 import { CalendarService, CalendarMode } from "./../services/calendar.service";
 import { DatetimeConfig, TimeConfig, DateConfig, MonthConfig, YearConfig } from "./../classes/calendar-config";
 import { SuiLocalizationService } from "../../util/services/localization.service";
+import { CalendarConfig } from "../classes/calendar-config";
 
 export type DatepickerMode = "year" | "month" | "date" | "datetime" | "time";
 
@@ -40,33 +41,13 @@ export class SuiDatepicker {
     private _calendarClasses:boolean;
 
     public service:CalendarService;
-    private _mode:DatepickerMode;
 
-    public get mode():DatepickerMode | undefined {
-        return this._mode;
+    public get config():CalendarConfig {
+        return this.service.config;
     }
 
-    public set mode(mode:DatepickerMode | undefined) {
-        if (mode) {
-            this._mode = mode;
-        }
-        switch (mode) {
-            case DatepickerMode.Year:
-                this.service.config = new YearConfig();
-                break;
-            case DatepickerMode.Month:
-                this.service.config = new MonthConfig();
-                break;
-            case DatepickerMode.Datetime:
-                this.service.config = new DatetimeConfig();
-                break;
-            case DatepickerMode.Time:
-                this.service.config = new TimeConfig();
-                break;
-            case DatepickerMode.Date:
-            default:
-                this.service.config = new DateConfig();
-        }
+    public set config(config:CalendarConfig) {
+        this.service.config = config;
     }
 
     public get selectedDate():Date | undefined {

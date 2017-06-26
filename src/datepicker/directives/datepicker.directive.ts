@@ -13,6 +13,7 @@ import { CalendarViewType } from "../views/calendar-view";
 import { Util, KeyCode } from "../../util/util";
 import { PopupAfterOpen } from "../../popup/classes/popup-lifecycle";
 import { CalendarService } from "../services/calendar.service";
+import { CalendarConfig, YearConfig, MonthConfig, DatetimeConfig, TimeConfig, DateConfig } from "../classes/calendar-config";
 
 @Directive({
     selector: "[suiDatepicker]"
@@ -32,8 +33,37 @@ export class SuiDatepickerDirective
         this.onDateChange.emit(date);
     }
 
+    private _mode:DatepickerMode;
+    public config:CalendarConfig;
+
     @Input("pickerMode")
-    public mode?:DatepickerMode;
+    public get mode():DatepickerMode | undefined {
+        return this._mode;
+    }
+
+    public set mode(mode:DatepickerMode | undefined) {
+        if (mode) {
+            this._mode = mode;
+        }
+        switch (mode) {
+            case DatepickerMode.Year:
+                this.config = new YearConfig();
+                break;
+            case DatepickerMode.Month:
+                this.config = new MonthConfig();
+                break;
+            case DatepickerMode.Date:
+            default:
+                this.config = new DateConfig();
+                break;
+            case DatepickerMode.Datetime:
+                this.config = new DatetimeConfig();
+                break;
+            case DatepickerMode.Time:
+                this.config = new TimeConfig();
+                break;
+        }
+    }
 
     @Input("pickerMaxDate")
     public maxDate?:Date;
@@ -69,9 +99,7 @@ export class SuiDatepickerDirective
 
     public popupOnOpen():void {
         if (this.componentInstance) {
-            this.componentInstance.mode = DatepickerMode.Time;
-
-            this.componentInstance.mode = this.mode;
+            this.componentInstance.config = this.config;
             this.componentInstance.selectedDate = this.selectedDate;
             this.componentInstance.maxDate = this.maxDate;
             this.componentInstance.minDate = this.minDate;

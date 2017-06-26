@@ -2,7 +2,6 @@
 import { Directive, Host, Input, ElementRef, HostBinding, HostListener } from "@angular/core";
 import { SuiDatepickerDirective } from "./datepicker.directive";
 import { IDateParser, DateParser } from "../classes/date-parser";
-import { SuiLocalizationService } from "../../util/services/localization.service";
 
 @Directive({
     selector: "input[suiDatepicker]"
@@ -15,23 +14,18 @@ export class SuiDatepickerInputDirective {
 
     public get selectedDateString():string | undefined {
         if (this.datepicker.selectedDate) {
-            return this.parser.format(this.datepicker.selectedDate);
+            return this.datepicker.config.parser.format(this.datepicker.selectedDate);
         }
     }
-
-    public parser:IDateParser;
 
     @HostBinding("attr.type")
     public get HTMLType():string {
         return "text";
     }
 
-    constructor(@Host() public datepicker:SuiDatepickerDirective,
-                public element:ElementRef,
-                localizationService:SuiLocalizationService) {
+    constructor(@Host() public datepicker:SuiDatepickerDirective, public element:ElementRef) {
 
         this.mobileFallback = true;
-        this.parser = new DateParser(localizationService.getValues());
 
         this.datepicker.onDateChange.subscribe(() => {
             if (this.selectedDateString && this.selectedDateString !== this._currentInputValue) {
@@ -51,7 +45,9 @@ export class SuiDatepickerInputDirective {
         }
 
         try {
-            this.datepicker.writeValue(this.parser.parse(value));
+            const parsed = this.datepicker.config.parser.parse(value);
+            this.datepicker.config.postProcess(parsed);
+            this.datepicker.writeValue(parsed);
         } catch (e) {
             this.datepicker.writeValue(undefined);
         }
