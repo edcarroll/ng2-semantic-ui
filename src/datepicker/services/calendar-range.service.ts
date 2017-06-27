@@ -61,7 +61,7 @@ export abstract class CalendarRangeService {
     public get canMoveNext():boolean {
         const firstItem = this.next.inRange[0];
         if (firstItem && this.service.maxDate) {
-            return firstItem.date < this.service.maxDate;
+            return firstItem.date <= this.service.maxDate;
         }
         return true;
     }
@@ -69,7 +69,7 @@ export abstract class CalendarRangeService {
     public get canMovePrevious():boolean {
         const lastItem = this.previous.inRange.slice(-1).pop();
         if (lastItem && this.service.minDate) {
-            return lastItem.date > this.service.minDate;
+            return lastItem.date >= this.service.minDate;
         }
         return true;
     }

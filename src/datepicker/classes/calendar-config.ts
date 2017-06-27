@@ -28,7 +28,9 @@ export abstract class CalendarConfig {
         this.dateMinBound.setFullYear(0);
     }
 
-    public postProcess(date:Date):void {}
+    public postProcess(date:Date):Date {
+        return date;
+    }
 }
 
 export class DateConfigBase extends CalendarConfig {
@@ -36,8 +38,9 @@ export class DateConfigBase extends CalendarConfig {
         super(CalendarMode.DateOnly, precision, mappings, parser, fallback);
     }
 
-    public postProcess(date:Date):void {
+    public postProcess(date:Date):Date {
         Util.Date.rewriteTimezone(date);
+        return date;
     }
 }
 
