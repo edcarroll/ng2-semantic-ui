@@ -1,11 +1,12 @@
 import { Component, HostBinding, EventEmitter, Output, Input } from "@angular/core";
-import { SuiLocalizationService } from "../../util/services/localization.service";
 import { CalendarItem } from "../directives/calendar-item";
 import { CalendarView, CalendarViewType } from "./calendar-view";
 import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";
 import { DateComparer } from "../classes/date-comparer";
 import { CalendarRangeService } from "../services/calendar-range.service";
+import { DateParser } from "../classes/date-parser";
+import { DatepickerMode } from "../components/datepicker";
 
 export class CalendarRangeDateService extends CalendarRangeService {
     public calcStart(start:Date):Date {

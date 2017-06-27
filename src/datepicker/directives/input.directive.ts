@@ -1,11 +1,12 @@
 
 import { Directive, Host, Input, ElementRef, HostBinding, HostListener } from "@angular/core";
 import { SuiDatepickerDirective } from "./datepicker.directive";
-import { IDateParser, DateParser } from "../classes/date-parser";
+import { IDateParser, InternalDateParser, DateParser } from "../classes/date-parser";
 import { PopupTrigger } from "../../popup/classes/popup-config";
 import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";
 import * as bowser from "bowser";
+import { SuiLocalizationService } from "../../util/services/localization.service";
 
 @Directive({
     selector: "input[suiDatepicker]"
@@ -37,17 +38,18 @@ export class SuiDatepickerInputDirective {
         this.updateValue(this.selectedDateString);
     }
 
+    public get parser():IDateParser {
+        if (this.fallbackActive) {
+            return new InternalDateParser(this.datepicker.mode);
+        }
+        return new DateParser(this._localizationService.getValues().datepicker.formats[this.datepicker.mode]);
+    }
+
     private _currentInputValue:string | undefined;
 
     public get selectedDateString():string | undefined {
         if (this.datepicker.selectedDate) {
-            const formatted = this.datepicker.config.parser.format(this.datepicker.selectedDate);
-            // If the fallback is currently active...
-            if (this.fallbackActive) {
-                // ...replace the space between the date and time with `T` to support datetime-local.
-                return this.fallbackValue(formatted);
-            }
-            return formatted;
+            return this.parser.format(this.datepicker.selectedDate);
         }
     }
 
@@ -66,7 +68,7 @@ export class SuiDatepickerInputDirective {
             // Our Datepicker will always choose the 1st date on the provided precision,
             // meaning anything below the maxDate will work, hence endOf.
             const max = Util.Date.endOf(this.datepicker.config.precision, Util.Date.clone(this.datepicker.maxDate));
-            return this.fallbackValue(this.datepicker.config.parser.format(max));
+            return this.parser.format(max);
         }
     }
 
@@ -78,21 +80,20 @@ export class SuiDatepickerInputDirective {
             // our Datepicker picks the first available date at that precision.
             const min = Util.Date.clone(this.datepicker.minDate);
             const html = Util.Date.next(this.datepicker.config.precision, Util.Date.previous(DatePrecision.Minute, min));
-            return this.fallbackValue(this.datepicker.config.parser.format(html));
+            return this.parser.format(min);
         }
     }
 
-    constructor(@Host() public datepicker:SuiDatepickerDirective, public element:ElementRef) {
+    constructor(@Host() public datepicker:SuiDatepickerDirective,
+                public element:ElementRef,
+                private _localizationService:SuiLocalizationService) {
+
         this.useNativeOnMobile = true;
         this.fallbackActive = false;
 
         // Whenever the datepicker value updates, update the input text alongside it.
         this.datepicker.onSelectedDateChange.subscribe(() =>
             this.updateValue(this.selectedDateString));
-    }
-
-    private fallbackValue(value:string):string {
-        return value.replace(" ", "T");
     }
 
     private updateValue(value:string | undefined):void {
@@ -113,18 +114,10 @@ export class SuiDatepickerInputDirective {
             return this.datepicker.writeValue(undefined);
         }
 
-        try {
-            // Parse the typed date, replacing `T` (for datetime-local support).
-            // Use the currently selected date as the base date.
-            const parsed = this.datepicker.config.parser.parse(
-                value.replace("T", " "),
-                this.datepicker.selectedDate);
-
-            // Finally write the value to the datepicker.
-            this.datepicker.writeValue(parsed);
-        } catch (e) {
-            // If there are any errors encountered, delete the selected date.
-            this.datepicker.writeValue(undefined);
+        const parsed = this.parser.parse(value, this.datepicker.selectedDate);
+        if (!isNaN(parsed.getTime())) {
+            return this.datepicker.writeValue(parsed);
         }
+        return this.datepicker.writeValue(undefined);
     }
 }

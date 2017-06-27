@@ -16,6 +16,7 @@ const exampleStandardTemplate = `
         <label>First Day of the Week</label>
         <input type="number" [(ngModel)]="firstDayOfWeek" min="0" max="6">
     </div>
+    <p>{{ date }}</p>
 </div>
 `;
 

@@ -1,6 +1,5 @@
 import { CalendarMode } from "../services/calendar.service";
 import { CalendarMappings, DatetimeMappings, DateMappings, TimeMappings, MonthMappings, YearMappings } from "./calendar-mappings";
-import { IDateParser, DateParser, dateComponentParsers } from "./date-parser";
 import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";
 
@@ -8,18 +7,16 @@ export abstract class CalendarConfig {
     public mode:CalendarMode;
     public precision:DatePrecision;
     public mappings:CalendarMappings;
-    public parser:IDateParser;
 
     public fallback:string;
 
     public dateMinBound?:Date;
     public dateMaxBound?:Date;
 
-    constructor(mode:CalendarMode, precision:DatePrecision, mappings:CalendarMappings, parser:IDateParser, fallback:string) {
+    constructor(mode:CalendarMode, precision:DatePrecision, mappings:CalendarMappings, fallback:string) {
         this.mode = mode;
         this.precision = precision;
         this.mappings = mappings;
-        this.parser = parser;
         this.fallback = fallback;
     }
 
@@ -30,8 +27,8 @@ export abstract class CalendarConfig {
 }
 
 export class DateConfigBase extends CalendarConfig {
-    constructor(precision:DatePrecision, mappings:CalendarMappings, parser:IDateParser, fallback:string) {
-        super(CalendarMode.DateOnly, precision, mappings, parser, fallback);
+    constructor(precision:DatePrecision, mappings:CalendarMappings, fallback:string) {
+        super(CalendarMode.DateOnly, precision, mappings, fallback);
     }
 }
 
@@ -40,7 +37,7 @@ export class YearConfig extends DateConfigBase {
         super(
             DatePrecision.Year,
             new YearMappings(),
-            new DateParser(dateComponentParsers.slice(0, 1)), "number");
+            "number");
     }
 }
 
@@ -49,7 +46,7 @@ export class MonthConfig extends DateConfigBase {
         super(
             DatePrecision.Month,
             new MonthMappings(),
-            new DateParser(dateComponentParsers.slice(0, 2)), "month");
+            "month");
     }
 }
 
@@ -58,7 +55,7 @@ export class DateConfig extends DateConfigBase {
         super(
             DatePrecision.Date,
             new DateMappings(),
-            new DateParser(dateComponentParsers.slice(0, 3)), "date");
+            "date");
     }
 }
 
@@ -68,7 +65,7 @@ export class DatetimeConfig extends CalendarConfig {
             CalendarMode.Both,
             DatePrecision.Minute,
             new DatetimeMappings(),
-            new DateParser(dateComponentParsers), "datetime-local");
+            "datetime-local");
     }
 }
 
@@ -78,7 +75,7 @@ export class TimeConfig extends CalendarConfig {
             CalendarMode.TimeOnly,
             DatePrecision.Minute,
             new TimeMappings(),
-            new DateParser(dateComponentParsers.slice(-2)), "time");
+            "time");
     }
 
     public updateBounds(providedDate:Date):void {

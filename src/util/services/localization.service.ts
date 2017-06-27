@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { IDateFormats } from "../../datepicker/classes/date-parser";
 
 export type Septuple<T> = [T, T, T, T, T, T, T];
 export type Duodecuple<T> = [T, T, T, T, T, T, T, T, T, T, T, T];
@@ -10,6 +11,7 @@ export interface ILocalizationValues {
         weekdays:Septuple<string>;
         weekdaysShort:Septuple<string>;
         firstDayOfWeek:number;
+        formats:IDateFormats;
     };
 }
 
@@ -51,7 +53,14 @@ export class SuiLocalizationService {
                     "S", "M", "T", "W",
                     "T", "F", "S"
                 ],
-                firstDayOfWeek: 0
+                firstDayOfWeek: 0,
+                formats: {
+                    time: "HH:mm",
+                    datetime: "YYYY/MM/DD HH:mm",
+                    date: "YYYY/MM/DD",
+                    month: "MMMM YYYY",
+                    year: "YYYY"
+                }
             }
         });
     }

@@ -124,6 +124,7 @@ export class CalendarService {
 
         if (fromView === this.config.mappings.finalView) {
             this.selectedDate = date;
+
             return this.onDateChange.emit(date);
         }
 

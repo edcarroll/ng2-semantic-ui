@@ -42,15 +42,13 @@ export class SuiDatepickerDirective
     public config:CalendarConfig;
 
     @Input("pickerMode")
-    public get mode():DatepickerMode | undefined {
+    public get mode():DatepickerMode {
         return this._mode;
     }
 
-    public set mode(mode:DatepickerMode | undefined) {
-        if (mode) {
-            this._mode = mode;
-        }
-        switch (mode) {
+    public set mode(mode:DatepickerMode) {
+        this._mode = mode || DatepickerMode.Datetime;
+        switch (this._mode) {
             case DatepickerMode.Year:
                 this.config = new YearConfig();
                 break;
