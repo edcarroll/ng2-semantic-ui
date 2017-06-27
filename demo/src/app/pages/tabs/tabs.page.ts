@@ -169,7 +169,9 @@ export class TabExampleProperties {
 
     public thirdDisabled:boolean;
 
-    constructor(public modalService:SuiModalService) {}
+    constructor(public modalService:SuiModalService) {
+        this.firstActive = true;
+    }
 
     public alert():void {
         this.modalService.open(new AlertModal("You've chosen the alert tab!"));
