@@ -1,14 +1,18 @@
 
 import {
     Directive, ElementRef, ViewContainerRef, ComponentFactoryResolver, ComponentRef,
-    Renderer2, EventEmitter, Output, HostBinding, Input, HostListener
+    Renderer2, EventEmitter, Output, HostBinding, Input, HostListener, OnChanges, SimpleChanges
 } from "@angular/core";
+import {
+    customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHost,
+    customValidatorFactory, CustomValidator, ICustomValidatorHost
+} from "../../util/helpers/custom-value-accessor";
+import { Validator, ValidationErrors, AbstractControl } from "@angular/forms";
 import { SuiPopupComponentController } from "../../popup/classes/popup-component-controller";
 import { PopupConfig, PopupTrigger } from "../../popup/classes/popup-config";
 import { PositioningPlacement } from "../../util/services/positioning.service";
 import { SuiComponentFactory } from "../../util/services/component-factory.service";
 import { SuiDatepicker, DatepickerMode } from "../components/datepicker";
-import { customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHost } from "../../util/helpers/custom-value-accessor";
 import { CalendarViewType } from "../views/calendar-view";
 import { Util, KeyCode } from "../../util/util";
 import { PopupAfterOpen } from "../../popup/classes/popup-lifecycle";
@@ -16,11 +20,12 @@ import { CalendarService } from "../services/calendar.service";
 import { CalendarConfig, YearConfig, MonthConfig, DatetimeConfig, TimeConfig, DateConfig } from "../classes/calendar-config";
 
 @Directive({
-    selector: "[suiDatepicker]"
+    selector: "[suiDatepicker]",
+    providers: [customValidatorFactory(SuiDatepickerDirective)]
 })
 export class SuiDatepickerDirective
        extends SuiPopupComponentController<SuiDatepicker>
-       implements ICustomValueAccessorHost<Date>, PopupAfterOpen {
+       implements ICustomValueAccessorHost<Date>, ICustomValidatorHost, OnChanges, PopupAfterOpen {
 
     private _selectedDate?:Date;
 
@@ -74,9 +79,6 @@ export class SuiDatepickerDirective
     @Input("pickerFirstDayOfWeek")
     public firstDayOfWeek?:number;
 
-    @Output("selectedDateChange")
-    public onSelectedDateChange:EventEmitter<Date>;
-
     @Input("pickerPlacement")
     public set placement(placement:PositioningPlacement) {
         this.popup.config.placement = placement;
@@ -91,6 +93,12 @@ export class SuiDatepickerDirective
     public set transitionDuration(duration:number) {
         this.popup.config.transitionDuration = duration;
     }
+
+    @Output("pickerSelectedDateChange")
+    public onSelectedDateChange:EventEmitter<Date>;
+
+    @Output("pickerValidatorChange")
+    public onValidatorChange:EventEmitter<void>;
 
     constructor(element:ElementRef,
                 public renderer:Renderer2,
@@ -108,7 +116,9 @@ export class SuiDatepickerDirective
         this.renderer.addClass(this.popup.elementRef.nativeElement, "calendar");
 
         this.mode = DatepickerMode.Datetime;
+
         this.onSelectedDateChange = new EventEmitter<Date>();
+        this.onValidatorChange = new EventEmitter<void>();
     }
 
     public popupOnOpen():void {
@@ -131,6 +141,30 @@ export class SuiDatepickerDirective
         }
     }
 
+    public ngOnChanges({ maxDate, minDate, mode }:SimpleChanges):void {
+        if (maxDate || minDate || mode) {
+            this.onValidatorChange.emit();
+        }
+    }
+
+    public validate(c:AbstractControl):ValidationErrors | null {
+        const value = c.value;
+
+        if (value != undefined) {
+            if (this.minDate && value < this.minDate) {
+                return { "suiDate": { minDate: this.minDate, actualDate: value } };
+            }
+
+            if (this.maxDate && value > this.maxDate) {
+                return { "suiDate": { maxDate: this.maxDate, actualDate: value } };
+            }
+        }
+
+        // Angular expects null
+        // tslint:disable-next-line:no-null-keyword
+        return null;
+    }
+
     public writeValue(value:Date | undefined):void {
         this.selectedDate = value;
 
@@ -149,13 +183,18 @@ export class SuiDatepickerDirective
 
 @Directive({
     selector: "[suiDatepicker]",
-    host: {
-        "(selectedDateChange)": "onChange($event)"
-    },
+    host: { "(selectedDateChange)": "onChange($event)" },
     providers: [customValueAccessorFactory(SuiDatepickerDirectiveValueAccessor)]
 })
 export class SuiDatepickerDirectiveValueAccessor extends CustomValueAccessor<Date, SuiDatepickerDirective> {
-    constructor(public host:SuiDatepickerDirective) {
-        super(host);
-    }
+    constructor(public host:SuiDatepickerDirective) { super(host); }
+}
+
+@Directive({
+    selector: "[suiDatepicker]",
+    host: { "(pickerValidatorChange)": "onValidatorChange()" },
+    providers: [customValidatorFactory(SuiDatepickerDirectiveValidator)]
+})
+export class SuiDatepickerDirectiveValidator extends CustomValidator<SuiDatepickerDirective> {
+    constructor(public host:SuiDatepickerDirective) { super(host); }
 }

@@ -53,11 +53,16 @@ export class DatepickerPage {
                     type: "number",
                     description: "Sets the duration for the datepicker transition.",
                     defaultValue: "200"
+                },
+                {
+                    name: "ngModel",
+                    type: "Date",
+                    description: "Bind the selected date to the value of the provided variable."
                 }
             ],
             events: [
                 {
-                    name: "selectedDateChange",
+                    name: "pickerSelectedDateChange",
                     type: "Date",
                     description: "Fires whenever the selected date is changed. The selected date is passed as <code>$event</code>."
                 },
