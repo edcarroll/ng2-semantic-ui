@@ -5,9 +5,7 @@ import { IDateParser, DateParser } from "../classes/date-parser";
 import { PopupTrigger } from "../../popup/classes/popup-config";
 import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";
-import * as MobileDetect from "mobile-detect";
-
-const mobileDetect = new MobileDetect(window.navigator.userAgent);
+import * as bowser from "bowser";
 
 @Directive({
     selector: "input[suiDatepicker]"
@@ -22,7 +20,7 @@ export class SuiDatepickerInputDirective {
 
     public set useNativeOnMobile(fallback:boolean) {
         this._useNativeOnMobile = fallback;
-        this.fallbackActive = this.useNativeOnMobile ? !!mobileDetect.mobile() : false;
+        this.fallbackActive = this.useNativeOnMobile ? bowser.mobile : false;
     }
 
     private _fallbackActive:boolean;
