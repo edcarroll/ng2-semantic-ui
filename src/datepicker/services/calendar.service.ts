@@ -81,7 +81,7 @@ export class CalendarService {
     }
 
     public set firstDayOfWeek(firstDayOfWeek:number) {
-        if (firstDayOfWeek) {
+        if (firstDayOfWeek != undefined) {
             this._firstDayOfWeek = Math.max(0, Math.min(6, firstDayOfWeek));
         }
     }

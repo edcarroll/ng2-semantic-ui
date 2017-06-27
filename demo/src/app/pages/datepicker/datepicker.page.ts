@@ -1,7 +1,23 @@
 import { Component } from "@angular/core";
 import { ApiDefinition } from "../../components/api/api.component";
 
-const exampleStandardTemplate = ``;
+const exampleStandardTemplate = `
+<div class="ui form">
+    <div class="field">
+        <label>Date</label>
+        <div class="ui left icon input">
+            <i class="calendar icon"></i>
+            <input suiDatepicker
+                   [(ngModel)]="date"
+                   [pickerFirstDayOfWeek]="firstDayOfWeek">
+        </div>
+    </div>
+    <div class="field">
+        <label>First Day of the Week</label>
+        <input type="number" [(ngModel)]="firstDayOfWeek" min="0" max="6">
+    </div>
+</div>
+`;
 
 @Component({
     selector: "demo-page-datepicker",
@@ -93,7 +109,7 @@ export class DatepickerPage {
     template: exampleStandardTemplate
 })
 export class DatepickerExampleStandard {
-
+    public firstDayOfWeek:number = 0;
 }
 
 export const DatepickerPageComponents = [DatepickerPage, DatepickerExampleStandard];
