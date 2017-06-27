@@ -120,9 +120,6 @@ export class SuiDatepickerInputDirective {
                 value.replace("T", " "),
                 this.datepicker.selectedDate);
 
-            // Run the parsed date through the configured post processors.
-            this.datepicker.config.postProcess(parsed);
-
             // Finally write the value to the datepicker.
             this.datepicker.writeValue(parsed);
         } catch (e) {

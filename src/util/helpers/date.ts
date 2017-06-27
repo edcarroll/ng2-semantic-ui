@@ -176,10 +176,5 @@ export const DateUtil = {
 
     clone(date:Date):Date {
         return new Date(date.getTime());
-    },
-
-    rewriteTimezone(date:Date):Date {
-        date.setTime(date.getTime() - new Date().getTimezoneOffset() * 60000);
-        return date;
     }
 };

@@ -152,11 +152,11 @@ export class SuiDatepickerDirective
 
         if (value != undefined) {
             // We post process the min & max date because sometimes this puts the date outside of the allowed range.
-            if (this.minDate && value < this.config.postProcess(Util.Date.clone(this.minDate))) {
+            if (this.minDate && value < this.minDate) {
                 return { suiMinDate: { required: this.minDate, actual: value } };
             }
 
-            if (this.maxDate && value > this.config.postProcess(Util.Date.clone(this.maxDate))) {
+            if (this.maxDate && value > this.maxDate) {
                 return { suiMaxDate: { required: this.maxDate, actual: value } };
             }
         }

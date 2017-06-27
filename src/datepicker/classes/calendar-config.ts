@@ -27,20 +27,11 @@ export abstract class CalendarConfig {
         this.dateMinBound = Util.Date.startOf(DatePrecision.Year, new Date(), true);
         this.dateMinBound.setFullYear(0);
     }
-
-    public postProcess(date:Date):Date {
-        return date;
-    }
 }
 
 export class DateConfigBase extends CalendarConfig {
     constructor(precision:DatePrecision, mappings:CalendarMappings, parser:IDateParser, fallback:string) {
         super(CalendarMode.DateOnly, precision, mappings, parser, fallback);
-    }
-
-    public postProcess(date:Date):Date {
-        Util.Date.rewriteTimezone(date);
-        return date;
     }
 }
 
