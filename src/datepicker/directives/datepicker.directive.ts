@@ -152,11 +152,11 @@ export class SuiDatepickerDirective
 
         if (value != undefined) {
             if (this.minDate && value < this.minDate) {
-                return { "suiDate": { minDate: this.minDate, actualDate: value } };
+                return { suiMinDate: { required: this.minDate, actual: value } };
             }
 
             if (this.maxDate && value > this.maxDate) {
-                return { "suiDate": { maxDate: this.maxDate, actualDate: value } };
+                return { suiMaxDate: { required: this.maxDate, actual: value } };
             }
         }
 
@@ -183,7 +183,7 @@ export class SuiDatepickerDirective
 
 @Directive({
     selector: "[suiDatepicker]",
-    host: { "(selectedDateChange)": "onChange($event)" },
+    host: { "(pickerSelectedDateChange)": "onChange($event)" },
     providers: [customValueAccessorFactory(SuiDatepickerDirectiveValueAccessor)]
 })
 export class SuiDatepickerDirectiveValueAccessor extends CustomValueAccessor<Date, SuiDatepickerDirective> {

@@ -14,7 +14,7 @@ export class DateMappings extends CalendarMappings {
     constructor() {
         super();
 
-        this.initialView = CalendarViewType.Year;
+        this.initialView = CalendarViewType.Date;
         this.finalView = CalendarViewType.Date;
 
         this.changed = new Map<CalendarViewType, CalendarViewType>([
@@ -54,7 +54,7 @@ export class DatetimeMappings extends CalendarMappings {
     constructor() {
         super();
 
-        this.initialView = CalendarViewType.Year;
+        this.initialView = CalendarViewType.Date;
         this.finalView = CalendarViewType.Minute;
 
         this.changed = new Map<CalendarViewType, CalendarViewType>([
@@ -79,7 +79,7 @@ export class MonthMappings extends CalendarMappings {
     constructor() {
         super();
 
-        this.initialView = CalendarViewType.Year;
+        this.initialView = CalendarViewType.Month;
         this.finalView = CalendarViewType.Month;
 
         this.changed = new Map<CalendarViewType, CalendarViewType>([

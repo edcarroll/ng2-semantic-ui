@@ -43,31 +43,48 @@ export class DateConfigBase extends CalendarConfig {
 
 export class YearConfig extends DateConfigBase {
     constructor() {
-        super(DatePrecision.Year, new YearMappings(), new DateParser(dateComponentParsers.slice(0, 1)), "number");
+        super(
+            DatePrecision.Year,
+            new YearMappings(),
+            new DateParser(dateComponentParsers.slice(0, 1)), "number");
     }
 }
 
 export class MonthConfig extends DateConfigBase {
     constructor() {
-        super(DatePrecision.Month, new MonthMappings(), new DateParser(dateComponentParsers.slice(0, 2)), "month");
+        super(
+            DatePrecision.Month,
+            new MonthMappings(),
+            new DateParser(dateComponentParsers.slice(0, 2)), "month");
     }
 }
 
 export class DateConfig extends DateConfigBase {
     constructor() {
-        super(DatePrecision.Date, new DateMappings(), new DateParser(dateComponentParsers.slice(0, 3)), "date");
+        super(
+            DatePrecision.Date,
+            new DateMappings(),
+            new DateParser(dateComponentParsers.slice(0, 3)), "date");
     }
 }
 
 export class DatetimeConfig extends CalendarConfig {
     constructor() {
-        super(CalendarMode.Both, DatePrecision.Minute, new DatetimeMappings(), new DateParser(dateComponentParsers), "datetime-local");
+        super(
+            CalendarMode.Both,
+            DatePrecision.Minute,
+            new DatetimeMappings(),
+            new DateParser(dateComponentParsers), "datetime-local");
     }
 }
 
 export class TimeConfig extends CalendarConfig {
     constructor() {
-        super(CalendarMode.TimeOnly, DatePrecision.Minute, new TimeMappings(), new DateParser(dateComponentParsers.slice(-2)), "time");
+        super(
+            CalendarMode.TimeOnly,
+            DatePrecision.Minute,
+            new TimeMappings(),
+            new DateParser(dateComponentParsers.slice(-2)), "time");
     }
 
     public updateBounds(providedDate:Date):void {
