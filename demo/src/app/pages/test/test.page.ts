@@ -5,14 +5,19 @@ import { Component, AfterViewInit, ViewChild, TemplateRef } from "@angular/core"
     templateUrl: "./test.page.html"
 })
 export class TestPage {
-    public date:Date = new Date(2017, 5, 14, new Date().getHours(), new Date().getMinutes());
+    public date:Date = new Date();
 
-    public minDate:Date = new Date(2017, 4, 20);
-    public maxDate:Date = new Date(2017, 8, 5);
+    public minDate:Date;
+    public maxDate:Date;
 
     constructor() {
-        // console.log(this.minDate);
-        // console.log(this.maxDate);
+        const today = new Date();
+
+        this.minDate = new Date(today.getFullYear(), today.getMonth() - 2);
+        this.maxDate = new Date(today.getFullYear(), today.getMonth() + 2);
+
+        console.log(this.minDate);
+        console.log(this.maxDate);
     }
 
     public log(item:any):void {

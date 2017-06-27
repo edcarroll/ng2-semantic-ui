@@ -3,6 +3,8 @@ import { Directive, Host, Input, ElementRef, HostBinding, HostListener } from "@
 import { SuiDatepickerDirective } from "./datepicker.directive";
 import { IDateParser, DateParser } from "../classes/date-parser";
 import { PopupTrigger } from "../../popup/classes/popup-config";
+import { Util } from "../../util/util";
+import { DatePrecision } from "../../util/helpers/date";
 import * as MobileDetect from "mobile-detect";
 
 const mobileDetect = new MobileDetect(window.navigator.userAgent);
@@ -45,7 +47,7 @@ export class SuiDatepickerInputDirective {
             // If the fallback is currently active...
             if (this.fallbackActive) {
                 // ...replace the space between the date and time with `T` to support datetime-local.
-                return formatted.replace(" ", "T");
+                return this.fallbackValue(formatted);
             }
             return formatted;
         }
@@ -59,6 +61,29 @@ export class SuiDatepickerInputDirective {
         return "text";
     }
 
+    @HostBinding("attr.max")
+    public get HTMLMax():string | undefined {
+        if (this.fallbackActive && this.datepicker.maxDate) {
+            // Since HTML doesn't use a date object max is somewhat tricky.
+            // Our Datepicker will always choose the 1st date on the provided precision,
+            // meaning anything below the maxDate will work, hence endOf.
+            const max = Util.Date.endOf(this.datepicker.config.precision, Util.Date.clone(this.datepicker.maxDate));
+            return this.fallbackValue(this.datepicker.config.parser.format(max));
+        }
+    }
+
+    @HostBinding("attr.min")
+    public get HTMLMin():string | undefined {
+        if (this.fallbackActive && this.datepicker.minDate) {
+            // Since HTML doesn't use a date object min is somewhat tricky.
+            // We use 1 minute before the next date at the configured precision since
+            // our Datepicker picks the first available date at that precision.
+            const min = Util.Date.clone(this.datepicker.minDate);
+            const html = Util.Date.next(this.datepicker.config.precision, Util.Date.previous(DatePrecision.Minute, min));
+            return this.fallbackValue(this.datepicker.config.parser.format(html));
+        }
+    }
+
     constructor(@Host() public datepicker:SuiDatepickerDirective, public element:ElementRef) {
         this.useNativeOnMobile = true;
         this.fallbackActive = false;
@@ -68,12 +93,16 @@ export class SuiDatepickerInputDirective {
             this.updateValue(this.selectedDateString));
     }
 
+    private fallbackValue(value:string):string {
+        return value.replace(" ", "T");
+    }
+
     private updateValue(value:string | undefined):void {
         // Only update the current value if it is different to what it's being updated to.
         // This is so that the editing position isn't changed when manually typing the date.
         if (value && value !== this._currentInputValue) {
             this._currentInputValue = value;
-            this.datepicker.renderer.setProperty(this.element.nativeElement, "value", this.selectedDateString);
+            this.datepicker.renderer.setProperty(this.element.nativeElement, "value", value);
         }
     }
 

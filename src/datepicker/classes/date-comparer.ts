@@ -22,18 +22,18 @@ export class DateComparer {
 
     public lessThan(a:Date, b:Date | undefined):boolean {
         if (this._isSmallest) {
-            return !b || (b > a);
+            return !b || (b >= a);
         }
 
-        return !b || (Util.Date.endOf(this._precision, Util.Date.clone(b)) > a);
+        return !b || (Util.Date.endOf(this._precision, Util.Date.clone(b)) >= a);
     }
 
     public greaterThan(a:Date, b:Date | undefined):boolean {
         if (this._isSmallest) {
-            return !b || (b < a);
+            return !b || (b <= a);
         }
 
-        return !b || (Util.Date.startOf(this._precision, Util.Date.clone(b)) < a);
+        return !b || (Util.Date.startOf(this._precision, Util.Date.clone(b)) <= a);
     }
 
     public between(date:Date, left:Date | undefined, right:Date | undefined):boolean {

@@ -167,6 +167,9 @@ export const DateUtil = {
                     date.setHours(hours - 2);
                 }
                 break;
+            case DatePrecision.Minute:
+                const minutes = date.getMinutes();
+                date.setMinutes(minutes - 1);
         }
         return date;
     },
