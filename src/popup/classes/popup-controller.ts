@@ -34,9 +34,8 @@ export abstract class SuiPopupController implements IPopup, OnDestroy, IPopupLif
         // Generate a new SuiPopup component and attach it to the application view.
         this._componentRef = this._componentFactory.createComponent(SuiPopup);
 
-        // Configure popup with provided config, and attach a reference to the anchor element.
+        // Configure popup with provided config.
         this.popup.config = config;
-        this.popup.anchor = this._element;
 
         // When the popup is closed (onClose fires on animation complete),
         this.popup.onClose.subscribe(() =>
@@ -64,6 +63,9 @@ export abstract class SuiPopupController implements IPopup, OnDestroy, IPopupLif
         // Move the generated element to the body to avoid any positioning issues.
         this._componentFactory.attachToApplication(this._componentRef);
         this._componentFactory.moveToDocumentBody(this._componentRef);
+
+        // Attach a reference to the anchor element. We do it here because IE11 loves to complain.
+        this.popup.anchor = this._element;
 
         // Start popup open transition.
         this.popup.open();
