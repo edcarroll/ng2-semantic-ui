@@ -1,5 +1,15 @@
 import { ElementRef, EventEmitter } from "@angular/core";
 import Popper from "popper.js";
+type PopperModifiers = Popper.Modifiers & {
+    computeStyle?:{
+        gpuAcceleration:boolean;
+    };
+};
+type PopperInstance = Popper & {
+    options:Popper.PopperOptions & {
+        modifiers:PopperModifiers;
+    };
+};
 
 export type PositioningPlacement = "auto" |
                                    "top left" | "top" | "top right" |
@@ -100,7 +110,7 @@ export class PositioningService {
     public readonly anchor:ElementRef;
     public readonly subject:ElementRef;
 
-    private _popper:any;
+    private _popper:PopperInstance;
     private _popperState:Popper.Data;
     private _placement:PositioningPlacement;
 
@@ -131,11 +141,12 @@ export class PositioningService {
         this.subject = subject;
         this._placement = placement;
 
-        const modifiers = {
+        const modifiers:PopperModifiers = {
             computeStyle: {
-                gpuAcceleration: false
+                gpuAcceleration: true
             },
             preventOverflow: {
+                escapeWithReference: true,
                 boundariesElement: document.body
             },
             arrow: {
@@ -155,7 +166,7 @@ export class PositioningService {
                 modifiers,
                 onCreate: initial => this._popperState = initial,
                 onUpdate: update => this._popperState = update
-            });
+            }) as PopperInstance;
     }
 
     public update():void {

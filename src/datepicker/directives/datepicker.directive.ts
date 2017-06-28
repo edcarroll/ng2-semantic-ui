@@ -3,10 +3,8 @@ import {
     Directive, ElementRef, ViewContainerRef, ComponentFactoryResolver, ComponentRef,
     Renderer2, EventEmitter, Output, HostBinding, Input, HostListener, OnChanges, SimpleChanges
 } from "@angular/core";
-import {
-    customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHost,
-    customValidatorFactory, CustomValidator, ICustomValidatorHost
-} from "../../util/helpers/custom-value-accessor";
+import { customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHost } from "../../util/helpers/custom-value-accessor";
+import { customValidatorFactory, CustomValidator, ICustomValidatorHost } from "../../util/helpers/custom-validator";
 import { Validator, ValidationErrors, AbstractControl } from "@angular/forms";
 import { SuiPopupComponentController } from "../../popup/classes/popup-component-controller";
 import { PopupConfig, PopupTrigger } from "../../popup/classes/popup-config";

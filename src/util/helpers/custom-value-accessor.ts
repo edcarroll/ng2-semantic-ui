@@ -1,15 +1,8 @@
-import {
-    NG_VALUE_ACCESSOR, NG_VALIDATORS, ControlValueAccessor, AbstractControl,
-    ValidationErrors, Validator
-} from "@angular/forms";
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
 import { forwardRef, InjectionToken, Type } from "@angular/core";
 
 export interface ICustomValueAccessorHost<T> {
     writeValue(value:T):void;
-}
-
-export interface ICustomValidatorHost {
-    validate(c:AbstractControl):ValidationErrors | null;
 }
 
 export class CustomValueAccessor<U, T extends ICustomValueAccessorHost<U>> implements ControlValueAccessor {
@@ -31,20 +24,6 @@ export class CustomValueAccessor<U, T extends ICustomValueAccessorHost<U>> imple
     }
 }
 
-export class CustomValidator<T extends ICustomValidatorHost> implements Validator {
-    constructor(private _host:T) {}
-
-    public onValidatorChange = () => {};
-
-    public validate(c:AbstractControl):ValidationErrors | null {
-        return this._host.validate(c);
-    }
-
-    public registerOnValidatorChange(fn:() => void):void {
-        this.onValidatorChange = fn;
-    }
-}
-
 export interface IProvider {
     provide:InjectionToken<ControlValueAccessor>;
     useExisting:Type<any>;
@@ -54,14 +33,6 @@ export interface IProvider {
 export function customValueAccessorFactory(type:Function):IProvider {
     return {
         provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => type),
-        multi: true
-    };
-}
-
-export function customValidatorFactory(type:Function):IProvider {
-    return {
-        provide: NG_VALIDATORS,
         useExisting: forwardRef(() => type),
         multi: true
     };
