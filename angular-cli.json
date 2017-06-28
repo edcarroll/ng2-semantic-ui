@@ -39,7 +39,7 @@
   },
   "test": {
     "karma": {
-      "config": "./karma.conf.js"
+      "config": "./src/karma.conf.ts"
     }
   },
   "defaults": {
