@@ -32,7 +32,7 @@
     "compile:lib:w": "tsc -p src/tsconfig.json && ngc -p src/tsconfig.json -w",
     "compile:demo": "ng build --prod --aot=false --base-href=/ng2-semantic-ui/",
     "compile": "npm run compile:lib && npm run compile:demo",
-    "package:lib": "rollup -c",
+    "package:lib": "node ./package.js",
     "build:lib": "npm run lint:lib && npm run compile:lib && npm run package:lib",
     "build:demo": "npm run lint && npm run compile",
     "build": "npm run lint && npm run compile && npm run package:lib",
