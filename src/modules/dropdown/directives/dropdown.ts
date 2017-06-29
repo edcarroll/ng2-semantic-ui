@@ -2,12 +2,8 @@ import {
     Directive, Input, HostBinding, EventEmitter, Output, AfterContentInit, ContentChild,
     Renderer2, ElementRef, HostListener, QueryList, ContentChildren
 } from "@angular/core";
-import { SuiTransition, Transition } from "../transition/transition";
-import { TransitionController } from "../transition/transition-controller";
-import { DropdownService, DropdownAutoCloseType } from "./dropdown.service";
+import { DropdownService, DropdownAutoCloseType } from "../services/dropdown.service";
 import { SuiDropdownMenu } from "./dropdown-menu";
-import { PositioningService, PositioningPlacement } from "../util/services/positioning.service";
-import { KeyCode, HandledEvent } from "../util/util";
 
 @Directive({
     selector: "[suiDropdown]"

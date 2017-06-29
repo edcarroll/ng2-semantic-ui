@@ -1,0 +1,3 @@
+export {
+    SuiCollapseModule
+} from "./index";

@@ -1,8 +1,8 @@
 {
   "name": "ng2-semantic-ui",
   "main": "bundles/ng2-semantic-ui.umd.min.js",
-  "module": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "module": "dist/public.js",
+  "typings": "dist/public.d.ts",
   "version": "0.8.4",
   "description": "Angular 2 Semantic UI Components",
   "repository": {
@@ -85,6 +85,6 @@
     "zone.js": "^0.8.4"
   },
   "peerDependencies": {
-    "typescript": "^2.3.0"
+    "typescript": "~2.3.0"
   }
 }

@@ -1,10 +1,7 @@
 
 import { Directive, Host, Input, ElementRef, HostBinding, HostListener } from "@angular/core";
 import { SuiDatepickerDirective } from "./datepicker.directive";
-import { IDateParser, InternalDateParser, DateParser } from "../classes/date-parser";
-import { PopupTrigger } from "../../popup/classes/popup-config";
-import { Util } from "../../util/util";
-import { DatePrecision } from "../../util/helpers/date";
+import { InternalDateParser, DateParser } from "../classes/date-parser";
 import * as bowser from "bowser";
 
 @Directive({
@@ -37,7 +34,7 @@ export class SuiDatepickerInputDirective {
         this.updateValue(this.selectedDateString);
     }
 
-    public get parser():IDateParser {
+    public get parser():DateParser {
         if (this.fallbackActive) {
             return new InternalDateParser(this.datepicker.mode, this.datepicker.localeValues);
         }

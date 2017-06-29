@@ -2,12 +2,9 @@ import {
     Component, Input, HostBinding, OnInit, ViewChild, ElementRef, Renderer2,
     EventEmitter, Output, HostListener, ViewContainerRef, AfterViewInit
 } from "@angular/core";
-import { TransitionController } from "../transition/transition-controller";
-import { Transition, TransitionDirection } from "../transition/transition";
-import { KeyCode, Util, IDynamicClasses } from "../util/util";
-import { ModalControls, ModalResult } from "./modal-controls";
-import { ModalConfig, ModalSize } from "./modal-config";
-import { SuiModalService } from "./modal.service";
+import { ModalControls, ModalResult } from "../classes/modal-controls";
+import { ModalConfig, ModalSize } from "../classes/modal-config";
+import { SuiModalService } from "../services/modal.service";
 
 if (!("remove" in Element.prototype)) {
     Element.prototype.remove = function():void {

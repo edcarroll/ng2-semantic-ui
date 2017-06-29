@@ -2,10 +2,7 @@ import {
     Component, Input, HostBinding, HostListener, EventEmitter, ViewContainerRef,
     ViewChild, Renderer2, ElementRef, Output, ChangeDetectorRef
 } from "@angular/core";
-import { SuiTransition, Transition, TransitionDirection } from "../transition/transition";
-import { TransitionController } from "../transition/transition-controller";
 import { ISelectRenderedOption } from "./select-option";
-import { HandledEvent } from "../util/util";
 
 @Component({
     selector: "sui-multi-select-label",

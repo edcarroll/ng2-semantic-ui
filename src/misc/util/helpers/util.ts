@@ -1,4 +1,4 @@
-import { DateUtil, DatePrecision } from "./helpers/date";
+import { DateUtil, DatePrecision } from "./date";
 
 // Keyboard keycodes.
 export enum KeyCode {

@@ -1,0 +1,3 @@
+export {
+    SuiCheckboxModule
+} from "./index";

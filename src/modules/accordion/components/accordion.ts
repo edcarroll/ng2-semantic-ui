@@ -1,6 +1,6 @@
 import { Component, Input, HostBinding, ContentChildren, QueryList, AfterContentInit } from "@angular/core";
 import { SuiAccordionPanel } from "./accordion-panel";
-import { SuiAccordionService } from "./accordion.service";
+import { SuiAccordionService } from "../services/accordion.service";
 
 @Component({
     selector: "sui-accordion",

@@ -1,7 +1,5 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
-import { SuiAccordionService } from "./accordion.service";
-import { TransitionController } from "../transition/transition-controller";
-import { Transition, TransitionDirection } from "../transition/transition";
+import { SuiAccordionService } from "../services/accordion.service";
 
 @Component({
     selector: "sui-accordion-panel",

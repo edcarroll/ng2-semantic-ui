@@ -1,9 +1,6 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
-import { SuiPopupModule } from "../popup/popup.module";
-import { SuiLocalizationModule } from "../localization/localization.module";
-import { SuiUtilityModule } from "../util/util.module";
 import { SuiCalendarYearView } from "./views/year-view";
 import { SuiCalendarMonthView } from "./views/month-view";
 import { SuiCalendarItem } from "./directives/calendar-item";
@@ -51,7 +48,3 @@ import {
     ]
 })
 export class SuiDatepickerModule {}
-
-export {
-    DatepickerMode
-};

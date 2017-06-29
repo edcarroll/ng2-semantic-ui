@@ -1,1 +1,1 @@
-export * from "./localization/localization.module";
+export * from "./localization";

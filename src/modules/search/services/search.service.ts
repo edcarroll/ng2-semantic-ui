@@ -1,4 +1,3 @@
-import { Util } from "../util/util";
 
 // Define useful types to avoid any.
 export type LookupFnResult<T> = T | Promise<T>;

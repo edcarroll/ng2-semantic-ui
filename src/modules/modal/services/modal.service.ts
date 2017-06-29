@@ -1,9 +1,8 @@
 import { Injectable, ApplicationRef, ComponentFactoryResolver, Injector, Type, ReflectiveInjector } from "@angular/core";
-import { ModalConfig, TemplateModalConfig, ComponentModalConfig } from "./modal-config";
-import { SuiModal } from "./modal";
-import { Modal } from "./modal-controls";
-import { ActiveModal } from "./active-modal";
-import { SuiComponentFactory } from "../util/services/component-factory.service";
+import { ModalConfig, TemplateModalConfig, ComponentModalConfig } from "../classes/modal-config";
+import { SuiModal } from "../components/modal";
+import { Modal } from "../classes/modal-controls";
+import { ActiveModal } from "../classes/active-modal";
 
 @Injectable()
 export class SuiModalService {

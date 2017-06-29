@@ -1,4 +1,4 @@
-import { SuiAccordionPanel } from "./accordion-panel";
+import { SuiAccordionPanel } from "../components/accordion-panel";
 
 export class SuiAccordionService {
     public closeOthers:boolean;

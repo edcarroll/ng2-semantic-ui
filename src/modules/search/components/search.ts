@@ -2,15 +2,7 @@ import {
     Component, ViewChild, HostBinding, Input, AfterViewInit, HostListener,
     EventEmitter, Output, forwardRef, Directive, ElementRef
 } from "@angular/core";
-import { DropdownService } from "../dropdown/dropdown.service";
-import { SuiDropdownMenu } from "../dropdown/dropdown-menu";
-import { SearchService, LookupFn } from "./search.service";
-import { PositioningService, PositioningPlacement } from "../util/services/positioning.service";
-import { customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHost } from "../util/helpers/custom-value-accessor";
-import { Util } from "../util/util";
-import { SuiLocalizationService } from "../localization/services/localization.service";
-import { ISearchLocaleValues } from "../localization/interfaces/search-values";
-import { RecursivePartial } from "../localization/interfaces/partial";
+import { SearchService, LookupFn } from "../services/search.service";
 
 @Component({
     selector: "sui-search",

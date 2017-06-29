@@ -12,6 +12,7 @@ export interface ILocaleValues {
 export type IPartialLocaleValues = RecursivePartial<ILocaleValues>;
 
 export {RecursivePartial};
+
 export {IDatepickerLocaleValues, IDatepickerFormatsLocaleValues};
 export {ISearchLocaleValues};
 export {ISelectLocaleValues, ISearchTailoredLocaleValues};

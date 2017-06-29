@@ -19,13 +19,13 @@ export class CustomValidator<T extends ICustomValidatorHost> implements Validato
     }
 }
 
-export interface IProvider {
+export interface IValidationProvider {
     provide:InjectionToken<(Function | Validator)[]>;
     useExisting:Type<any>;
     multi:boolean;
 }
 
-export function customValidatorFactory(type:Function):IProvider {
+export function customValidatorFactory(type:Function):IValidationProvider {
     return {
         provide: NG_VALIDATORS,
         useExisting: forwardRef(() => type),

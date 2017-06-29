@@ -2,16 +2,8 @@ import {
     Component, ViewChild, HostBinding, ElementRef, HostListener, Input, ContentChildren, QueryList,
     ViewChildren, AfterContentInit, EventEmitter, Output, Renderer2, TemplateRef, ViewContainerRef
 } from "@angular/core";
-import { DropdownService, DropdownAutoCloseType } from "../dropdown/dropdown.service";
-import { SearchService, LookupFn } from "../search/search.service";
-import { Util, KeyCode, HandledEvent, IAugmentedElement, ITemplateRefContext } from "../util/util";
-import { PositioningService, PositioningPlacement } from "../util/services/positioning.service";
-import { SuiDropdownMenu, SuiDropdownMenuItem } from "../dropdown/dropdown-menu";
-import { SuiSelectOption, ISelectRenderedOption } from "./select-option";
+import { SuiSelectOption, ISelectRenderedOption } from "../components/select-option";
 import { Subscription } from "rxjs/Subscription";
-import { SuiLocalizationService } from "../localization/services/localization.service";
-import { ISelectLocaleValues } from "../localization/interfaces/select-values";
-import { RecursivePartial } from "../localization/interfaces/partial";
 
 // We use generic type T to specify the type of the options we are working with,
 // and U to specify the type of the property of the option used as the value.

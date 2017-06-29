@@ -1,9 +1,6 @@
 import { Component } from "@angular/core";
 import { CalendarView, CalendarViewType } from "./calendar-view";
 import { CalendarItem } from "../directives/calendar-item";
-import { Util } from "../../util/util";
-import { DatePrecision } from "../../util/helpers/date";
-import { DateComparer } from "../classes/date-comparer";
 import { CalendarMode } from "../services/calendar.service";
 import { CalendarRangeService } from "../services/calendar-range.service";
 import { DateParser } from "../classes/date-parser";

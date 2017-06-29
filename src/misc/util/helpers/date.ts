@@ -1,4 +1,4 @@
-import { Util } from "../util";
+import { Util } from "./util";
 
 export enum DatePrecision {
     Decade = 0,

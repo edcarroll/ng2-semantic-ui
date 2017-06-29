@@ -24,13 +24,13 @@ export class CustomValueAccessor<U, T extends ICustomValueAccessorHost<U>> imple
     }
 }
 
-export interface IProvider {
+export interface IValueAccessorProvider {
     provide:InjectionToken<ControlValueAccessor>;
     useExisting:Type<any>;
     multi:boolean;
 }
 
-export function customValueAccessorFactory(type:Function):IProvider {
+export function customValueAccessorFactory(type:Function):IValueAccessorProvider {
     return {
         provide: NG_VALUE_ACCESSOR,
         useExisting: forwardRef(() => type),

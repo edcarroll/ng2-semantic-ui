@@ -1,6 +1,4 @@
 import { CalendarItem } from "../directives/calendar-item";
-import { DatePrecision } from "../../util/helpers/date";
-import { Util } from "../../util/util";
 import { CalendarService } from "./calendar.service";
 import { DateComparer } from "../classes/date-comparer";
 

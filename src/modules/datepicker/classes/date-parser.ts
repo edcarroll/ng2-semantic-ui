@@ -1,15 +1,7 @@
-import { Util } from "../../util/util";
-import { DatePrecision } from "../../util/helpers/date";
 import { DatepickerMode } from "../components/datepicker";
 import { DateFnsParser } from "../helpers/date-fns";
-import { IDatepickerLocaleValues, IDatepickerFormatsLocaleValues } from "../../localization/interfaces/values";
 
-export interface IDateParser {
-    format(date:Date):string;
-    parse(dateString:string, baseDate?:Date):Date;
-}
-
-export class DateParser implements IDateParser {
+export class DateParser {
     private _format:string;
     private _parser:DateFnsParser;
 

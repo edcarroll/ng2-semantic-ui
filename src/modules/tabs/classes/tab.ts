@@ -1,5 +1,5 @@
-import { SuiTabHeader } from "./tab-header";
-import { SuiTabContent } from "./tab-content";
+import { SuiTabHeader } from "../directives/tab-header";
+import { SuiTabContent } from "../directives/tab-content";
 
 export class Tab {
     public id:string;

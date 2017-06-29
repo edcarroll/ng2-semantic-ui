@@ -1,10 +1,7 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
-import { SuiDropdownModule } from "../dropdown/dropdown.module";
-import { SuiLocalizationModule } from "../localization/localization.module";
-import { SuiSearch, SuiSearchValueAccessor } from "./search";
-import { SearchService, LookupFn } from "./search.service";
+import { SuiSearch, SuiSearchValueAccessor } from "./components/search";
 
 @NgModule({
     imports: [
@@ -23,5 +20,3 @@ import { SearchService, LookupFn } from "./search.service";
     ]
 })
 export class SuiSearchModule {}
-
-export {SearchService, LookupFn};

@@ -1,5 +1,5 @@
 import { Component, AfterContentInit, HostBinding, ContentChild } from "@angular/core";
-import { SidebarService } from "./sidebar.service";
+import { SidebarService } from "../services/sidebar.service";
 import { SuiSidebar } from "./sidebar";
 import { SuiSidebarSibling } from "./sidebar-sibling";
 

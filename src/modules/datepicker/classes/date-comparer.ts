@@ -1,5 +1,3 @@
-import { Util } from "../../util/util";
-import { DatePrecision } from "../../util/helpers/date";
 
 export class DateComparer {
     private _precision:DatePrecision;

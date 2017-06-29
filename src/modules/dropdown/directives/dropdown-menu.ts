@@ -2,13 +2,9 @@ import {
     Directive, HostBinding, ContentChild, forwardRef, Renderer2, ElementRef, AfterContentInit,
     ContentChildren, QueryList, Input, HostListener, ChangeDetectorRef
 } from "@angular/core";
-import { SuiTransition, Transition } from "../transition/transition";
-import { DropdownService, DropdownAutoCloseType } from "./dropdown.service";
-import { TransitionController } from "../transition/transition-controller";
-import { KeyCode, IAugmentedElement, HandledEvent } from "../util/util";
+import { DropdownService, DropdownAutoCloseType } from "../services/dropdown.service";
 // Polyfill for IE
 import "element-closest";
-import { TransitionDirection } from "../index";
 
 @Directive({
     // We must attach to every '.item' as Angular doesn't support > selectors.

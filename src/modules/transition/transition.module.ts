@@ -1,7 +1,6 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { SuiTransition, Transition, TransitionDirection } from "./transition";
-import { TransitionController } from "./transition-controller";
+import { SuiTransition } from "./directives/transition";
 
 @NgModule({
     imports: [CommonModule],
@@ -14,10 +13,3 @@ import { TransitionController } from "./transition-controller";
     providers: []
 })
 export class SuiTransitionModule {}
-
-export {
-    SuiTransition,
-    Transition,
-    TransitionDirection,
-    TransitionController
-};

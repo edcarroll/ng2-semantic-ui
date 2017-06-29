@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
-import { SuiCollapse } from "./collapse";
 import { CommonModule } from "@angular/common";
+import { SuiCollapse } from "./directives/collapse";
 
 @NgModule({
     imports: [

@@ -2,12 +2,9 @@ import {
     Component, HostBinding, ElementRef, Renderer2, EventEmitter, Output, Input,
     QueryList, AfterViewInit, ViewChildren, forwardRef, Directive
 } from "@angular/core";
-import { SuiSelectBase } from "./select-base";
+import { SuiSelectBase } from "../classes/select-base";
 import { SuiMultiSelectLabel } from "./multi-select-label";
 import { Subscription } from "rxjs/Subscription";
-import { KeyCode } from "../util/util";
-import { customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHost } from "../util/helpers/custom-value-accessor";
-import { SuiLocalizationService } from "../localization/services/localization.service";
 
 @Component({
     selector: "sui-multi-select",

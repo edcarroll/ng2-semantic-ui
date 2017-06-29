@@ -1,10 +1,6 @@
 import { EventEmitter } from "@angular/core";
-import { Util } from "../../util/util";
-import { CalendarViewType, CalendarViewResult } from "../views/calendar-view";
-import { CalendarMapping, CalendarMappings, DateMappings, TimeMappings, DatetimeMappings } from "../classes/calendar-mappings";
+import { CalendarViewType } from "../views/calendar-view";
 import { CalendarConfig } from "../classes/calendar-config";
-import { DatePrecision } from "../../util/helpers/date";
-import { IDatepickerLocaleValues } from "../../localization/interfaces/values";
 
 export enum CalendarMode {
     DateOnly = 0,

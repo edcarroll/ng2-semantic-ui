@@ -1,9 +1,8 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { SuiSidebar } from "./sidebar";
-import { SuiSidebarContainer } from "./sidebar-container";
-import { SuiSidebarSibling } from "./sidebar-sibling";
-import { SidebarDirection, SidebarTransition } from "./sidebar.service";
+import { SuiSidebar } from "./components/sidebar";
+import { SuiSidebarContainer } from "./components/sidebar-container";
+import { SuiSidebarSibling } from "./components/sidebar-sibling";
 
 @NgModule({
     imports: [
@@ -21,8 +20,3 @@ import { SidebarDirection, SidebarTransition } from "./sidebar.service";
     ]
 })
 export class SuiSidebarModule {}
-
-export {
-    SidebarDirection,
-    SidebarTransition
-};

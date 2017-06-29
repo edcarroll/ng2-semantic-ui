@@ -4,8 +4,6 @@ import {
 } from "@angular/core";
 import { PopupConfig, PopupTrigger } from "./popup-config";
 import { SuiPopup } from "../components/popup";
-import { SuiPopupConfig } from "../services/popup.service";
-import { SuiComponentFactory } from "../../util/services/component-factory.service";
 import { IPopupLifecycle } from "./popup-lifecycle";
 
 export interface IPopup {

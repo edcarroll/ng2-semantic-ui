@@ -1,11 +1,6 @@
 import { Component, ViewChild, ViewContainerRef, ElementRef, Renderer2, EventEmitter, TemplateRef, HostListener } from "@angular/core";
-import { SuiTransition, Transition, TransitionDirection } from "../../transition/transition";
-import { TransitionController } from "../../transition/transition-controller";
-import { PositioningService, PositioningPlacement } from "../../util/services/positioning.service";
-import { ITemplateRefContext, IDynamicClasses } from "../../util/util";
 import { IPopup } from "../classes/popup-controller";
 import { PopupConfig } from "../classes/popup-config";
-import Popper from "popper.js";
 
 @Component({
     selector: "sui-popup",

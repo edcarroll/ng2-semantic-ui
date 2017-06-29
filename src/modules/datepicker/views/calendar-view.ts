@@ -1,9 +1,9 @@
-import { Input, Output, EventEmitter, QueryList, ViewChildren, AfterViewInit, HostListener, HostBinding, OnDestroy } from "@angular/core";
+import {
+    Input, Output, EventEmitter, QueryList, ViewChildren, AfterViewInit,
+    HostListener, HostBinding, OnDestroy
+} from "@angular/core";
 import { CalendarItem, SuiCalendarItem } from "../directives/calendar-item";
-import { Util, KeyCode } from "../../util/util";
 import { CalendarService } from "../services/calendar.service";
-import { Subscription } from "rxjs/Subscription";
-import { DatePrecision } from "../../util/helpers/date";
 import { CalendarRangeService } from "../services/calendar-range.service";
 
 export enum CalendarViewType {

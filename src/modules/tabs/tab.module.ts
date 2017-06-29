@@ -1,8 +1,8 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { SuiTabset } from "./tabset";
-import { SuiTabHeader } from "./tab-header";
-import { SuiTabContent } from "./tab-content";
+import { SuiTabset } from "./components/tabset";
+import { SuiTabHeader } from "./directives/tab-header";
+import { SuiTabContent } from "./directives/tab-content";
 
 @NgModule({
     imports: [

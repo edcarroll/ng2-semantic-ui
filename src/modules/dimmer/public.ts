@@ -1,0 +1,3 @@
+export {
+    SuiDimmerModule
+} from "./index";

@@ -3,22 +3,9 @@ import {
     Directive, ElementRef, ViewContainerRef, ComponentFactoryResolver, ComponentRef,
     Renderer2, EventEmitter, Output, HostBinding, Input, HostListener, OnChanges, SimpleChanges
 } from "@angular/core";
-import { customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHost } from "../../util/helpers/custom-value-accessor";
-import { customValidatorFactory, CustomValidator, ICustomValidatorHost } from "../../util/helpers/custom-validator";
-import { Validator, ValidationErrors, AbstractControl } from "@angular/forms";
-import { SuiPopupComponentController } from "../../popup/classes/popup-component-controller";
-import { PopupConfig, PopupTrigger } from "../../popup/classes/popup-config";
-import { PositioningPlacement } from "../../util/services/positioning.service";
-import { SuiComponentFactory } from "../../util/services/component-factory.service";
 import { SuiDatepicker, DatepickerMode } from "../components/datepicker";
-import { CalendarViewType } from "../views/calendar-view";
-import { Util, KeyCode } from "../../util/util";
-import { PopupAfterOpen } from "../../popup/classes/popup-lifecycle";
 import { CalendarService } from "../services/calendar.service";
 import { CalendarConfig, YearConfig, MonthConfig, DatetimeConfig, TimeConfig, DateConfig } from "../classes/calendar-config";
-import { SuiLocalizationService } from "../../localization/services/localization.service";
-import { IDatepickerLocaleValues } from "../../localization/interfaces/values";
-import { RecursivePartial } from "../../localization/interfaces/partial";
 
 @Directive({
     selector: "[suiDatepicker]",

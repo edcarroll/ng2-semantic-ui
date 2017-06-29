@@ -1,5 +1,5 @@
-import { CalendarViewType } from "../views/calendar-view";
 import { Type } from "@angular/core";
+import { CalendarViewType } from "../views/calendar-view";
 
 export type CalendarMapping<T = CalendarViewType> = Map<CalendarViewType, T>;
 

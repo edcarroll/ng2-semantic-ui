@@ -1,7 +1,6 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { SuiMessage, IMessage } from "./message";
-import { SuiTransitionModule } from "../../modules";
+import { SuiMessage } from "./components/message";
 
 @NgModule({
     imports: [
@@ -16,5 +15,3 @@ import { SuiTransitionModule } from "../../modules";
     ]
 })
 export class SuiMessageModule {}
-
-export {IMessage};
