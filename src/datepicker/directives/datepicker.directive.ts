@@ -18,7 +18,7 @@ import { CalendarService } from "../services/calendar.service";
 import { CalendarConfig, YearConfig, MonthConfig, DatetimeConfig, TimeConfig, DateConfig } from "../classes/calendar-config";
 import { SuiLocalizationService } from "../../localization/services/localization.service";
 import { IDatepickerLocaleValues } from "../../localization/interfaces/values";
-import { Partial } from "../../localization/interfaces/partial";
+import { RecursivePartial } from "../../localization/interfaces/partial";
 
 @Directive({
     selector: "[suiDatepicker]",
@@ -81,7 +81,7 @@ export class SuiDatepickerDirective
     private _localeValues:IDatepickerLocaleValues;
 
     @Input("pickerLocaleOverrides")
-    public localeOverrides:Partial<IDatepickerLocaleValues>;
+    public localeOverrides:RecursivePartial<IDatepickerLocaleValues>;
 
     public get localeValues():IDatepickerLocaleValues {
         return this.localizationService.overrideValues<"datepicker">(this._localeValues, this.localeOverrides);

@@ -10,7 +10,7 @@ import { customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHo
 import { Util } from "../util/util";
 import { SuiLocalizationService } from "../localization/services/localization.service";
 import { ISearchLocaleValues } from "../localization/interfaces/search-values";
-import { Partial } from "../localization/interfaces/partial";
+import { RecursivePartial } from "../localization/interfaces/partial";
 
 @Component({
     selector: "sui-search",
@@ -83,7 +83,7 @@ export class SuiSearch<T> implements AfterViewInit, ICustomValueAccessorHost<T> 
 
     private _localeValues:ISearchLocaleValues;
 
-    public localeOverrides:Partial<ISearchLocaleValues>;
+    public localeOverrides:RecursivePartial<ISearchLocaleValues>;
 
     public get localeValues():ISearchLocaleValues {
         return this._localizationService.overrideValues<"search">(this._localeValues, this.localeOverrides);
