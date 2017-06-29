@@ -2,15 +2,16 @@ import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { GettingStartedPage } from "./pages/getting-started/getting-started.page";
 
+import { MessagePage } from "./pages/message/message.page";
+import { PaginationPage } from "./pages/pagination/pagination.page";
+
 import { AccordionPage } from "./pages/accordion/accordion.page";
 import { CheckboxPage } from "./pages/checkbox/checkbox.page";
 import { CollapsePage } from "./pages/collapse/collapse.page";
 import { DatepickerPage } from "./pages/datepicker/datepicker.page";
 import { DimmerPage } from "./pages/dimmer/dimmer.page";
 import { DropdownPage } from "./pages/dropdown/dropdown.page";
-import { MessagePage } from "./pages/message/message.page";
 import { ModalPage } from "./pages/modal/modal.page";
-import { PaginationPage } from "./pages/pagination/pagination.page";
 import { PopupPage } from "./pages/popup/popup.page";
 import { ProgressPage } from "./pages/progress/progress.page";
 import { RatingPage } from "./pages/rating/rating.page";
@@ -27,78 +28,88 @@ const appRoutes:Routes = [
         path: "getting-started",
         component: GettingStartedPage
     },
+
+    // Collections
     {
-        path: "components/accordion",
-        component: AccordionPage
-    },
-    {
-        path: "components/checkbox",
-        component: CheckboxPage
-    },
-    {
-        path: "components/collapse",
-        component: CollapsePage
-    },
-    {
-        path: "components/datepicker",
-        component: DatepickerPage
-    },
-    {
-        path: "components/dimmer",
-        component: DimmerPage
-    },
-    {
-        path: "components/dropdown",
-        component: DropdownPage
-    },
-    {
-        path: "components/message",
+        path: "collections/message",
         component: MessagePage
     },
     {
-        path: "components/modal",
+        path: "collections/pagination",
+        component: PaginationPage
+    },
+
+    // Modules
+    {
+        path: "modules/accordion",
+        component: AccordionPage
+    },
+    {
+        path: "modules/checkbox",
+        component: CheckboxPage
+    },
+    {
+        path: "modules/collapse",
+        component: CollapsePage
+    },
+    {
+        path: "modules/datepicker",
+        component: DatepickerPage
+    },
+    {
+        path: "modules/dimmer",
+        component: DimmerPage
+    },
+    {
+        path: "modules/dropdown",
+        component: DropdownPage
+    },
+    {
+        path: "modules/modal",
         component: ModalPage
     },
     {
-        path: "components/pagination",
-        component: PaginationPage
-    },
-    {
-        path: "components/popup",
+        path: "modules/popup",
         component: PopupPage
     },
     {
-        path: "components/progress",
+        path: "modules/progress",
         component: ProgressPage
     },
     {
-        path: "components/rating",
+        path: "modules/rating",
         component: RatingPage
     },
     {
-        path: "components/search",
+        path: "modules/search",
         component: SearchPage
     },
     {
-        path: "components/select",
+        path: "modules/select",
         component: SelectPage
     },
     {
-        path: "components/sidebar",
+        path: "modules/sidebar",
         component: SidebarPage
     },
     {
-        path: "components/tabs",
+        path: "modules/tabs",
         component: TabsPage
     },
     {
-        path: "components/transition",
+        path: "modules/transition",
         component: TransitionPage
     },
+
+    // Behaviours
+
+
+    // Development
     {
-        path: "test",
+        path: "development/test",
         component: TestPage
     },
+
     {
         path: "**",
         redirectTo: "/getting-started",
