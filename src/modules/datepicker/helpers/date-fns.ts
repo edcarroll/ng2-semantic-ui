@@ -1,3 +1,4 @@
+import { IDatepickerLocaleValues } from "../../../behaviors/localization";
 import { format, parse } from "date-fns";
 import * as defaultLocale from "date-fns/locale/en-US";
 

@@ -1,6 +1,5 @@
 import { Component } from "@angular/core";
-import { SuiTransition, Transition, TransitionDirection } from "../../../../../../src/transition/transition";
-import { TransitionController } from "../../../../../../src/transition/transition-controller";
+import { SuiTransition, Transition, TransitionDirection, TransitionController } from "../../../../../../src/public";
 import { ApiDefinition } from "app/components/api/api.component";
 
 const exampleStandardTemplate = `

@@ -1,9 +1,9 @@
 import { Component, ViewChild } from "@angular/core";
 import { ApiDefinition } from "app/components/api/api.component";
-import { SuiModalService } from "../../../../../../src/modal/modal.service";
-import { ModalTemplate } from "../../../../../../src/modal/modal-template";
-import { TemplateModalConfig, ComponentModalConfig, ModalSize } from "../../../../../../src/modal/modal-config";
-import { Modal } from "../../../../../../src/modal/modal-controls";
+import {
+    SuiModalService, ModalTemplate, TemplateModalConfig, ComponentModalConfig,
+    ModalSize, SuiModal
+} from "../../../../../../src/public";
 import { AlertModal } from "../../../modals/alert.modal";
 
 const exampleTemplateModalTemplate = `
@@ -243,7 +243,7 @@ interface IConfirmModalContext {
     template: exampleComponentModalTemplate
 })
 export class ConfirmModalComponent {
-    constructor(public modal:Modal<IConfirmModalContext, void, void>) {}
+    constructor(public modal:SuiModal<IConfirmModalContext, void, void>) {}
 }
 
 export class ConfirmModal extends ComponentModalConfig<IConfirmModalContext, void, void> {

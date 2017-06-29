@@ -1,7 +1,9 @@
 import {
-    Component, HostBinding, ElementRef, Renderer2, EventEmitter, Output, Input,
-    QueryList, AfterViewInit, ViewChildren, forwardRef, Directive
+    Component, HostBinding, ElementRef, EventEmitter, Output, Input,
+    QueryList, AfterViewInit, ViewChildren, Directive
 } from "@angular/core";
+import { ICustomValueAccessorHost, KeyCode, customValueAccessorFactory, CustomValueAccessor } from "../../../misc/util";
+import { SuiLocalizationService } from "../../../behaviors/localization";
 import { SuiSelectBase } from "../classes/select-base";
 import { SuiMultiSelectLabel } from "./multi-select-label";
 import { Subscription } from "rxjs/Subscription";
@@ -99,8 +101,8 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
     @HostBinding("class.multiple")
     private _multiSelectClasses:boolean;
 
-    constructor(element:ElementRef, renderer:Renderer2, localizationService:SuiLocalizationService) {
-        super(element, renderer, localizationService);
+    constructor(element:ElementRef, localizationService:SuiLocalizationService) {
+        super(element, localizationService);
 
         this.selectedOptions = [];
         this.selectedOptionsChange = new EventEmitter<U[]>();

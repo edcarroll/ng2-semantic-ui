@@ -2,6 +2,8 @@ import {
     Component, Input, HostBinding, HostListener, EventEmitter, ViewContainerRef,
     ViewChild, Renderer2, ElementRef, Output, ChangeDetectorRef
 } from "@angular/core";
+import { SuiTransition, TransitionController, Transition, TransitionDirection } from "../../transition";
+import { HandledEvent } from "../../../misc/util";
 import { ISelectRenderedOption } from "./select-option";
 
 @Component({
@@ -50,7 +52,7 @@ export class SuiMultiSelectLabel<T> extends SuiTransition implements ISelectRend
         this._transitionController.animate(new Transition("scale", 100, TransitionDirection.In));
     }
 
-    public deselectOption(e:HandledEvent & MouseEvent):void {
+    public deselectOption(e:HandledEvent):void {
         e.eventHandled = true;
 
         this._transitionController.animate(
@@ -59,7 +61,7 @@ export class SuiMultiSelectLabel<T> extends SuiTransition implements ISelectRend
     }
 
     @HostListener("click", ["$event"])
-    public onClick(e:HandledEvent & MouseEvent):void {
+    public onClick(e:HandledEvent):void {
         e.eventHandled = true;
     }
 }

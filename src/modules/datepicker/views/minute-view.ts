@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { Util, DateUtil, DatePrecision } from "../../../misc/util";
 import { CalendarView, CalendarViewType } from "./calendar-view";
 import { CalendarItem } from "../directives/calendar-item";
 import { CalendarMode } from "../services/calendar.service";
@@ -7,13 +8,13 @@ import { DateParser } from "../classes/date-parser";
 
 export class CalendarRangeMinuteService extends CalendarRangeService {
     public calcStart(start:Date):Date {
-        return Util.Date.startOf(DatePrecision.Hour, Util.Date.clone(start), true);
+        return DateUtil.startOf(DatePrecision.Hour, DateUtil.clone(start), true);
     }
 
     public calcDates(start:Date):Date[] {
         return Util.Array
             .range(this.length)
-            .map(i => Util.Date.add(DatePrecision.Minute, Util.Date.clone(start), i * 5));
+            .map(i => DateUtil.add(DatePrecision.Minute, DateUtil.clone(start), i * 5));
     }
 
     public configureItem(item:CalendarItem, baseDate:Date):void {

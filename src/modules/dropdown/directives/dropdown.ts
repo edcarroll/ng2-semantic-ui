@@ -1,7 +1,8 @@
 import {
     Directive, Input, HostBinding, EventEmitter, Output, AfterContentInit, ContentChild,
-    Renderer2, ElementRef, HostListener, QueryList, ContentChildren
+    ElementRef, HostListener, QueryList, ContentChildren
 } from "@angular/core";
+import { HandledEvent, KeyCode } from "../../../misc/util";
 import { DropdownService, DropdownAutoCloseType } from "../services/dropdown.service";
 import { SuiDropdownMenu } from "./dropdown-menu";
 
@@ -90,7 +91,7 @@ export class SuiDropdown implements AfterContentInit {
     }
 
     @HostListener("click", ["$event"])
-    public onClick(e:HandledEvent & MouseEvent):void {
+    public onClick(e:HandledEvent):void {
         if (!e.eventHandled) {
             e.eventHandled = true;
 

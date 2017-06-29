@@ -1,8 +1,5 @@
 
 import { Directive, HostBinding, HostListener, Input, EventEmitter, ChangeDetectorRef } from "@angular/core";
-import { Util } from "../../util/util";
-import { DateComparer } from "../classes/date-comparer";
-import { DatePrecision } from "../../util/helpers/date";
 
 export class CalendarItem {
     public date:Date;

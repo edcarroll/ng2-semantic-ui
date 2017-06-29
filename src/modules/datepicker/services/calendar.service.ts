@@ -1,4 +1,6 @@
 import { EventEmitter } from "@angular/core";
+import { IDatepickerLocaleValues } from "../../../behaviors/localization";
+import { DateUtil } from "../../../misc/util";
 import { CalendarViewType } from "../views/calendar-view";
 import { CalendarConfig } from "../classes/calendar-config";
 
@@ -34,8 +36,8 @@ export class CalendarService {
 
     public set selectedDate(date:Date | undefined) {
         if (date) {
-            this._selectedDate = Util.Date.clone(date);
-            this.currentDate = Util.Date.clone(date);
+            this._selectedDate = DateUtil.clone(date);
+            this.currentDate = DateUtil.clone(date);
         } else {
             this._selectedDate = undefined;
         }

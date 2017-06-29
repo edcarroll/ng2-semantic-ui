@@ -1,5 +1,5 @@
-import { Component, Input, Renderer2, ElementRef, HostBinding } from "@angular/core";
-import Popper from "popper.js";
+import { Component, Input, HostBinding } from "@angular/core";
+import { PositioningPlacement } from "../../../misc/util";
 
 @Component({
     selector: "sui-popup-arrow",

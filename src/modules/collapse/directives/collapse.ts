@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Input, HostBinding, Renderer2, HostListener } from "@angular/core";
+import { Directive, ElementRef, Input, HostBinding, Renderer2 } from "@angular/core";
 
 @Directive({
     selector: "[suiCollapse]"

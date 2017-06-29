@@ -1,5 +1,5 @@
-
-import { Component, Input, Output, EventEmitter, HostBinding } from "@angular/core";
+import { Component } from "@angular/core";
+import { DatePrecision } from "../../../misc/util";
 import { CalendarView, CalendarViewType } from "./calendar-view";
 import { CalendarItem } from "../directives/calendar-item";
 import { CalendarRangeService } from "../services/calendar-range.service";

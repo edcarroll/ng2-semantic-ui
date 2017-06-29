@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
+import { SuiDropdownModule } from "../dropdown";
 import { SuiSelect, SuiSelectValueAccessor } from "./components/select";
 import { SuiSelectOption } from "./components/select-option";
 import { SuiMultiSelect, SuiMultiSelectValueAccessor } from "./components/multi-select";

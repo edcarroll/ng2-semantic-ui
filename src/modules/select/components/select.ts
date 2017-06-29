@@ -1,7 +1,6 @@
-import {
-    Component, ViewContainerRef, ViewChild, Output, EventEmitter, ElementRef,
-    Renderer2, forwardRef, Directive, Input
-} from "@angular/core";
+import { Component, ViewContainerRef, ViewChild, Output, EventEmitter, ElementRef, Directive, Input } from "@angular/core";
+import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor } from "../../../misc/util";
+import { SuiLocalizationService } from "../../../behaviors/localization";
 import { SuiSelectBase } from "../classes/select-base";
 import { ISelectRenderedOption } from "./select-option";
 
@@ -63,8 +62,8 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValue
         this._placeholder = placeholder;
     }
 
-    constructor(element:ElementRef, renderer:Renderer2, localizationService:SuiLocalizationService) {
-        super(element, renderer, localizationService);
+    constructor(element:ElementRef, localizationService:SuiLocalizationService) {
+        super(element, localizationService);
 
         this.selectedOptionChange = new EventEmitter<U>();
     }

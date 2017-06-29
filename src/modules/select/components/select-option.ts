@@ -2,6 +2,8 @@ import {
     Component, Input, HostBinding, HostListener, EventEmitter, ViewContainerRef,
     ViewChild, Renderer2, ElementRef, Output
 } from "@angular/core";
+import { SuiDropdownMenuItem } from "../../dropdown";
+import { HandledEvent } from "../../../misc/util";
 
 export type PropertyReader<T> = (obj:T) => string;
 

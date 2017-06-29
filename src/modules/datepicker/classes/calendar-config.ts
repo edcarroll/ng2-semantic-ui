@@ -1,5 +1,6 @@
 import { CalendarMode } from "../services/calendar.service";
 import { CalendarMappings, DatetimeMappings, DateMappings, TimeMappings, MonthMappings, YearMappings } from "./calendar-mappings";
+import { DatePrecision, DateUtil } from "../../../misc/util";
 
 export abstract class CalendarConfig {
     public mode:CalendarMode;
@@ -19,7 +20,7 @@ export abstract class CalendarConfig {
     }
 
     public updateBounds(providedDate:Date):void {
-        this.dateMinBound = Util.Date.startOf(DatePrecision.Year, new Date(), true);
+        this.dateMinBound = DateUtil.startOf(DatePrecision.Year, new Date(), true);
         this.dateMinBound.setFullYear(0);
     }
 }
@@ -77,7 +78,7 @@ export class TimeConfig extends CalendarConfig {
     }
 
     public updateBounds(providedDate:Date):void {
-        this.dateMaxBound = Util.Date.endOf(DatePrecision.Date, Util.Date.clone(providedDate));
-        this.dateMinBound = Util.Date.previous(DatePrecision.Date, Util.Date.clone(this.dateMaxBound));
+        this.dateMaxBound = DateUtil.endOf(DatePrecision.Date, DateUtil.clone(providedDate));
+        this.dateMinBound = DateUtil.previous(DatePrecision.Date, DateUtil.clone(this.dateMaxBound));
     }
 }

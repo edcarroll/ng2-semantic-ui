@@ -1,8 +1,8 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { SuiTransitionModule } from "../transition";
 import { SuiDropdown } from "./directives/dropdown";
 import { SuiDropdownMenu, SuiDropdownMenuItem } from "./directives/dropdown-menu";
-import { DropdownService, DropdownAutoCloseType } from "./services/dropdown.service";
 
 @NgModule({
     imports: [

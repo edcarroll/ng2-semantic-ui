@@ -1,4 +1,4 @@
-import { ElementRef, EventEmitter } from "@angular/core";
+import { ElementRef } from "@angular/core";
 import Popper from "popper.js";
 
 type PopperModifiers = Popper.Modifiers & {

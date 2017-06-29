@@ -1,3 +1,4 @@
+import { Util } from "../../../misc/util";
 
 // Define useful types to avoid any.
 export type LookupFnResult<T> = T | Promise<T>;

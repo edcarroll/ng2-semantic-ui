@@ -1,7 +1,9 @@
 import {
-    Directive, HostBinding, ContentChild, forwardRef, Renderer2, ElementRef, AfterContentInit,
+    Directive, ContentChild, forwardRef, Renderer2, ElementRef, AfterContentInit,
     ContentChildren, QueryList, Input, HostListener, ChangeDetectorRef
 } from "@angular/core";
+import { Transition, SuiTransition, TransitionController, TransitionDirection } from "../../transition";
+import { HandledEvent, IAugmentedElement, KeyCode } from "../../../misc/util";
 import { DropdownService, DropdownAutoCloseType } from "../services/dropdown.service";
 // Polyfill for IE
 import "element-closest";

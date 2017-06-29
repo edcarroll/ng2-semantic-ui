@@ -1,4 +1,4 @@
-import { Component, HostBinding, Directive, Input } from "@angular/core";
+import { HostBinding, Directive, Input } from "@angular/core";
 
 @Directive({
     selector: "[suiTabContent]"

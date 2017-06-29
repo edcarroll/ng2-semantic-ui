@@ -1,3 +1,4 @@
+import { DatePrecision, DateUtil, Util } from "../../../misc/util";
 
 export class DateComparer {
     private _precision:DatePrecision;
@@ -11,11 +12,11 @@ export class DateComparer {
     public equal(a:Date, b:Date | undefined):boolean {
         if (this._precision === DatePrecision.Minute) {
             return !!b &&
-               Util.Date.equal(DatePrecision.Hour, b, a) &&
+               DateUtil.equal(DatePrecision.Hour, b, a) &&
                Util.Math.roundDown(b.getMinutes(), 5) === Util.Math.roundDown(a.getMinutes(), 5);
         }
 
-        return !!b && Util.Date.equal(this._precision, a, b);
+        return !!b && DateUtil.equal(this._precision, a, b);
     }
 
     public lessThan(a:Date, b:Date | undefined):boolean {
@@ -23,7 +24,7 @@ export class DateComparer {
             return !b || (b >= a);
         }
 
-        return !b || (Util.Date.endOf(this._precision, Util.Date.clone(b)) >= a);
+        return !b || (DateUtil.endOf(this._precision, DateUtil.clone(b)) >= a);
     }
 
     public greaterThan(a:Date, b:Date | undefined):boolean {
@@ -31,7 +32,7 @@ export class DateComparer {
             return !b || (b <= a);
         }
 
-        return !b || (Util.Date.startOf(this._precision, Util.Date.clone(b)) <= a);
+        return !b || (DateUtil.startOf(this._precision, DateUtil.clone(b)) <= a);
     }
 
     public between(date:Date, left:Date | undefined, right:Date | undefined):boolean {

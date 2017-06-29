@@ -1,7 +1,5 @@
-import {
-    ComponentRef, ElementRef, ViewContainerRef, ComponentFactoryResolver,
-    HostListener, EventEmitter, Type, OnDestroy
-} from "@angular/core";
+import { ComponentRef, ElementRef, HostListener, OnDestroy } from "@angular/core";
+import { SuiComponentFactory } from "../../../misc/util";
 import { PopupConfig, PopupTrigger } from "./popup-config";
 import { SuiPopup } from "../components/popup";
 import { IPopupLifecycle } from "./popup-lifecycle";

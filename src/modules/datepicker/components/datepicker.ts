@@ -1,6 +1,7 @@
-import { Component, HostBinding, Directive, EventEmitter, Output, HostListener } from "@angular/core";
-import { CalendarService, CalendarMode } from "./../services/calendar.service";
+import { Component, HostBinding } from "@angular/core";
+import { CalendarService } from "./../services/calendar.service";
 import { DatetimeConfig } from "../classes/calendar-config";
+import { SuiLocalizationService } from "../../../behaviors/localization";
 
 export type DatepickerMode = "year" | "month" | "date" | "datetime" | "time";
 

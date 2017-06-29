@@ -1,5 +1,3 @@
-import { DateUtil, DatePrecision } from "./date";
-
 // Keyboard keycodes.
 export enum KeyCode {
     Left = 37,
@@ -103,7 +101,5 @@ export const Util = {
             }
             return rem;
         }
-    },
-
-    Date: DateUtil
+    }
 };

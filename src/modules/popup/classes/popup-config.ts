@@ -1,4 +1,5 @@
-import { TemplateRef, ComponentRef } from "@angular/core";
+import { TemplateRef } from "@angular/core";
+import { ITemplateRefContext, PositioningPlacement } from "../../../misc/util";
 import { IPopup } from "./popup-controller";
 
 export type PopupTrigger = "hover" | "click" | "outsideClick" | "focus" | "manual";

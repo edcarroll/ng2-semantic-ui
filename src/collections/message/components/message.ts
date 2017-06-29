@@ -1,4 +1,5 @@
-import { Component, Input, Output, EventEmitter, ElementRef, Renderer2, AfterViewInit } from "@angular/core";
+import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { TransitionController, Transition, TransitionDirection } from "../../../modules/transition";
 
 export interface IMessage {
     dismiss():void;

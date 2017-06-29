@@ -1,10 +1,11 @@
 import {
-    Component, Input, HostBinding, OnInit, ViewChild, ElementRef, Renderer2,
+    Component, Input, OnInit, ViewChild, ElementRef, Renderer2,
     EventEmitter, Output, HostListener, ViewContainerRef, AfterViewInit
 } from "@angular/core";
+import { Util, IDynamicClasses, KeyCode } from "../../../misc/util";
+import { TransitionController, Transition, TransitionDirection } from "../../transition";
 import { ModalControls, ModalResult } from "../classes/modal-controls";
 import { ModalConfig, ModalSize } from "../classes/modal-config";
-import { SuiModalService } from "../services/modal.service";
 
 if (!("remove" in Element.prototype)) {
     Element.prototype.remove = function():void {

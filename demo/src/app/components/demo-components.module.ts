@@ -1,8 +1,7 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
-import { SuiCollapseModule } from "../../../../src/collapse/collapse.module";
-import { SuiPopupModule } from "../../../../src/popup/popup.module";
+import { SuiCollapseModule, SuiPopupModule } from "../../../../src/public";
 
 import { ApiComponent } from "./api/api.component";
 import { CodeblockComponent } from "./codeblock/codeblock.component";

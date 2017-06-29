@@ -1,7 +1,13 @@
 import {
     Component, ViewChild, HostBinding, Input, AfterViewInit, HostListener,
-    EventEmitter, Output, forwardRef, Directive, ElementRef
+    EventEmitter, Output, Directive, ElementRef
 } from "@angular/core";
+import {
+    ICustomValueAccessorHost, Util, customValueAccessorFactory,
+    CustomValueAccessor
+} from "../../../misc/util";
+import { DropdownService, SuiDropdownMenu } from "../../dropdown";
+import { ISearchLocaleValues, RecursivePartial, SuiLocalizationService } from "../../../behaviors/localization";
 import { SearchService, LookupFn } from "../services/search.service";
 
 @Component({

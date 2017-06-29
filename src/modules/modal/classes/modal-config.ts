@@ -1,5 +1,4 @@
-import { TemplateRef, Type } from "@angular/core";
-import { ModalControls, ModalResult } from "./modal-controls";
+import { Type } from "@angular/core";
 import { ModalTemplate } from "./modal-template";
 
 export type ModalSize = "small" | "normal" | "large";

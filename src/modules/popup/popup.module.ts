@@ -1,5 +1,7 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { SuiTransitionModule } from "../transition";
+import { SuiUtilityModule } from "../../misc/util";
 import { SuiPopupDirective } from "./directives/popup.directive";
 import { SuiPopupArrow } from "./components/popup-arrow";
 import { SuiPopup } from "./components/popup";

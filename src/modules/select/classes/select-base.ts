@@ -1,7 +1,11 @@
 import {
-    Component, ViewChild, HostBinding, ElementRef, HostListener, Input, ContentChildren, QueryList,
-    ViewChildren, AfterContentInit, EventEmitter, Output, Renderer2, TemplateRef, ViewContainerRef
+    ViewChild, HostBinding, ElementRef, HostListener, Input, ContentChildren, QueryList,
+    AfterContentInit, TemplateRef, ViewContainerRef
 } from "@angular/core";
+import { DropdownService, SuiDropdownMenu } from "../../dropdown";
+import { SearchService, LookupFn } from "../../search";
+import { Util, ITemplateRefContext, HandledEvent, KeyCode } from "../../../misc/util";
+import { ISelectLocaleValues, RecursivePartial, SuiLocalizationService } from "../../../behaviors/localization";
 import { SuiSelectOption, ISelectRenderedOption } from "../components/select-option";
 import { Subscription } from "rxjs/Subscription";
 
@@ -123,7 +127,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     @Input()
     public transitionDuration:number;
 
-    constructor(private _element:ElementRef, private _renderer:Renderer2, protected _localizationService:SuiLocalizationService) {
+    constructor(private _element:ElementRef, protected _localizationService:SuiLocalizationService) {
         this.dropdownService = new DropdownService();
         // We do want an empty query to return all results.
         this.searchService = new SearchService<T>(true);
@@ -244,7 +248,6 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
 
     @HostListener("document:click", ["$event"])
     public onDocumentClick(e:MouseEvent):void {
-        const target = e.target as IAugmentedElement;
         if (!this._element.nativeElement.contains(e.target)) {
             this.dropdownService.setOpenState(false);
         }

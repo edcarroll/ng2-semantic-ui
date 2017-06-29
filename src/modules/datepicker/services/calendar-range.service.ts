@@ -1,3 +1,4 @@
+import { DatePrecision, DateUtil, Util } from "../../../misc/util";
 import { CalendarItem } from "../directives/calendar-item";
 import { CalendarService } from "./calendar.service";
 import { DateComparer } from "../classes/date-comparer";
@@ -88,8 +89,8 @@ export abstract class CalendarRangeService {
     public refresh():void {
         this.current = this.calcRange(this.service.currentDate);
 
-        this.next = this.calcRange(Util.Date.next(this.interval, Util.Date.clone(this.service.currentDate)));
-        this.previous = this.calcRange(Util.Date.previous(this.interval, Util.Date.clone(this.service.currentDate)));
+        this.next = this.calcRange(DateUtil.next(this.interval, DateUtil.clone(this.service.currentDate)));
+        this.previous = this.calcRange(DateUtil.previous(this.interval, DateUtil.clone(this.service.currentDate)));
     }
 
     public move(forwards:boolean):void {
@@ -100,17 +101,17 @@ export abstract class CalendarRangeService {
     }
 
     public moveNext():void {
-        Util.Date.next(this.interval, this.service.currentDate);
+        DateUtil.next(this.interval, this.service.currentDate);
         this.previous = this.current;
         this.current = this.next;
-        this.next = this.calcRange(Util.Date.next(this.interval, Util.Date.clone(this.service.currentDate)));
+        this.next = this.calcRange(DateUtil.next(this.interval, DateUtil.clone(this.service.currentDate)));
     }
 
     public movePrevious():void {
-        Util.Date.previous(this.interval, this.service.currentDate);
+        DateUtil.previous(this.interval, this.service.currentDate);
         this.next = this.current;
         this.current = this.previous;
-        this.previous = this.calcRange(Util.Date.previous(this.interval, Util.Date.clone(this.service.currentDate)));
+        this.previous = this.calcRange(DateUtil.previous(this.interval, DateUtil.clone(this.service.currentDate)));
     }
 
     public calc(forwards:boolean):CalendarRange {
@@ -123,7 +124,7 @@ export abstract class CalendarRangeService {
     private calcRange(startDate:Date):CalendarRange {
         const start = this.calcStart(startDate);
         if (this.service.inFinalView) {
-            Util.Date.startOf(this.marginal, start, true);
+            DateUtil.startOf(this.marginal, start, true);
         }
         const dates = this.calcDates(start);
         const items = this.calcItems(dates, startDate);
@@ -132,13 +133,13 @@ export abstract class CalendarRangeService {
     }
 
     protected calcStart(date:Date):Date {
-        return Util.Date.startOf(this.interval, Util.Date.clone(date));
+        return DateUtil.startOf(this.interval, DateUtil.clone(date));
     }
 
     protected calcDates(rangeStart:Date):Date[] {
         return Util.Array
             .range(this.length)
-            .map(i => Util.Date.add(this.marginal, Util.Date.clone(rangeStart), i));
+            .map(i => DateUtil.add(this.marginal, DateUtil.clone(rangeStart), i));
 
     }
 

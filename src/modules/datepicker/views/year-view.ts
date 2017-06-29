@@ -1,5 +1,5 @@
-
-import { Component, HostBinding, Input, Output, EventEmitter } from "@angular/core";
+import { Component } from "@angular/core";
+import { Util, DateUtil, DatePrecision } from "../../../misc/util";
 import { CalendarView, CalendarViewType } from "./calendar-view";
 import { CalendarItem } from "../directives/calendar-item";
 import { CalendarRangeService } from "../services/calendar-range.service";
@@ -42,8 +42,8 @@ export class CalendarRangeYearService extends CalendarRangeService {
 })
 export class SuiCalendarYearView extends CalendarView {
     public get decadeStart():number {
-        return Util.Date
-            .startOf(DatePrecision.Decade, Util.Date.clone(this.service.currentDate))
+        return DateUtil
+            .startOf(DatePrecision.Decade, DateUtil.clone(this.service.currentDate))
             .getFullYear();
     }
 

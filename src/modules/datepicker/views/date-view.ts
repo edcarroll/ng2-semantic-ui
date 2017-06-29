@@ -1,4 +1,5 @@
-import { Component, HostBinding, EventEmitter, Output, Input } from "@angular/core";
+import { Component } from "@angular/core";
+import { DateUtil, DatePrecision } from "../../../misc/util";
 import { CalendarItem } from "../directives/calendar-item";
 import { CalendarView, CalendarViewType } from "./calendar-view";
 import { CalendarRangeService } from "../services/calendar-range.service";
@@ -6,7 +7,7 @@ import { DateParser } from "../classes/date-parser";
 
 export class CalendarRangeDateService extends CalendarRangeService {
     public calcStart(start:Date):Date {
-        const monthStart = Util.Date.startOf(DatePrecision.Month, Util.Date.clone(start));
+        const monthStart = DateUtil.startOf(DatePrecision.Month, DateUtil.clone(start));
         monthStart.setDate((1 - monthStart.getDay() + this.service.firstDayOfWeek - 7) % 7);
         return monthStart;
     }

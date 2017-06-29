@@ -1,7 +1,8 @@
 import {
     Component, Directive, Input, Output, HostListener, HostBinding,
-    EventEmitter, forwardRef, ViewChild, ElementRef
+    EventEmitter, ViewChild, ElementRef
 } from "@angular/core";
+import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor } from "../../../misc/util";
 
 @Component({
     selector: "sui-checkbox",

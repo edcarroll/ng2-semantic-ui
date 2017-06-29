@@ -1,5 +1,7 @@
 
 import { Directive, Host, Input, ElementRef, HostBinding, HostListener } from "@angular/core";
+import { DateUtil, DatePrecision } from "../../../misc/util";
+import { PopupTrigger } from "../../popup";
 import { SuiDatepickerDirective } from "./datepicker.directive";
 import { InternalDateParser, DateParser } from "../classes/date-parser";
 import * as bowser from "bowser";
@@ -63,7 +65,7 @@ export class SuiDatepickerInputDirective {
             // Since HTML doesn't use a date object max is somewhat tricky.
             // Our Datepicker will always choose the 1st date on the provided precision,
             // meaning anything below the maxDate will work, hence endOf.
-            const max = Util.Date.endOf(this.datepicker.config.precision, Util.Date.clone(this.datepicker.maxDate));
+            const max = DateUtil.endOf(this.datepicker.config.precision, DateUtil.clone(this.datepicker.maxDate));
             return this.parser.format(max);
         }
     }
@@ -74,8 +76,7 @@ export class SuiDatepickerInputDirective {
             // Since HTML doesn't use a date object min is somewhat tricky.
             // We use 1 minute before the next date at the configured precision since
             // our Datepicker picks the first available date at that precision.
-            const min = Util.Date.clone(this.datepicker.minDate);
-            const html = Util.Date.next(this.datepicker.config.precision, Util.Date.previous(DatePrecision.Minute, min));
+            const min = DateUtil.clone(this.datepicker.minDate);
             return this.parser.format(min);
         }
     }

@@ -1,6 +1,5 @@
 import { Component } from "@angular/core";
-import { Modal } from "../../../../src/modal/modal-controls";
-import { ComponentModalConfig, ModalSize } from "../../../../src/modal/modal-config";
+import { SuiModal, ComponentModalConfig, ModalSize } from "../../../../src/public";
 
 interface IConfirmModalContext {
     question:string;
@@ -21,7 +20,7 @@ interface IConfirmModalContext {
 `
 })
 export class ConfirmModalComponent {
-    constructor(public modal:Modal<IConfirmModalContext, void, void>) {}
+    constructor(public modal:SuiModal<IConfirmModalContext, void, void>) {}
 }
 
 export class ConfirmModal extends ComponentModalConfig<IConfirmModalContext, void, void> {
