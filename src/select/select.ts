@@ -1,4 +1,7 @@
-import { Component, ViewContainerRef, ViewChild, Output, EventEmitter, ElementRef, Renderer2, forwardRef, Directive, Input } from "@angular/core";
+import {
+    Component, ViewContainerRef, ViewChild, Output, EventEmitter, ElementRef,
+    Renderer2, forwardRef, Directive, Input
+} from "@angular/core";
 import { SuiSelectBase } from "./select-base";
 import { ISelectRenderedOption } from "./select-option";
 import { customValueAccessorFactory, ICustomValueAccessorHost, CustomValueAccessor } from "../util/helpers/custom-value-accessor";

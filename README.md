@@ -60,8 +60,8 @@ The current list of available components with links to their docs is below:
   - [Sidebar](https://edcarroll.github.io/ng2-semantic-ui/#/modules/sidebar)
   - [Tabs](https://edcarroll.github.io/ng2-semantic-ui/#/modules/tabs)
   - [Transition](https://edcarroll.github.io/ng2-semantic-ui/#/modules/transition)
-* Behaviours
-  - [Localization](https://edcarroll.github.io/ng2-semantic-ui/#/behaviours/localization)
+* Behaviors
+  - [Localization](https://edcarroll.github.io/ng2-semantic-ui/#/behaviors/localization)
 
 ## Want to help?
 
