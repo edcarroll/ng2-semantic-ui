@@ -11,7 +11,7 @@ import { DateParser } from "../classes/date-parser";
 
 export class CalendarRangeMonthService extends CalendarRangeService {
     public configureItem(item:CalendarItem, baseDate:Date):void {
-        item.humanReadable = this.service.localizationValues.monthsShort[item.date.getMonth()];
+        item.humanReadable = this.service.localeValues.monthsShort[item.date.getMonth()];
         item.isOutsideRange = false;
     }
 }
@@ -47,7 +47,7 @@ export class CalendarRangeMonthService extends CalendarRangeService {
 })
 export class SuiCalendarMonthView extends CalendarView {
     public get year():string {
-        return new DateParser("YYYY", this.service.localizationValues).format(this.currentDate);
+        return new DateParser("YYYY", this.service.localeValues).format(this.currentDate);
     }
 
     constructor() {

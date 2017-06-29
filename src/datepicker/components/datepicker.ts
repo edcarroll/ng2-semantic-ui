@@ -41,13 +41,9 @@ export class SuiDatepicker {
 
     public service:CalendarService;
 
-    @HostBinding("attr.tabindex")
-    public tabIndex:number;
-
     constructor(localizationService:SuiLocalizationService) {
         this.service = new CalendarService(new DatetimeConfig(), localizationService.getValues().datepicker);
 
         this._calendarClasses = true;
-        this.tabIndex = 0;
     }
 }

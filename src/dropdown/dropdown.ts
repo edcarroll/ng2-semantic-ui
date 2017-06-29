@@ -102,6 +102,11 @@ export class SuiDropdown implements AfterContentInit {
         }
     }
 
+    @HostListener("mousedown", ["$event"])
+    public onMouseDown(e:MouseEvent):void {
+        e.preventDefault();
+    }
+
     @HostListener("focusout")
     private onFocusOut():void {
         this.externallyClose();

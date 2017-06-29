@@ -61,7 +61,7 @@ export class CalendarRangeMinuteService extends CalendarRangeService {
 })
 export class SuiCalendarMinuteView extends CalendarView {
     public get date():string {
-        const [time, date] = new DateParser("HH:00|MMMM D, YYYY", this.service.localizationValues)
+        const [time, date] = new DateParser("HH:00|MMMM D, YYYY", this.service.localeValues)
             .format(this.currentDate)
             .split("|");
 

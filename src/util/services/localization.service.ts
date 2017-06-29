@@ -1,5 +1,14 @@
 import { Injectable } from "@angular/core";
 import { IDatepickerLocaleValues, defaultGBDatepickerLocaleValues } from "../../datepicker/localization";
+import * as extend from "deep-extend";
+
+function deepClone<T>(obj:T):T {
+    return JSON.parse(JSON.stringify(obj));
+}
+
+function deepExtend<T, U>(target:T, source:U):T & U {
+    return extend.call(undefined, target, source);
+}
 
 export type Partial<T> = {
     [P in keyof T]?:Partial<T[P]>;
@@ -38,9 +47,13 @@ export class SuiLocalizationService {
         this._language = language.toLowerCase();
     }
 
-    public getValues(language?:string):ILocaleValues {
+    public getValues(language:string = this.language):ILocaleValues {
         const l = language || this._language;
         return this._values[l.toLowerCase()];
+    }
+
+    public overrideValues<T>(values:T, overrides:Partial<T>):T {
+        return deepExtend(deepClone(values), overrides);
     }
 
     public setValues(language:string, values:ILocaleValues):void;
@@ -48,7 +61,7 @@ export class SuiLocalizationService {
     public setValues(language:string, baseLanguage:string | ILocaleValues, values?:IPartialLocaleValues):void {
         if (typeof baseLanguage === "string" && values) {
 
-            this._values[language.toLowerCase()] = this.deepClone(this._values[language.toLowerCase()]);
+            this._values[language.toLowerCase()] = deepClone(this._values[language.toLowerCase()]);
             this.patchValues(language, values);
 
         } else if (typeof baseLanguage === "object") {
@@ -58,10 +71,6 @@ export class SuiLocalizationService {
     }
 
     public patchValues(language:string, values:IPartialLocaleValues):void {
-        Object.assign(this._values[language.toLowerCase()], values);
-    }
-
-    private deepClone<T>(obj:T):T {
-        return JSON.parse(JSON.stringify(obj));
+        deepExtend(this._values[language.toLowerCase()], values);
     }
 }

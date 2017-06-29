@@ -16,6 +16,8 @@ import { Util, KeyCode } from "../../util/util";
 import { PopupAfterOpen } from "../../popup/classes/popup-lifecycle";
 import { CalendarService } from "../services/calendar.service";
 import { CalendarConfig, YearConfig, MonthConfig, DatetimeConfig, TimeConfig, DateConfig } from "../classes/calendar-config";
+import { IDatepickerLocaleValues } from "../localization";
+import { SuiLocalizationService, Partial } from "../../util/services/localization.service";
 
 @Directive({
     selector: "[suiDatepicker]",
@@ -75,6 +77,15 @@ export class SuiDatepickerDirective
     @Input("pickerFirstDayOfWeek")
     public firstDayOfWeek?:number;
 
+    private _localeValues:IDatepickerLocaleValues;
+
+    @Input("pickerLocaleOverrides")
+    public localeOverrides:Partial<IDatepickerLocaleValues>;
+
+    public get localeValues():IDatepickerLocaleValues {
+        return this.localizationService.overrideValues(this._localeValues, this.localeOverrides);
+    }
+
     @Input("pickerPlacement")
     public set placement(placement:PositioningPlacement) {
         this.popup.config.placement = placement;
@@ -98,7 +109,8 @@ export class SuiDatepickerDirective
 
     constructor(element:ElementRef,
                 public renderer:Renderer2,
-                componentFactory:SuiComponentFactory) {
+                componentFactory:SuiComponentFactory,
+                public localizationService:SuiLocalizationService) {
 
         super(element, componentFactory, SuiDatepicker, new PopupConfig({
             trigger: PopupTrigger.Focus,
@@ -112,6 +124,7 @@ export class SuiDatepickerDirective
         this.renderer.addClass(this.popup.elementRef.nativeElement, "calendar");
 
         this.mode = DatepickerMode.Datetime;
+        this._localeValues = this.localizationService.getValues().datepicker;
 
         this.onSelectedDateChange = new EventEmitter<Date>();
         this.onValidatorChange = new EventEmitter<void>();
@@ -120,6 +133,7 @@ export class SuiDatepickerDirective
     public popupOnOpen():void {
         if (this.componentInstance) {
             this.componentInstance.service.config = this.config;
+            this.componentInstance.service.localeValues = this.localeValues;
             this.componentInstance.service.selectedDate = this.selectedDate;
             this.componentInstance.service.maxDate = this.maxDate;
             this.componentInstance.service.minDate = this.minDate;

@@ -5,7 +5,6 @@ import { IDateParser, InternalDateParser, DateParser } from "../classes/date-par
 import { PopupTrigger } from "../../popup/classes/popup-config";
 import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";
-import { SuiLocalizationService } from "../../util/services/localization.service";
 import * as bowser from "bowser";
 
 @Directive({
@@ -40,11 +39,9 @@ export class SuiDatepickerInputDirective {
 
     public get parser():IDateParser {
         if (this.fallbackActive) {
-            return new InternalDateParser(this.datepicker.mode, this._localizationService.getValues().datepicker);
+            return new InternalDateParser(this.datepicker.mode, this.datepicker.localeValues);
         }
-        return new DateParser(
-            this._localizationService.getValues().datepicker.formats[this.datepicker.mode],
-            this._localizationService.getValues().datepicker);
+        return new DateParser(this.datepicker.localeValues.formats[this.datepicker.mode], this.datepicker.localeValues);
     }
 
     private _currentInputValue:string | undefined;
@@ -87,8 +84,7 @@ export class SuiDatepickerInputDirective {
     }
 
     constructor(@Host() public datepicker:SuiDatepickerDirective,
-                public element:ElementRef,
-                private _localizationService:SuiLocalizationService) {
+                public element:ElementRef) {
 
         this.useNativeOnMobile = true;
         this.fallbackActive = false;

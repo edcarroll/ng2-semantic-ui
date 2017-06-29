@@ -87,10 +87,10 @@ export class CalendarService {
 
     public onDateChange:EventEmitter<Date>;
 
-    constructor(config:CalendarConfig, public localizationValues:IDatepickerLocaleValues) {
+    constructor(config:CalendarConfig, public localeValues:IDatepickerLocaleValues) {
         this.config = config;
 
-        this.firstDayOfWeek = this.localizationValues.firstDayOfWeek;
+        this.firstDayOfWeek = this.localeValues.firstDayOfWeek;
 
         this.onDateChange = new EventEmitter<Date>();
 

@@ -56,12 +56,12 @@ export class CalendarRangeDateService extends CalendarRangeService {
 })
 export class SuiCalendarDateView extends CalendarView {
     public get days():string[] {
-        const days = this.service.localizationValues.weekdaysNarrow;
+        const days = this.service.localeValues.weekdaysNarrow;
         return days.map((d, i) => days[(i + this.service.firstDayOfWeek) % days.length]);
     }
 
     public get date():string {
-        return new DateParser("MMMM YYYY", this.service.localizationValues).format(this.currentDate);
+        return new DateParser("MMMM YYYY", this.service.localeValues).format(this.currentDate);
     }
 
     constructor() {

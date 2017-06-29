@@ -3,7 +3,7 @@ import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";
 import { DatepickerMode } from "../components/datepicker";
 import { DateFnsParser } from "../helpers/date-fns";
-import { IDatepickerLocaleValues, IDatepickerFormatsLocaleValues } from "../../../dist/datepicker/localization";
+import { IDatepickerLocaleValues, IDatepickerFormatsLocaleValues } from "../localization";
 
 export interface IDateParser {
     format(date:Date):string;

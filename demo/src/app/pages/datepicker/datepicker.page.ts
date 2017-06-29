@@ -9,7 +9,8 @@ const exampleStandardTemplate = `
             <i class="calendar icon"></i>
             <input suiDatepicker
                    [(ngModel)]="date"
-                   [pickerFirstDayOfWeek]="firstDayOfWeek">
+                   [pickerFirstDayOfWeek]="firstDayOfWeek"
+                   [pickerLocaleOverrides]="{ formats: { datetime: 'YYYY' } }">
         </div>
     </div>
     <div class="field">
@@ -70,6 +71,11 @@ export class DatepickerPage {
                     type: "number",
                     description: "Sets the duration for the datepicker transition.",
                     defaultValue: "200"
+                },
+                {
+                    name: "pickerLocaleOverrides",
+                    type: "Partial<IDatepickerLocaleValues>",
+                    description: "Overrides the values from the localization service."
                 },
                 {
                     name: "ngModel",

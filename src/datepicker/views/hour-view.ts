@@ -47,7 +47,7 @@ export class CalendarRangeHourService extends CalendarRangeService {
 })
 export class SuiCalendarHourView extends CalendarView {
     public get date():string {
-        return new DateParser("MMMM D, YYYY", this.service.localizationValues).format(this.currentDate);
+        return new DateParser("MMMM D, YYYY", this.service.localeValues).format(this.currentDate);
     }
 
     constructor() {
