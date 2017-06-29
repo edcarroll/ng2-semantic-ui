@@ -10,6 +10,7 @@ import { customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHo
 import { Util } from "../util/util";
 import { SuiLocalizationService } from "../localization/services/localization.service";
 import { ISearchLocaleValues } from "../localization/interfaces/search-values";
+import { Partial } from "../localization/interfaces/partial";
 
 @Component({
     selector: "sui-search",
@@ -168,7 +169,7 @@ export class SuiSearch<T> implements AfterViewInit, ICustomValueAccessorHost<T> 
     }
 
     private onLocaleUpdate():void {
-        this.localeValues = this._localizationService.getValues().search;
+        this._localeValues = this._localizationService.getValues().search;
     }
 
     // Selects an item.

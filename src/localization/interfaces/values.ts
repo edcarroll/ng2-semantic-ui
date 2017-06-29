@@ -1,9 +1,6 @@
+import { Partial } from "./partial";
 import { IDatepickerLocaleValues, IDatepickerFormatsLocaleValues } from "./datepicker-values";
 import { ISearchLocaleValues } from "./search-values";
-
-export type Partial<T> = {
-    [P in keyof T]?:Partial<T[P]>;
-};
 
 export interface ILocaleValues {
     datepicker:IDatepickerLocaleValues;

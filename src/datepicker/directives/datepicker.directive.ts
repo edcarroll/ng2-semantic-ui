@@ -17,7 +17,8 @@ import { PopupAfterOpen } from "../../popup/classes/popup-lifecycle";
 import { CalendarService } from "../services/calendar.service";
 import { CalendarConfig, YearConfig, MonthConfig, DatetimeConfig, TimeConfig, DateConfig } from "../classes/calendar-config";
 import { SuiLocalizationService } from "../../localization/services/localization.service";
-import { Partial, IDatepickerLocaleValues } from "../../localization/interfaces/values";
+import { IDatepickerLocaleValues } from "../../localization/interfaces/values";
+import { Partial } from "../../localization/interfaces/partial";
 
 @Directive({
     selector: "[suiDatepicker]",
