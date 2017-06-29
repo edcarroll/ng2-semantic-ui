@@ -16,8 +16,8 @@ import { Util, KeyCode } from "../../util/util";
 import { PopupAfterOpen } from "../../popup/classes/popup-lifecycle";
 import { CalendarService } from "../services/calendar.service";
 import { CalendarConfig, YearConfig, MonthConfig, DatetimeConfig, TimeConfig, DateConfig } from "../classes/calendar-config";
-import { IDatepickerLocaleValues } from "../localization";
-import { SuiLocalizationService, Partial } from "../../util/services/localization.service";
+import { SuiLocalizationService } from "../../localization/services/localization.service";
+import { Partial, IDatepickerLocaleValues } from "../../localization/interfaces/values";
 
 @Directive({
     selector: "[suiDatepicker]",
@@ -124,7 +124,10 @@ export class SuiDatepickerDirective
         this.renderer.addClass(this.popup.elementRef.nativeElement, "calendar");
 
         this.mode = DatepickerMode.Datetime;
-        this._localeValues = this.localizationService.getValues().datepicker;
+
+        this.onLocaleChange();
+        this.localizationService.onLanguageChange.subscribe(() => this.onLocaleChange());
+        this.localizationService.onTranslationsChange.subscribe(() => this.onLocaleChange());
 
         this.onSelectedDateChange = new EventEmitter<Date>();
         this.onValidatorChange = new EventEmitter<void>();
@@ -155,6 +158,10 @@ export class SuiDatepickerDirective
         if (maxDate || minDate || mode) {
             this.onValidatorChange.emit();
         }
+    }
+
+    private onLocaleChange():void {
+        this._localeValues = this.localizationService.getValues().datepicker;
     }
 
     public validate(c:AbstractControl):ValidationErrors | null {

@@ -1,6 +1,5 @@
 import { Component } from "@angular/core";
 import { CalendarView, CalendarViewType } from "./calendar-view";
-import { SuiLocalizationService } from "../../util/services/localization.service";
 import { CalendarItem } from "../directives/calendar-item";
 import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";

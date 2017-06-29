@@ -1,9 +1,8 @@
-import { ILocaleValues } from "../../util/services/localization.service";
 import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";
 import { DatepickerMode } from "../components/datepicker";
 import { DateFnsParser } from "../helpers/date-fns";
-import { IDatepickerLocaleValues, IDatepickerFormatsLocaleValues } from "../localization";
+import { IDatepickerLocaleValues, IDatepickerFormatsLocaleValues } from "../../localization/interfaces/values";
 
 export interface IDateParser {
     format(date:Date):string;

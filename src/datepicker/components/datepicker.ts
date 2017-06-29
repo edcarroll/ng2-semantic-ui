@@ -3,7 +3,7 @@ import { Component, HostBinding, Directive, EventEmitter, Output, HostListener }
 import { Util } from "../../util/util";
 import { CalendarViewType, CalendarViewResult } from "./../views/calendar-view";
 import { CalendarService, CalendarMode } from "./../services/calendar.service";
-import { SuiLocalizationService } from "../../util/services/localization.service";
+import { SuiLocalizationService } from "../../localization/services/localization.service";
 import { DatetimeConfig } from "../classes/calendar-config";
 
 export type DatepickerMode = "year" | "month" | "date" | "datetime" | "time";

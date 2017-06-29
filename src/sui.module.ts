@@ -17,6 +17,8 @@ import { SuiSidebarModule } from "./sidebar/sidebar.module";
 import { SuiTabsModule } from "./tabs/tab.module";
 import { SuiSelectModule } from "./select/select.module";
 import { SuiTransitionModule } from "./transition/transition.module";
+
+import { SuiLocalizationModule } from "./localization/localization.module";
 import { SuiUtilityModule } from "./util/util.module";
 
 @NgModule({
@@ -39,6 +41,7 @@ import { SuiUtilityModule } from "./util/util.module";
         SuiTabsModule,
         SuiTransitionModule,
 
+        SuiLocalizationModule,
         SuiUtilityModule
     ]
 })

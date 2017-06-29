@@ -4,7 +4,7 @@ import { CalendarViewType, CalendarViewResult } from "../views/calendar-view";
 import { CalendarMapping, CalendarMappings, DateMappings, TimeMappings, DatetimeMappings } from "../classes/calendar-mappings";
 import { CalendarConfig } from "../classes/calendar-config";
 import { DatePrecision } from "../../util/helpers/date";
-import { IDatepickerLocaleValues } from "../localization";
+import { IDatepickerLocaleValues } from "../../localization/interfaces/values";
 
 export enum CalendarMode {
     DateOnly = 0,

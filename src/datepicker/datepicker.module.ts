@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { SuiPopupModule } from "../popup/popup.module";
+import { SuiLocalizationModule } from "../localization/localization.module";
 import { SuiUtilityModule } from "../util/util.module";
 import { SuiCalendarYearView } from "./views/year-view";
 import { SuiCalendarMonthView } from "./views/month-view";
@@ -11,7 +12,6 @@ import { SuiDatepicker, DatepickerMode } from "./components/datepicker";
 import { SuiCalendarHourView } from "./views/hour-view";
 import { SuiCalendarMinuteView } from "./views/minute-view";
 import { SuiDatepickerInputDirective } from "./directives/input.directive";
-import { IDatepickerLocaleValues, IDatepickerFormatsLocaleValues } from "./localization";
 import {
     SuiDatepickerDirective, SuiDatepickerDirectiveValueAccessor,
     SuiDatepickerDirectiveValidator
@@ -22,6 +22,7 @@ import {
         CommonModule,
         FormsModule,
         SuiPopupModule,
+        SuiLocalizationModule,
         SuiUtilityModule
     ],
     declarations: [
@@ -52,7 +53,5 @@ import {
 export class SuiDatepickerModule {}
 
 export {
-    IDatepickerLocaleValues,
-    IDatepickerFormatsLocaleValues,
     DatepickerMode
 };

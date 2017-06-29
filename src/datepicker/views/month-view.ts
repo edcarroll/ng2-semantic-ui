@@ -1,6 +1,5 @@
 
 import { Component, Input, Output, EventEmitter, HostBinding } from "@angular/core";
-import { SuiLocalizationService } from "../../util/services/localization.service";
 import { CalendarView, CalendarViewType } from "./calendar-view";
 import { CalendarItem } from "../directives/calendar-item";
 import { Util } from "../../util/util";
