@@ -110,7 +110,7 @@ export class DatepickerPage {
     template: exampleStandardTemplate
 })
 export class DatepickerExampleStandard {
-    public firstDayOfWeek:number = 0;
+    public firstDayOfWeek:number = 1;
 }
 
 export const DatepickerPageComponents = [DatepickerPage, DatepickerExampleStandard];

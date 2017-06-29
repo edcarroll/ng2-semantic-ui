@@ -143,7 +143,7 @@ export class PositioningService {
 
         const modifiers:PopperModifiers = {
             computeStyle: {
-                gpuAcceleration: true
+                gpuAcceleration: false
             },
             preventOverflow: {
                 escapeWithReference: true,

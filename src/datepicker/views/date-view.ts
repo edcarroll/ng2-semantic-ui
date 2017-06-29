@@ -56,7 +56,7 @@ export class CalendarRangeDateService extends CalendarRangeService {
 })
 export class SuiCalendarDateView extends CalendarView {
     public get days():string[] {
-        const days = this.service.localizationValues.datepicker.weekdaysShort;
+        const days = this.service.localizationValues.weekdaysNarrow;
         return days.map((d, i) => days[(i + this.service.firstDayOfWeek) % days.length]);
     }
 
@@ -65,7 +65,7 @@ export class SuiCalendarDateView extends CalendarView {
     }
 
     public get month():string {
-        return this.service.localizationValues.datepicker.months[this.currentDate.getMonth()];
+        return this.service.localizationValues.months[this.currentDate.getMonth()];
     }
 
     constructor() {

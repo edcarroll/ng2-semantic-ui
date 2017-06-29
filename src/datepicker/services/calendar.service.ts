@@ -4,8 +4,7 @@ import { CalendarViewType, CalendarViewResult } from "../views/calendar-view";
 import { CalendarMapping, CalendarMappings, DateMappings, TimeMappings, DatetimeMappings } from "../classes/calendar-mappings";
 import { CalendarConfig } from "../classes/calendar-config";
 import { DatePrecision } from "../../util/helpers/date";
-import { ILocalizationValues } from "../../util/services/localization.service";
-import { DateComparer } from "../classes/date-comparer";
+import { IDatepickerLocaleValues } from "../localization";
 
 export enum CalendarMode {
     DateOnly = 0,
@@ -88,10 +87,10 @@ export class CalendarService {
 
     public onDateChange:EventEmitter<Date>;
 
-    constructor(config:CalendarConfig, public localizationValues:ILocalizationValues) {
+    constructor(config:CalendarConfig, public localizationValues:IDatepickerLocaleValues) {
         this.config = config;
 
-        this.firstDayOfWeek = this.localizationValues.datepicker.firstDayOfWeek;
+        this.firstDayOfWeek = this.localizationValues.firstDayOfWeek;
 
         this.onDateChange = new EventEmitter<Date>();
 

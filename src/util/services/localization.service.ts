@@ -1,22 +1,18 @@
 import { Injectable } from "@angular/core";
-import { IDateFormats } from "../../datepicker/classes/date-parser";
+import { IDatepickerLocaleValues, defaultGBDatepickerLocaleValues } from "../../datepicker/localization";
 
-export type Septuple<T> = [T, T, T, T, T, T, T];
-export type Duodecuple<T> = [T, T, T, T, T, T, T, T, T, T, T, T];
+export type Partial<T> = {
+    [P in keyof T]?:Partial<T[P]>;
+};
 
-export interface ILocalizationValues {
-    datepicker:{
-        months:Duodecuple<string>;
-        monthsShort:Duodecuple<string>;
-        weekdays:Septuple<string>;
-        weekdaysShort:Septuple<string>;
-        firstDayOfWeek:number;
-        formats:IDateFormats;
-    };
+export interface ILocaleValues {
+    datepicker:IDatepickerLocaleValues;
 }
 
+export type IPartialLocaleValues = Partial<ILocaleValues>;
+
 interface ILocalizationValuesContainer {
-    [name:string]:ILocalizationValues;
+    [name:string]:ILocaleValues;
 }
 
 @Injectable()
@@ -29,52 +25,43 @@ export class SuiLocalizationService {
     }
 
     constructor() {
-        this._language = "en";
+        this.setLanguage("en-GB");
 
         this._values = {};
 
-        this.setValues("en", {
-            datepicker: {
-                months: [
-                    "January", "February", "March", "April",
-                    "May", "June", "July", "August",
-                    "September", "October", "November", "December"
-                ],
-                monthsShort: [
-                    "Jan", "Feb", "Mar", "Apr",
-                    "May", "Jun", "Jul", "Aug",
-                    "Sep", "Oct", "Nov", "Dec"
-                ],
-                weekdays: [
-                    "Sunday", "Monday", "Tuesday", "Wednesday",
-                    "Thursday", "Friday", "Saturday"
-                ],
-                weekdaysShort: [
-                    "S", "M", "T", "W",
-                    "T", "F", "S"
-                ],
-                firstDayOfWeek: 0,
-                formats: {
-                    time: "HH:mm",
-                    datetime: "YYYY/MM/DD HH:mm",
-                    date: "YYYY/MM/DD",
-                    month: "MMMM YYYY",
-                    year: "YYYY"
-                }
-            }
+        this.setValues("en-GB", {
+            datepicker: defaultGBDatepickerLocaleValues
         });
     }
 
     public setLanguage(language:string):void {
-        this._language = language;
+        this._language = language.toLowerCase();
     }
 
-    public getValues(language?:string):ILocalizationValues {
+    public getValues(language?:string):ILocaleValues {
         const l = language || this._language;
-        return this._values[l];
+        return this._values[l.toLowerCase()];
     }
 
-    public setValues(language:string, values:ILocalizationValues):void {
-        this._values[language] = values;
+    public setValues(language:string, values:ILocaleValues):void;
+    public setValues(language:string, baseLanguage:string, values:IPartialLocaleValues):void;
+    public setValues(language:string, baseLanguage:string | ILocaleValues, values?:IPartialLocaleValues):void {
+        if (typeof baseLanguage === "string" && values) {
+
+            this._values[language.toLowerCase()] = this.deepClone(this._values[language.toLowerCase()]);
+            this.patchValues(language, values);
+
+        } else if (typeof baseLanguage === "object") {
+
+            this._values[language.toLowerCase()] = baseLanguage;
+        }
+    }
+
+    public patchValues(language:string, values:IPartialLocaleValues):void {
+        Object.assign(this._values[language.toLowerCase()], values);
+    }
+
+    private deepClone<T>(obj:T):T {
+        return JSON.parse(JSON.stringify(obj));
     }
 }

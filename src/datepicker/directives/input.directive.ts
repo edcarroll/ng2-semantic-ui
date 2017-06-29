@@ -40,9 +40,11 @@ export class SuiDatepickerInputDirective {
 
     public get parser():IDateParser {
         if (this.fallbackActive) {
-            return new InternalDateParser(this.datepicker.mode);
+            return new InternalDateParser(this.datepicker.mode, this._localizationService.getValues().datepicker);
         }
-        return new DateParser(this._localizationService.getValues().datepicker.formats[this.datepicker.mode]);
+        return new DateParser(
+            this._localizationService.getValues().datepicker.formats[this.datepicker.mode],
+            this._localizationService.getValues().datepicker);
     }
 
     private _currentInputValue:string | undefined;

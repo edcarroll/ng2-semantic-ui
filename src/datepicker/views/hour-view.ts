@@ -46,8 +46,7 @@ export class CalendarRangeHourService extends CalendarRangeService {
 })
 export class SuiCalendarHourView extends CalendarView {
     public get date():string {
-        const month = this.service.localizationValues.datepicker
-            .months[this.currentDate.getMonth()];
+        const month = this.service.localizationValues.months[this.currentDate.getMonth()];
         const date = this.currentDate.getDate();
         const year = this.currentDate.getFullYear();
 
