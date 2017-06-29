@@ -27,7 +27,6 @@ export abstract class CalendarView implements AfterViewInit {
     public set service(service:CalendarService) {
         this._service = service;
         this.ranges.loadService(service);
-        this.autoHighlight();
 
         this.service.onManualUpdate = () => {
             this.ranges.refresh();
@@ -81,6 +80,7 @@ export abstract class CalendarView implements AfterViewInit {
                 }
             }));
 
+        this.autoHighlight();
         this.highlightItem(this._highlightedItem);
     }
 
