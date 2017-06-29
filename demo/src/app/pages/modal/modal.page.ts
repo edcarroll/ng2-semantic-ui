@@ -85,7 +85,7 @@ export class ModalPage {
                 {
                     name: "isInverted",
                     type: "boolean",
-                    description: "Sets whether the modal takes up the full width of the screen.",
+                    description: "Sets whether the modal displays against a light background.",
                     defaultValue: "false"
                 },
                 {
