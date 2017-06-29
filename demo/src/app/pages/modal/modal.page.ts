@@ -83,6 +83,12 @@ export class ModalPage {
                     defaultValue: "true"
                 },
                 {
+                    name: "isInverted",
+                    type: "boolean",
+                    description: "Sets whether the modal takes up the full width of the screen.",
+                    defaultValue: "false"
+                },
+                {
                     name: "mustScroll",
                     type: "boolean",
                     description: "Whether or not the modal should always display a scrollbar.",
@@ -162,7 +168,7 @@ public open(dynamicContent:string = "Example") {
 
     this.modalService
         .open(config)
-        .onApprove(result => { /* approve callback */ }) 
+        .onApprove(result => { /* approve callback */ })
         .onDeny(result => { /* deny callback */});
 }
 `;
