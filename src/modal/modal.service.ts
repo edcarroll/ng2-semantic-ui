@@ -3,50 +3,42 @@ import { ModalConfig, TemplateModalConfig, ComponentModalConfig } from "./modal-
 import { SuiModal } from "./modal";
 import { Modal } from "./modal-controls";
 import { ActiveModal } from "./active-modal";
+import { SuiComponentFactory } from "../util/services/component-factory.service";
 
 @Injectable()
 export class SuiModalService {
-    constructor(private _applicationRef:ApplicationRef,
-                private _componentFactoryResolver:ComponentFactoryResolver,
-                private _injector:Injector) {}
+    constructor(private _componentFactory:SuiComponentFactory) {}
 
     public open<T, U, V>(modal:ModalConfig<T, U, V>):ActiveModal<T, U, V> {
-        // Resolve factory for creating `SuiModal` components.
-        const factory = this._componentFactoryResolver.resolveComponentFactory<SuiModal<U, V>>(SuiModal);
+        // Generate the modal component to be shown.
+        const componentRef = this._componentFactory.createComponent<SuiModal<U, V>>(SuiModal);
 
-        // Generate a component using the injector and the previously resolved factory.
-        const componentRef = factory.create(this._injector);
         // Shorthand for the created modal component instance.
         const modalComponent = componentRef.instance;
 
         if (modal instanceof TemplateModalConfig) {
             // Inject the template into the view.
-            componentRef.instance.templateSibling.createEmbeddedView(modal.template, {
+            this._componentFactory.createView(modalComponent.templateSibling, modal.template, {
                 // `let-context`
                 $implicit: modal.context,
                 // `let-modal="modal"`
                 modal: componentRef.instance.controls
             });
         } else if (modal instanceof ComponentModalConfig) {
-            // Resolve factory for creating a new instance of the provided component.
-            const contentComponentFactory = this._componentFactoryResolver.resolveComponentFactory(modal.component as Type<{}>);
-
-            // Provide an instance of `Modal` for the injector, to be used in the component constructor.
-            const modalContentInjector = ReflectiveInjector.resolveAndCreate(
+            // Generate the component to be used as the modal content,
+            // injecting an instance of `Modal` to be used in the component constructor.
+            const contentComponentRef = this._componentFactory.createComponent(
+                modal.component,
                 [
                     {
                         provide: Modal,
                         useValue: new Modal(modalComponent.controls, modal.context)
                     }
-                ],
-                this._injector
+                ]
             );
 
-            // Generate a component using the custom injector and the previously resolved factory.
-            const contentComponentRef = contentComponentFactory.create(modalContentInjector);
-
             // Insert the new component into the content of the modal.
-            modalComponent.templateSibling.insert(contentComponentRef.hostView);
+            this._componentFactory.attachToView(contentComponentRef, modalComponent.templateSibling);
 
             // Shorthand for access to the content component's DOM element.
             const contentElement = contentComponentRef.location.nativeElement as Element;
@@ -58,12 +50,12 @@ export class SuiModalService {
                 contentElement.parentElement.appendChild(contentElement.removeChild(contentElement.firstChild));
             }
             // Remove the generated component's 'empty shell' from the DOM.
-            contentElement.remove();
+            this._componentFactory.detachFromDocument(contentComponentRef);
         }
 
         // Attach the new modal component to the application.
         // The component will move itself to the document body for correctl styling.
-        this._applicationRef.attachView(componentRef.hostView);
+        this._componentFactory.attachToApplication(componentRef);
 
         // Initialise the generated modal with the provided config.
         modalComponent.loadConfig(modal);
