@@ -26,6 +26,13 @@ const enGB:ILocaleValues = {
             year: "YYYY"
         },
         firstDayOfWeek: 1
+    },
+    search: {
+        placeholder: "Search...",
+        noResults: {
+            header: "No Results",
+            message: "Your search returned no results."
+        }
     }
 };
 

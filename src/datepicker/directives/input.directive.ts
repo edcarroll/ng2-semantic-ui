@@ -53,7 +53,7 @@ export class SuiDatepickerInputDirective {
     }
 
     @HostBinding("attr.type")
-    public get HTMLType():string {
+    public get type():string {
         if (this.fallbackActive) {
             return this.datepicker.config.fallback;
         }
@@ -61,7 +61,7 @@ export class SuiDatepickerInputDirective {
     }
 
     @HostBinding("attr.max")
-    public get HTMLMax():string | undefined {
+    public get max():string | undefined {
         if (this.fallbackActive && this.datepicker.maxDate) {
             // Since HTML doesn't use a date object max is somewhat tricky.
             // Our Datepicker will always choose the 1st date on the provided precision,
@@ -72,7 +72,7 @@ export class SuiDatepickerInputDirective {
     }
 
     @HostBinding("attr.min")
-    public get HTMLMin():string | undefined {
+    public get min():string | undefined {
         if (this.fallbackActive && this.datepicker.minDate) {
             // Since HTML doesn't use a date object min is somewhat tricky.
             // We use 1 minute before the next date at the configured precision since

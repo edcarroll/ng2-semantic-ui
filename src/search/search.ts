@@ -8,6 +8,8 @@ import { SearchService, LookupFn } from "./search.service";
 import { PositioningService, PositioningPlacement } from "../util/services/positioning.service";
 import { customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHost } from "../util/helpers/custom-value-accessor";
 import { Util } from "../util/util";
+import { SuiLocalizationService } from "../localization/services/localization.service";
+import { ISearchLocaleValues } from "../localization/interfaces/search-values";
 
 @Component({
     selector: "sui-search",
@@ -27,8 +29,8 @@ import { Util } from "../util/util";
         <span *ngIf="searchService.optionsLookup">{{ readValue(r) }}</span>
     </a>
     <div *ngIf="results.length == 0" class="message empty">
-        <div class="header">No Results</div>
-        <div class="description">Your search returned no results.</div>
+        <div class="header">{{ localeValues.noResults.header }}</div>
+        <div class="description">{{ localeValues.noResults.message }}</div>
     </div>
 </div>
 `,
@@ -66,9 +68,25 @@ export class SuiSearch<T> implements AfterViewInit, ICustomValueAccessorHost<T> 
     @Input()
     public hasIcon:boolean;
 
-    // Sets the placeholder text displayed inside the text input.
+    private _placeholder:string;
+
+    // Gets & sets the placeholder text displayed inside the text input.
     @Input()
-    public placeholder:string;
+    public get placeholder():string {
+        return this._placeholder || this.localeValues.placeholder;
+    }
+
+    public set placeholder(placeholder:string) {
+        this._placeholder = placeholder;
+    }
+
+    private _localeValues:ISearchLocaleValues;
+
+    public localeOverrides:Partial<ISearchLocaleValues>;
+
+    public get localeValues():ISearchLocaleValues {
+        return this._localizationService.overrideValues<"search">(this._localeValues, this.localeOverrides);
+    }
 
     public get query():string {
         return this.searchService.query;
@@ -127,13 +145,15 @@ export class SuiSearch<T> implements AfterViewInit, ICustomValueAccessorHost<T> 
     @Input()
     public transitionDuration:number;
 
-    constructor(private _element:ElementRef) {
+    constructor(private _element:ElementRef, private _localizationService:SuiLocalizationService) {
         this.dropdownService = new DropdownService();
         this.searchService = new SearchService<T>();
 
+        this.onLocaleUpdate();
+        this._localizationService.onLanguageUpdate.subscribe(() => this.onLocaleUpdate());
+
         this._searchClasses = true;
         this.hasIcon = true;
-        this.placeholder = "Search...";
         this.searchDelay = 200;
         this.maxResults = 7;
 
@@ -145,6 +165,10 @@ export class SuiSearch<T> implements AfterViewInit, ICustomValueAccessorHost<T> 
 
     public ngAfterViewInit():void {
         this._menu.service = this.dropdownService;
+    }
+
+    private onLocaleUpdate():void {
+        this.localeValues = this._localizationService.getValues().search;
     }
 
     // Selects an item.

@@ -83,7 +83,7 @@ export class SuiDatepickerDirective
     public localeOverrides:Partial<IDatepickerLocaleValues>;
 
     public get localeValues():IDatepickerLocaleValues {
-        return this.localizationService.overrideValues(this._localeValues, this.localeOverrides);
+        return this.localizationService.overrideValues<"datepicker">(this._localeValues, this.localeOverrides);
     }
 
     @Input("pickerPlacement")
@@ -125,9 +125,8 @@ export class SuiDatepickerDirective
 
         this.mode = DatepickerMode.Datetime;
 
-        this.onLocaleChange();
-        this.localizationService.onLanguageChange.subscribe(() => this.onLocaleChange());
-        this.localizationService.onTranslationsChange.subscribe(() => this.onLocaleChange());
+        this.onLocaleUpdate();
+        this.localizationService.onLanguageUpdate.subscribe(() => this.onLocaleUpdate());
 
         this.onSelectedDateChange = new EventEmitter<Date>();
         this.onValidatorChange = new EventEmitter<void>();
@@ -160,7 +159,7 @@ export class SuiDatepickerDirective
         }
     }
 
-    private onLocaleChange():void {
+    private onLocaleUpdate():void {
         this._localeValues = this.localizationService.getValues().datepicker;
     }
 

@@ -85,6 +85,11 @@ export class SearchPage {
                     type: "number",
                     description: "Sets the duration for the search results transition.",
                     defaultValue: "200"
+                },
+                {
+                    name: "localeOverrides",
+                    type: "Partial<ISearchLocaleValues>",
+                    description: "Overrides the values from the localization service."
                 }
             ],
             events: [

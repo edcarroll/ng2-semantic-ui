@@ -27,12 +27,10 @@ export class SuiLocalizationService {
         return this._language;
     }
 
-    public onLanguageChange:EventEmitter<void>;
-    public onTranslationsChange:EventEmitter<void>;
+    public onLanguageUpdate:EventEmitter<void>;
 
     constructor() {
-        this.onLanguageChange = new EventEmitter<void>();
-        this.onTranslationsChange = new EventEmitter<void>();
+        this.onLanguageUpdate = new EventEmitter<void>();
 
         this._fallbackValues = enGB;
         this._values = {};
@@ -45,14 +43,14 @@ export class SuiLocalizationService {
     public setDefaultLanguage(language:string):void {
         if (this._defaultLanguage !== language.toLowerCase()) {
             this._defaultLanguage = language.toLowerCase();
-            this.onTranslationsChange.emit();
+            this.onLanguageUpdate.emit();
         }
     }
 
     public setLanguage(language:string):void {
         if (this._language !== language.toLowerCase()) {
             this._language = language.toLowerCase();
-            this.onLanguageChange.emit();
+            this.onLanguageUpdate.emit();
         }
     }
 
@@ -69,9 +67,7 @@ export class SuiLocalizationService {
 
     public loadValues(language:string, values:IPartialLocaleValues):void {
         this._values[language.toLowerCase()] = deepClone(values);
-        if (this.language === language.toLowerCase()) {
-            this.onTranslationsChange.emit();
-        }
+        this.onLanguageUpdate.emit();
     }
 
     public patchValues(language:string, values:IPartialLocaleValues):void {
