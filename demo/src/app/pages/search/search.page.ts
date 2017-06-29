@@ -88,7 +88,7 @@ export class SearchPage {
                 },
                 {
                     name: "localeOverrides",
-                    type: "Partial<ISearchLocaleValues>",
+                    type: "RecursivePartial<ISearchLocaleValues>",
                     description: "Overrides the values from the localization service."
                 }
             ],

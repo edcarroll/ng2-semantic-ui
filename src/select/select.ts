@@ -1,7 +1,8 @@
-import { Component, ViewContainerRef, ViewChild, Output, EventEmitter, ElementRef, Renderer2, forwardRef, Directive } from "@angular/core";
+import { Component, ViewContainerRef, ViewChild, Output, EventEmitter, ElementRef, Renderer2, forwardRef, Directive, Input } from "@angular/core";
 import { SuiSelectBase } from "./select-base";
 import { ISelectRenderedOption } from "./select-option";
 import { customValueAccessorFactory, ICustomValueAccessorHost, CustomValueAccessor } from "../util/helpers/custom-value-accessor";
+import { SuiLocalizationService } from "../localization/services/localization.service";
 
 export type SingleItemLookup<T, U> = (query:string, initial?:U) => Promise<T>;
 
@@ -33,7 +34,9 @@ export type SingleItemLookup<T, U> = (query:string, initial?:U) => Promise<T>;
      [menuAutoSelectFirst]="isSearchable">
 
     <ng-content></ng-content>
-    <div *ngIf="isSearchable && availableOptions.length == 0" class="message">{{ noResultsMessage }}</div>
+    <div *ngIf="isSearchable && availableOptions.length == 0" class="message">
+        {{ localeValues.noResultsMessage }}
+    </div>
 </div>
 `
 })
@@ -48,10 +51,19 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValue
     @Output()
     public selectedOptionChange:EventEmitter<U>;
 
-    constructor(element:ElementRef, renderer:Renderer2) {
-        super(element, renderer);
+    private _placeholder:string;
 
-        this.placeholder = "Select one";
+    @Input()
+    public get placeholder():string {
+        return this._placeholder || this.localeValues.single.placeholder;
+    }
+
+    public set placeholder(placeholder:string) {
+        this._placeholder = placeholder;
+    }
+
+    constructor(element:ElementRef, renderer:Renderer2, localizationService:SuiLocalizationService) {
+        super(element, renderer, localizationService);
 
         this.selectedOptionChange = new EventEmitter<U>();
     }

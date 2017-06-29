@@ -1,7 +1,8 @@
 import { Injectable, EventEmitter } from "@angular/core";
-import { ILocaleValues, IPartialLocaleValues, Partial } from "../interfaces/values";
+import { ILocaleValues, IPartialLocaleValues } from "../interfaces/values";
 import enGB from "../../../locales/en-GB";
 import * as extend from "deep-extend";
+import { RecursivePartial } from "../interfaces/partial";
 
 function deepClone<T>(obj:T):T {
     return JSON.parse(JSON.stringify(obj));
@@ -61,7 +62,10 @@ export class SuiLocalizationService {
         return deepClone(values);
     }
 
-    public overrideValues<T extends keyof ILocaleValues>(values:ILocaleValues[T], overrides:Partial<ILocaleValues[T]>):ILocaleValues[T] {
+    public overrideValues<T extends keyof ILocaleValues>(
+        values:ILocaleValues[T],
+        overrides:RecursivePartial<ILocaleValues[T]>
+    ):ILocaleValues[T] {
         return deepExtend(deepClone(values), overrides);
     }
 
@@ -72,5 +76,9 @@ export class SuiLocalizationService {
 
     public patchValues(language:string, values:IPartialLocaleValues):void {
         deepExtend(this._values[language.toLowerCase()], values);
+    }
+
+    public interpolate(value:string, variables:[string, string][]):string {
+        return variables.reduce((s, [k, v]) => s.replace(new RegExp(`#{${k}}`, "g"), v), value);
     }
 }

@@ -33,6 +33,16 @@ const enGB:ILocaleValues = {
             header: "No Results",
             message: "Your search returned no results."
         }
+    },
+    select: {
+        noResultsMessage: "No results",
+        single: {
+            placeholder: "Select one"
+        },
+        multi: {
+            placeholder: "Select...",
+            maxSelectedMessage: "Max #{max} selections"
+        }
     }
 };
 

@@ -9,6 +9,9 @@ import { PositioningService, PositioningPlacement } from "../util/services/posit
 import { SuiDropdownMenu, SuiDropdownMenuItem } from "../dropdown/dropdown-menu";
 import { SuiSelectOption, ISelectRenderedOption } from "./select-option";
 import { Subscription } from "rxjs/Subscription";
+import { SuiLocalizationService } from "../localization/services/localization.service";
+import { ISelectLocaleValues } from "../localization/interfaces/select-values";
+import { RecursivePartial } from "../localization/interfaces/partial";
 
 // We use generic type T to specify the type of the options we are working with,
 // and U to specify the type of the property of the option used as the value.
@@ -66,9 +69,6 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     private _queryInput:ElementRef;
 
     @Input()
-    public placeholder:string;
-
-    @Input()
     public set options(options:T[] | LookupFn<T>) {
         if (typeof options === "function") {
             this.searchService.optionsLookup = options;
@@ -117,8 +117,13 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     @Input()
     public optionTemplate:TemplateRef<ITemplateRefContext<T>>;
 
-    @Input()
-    public noResultsMessage:string;
+    private _localeValues:ISelectLocaleValues;
+
+    public localeOverrides:RecursivePartial<ISelectLocaleValues>;
+
+    public get localeValues():ISelectLocaleValues {
+        return this._localizationService.overrideValues<"select">(this._localeValues, this.localeOverrides);
+    }
 
     @Input()
     public transition:string;
@@ -126,14 +131,15 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     @Input()
     public transitionDuration:number;
 
-    constructor(private _element:ElementRef, private _renderer:Renderer2) {
+    constructor(private _element:ElementRef, private _renderer:Renderer2, protected _localizationService:SuiLocalizationService) {
         this.dropdownService = new DropdownService();
         // We do want an empty query to return all results.
         this.searchService = new SearchService<T>(true);
 
         this.isSearchable = false;
-        this.noResultsMessage = "No results";
 
+        this.onLocaleUpdate();
+        this._localizationService.onLanguageUpdate.subscribe(() => this.onLocaleUpdate());
         this._renderedSubscriptions = [];
 
         this.transition = "slide down";
@@ -150,6 +156,10 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         // We must call this immediately as changes doesn't fire when you subscribe.
         this.onAvailableOptionsRendered();
         this._renderedOptions.changes.subscribe(() => this.onAvailableOptionsRendered());
+    }
+
+    private onLocaleUpdate():void {
+        this._localeValues = this._localizationService.getValues().select;
     }
 
     // Hook is here since Typescript doesn't yet support overriding getters & setters while still calling the superclass.

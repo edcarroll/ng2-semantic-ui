@@ -74,7 +74,7 @@ export class DatepickerPage {
                 },
                 {
                     name: "pickerLocaleOverrides",
-                    type: "Partial<IDatepickerLocaleValues>",
+                    type: "RecursivePartial<IDatepickerLocaleValues>",
                     description: "Overrides the values from the localization service."
                 },
                 {

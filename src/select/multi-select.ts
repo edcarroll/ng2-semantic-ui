@@ -7,6 +7,7 @@ import { SuiMultiSelectLabel } from "./multi-select-label";
 import { Subscription } from "rxjs/Subscription";
 import { KeyCode } from "../util/util";
 import { customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHost } from "../util/helpers/custom-value-accessor";
+import { SuiLocalizationService } from "../localization/services/localization.service";
 
 @Component({
     selector: "sui-multi-select",
@@ -35,8 +36,8 @@ import { customValueAccessorFactory, CustomValueAccessor, ICustomValueAccessorHo
 
     <ng-content></ng-content>
     <ng-container *ngIf="availableOptions.length == 0 ">
-        <div *ngIf="!maxSelectedReached" class="message">{{ noResultsMessage }}</div>
-        <div *ngIf="maxSelectedReached" class="message">Max {{ maxSelected }} selections</div>
+        <div *ngIf="!maxSelectedReached" class="message">{{ localeValues.noResultsMessage }}</div>
+        <div *ngIf="maxSelectedReached" class="message">{{ maxSelectedMessage }}</div>
     </ng-container>
 </div>
 `,
@@ -70,6 +71,17 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
             .filter(r => !this.selectedOptions.find(o => r === o));
     }
 
+    private _placeholder:string;
+
+    @Input()
+    public get placeholder():string {
+        return this._placeholder || this.localeValues.multi.placeholder;
+    }
+
+    public set placeholder(placeholder:string) {
+        this._placeholder = placeholder;
+    }
+
     @Input()
     public maxSelected:number;
 
@@ -81,13 +93,17 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
         return this.selectedOptions.length === this.maxSelected;
     }
 
+    public get maxSelectedMessage():string {
+        return this._localizationService.interpolate(
+            this.localeValues.multi.maxSelectedMessage,
+            [["max", this.maxSelected.toString()]]);
+    }
+
     @HostBinding("class.multiple")
     private _multiSelectClasses:boolean;
 
-    constructor(element:ElementRef, renderer:Renderer2) {
-        super(element, renderer);
-
-        this.placeholder = "Select...";
+    constructor(element:ElementRef, renderer:Renderer2, localizationService:SuiLocalizationService) {
+        super(element, renderer, localizationService);
 
         this.selectedOptions = [];
         this.selectedOptionsChange = new EventEmitter<U[]>();

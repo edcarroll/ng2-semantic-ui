@@ -159,12 +159,6 @@ export class SelectPage {
                     description: "Sets the template to use when displaying options."
                 },
                 {
-                    name: "noResultsMessage",
-                    type: "string",
-                    description: "Sets the message displayed when there are no available options",
-                    defaultValue: "No results"
-                },
-                {
                     name: "ngModel",
                     type: "T",
                     description: "Bind the selected item to the value of the provided variable."
@@ -180,6 +174,11 @@ export class SelectPage {
                     type: "number",
                     description: "Sets the duration for the available options transition.",
                     defaultValue: "200"
+                },
+                {
+                    name: "localeOverrides",
+                    type: "RecursivePartial<ISearchLocaleValues>",
+                    description: "Overrides the values from the localization service."
                 }
             ],
             events: [
@@ -248,12 +247,6 @@ export class SelectPage {
                     description: "Sets the template to use when displaying options."
                 },
                 {
-                    name: "noResultsMessage",
-                    type: "string",
-                    description: "Sets the message displayed when there are no available options",
-                    defaultValue: "No results"
-                },
-                {
                     name: "ngModel",
                     type: "T[]",
                     description: "Bind the selected items to the value of the provided variable."
@@ -269,6 +262,11 @@ export class SelectPage {
                     type: "number",
                     description: "Sets the duration for the available options transition.",
                     defaultValue: "200"
+                },
+                {
+                    name: "localeOverrides",
+                    type: "RecursivePartial<ISearchLocaleValues>",
+                    description: "Overrides the values from the localization service."
                 }
             ],
             events: [
