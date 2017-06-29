@@ -7,6 +7,7 @@ import { DatePrecision } from "../../util/helpers/date";
 import { DateComparer } from "../classes/date-comparer";
 import { CalendarMode } from "../services/calendar.service";
 import { CalendarRangeService } from "../services/calendar-range.service";
+import { DateParser } from "../classes/date-parser";
 
 export class CalendarRangeMinuteService extends CalendarRangeService {
     public calcStart(start:Date):Date {
@@ -60,17 +61,15 @@ export class CalendarRangeMinuteService extends CalendarRangeService {
 })
 export class SuiCalendarMinuteView extends CalendarView {
     public get date():string {
-        const year = this.currentDate.getFullYear();
-        const month = this.service.localizationValues.months[this.currentDate.getMonth()];
-        const date = this.currentDate.getDate();
-        const hour = Util.String.padLeft(this.currentDate.getHours().toString(), 2, "0");
+        const [time, date] = new DateParser("HH:00|MMMM D, YYYY", this.service.localizationValues)
+            .format(this.currentDate)
+            .split("|");
 
-        let formatted = `${hour}:00`;
         if (this.service.config.mode !== CalendarMode.TimeOnly) {
-            formatted = `${month} ${date}, ${year} ${formatted}`;
+            return `${date} ${time}`;
         }
 
-        return formatted;
+        return time;
     }
 
     constructor() {

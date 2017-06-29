@@ -45,7 +45,9 @@ export class CalendarRangeYearService extends CalendarRangeService {
 })
 export class SuiCalendarYearView extends CalendarView {
     public get decadeStart():number {
-        return Math.floor(this.service.currentDate.getFullYear() / 10) * 10 + 1;
+        return Util.Date
+            .startOf(DatePrecision.Decade, Util.Date.clone(this.service.currentDate))
+            .getFullYear();
     }
 
     constructor() {

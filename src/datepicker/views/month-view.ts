@@ -7,6 +7,7 @@ import { Util } from "../../util/util";
 import { DatePrecision } from "../../util/helpers/date";
 import { DateComparer } from "../classes/date-comparer";
 import { CalendarRangeService } from "../services/calendar-range.service";
+import { DateParser } from "../classes/date-parser";
 
 export class CalendarRangeMonthService extends CalendarRangeService {
     public configureItem(item:CalendarItem, baseDate:Date):void {
@@ -46,7 +47,7 @@ export class CalendarRangeMonthService extends CalendarRangeService {
 })
 export class SuiCalendarMonthView extends CalendarView {
     public get year():string {
-        return Util.String.padLeft(this.currentDate.getFullYear().toString(), 4, "0");
+        return new DateParser("YYYY", this.service.localizationValues).format(this.currentDate);
     }
 
     constructor() {

@@ -29,7 +29,7 @@ export class CalendarRangeDateService extends CalendarRangeService {
 <thead>
     <tr>
         <th colspan="7">
-            <span class="link" (click)="zoomOut()">{{ month }} {{ year }}</span>
+            <span class="link" (click)="zoomOut()">{{ date }}</span>
             <span class="prev link" [class.disabled]="!ranges.canMovePrevious" (click)="ranges.movePrevious()">
                 <i class="chevron left icon"></i>
             </span>
@@ -60,12 +60,8 @@ export class SuiCalendarDateView extends CalendarView {
         return days.map((d, i) => days[(i + this.service.firstDayOfWeek) % days.length]);
     }
 
-    public get year():number {
-        return this.currentDate.getFullYear();
-    }
-
-    public get month():string {
-        return this.service.localizationValues.months[this.currentDate.getMonth()];
+    public get date():string {
+        return new DateParser("MMMM YYYY", this.service.localizationValues).format(this.currentDate);
     }
 
     constructor() {
