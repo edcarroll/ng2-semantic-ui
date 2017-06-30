@@ -13,7 +13,9 @@
       ],
       "index": "index.html",
       "main": "main.ts",
+      "test": "../../src/test.ts",
       "tsconfig": "tsconfig.json",
+      "testTsconfig": "../../src/tsconfig.spec.json",
       "prefix": "demo",
       "mobile": false,
       "styles": [
@@ -37,7 +39,7 @@
   },
   "test": {
     "karma": {
-      "config": "./karma.conf.js"
+      "config": "./src/karma.conf.ts"
     }
   },
   "defaults": {

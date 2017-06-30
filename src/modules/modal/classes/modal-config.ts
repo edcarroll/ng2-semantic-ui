@@ -25,6 +25,8 @@ export class ModalConfig<T, U = undefined, V = undefined> {
     public isFullScreen:boolean;
     // Whether or not the modal has basic styles applied.
     public isBasic:boolean;
+    // Whether the modal shows against a light background.
+    public isInverted:boolean;
 
     // Whether or not the modal should always display a scrollbar.
     public mustScroll:boolean;
@@ -42,6 +44,7 @@ export class ModalConfig<T, U = undefined, V = undefined> {
         this.size = ModalSize.Normal;
         this.isFullScreen = false;
         this.isBasic = false;
+        this.isInverted = false;
 
         this.mustScroll = false;
 

@@ -22,6 +22,7 @@ if (!("remove" in Element.prototype)) {
     template: `
 <!-- Page dimmer for modal background. -->
 <sui-dimmer class="page"
+            [class.inverted]="isInverted"
             [(isDimmed)]="dimBackground"
             [isClickable]="false"
             [transitionDuration]="transitionDuration"
@@ -34,6 +35,7 @@ if (!("remove" in Element.prototype)) {
      [class.fullscreen]="isFullScreen"
      [class.basic]="isBasic"
      [class.scroll]="mustScroll"
+     [class.inverted]="isInverted"
      [ngClass]="dynamicClasses"
      #modal>
 
@@ -128,6 +130,18 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
         this.updateScroll();
     }
 
+    // Whether the modal shows against a light background.
+    private _isInverted:boolean;
+
+    @Input()
+    public get isInverted():boolean {
+        return this._isInverted;
+    }
+
+    public set isInverted(inverted:boolean) {
+        this._isInverted = parseBooleanAttribute(inverted);
+    }
+
     public transitionController:TransitionController;
 
     // Transition to display modal with.
@@ -203,6 +217,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
         this.size = config.size;
         this.isFullScreen = config.isFullScreen;
         this.isBasic = config.isBasic;
+        this.isInverted = config.isInverted;
 
         this.mustScroll = config.mustScroll;
 

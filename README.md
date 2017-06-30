@@ -81,6 +81,25 @@ To run the demo app (you must have [Angular-CLI](https://github.com/angular/angu
 $ ng serve
 ```
 
+## Testing
+
+To run the unit tests suite:
+```bash
+$ npm run test
+```
+
+To run the unit test suit in watch mode (the whole suite is re-executed every code/test change):
+```bash
+$ npm run test:w
+```
+
+To generate code coverage report:
+```bash
+$ npm run test:cov
+```
+this will generate a folder `coverage` with the HTML report
+
+
 ## License
 
 MIT © [Edward Carroll](https://github.com/edcarroll)

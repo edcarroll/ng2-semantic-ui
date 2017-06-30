@@ -7,4 +7,5 @@ before_install:
 
 script:
   - npm run lint
-  - npm run compile
+  - npm run compile:lib
+  - npm run test
