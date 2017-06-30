@@ -20,8 +20,8 @@ const enGB:ILocaleValues = {
         ],
         formats: {
             time: "HH:mm",
-            datetime: "MMMM D, YYYY HH:mm",
-            date: "MMMM D, YYYY",
+            datetime: "D MMMM YYYY HH:mm",
+            date: "D MMMM YYYY",
             month: "MMMM YYYY",
             year: "YYYY"
         },
