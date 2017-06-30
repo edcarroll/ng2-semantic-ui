@@ -60,6 +60,7 @@ export class SuiDatepickerDirective
                 this.config = new TimeConfig();
                 break;
         }
+        this.writeValue(this.selectedDate);
     }
 
     @Input("pickerMaxDate")
@@ -117,13 +118,13 @@ export class SuiDatepickerDirective
         this.renderer.addClass(this.popup.elementRef.nativeElement, "ui");
         this.renderer.addClass(this.popup.elementRef.nativeElement, "calendar");
 
-        this.mode = DatepickerMode.Datetime;
-
         this.onLocaleUpdate();
         this.localizationService.onLanguageUpdate.subscribe(() => this.onLocaleUpdate());
 
         this.onSelectedDateChange = new EventEmitter<Date>();
         this.onValidatorChange = new EventEmitter<void>();
+
+        this.mode = DatepickerMode.Datetime;
     }
 
     public popupOnOpen():void {

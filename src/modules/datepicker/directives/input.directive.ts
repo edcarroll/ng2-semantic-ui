@@ -44,6 +44,7 @@ export class SuiDatepickerInputDirective {
     }
 
     private _currentInputValue:string | undefined;
+    private _lastUpdateTyped:boolean;
 
     public get selectedDateString():string | undefined {
         if (this.datepicker.selectedDate) {
@@ -81,9 +82,7 @@ export class SuiDatepickerInputDirective {
         }
     }
 
-    constructor(@Host() public datepicker:SuiDatepickerDirective,
-                public element:ElementRef) {
-
+    constructor(@Host() public datepicker:SuiDatepickerDirective, public element:ElementRef) {
         this.useNativeOnMobile = true;
         this.fallbackActive = false;
 
@@ -95,14 +94,16 @@ export class SuiDatepickerInputDirective {
     private updateValue(value:string | undefined):void {
         // Only update the current value if it is different to what it's being updated to.
         // This is so that the editing position isn't changed when manually typing the date.
-        if (value && value !== this._currentInputValue) {
-            this._currentInputValue = value;
-            this.datepicker.renderer.setProperty(this.element.nativeElement, "value", value);
+        if (!this._lastUpdateTyped) {
+            this.datepicker.renderer.setProperty(this.element.nativeElement, "value", value || "");
         }
+
+        this._lastUpdateTyped = false;
     }
 
     @HostListener("input", ["$event.target.value"])
     public typeValue(value:string | undefined):void {
+        this._lastUpdateTyped = true;
         this._currentInputValue = value;
 
         if (!value) {

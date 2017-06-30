@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { ApiDefinition } from "../../../components/api/api.component";
+import { DatepickerMode } from "../../../../../../src/public";
 
 const exampleStandardTemplate = `
 <div class="ui form">
@@ -9,15 +10,71 @@ const exampleStandardTemplate = `
             <i class="calendar icon"></i>
             <input suiDatepicker
                    [(ngModel)]="date"
+                   [pickerMode]="mode"
                    [pickerFirstDayOfWeek]="firstDayOfWeek"
-                   [pickerLocaleOverrides]="{ formats: { datetime: 'YYYY' } }">
+                   [pickerUseNativeOnMobile]="false">
         </div>
+    </div>
+    <div class="field">
+        <label>First Day of the Week</label>
+        <sui-select [(ngModel)]="mode" [options]="datepickerModes" #modes>
+            <sui-select-option *ngFor="let m of modes.availableOptions" [value]="m"></sui-select-option>
+        </sui-select>
     </div>
     <div class="field">
         <label>First Day of the Week</label>
         <input type="number" [(ngModel)]="firstDayOfWeek" min="0" max="6">
     </div>
-    <p>{{ date }}</p>
+    <p>Selected Date: {{ date }}</p>
+</div>
+`;
+
+const exampleButtonTemplate = `
+<button class="ui button" suiDatepicker>Select Date</button>
+`;
+
+const exampleMinMaxTemplate = `
+<div class="ui form">
+    <div class="field">
+        <label>Min Date</label>
+        <div class="ui left icon input">
+            <i class="calendar icon"></i>
+            <input suiDatepicker [(ngModel)]="min" [pickerUseNativeOnMobile]="false">
+        </div>
+    </div>
+    <div class="field">
+        <label>Max Date</label>
+        <div class="ui left icon input">
+            <i class="calendar icon"></i>
+            <input suiDatepicker [(ngModel)]="max" [pickerUseNativeOnMobile]="false">
+        </div>
+    </div>
+    <div class="field">
+        <label>Constrained Date</label>
+        <div class="ui left icon input">
+            <i class="calendar icon"></i>
+            <input suiDatepicker
+                   [pickerMinDate]="min"
+                   [pickerMaxDate]="max"
+                   [pickerUseNativeOnMobile]="false">
+        </div>
+    </div>
+</div>
+`;
+
+const exampleMobileFallbackTemplate = `
+<div class="ui fluid action input">
+    <input placeholder="Select date..."
+           suiDatepicker
+           [(ngModel)]="date"
+           [pickerUseNativeOnMobile]="true">
+
+    <button class="ui primary icon button" (click)="today()">
+      <i class="checked calendar icon"></i>
+    </button>
+    <button class="ui secondary icon button" (click)="unset()">
+      <i class="remove icon"></i>
+    </button>
 </div>
 `;
 
@@ -109,6 +166,12 @@ export class DatepickerPage {
         }
     ];
     public exampleStandardTemplate:string = exampleStandardTemplate;
+    public exampleButtonTemplate:string = exampleButtonTemplate;
+    public exampleMinMaxTemplate:string = exampleMinMaxTemplate;
+    public exampleMobileFallbackTemplate:string = exampleMobileFallbackTemplate;
+
+    public cssInclude:string =
+`<link rel="stylesheet" href="https://unpkg.com/semantic-ui-calendar/dist/calendar.min.css">`;
 }
 
 @Component({
@@ -117,6 +180,54 @@ export class DatepickerPage {
 })
 export class DatepickerExampleStandard {
     public firstDayOfWeek:number = 1;
+
+    public datepickerModes:string[] = ["datetime", "date", "time", "month", "year"];
+    public mode:DatepickerMode = DatepickerMode.Datetime;
 }
 
-export const DatepickerPageComponents = [DatepickerPage, DatepickerExampleStandard];
+@Component({
+    selector: "example-datepicker-button",
+    template: exampleButtonTemplate
+})
+export class DatepickerExampleButton {}
+
+@Component({
+    selector: "example-datepicker-min-max",
+    template: exampleMinMaxTemplate
+})
+export class DatepickerExampleMinMax {
+    public min:Date;
+    public max:Date;
+
+    constructor() {
+        const today = new Date();
+
+        this.min = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate() - 4);
+        this.max = new Date(today.getFullYear(), today.getMonth() + 1, today.getDate() + 4);
+    }
+}
+
+@Component({
+    selector: "example-datepicker-mobile-fallback",
+    template: exampleMobileFallbackTemplate
+})
+export class DatepickerExampleMobileFallback {
+    public date:Date = new Date();
+
+    public unset():void {
+        this.date = undefined;
+    }
+
+    public today():void {
+        this.date = new Date();
+    }
+}
+
+export const DatepickerPageComponents = [
+    DatepickerPage,
+
+    DatepickerExampleStandard,
+    DatepickerExampleButton,
+    DatepickerExampleMinMax,
+    DatepickerExampleMobileFallback
+];
