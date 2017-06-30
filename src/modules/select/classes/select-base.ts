@@ -118,7 +118,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     public localeOverrides:RecursivePartial<ISelectLocaleValues>;
 
     public get localeValues():ISelectLocaleValues {
-        return this._localizationService.overrideValues<"select">(this._localeValues, this.localeOverrides);
+        return this._localizationService.override<"select">(this._localeValues, this.localeOverrides);
     }
 
     @Input()
@@ -155,7 +155,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     }
 
     private onLocaleUpdate():void {
-        this._localeValues = this._localizationService.getValues().select;
+        this._localeValues = this._localizationService.get().select;
     }
 
     // Hook is here since Typescript doesn't yet support overriding getters & setters while still calling the superclass.

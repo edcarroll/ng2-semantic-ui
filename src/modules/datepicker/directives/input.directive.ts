@@ -1,6 +1,7 @@
 
 import { Directive, Host, Input, ElementRef, HostBinding, HostListener } from "@angular/core";
 import { DateUtil, DatePrecision } from "../../../misc/util";
+import { SuiLocalizationService } from "../../../behaviors/localization";
 import { PopupTrigger } from "../../popup";
 import { SuiDatepickerDirective } from "./datepicker.directive";
 import { InternalDateParser, DateParser } from "../classes/date-parser";
@@ -82,12 +83,17 @@ export class SuiDatepickerInputDirective {
         }
     }
 
-    constructor(@Host() public datepicker:SuiDatepickerDirective, public element:ElementRef) {
+    constructor(@Host() public datepicker:SuiDatepickerDirective,
+                public element:ElementRef,
+                localizationService:SuiLocalizationService) {
         this.useNativeOnMobile = true;
         this.fallbackActive = false;
 
         // Whenever the datepicker value updates, update the input text alongside it.
         this.datepicker.onSelectedDateChange.subscribe(() =>
+            this.updateValue(this.selectedDateString));
+
+        localizationService.onLanguageUpdate.subscribe(() =>
             this.updateValue(this.selectedDateString));
     }
 

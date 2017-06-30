@@ -84,7 +84,7 @@ export class SuiSearch<T> implements AfterViewInit, ICustomValueAccessorHost<T> 
     public localeOverrides:RecursivePartial<ISearchLocaleValues>;
 
     public get localeValues():ISearchLocaleValues {
-        return this._localizationService.overrideValues<"search">(this._localeValues, this.localeOverrides);
+        return this._localizationService.override<"search">(this._localeValues, this.localeOverrides);
     }
 
     public get query():string {
@@ -167,7 +167,7 @@ export class SuiSearch<T> implements AfterViewInit, ICustomValueAccessorHost<T> 
     }
 
     private onLocaleUpdate():void {
-        this._localeValues = this._localizationService.getValues().search;
+        this._localeValues = this._localizationService.get().search;
     }
 
     // Selects an item.

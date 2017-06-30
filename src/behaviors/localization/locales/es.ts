@@ -24,9 +24,9 @@ const es:IPartialLocaleValues = {
         ],
         formats: {
             time: "HH:mm",
-            datetime: "D MMMM de YYYY HH:mm",
-            date: "D de MMMM de YYYY",
-            month: "MMMM de YYYY",
+            datetime: "D MMMM [de] YYYY HH:mm",
+            date: "D [de] MMMM [de] YYYY",
+            month: "MMMM [de] YYYY",
             year: "YYYY"
         },
         firstDayOfWeek: 1

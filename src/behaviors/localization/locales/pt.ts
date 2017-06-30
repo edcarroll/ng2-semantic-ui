@@ -24,9 +24,9 @@ const pt:IPartialLocaleValues = {
         ],
         formats: {
             time: "HH:mm",
-            datetime: "D MMMM de YYYY HH:mm",
-            date: "D de MMMM de YYYY",
-            month: "MMMM de YYYY",
+            datetime: "D MMMM [de] YYYY HH:mm",
+            date: "D [de] MMMM [de] YYYY",
+            month: "MMMM [de] YYYY",
             year: "YYYY"
         },
         firstDayOfWeek: 1
@@ -41,7 +41,7 @@ const pt:IPartialLocaleValues = {
     select: {
         noResultsMessage: "Sem resultados",
         single: {
-            placeholder: "Escolha uma opção."
+            placeholder: "Escolha uma opção"
         },
         multi: {
             placeholder: "Escolher...",

@@ -78,7 +78,7 @@ export class SuiDatepickerDirective
     public localeOverrides:RecursivePartial<IDatepickerLocaleValues>;
 
     public get localeValues():IDatepickerLocaleValues {
-        return this.localizationService.overrideValues<"datepicker">(this._localeValues, this.localeOverrides);
+        return this.localizationService.override<"datepicker">(this._localeValues, this.localeOverrides);
     }
 
     @Input("pickerPlacement")
@@ -155,7 +155,7 @@ export class SuiDatepickerDirective
     }
 
     private onLocaleUpdate():void {
-        this._localeValues = this.localizationService.getValues().datepicker;
+        this._localeValues = this.localizationService.get().datepicker;
     }
 
     public validate(c:AbstractControl):ValidationErrors | null {
