@@ -96,6 +96,8 @@ export class SuiDropdown implements AfterContentInit {
             e.eventHandled = true;
 
             this.service.toggleOpenState();
+
+            this._element.nativeElement.focus();
         }
     }
 

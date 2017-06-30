@@ -217,11 +217,11 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         if (!e.eventHandled && !this.dropdownService.isAnimating) {
             e.eventHandled = true;
 
-            // Immediately focus the search input whenever clicking on the select.
-            this.focusInput();
-
             // If the dropdown is searchable, clicking should keep it open, otherwise we toggle the open state.
             this.dropdownService.setOpenState(this.isSearchable ? true : !this.dropdownService.isOpen);
+
+            // Immediately focus the search input whenever clicking on the select.
+            this.focus();
         }
     }
 
@@ -267,11 +267,13 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         }
     }
 
-    protected focusInput():void {
+    protected focus():void {
         if (this.isSearchable) {
             // Focusses the search input only when searchable.
             // Using directly because Renderer2 doesn't have invokeElementMethod method anymore.
             this._queryInput.nativeElement.focus();
+        } else {
+            this._element.nativeElement.focus();
         }
     }
 

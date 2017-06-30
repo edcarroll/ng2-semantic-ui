@@ -99,7 +99,7 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValue
         this.drawSelectedOption();
 
         // Automatically refocus the search input for better keyboard accessibility.
-        this.focusInput();
+        this.focus();
     }
 
     public writeValue(value:U):void {

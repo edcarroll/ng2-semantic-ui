@@ -136,7 +136,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
         this.searchService.updateQuery("");
 
         // Automatically refocus the search input for better keyboard accessibility.
-        this.focusInput();
+        this.focus();
     }
 
     public writeValue(values:U[]):void {
@@ -177,7 +177,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
         this.selectedOptionsChange.emit(this.selectedOptions.map(o => this.valueGetter(o)));
 
         // Automatically refocus the search input for better keyboard accessibility.
-        this.focusInput();
+        this.focus();
     }
 
     public onQueryInputKeydown(event:KeyboardEvent):void {
