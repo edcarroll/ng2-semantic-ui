@@ -153,7 +153,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
                     // If the search service has a selected lookup function, make use of that to load the initial values.
                     const lookupFinished = (items:T[]) => this.selectedOptions = items;
 
-                    const itemsLookup = this.searchService.itemsLookup<U>(values);
+                    const itemsLookup = this.searchService.initialLookup(values);
                     if (itemsLookup instanceof Promise) {
                         itemsLookup
                             .then(r => lookupFinished(r));

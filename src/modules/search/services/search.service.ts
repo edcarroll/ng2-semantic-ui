@@ -1,19 +1,13 @@
 import { Util } from "../../../misc/util";
-
-// Define useful types to avoid any.
-export type LookupFnResult<T> = T | Promise<T>;
-export type LookupFn<T> = (query:string | undefined) => LookupFnResult<T> | LookupFnResult<T[]>;
-export type QueryLookupFn<T> = (query:string) => LookupFnResult<T[]>;
-export type ItemLookupFn<T, U> = (query:string | undefined, initial:U) => LookupFnResult<T>;
-export type ItemsLookupFn<T, U> = (query:string | undefined, initial:U[]) => LookupFnResult<T[]>;
+import { LookupFn, LookupFnResult } from "../helpers/lookup-fn";
 
 interface ICachedArray<T> { [query:string]:T[]; }
 
-export class SearchService<T> {
+export class SearchService<T, U> {
     // Stores the available options.
     private _options:T[];
     // Converts a query string into an array of options. Must be a function returning a promise.
-    private _optionsLookup?:LookupFn<T>;
+    private _optionsLookup?:LookupFn<T, U>;
     // Field that options are searched & displayed on.
     private _optionsField?:string;
 
@@ -29,19 +23,15 @@ export class SearchService<T> {
         this.reset();
     }
 
-    public get optionsLookup():LookupFn<T> | undefined {
+    public get optionsLookup():LookupFn<T, U> | undefined {
         return this._optionsLookup;
     }
 
-    public set optionsLookup(lookupFn:LookupFn<T> | undefined) {
+    public set optionsLookup(lookupFn:LookupFn<T, U> | undefined) {
         this._optionsLookup = lookupFn;
         // As before, cannot use local & remote options simultaneously.
         this._options = [];
         this.reset();
-    }
-
-    public get queryLookup():QueryLookupFn<T> {
-        return this._optionsLookup as QueryLookupFn<T>;
     }
 
     public get hasItemLookup():boolean {
@@ -134,7 +124,7 @@ export class SearchService<T> {
                 return callback();
             };
 
-            const queryLookup = this.queryLookup(this._query);
+            const queryLookup = this._optionsLookup(this._query) as LookupFnResult<T[]>;
 
             if (queryLookup instanceof Promise) {
                 queryLookup
@@ -173,12 +163,13 @@ export class SearchService<T> {
         this._results = results;
     }
 
-    public itemLookup<U>(initial:U):LookupFnResult<T> {
-        return (this._optionsLookup as ItemLookupFn<T, U>)(undefined, initial);
-    }
-
-    public itemsLookup<U>(initial:U[]):LookupFnResult<T[]> {
-        return (this._optionsLookup as ItemsLookupFn<T, U>)(undefined, initial);
+    public initialLookup(initial:U):LookupFnResult<T>;
+    public initialLookup(initial:U[]):LookupFnResult<T[]>;
+    public initialLookup(initial:U | U[]):LookupFnResult<T> | LookupFnResult<T[]> {
+        if (initial instanceof Array) {
+            return (this._optionsLookup as LookupFn<T, U[]>)(undefined, initial) as LookupFnResult<T[]>;
+        }
+        return (this._optionsLookup as LookupFn<T, U>)(undefined, initial) as LookupFnResult<T>;
     }
 
     // Converts a query string to regex without throwing an error.

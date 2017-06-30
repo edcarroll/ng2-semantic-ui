@@ -1,14 +1,15 @@
 import {
     Component, ViewChild, HostBinding, Input, AfterViewInit, HostListener,
-    EventEmitter, Output, Directive, ElementRef
+    EventEmitter, Output, Directive, ElementRef, TemplateRef
 } from "@angular/core";
 import {
     ICustomValueAccessorHost, Util, customValueAccessorFactory,
-    CustomValueAccessor
+    CustomValueAccessor, ITemplateRefContext
 } from "../../../misc/util";
 import { DropdownService, SuiDropdownMenu } from "../../dropdown";
 import { ISearchLocaleValues, RecursivePartial, SuiLocalizationService } from "../../../behaviors/localization";
-import { SearchService, LookupFn } from "../services/search.service";
+import { SearchService } from "../services/search.service";
+import { LookupFn } from "../helpers/lookup-fn";
 
 @Component({
     selector: "sui-search",
@@ -47,7 +48,7 @@ import { SearchService, LookupFn } from "../services/search.service";
 })
 export class SuiSearch<T> implements AfterViewInit, ICustomValueAccessorHost<T> {
     public dropdownService:DropdownService;
-    public searchService:SearchService<T>;
+    public searchService:SearchService<T, T>;
 
     @ViewChild(SuiDropdownMenu)
     private _menu:SuiDropdownMenu;
@@ -99,20 +100,26 @@ export class SuiSearch<T> implements AfterViewInit, ICustomValueAccessorHost<T> 
             this.dropdownService.setOpenState(this.searchService.query.length > 0));
     }
 
-    // Sets local or remote options by determining whether a function is passed.
     @Input()
-    public set options(options:T[] | LookupFn<T>) {
-        if (typeof options === "function") {
-            this.searchService.optionsLookup = options;
-            return;
-        }
+    public set options(options:T[]) {
         this.searchService.options = options;
+    }
+
+    @Input()
+    public set optionsLookup(lookupFn:LookupFn<T>) {
+        this.searchService.optionsLookup = lookupFn;
     }
 
     @Input()
     public set optionsField(field:string) {
         this.searchService.optionsField = field;
     }
+
+    @Input()
+    public resultTemplate:TemplateRef<ITemplateRefContext<T>>;
+
+    @Input()
+    public resultFormatter:(option:T) => string;
 
     @Input()
     public set searchDelay(delay:number) {
@@ -146,7 +153,7 @@ export class SuiSearch<T> implements AfterViewInit, ICustomValueAccessorHost<T> 
 
     constructor(private _element:ElementRef, private _localizationService:SuiLocalizationService) {
         this.dropdownService = new DropdownService();
-        this.searchService = new SearchService<T>();
+        this.searchService = new SearchService<T, T>();
 
         this.onLocaleUpdate();
         this._localizationService.onLanguageUpdate.subscribe(() => this.onLocaleUpdate());
