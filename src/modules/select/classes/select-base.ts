@@ -255,7 +255,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
 
     @HostListener("document:keydown", ["$event"])
     public onDocumentKeyDown(e:KeyboardEvent):void {
-        if (e.target === this._element.nativeElement &&
+        if (this._element.nativeElement.contains(e.target) &&
             !this.dropdownService.isOpen &&
             e.keyCode === KeyCode.Down) {
 
