@@ -139,7 +139,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     }
 
     public set isInverted(inverted:boolean) {
-        this._isInverted = parseBooleanAttribute(inverted);
+        this._isInverted = Util.DOM.parseBooleanAttribute(inverted);
     }
 
     public transitionController:TransitionController;
