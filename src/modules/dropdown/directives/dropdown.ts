@@ -70,6 +70,11 @@ export class SuiDropdown implements AfterContentInit {
 
     constructor(private _element:ElementRef) {
         this.service = new DropdownService();
+        this.service.isOpenChange.subscribe(() => {
+            if (this.service.isOpen) {
+                this._element.nativeElement.focus();
+            }
+        });
     }
 
     public ngAfterContentInit():void {
@@ -96,8 +101,6 @@ export class SuiDropdown implements AfterContentInit {
             e.eventHandled = true;
 
             this.service.toggleOpenState();
-
-            this._element.nativeElement.focus();
         }
     }
 
