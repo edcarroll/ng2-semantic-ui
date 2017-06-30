@@ -48,6 +48,15 @@
         <example-datepicker-min-max result></example-datepicker-min-max>
     </demo-example>
 
+    <sui-message class="info" [isDismissable]="false">
+        <div class="header">Timezones</div>
+        <p>
+            The datepicker will always return a <code>Date</code> object in the local timezone.
+            When in modes that don't include a time, the time will always be set to midnight.
+        </p>
+    </sui-message>
+    <br>
+
     <demo-example [code]="exampleMobileFallbackTemplate">
         <div info>
             <h4 class="ui header">Mobile Fallback</h4>
