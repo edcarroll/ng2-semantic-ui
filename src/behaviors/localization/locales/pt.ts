@@ -8,10 +8,10 @@ import { IPartialLocaleValues } from "../interfaces/values";
 const pt:IPartialLocaleValues = {
     datepicker: {
         months: [
-            "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+            "janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"
         ],
         monthsShort: [
-            "Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"
+            "jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"
         ],
         weekdays: [
             "Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"

@@ -20,7 +20,8 @@ const es:IPartialLocaleValues = {
             "Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sáb"
         ],
         weekdaysNarrow: [
-            "D", "L", "M", "M", "J", "V", "S"
+            "D", "L", "M", "M",
+            "J", "V", "S"
         ],
         formats: {
             time: "HH:mm",
@@ -45,7 +46,7 @@ const es:IPartialLocaleValues = {
         },
         multi: {
             placeholder: "Seleccione...",
-            maxSelectedMessage: "Puede elegir hasta #{max}."
+            maxSelectedMessage: "Puede elegir hasta #{max}"
         }
     }
 };
