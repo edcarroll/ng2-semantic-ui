@@ -24,7 +24,7 @@ import { TabsPage } from "./pages/modules/tabs/tabs.page";
 import { TransitionPage } from "./pages/modules/transition/transition.page";
 
 // Behaviors
-
+import { LocalizationPage } from "./pages/behaviors/localization/localization.page";
 
 // Development
 import { TestPage } from "./pages/development/test/test.page";
@@ -108,7 +108,10 @@ const appRoutes:Routes = [
     },
 
     // Behaviors
-
+    {
+        path: "behaviors/localization",
+        component: LocalizationPage
+    },
 
     // Development
     {
