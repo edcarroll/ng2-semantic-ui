@@ -72,7 +72,7 @@ rollup
         [uglify()]
     ))
     .then(bundle => {
-        rollupAnalyzer.formatted(bundle).then(console.log).catch(console.error)
+        // rollupAnalyzer.formatted(bundle).then(console.log).catch(console.error)
         bundle.write({
             moduleName: "ng2-semantic-ui",
             dest: "bundles/ng2-semantic-ui.umd.min.js",

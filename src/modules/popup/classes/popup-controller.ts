@@ -149,8 +149,8 @@ export abstract class SuiPopupController implements IPopup, OnDestroy, IPopupLif
         }
     }
 
-    @HostListener("focus")
-    private onFocus():void {
+    @HostListener("focusin")
+    private onFocusIn():void {
         if (this.popup.config.trigger === PopupTrigger.Focus) {
             this.openDelayed();
         }

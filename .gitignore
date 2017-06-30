@@ -39,7 +39,8 @@ Thumbs.db
 *.js
 *.js.map
 
-# package scripts
+# build scripts
+!scripts/**/*
 !package.js
 
 # output files
