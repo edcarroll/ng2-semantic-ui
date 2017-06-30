@@ -1,6 +1,6 @@
 import { Injectable, EventEmitter } from "@angular/core";
 import { ILocaleValues, IPartialLocaleValues } from "../interfaces/values";
-import enGB from "../../../locales/en-GB";
+import enGB from "../locales/en-GB";
 import * as extend from "deep-extend";
 import { RecursivePartial } from "../interfaces/partial";
 

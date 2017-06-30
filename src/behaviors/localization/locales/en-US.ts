@@ -1,4 +1,4 @@
-import { IPartialLocaleValues } from "../behaviors";
+import { IPartialLocaleValues } from "../interfaces/values";
 
 const enUS:IPartialLocaleValues = {
     datepicker: {

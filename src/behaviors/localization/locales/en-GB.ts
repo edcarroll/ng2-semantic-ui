@@ -1,5 +1,5 @@
 
-import { ILocaleValues } from "../behaviors";
+import { ILocaleValues } from "../interfaces/values";
 
 const enGB:ILocaleValues = {
     datepicker: {
