@@ -1,5 +1,10 @@
 import { IPartialLocaleValues } from "../interfaces/values";
 
+/**
+ * locale : Spanish (es)
+ * author : Facundo Donato : https://github.com/genuinefafa
+ */
+
 const es:IPartialLocaleValues = {
     datepicker: {
         months: [
@@ -12,18 +17,35 @@ const es:IPartialLocaleValues = {
             "Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"
         ],
         weekdaysShort: [
-            "Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"
+            "Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sáb"
         ],
         weekdaysNarrow: [
             "D", "L", "M", "M", "J", "V", "S"
         ],
-        firstDayOfWeek: 1,
         formats: {
             time: "HH:mm",
-            datetime: "DD-MMM-YYYY HH:mm",
-            date: "DD-MMM-YYYY",
-            month: "MMMM YYYY",
+            datetime: "D MMMM de YYYY HH:mm",
+            date: "D de MMMM de YYYY",
+            month: "MMMM de YYYY",
             year: "YYYY"
+        },
+        firstDayOfWeek: 1
+    },
+    search: {
+        placeholder: "Buscar...",
+        noResults: {
+            header: "Sin resultados",
+            message: "La búsqueda no obtuvo resultados."
+        }
+    },
+    select: {
+        noResultsMessage: "Sin resultados",
+        single: {
+            placeholder: "Seleccione uno"
+        },
+        multi: {
+            placeholder: "Seleccione...",
+            maxSelectedMessage: "Puede elegir hasta #{max}."
         }
     }
 };
