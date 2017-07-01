@@ -2,10 +2,7 @@ import {
     Component, ViewChild, HostBinding, Input, AfterViewInit, HostListener,
     EventEmitter, Output, Directive, ElementRef, TemplateRef
 } from "@angular/core";
-import {
-    ICustomValueAccessorHost, Util, customValueAccessorFactory,
-    CustomValueAccessor, ITemplateRefContext
-} from "../../../misc/util";
+import { Util, ITemplateRefContext } from "../../../misc/util";
 import { DropdownService, SuiDropdownMenu } from "../../dropdown";
 import { ISearchLocaleValues, RecursivePartial, SuiLocalizationService } from "../../../behaviors/localization";
 import { SearchService } from "../services/search.service";
@@ -24,10 +21,13 @@ import { LookupFn } from "../helpers/lookup-fn";
      [menuTransitionDuration]="transitionDuration"
      menuSelectedItemClass="active">
 
-    <a class="result item" *ngFor="let r of results" (click)="select(r)">
-        <span *ngIf="!searchService.optionsLookup" [innerHTML]="searchService.highlightMatches(r)"></span>
-        <span *ngIf="searchService.optionsLookup">{{ readValue(r) }}</span>
-    </a>
+    <sui-search-result *ngFor="let r of results"
+                       class="item"
+                       [value]="r"
+                       [formatter]="configuredFormatter"
+                       [template]="resultTemplate"
+                       (click)="select(r)"></sui-search-result>
+
     <div *ngIf="results.length == 0" class="message empty">
         <div class="header">{{ localeValues.noResults.header }}</div>
         <div class="description">{{ localeValues.noResults.message }}</div>
@@ -46,7 +46,7 @@ import { LookupFn } from "../helpers/lookup-fn";
 }
 `]
 })
-export class SuiSearch<T> implements AfterViewInit, ICustomValueAccessorHost<T> {
+export class SuiSearch<T> implements AfterViewInit {
     public dropdownService:DropdownService;
     public searchService:SearchService<T, T>;
 
@@ -115,11 +115,25 @@ export class SuiSearch<T> implements AfterViewInit, ICustomValueAccessorHost<T> 
         this.searchService.optionsField = field;
     }
 
-    @Input()
-    public resultTemplate:TemplateRef<ITemplateRefContext<T>>;
+    private _resultFormatter?:(r:T, q:string) => string;
+
+    public get configuredFormatter():(result:T) => string {
+        if (this._resultFormatter) {
+            return r => this._resultFormatter!(r, this.query);
+        } else if (this.searchService.optionsLookup) {
+            return r => this.readValue(r);
+        } else {
+            return r => this.searchService.highlightMatches(this.readValue(r), this.query);
+        }
+    }
 
     @Input()
-    public resultFormatter:(option:T) => string;
+    public set resultFormatter(formatter:(result:T, query:string) => string) {
+        this._resultFormatter = formatter;
+    }
+
+    @Input()
+    public resultTemplate:TemplateRef<ITemplateRefContext<T>>;
 
     @Input()
     public set searchDelay(delay:number) {
@@ -179,7 +193,8 @@ export class SuiSearch<T> implements AfterViewInit, ICustomValueAccessorHost<T> 
 
     // Selects an item.
     public select(item:T):void {
-        this.writeValue(item);
+        this.selectedItem = item;
+        this.searchService.updateQuery(item ? this.readValue(item) as string : "");
         this.itemSelected.emit(item);
         this.dropdownService.setOpenState(false);
     }
@@ -217,23 +232,5 @@ export class SuiSearch<T> implements AfterViewInit, ICustomValueAccessorHost<T> 
     // Reads the specified field from an item.
     public readValue(object:T):string {
         return Util.Object.readValue<T, string>(object, this.searchService.optionsField);
-    }
-
-    // Sets a specific item to be selected, updating the query automatically.
-    public writeValue(item:T):void {
-        this.selectedItem = item;
-        this.searchService.updateQuery(item ? this.readValue(item) as string : "");
-    }
-}
-
-// Value accessor directive for the search to support ngModel.
-@Directive({
-    selector: "sui-search",
-    host: { "(itemSelected)": "onChange($event)" },
-    providers: [customValueAccessorFactory(SuiSearchValueAccessor)]
-})
-export class SuiSearchValueAccessor<T> extends CustomValueAccessor<T, SuiSearch<T>> {
-    constructor(host:SuiSearch<T>) {
-        super(host);
     }
 }

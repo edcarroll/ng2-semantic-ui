@@ -20,8 +20,7 @@ const es:IPartialLocaleValues = {
             "Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sáb"
         ],
         weekdaysNarrow: [
-            "D", "L", "M", "M",
-            "J", "V", "S"
+            "D", "L", "M", "M", "J", "V", "S"
         ],
         formats: {
             time: "HH:mm",

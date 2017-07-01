@@ -182,8 +182,8 @@ export class SearchService<T, U> {
     }
 
     // Generates HTML for highlighted match text.
-    public highlightMatches(text:string):string {
-        const regex = this.toRegex(this._query);
+    public highlightMatches(text:string, query:string):string {
+        const regex = this.toRegex(query);
         if (regex instanceof RegExp) {
             return text.replace(regex, match => `<b>${match}</b>`);
         }
