@@ -8,6 +8,10 @@ import { ISearchLocaleValues, RecursivePartial, SuiLocalizationService } from ".
 import { SearchService } from "../services/search.service";
 import { LookupFn } from "../helpers/lookup-fn";
 
+export interface IResultContext<T> extends ITemplateRefContext<T> {
+    query:string;
+}
+
 @Component({
     selector: "sui-search",
     template: `
@@ -24,7 +28,8 @@ import { LookupFn } from "../helpers/lookup-fn";
     <sui-search-result *ngFor="let r of results"
                        class="item"
                        [value]="r"
-                       [formatter]="configuredFormatter"
+                       [query]="query"
+                       [formatter]="resultFormatter"
                        [template]="resultTemplate"
                        (click)="select(r)"></sui-search-result>
 
@@ -117,13 +122,13 @@ export class SuiSearch<T> implements AfterViewInit {
 
     private _resultFormatter?:(r:T, q:string) => string;
 
-    public get configuredFormatter():(result:T) => string {
+    public get resultFormatter():(result:T, query:string) => string {
         if (this._resultFormatter) {
-            return r => this._resultFormatter!(r, this.query);
+            return this._resultFormatter;
         } else if (this.searchService.optionsLookup) {
             return r => this.readValue(r);
         } else {
-            return r => this.searchService.highlightMatches(this.readValue(r), this.query);
+            return (r, q) => this.searchService.highlightMatches(this.readValue(r), q);
         }
     }
 
@@ -133,7 +138,7 @@ export class SuiSearch<T> implements AfterViewInit {
     }
 
     @Input()
-    public resultTemplate:TemplateRef<ITemplateRefContext<T>>;
+    public resultTemplate:TemplateRef<IResultContext<T>>;
 
     @Input()
     public retainSelectedResult:boolean;
@@ -202,7 +207,9 @@ export class SuiSearch<T> implements AfterViewInit {
 
         if (this.retainSelectedResult) {
             this.selectedResult = result;
-            this.searchService.updateQuery(result ? this.readValue(result) as string : "");
+            this.searchService.updateQuery(this.readValue(result));
+        } else {
+            this.searchService.updateQuery("");
         }
     }
 

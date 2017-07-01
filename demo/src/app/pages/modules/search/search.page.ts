@@ -8,7 +8,7 @@ const exampleStandardTemplate = `
             [hasIcon]="hasIcon"
             [options]="options"
             [searchDelay]="0"
-            (itemSelected)="alertSelected($event)"></sui-search>
+            (resultSelected)="alertSelected($event)"></sui-search>
 
 <div class="ui segment">
     <sui-checkbox [(ngModel)]="hasIcon">Has icon?</sui-checkbox>
@@ -16,10 +16,24 @@ const exampleStandardTemplate = `
 `;
 
 const exampleRemoteTemplate = `
-<sui-search [optionsLookup]="optionsSearch" optionsField="title" (itemSelected)="lastSelected = $event"></sui-search>
+<sui-search [optionsLookup]="optionsSearch"
+            optionsField="title"
+            (resultSelected)="last = $event"></sui-search>
+
 <div class="ui segment">
-    <p>Last selected: {{ lastSelected | json }}</p>
+    <p>Last selected: {{ last | json }}</p>
 </div>
+`;
+
+const exampleTemplateTemplate = `
+<ng-template let-result let-query="query" #template>
+    {{ result.title }} ({{ result.index }})
+</ng-template>
+<sui-search [options]="options"
+            optionsField="title"
+            [resultTemplate]="template"
+            [retainSelectedResult]="false"
+            (resultSelected)="alert($event.title)"></sui-search>
 `;
 
 @Component({
@@ -70,7 +84,7 @@ export class SearchPage {
                 },
                 {
                     name: "resultTemplate",
-                    type: "TemplateRef",
+                    type: "TemplateRef<IResultContext>",
                     description: "Sets the template to use when displaying results."
                 },
                 {
@@ -121,10 +135,12 @@ export class SearchPage {
     ];
     public exampleStandardTemplate:string = exampleStandardTemplate;
     public exampleRemoteTemplate:string = exampleRemoteTemplate;
+    public exampleTemplateTemplate:string = exampleTemplateTemplate;
 }
 
 interface IOption {
     title:string;
+    index?:number;
 }
 
 @Component({
@@ -159,7 +175,7 @@ export class SearchExampleStandard {
     template: exampleRemoteTemplate
 })
 export class SearchExampleRemote extends SearchExampleStandard {
-    public lastSelected:IOption;
+    public last:IOption;
 
     public async optionsSearch(query:string):Promise<IOption[]> {
         const options = SearchExampleStandard.standardOptions.map((o:string) => ({ title: o }));
@@ -172,4 +188,26 @@ export class SearchExampleRemote extends SearchExampleStandard {
     }
 }
 
-export const SearchPageComponents = [SearchPage, SearchExampleStandard, SearchExampleRemote];
+@Component({
+    selector: "example-search-template",
+    template: exampleTemplateTemplate
+})
+export class SearchExampleTemplate {
+    public options:IOption[];
+
+    constructor(public modalService:SuiModalService) {
+        this.options = SearchExampleStandard.standardOptions.map((o, i) => ({ title: o, index: i }));
+    }
+
+    public alert(selectedItem:string):void {
+        this.modalService.open(new AlertModal(`You chose '${selectedItem}'!`));
+    }
+}
+
+export const SearchPageComponents = [
+    SearchPage,
+
+    SearchExampleStandard,
+    SearchExampleRemote,
+    SearchExampleTemplate
+];

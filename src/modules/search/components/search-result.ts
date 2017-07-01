@@ -3,12 +3,13 @@ import {
     Input, TemplateRef
 } from "@angular/core";
 import { ITemplateRefContext, SuiComponentFactory } from "../../../misc/util";
+import { IResultContext } from "./search";
 
 @Component({
     selector: "sui-search-result",
     template: `
 <span #templateSibling></span>
-<span *ngIf="!template" [innerHTML]="formatter(value)"></span>
+<span *ngIf="!template" [innerHTML]="formatter(value, query)"></span>
 `
 })
 export class SuiSearchResult<T> {
@@ -19,22 +20,26 @@ export class SuiSearchResult<T> {
     @Input()
     public value:T;
 
+    @Input()
+    public query:string;
+
     // Returns the label from a given value.
     @Input()
     public formatter:(obj:T, query:string) => string;
 
-    private _template?:TemplateRef<ITemplateRefContext<T>>;
+    private _template?:TemplateRef<IResultContext<T>>;
 
     @Input()
-    public get template():TemplateRef<ITemplateRefContext<T>> | undefined {
+    public get template():TemplateRef<IResultContext<T>> | undefined {
         return this._template;
     }
 
-    public set template(template:TemplateRef<ITemplateRefContext<T>> | undefined) {
+    public set template(template:TemplateRef<IResultContext<T>> | undefined) {
         this._template = template;
         if (this.template) {
             this.componentFactory.createView(this.templateSibling, this.template, {
-                $implicit: this.value
+                $implicit: this.value,
+                query: this.query
             });
         }
     }

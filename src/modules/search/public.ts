@@ -1,5 +1,6 @@
 export {
     SuiSearchModule,
     SearchService,
-    LookupFn
+    LookupFn,
+    IResultContext
 } from "./index";
