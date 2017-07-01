@@ -16,9 +16,9 @@ const exampleStandardTemplate = `
 `;
 
 const exampleRemoteTemplate = `
-<sui-search [options]="optionsSearch" optionsField="title" [(ngModel)]="selectedItem"></sui-search>
+<sui-search [optionsLookup]="optionsSearch" optionsField="title" (itemSelected)="lastSelected = $event"></sui-search>
 <div class="ui segment">
-    <p>Currently selected: {{ selectedItem | json }}</p>
+    <p>Last selected: {{ lastSelected | json }}</p>
 </div>
 `;
 
@@ -147,7 +147,7 @@ export class SearchExampleStandard {
     template: exampleRemoteTemplate
 })
 export class SearchExampleRemote extends SearchExampleStandard {
-    public selectedItem:IOption = { title: "Apple" };
+    public lastSelected:IOption;
 
     public async optionsSearch(query:string):Promise<IOption[]> {
         const options = SearchExampleStandard.standardOptions.map((o:string) => ({ title: o }));

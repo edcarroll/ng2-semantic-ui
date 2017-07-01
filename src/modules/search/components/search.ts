@@ -93,7 +93,7 @@ export class SuiSearch<T> implements AfterViewInit {
     }
 
     public set query(query:string) {
-        this.selectedItem = undefined;
+        this.selectedResult = undefined;
         // Initialise a delayed search.
         this.searchService.updateQueryDelayed(query, () =>
             // Set the results open state depending on whether a query has been entered.
@@ -136,6 +136,9 @@ export class SuiSearch<T> implements AfterViewInit {
     public resultTemplate:TemplateRef<ITemplateRefContext<T>>;
 
     @Input()
+    public retainsSelectedResult:boolean;
+
+    @Input()
     public set searchDelay(delay:number) {
         this.searchService.searchDelay = delay;
     }
@@ -152,12 +155,12 @@ export class SuiSearch<T> implements AfterViewInit {
         return this.searchService.results.slice(0, this.maxResults);
     }
 
-    // Stores the currently selected item.
-    public selectedItem?:T;
+    // Stores the currently selected result.
+    public selectedResult?:T;
 
-    // Emits whenever a new item is selected.
+    // Emits whenever a new result is selected.
     @Output()
-    public itemSelected:EventEmitter<T>;
+    public resultSelected:EventEmitter<T>;
 
     @Input()
     public transition:string;
@@ -174,10 +177,11 @@ export class SuiSearch<T> implements AfterViewInit {
 
         this._searchClasses = true;
         this.hasIcon = true;
+        this.retainsSelectedResult = true;
         this.searchDelay = 200;
         this.maxResults = 7;
 
-        this.itemSelected = new EventEmitter<T>();
+        this.resultSelected = new EventEmitter<T>();
 
         this.transition = "scale";
         this.transitionDuration = 200;
@@ -191,11 +195,11 @@ export class SuiSearch<T> implements AfterViewInit {
         this._localeValues = this._localizationService.get().search;
     }
 
-    // Selects an item.
-    public select(item:T):void {
-        this.selectedItem = item;
-        this.searchService.updateQuery(item ? this.readValue(item) as string : "");
-        this.itemSelected.emit(item);
+    // Selects a result.
+    public select(result:T):void {
+        this.selectedResult = result;
+        this.searchService.updateQuery(result ? this.readValue(result) as string : "");
+        this.resultSelected.emit(result);
         this.dropdownService.setOpenState(false);
     }
 
