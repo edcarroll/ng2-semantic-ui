@@ -136,7 +136,7 @@ export class SuiSearch<T> implements AfterViewInit {
     public resultTemplate:TemplateRef<ITemplateRefContext<T>>;
 
     @Input()
-    public retainsSelectedResult:boolean;
+    public retainSelectedResult:boolean;
 
     @Input()
     public set searchDelay(delay:number) {
@@ -159,8 +159,8 @@ export class SuiSearch<T> implements AfterViewInit {
     public selectedResult?:T;
 
     // Emits whenever a new result is selected.
-    @Output()
-    public resultSelected:EventEmitter<T>;
+    @Output("resultSelected")
+    public onResultSelected:EventEmitter<T>;
 
     @Input()
     public transition:string;
@@ -177,11 +177,11 @@ export class SuiSearch<T> implements AfterViewInit {
 
         this._searchClasses = true;
         this.hasIcon = true;
-        this.retainsSelectedResult = true;
+        this.retainSelectedResult = true;
         this.searchDelay = 200;
         this.maxResults = 7;
 
-        this.resultSelected = new EventEmitter<T>();
+        this.onResultSelected = new EventEmitter<T>();
 
         this.transition = "scale";
         this.transitionDuration = 200;
@@ -197,10 +197,13 @@ export class SuiSearch<T> implements AfterViewInit {
 
     // Selects a result.
     public select(result:T):void {
-        this.selectedResult = result;
-        this.searchService.updateQuery(result ? this.readValue(result) as string : "");
-        this.resultSelected.emit(result);
+        this.onResultSelected.emit(result);
         this.dropdownService.setOpenState(false);
+
+        if (this.retainSelectedResult) {
+            this.selectedResult = result;
+            this.searchService.updateQuery(result ? this.readValue(result) as string : "");
+        }
     }
 
     public onClick(e:MouseEvent):void {
