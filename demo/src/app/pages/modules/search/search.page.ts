@@ -38,18 +38,40 @@ export class SearchPage {
                     defaultValue: "Search..."
                 },
                 {
+                    name: "hasIcon",
+                    type: "boolean",
+                    description: "Sets whether or not the search displays an icon.",
+                    defaultValue: "true"
+                },
+                {
                     name: "options",
-                    type: "T[] | LookupFn<T>",
-                    description: "Sets the options available to the search component. Can either be an array, " +
-                                 "or a function that takes a query and returns either a <code>Promise</code> " +
-                                 "(for remote lookups) or an array (for custom local searches).",
-                    required: true
+                    type: "T[]",
+                    description: "Sets the options available to the search component. " +
+                                 "Cannot be used in conjunction with <code>optionsLookup</code>."
+                },
+                {
+                    name: "optionsLookup",
+                    type: "(query:string) => T[] | Promise<T[]>",
+                    description: "A function to transform the provided query string into the array of results. " +
+                                 "Can either return a <code>Promise</code> (for async lookups) or an <code>Array</code>. " +
+                                 "This must be defined as an arrow function in your class."
                 },
                 {
                     name: "optionsField",
                     type: "string",
                     description: "Sets the property name that the search element uses to lookup and " +
                                  "display each option. Supports dot notation for nested properties."
+                },
+                {
+                    name: "resultFormatter",
+                    type: "(result:T, query:string) => string",
+                    description: "A function to format a given result and query into a string to be displayed. " +
+                                 "HTML markup is supported."
+                },
+                {
+                    name: "resultTemplate",
+                    type: "TemplateRef",
+                    description: "Sets the template to use when displaying results."
                 },
                 {
                     name: "searchDelay",
@@ -64,15 +86,10 @@ export class SearchPage {
                     defaultValue: "7"
                 },
                 {
-                    name: "hasIcon",
+                    name: "retainSelectedResult",
                     type: "boolean",
-                    description: "Sets whether or not the search displays an icon. Loading state is automatically applied when searching.",
+                    description: "Sets whether the search should retain a result in the input box after it is selected.",
                     defaultValue: "true"
-                },
-                {
-                    name: "ngModel",
-                    type: "T",
-                    description: "Bind the search selected item to the value of the provided variable."
                 },
                 {
                     name: "transition",
@@ -88,21 +105,16 @@ export class SearchPage {
                 },
                 {
                     name: "localeOverrides",
-                    type: "RecursivePartial<ISearchLocaleValues>",
+                    type: "Partial<ISearchLocaleValues>",
                     description: "Overrides the values from the localization service."
                 }
             ],
             events: [
                 {
-                    name: "ngModelChange",
+                    name: "resultSelected",
                     type: "T",
-                    description: "Fires whenever the search's selected item is changed. <code>[(ngModel)]</code> syntax is supported."
-                },
-                {
-                    name: "itemSelected",
-                    type: "T",
-                    description: "Fires whenever the search's selected item is changed. " +
-                                 "The selected value is passed as <code>$event</code>."
+                    description: "Fires whenever the search's selected result is changed. " +
+                                 "The selected result is passed as <code>$event</code>."
                 }
             ]
         }

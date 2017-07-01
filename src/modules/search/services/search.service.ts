@@ -124,7 +124,8 @@ export class SearchService<T, U> {
                 return callback();
             };
 
-            const queryLookup = this._optionsLookup(this._query) as LookupFnResult<T[]>;
+            // Call the options lookup without a this context.
+            const queryLookup = this._optionsLookup.call(undefined, this._query) as LookupFnResult<T[]>;
 
             if (queryLookup instanceof Promise) {
                 queryLookup

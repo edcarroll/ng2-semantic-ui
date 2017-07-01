@@ -265,7 +265,7 @@ export class SelectPage {
                 },
                 {
                     name: "localeOverrides",
-                    type: "RecursivePartial<ISearchLocaleValues>",
+                    type: "Partial<ISearchLocaleValues>",
                     description: "Overrides the values from the localization service."
                 }
             ],
