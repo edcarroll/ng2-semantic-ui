@@ -1,6 +1,6 @@
 import {
     Component, Input, HostBinding, HostListener, EventEmitter, ViewContainerRef,
-    ViewChild, Renderer2, ElementRef, Output
+    ViewChild, Renderer2, ElementRef, Output, ChangeDetectorRef
 } from "@angular/core";
 import { SuiDropdownMenuItem } from "../../dropdown";
 import { HandledEvent } from "../../../misc/util";
@@ -17,7 +17,7 @@ export interface ISelectRenderedOption<T> {
     selector: "sui-select-option",
     template: `
 <span #templateSibling></span>
-<span *ngIf="!usesTemplate" [innerHTML]="formatter(value)"></span>
+<span [innerHTML]="renderedText"></span>
 `
 })
 export class SuiSelectOption<T> extends SuiDropdownMenuItem implements ISelectRenderedOption<T> {
@@ -35,7 +35,15 @@ export class SuiSelectOption<T> extends SuiDropdownMenuItem implements ISelectRe
     @HostBinding("class.active")
     public isActive:boolean;
 
-    public formatter:(obj:T) => string;
+    public renderedText?:string;
+
+    public set formatter(formatter:(obj:T) => string) {
+        if (!this.usesTemplate) {
+            this.renderedText = formatter(this.value);
+        } else {
+            this.renderedText = undefined;
+        }
+    }
 
     public usesTemplate:boolean;
 
