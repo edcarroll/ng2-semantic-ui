@@ -31,7 +31,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
 
     // Sets the Semantic UI classes on the host element.
     @HostBinding("class.ui")
-    @HostBinding("class.selection")
+    // @HostBinding("class.selection")
     @HostBinding("class.dropdown")
     private _selectClasses:boolean;
 
@@ -208,7 +208,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         });
 
         // If no options have been provided, autogenerate them from the rendered ones.
-        if (!this.options && !this.optionsLookup) {
+        if (!this.searchService.options && !this.searchService.optionsLookup) {
             this.options = this._renderedOptions.map(ro => ro.value);
         }
     }
