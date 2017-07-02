@@ -34,7 +34,7 @@ const exampleSearchTemplate = `
 const exampleSearchLookupTemplate = `
 <p>You can also use the keyboard to navigate.</p>
 <sui-select [(ngModel)]="selectedOption"
-            [options]="optionsLookup"
+            [optionsLookup]="optionsLookup"
             labelField="name"
             valueField="id"
             [isSearchable]="true"

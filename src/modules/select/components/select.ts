@@ -22,7 +22,7 @@ export type SingleItemLookup<T, U> = (query:string, initial?:U) => Promise<T>;
 <!-- Selected item -->
 <div class="text" [class.filtered]="!!query || !selectedOption">
     <span #optionTemplateSibling></span>
-    <span *ngIf="!optionTemplate && selectedOption">{{ labelGetter(selectedOption) }}</span>
+    <span *ngIf="!optionTemplate && selectedOption" [innerHTML]="configuredFormatter(selectedOption)"></span>
 </div>
 <!-- Dropdown icon -->
 <i class="dropdown icon" (click)="onCaretClick($event)"></i>

@@ -9,6 +9,10 @@ import { ISelectLocaleValues, RecursivePartial, SuiLocalizationService } from ".
 import { SuiSelectOption, ISelectRenderedOption } from "../components/select-option";
 import { Subscription } from "rxjs/Subscription";
 
+export interface IOptionContext<T> extends ITemplateRefContext<T> {
+    query?:string;
+}
+
 // We use generic type T to specify the type of the options we are working with,
 // and U to specify the type of the property of the option used as the value.
 export abstract class SuiSelectBase<T, U> implements AfterContentInit {
@@ -65,12 +69,15 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     private _queryInput:ElementRef;
 
     @Input()
-    public set options(options:T[] | LookupFn<T, U>) {
-        if (typeof options === "function") {
-            this.searchService.optionsLookup = options;
-        } else {
-            this.searchService.options = options;
-        }
+    public set options(options:T[]) {
+        this.searchService.options = options;
+
+        this.optionsUpdateHook();
+    }
+
+    @Input()
+    public set optionsLookup(options:LookupFn<T, U>) {
+        this.searchService.optionsLookup = options;
 
         this.optionsUpdateHook();
     }
@@ -111,10 +118,26 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     }
 
     @Input()
-    public optionTemplate:TemplateRef<ITemplateRefContext<T>>;
+    public optionTemplate:TemplateRef<IOptionContext<T>>;
+
+    private _optionFormatter?:(o:T, q?:string) => string;
+
+    public get configuredFormatter():(option:T) => string {
+        if (this._optionFormatter) {
+            return r => this._optionFormatter!(r, this.isSearchable ? this.query : undefined);
+        } else if (this.searchService.optionsLookup) {
+            return r => this.labelGetter(r);
+        } else {
+            return r => this.searchService.highlightMatches(this.labelGetter(r), this.query);
+        }
+    }
+
+    @Input()
+    public set optionFormatter(formatter:((option:T, query?:string) => string) | undefined) {
+        this._optionFormatter = formatter;
+    }
 
     private _localeValues:ISelectLocaleValues;
-
     public localeOverrides:RecursivePartial<ISelectLocaleValues>;
 
     public get localeValues():ISelectLocaleValues {
@@ -185,7 +208,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
 
     protected initialiseRenderedOption(option:ISelectRenderedOption<T>):void {
         option.usesTemplate = !!this.optionTemplate;
-        option.readLabel = this.labelGetter;
+        option.formatter = this.configuredFormatter;
 
         if (option.usesTemplate) {
             this.drawTemplate(option.templateSibling, option.value);
@@ -281,6 +304,9 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     protected drawTemplate(siblingRef:ViewContainerRef, value:T):void {
         siblingRef.clear();
         // Use of `$implicit` means use of <ng-template let-option> syntax is supported.
-        siblingRef.createEmbeddedView(this.optionTemplate, { $implicit: value });
+        siblingRef.createEmbeddedView(this.optionTemplate, {
+            $implicit: value,
+            query: this.isSearchable ? this.query : undefined
+        });
     }
 }

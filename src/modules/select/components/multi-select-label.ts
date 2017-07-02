@@ -10,7 +10,7 @@ import { ISelectRenderedOption } from "./select-option";
     selector: "sui-multi-select-label",
     template: `
 <span #templateSibling></span>
-<span *ngIf="!usesTemplate">{{ readLabel(value) }}</span>
+<span *ngIf="!usesTemplate" [innerHTML]="formatter(value)"></span>
 <i class="delete icon" (click)="deselectOption($event)"></i>
 `
 })
@@ -29,7 +29,7 @@ export class SuiMultiSelectLabel<T> extends SuiTransition implements ISelectRend
     @Output()
     public onDeselected:EventEmitter<T>;
 
-    public readLabel:(obj:T) => string;
+    public formatter:(obj:T) => string;
 
     public usesTemplate:boolean;
 
@@ -44,7 +44,7 @@ export class SuiMultiSelectLabel<T> extends SuiTransition implements ISelectRend
         this.setTransitionController(this._transitionController);
 
         this.onDeselected = new EventEmitter<T>();
-        this.readLabel = (value:T) => "";
+        this.formatter = o => "";
         this.usesTemplate = false;
 
         this._labelClasses = true;

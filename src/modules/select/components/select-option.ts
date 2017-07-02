@@ -5,12 +5,10 @@ import {
 import { SuiDropdownMenuItem } from "../../dropdown";
 import { HandledEvent } from "../../../misc/util";
 
-export type PropertyReader<T> = (obj:T) => string;
-
 export interface ISelectRenderedOption<T> {
     value:T;
     isActive?:boolean;
-    readLabel:PropertyReader<T>;
+    formatter:(o:T) => string;
     usesTemplate:boolean;
     templateSibling:ViewContainerRef;
 }
@@ -19,7 +17,7 @@ export interface ISelectRenderedOption<T> {
     selector: "sui-select-option",
     template: `
 <span #templateSibling></span>
-<span *ngIf="!usesTemplate">{{ readLabel(value) }}</span>
+<span *ngIf="!usesTemplate" [innerHTML]="formatter(value)"></span>
 `
 })
 export class SuiSelectOption<T> extends SuiDropdownMenuItem implements ISelectRenderedOption<T> {
@@ -37,8 +35,7 @@ export class SuiSelectOption<T> extends SuiDropdownMenuItem implements ISelectRe
     @HostBinding("class.active")
     public isActive:boolean;
 
-    // Returns the label from a given value.
-    public readLabel:(obj:T) => string;
+    public formatter:(obj:T) => string;
 
     public usesTemplate:boolean;
 
@@ -56,7 +53,7 @@ export class SuiSelectOption<T> extends SuiDropdownMenuItem implements ISelectRe
         this.onSelected = new EventEmitter<T>();
 
         // By default we make this function return an empty string, for the brief moment when it isn't displaying the correct label.
-        this.readLabel = (value:T) => "";
+        this.formatter = o => "";
 
         this.usesTemplate = false;
     }
