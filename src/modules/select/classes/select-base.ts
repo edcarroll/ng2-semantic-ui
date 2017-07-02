@@ -206,6 +206,11 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
 
             this._renderedSubscriptions.push(ro.onSelected.subscribe(() => this.selectOption(ro.value)));
         });
+
+        // If no options have been provided, autogenerate them from the rendered ones.
+        if (!this.options && !this.optionsLookup) {
+            this.options = this._renderedOptions.map(ro => ro.value);
+        }
     }
 
     protected initialiseRenderedOption(option:ISelectRenderedOption<T>):void {
