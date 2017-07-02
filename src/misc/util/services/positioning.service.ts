@@ -173,4 +173,8 @@ export class PositioningService {
     public update():void {
         this._popper.update();
     }
+
+    public destroy():void {
+        this._popper.destroy();
+    }
 }

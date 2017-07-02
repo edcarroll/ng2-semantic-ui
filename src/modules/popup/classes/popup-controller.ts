@@ -34,8 +34,10 @@ export abstract class SuiPopupController implements IPopup, OnDestroy, IPopupLif
         this.popup.config = config;
 
         // When the popup is closed (onClose fires on animation complete),
-        this.popup.onClose.subscribe(() =>
-            this._componentFactory.detachFromApplication(this._componentRef));
+        this.popup.onClose.subscribe(() => {
+            this._componentRef.instance.positioningService.destroy();
+            this._componentFactory.detachFromApplication(this._componentRef);
+        });
     }
 
     public openDelayed():void {
