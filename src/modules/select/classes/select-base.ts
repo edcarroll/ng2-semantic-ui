@@ -86,13 +86,15 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         return this.searchService.results;
     }
 
-    public get query():string {
-        return this.searchService.query;
+    public get query():string | undefined {
+        return this.isSearchable ? this.searchService.query : undefined;
     }
 
-    public set query(query:string) {
-        this.queryUpdateHook();
-        this.updateQuery(query);
+    public set query(query:string | undefined) {
+        if (query != undefined) {
+            this.queryUpdateHook();
+            this.updateQuery(query);
+        }
     }
 
     @Input()
@@ -128,7 +130,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         } else if (this.searchService.optionsLookup) {
             return r => this.labelGetter(r);
         } else {
-            return r => this.searchService.highlightMatches(this.labelGetter(r), this.query);
+            return r => this.searchService.highlightMatches(this.labelGetter(r), this.query || "");
         }
     }
 
@@ -306,7 +308,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         // Use of `$implicit` means use of <ng-template let-option> syntax is supported.
         siblingRef.createEmbeddedView(this.optionTemplate, {
             $implicit: value,
-            query: this.isSearchable ? this.query : undefined
+            query: this.query
         });
     }
 }

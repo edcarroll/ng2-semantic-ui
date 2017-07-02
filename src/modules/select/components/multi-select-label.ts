@@ -1,20 +1,20 @@
 import {
     Component, Input, HostBinding, HostListener, EventEmitter, ViewContainerRef,
-    ViewChild, Renderer2, ElementRef, Output, ChangeDetectorRef
+    ViewChild, Renderer2, ElementRef, Output, ChangeDetectorRef, TemplateRef
 } from "@angular/core";
 import { SuiTransition, TransitionController, Transition, TransitionDirection } from "../../transition";
-import { HandledEvent } from "../../../misc/util";
-import { ISelectRenderedOption } from "./select-option";
+import { HandledEvent, SuiComponentFactory } from "../../../misc/util";
+import { IOptionContext } from "../classes/select-base";
 
 @Component({
     selector: "sui-multi-select-label",
     template: `
 <span #templateSibling></span>
-<span *ngIf="!usesTemplate" [innerHTML]="formatter(value)"></span>
+<span *ngIf="!template" [innerHTML]="formatter(value)"></span>
 <i class="delete icon" (click)="deselectOption($event)"></i>
 `
 })
-export class SuiMultiSelectLabel<T> extends SuiTransition implements ISelectRenderedOption<T> {
+export class SuiMultiSelectLabel<T> extends SuiTransition {
     // Sets the Semantic UI classes on the host element.
     // Doing it on the host enables use in menus etc.
     @HostBinding("class.ui")
@@ -26,17 +26,41 @@ export class SuiMultiSelectLabel<T> extends SuiTransition implements ISelectRend
     @Input()
     public value:T;
 
-    @Output()
+    @Input()
+    public query?:string;
+
+    @Output("deselected")
     public onDeselected:EventEmitter<T>;
 
+    @Input()
     public formatter:(obj:T) => string;
 
-    public usesTemplate:boolean;
+    private _template?:TemplateRef<IOptionContext<T>>;
 
+    @Input()
+    public get template():TemplateRef<IOptionContext<T>> | undefined {
+        return this._template;
+    }
+
+    public set template(template:TemplateRef<IOptionContext<T>> | undefined) {
+        this._template = template;
+        if (this.template) {
+            this.componentFactory.createView(this.templateSibling, this.template, {
+                $implicit: this.value,
+                query: this.query
+            });
+        }
+    }
+
+    // Placeholder to draw template beside.
     @ViewChild("templateSibling", { read: ViewContainerRef })
     public templateSibling:ViewContainerRef;
 
-    constructor(renderer:Renderer2, element:ElementRef, changeDetector:ChangeDetectorRef) {
+    constructor(renderer:Renderer2,
+                element:ElementRef,
+                changeDetector:ChangeDetectorRef,
+                public componentFactory:SuiComponentFactory) {
+
         super(renderer, element, changeDetector);
 
         // Initialise transition functionality.
@@ -44,8 +68,6 @@ export class SuiMultiSelectLabel<T> extends SuiTransition implements ISelectRend
         this.setTransitionController(this._transitionController);
 
         this.onDeselected = new EventEmitter<T>();
-        this.formatter = o => "";
-        this.usesTemplate = false;
 
         this._labelClasses = true;
 

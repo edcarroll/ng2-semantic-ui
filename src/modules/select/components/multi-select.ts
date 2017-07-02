@@ -1,18 +1,18 @@
-import {
-    Component, HostBinding, ElementRef, EventEmitter, Output, Input,
-    QueryList, AfterViewInit, ViewChildren, Directive
-} from "@angular/core";
+import { Component, HostBinding, ElementRef, EventEmitter, Output, Input, Directive } from "@angular/core";
 import { ICustomValueAccessorHost, KeyCode, customValueAccessorFactory, CustomValueAccessor } from "../../../misc/util";
 import { SuiLocalizationService } from "../../../behaviors/localization";
 import { SuiSelectBase } from "../classes/select-base";
-import { SuiMultiSelectLabel } from "./multi-select-label";
-import { Subscription } from "rxjs/Subscription";
 
 @Component({
     selector: "sui-multi-select",
     template: `
 <!-- Multi-select labels -->
-<sui-multi-select-label *ngFor="let selected of selectedOptions;" [value]="selected"></sui-multi-select-label>
+<sui-multi-select-label *ngFor="let selected of selectedOptions;"
+                        [value]="selected"
+                        [query]="query"
+                        [formatter]="configuredFormatter"
+                        [template]="optionTemplate"
+                        (deselected)="deselectOption($event)"></sui-multi-select-label>
 <!-- Query input -->
 <input [hidden]="!isSearchable"
        class="search"
@@ -46,16 +46,10 @@ import { Subscription } from "rxjs/Subscription";
 }
 `]
 })
-export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterViewInit, ICustomValueAccessorHost<U[]> {
+export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValueAccessorHost<U[]> {
     public selectedOptions:T[];
     // Stores the values written by ngModel before it can be matched to an option from `options`.
     private _writtenOptions?:U[];
-
-    // Since we are rendering the selected options with an ngFor, we need to track them in the same manner as the base class.
-    @ViewChildren(SuiMultiSelectLabel)
-    private _renderedSelectedOptions:QueryList<SuiMultiSelectLabel<T>>;
-
-    private _renderedSelectedSubscriptions:Subscription[];
 
     @Output()
     public selectedOptionsChange:EventEmitter<U[]>;
@@ -106,8 +100,6 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
 
         this.selectedOptions = [];
         this.selectedOptionsChange = new EventEmitter<U[]>();
-
-        this._renderedSelectedSubscriptions = [];
 
         this._multiSelectClasses = true;
     }
@@ -185,25 +177,6 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements AfterVi
             // Deselect the rightmost option when the user presses backspace in the search input.
             this.deselectOption(this.selectedOptions[this.selectedOptions.length - 1]);
         }
-    }
-
-    public ngAfterViewInit():void {
-        // We must call this immediately as changes doesn't fire when you subscribe.
-        this.onSelectedOptionsRendered();
-        this._renderedSelectedOptions.changes.subscribe(() => this.onSelectedOptionsRendered());
-    }
-
-    private onSelectedOptionsRendered():void {
-        // Unsubscribe from all previous subscriptions to avoid memory leaks on large selects.
-        this._renderedSelectedSubscriptions.forEach(rs => rs.unsubscribe());
-        this._renderedSelectedSubscriptions = [];
-
-        this._renderedSelectedOptions.forEach(ro => {
-            // Slightly delay initialisation to avoid change after checked errors. TODO - look into avoiding this!
-            setTimeout(() => this.initialiseRenderedOption(ro));
-
-            this._renderedSelectedSubscriptions.push(ro.onDeselected.subscribe(() => this.deselectOption(ro.value)));
-        });
     }
 }
 
