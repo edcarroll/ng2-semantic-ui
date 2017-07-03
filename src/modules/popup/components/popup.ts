@@ -140,7 +140,13 @@ export class SuiPopup implements IPopup {
             // Cancel all other transitions, and initiate the opening transition.
             this.transitionController.stopAll();
             this.transitionController.animate(
-                new Transition(this.config.transition, this.config.transitionDuration, TransitionDirection.In));
+                new Transition(this.config.transition, this.config.transitionDuration, TransitionDirection.In, () => {
+                    // Focus any element with [autofocus] attribute.
+                    const autoFocus = this.elementRef.nativeElement.querySelector("[autofocus]") as HTMLElement | null;
+                    if (autoFocus) {
+                        autoFocus.focus();
+                    }
+                }));
 
             // Refresh the popup position after a brief delay to allow for browser processing time.
             this.positioningService.placement = this.config.placement;

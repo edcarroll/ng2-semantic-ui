@@ -14,7 +14,7 @@ const exampleTemplateModalTemplate = `
     </div>
     <div class="actions">
         <button class="ui red button" (click)="modal.deny('denied')">Cancel</button>
-        <button class="ui green button" (click)="modal.approve('approved')">OK</button>
+        <button class="ui green button" (click)="modal.approve('approved')" autofocus>OK</button>
     </div>
 </ng-template>
 `;
@@ -35,7 +35,7 @@ const exampleComponentModalTemplate = `
 </div>
 <div class="actions">
     <button class="ui red button" (click)="modal.deny(undefined)">Cancel</button>
-    <button class="ui green button" (click)="modal.approve(undefined)">OK</button>
+    <button class="ui green button" (click)="modal.approve(undefined)" autofocus>OK</button>
 </div>
 `;
 
@@ -136,7 +136,7 @@ export class ModalPage {
     </div>
     <div class="actions">
         <button class="ui red button" (click)="modal.deny()">Cancel</button>
-        <button class="ui green button" (click)="modal.approve('done')">OK</button>
+        <button class="ui green button" (click)="modal.approve('done')" autofocus>OK</button>
     </div>
 </sui-modal>
 `;
