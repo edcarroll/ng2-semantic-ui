@@ -1,0 +1,45 @@
+<demo-page-title>
+    <div header>Accordion</div>
+    <div sub-header>
+        <p>An accordion allows users to toggle the display of sections of content</p>
+    </div>
+</demo-page-title>
+<demo-page-content>
+    <sui-message class="warning" [isDismissable]="false">
+        <div class="header">Important Note</div>
+        <p>
+            The accordion depends on the Web Animations API, which requires a polyfill for full browser
+            support. Read the <a routerLink="/components/collapse">collapse docs</a> for guidance.
+        </p>
+    </sui-message>
+
+    <h2 class="ui dividing header">Examples</h2>
+
+    <demo-example [code]="exampleStandardTemplate">
+        <div info>
+            <h4 class="ui header">Accordion</h4>
+            <p>Standard accordion</p>
+        </div>
+        <example-accordion-standard result></example-accordion-standard>
+    </demo-example>
+    <demo-example [code]="exampleStyledTemplate">
+        <div info>
+            <h4 class="ui header">Styled</h4>
+            <p>Adding classes to the root element applies styles</p>
+        </div>
+        <example-accordion-styled result></example-accordion-styled>
+    </demo-example>
+    <demo-example [code]="exampleManualTemplate">
+        <div info>
+            <h4 class="ui header">Manual</h4>
+            <p>
+                By using <code>isDisabled</code> and <code>isOpen</code> you can change
+                the element controlling the accordion. Click the arrow to open the panel.
+            </p>
+        </div>
+        <example-accordion-manual result></example-accordion-manual>
+    </demo-example>
+    
+    <h2 id="api" class="ui dividing header">API</h2>
+    <demo-api [api]="api"></demo-api>
+</demo-page-content>

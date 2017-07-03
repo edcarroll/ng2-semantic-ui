@@ -1,0 +1,32 @@
+<demo-page-title>
+    <div header>Pagination</div>
+    <div sub-header>
+        <p>A pagination displays navigation buttons for browsing through a collection</p>
+    </div>
+</demo-page-title>
+<demo-page-content>
+    <h2 class="ui dividing header">Examples</h2>
+    <demo-example [code]="exampleStandardTemplate">
+        <div info>
+            <h4 class="ui header">Standard</h4>
+            <p>A standard pagination</p>
+        </div>
+        <example-pagination-standard result></example-pagination-standard>
+    </demo-example>
+    <demo-example [code]="exampleMaxSizeTemplate">
+        <div info>
+            <h4 class="ui header">With Max Size</h4>
+            <p>A pagination with maxSize set</p>
+        </div>
+        <example-pagination-maxsize result></example-pagination-maxsize>
+    </demo-example>
+    <demo-example [code]="exampleRotationTemplate">
+        <div info>
+            <h4 class="ui header">Rotation</h4>
+            <p>A pagination with maxSize set and rotation enabled</p>
+        </div>
+        <example-pagination-rotation result></example-pagination-rotation>
+    </demo-example>
+    <h2 id="api" class="ui dividing header">API</h2>
+    <demo-api [api]="api"></demo-api>
+</demo-page-content>

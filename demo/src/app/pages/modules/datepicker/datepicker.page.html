@@ -1,0 +1,79 @@
+<demo-page-title>
+    <div header>Datepicker</div>
+    <div sub-header>
+        <p>A datepicker provides an interface for selecting a date and time</p>
+    </div>
+</demo-page-title>
+<demo-page-content>
+    <sui-message class="info" [isDismissable]="false">
+        <div class="header">Important Note</div>
+        <p>
+            The datepicker is a port of <a href="https://github.com/mdehoog/Semantic-UI-Calendar">Semantic-UI-Calendar</a>,
+            an external module for Semantic UI. If you'd like to use the datepicker in your app, you must include the module's
+            CSS alongside Semantic UI's.
+        </p>
+        <p>If you're not customizing the default theme, add the CSS as a link tag to your page:</p>
+        <div class="ui segment">
+            <demo-codeblock language="markup" [src]="cssInclude"></demo-codeblock>
+        </div>
+        <p>Otherwise, follow the <a href="https://github.com/mdehoog/Semantic-UI-Calendar#compiling-css-from-less">Compilation Instructions</a>.
+    </sui-message>
+
+    <h2 class="ui dividing header">Examples</h2>
+
+    <demo-example [code]="exampleStandardTemplate">
+        <div info>
+            <h4 class="ui header">Datepicker</h4>
+            <p>A datepicker supports a number of picking modes</p>
+        </div>
+        <example-datepicker-standard result></example-datepicker-standard>
+    </demo-example>
+
+    <demo-example [code]="exampleButtonTemplate">
+        <div info>
+            <h4 class="ui header">Button</h4>
+            <p>A datepicker can be attached to any focusable element</p>
+        </div>
+        <example-datepicker-button result></example-datepicker-button>
+    </demo-example>
+
+    <demo-example [code]="exampleMinMaxTemplate">
+        <div info>
+            <h4 class="ui header">Min & Max</h4>
+            <p>
+                A datepicker can be limited to a certain date range. When
+                using reactive forms, validation errors are generated automatically
+            </p>
+        </div>
+        <example-datepicker-min-max result></example-datepicker-min-max>
+    </demo-example>
+
+    <sui-message class="info" [isDismissable]="false">
+        <div class="header">Timezones</div>
+        <p>
+            The datepicker will always return a <code>Date</code> object in the local timezone.
+            When in modes that don't include a time, the time will always be set to midnight.
+        </p>
+    </sui-message>
+    <br>
+
+    <demo-example [code]="exampleMobileFallbackTemplate">
+        <div info>
+            <h4 class="ui header">Mobile Fallback</h4>
+            <p>A datepicker can be configured to fallback to the native browser UI on mobile (this is the default behavior)</p>
+            <p>Note that the <code>[pickerUseNativeOnMobile]</code> property only exists on datepickers attached to <code>input</code> elements.</p>
+        </div>
+        <example-datepicker-mobile-fallback result></example-datepicker-mobile-fallback>
+    </demo-example>
+
+    <sui-message class="info" [isDismissable]="false">
+        <div class="header">Localization</div>
+        <p>
+            The datepicker has full localization support. Read the
+            <a routerLink="/behaviors/localization">localization docs</a> for guidance.
+        </p>
+    </sui-message>
+
+    <h2 id="api" class="ui dividing header">API</h2>
+    <demo-api [api]="api"></demo-api>
+</demo-page-content>

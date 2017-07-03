@@ -1,6 +1,5 @@
 import { Component } from "@angular/core";
-import { Modal } from "../../../../src/modal/modal-controls";
-import { ComponentModalConfig, ModalSize } from "../../../../src/modal/modal-config";
+import { SuiModal, ComponentModalConfig, ModalSize } from "../../../../src/public";
 
 interface IAlertModalContext {
     message:string;
@@ -20,7 +19,7 @@ interface IAlertModalContext {
 `
 })
 export class AlertModalComponent {
-    constructor(public modal:Modal<IAlertModalContext, void, void>) {}
+    constructor(public modal:SuiModal<IAlertModalContext, void, void>) {}
 }
 
 export class AlertModal extends ComponentModalConfig<IAlertModalContext, void, void> {

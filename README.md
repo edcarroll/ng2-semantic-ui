@@ -41,22 +41,27 @@ See the [Documentation](https://edcarroll.github.io/ng2-semantic-ui) for install
 
 The current list of available components with links to their docs is below:
 
-* [Accordion](https://edcarroll.github.io/ng2-semantic-ui/#/components/accordion)
-* [Checkbox](https://edcarroll.github.io/ng2-semantic-ui/#/components/checkbox)
-* [Collapse](https://edcarroll.github.io/ng2-semantic-ui/#/components/collapse)
-* [Dimmer](https://edcarroll.github.io/ng2-semantic-ui/#/components/dimmer)
-* [Dropdown](https://edcarroll.github.io/ng2-semantic-ui/#/components/dropdown)
-* [Message](https://edcarroll.github.io/ng2-semantic-ui/#/components/message)
-* [Modal](https://edcarroll.github.io/ng2-semantic-ui/#/components/modal)
-* [Pagination](https://edcarroll.github.io/ng2-semantic-ui/#/components/pagination)
-* [Popup](https://edcarroll.github.io/ng2-semantic-ui/#/components/popup)
-* [Progress](https://edcarroll.github.io/ng2-semantic-ui/#/components/progress)
-* [Rating](https://edcarroll.github.io/ng2-semantic-ui/#/components/rating)
-* [Search](https://edcarroll.github.io/ng2-semantic-ui/#/components/search)
-* [Select](https://edcarroll.github.io/ng2-semantic-ui/#/components/select)
-* [Sidebar](https://edcarroll.github.io/ng2-semantic-ui/#/components/sidebar)
-* [Tabs](https://edcarroll.github.io/ng2-semantic-ui/#/components/tabs)
-* [Transition](https://edcarroll.github.io/ng2-semantic-ui/#/components/transition)
+* Collections
+  - [Message](https://edcarroll.github.io/ng2-semantic-ui/#/collections/message)
+  - [Pagination](https://edcarroll.github.io/ng2-semantic-ui/#/collections/pagination)
+* Modules
+  - [Accordion](https://edcarroll.github.io/ng2-semantic-ui/#/modules/accordion)
+  - [Checkbox](https://edcarroll.github.io/ng2-semantic-ui/#/modules/checkbox)
+  - [Collapse](https://edcarroll.github.io/ng2-semantic-ui/#/modules/collapse)
+  - [Datepicker](https://edcarroll.github.io/ng2-semantic-ui/#/modules/datepicker)
+  - [Dimmer](https://edcarroll.github.io/ng2-semantic-ui/#/modules/dimmer)
+  - [Dropdown](https://edcarroll.github.io/ng2-semantic-ui/#/modules/dropdown)
+  - [Modal](https://edcarroll.github.io/ng2-semantic-ui/#/modules/modal)
+  - [Popup](https://edcarroll.github.io/ng2-semantic-ui/#/modules/popup)
+  - [Progress](https://edcarroll.github.io/ng2-semantic-ui/#/modules/progress)
+  - [Rating](https://edcarroll.github.io/ng2-semantic-ui/#/modules/rating)
+  - [Search](https://edcarroll.github.io/ng2-semantic-ui/#/modules/search)
+  - [Select](https://edcarroll.github.io/ng2-semantic-ui/#/modules/select)
+  - [Sidebar](https://edcarroll.github.io/ng2-semantic-ui/#/modules/sidebar)
+  - [Tabs](https://edcarroll.github.io/ng2-semantic-ui/#/modules/tabs)
+  - [Transition](https://edcarroll.github.io/ng2-semantic-ui/#/modules/transition)
+* Behaviors
+  - [Localization](https://edcarroll.github.io/ng2-semantic-ui/#/behaviors/localization)
 
 ## Want to help?
 

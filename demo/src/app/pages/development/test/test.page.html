@@ -1,0 +1,22 @@
+<demo-page-title>
+    <div header>Test</div>
+    <div sub-header>
+        <p>Test component!</p>
+    </div>
+</demo-page-title>
+<demo-page-content>
+    <h2 class="ui dividing header">Examples</h2>
+    <div class="ui segment">
+        <div class="ui fluid left icon input">
+            <i class="calendar icon"></i>
+            <input suiDatepicker
+                   [(ngModel)]="date"
+                   pickerMode="month"
+                   [pickerMaxDate]="maxDate"
+                   [pickerMinDate]="minDate"
+                   [pickerFirstDayOfWeek]="3">
+        </div>
+        <br>
+        <p>{{ date }}</p>
+    </div>
+</demo-page-content>

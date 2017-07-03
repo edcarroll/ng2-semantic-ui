@@ -1,0 +1,69 @@
+<demo-page-title>
+    <div header>Localization</div>
+    <div sub-header>
+        <p>Localization lets you control what language components display in</p>
+    </div>
+</demo-page-title>
+<demo-page-content>
+    <h2 class="ui dividing header">Usage</h2>
+    <p>
+        The localization service allows you to choose the language that the components are displayed in.
+        Note that these settings only affect components with pre-defined text, such as the datepicker.
+    </p>
+
+    <p>
+        To change locale, inject the <code>SuiLocalizationService</code> service into your root component,
+        as well as importing a locale from those provided by the library.
+    </p>
+
+    <div class="ui segment">
+        <demo-codeblock language="typescript" [src]="localizationCode"></demo-codeblock>
+    </div>
+
+    <p>All components that display any non customizable text will now display in Spanish.</p>
+
+    <h2 class="ui dividing header">Example</h2>
+
+    <demo-example [code]="exampleTemplate">
+        <div info>
+            <h4 class="ui header">Change Language</h4>
+        </div>
+        <example-localization result></example-localization>
+    </demo-example>
+
+    <h2 class="ui dividing header">Customization</h2>
+    <p>If you'd like to provide your own custom translations for some of the values, you can do the following:</p>
+
+    <div class="ui segment">
+        <demo-codeblock language="typescript" [src]="customizationCode"></demo-codeblock>
+    </div>
+
+    <p>The 2nd argument of <code>load</code> & <code>patch</code> takes a partial (all optional) <code>ILocaleValues</code> object, defined below.</p>
+    <div class="ui segment">
+        <demo-codeblock language="typescript" [src]="valuesInterface"></demo-codeblock>
+    </div>
+
+    <h2 class="ui dividing header">Built in Languages</h2>
+    <p>Below is a list of all languages supported out of the box.</p>
+
+    <p>Your language isn't there? <a href="https://github.com/edcarroll/ng2-semantic-ui/pulls">Submit a pull request</a> with your translations.</p>
+
+    <ul class="ui list">
+        <li class="item" *ngFor="let lang of supportedLanguages">
+            <div class="header">
+                {{ lang.name }}&nbsp;
+                <div class="ui tiny teal horizontal label" *ngIf="lang.default">Default</div>
+            </div>
+            <div class="description" *ngIf="lang.code">{{ lang.code }}</div>
+            <ul *ngIf="lang.children">
+                <li class="item" *ngFor="let child of lang.children">
+                    <div class="header">
+                        {{ child.name }}&nbsp;
+                        <div class="ui tiny teal horizontal label" *ngIf="child.default">Default</div>
+                    </div>
+                    <div class="description" *ngIf="child.code">{{ child.code }}</div>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</demo-page-content>

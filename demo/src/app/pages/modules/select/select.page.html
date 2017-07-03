@@ -1,0 +1,77 @@
+<demo-page-title>
+    <div header>Select</div>
+    <div sub-header>
+        <p>A select allows a user to select one or more values from a series of values</p>
+    </div>
+</demo-page-title>
+<demo-page-content>
+    <h2 class="ui dividing header">Examples</h2>
+    <demo-example [code]="exampleStandardTemplate">
+        <div info>
+            <h4 class="ui header">Selection</h4>
+            <p>A select can be used to select between choices in a form</p>
+        </div>
+        <example-select-standard result></example-select-standard>
+    </demo-example>
+    <demo-example [code]="exampleOptionsTemplate">
+        <div info>
+            <h4 class="ui header">Dynamic Options</h4>
+            <p>Providing an options array allows dynamic sets of options</p>
+        </div>
+        <example-select-options result></example-select-options>
+    </demo-example>
+    <demo-example [code]="exampleSearchTemplate">
+        <div info>
+            <h4 class="ui header">Search Selection</h4>
+            <p>A select can allow a user to search through a large list of choices</p>
+        </div>
+        <example-select-search result></example-select-search>
+    </demo-example>
+    <demo-example [code]="exampleMultipleTemplate">
+        <div info>
+            <h4 class="ui header">Multiple Selection</h4>
+            <p>A select is able to select multiple different values</p>
+        </div>
+        <example-select-multiple result></example-select-multiple>
+    </demo-example>
+    <demo-example [code]="exampleMultipleSearchTemplate">
+        <div info>
+            <h4 class="ui header">Multiple Search Selection</h4>
+            <p>Searching is also possible with a multi-select</p>
+        </div>
+        <example-select-multiple-search result></example-select-multiple-search>
+    </demo-example>
+    <demo-example [code]="exampleTemplateSearchTemplate">
+        <div info>
+            <h4 class="ui header">Templates</h4>
+            <p>You can use a custom template for options</p>
+        </div>
+        <example-select-template-search result></example-select-template-search>
+    </demo-example>
+    <demo-example [code]="exampleSearchLookupTemplate">
+        <div info>
+            <h4 class="ui header">Search Selection Lookup (Advanced)</h4>
+            <p>A select can allow a user to search through a list of choices from API</p>
+        </div>
+        <div result>
+            <example-select-search-lookup></example-select-search-lookup>
+            <br>
+            <p>Setting the <code>[options]</code> property to a function that takes a query and returns a Promise allows remote lookups.</p>
+            <p>When using the <code>valueField</code> property in conjunction with <code>ngModel</code>, the lookup function must take a 2nd parameter string parameter, as shown below:</p>
+            <div class="ui segment">
+                <demo-codeblock language="typescript" [src]="searchLookupCode"></demo-codeblock>
+            </div>
+        </div>
+    </demo-example>
+
+    <sui-message class="info" [isDismissable]="false">
+        <div class="header">Localization</div>
+        <p>
+            The select component has full localization support. Read the
+            <a routerLink="/behaviors/localization">localization docs</a> for guidance.
+        </p>
+    </sui-message>
+
+    <h2 id="api" class="ui dividing header">API</h2>
+    <demo-api [api]="api"></demo-api>
+</demo-page-content>

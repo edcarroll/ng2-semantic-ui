@@ -1,4 +1,4 @@
-import { Component, HostBinding, Output, EventEmitter, HostListener } from "@angular/core";
+import { Component, HostBinding, Output, EventEmitter, HostListener, isDevMode } from "@angular/core";
 // Polyfill for IE
 import "element-closest";
 
@@ -14,6 +14,10 @@ interface IAugmentedElement extends Element {
 export class SidebarComponent {
     @Output()
     public onItemSelected:EventEmitter<void>;
+
+    public get inDevMode():boolean {
+        return isDevMode();
+    }
 
     constructor() {
         this.onItemSelected = new EventEmitter<void>();

@@ -27,21 +27,21 @@
 /libpeerconnection.log
 npm-debug.log
 testem.log
-package-lock.json
 
-# System Files
+# system files
 .DS_Store
 Thumbs.db
 
-# Non TS files
+# non TS files
 *.d.ts
 *.metadata.json
 *.js
 *.js.map
 
-# Config Files
-!*.config.js
+# build scripts
+!scripts/**/*
+!package.js
 
-# Output Files
+# output files
 demo/dist
 bundles

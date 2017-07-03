@@ -1,0 +1,135 @@
+<demo-page-title>
+    <div header>Modal</div>
+    <div sub-header>
+        <p>A modal displays content that temporarily blocks interactions with the main view of a site</p>
+    </div>
+</demo-page-title>
+<demo-page-content>
+    <h2 class="ui dividing header">Examples</h2>
+
+    <p>The modal system is designed to be as flexible as possible.</p>
+    
+    <p>Each modal has two possible outcomes, <code>approve</code> or <code>deny</code>, carrying a distinct result respectively, defined by the user.</p>
+    
+    <p>Transitions are built in and fully customisable, with timing handled out of the box (i.e. events don't fire until the modal has finished transitioning).</p>
+
+    <p>Creating modals can be done in 3 distinct ways, each shown below:</p>
+    
+    <br>
+
+    <sui-tabset>
+        <div class="ui three wide stackable tabs menu">
+            <a class="item" suiTabHeader="auto">Automatic</a>
+            <a class="item" suiTabHeader="template">Template Based</a>
+            <a class="item" suiTabHeader="component">Component Based</a>
+        </div>
+
+        <div class="ui segment" suiTabContent="auto">
+            <p>This is the most simple form of modal dialog. They're created and used by adding a <code>&lt;sui-modal&gt;</code> element to your component:</p>
+
+            <div class="ui segment">
+                <demo-codeblock language="markup" [src]="autoCode"></demo-codeblock>
+            </div>
+
+            <p>Note the use of <code>#modal</code>, used to access the <code>approve</code> and <code>deny</code> methods.</p>
+
+            <p>
+                Automatic modals are named as such because they open as soon as the component is rendered (i.e. you cannot control when they open).</p>
+
+            <p>
+                Therefore, the specific use case for this modal are routes in which the route opens up a modal dialog. To do this, set the route to be
+                a component with an automatic modal and it will open immediately. You can then set the router to navigate when the <code>dismissed</code>
+                event fires, e.g. <code>(dismissed)="router.navigate([...])"</code>.
+            </p>
+        </div>
+        <div class="ui segment" suiTabContent="template">
+            <p>Template based modals are intended to be used as 'one off' modals, i.e. modals that cannot be easily reused elsewhere.</p>
+
+            <p>As with component based modals, they're controlled by the <code>SuiModalService</code> which provides the ability to open a modal on the page.</p>
+
+            <p>
+                To open a template based modal, first you must write a template, using <code>let-context</code> and <code>let-modal="modal"</code> to
+                access the context and controls respectively.
+            </p>
+
+            <div class="ui segment">
+                <demo-codeblock language="markup" [src]="templateTemplate"></demo-codeblock>
+            </div>
+
+            <p>Next, get access to your template from your component, and ensure you've loaded the modal service:</p>
+
+            <div class="ui segment">
+                <demo-codeblock language="typescript" [src]="templateComponent"></demo-codeblock>
+            </div>
+
+            <p>The three generic type paramaters of <code>ModalTemplate</code> are:</p>
+
+            <div class="ui ordered list">
+                <div class="item">The type of the modal context (usually just an interface)</div>
+                <div class="item">The <code>approve</code> result type</div>
+                <div class="item">The <code>deny</code> result type</div>
+            </div>
+
+            <p>
+                In this case, the context is an object with a <code>data:string</code> property, and modal
+                passes <code>string</code> values to both <code>approve</code> and <code>deny</code>.
+            </p>
+
+            <p>Lastly, the modal can be opened as follows:</p>
+
+            <div class="ui segment">
+                <demo-codeblock language="typescript" [src]="templateOpen"></demo-codeblock>
+            </div>
+
+            <p>So, all together:</p>
+
+            <example-modal-template></example-modal-template>
+
+        </div>
+        <div class="ui segment" suiTabContent="component">
+            <p>
+                Component based modals are intended to be used as 'reusable' modals, i.e. modals that can easily be repurposed to fit elsewhere.
+                They provide an easy way to generate generic modals for your entire application with minimal effort, for example to easily replace
+                <code>alert</code>, <code>prompt</code> & <code>confirm</code> calls.
+            </p>
+
+            <p>As with template based modals, they're controlled by the <code>SuiModalService</code> which provides the ability to open a modal on the page.</p>
+
+            <p>In this example, you will be run through the process of creating a replacement for <code>confirm</code>.</p>
+
+            <p>
+                The first step is creating a component that acts as the modal content. For this, you need to define the interface for the modal context,
+                as well as including <code>SuiModal</code> in the constructor - which is automatically injected into the component when it is generated
+                and allows access to the <code>approve</code> and <code>deny</code> methods, as well as the aforementioned context.
+            </p>
+
+            <div class="ui segment">
+                <demo-codeblock language="typescript" [src]="componentComponent"></demo-codeblock>
+            </div>
+
+            <p>
+                Now the content component is set up, you must add it to <code>entryComponents</code> in the <code>NgModule</code> it's declared in,
+                as otherwise Angular won't let you use it.
+            </p>
+
+            <p>Next, define a helper class that automatically configures all new modals of this type:</p>
+
+            <div class="ui segment">
+                <demo-codeblock language="typescript" [src]="componentHelper"></demo-codeblock>
+            </div>
+
+            <p>Lastly, to then use this new type of modal, do the following:</p>
+
+            <div class="ui segment">
+                <demo-codeblock language="typescript" [src]="componentOpen"></demo-codeblock>
+            </div>
+
+            <p>So, all together:</p>
+
+            <example-modal-component></example-modal-component>
+        </div>
+    </sui-tabset>
+
+    <h2 id="api" class="ui dividing header">API</h2>
+    <demo-api [api]="api"></demo-api>
+</demo-page-content>

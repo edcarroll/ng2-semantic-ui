@@ -1,29 +1,38 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
+import { RouterModule } from "@angular/router";
 import { SuiModule } from "../../../../src";
 import { DemoComponentsModule } from "../components/demo-components.module";
 
 import { GettingStartedPage } from "./getting-started/getting-started.page";
-import { TestPage } from "./test/test.page";
 
-import { AccordionPageComponents } from "./accordion/accordion.page";
-import { CheckboxPageComponents } from "./checkbox/checkbox.page";
-import { CollapsePageComponents } from "./collapse/collapse.page";
-import { DimmerPageComponents } from "./dimmer/dimmer.page";
-import { DropdownPageComponents } from "./dropdown/dropdown.page";
-import { MessagePageComponents } from "./message/message.page";
-import { ModalPageComponents, ConfirmModalComponent } from "./modal/modal.page";
-import { PaginationPageComponents } from "./pagination/pagination.page";
-import { PopupPageComponents } from "./popup/popup.page";
-import { ProgressPageComponents } from "./progress/progress.page";
-import { RatingPageComponents } from "./rating/rating.page";
-import { SearchPageComponents } from "./search/search.page";
-import { SelectPageComponents } from "./select/select.page";
-import { SidebarPageComponents } from "./sidebar/sidebar.page";
-import { TabsPageComponents } from "./tabs/tabs.page";
-import { TransitionPageComponents } from "./transition/transition.page";
-import { RouterModule } from "@angular/router";
+// Collections
+import { MessagePageComponents } from "./collections/message/message.page";
+import { PaginationPageComponents } from "./collections/pagination/pagination.page";
+
+// Modules
+import { AccordionPageComponents } from "./modules/accordion/accordion.page";
+import { CheckboxPageComponents } from "./modules/checkbox/checkbox.page";
+import { CollapsePageComponents } from "./modules/collapse/collapse.page";
+import { DatepickerPageComponents } from "./modules/datepicker/datepicker.page";
+import { DimmerPageComponents } from "./modules/dimmer/dimmer.page";
+import { DropdownPageComponents } from "./modules/dropdown/dropdown.page";
+import { ModalPageComponents, ConfirmModalComponent } from "./modules/modal/modal.page";
+import { PopupPageComponents } from "./modules/popup/popup.page";
+import { ProgressPageComponents } from "./modules/progress/progress.page";
+import { RatingPageComponents } from "./modules/rating/rating.page";
+import { SearchPageComponents } from "./modules/search/search.page";
+import { SelectPageComponents } from "./modules/select/select.page";
+import { SidebarPageComponents } from "./modules/sidebar/sidebar.page";
+import { TabsPageComponents } from "./modules/tabs/tabs.page";
+import { TransitionPageComponents } from "./modules/transition/transition.page";
+
+// Behaviors
+import { LocalizationPageComponents } from "./behaviors/localization/localization.page";
+
+// Development
+import { TestPage } from "./development/test/test.page";
 
 @NgModule({
     imports: [
@@ -35,16 +44,19 @@ import { RouterModule } from "@angular/router";
     ],
     declarations: [
         GettingStartedPage,
-        TestPage,
 
+        // Collections
+        MessagePageComponents,
+        PaginationPageComponents,
+
+        // Modules
         AccordionPageComponents,
         CheckboxPageComponents,
         CollapsePageComponents,
+        DatepickerPageComponents,
         DimmerPageComponents,
         DropdownPageComponents,
-        MessagePageComponents,
         ModalPageComponents,
-        PaginationPageComponents,
         PopupPageComponents,
         ProgressPageComponents,
         RatingPageComponents,
@@ -52,7 +64,13 @@ import { RouterModule } from "@angular/router";
         SelectPageComponents,
         SidebarPageComponents,
         TabsPageComponents,
-        TransitionPageComponents
+        TransitionPageComponents,
+
+        // Behaviors
+        LocalizationPageComponents,
+
+        // Development
+        TestPage
     ],
     exports: [],
     entryComponents: [

@@ -41,6 +41,7 @@
       ["property", "static", "camel"],
       ["property", "private", "camel", "require-leading-underscore"],
       ["property", "protected", "camel", "require-leading-underscore"],
+      ["property", "camel"],
       ["method", "camel"],
       ["function", "camel"]
     ],
@@ -128,6 +129,7 @@
       "ignore-template-strings"
     ],
     "no-unused-expression": true,
+    "no-unused-variable": false,
     "no-use-before-declare": false,
     "no-var-keyword": true,
     "no-var-requires": true,
