@@ -1,5 +1,5 @@
 import { Util } from "../../../misc/util";
-import { LookupFn, LookupFnResult } from "../helpers/lookup-fn";
+import { LookupFn, LookupFnResult, FilterFn } from "../helpers/lookup-fn";
 
 interface ICachedArray<T> { [query:string]:T[]; }
 
@@ -10,6 +10,8 @@ export class SearchService<T, U> {
     private _optionsLookup?:LookupFn<T, U>;
     // Field that options are searched & displayed on.
     private _optionsField?:string;
+    // Filters a list of options.
+    public optionsFilter:FilterFn<T>;
 
     public get options():T[] {
         return this._options;
@@ -77,6 +79,23 @@ export class SearchService<T, U> {
 
     constructor(allowEmptyQuery:boolean = false) {
         this._options = [];
+        this.optionsFilter = (os, q) => {
+            // Convert the query string to a RegExp.
+            const regex = this.toRegex(this._query);
+
+            if (regex instanceof RegExp) {
+                // Only update the results if the query was valid regex.
+                // This avoids the results suddenly becoming empty if an invalid regex string is inputted.
+                return os
+                    // Filter on the options with a string match on the field we are testing.
+                    .filter(o => Util.Object.readValue<T, string>(o, this._optionsField)
+                        .toString()
+                        .match(regex));
+            }
+
+            // Don't update since it wasn't a valid regex.
+            return false;
+        };
 
         // Set default values and reset.
         this.allowEmptyQuery = allowEmptyQuery;
@@ -142,19 +161,10 @@ export class SearchService<T, U> {
             return;
         }
 
-            // Convert the query string to a RegExp.
-        const regex = this.toRegex(this._query);
-
-        if (regex instanceof RegExp) {
-                // Only update the results if the query was valid regex.
-                // This avoids the results suddenly becoming empty if an invalid regex string is inputted.
-            this.updateResults(this._options
-                // Filter on the options with a string match on the field we are testing.
-                .filter(o => Util.Object.readValue<T, string>(o, this._optionsField)
-                    .toString()
-                    .match(regex)));
+        const filtered = this.optionsFilter(this._options, this._query);
+        if (filtered) {
+            this.updateResults(filtered);
         }
-
         return callback();
     }
 

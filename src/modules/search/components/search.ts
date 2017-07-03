@@ -6,7 +6,7 @@ import { Util, ITemplateRefContext } from "../../../misc/util";
 import { DropdownService, SuiDropdownMenu } from "../../dropdown";
 import { ISearchLocaleValues, RecursivePartial, SuiLocalizationService } from "../../../behaviors/localization";
 import { SearchService } from "../services/search.service";
-import { LookupFn } from "../helpers/lookup-fn";
+import { LookupFn, FilterFn } from "../helpers/lookup-fn";
 
 export interface IResultContext<T> extends ITemplateRefContext<T> {
     query:string;
@@ -106,17 +106,26 @@ export class SuiSearch<T> implements AfterViewInit {
     }
 
     @Input()
-    public set options(options:T[]) {
-        this.searchService.options = options;
+    public set options(options:T[] | undefined) {
+        if (options) {
+            this.searchService.options = options;
+        }
     }
 
     @Input()
-    public set optionsLookup(lookupFn:LookupFn<T>) {
+    public set optionsFilter(filter:FilterFn<T> | undefined) {
+        if (filter) {
+            this.searchService.optionsFilter = filter;
+        }
+    }
+
+    @Input()
+    public set optionsLookup(lookupFn:LookupFn<T> | undefined) {
         this.searchService.optionsLookup = lookupFn;
     }
 
     @Input()
-    public set optionsField(field:string) {
+    public set optionsField(field:string | undefined) {
         this.searchService.optionsField = field;
     }
 

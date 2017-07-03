@@ -64,6 +64,13 @@ export class SearchPage {
                                  "Cannot be used in conjunction with <code>optionsLookup</code>."
                 },
                 {
+                    name: "optionsFilter",
+                    type: "(options:T[], query:string) => T[] | false",
+                    description: "A function to filter the provided options with a custom function. " +
+                                 "Return <code>false</code> to keep the current options. " +
+                                 "Cannot be used in conjunction with <code>optionsLookup</code>."
+                },
+                {
                     name: "optionsLookup",
                     type: "(query:string) => T[] | Promise<T[]>",
                     description: "A function to transform the provided query string into the array of results. " +
