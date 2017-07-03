@@ -39,7 +39,7 @@
         <div result>
             <example-popup-placement class="ui cards" [position]="position"></example-popup-placement>
             <br>
-            <sui-select [(ngModel)]="position" [options]="placements" [isSearchable]="true" #placementSelect>
+            <sui-select class="selection" [(ngModel)]="position" [options]="placements" [isSearchable]="true" #placementSelect>
                 <sui-select-option *ngFor="let p of placementSelect.availableOptions" [value]="p"></sui-select-option>
             </sui-select>
         </div>

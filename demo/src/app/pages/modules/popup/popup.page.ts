@@ -127,7 +127,7 @@ export class PopupPage {
         "right bottom"
     ];
 
-    public position:string = "right bottom";
+    public position:string = "bottom right";
 
     public manualPopupMarkup:string = `
 <div class="ui segment" suiPopup popupText="Manual" popupTrigger="manual" #popup="suiPopup">

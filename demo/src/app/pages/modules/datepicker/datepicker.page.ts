@@ -17,7 +17,7 @@ const exampleStandardTemplate = `
     </div>
     <div class="field">
         <label>Datepicker Mode</label>
-        <sui-select [(ngModel)]="mode" [options]="datepickerModes" #modes>
+        <sui-select class="selection" [(ngModel)]="mode" [options]="datepickerModes" #modes>
             <sui-select-option *ngFor="let m of modes.availableOptions" [value]="m"></sui-select-option>
         </sui-select>
     </div>
