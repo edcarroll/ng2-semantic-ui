@@ -31,7 +31,6 @@ const exampleMaxSizeTemplate = `
         <sui-pagination [collectionSize]="100"
                         [pageSize]="10"
                         [maxSize]="maxSize"
-                        [hasBoundaryLinks]="boundary"
                         [hasEllipses]="ellipses"
                         [(page)]="selectedPage">
         </sui-pagination>

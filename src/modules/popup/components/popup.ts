@@ -13,7 +13,7 @@ import { PopupConfig } from "../classes/popup-config";
      [attr.direction]="direction"
      #container>
 
-    <ng-container *ngIf="!config.template && !config.component">
+    <ng-container *ngIf="!config.template && (config.header || config.text)">
         <div class="header" *ngIf="config.header">{{ config.header }}</div>
         <div class="content">{{ config.text }}</div>
     </ng-container>

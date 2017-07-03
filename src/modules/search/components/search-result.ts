@@ -5,6 +5,9 @@ import {
 import { ITemplateRefContext, SuiComponentFactory } from "../../../misc/util";
 import { IResultContext } from "./search";
 
+// See https://github.com/Microsoft/TypeScript/issues/13449.
+const templateRef = TemplateRef;
+
 @Component({
     selector: "sui-search-result",
     template: `

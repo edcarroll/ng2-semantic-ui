@@ -84,6 +84,7 @@
     "rollup-plugin-commonjs": "~7.0.0",
     "rollup-plugin-node-resolve": "~2.0.0",
     "rollup-plugin-uglify": "~1.0.1",
+    "ts-helpers": "^1.1.2",
     "ts-node": "~2.0.0",
     "tslint": "^5.0.0",
     "tslint-eslint-rules": "^4.1.1",

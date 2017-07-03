@@ -1,3 +1,5 @@
+import "ts-helpers";
+
 export * from "./behaviors";
 export * from "./collections";
 export * from "./modules";

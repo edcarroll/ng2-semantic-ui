@@ -6,6 +6,7 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "strictNullChecks": true,
+        "noEmitHelpers": true,
         "noEmitOnError": true,
         "noImplicitAny": true,
         "module": "es2015",

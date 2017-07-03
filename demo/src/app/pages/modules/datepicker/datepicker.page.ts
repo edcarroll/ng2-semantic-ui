@@ -183,6 +183,7 @@ export class DatepickerExampleStandard {
 
     public datepickerModes:string[] = ["datetime", "date", "time", "month", "year"];
     public mode:DatepickerMode = DatepickerMode.Datetime;
+    public date:Date;
 }
 
 @Component({
