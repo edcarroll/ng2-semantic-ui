@@ -15,10 +15,21 @@
         <div result>
             <p>Full keyboard navigation is supported.</p>
             <example-select-standard></example-select-standard>
-            <br>
-            <p>Note: You must use <code>filteredOptions</code> to display the select options in order to support searching.</p>
         </div>
     </demo-example>
+
+    <sui-message class="info" [isDismissable]="false">
+        <div class="header">Important Note</div>
+        <p>
+            The select component is unusual in the fact that it requires you to manually provide the options within.
+            This is so that you can customise the menu, adding headers and dividers etc. as in Semantic UI.
+        </p>
+        <p>
+            However, it means that in order to always display the correct options, you <strong>must</strong> bind your <code>*ngFor</code>
+            to the <code>filteredOptions</code> property on the select. This is shown in each of the examples.
+        </p>
+    </sui-message>
+    <br>
 
     <demo-example [code]="exampleVariationsTemplate">
         <div info>
