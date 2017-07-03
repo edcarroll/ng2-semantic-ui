@@ -240,9 +240,13 @@ export class SuiSearch<T> implements AfterViewInit {
         }
     }
 
-    @HostListener("focusout")
-    private onFocusOut():void {
-        this.dropdownService.setOpenState(false);
+    @HostListener("focusout", ["$event"])
+    private onFocusOut(e:FocusEvent):void {
+        setTimeout(() => {
+            if (!this._element.nativeElement.contains(document.activeElement)) {
+                this.dropdownService.setOpenState(false);
+            }
+        });
     }
 
     @HostListener("document:click", ["$event"])

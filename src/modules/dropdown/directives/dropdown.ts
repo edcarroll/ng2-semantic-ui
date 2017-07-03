@@ -54,9 +54,21 @@ export class SuiDropdown implements AfterContentInit {
         this.service.setDisabledState(value);
     }
 
+    @Input("tabindex")
+    private _tabIndex?:number;
+
     @HostBinding("attr.tabindex")
     public get tabIndex():number | undefined {
-        return (this.isDisabled || this.service.isNested) ? undefined : 0;
+        if (this.isDisabled || this.service.isNested) {
+            // If disabled, remove from tabindex.
+            return undefined;
+        }
+        if (this._tabIndex != undefined) {
+            // If custom tabindex, default to that.
+            return this._tabIndex;
+        }
+        // Otherwise, return default of 0.
+        return 0;
     }
 
     @Input()
@@ -104,14 +116,13 @@ export class SuiDropdown implements AfterContentInit {
         }
     }
 
-    @HostListener("mousedown", ["$event"])
-    public onMouseDown(e:MouseEvent):void {
-        e.preventDefault();
-    }
-
-    @HostListener("focusout")
-    private onFocusOut():void {
-        this.externallyClose();
+    @HostListener("focusout", ["$event"])
+    private onFocusOut(e:FocusEvent):void {
+        setTimeout(() => {
+            if (!this._element.nativeElement.contains(document.activeElement)) {
+                this.externallyClose();
+            }
+        });
     }
 
     @HostListener("keypress", ["$event"])
@@ -124,13 +135,6 @@ export class SuiDropdown implements AfterContentInit {
 
                 this.service.setOpenState(true);
             }
-        }
-    }
-
-    @HostListener("document:click", ["$event"])
-    public onDocumentClick(e:MouseEvent):void {
-        if (!this._element.nativeElement.contains(e.target) && this.isOpen && !this.service.isAnimating) {
-            this.externallyClose();
         }
     }
 

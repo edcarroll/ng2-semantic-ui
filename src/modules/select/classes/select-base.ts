@@ -55,6 +55,11 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         return this.isSearchable && !this.isSearchExternal;
     }
 
+    @HostBinding("class.loading")
+    public get isSearching():boolean {
+        return this.searchService.isSearching;
+    }
+
     @ViewChild(SuiSelectSearch)
     private _internalSearch?:SuiSelectSearch;
 
@@ -65,10 +70,29 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         return this._manualSearch || this._internalSearch;
     }
 
+    @Input("tabindex")
+    private _tabIndex?:number;
+
     @HostBinding("attr.tabindex")
     public get tabIndex():number {
-        // Remove from tabindex if searchable or disabled, as if searchable then the input is what needs to be focussed.
-        return (this.isSearchable || this.isDisabled) ? -1 : 0;
+        if (this.isDisabled) {
+            // If disabled, remove from tabindex.
+            return -1;
+        }
+        if (this.dropdownService.isOpen && this.isSearchExternal) {
+            // If open & in menu search, remove from tabindex (as input always autofocusses).
+            return -1;
+        }
+        if (this._tabIndex != undefined) {
+            // If custom tabindex, default to that.
+            return this._tabIndex;
+        }
+        if (this._searchClass) {
+            // If search input enabled, tab goes to input.
+            return -1;
+        }
+        // Otherwise, return default of 0.
+        return 0;
     }
 
     @HostBinding("class.disabled")
@@ -297,13 +321,12 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         if (!e.eventHandled) {
             e.eventHandled = true;
 
-            this.dropdownService.setOpenState(!this.dropdownService.isOpen);
-        }
-    }
+            if (!this.dropdownService.isAnimating) {
+                this.dropdownService.setOpenState(!this.dropdownService.isOpen);
 
-    @HostListener("mousedown", ["$event"])
-    public onMouseDown(e:MouseEvent):void {
-        // e.preventDefault();
+                this.focus();
+            }
+        }
     }
 
     @HostListener("click", ["$event"])
@@ -321,16 +344,20 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
 
     @HostListener("focusin")
     private onFocusIn():void {
-        if (!this.dropdownService.isAnimating) {
+        if (!this.dropdownService.isOpen && !this.dropdownService.isAnimating) {
             this.dropdownService.setOpenState(true);
+
+            this.focus();
         }
     }
 
     @HostListener("focusout", ["$event"])
     private onFocusOut(e:FocusEvent):void {
-        if (!this._element.nativeElement.contains(e.target)) {
-            this.dropdownService.setOpenState(false);
-        }
+        setTimeout(() => {
+            if (!this._element.nativeElement.contains(document.activeElement)) {
+                this.dropdownService.setOpenState(false);
+            }
+        });
     }
 
     @HostListener("keypress", ["$event"])
@@ -339,13 +366,6 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
             // Enables support for focussing and opening with the keyboard alone.
             // Using directly because Renderer2 doesn't have invokeElementMethod method anymore.
             this._element.nativeElement.click();
-        }
-    }
-
-    @HostListener("document:click", ["$event"])
-    public onDocumentClick(e:MouseEvent):void {
-        if (!this._element.nativeElement.contains(e.target)) {
-            this.dropdownService.setOpenState(false);
         }
     }
 
