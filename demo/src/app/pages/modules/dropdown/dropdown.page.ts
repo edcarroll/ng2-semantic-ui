@@ -1,6 +1,50 @@
 import { Component } from "@angular/core";
 import { ApiDefinition } from "../../../components/api/api.component";
 
+const exampleFileMenuTemplate = `
+<div class="ui dropdown" suiDropdown>
+    <div class="text">File</div>
+    <i class="dropdown icon"></i>
+    <div class="menu" suiDropdownMenu>
+        <div class="item">New</div>
+        <div class="item">
+            <span class="description">ctrl + o</span>
+            Open...
+        </div>
+        <div class="item">
+            <span class="description">ctrl + s</span>
+            Save as...
+        </div>
+        <div class="item">
+            <span class="description">ctrl + r</span>
+            Rename
+        </div>
+        <div class="item">Make a copy</div>
+        <div class="item">
+            <i class="folder icon"></i>
+            Move to folder
+        </div>
+        <div class="item">
+            <i class="trash icon"></i>
+            Move to trash
+        </div>
+        <div class="divider"></div>
+        <div class="item">Download As...</div>
+        <div class="item" suiDropdown>
+            <i class="dropdown icon"></i>
+            Publish To Web
+            <div class="menu" suiDropdownMenu>
+                <div class="item">Google Docs</div>
+                <div class="item">Google Drive</div>
+                <div class="item">Dropbox</div>
+                <div class="item">Another Service...</div>
+            </div>
+        </div>
+        <div class="item">E-mail Collaborators</div>
+    </div>
+</div>
+`;
+
 const exampleStandardTemplate = `
 <p>You can use the keyboard to navigate the dropdown.</p>
 <div class="ui primary dropdown button" suiDropdown [(isOpen)]="isOpen" [isDisabled]="isDisabled">
@@ -52,6 +96,43 @@ const exampleStyledTemplate = `
             <div class="item">Item 2</div>
         </div>
     </div>
+</div>
+`;
+
+const exampleMenuTemplate = `
+<div class="ui menu">
+    <a class="item">Home</a>
+    <div class="ui pointing dropdown link item" suiDropdown>
+        <span class="text">Shopping</span>
+        <i class="dropdown icon"></i>
+        <div class="menu" suiDropdownMenu>
+            <div class="header">Categories</div>
+            <div class="item" suiDropdown>
+                <i class="dropdown icon"></i>
+                <span class="text">Clothing</span>
+                <div class="menu" suiDropdownMenu>
+                    <div class="header">Mens</div>
+                    <div class="item">Shirts</div>
+                    <div class="item">Pants</div>
+                    <div class="item">Jeans</div>
+                    <div class="item">Shoes</div>
+                    <div class="divider"></div>
+                    <div class="header">Womens</div>
+                    <div class="item">Dresses</div>
+                    <div class="item">Shoes</div>
+                    <div class="item">Bags</div>
+                </div>
+            </div>
+            <div class="item">Home Goods</div>
+            <div class="item">Bedroom</div>
+            <div class="divider"></div>
+            <div class="header">Order</div>
+            <div class="item">Status</div>
+            <div class="item">Cancellations</div>
+        </div>
+    </div>
+    <a class="item">Forums</a>
+    <a class="item">Contact Us</a>
 </div>
 `;
 
@@ -116,9 +197,18 @@ export class DropdownPage {
             ]
         }
     ];
+
+    public exampleFileMenuTemplate:string = exampleFileMenuTemplate;
     public exampleStandardTemplate:string = exampleStandardTemplate;
     public exampleStyledTemplate:string = exampleStyledTemplate;
+    public exampleMenuTemplate:string = exampleMenuTemplate;
 }
+
+@Component({
+    selector: "example-dropdown-file-menu",
+    template: exampleFileMenuTemplate
+})
+export class DropdownExampleFileMenu {}
 
 @Component({
     selector: "example-dropdown-standard",
@@ -135,4 +225,17 @@ export class DropdownExampleStandard {
 })
 export class DropdownExampleStyled {}
 
-export const DropdownPageComponents = [DropdownPage, DropdownExampleStandard, DropdownExampleStyled];
+@Component({
+    selector: "example-dropdown-menu",
+    template: exampleMenuTemplate
+})
+export class DropdownExampleMenu {}
+
+export const DropdownPageComponents = [
+    DropdownPage,
+
+    DropdownExampleFileMenu,
+    DropdownExampleStandard,
+    DropdownExampleStyled,
+    DropdownExampleMenu
+];

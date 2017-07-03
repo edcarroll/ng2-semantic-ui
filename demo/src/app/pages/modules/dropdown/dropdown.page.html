@@ -1,15 +1,23 @@
 <demo-page-title>
     <div header>Dropdown</div>
     <div sub-header>
-        <p>A dropdown allows a user to select an option from a series of options</p>
+        <p>A dropdown provides expandable menus navigable by the user</p>
     </div>
 </demo-page-title>
 <demo-page-content>
     <h2 class="ui dividing header">Examples</h2>
-    <demo-example [code]="exampleStandardTemplate">
+
+    <demo-example [code]="exampleFileMenuTemplate">
         <div info>
             <h4 class="ui header">Dropdown</h4>
             <p>A dropdown</p>
+        </div>
+        <example-dropdown-file-menu result></example-dropdown-file-menu>
+    </demo-example>
+    <demo-example [code]="exampleStandardTemplate">
+        <div info>
+            <h4 class="ui header">Controls</h4>
+            <p>Various properties can be used to control the dropdowns</p>
         </div>
         <example-dropdown-standard result></example-dropdown-standard>
     </demo-example>
@@ -19,6 +27,13 @@
             <p>Various styles can be applied to the dropdowns</p>
         </div>
         <example-dropdown-styled result></example-dropdown-styled>
+    </demo-example>
+    <demo-example [code]="exampleMenuTemplate">
+        <div info>
+            <h4 class="ui header">Versatility</h4>
+            <p>Dropdowns can be easily applied to any elements</p>
+        </div>
+        <example-dropdown-menu result></example-dropdown-menu>
     </demo-example>
 
     <sui-message class="info" [isDismissable]="false">
