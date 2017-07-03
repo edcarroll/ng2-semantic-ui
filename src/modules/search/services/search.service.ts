@@ -168,8 +168,11 @@ export class SearchService<T, U> {
         this._results = results;
     }
 
+    // tslint:disable-next-line:promise-function-async
     public initialLookup(initial:U):LookupFnResult<T>;
+    // tslint:disable-next-line:promise-function-async
     public initialLookup(initial:U[]):LookupFnResult<T[]>;
+    // tslint:disable-next-line:promise-function-async
     public initialLookup(initial:U | U[]):LookupFnResult<T> | LookupFnResult<T[]> {
         if (initial instanceof Array) {
             return (this._optionsLookup as LookupFn<T, U[]>)(undefined, initial) as LookupFnResult<T[]>;
