@@ -60,6 +60,16 @@ const supportedLanguages:ISupportedLanguage[] = [
         code: "es"
     },
     {
+        name: "Italian",
+        children: [
+            {
+                name: "IT",
+                code: "it-IT",
+                default: true
+            }
+        ]
+    },
+    {
         name: "Portuguese",
         code: "pt"
     },
