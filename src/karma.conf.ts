@@ -11,6 +11,7 @@ module.exports = (config:any) => {
       require('karma-jasmine'),
       require('karma-phantomjs-launcher'),
       require('karma-chrome-launcher'),
+      require('karma-min-reporter'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage-istanbul-reporter'),
       require('@angular/cli/plugins/karma')
@@ -21,7 +22,7 @@ module.exports = (config:any) => {
     angularCli: {
       environment: 'dev'
     },
-    reporters: ['progress'],
+    reporters: ['min'],
     coverageIstanbulReporter: {
       reports: [ 'html', 'text-summary' ],
       fixWebpackSourcePaths: true
