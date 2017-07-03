@@ -161,7 +161,7 @@ export class SearchService<T, U> {
             return;
         }
 
-        const filtered = this.optionsFilter(this._options, this._query);
+        const filtered = this.optionsFilter.call(undefined, this._options, this._query);
         if (filtered) {
             this.updateResults(filtered);
         }

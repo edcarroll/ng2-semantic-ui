@@ -4,7 +4,7 @@ import {
 } from "@angular/core";
 import { Subscription } from "rxjs/Subscription";
 import { DropdownService, SuiDropdownMenu } from "../../dropdown";
-import { SearchService, LookupFn } from "../../search";
+import { SearchService, LookupFn, FilterFn } from "../../search";
 import { Util, ITemplateRefContext, HandledEvent, KeyCode } from "../../../misc/util";
 import { ISelectLocaleValues, RecursivePartial, SuiLocalizationService } from "../../../behaviors/localization";
 import { SuiSelectOption, ISelectRenderedOption } from "../components/select-option";
@@ -79,17 +79,30 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     }
 
     @Input()
-    public set options(options:T[]) {
-        this.searchService.options = options;
+    public set options(options:T[] | undefined) {
+        if (options) {
+            this.searchService.options = options;
 
-        this.optionsUpdateHook();
+            this.optionsUpdateHook();
+        }
     }
 
     @Input()
-    public set optionsLookup(options:LookupFn<T, U>) {
-        this.searchService.optionsLookup = options;
+    public set optionsFilter(filter:FilterFn<T> | undefined) {
+        if (filter) {
+            this.searchService.optionsFilter = filter;
 
-        this.optionsUpdateHook();
+            this.optionsUpdateHook();
+        }
+    }
+
+    @Input()
+    public set optionsLookup(lookup:LookupFn<T, U> | undefined) {
+        if (lookup) {
+            this.searchService.optionsLookup = lookup;
+
+            this.optionsUpdateHook();
+        }
     }
 
     public get availableOptions():T[] {
