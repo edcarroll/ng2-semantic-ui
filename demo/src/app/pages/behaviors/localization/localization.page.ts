@@ -6,7 +6,8 @@ const exampleTemplate = `
 <div class="ui segments">
     <div class="ui segment">
         <p>Language</p>
-        <sui-select [(ngModel)]="language"
+        <sui-select class="selection"
+                    [(ngModel)]="language"
                     [options]="languages"
                     labelField="name"
                     valueField="code"
@@ -24,7 +25,7 @@ const exampleTemplate = `
         </div>
     </div>
     <div class="ui segment">
-        <sui-select class="fluid">
+        <sui-select class="fluid selection">
             <sui-select-option value="Option 1"></sui-select-option>
             <sui-select-option value="Option 2"></sui-select-option>
             <sui-select-option value="Option 3"></sui-select-option>
