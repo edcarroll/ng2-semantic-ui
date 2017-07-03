@@ -14,13 +14,9 @@ import { SuiSelectBase } from "../classes/select-base";
                         [template]="optionTemplate"
                         (deselected)="deselectOption($event)"></sui-multi-select-label>
 <!-- Query input -->
-<input [hidden]="!isSearchable"
-       class="search"
+<input suiSelectSearch
        type="text"
-       autocomplete="off"
-       [(ngModel)]="query"
-       (keydown)="onQueryInputKeydown($event)"
-       #queryInput>
+       [hidden]="!isSearchable || isSearchExternal">
 
 <!-- Placeholder text -->
 <div class="default text" [class.filtered]="!!query">{{ placeholder }}</div>
@@ -122,10 +118,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
         this.selectedOptions.push(option);
         this.selectedOptionsChange.emit(this.selectedOptions.map(o => this.valueGetter(o)));
 
-        // The search delay is set to the transition duration to ensure results
-        // aren't rendered as the select closes as that causes a sudden flash.
-        this.searchService.searchDelay = this._menu.menuTransitionDuration;
-        this.searchService.updateQuery("");
+        this.resetQuery();
 
         // Automatically refocus the search input for better keyboard accessibility.
         this.focus();

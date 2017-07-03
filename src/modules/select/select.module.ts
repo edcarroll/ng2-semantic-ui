@@ -4,6 +4,7 @@ import { FormsModule } from "@angular/forms";
 import { SuiDropdownModule } from "../dropdown";
 import { SuiSelect, SuiSelectValueAccessor } from "./components/select";
 import { SuiSelectOption } from "./components/select-option";
+import { SuiSelectSearch } from "./directives/select-search";
 import { SuiMultiSelect, SuiMultiSelectValueAccessor } from "./components/multi-select";
 import { SuiMultiSelectLabel } from "./components/multi-select-label";
 
@@ -16,6 +17,7 @@ import { SuiMultiSelectLabel } from "./components/multi-select-label";
     declarations: [
         SuiSelect,
         SuiSelectOption,
+        SuiSelectSearch,
         SuiSelectValueAccessor,
         SuiMultiSelect,
         SuiMultiSelectLabel,
@@ -24,6 +26,7 @@ import { SuiMultiSelectLabel } from "./components/multi-select-label";
     exports: [
         SuiSelect,
         SuiSelectOption,
+        SuiSelectSearch,
         SuiSelectValueAccessor,
         SuiMultiSelect,
         SuiMultiSelectValueAccessor

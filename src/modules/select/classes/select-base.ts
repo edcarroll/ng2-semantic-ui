@@ -1,13 +1,14 @@
 import {
     ViewChild, HostBinding, ElementRef, HostListener, Input, ContentChildren, QueryList,
-    AfterContentInit, TemplateRef, ViewContainerRef
+    AfterContentInit, TemplateRef, ViewContainerRef, ContentChild
 } from "@angular/core";
+import { Subscription } from "rxjs/Subscription";
 import { DropdownService, SuiDropdownMenu } from "../../dropdown";
 import { SearchService, LookupFn } from "../../search";
 import { Util, ITemplateRefContext, HandledEvent, KeyCode } from "../../../misc/util";
 import { ISelectLocaleValues, RecursivePartial, SuiLocalizationService } from "../../../behaviors/localization";
 import { SuiSelectOption, ISelectRenderedOption } from "../components/select-option";
-import { Subscription } from "rxjs/Subscription";
+import { SuiSelectSearch } from "../directives/select-search";
 
 export interface IOptionContext<T> extends ITemplateRefContext<T> {
     query?:string;
@@ -31,7 +32,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
 
     // Sets the Semantic UI classes on the host element.
     @HostBinding("class.ui")
-    // @HostBinding("class.selection")
+    @HostBinding("class.selection")
     @HostBinding("class.dropdown")
     private _selectClasses:boolean;
 
@@ -49,6 +50,18 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     @Input()
     public isSearchable:boolean;
 
+    public isSearchExternal:boolean;
+
+    @ViewChild(SuiSelectSearch)
+    private _internalSearch?:SuiSelectSearch;
+
+    @ContentChild(SuiSelectSearch)
+    private _manualSearch?:SuiSelectSearch;
+
+    public get searchInput():SuiSelectSearch | undefined {
+        return this._manualSearch || this._internalSearch;
+    }
+
     @HostBinding("attr.tabindex")
     public get tabIndex():number {
         // Remove from tabindex if searchable or disabled, as if searchable then the input is what needs to be focussed.
@@ -64,9 +77,6 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     public set isDisabled(value:boolean) {
         this.dropdownService.isDisabled = !!value;
     }
-
-    @ViewChild("queryInput")
-    private _queryInput:ElementRef;
 
     @Input()
     public set options(options:T[]) {
@@ -94,6 +104,10 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         if (query != undefined) {
             this.queryUpdateHook();
             this.updateQuery(query);
+
+            if (this.searchInput) {
+                this.searchInput.query = query;
+            }
         }
     }
 
@@ -174,6 +188,16 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         // We manually specify the menu items to the menu because the @ContentChildren doesn't pick up our dynamically rendered items.
         this._menu.items = this._renderedOptions;
 
+        if (this._manualSearch) {
+            this.isSearchable = true;
+            this.isSearchExternal = true;
+        }
+
+        if (this.searchInput) {
+            this.searchInput.onQueryUpdated.subscribe((q:string) => this.query = q);
+            this.searchInput.onQueryKeyDown.subscribe((e:KeyboardEvent) => this.onQueryInputKeydown(e));
+        }
+
         // We must call this immediately as changes doesn't fire when you subscribe.
         this.onAvailableOptionsRendered();
         this._renderedOptions.changes.subscribe(() => this.onAvailableOptionsRendered());
@@ -193,6 +217,17 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         // Update the query then open the dropdown, as after keyboard input it should always be open.
         this.searchService.updateQuery(query, () =>
             this.dropdownService.setOpenState(true));
+    }
+
+    protected resetQuery():void {
+        // The search delay is set to the transition duration to ensure results
+        // aren't rendered as the select closes as that causes a sudden flash.
+        this.searchService.searchDelay = this._menu.menuTransitionDuration;
+        this.searchService.updateQueryDelayed("");
+
+        if (this.searchInput) {
+            this.searchInput.query = "";
+        }
     }
 
     protected onAvailableOptionsRendered():void {
@@ -297,11 +332,13 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         }
     }
 
+    public onQueryInputKeydown(event:KeyboardEvent):void {}
+
     protected focus():void {
-        if (this.isSearchable) {
+        if (this.isSearchable && this.searchInput) {
             // Focusses the search input only when searchable.
             // Using directly because Renderer2 doesn't have invokeElementMethod method anymore.
-            this._queryInput.nativeElement.focus();
+            this.searchInput.focus();
         } else {
             this._element.nativeElement.focus();
         }

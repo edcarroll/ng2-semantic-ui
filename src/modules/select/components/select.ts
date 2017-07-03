@@ -4,18 +4,13 @@ import { SuiLocalizationService } from "../../../behaviors/localization";
 import { SuiSelectBase } from "../classes/select-base";
 import { ISelectRenderedOption } from "./select-option";
 
-export type SingleItemLookup<T, U> = (query:string, initial?:U) => Promise<T>;
-
 @Component({
     selector: "sui-select",
     template: `
 <!-- Query input -->
-<input [hidden]="!isSearchable"
-       class="search"
+<input suiSelectSearch
        type="text"
-       autocomplete="off"
-       [(ngModel)]="query"
-       #queryInput>
+       [hidden]="!isSearchable || isSearchExternal">
 
 <!-- Placeholder text -->
 <div *ngIf="!selectedOption" class="default text" [class.filtered]="!!query">{{ placeholder }}</div>
@@ -91,10 +86,7 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValue
 
         this.dropdownService.setOpenState(false);
 
-        // The search delay is set to the transition duration to ensure results
-        // aren't rendered as the select closes as that causes a sudden flash.
-        this.searchService.searchDelay = this._menu.menuTransitionDuration;
-        this.searchService.updateQueryDelayed("");
+        this.resetQuery();
 
         this.drawSelectedOption();
 
