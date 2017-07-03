@@ -149,6 +149,8 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         if (query != undefined) {
             this.queryUpdateHook();
             this.updateQuery(query);
+            // Update the rendered text as query has changed.
+            this._renderedOptions.forEach(ro => ro.formatter = this.configuredFormatter);
 
             if (this.searchInput) {
                 this.searchInput.query = query;
@@ -189,7 +191,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         } else if (this.searchService.optionsLookup) {
             return r => this.labelGetter(r);
         } else {
-            return r => this.labelGetter(r);
+            return r => this.searchService.highlightMatches(this.labelGetter(r), this.query);
         }
     }
 

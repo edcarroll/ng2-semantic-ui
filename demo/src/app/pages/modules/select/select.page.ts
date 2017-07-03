@@ -75,6 +75,7 @@ const exampleVariationsTemplate = `
                     icon="filter"
                     [options]="filters"
                     [isSearchable]="true"
+                    placeholder="Select Filter"
                     #filterSelect>
             <div class="header">
                 <i class="tags icon"></i>
@@ -87,7 +88,12 @@ const exampleVariationsTemplate = `
 `;
 
 const exampleInMenuSearchTemplate = `
-<sui-multi-select [options]="options" labelField="name" icon="list" #select>
+<sui-multi-select [(ngModel)]="selected"
+                  [options]="options"
+                  labelField="name"
+                  [maxSelected]="5"
+                  icon="list"
+                  #select>
     <div class="ui icon search input">
         <i class="search icon"></i>
         <input suiSelectSearch type="text" placeholder="Search options...">
@@ -103,55 +109,52 @@ const exampleInMenuSearchTemplate = `
 </sui-multi-select>
 `;
 
+const exampleTemplateTemplate = `
+<div class="ui segments">
+    <div class="ui segment">
+        <ng-template let-option #optionTemplate>
+            <i class="child icon"></i>{{ option.name }}
+        </ng-template>
+        <p><strong>Template</strong></p>
+        <p>Note: You must still provide a <code>labelField</code> to support searching.</p>
+        <sui-select class="selection"
+                    [(ngModel)]="selectedOption"
+                    [options]="options"
+                    labelField="name"
+                    [optionTemplate]="optionTemplate"
+                    [isSearchable]="true"
+                    #templated>
+            <sui-select-option *ngFor="let o of templated.filteredOptions" [value]="o"></sui-select-option>
+        </sui-select>
+    </div>
+    <div class="ui segment">
+        <p><strong>Formatter</strong></p>
+        <sui-select class="selection"
+                    [(ngModel)]="selectedOption"
+                    [options]="options"
+                    [optionFormatter]="formatter"
+                    #formatted>
+            <sui-select-option *ngFor="let o of formatted.filteredOptions" [value]="o"></sui-select-option>
+        </sui-select>
+    </div>
+    <div class="ui segment">
+        <p>Selected: {{ selectedOption | json }}</p>
+    </div>
+</div>
+`;
+
 const exampleSearchLookupTemplate = `
-<p>You can also use the keyboard to navigate.</p>
-<sui-select [(ngModel)]="selectedOption"
+<sui-select class="selection"
+            [(ngModel)]="selectedOption"
             [optionsLookup]="optionsLookup"
             labelField="name"
             valueField="id"
             [isSearchable]="true"
             #searchSelect>
-    <sui-select-option *ngFor="let option of searchSelect.availableOptions" [value]="option"></sui-select-option>
+    <sui-select-option *ngFor="let o of searchSelect.filteredOptions" [value]="o"></sui-select-option>
 </sui-select>
 <div class="ui segment">
     <p>Currently selected: {{ selectedOption | json }}</p>
-</div>
-`;
-
-const exampleTemplateSearchTemplate = `
-<ng-template let-option #optionTemplate>
-    <i class="child icon"></i>{{ option.name }}
-</ng-template>
-<div class="ui form">
-    <div class="field">
-        <sui-select [(ngModel)]="selectedOption"
-                    [options]="options"
-                    labelField="name"
-                    [optionTemplate]="optionTemplate"
-                    [isSearchable]="true"
-                    #select>
-            <div class="header">
-                <i class="users icon"></i>
-                Custom Menu Markup!
-                </div>
-                <div class="divider"></div>
-            <sui-select-option *ngFor="let option of select.availableOptions" [value]="option"></sui-select-option>
-        </sui-select>
-    </div>
-    <div class="field">
-        <sui-multi-select class="fluid"
-                          [(ngModel)]="selectedOptions"
-                          [options]="options"
-                          valueField="name"
-                          [optionTemplate]="optionTemplate"
-                          #multiSelect>
-            <sui-select-option *ngFor="let option of multiSelect.availableOptions" [value]="option"></sui-select-option>
-        </sui-multi-select>
-    </div>
-</div>
-<div class="ui segment">
-    <p>Singly selected: {{ selectedOption | json }}</p>
-    <p>Multi selected: {{ selectedOptions | json }}</p>
 </div>
 `;
 
@@ -185,9 +188,9 @@ export class SelectPage {
                 },
                 {
                     name: "optionsLookup",
-                    type: "(query:string) => T[] | Promise<T[]>",
-                    description: "A function to transform the provided query string into the array of results. " +
-                                 "Can either return a <code>Promise</code> (for async lookups) or an <code>Array</code>. " +
+                    type: "(query:string, initial?:U) => Promise<T[]>",
+                    description: "A function to asynchronously transform the provided query string into the array of options. " +
+                                 "Must return a <code>Promise</code>. " +
                                  "This must be defined as an arrow function in your class."
                 },
                 {
@@ -228,7 +231,7 @@ export class SelectPage {
                 {
                     name: "ngModel",
                     type: "T",
-                    description: "Bind the selected item to the value of the provided variable."
+                    description: "Bind the selected option to the value of the provided variable."
                 },
                 {
                     name: "icon",
@@ -258,12 +261,12 @@ export class SelectPage {
                 {
                     name: "selectedOptionChange",
                     type: "T",
-                    description: "Fires whenever the selected item is changed. The selected item is passed as <code>$event</code>."
+                    description: "Fires whenever the selected option is changed. The selected option is passed as <code>$event</code>."
                 },
                 {
                     name: "ngModelChange",
                     type: "T",
-                    description: "Fires whenever the selected item is changed. <code>[(ngModel)]</code> syntax is supported."
+                    description: "Fires whenever the selected option is changed. <code>[(ngModel)]</code> syntax is supported."
                 }
             ]
         },
@@ -291,9 +294,9 @@ export class SelectPage {
                 },
                 {
                     name: "optionsLookup",
-                    type: "(query:string) => T[] | Promise<T[]>",
-                    description: "A function to transform the provided query string into the array of results. " +
-                                 "Can either return a <code>Promise</code> (for async lookups) or an <code>Array</code>. " +
+                    type: "(query:string, initial?:U) => Promise<T[]>",
+                    description: "A function to asynchronously transform the provided query string into the array of options. " +
+                                 "Must return a <code>Promise</code>. " +
                                  "This must be defined as an arrow function in your class."
                 },
                 {
@@ -339,7 +342,7 @@ export class SelectPage {
                 {
                     name: "ngModel",
                     type: "T[]",
-                    description: "Bind the selected items to the value of the provided variable."
+                    description: "Bind the selected options to the value of the provided variable."
                 },
                 {
                     name: "icon",
@@ -369,12 +372,12 @@ export class SelectPage {
                 {
                     name: "selectedOptionsChange",
                     type: "T[]",
-                    description: "Fires whenever the selected items are changed. The selected items are passed as <code>$event</code>."
+                    description: "Fires whenever the selected options are changed. The selected options are passed as <code>$event</code>."
                 },
                 {
                     name: "ngModelChange",
                     type: "T[]",
-                    description: "Fires whenever the selected items are changed. <code>[(ngModel)]</code> syntax is supported."
+                    description: "Fires whenever the selected options are changed. <code>[(ngModel)]</code> syntax is supported."
                 }
             ]
         },
@@ -396,29 +399,31 @@ export class SelectPage {
     public exampleStandardTemplate:string = exampleStandardTemplate;
     public exampleVariationsTemplate:string = exampleVariationsTemplate;
     public exampleInMenuSearchTemplate:string = exampleInMenuSearchTemplate;
+    public exampleTemplateTemplate:string = exampleTemplateTemplate;
+    public formatterCode:string = `
+public formatter(option:IOption, query?:string):string {
+    return \`name: "\${option.name}"\`;
+}
+`;
     public exampleSearchLookupTemplate:string = exampleSearchLookupTemplate;
     public searchLookupCode:string = `
-// The 2nd argument's type is that of the property specified by 'valueField'.
-let selectLookup = (query:string, initial:number) => {
-    if (initial != undefined) {
-        // Return a promise that resolves with the specified item.
-        return externalApi.findById(initial);
-    }
-    // Return a promise that resolves with a list of query results.
-    return externalApi.query(query);
-};
+type LookupFn<T, U> = (query:string, initial?:U) => Promise<T> | Promise<T[]>
 
-// For a multi select lookup, the lookup is slightly different:
-let multiSelectLookup = (query:string, initials:number[]) => {
+// Example option interface:
+interface IOption {
+    id:number; // valueField is 'id' so \`U\` is \`number\`
+    name:string
+}
+
+// Lookup function structure:
+let lookupFn:LookupFn<IOption, number> = (query, initial?) => {
     if (initial != undefined) {
-        // Return a promise that resolves with the specified items.
-        return externalApi.findByIds(initials);
+        // Return a promise that resolves with the specified initial item.
     }
     // Return a promise that resolves with a list of query results.
-    return externalApi.query(query);
-};
+}
 `;
-    public exampleTemplateSearchTemplate:string = exampleTemplateSearchTemplate;
+
 }
 
 interface IOption {
@@ -458,6 +463,20 @@ export class SelectExampleVariations {
 })
 export class SelectExampleInMenuSearch {
     public options:IOption[] = namedOptions;
+    public selected:IOption[] = [namedOptions[0], namedOptions[5]];
+}
+
+@Component({
+    selector: "example-select-template",
+    template: exampleTemplateTemplate
+})
+export class SelectExampleTemplate {
+    public options:IOption[] = namedOptions;
+    public selectedOption:IOption = this.options[5];
+
+    public formatter(option:IOption, query?:string):string {
+        return `name: '${option.name}'`;
+    }
 }
 
 @Component({
@@ -469,26 +488,20 @@ export class SelectExampleLookupSearch {
     public selectedOption:number = this._options[3]["id"];
 
     public optionsLookup = async (query:string, initial:number) => {
-        if (initial !== undefined) {
+        if (initial != undefined) {
             return new Promise<IOption>(resolve =>
-                resolve(this._options.find(item => item.id === initial)));
+                setTimeout(() => resolve(this._options.find(item => item.id === initial)), 500));
         }
 
-        const regex:RegExp = new RegExp(query, "i");
+        let regex:RegExp | string;
+        try {
+            regex = new RegExp(query, "i");
+        } catch (e) {
+            regex = query;
+        }
         return new Promise<IOption[]>(resolve =>
-            resolve(this._options.filter(item => item.name.match(regex))));
+            setTimeout(() => resolve(this._options.filter(item => item.name.match(regex))), 500));
     }
-
-}
-
-@Component({
-    selector: "example-select-template-search",
-    template: exampleTemplateSearchTemplate
-})
-export class SelectExampleTemplateSearch {
-    public options:IOption[] = namedOptions;
-    public selectedOption:IOption = this.options[5];
-    public selectedOptions:IOption[];
 }
 
 export const SelectPageComponents = [
@@ -497,6 +510,6 @@ export const SelectPageComponents = [
     SelectExampleStandard,
     SelectExampleVariations,
     SelectExampleInMenuSearch,
-    SelectExampleLookupSearch,
-    SelectExampleTemplateSearch
+    SelectExampleTemplate,
+    SelectExampleLookupSearch
 ];

@@ -72,9 +72,9 @@ export class SearchPage {
                 },
                 {
                     name: "optionsLookup",
-                    type: "(query:string) => T[] | Promise<T[]>",
-                    description: "A function to transform the provided query string into the array of results. " +
-                                 "Can either return a <code>Promise</code> (for async lookups) or an <code>Array</code>. " +
+                    type: "(query:string) => Promise<T[]>",
+                    description: "A function to asynchronously transform the provided query string into the array of results. " +
+                                 "Must return a <code>Promise</code>. " +
                                  "This must be defined as an arrow function in your class."
                 },
                 {

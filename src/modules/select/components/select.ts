@@ -99,31 +99,24 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValue
             if (this.searchService.options.length > 0) {
                 // If the options have already been loaded, we can immediately match the ngModel value to an option.
                 this.selectedOption = this.findOption(this.searchService.options, value);
+
+                this.drawSelectedOption();
             }
             if (!this.selectedOption) {
                 if (this.valueField && this.searchService.hasItemLookup) {
                     // If the search service has a selected lookup function, make use of that to load the initial value.
-                    const lookupFinished = (i:T) => {
-                        this.selectedOption = i;
-                        this.drawSelectedOption();
-                    };
-
-                    const itemLookup = this.searchService.initialLookup(value);
-                    if (itemLookup instanceof Promise) {
-                        itemLookup
-                            .then(r => lookupFinished(r));
-                    } else {
-                        lookupFinished(itemLookup);
-                    }
-                    return;
+                    this.searchService
+                        .initialLookup(value)
+                        .then(i => {
+                            this.selectedOption = i;
+                            this.drawSelectedOption();
+                        });
                 } else {
                     // Otherwise, cache the written value for when options are set.
                     this._writtenOption = value;
                 }
             }
         }
-
-        this.drawSelectedOption();
     }
 
     protected initialiseRenderedOption(option:ISelectRenderedOption<T>):void {

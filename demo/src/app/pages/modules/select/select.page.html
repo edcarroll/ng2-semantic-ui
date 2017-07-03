@@ -6,17 +6,20 @@
 </demo-page-title>
 <demo-page-content>
     <h2 class="ui dividing header">Examples</h2>
+
     <demo-example [code]="exampleStandardTemplate">
         <div info>
             <h4 class="ui header">Selection</h4>
             <p>A select can be used to select between choices in a form</p>
         </div>
         <div result>
+            <p>Full keyboard navigation is supported.</p>
             <example-select-standard></example-select-standard>
             <br>
             <p>Note: You must use <code>filteredOptions</code> to display the select options in order to support searching.</p>
         </div>
     </demo-example>
+
     <demo-example [code]="exampleVariationsTemplate">
         <div info>
             <h4 class="ui header">Variations</h4>
@@ -24,6 +27,7 @@
         </div>
         <example-select-variations result></example-select-variations>
     </demo-example>
+
     <demo-example [code]="exampleInMenuSearchTemplate">
         <div info>
             <h4 class="ui header">Search In-Menu</h4>
@@ -34,28 +38,41 @@
         </div>
     </demo-example>
 
-
-
-    <demo-example [code]="exampleTemplateSearchTemplate">
+    <demo-example [code]="exampleTemplateTemplate">
         <div info>
-            <h4 class="ui header">Templates</h4>
-            <p>You can use a custom template for options</p>
+            <h4 class="ui header">Templates & Formatters</h4>
+            <p>You can use a custom template or formatter for displaying each option</p>
         </div>
-        <example-select-template-search result></example-select-template-search>
+        <div result>
+            <example-select-template></example-select-template>
+            <br>
+            <p>This is the formatter used in the above example:</p>
+            <div class="ui segment">
+                <demo-codeblock language="typescript" [src]="formatterCode"></demo-codeblock>
+            </div>
+        </div>
     </demo-example>
+
     <demo-example [code]="exampleSearchLookupTemplate">
         <div info>
-            <h4 class="ui header">Search Selection Lookup (Advanced)</h4>
-            <p>A select can allow a user to search through a list of choices from API</p>
+            <h4 class="ui header">Remote Lookup</h4>
+            <p>A select can allow a user to search through a list of choices from an API</p>
         </div>
         <div result>
             <example-select-search-lookup></example-select-search-lookup>
             <br>
-            <p>Setting the <code>[options]</code> property to a function that takes a query and returns a Promise allows remote lookups.</p>
-            <p>When using the <code>valueField</code> property in conjunction with <code>ngModel</code>, the lookup function must take a 2nd parameter string parameter, as shown below:</p>
+            <p>Remote lookups are facilitied by a lookup function of type <code>LookupFn&lt;T, U&gt;</code>.</p>
+            <p>
+                <code>T</code> is the type of each option, and <code>U</code> is the type of the property specified
+                by <code>valueField</code> (default is <code>T</code> if no <code>valueField</code> specified).
+            </p>
             <div class="ui segment">
                 <demo-codeblock language="typescript" [src]="searchLookupCode"></demo-codeblock>
             </div>
+            <p>
+                For multi selects, the <code>initial</code> argument is of type <code>U[]</code>,
+                and the lookup function always returns a <code>Promise&lt;T&gt;</code>.
+            </p>
         </div>
     </demo-example>
 

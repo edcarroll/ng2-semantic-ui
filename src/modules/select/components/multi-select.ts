@@ -141,15 +141,9 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
             if (values.length > 0 && this.selectedOptions.length === 0) {
                 if (this.valueField && this.searchService.hasItemLookup) {
                     // If the search service has a selected lookup function, make use of that to load the initial values.
-                    const lookupFinished = (items:T[]) => this.selectedOptions = items;
-
-                    const itemsLookup = this.searchService.initialLookup(values);
-                    if (itemsLookup instanceof Promise) {
-                        itemsLookup
-                            .then(r => lookupFinished(r));
-                    } else {
-                        lookupFinished(itemsLookup);
-                    }
+                    this.searchService
+                        .initialLookup(values)
+                        .then(items => this.selectedOptions = items);
                 } else {
                     // Otherwise, cache the written value for when options are set.
                     this._writtenOptions = values;

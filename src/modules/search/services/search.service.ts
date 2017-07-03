@@ -136,27 +136,21 @@ export class SearchService<T, U> {
         if (this._optionsLookup) {
             this._isSearching = true;
 
-            const lookupFinished = (results:T[]) => {
-                this._isSearching = false;
-
-                this.updateResults(results);
-                return callback();
-            };
-
             // Call the options lookup without a this context.
             const queryLookup = this._optionsLookup.call(undefined, this._query) as LookupFnResult<T[]>;
 
-            if (queryLookup instanceof Promise) {
-                queryLookup
-                    .then(results => lookupFinished(results))
-                    .catch(error => {
-                        // Unset 'loading' state, and throw the returned error without updating the results.
-                        this._isSearching = false;
-                        return callback(error);
-                    });
-            } else {
-                lookupFinished(queryLookup);
-            }
+            queryLookup
+                .then(results => {
+                    this._isSearching = false;
+
+                    this.updateResults(results);
+                    return callback();
+                })
+                .catch(error => {
+                    // Unset 'loading' state, and throw the returned error without updating the results.
+                    this._isSearching = false;
+                    return callback(error);
+                });
 
             return;
         }
