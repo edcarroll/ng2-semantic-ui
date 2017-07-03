@@ -6,6 +6,9 @@ import { SuiTransition, TransitionController, Transition, TransitionDirection } 
 import { HandledEvent, SuiComponentFactory } from "../../../misc/util";
 import { IOptionContext } from "../classes/select-base";
 
+// See https://github.com/Microsoft/TypeScript/issues/13449.
+const templateRef = TemplateRef;
+
 @Component({
     selector: "sui-multi-select-label",
     template: `
