@@ -201,6 +201,12 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
             this._renderer.setStyle(element, "margin-top", `-${element.clientHeight / 2}px`);
             this.updateScroll();
         });
+
+        // Focus any element with [autofocus] attribute.
+        const autoFocus = element.querySelector("[autofocus]") as HTMLElement | null;
+        if (autoFocus) {
+            autoFocus.focus();
+        }
     }
 
     // Updates the modal with the specified configuration.
