@@ -1,4 +1,4 @@
-import { RecursivePartial, ILocaleValues } from "./interfaces/values";
+import { RecursivePartial, ILocaleValues } from "../interfaces/values";
 
 import de from "./de";
 import enGB from "./en-GB";
