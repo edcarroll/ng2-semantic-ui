@@ -1,7 +1,7 @@
 
 import { ILocaleValues } from "../interfaces/values";
 
-const itIT:ILocaleValues = {
+const it:ILocaleValues = {
     datepicker: {
         months: [
             "Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"
@@ -46,4 +46,4 @@ const itIT:ILocaleValues = {
     }
 };
 
-export default itIT;
+export default it;
