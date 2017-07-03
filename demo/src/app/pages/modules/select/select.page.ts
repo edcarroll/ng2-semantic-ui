@@ -123,10 +123,23 @@ export class SelectPage {
                 },
                 {
                     name: "options",
-                    type: "T[] | LookupFn<T>",
-                    description: "Sets the options available to the select component. Can either " +
-                                 "be an array, or a function that takes a query and returns either a " +
-                                 "<code>Promise</code> (for remote lookups) or an array (for custom local searches)."
+                    type: "T[]",
+                    description: "Sets the options available to the select component. " +
+                                 "Cannot be used in conjunction with <code>optionsLookup</code>."
+                },
+                {
+                    name: "optionsFilter",
+                    type: "(options:T[], query:string) => T[] | false",
+                    description: "A function to filter the provided options with a custom function. " +
+                                 "Return <code>false</code> to keep the current options. " +
+                                 "Cannot be used in conjunction with <code>optionsLookup</code>."
+                },
+                {
+                    name: "optionsLookup",
+                    type: "(query:string) => T[] | Promise<T[]>",
+                    description: "A function to transform the provided query string into the array of results. " +
+                                 "Can either return a <code>Promise</code> (for async lookups) or an <code>Array</code>. " +
+                                 "This must be defined as an arrow function in your class."
                 },
                 {
                     name: "labelField",
@@ -149,14 +162,19 @@ export class SelectPage {
                 {
                     name: "isSearchable",
                     type: "boolean",
-                    description: "Sets whether the select is searchable. If set to <code>true</code> the " +
-                                 "<code>options</code> property must be used.",
+                    description: "Sets whether the multi select is searchable.",
                     defaultValue: "false"
                 },
                 {
+                    name: "optionFormatter",
+                    type: "(result:T, query?:string) => string",
+                    description: "A function to format a given result and query (if searchable) into a string to be displayed. " +
+                                 "HTML markup is supported."
+                },
+                {
                     name: "optionTemplate",
-                    type: "TemplateRef",
-                    description: "Sets the template to use when displaying options."
+                    type: "TemplateRef<IOptionContext>",
+                    description: "Sets the template to use when displaying an option."
                 },
                 {
                     name: "ngModel",
@@ -205,11 +223,23 @@ export class SelectPage {
                 },
                 {
                     name: "options",
-                    type: "T[] | LookupFn<T>",
-                    description: "Sets the options available to the select component. Can either " +
-                                 "be an array, or a function that takes a query and returns either a " +
-                                 "<code>Promise</code> (for remote lookups) or an array (for custom local searches).",
-                    required: true
+                    type: "T[]",
+                    description: "Sets the options available to the multi select component. " +
+                                 "Cannot be used in conjunction with <code>optionsLookup</code>."
+                },
+                {
+                    name: "optionsFilter",
+                    type: "(options:T[], query:string) => T[] | false",
+                    description: "A function to filter the provided options with a custom function. " +
+                                 "Return <code>false</code> to keep the current options. " +
+                                 "Cannot be used in conjunction with <code>optionsLookup</code>."
+                },
+                {
+                    name: "optionsLookup",
+                    type: "(query:string) => T[] | Promise<T[]>",
+                    description: "A function to transform the provided query string into the array of results. " +
+                                 "Can either return a <code>Promise</code> (for async lookups) or an <code>Array</code>. " +
+                                 "This must be defined as an arrow function in your class."
                 },
                 {
                     name: "labelField",
@@ -232,8 +262,7 @@ export class SelectPage {
                 {
                     name: "isSearchable",
                     type: "boolean",
-                    description: "Sets whether the multi select is searchable. If set to <code>true</code> the " +
-                                 "<code>options</code> property must be used.",
+                    description: "Sets whether the multi select is searchable.",
                     defaultValue: "false"
                 },
                 {
@@ -242,9 +271,15 @@ export class SelectPage {
                     description: "Sets the maximum number of values that can be selected at any one time."
                 },
                 {
+                    name: "optionFormatter",
+                    type: "(result:T, query?:string) => string",
+                    description: "A function to format a given result and query (if searchable) into a string to be displayed. " +
+                                 "HTML markup is supported."
+                },
+                {
                     name: "optionTemplate",
-                    type: "TemplateRef",
-                    description: "Sets the template to use when displaying options."
+                    type: "TemplateRef<IOptionContext>",
+                    description: "Sets the template to use when displaying an option."
                 },
                 {
                     name: "ngModel",

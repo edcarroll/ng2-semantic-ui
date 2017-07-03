@@ -92,7 +92,7 @@ export class SearchPage {
                 {
                     name: "resultTemplate",
                     type: "TemplateRef<IResultContext>",
-                    description: "Sets the template to use when displaying results."
+                    description: "Sets the template to use when displaying a result."
                 },
                 {
                     name: "searchDelay",

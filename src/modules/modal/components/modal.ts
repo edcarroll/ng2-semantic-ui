@@ -2,20 +2,10 @@ import {
     Component, Input, OnInit, ViewChild, ElementRef, Renderer2,
     EventEmitter, Output, HostListener, ViewContainerRef, AfterViewInit
 } from "@angular/core";
-import { Util, IDynamicClasses, KeyCode } from "../../../misc/util";
+import { Util, IDynamicClasses, KeyCode, SuiComponentFactory } from "../../../misc/util";
 import { TransitionController, Transition, TransitionDirection } from "../../transition";
 import { ModalControls, ModalResult } from "../classes/modal-controls";
 import { ModalConfig, ModalSize } from "../classes/modal-config";
-
-if (!("remove" in Element.prototype)) {
-    Element.prototype.remove = function():void {
-        // tslint:disable-next-line:no-invalid-this
-        const node = this;
-        if (node.parentNode) {
-            node.parentNode.removeChild(node);
-        }
-    };
-}
 
 @Component({
     selector: "sui-modal",
@@ -169,7 +159,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
         return classes;
     }
 
-    constructor(private _renderer:Renderer2, private _element:ElementRef) {
+    constructor(private _renderer:Renderer2, private _element:ElementRef, private _componentFactory:SuiComponentFactory) {
         // Initialise with default configuration from `ModalConfig` (to avoid writing defaults twice).
         const config = new ModalConfig<undefined, T, U>();
         this.loadConfig(config);
@@ -200,7 +190,11 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
         // Move the modal to the document body to ensure correct scrolling.
         document.querySelector("body")!.appendChild(this._element.nativeElement);
         // Remove the #templateSibling element from the DOM to fix bottom border styles.
-        this.templateSibling.element.nativeElement.remove();
+        const templateElement = this.templateSibling.element.nativeElement as Element;
+        if (templateElement.parentNode) {
+            templateElement.parentNode.removeChild(templateElement);
+        }
+
         // Update margin offset to center modal correctly on-screen.
         const element = this._modalElement.nativeElement as Element;
         setTimeout(() => {
