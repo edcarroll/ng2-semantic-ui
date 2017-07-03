@@ -36,6 +36,7 @@ export class SuiSelectSearch {
     }
 
     public focus():void {
-        this._element.nativeElement.focus();
+        // Slightly delay to support in menu search.
+        setTimeout(() => this._element.nativeElement.focus());
     }
 }

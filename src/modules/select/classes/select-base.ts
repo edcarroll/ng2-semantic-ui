@@ -32,7 +32,6 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
 
     // Sets the Semantic UI classes on the host element.
     @HostBinding("class.ui")
-    @HostBinding("class.selection")
     @HostBinding("class.dropdown")
     private _selectClasses:boolean;
 
@@ -46,11 +45,15 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         return this._menu.isVisible;
     }
 
-    @HostBinding("class.search")
     @Input()
     public isSearchable:boolean;
 
     public isSearchExternal:boolean;
+
+    @HostBinding("class.search")
+    private get _searchClass():boolean {
+        return this.isSearchable && !this.isSearchExternal;
+    }
 
     @ViewChild(SuiSelectSearch)
     private _internalSearch?:SuiSelectSearch;
@@ -105,13 +108,13 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         }
     }
 
-    // Deprecated
-    public get availableOptions():T[] {
+    public get filteredOptions():T[] {
         return this.searchService.results;
     }
 
-    public get filteredOptions():T[] {
-        return this.searchService.results;
+    // Deprecated
+    public get availableOptions():T[] {
+        return this.filteredOptions;
     }
 
     public get query():string | undefined {
@@ -162,7 +165,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         } else if (this.searchService.optionsLookup) {
             return r => this.labelGetter(r);
         } else {
-            return r => this.searchService.highlightMatches(this.labelGetter(r), this.query || "");
+            return r => this.labelGetter(r);
         }
     }
 
@@ -177,6 +180,9 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     public get localeValues():ISelectLocaleValues {
         return this._localizationService.override<"select">(this._localeValues, this.localeOverrides);
     }
+
+    @Input()
+    public icon:string;
 
     @Input()
     public transition:string;
@@ -195,6 +201,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         this._localizationService.onLanguageUpdate.subscribe(() => this.onLocaleUpdate());
         this._renderedSubscriptions = [];
 
+        this.icon = "dropdown";
         this.transition = "slide down";
         this.transitionDuration = 200;
 
@@ -237,11 +244,15 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
             this.dropdownService.setOpenState(true));
     }
 
-    protected resetQuery():void {
+    protected resetQuery(delayed:boolean = true):void {
         // The search delay is set to the transition duration to ensure results
         // aren't rendered as the select closes as that causes a sudden flash.
-        this.searchService.searchDelay = this._menu.menuTransitionDuration;
-        this.searchService.updateQueryDelayed("");
+        if (delayed) {
+            this.searchService.searchDelay = this._menu.menuTransitionDuration;
+            this.searchService.updateQueryDelayed("");
+        } else {
+            this.searchService.updateQuery("");
+        }
 
         if (this.searchInput) {
             this.searchInput.query = "";
@@ -261,7 +272,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         });
 
         // If no options have been provided, autogenerate them from the rendered ones.
-        if (!this.searchService.options && !this.searchService.optionsLookup) {
+        if (this.searchService.options.length === 0 && !this.searchService.optionsLookup) {
             this.options = this._renderedOptions.map(ro => ro.value);
         }
     }
@@ -292,7 +303,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
 
     @HostListener("mousedown", ["$event"])
     public onMouseDown(e:MouseEvent):void {
-        e.preventDefault();
+        // e.preventDefault();
     }
 
     @HostListener("click", ["$event"])
@@ -315,9 +326,11 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         }
     }
 
-    @HostListener("focusout")
-    private onFocusOut():void {
-        this.dropdownService.setOpenState(false);
+    @HostListener("focusout", ["$event"])
+    private onFocusOut(e:FocusEvent):void {
+        if (!this._element.nativeElement.contains(e.target)) {
+            this.dropdownService.setOpenState(false);
+        }
     }
 
     @HostListener("keypress", ["$event"])

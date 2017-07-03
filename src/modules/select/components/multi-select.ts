@@ -6,6 +6,9 @@ import { SuiSelectBase } from "../classes/select-base";
 @Component({
     selector: "sui-multi-select",
     template: `
+<!-- Dropdown icon -->
+<i class="{{ icon }} icon" (click)="onCaretClick($event)"></i>
+
 <!-- Multi-select labels -->
 <sui-multi-select-label *ngFor="let selected of selectedOptions;"
                         [value]="selected"
@@ -19,9 +22,7 @@ import { SuiSelectBase } from "../classes/select-base";
        [hidden]="!isSearchable || isSearchExternal">
 
 <!-- Placeholder text -->
-<div class="default text" [class.filtered]="!!query">{{ placeholder }}</div>
-<!-- Dropdown icon -->
-<i class="dropdown icon" (click)="onCaretClick($event)"></i>
+<div class="default text" [class.filtered]="!!query && !isSearchExternal">{{ placeholder }}</div>
 <!-- Select dropdown menu -->
 <div class="menu"
      suiDropdownMenu
@@ -50,7 +51,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
     @Output()
     public selectedOptionsChange:EventEmitter<U[]>;
 
-    public get availableOptions():T[] {
+    public get filteredOptions():T[] {
         if (this.maxSelectedReached) {
             // If we have reached the maximum number of selections, then empty the results completely.
             return [];
@@ -58,6 +59,10 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
         // Returns the search results \ selected options.
         return this.searchService.results
             .filter(r => !this.selectedOptions.find(o => r === o));
+    }
+
+    public get availableOptions():T[] {
+        return this.filteredOptions;
     }
 
     private _placeholder:string;
@@ -118,7 +123,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
         this.selectedOptions.push(option);
         this.selectedOptionsChange.emit(this.selectedOptions.map(o => this.valueGetter(o)));
 
-        this.resetQuery();
+        this.resetQuery(false);
 
         // Automatically refocus the search input for better keyboard accessibility.
         this.focus();

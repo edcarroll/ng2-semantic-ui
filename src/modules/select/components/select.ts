@@ -20,7 +20,7 @@ import { ISelectRenderedOption } from "./select-option";
     <span *ngIf="!optionTemplate && selectedOption" [innerHTML]="configuredFormatter(selectedOption)"></span>
 </div>
 <!-- Dropdown icon -->
-<i class="dropdown icon" (click)="onCaretClick($event)"></i>
+<i class="{{ icon }} icon" (click)="onCaretClick($event)"></i>
 <!-- Select dropdown menu -->
 <div class="menu"
      suiDropdownMenu

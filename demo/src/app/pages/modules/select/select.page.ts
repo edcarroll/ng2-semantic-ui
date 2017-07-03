@@ -2,33 +2,105 @@ import { Component } from "@angular/core";
 import { ApiDefinition } from "../../../components/api/api.component";
 
 const exampleStandardTemplate = `
-<sui-select [(ngModel)]="selectedGender" placeholder="Gender">
-    <sui-select-option value="Male"></sui-select-option>
-    <sui-select-option value="Female"></sui-select-option>
-</sui-select>
-<div class="ui segment">
-    <p>Currently selected: {{ selectedGender | json }}</p>
+<div class="ui segments">
+    <div class="ui segment">
+        <p>Single Select (with <code>selection</code> class applied)</p>
+        <sui-select class="selection"
+                    [(ngModel)]="selectedOption"
+                    [options]="options"
+                    labelField="name"
+                    [isSearchable]="searchable"
+                    [isDisabled]="disabled"
+                    #select>
+            <sui-select-option *ngFor="let option of select.filteredOptions"
+                               [value]="option">
+            </sui-select-option>
+        </sui-select>
+    </div>
+    <div class="ui segment">
+        <p>Multi Select (with <code>selection</code> class applied)</p>
+        <sui-multi-select class="selection"
+                          [(ngModel)]="selectedOptions"
+                          [options]="options"
+                          labelField="name"
+                          [isSearchable]="searchable"
+                          [isDisabled]="disabled"
+                          #multiSelect>
+            <sui-select-option *ngFor="let option of multiSelect.filteredOptions"
+                               [value]="option">
+            </sui-select-option>
+        </sui-multi-select>
+    </div>
+    <div class="ui segment">
+        <sui-checkbox [(ngModel)]="searchable">Searchable?</sui-checkbox>
+        <br>
+        <sui-checkbox [(ngModel)]="disabled">Disabled?</sui-checkbox>
+    </div>
+    <div class="ui segment">
+        <p>Singly selected: {{ selectedOption | json }}</p>
+        <p>Multi selected: {{ selectedOptions | json }}</p>
+    </div>
 </div>
 `;
 
-const exampleOptionsTemplate = `
-<sui-select [(ngModel)]="selectedOption" [options]="options" labelField="name" #select>
-    <sui-select-option *ngFor="let option of select.availableOptions" [value]="option"></sui-select-option>
-</sui-select>
-<div class="ui segment">
-    <p>Currently selected: {{ selectedOption | json }}</p>
-    <button class="ui button" (click)="addOption()">Add Option</button>
+const exampleVariationsTemplate = `
+<div class="ui segments">
+    <div class="ui segment">
+        <p><strong>Basic</strong></p>
+        <sui-select placeholder="Choose">
+            <sui-select-option value="Option 1"></sui-select-option>
+            <sui-select-option value="Option 2"></sui-select-option>
+            <sui-select-option value="Option 3"></sui-select-option>
+            <sui-select-option value="Option 4"></sui-select-option>
+        </sui-select>
+    </div>
+    <div class="ui segment">
+        <p><strong>Inline</strong></p>
+        <h4 class="ui header">
+            <i class="trophy icon"></i>
+            <div class="content">
+                Trending repos
+                <sui-select class="inline" [(ngModel)]="selectedRange">
+                    <div class="header">Adjust time span</div>
+                    <sui-select-option value="today"></sui-select-option>
+                    <sui-select-option value="this week"></sui-select-option>
+                    <sui-select-option value="this month"></sui-select-option>
+                </sui-select>
+            </div>
+        </h4>
+    </div>
+    <div class="ui segment">
+        <p><strong>Button</strong></p>
+        <sui-select class="floating labeled icon button"
+                    icon="filter"
+                    [options]="filters"
+                    [isSearchable]="true"
+                    #filterSelect>
+            <div class="header">
+                <i class="tags icon"></i>
+                Filter by tag
+            </div>
+            <sui-select-option *ngFor="let o of filterSelect.filteredOptions" [value]="o"></sui-select-option>
+        </sui-select>
+    </div>
 </div>
 `;
 
-const exampleSearchTemplate = `
-<p>You can also use the keyboard to navigate.</p>
-<sui-select [(ngModel)]="selectedOption" [options]="options" labelField="name" [isSearchable]="true" #searchSelect>
-    <sui-select-option *ngFor="let option of searchSelect.availableOptions" [value]="option"></sui-select-option>
-</sui-select>
-<div class="ui segment">
-    <p>Currently selected: {{ selectedOption | json }}</p>
-</div>
+const exampleInMenuSearchTemplate = `
+<sui-multi-select [options]="options" labelField="name" icon="list" #select>
+    <div class="ui icon search input">
+        <i class="search icon"></i>
+        <input suiSelectSearch type="text" placeholder="Search options...">
+    </div>
+    <div class="divider"></div>
+    <div class="header">
+        <i class="list icon"></i>
+        Options
+    </div>
+    <div class="scrolling menu">
+        <sui-select-option *ngFor="let o of select.filteredOptions" [value]="o"></sui-select-option>
+    </div>
+</sui-multi-select>
 `;
 
 const exampleSearchLookupTemplate = `
@@ -43,29 +115,6 @@ const exampleSearchLookupTemplate = `
 </sui-select>
 <div class="ui segment">
     <p>Currently selected: {{ selectedOption | json }}</p>
-</div>
-`;
-
-const exampleMultipleTemplate = `
-<sui-multi-select class="fluid" [(ngModel)]="selectedOptions" [options]="options" #multiSelect>
-    <sui-select-option *ngFor="let option of multiSelect.availableOptions" [value]="option"></sui-select-option>
-</sui-multi-select>
-<div class="ui segment">
-    <p>Currently selected: {{ selectedOptions | json }}</p>
-</div>
-`;
-
-const exampleMultipleSearchTemplate = `
-<sui-multi-select class="fluid"
-                  [(ngModel)]="selectedOptions"
-                  [options]="options"
-                  [isSearchable]="true"
-                  [maxSelected]="5"
-                  #searchSelect>
-    <sui-select-option *ngFor="let option of searchSelect.availableOptions" [value]="option"></sui-select-option>
-</sui-multi-select>
-<div class="ui segment">
-    <p>Currently selected: {{ selectedOptions | json }}</p>
 </div>
 `;
 
@@ -182,15 +231,21 @@ export class SelectPage {
                     description: "Bind the selected item to the value of the provided variable."
                 },
                 {
+                    name: "icon",
+                    type: "string",
+                    description: "Sets the icon used in the select.",
+                    defaultValue: "dropdown"
+                },
+                {
                     name: "transition",
                     type: "string",
-                    description: "Sets the transition used when displaying the available options.",
+                    description: "Sets the transition used when displaying the filtered options.",
                     defaultValue: "slide down"
                 },
                 {
                     name: "transitionDuration",
                     type: "number",
-                    description: "Sets the duration for the available options transition.",
+                    description: "Sets the duration for the filtered options transition.",
                     defaultValue: "200"
                 },
                 {
@@ -287,15 +342,21 @@ export class SelectPage {
                     description: "Bind the selected items to the value of the provided variable."
                 },
                 {
+                    name: "icon",
+                    type: "string",
+                    description: "Sets the icon used in the multi select.",
+                    defaultValue: "dropdown"
+                },
+                {
                     name: "transition",
                     type: "string",
-                    description: "Sets the transition used when displaying the available options.",
+                    description: "Sets the transition used when displaying the filtered options.",
                     defaultValue: "slide down"
                 },
                 {
                     name: "transitionDuration",
                     type: "number",
-                    description: "Sets the duration for the available options transition.",
+                    description: "Sets the duration for the filtered options transition.",
                     defaultValue: "200"
                 },
                 {
@@ -333,8 +394,8 @@ export class SelectPage {
         }
     ];
     public exampleStandardTemplate:string = exampleStandardTemplate;
-    public exampleOptionsTemplate:string = exampleOptionsTemplate;
-    public exampleSearchTemplate:string = exampleSearchTemplate;
+    public exampleVariationsTemplate:string = exampleVariationsTemplate;
+    public exampleInMenuSearchTemplate:string = exampleInMenuSearchTemplate;
     public exampleSearchLookupTemplate:string = exampleSearchLookupTemplate;
     public searchLookupCode:string = `
 // The 2nd argument's type is that of the property specified by 'valueField'.
@@ -357,8 +418,6 @@ let multiSelectLookup = (query:string, initials:number[]) => {
     return externalApi.query(query);
 };
 `;
-    public exampleMultipleTemplate:string = exampleMultipleTemplate;
-    public exampleMultipleSearchTemplate:string = exampleMultipleSearchTemplate;
     public exampleTemplateSearchTemplate:string = exampleTemplateSearchTemplate;
 }
 
@@ -367,7 +426,7 @@ interface IOption {
     name:string;
 }
 
-const options = ["Example", "Test", "What", "No", "Benefit", "Oranges", "Artemis", "Another"];
+const options = ["Example", "Test", "What", "No", "Benefit", "Oranges", "Artemis", "Another", "Apples", "Foo", "Bar"];
 const namedOptions:IOption[] = options.map(name => ({ name }));
 const idOptions:IOption[] = namedOptions.map(({ name }, id) => ({ name, id }));
 
@@ -376,30 +435,29 @@ const idOptions:IOption[] = namedOptions.map(({ name }, id) => ({ name, id }));
     template: exampleStandardTemplate
 })
 export class SelectExampleStandard {
-    public selectedGender:string;
-}
-
-@Component({
-    selector: "example-select-options",
-    template: exampleOptionsTemplate
-})
-export class SelectExampleOptions {
     public options:IOption[] = namedOptions;
-    public selectedOption:IOption = this.options[0];
-
-    public addOption():void {
-        this.options.push({ name: "Dynamic Option" });
-    }
-}
-
-@Component({
-    selector: "example-select-search",
-    template: exampleSearchTemplate
-})
-export class SelectExampleSearch {
-    public options:IOption[] = namedOptions;
-
     public selectedOption:IOption;
+    public selectedOptions:IOption[];
+
+    public searchable:boolean = false;
+    public disabled:boolean = false;
+}
+
+@Component({
+    selector: "example-select-variations",
+    template: exampleVariationsTemplate
+})
+export class SelectExampleVariations {
+    public selectedRange:string = "today";
+    public filters:string[] = ["Important", "Announcement", "Discussion"];
+}
+
+@Component({
+    selector: "example-select-in-menu-search",
+    template: exampleInMenuSearchTemplate
+})
+export class SelectExampleInMenuSearch {
+    public options:IOption[] = namedOptions;
 }
 
 @Component({
@@ -424,24 +482,6 @@ export class SelectExampleLookupSearch {
 }
 
 @Component({
-    selector: "example-select-multiple",
-    template: exampleMultipleTemplate
-})
-export class SelectExampleMultiple {
-    public options:string[] = options;
-    public selectedOptions:string[] = ["What", "Oranges"];
-}
-
-@Component({
-    selector: "example-select-multiple-search",
-    template: exampleMultipleSearchTemplate
-})
-export class SelectExampleMultipleSearch {
-    public options:string[] = options;
-    public selectedOptions:string[] = ["What", "Oranges"];
-}
-
-@Component({
     selector: "example-select-template-search",
     template: exampleTemplateSearchTemplate
 })
@@ -455,10 +495,8 @@ export const SelectPageComponents = [
     SelectPage,
 
     SelectExampleStandard,
-    SelectExampleOptions,
-    SelectExampleSearch,
+    SelectExampleVariations,
+    SelectExampleInMenuSearch,
     SelectExampleLookupSearch,
-    SelectExampleMultiple,
-    SelectExampleMultipleSearch,
     SelectExampleTemplateSearch
 ];
