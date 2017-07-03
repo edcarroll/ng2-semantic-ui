@@ -79,7 +79,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     }
 
     @Input()
-    public set options(options:T[] | undefined) {
+    public set options(options:T[]) {
         if (options) {
             this.searchService.options = options;
 
@@ -105,7 +105,12 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         }
     }
 
+    // Deprecated
     public get availableOptions():T[] {
+        return this.searchService.results;
+    }
+
+    public get filteredOptions():T[] {
         return this.searchService.results;
     }
 

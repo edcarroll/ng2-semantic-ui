@@ -327,6 +327,9 @@ export class SelectPage {
                     required: true
                 }
             ]
+        },
+        {
+            selector: "[suiSelectSearch]"
         }
     ];
     public exampleStandardTemplate:string = exampleStandardTemplate;
