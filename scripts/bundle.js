@@ -21,7 +21,7 @@ const defaultPlugins = [
             "node_modules/popper.js/**",
             "node_modules/date-fns/**",
             "node_modules/bowser/src/bowser.js",
-            "node_modules/deep-extend/**"
+            "node_modules/extend/**"
         ]
     })
 ]
