@@ -3,7 +3,7 @@ import { Directive, Host, Input, ElementRef, HostBinding, HostListener } from "@
 import { DateUtil, DatePrecision } from "../../../misc/util";
 import { SuiLocalizationService } from "../../../behaviors/localization";
 import { PopupTrigger } from "../../popup";
-import { SuiDatepickerDirective } from "./datepicker.directive";
+import { SuiDatepickerDirective, SuiDatepickerDirectiveValueAccessor } from "./datepicker.directive";
 import { InternalDateParser, DateParser } from "../classes/date-parser";
 import * as bowser from "bowser";
 
@@ -84,6 +84,7 @@ export class SuiDatepickerInputDirective {
     }
 
     constructor(@Host() public datepicker:SuiDatepickerDirective,
+                @Host() public valueAccessor:SuiDatepickerDirectiveValueAccessor,
                 public element:ElementRef,
                 localizationService:SuiLocalizationService) {
         this.useNativeOnMobile = true;
@@ -122,5 +123,10 @@ export class SuiDatepickerInputDirective {
             return this.datepicker.writeValue(parsed);
         }
         return this.datepicker.writeValue(undefined);
+    }
+
+    @HostListener("focusout")
+    public onFocusOut():void {
+        this.valueAccessor.onTouched();
     }
 }
