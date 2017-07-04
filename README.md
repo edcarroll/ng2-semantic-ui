@@ -15,8 +15,14 @@
   <a href="https://gitter.im/ng2-semantic-ui/Lobby">
     <img alt="Gitter" src="https://img.shields.io/gitter/room/ng2-semantic-ui/Lobby.js.svg?style=flat-square" />
   </a>
+  <a href="https://travis-ci.org/edcarroll/ng2-semantic-ui">
+    <img alt="Travis CI" src="https://img.shields.io/travis/edcarroll/ng2-semantic-ui.svg?style=flat-square" />
+  </a>
   <a href="https://www.npmjs.com/package/ng2-semantic-ui">
     <img alt="npm" src="https://img.shields.io/npm/v/ng2-semantic-ui.svg?style=flat-square" />
+  </a>
+  <a href="https://www.npmjs.com/package/ng2-semantic-ui">
+    <img alt="monthly downloads" src="https://img.shields.io/npm/dm/ng2-semantic-ui.svg?style=flat-square" />
   </a>
 </p>
 
