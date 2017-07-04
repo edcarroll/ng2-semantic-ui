@@ -37,7 +37,7 @@ and help you to craft the change so that it is successfully accepted into the pr
 
 Before you submit an issue, please search the issue tracker, as an issue for your problem may already exist and the discussion might inform you of readily available workarounds.
 
-Ideally all issues are fixed as soon as possible, but before that can be done the bug must be confirmed. This is done by providing a minimal reproduction scenario using [http://plunkr.co](http://plunkr.co). Having a live, reproducible scenario provides a wealth of important information without needing to go back & forth to you with additional queries such as:
+Ideally all issues are fixed as soon as possible, but before that can be done the bug must be confirmed. This is done by providing a minimal reproduction scenario using [http://plunkr.co](http://plunkr.co). You can fork the [ng2-semantic-ui plunkr starter](http://plnkr.co/edit/SJMMMS8wQkwdX1HeMqiH?p=preview) and use it as a starting point. Having a live, reproducible scenario provides a wealth of important information without needing to go back & forth to you with additional queries such as:
 
 * Angular version used
 * ng2-semantic-ui version used
