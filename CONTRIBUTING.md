@@ -54,6 +54,8 @@ Before submitting a Pull Request (PR) consider the following guidelines:
 
 * Search the Github [pull requests](https://github.com/edcarroll/ng2-semantic-ui/pulls) for an open or closed PR relating to your submission (to avoid duplicating effort).
 
+* Fork a copy of the repository to your own Github account - [see Github guide](https://help.github.com/articles/working-with-forks/)
+
 * Make your changes in a new git branch:
 
     ```shell
@@ -72,7 +74,10 @@ Before submitting a Pull Request (PR) consider the following guidelines:
     $ git push origin my-fix-branch
     ```
 
-* In GitHub, send a pull request to `ng2-semantic-ui:master`.
+* In GitHub, send a pull request to `ng2-semantic-ui:master`
+  - Create a new pull request
+  - Select **compare across forks**
+  - Set your repo and fix branch as the head fork to compare.
 
 * If changes are suggested:
   - Make the required updates
