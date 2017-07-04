@@ -169,7 +169,13 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
 
     public get labelGetter():(obj:T) => string {
         // Helper function to retrieve the label from an item.
-        return (obj:T) => Util.Object.readValue<T, string>(obj, this.labelField);
+        return (obj:T) => {
+            const label = Util.Object.readValue<T, string>(obj, this.labelField);
+            if (label) {
+                return label.toString();
+            }
+            return "";
+        };
     }
 
     @Input()
@@ -187,11 +193,11 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
 
     public get configuredFormatter():(option:T) => string {
         if (this._optionFormatter) {
-            return r => this._optionFormatter!(r, this.isSearchable ? this.query : undefined);
+            return o => this._optionFormatter!(o, this.isSearchable ? this.query : undefined);
         } else if (this.searchService.optionsLookup) {
-            return r => this.labelGetter(r);
+            return o => this.labelGetter(o);
         } else {
-            return r => this.searchService.highlightMatches(this.labelGetter(r), this.query || "");
+            return o => this.searchService.highlightMatches(this.labelGetter(o), this.query || "");
         }
     }
 
