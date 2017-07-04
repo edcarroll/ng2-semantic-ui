@@ -175,7 +175,10 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
 // Value accessor directive for the select to support ngModel.
 @Directive({
     selector: "sui-multi-select",
-    host: { "(selectedOptionsChange)": "onChange($event)" },
+    host: {
+        "(selectedOptionsChange)": "onChange($event)",
+        "(touched)": "onTouched()"
+    },
     providers: [customValueAccessorFactory(SuiMultiSelectValueAccessor)]
 })
 export class SuiMultiSelectValueAccessor<T, U> extends CustomValueAccessor<U[], SuiMultiSelect<T, U>> {

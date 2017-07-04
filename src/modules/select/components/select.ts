@@ -141,7 +141,10 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValue
 // Value accessor directive for the select to support ngModel.
 @Directive({
     selector: "sui-select",
-    host: { "(selectedOptionChange)": "onChange($event)" },
+    host: {
+        "(selectedOptionChange)": "onChange($event)",
+        "(touched)": "onTouched()"
+    },
     providers: [customValueAccessorFactory(SuiSelectValueAccessor)]
 })
 export class SuiSelectValueAccessor<T, U> extends CustomValueAccessor<U, SuiSelect<T, U>> {
