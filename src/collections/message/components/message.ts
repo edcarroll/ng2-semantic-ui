@@ -21,6 +21,8 @@ export class SuiMessage implements IMessage {
     @Output("dismiss")
     public onDismiss:EventEmitter<SuiMessage>;
 
+    public _test:string;
+
     public isDismissed:boolean;
 
     public transitionController:TransitionController;
