@@ -366,12 +366,10 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
 
     @HostListener("focusout", ["$event"])
     private onFocusOut(e:FocusEvent):void {
-        setTimeout(() => {
-            if (!this._element.nativeElement.contains(document.activeElement)) {
-                this.dropdownService.setOpenState(false);
-                this.onTouched.emit();
-            }
-        });
+        if (!this._element.nativeElement.contains(e.relatedTarget)) {
+            this.dropdownService.setOpenState(false);
+            this.onTouched.emit();
+        }
     }
 
     @HostListener("keypress", ["$event"])
