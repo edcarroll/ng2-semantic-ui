@@ -1,6 +1,6 @@
 import {
     ViewChild, HostBinding, ElementRef, HostListener, Input, ContentChildren, QueryList,
-    AfterContentInit, TemplateRef, ViewContainerRef, ContentChild
+    AfterContentInit, TemplateRef, ViewContainerRef, ContentChild, EventEmitter, Output
 } from "@angular/core";
 import { Subscription } from "rxjs/Subscription";
 import { DropdownService, SuiDropdownMenu } from "../../dropdown";
@@ -222,6 +222,9 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     @Input()
     public transitionDuration:number;
 
+    @Output("touched")
+    public onTouched:EventEmitter<void>;
+
     constructor(private _element:ElementRef, protected _localizationService:SuiLocalizationService) {
         this.dropdownService = new DropdownService();
         // We do want an empty query to return all results.
@@ -236,6 +239,8 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         this.icon = "dropdown";
         this.transition = "slide down";
         this.transitionDuration = 200;
+
+        this.onTouched = new EventEmitter<void>();
 
         this._selectClasses = true;
     }
@@ -364,6 +369,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         setTimeout(() => {
             if (!this._element.nativeElement.contains(document.activeElement)) {
                 this.dropdownService.setOpenState(false);
+                this.onTouched.emit();
             }
         });
     }
