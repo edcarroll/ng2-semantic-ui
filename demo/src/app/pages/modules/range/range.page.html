@@ -1,0 +1,43 @@
+<demo-page-title>
+    <div header>Rating</div>
+    <div sub-header>
+        <p>A rating indicates user interest in content</p>
+    </div>
+</demo-page-title>
+<demo-page-content>
+    <sui-message class="info" [isDismissable]="false">
+        <div class="header">Important Note</div>
+        <p>
+            The range is a port of <a href="https://github.com/tyleryasaka/semantic-ui-range">Semantic-UI-Range</a>,
+            an external module for Semantic UI. If you'd like to use the range in your app, you must include the module's
+            CSS alongside Semantic UI's.
+        </p>
+        <div class="ui segment">
+            <demo-codeblock language="markup" [src]="cssInclude"></demo-codeblock>
+        </div>
+    </sui-message>
+    <h2 class="ui dividing header">Examples</h2>
+    <demo-example [code]="exampleStandardTemplate">
+        <div info>
+            <h4 class="ui header">Range</h4>
+            <p>A basic range</p>
+        </div>
+        <example-range-standard result></example-range-standard>
+    </demo-example>
+    <demo-example [code]="exampleMinMaxTemplate">
+        <div info>
+            <h4 class="ui header">Range</h4>
+            <p>Range with min max</p>
+        </div>
+        <example-range-min-max result></example-range-min-max>
+    </demo-example>
+    <demo-example [code]="exampleStepTemplate">
+        <div info>
+            <h4 class="ui header">Range</h4>
+            <p>Range that skips 5 values with each step</p>
+        </div>
+        <example-range-step result></example-range-step>
+    </demo-example>
+    <h2 id="api" class="ui dividing header">API</h2>
+    <demo-api [api]="api"></demo-api>
+</demo-page-content>
