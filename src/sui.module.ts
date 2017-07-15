@@ -1,12 +1,5 @@
 import { NgModule } from "@angular/core";
-
-// Collections
-import {
-    SuiMessageModule,
-    SuiPaginationModule
-} from "./collections";
-
-// Modules
+import { SuiMessageModule, SuiPaginationModule } from "./collections";
 import {
     SuiAccordionModule,
     SuiCheckboxModule,
@@ -17,6 +10,7 @@ import {
     SuiModalModule,
     SuiPopupModule,
     SuiProgressModule,
+    SuiRangeModule,
     SuiRatingModule,
     SuiSearchModule,
     SuiSidebarModule,
@@ -24,16 +18,16 @@ import {
     SuiSelectModule,
     SuiTransitionModule
 } from "./modules";
+import { SuiLocalizationModule } from "./behaviors";
+import { SuiUtilityModule } from "./misc";
+
+// Collections
+
+// Modules
 
 // Behaviors
-import {
-    SuiLocalizationModule
-} from "./behaviors";
 
 // Misc
-import {
-    SuiUtilityModule
-} from "./misc";
 
 @NgModule({
     exports: [
@@ -51,6 +45,7 @@ import {
         SuiModalModule,
         SuiPopupModule,
         SuiProgressModule,
+        SuiRangeModule,
         SuiRatingModule,
         SuiSearchModule,
         SuiSelectModule,
