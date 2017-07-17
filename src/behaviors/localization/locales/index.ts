@@ -7,6 +7,7 @@ import es from "./es";
 import fr from "./fr";
 import pt from "./pt";
 import it from "./it";
+import ru from "./ru";
 
 // This file exists for the demo app. Don't use this in real life.
 export default {
@@ -16,5 +17,6 @@ export default {
     es,
     it,
     fr,
-    pt
+    pt,
+    ru
 };
