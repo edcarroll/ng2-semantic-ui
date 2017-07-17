@@ -75,6 +75,10 @@ const supportedLanguages:ISupportedLanguage[] = [
     {
         name: "German",
         code: "de"
+    },
+    {
+        name: "Russian",
+        code: "ru"
     }
 ];
 
