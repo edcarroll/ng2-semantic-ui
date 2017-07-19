@@ -10,7 +10,7 @@ export interface IPopup {
     toggle():void;
 }
 
-export abstract class SuiPopupController implements IPopup, OnDestroy, IPopupLifecycle {
+export abstract class SuiPopupController implements IPopup, OnDestroy {
     // Stores reference to generated popup component.
     private _componentRef:ComponentRef<SuiPopup>;
 
