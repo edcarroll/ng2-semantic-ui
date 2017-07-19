@@ -58,8 +58,11 @@ export abstract class SuiPopupController implements IPopup, OnDestroy {
             });
         }
 
-        // Move the generated element to the body to avoid any positioning issues.
+        // Detach & reattach the generated component to the current application.
+        this._componentFactory.detachFromApplication(this._componentRef);
         this._componentFactory.attachToApplication(this._componentRef);
+
+        // Move the generated element to the body to avoid any positioning issues.
         this._componentFactory.moveToDocumentBody(this._componentRef);
 
         // Attach a reference to the anchor element. We do it here because IE11 loves to complain.
