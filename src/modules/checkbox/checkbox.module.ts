@@ -2,7 +2,8 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { SuiCheckbox, SuiCheckboxValueAccessor } from "./components/checkbox";
-import { SuiRadioButton, SuiRadioButtonValueAccessor } from "./components/radiobutton";
+import { SuiRadio, SuiRadioValueAccessor } from "./components/radio";
+import { SuiRadioManager } from "./directives/radio-manager";
 
 @NgModule({
     imports: [
@@ -12,14 +13,16 @@ import { SuiRadioButton, SuiRadioButtonValueAccessor } from "./components/radiob
     declarations: [
         SuiCheckbox,
         SuiCheckboxValueAccessor,
-        SuiRadioButton,
-        SuiRadioButtonValueAccessor
+        SuiRadio,
+        SuiRadioValueAccessor,
+        SuiRadioManager
     ],
     exports: [
         SuiCheckbox,
         SuiCheckboxValueAccessor,
-        SuiRadioButton,
-        SuiRadioButtonValueAccessor
+        SuiRadio,
+        SuiRadioValueAccessor,
+        SuiRadioManager
     ]
 })
 export class SuiCheckboxModule {}

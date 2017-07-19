@@ -42,6 +42,16 @@ export const Util = {
             }
             return groups;
         },
+        groupBy<T>(items:T[], field:keyof T):{ [name:string]:T[] } {
+            return items.reduce<{ [name:string]:T[] }>(
+                (groups, i) => {
+                    const fieldValue = i[field].toString();
+                    groups[fieldValue] = groups[fieldValue] || [];
+                    groups[fieldValue].push(i);
+                    return groups;
+                },
+                Object());
+        },
         flatten<T>(items:T[][]):T[] {
             return items.reduce((is, i) => is.concat(i), []);
         }
