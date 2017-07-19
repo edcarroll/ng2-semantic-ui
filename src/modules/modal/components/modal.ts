@@ -206,6 +206,8 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
         const autoFocus = element.querySelector("[autofocus]") as HTMLElement | null;
         if (autoFocus) {
             autoFocus.focus();
+            // Try to focus again when the modal has opened so that autofocus works in IE11.
+            setTimeout(() => autoFocus.focus(), this.transitionDuration);
         }
     }
 
