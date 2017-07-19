@@ -171,7 +171,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         // Helper function to retrieve the label from an item.
         return (obj:T) => {
             const label = Util.Object.readValue<T, string>(obj, this.labelField);
-            if (label) {
+            if (label != undefined) {
                 return label.toString();
             }
             return "";
@@ -197,7 +197,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         } else if (this.searchService.optionsLookup) {
             return o => this.labelGetter(o);
         } else {
-            return o => this.searchService.highlightMatches(this.labelGetter(o), this.query || "");
+            return o => this.searchService.highlightMatches(this.labelGetter(o), this.query != undefined ? this.query : "");
         }
     }
 
