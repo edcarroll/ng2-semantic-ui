@@ -13,9 +13,9 @@ import { ISelectRenderedOption } from "./select-option";
        [hidden]="!isSearchable || isSearchExternal">
 
 <!-- Placeholder text -->
-<div *ngIf="selectedOption == undefined" class="default text" [class.filtered]="query != undefined">{{ placeholder }}</div>
+<div *ngIf="selectedOption == undefined" class="default text" [class.filtered]="query">{{ placeholder }}</div>
 <!-- Selected item -->
-<div class="text" [class.filtered]="query != undefined || selectedOption == undefined">
+<div class="text" [class.filtered]="query || selectedOption == undefined">
     <span #optionTemplateSibling></span>
     <span *ngIf="!optionTemplate && selectedOption != undefined" [innerHTML]="configuredFormatter(selectedOption)"></span>
 </div>
@@ -132,7 +132,7 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValue
             this.onAvailableOptionsRendered();
         }
 
-        if (this.selectedOption && this.optionTemplate) {
+        if (this.selectedOption != undefined && this.optionTemplate) {
             this.drawTemplate(this._optionTemplateSibling, this.selectedOption);
         }
     }

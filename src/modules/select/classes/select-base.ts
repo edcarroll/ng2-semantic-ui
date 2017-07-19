@@ -197,7 +197,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         } else if (this.searchService.optionsLookup) {
             return o => this.labelGetter(o);
         } else {
-            return o => this.searchService.highlightMatches(this.labelGetter(o), this.query != undefined ? this.query : "");
+            return o => this.searchService.highlightMatches(this.labelGetter(o), this.query || "");
         }
     }
 
