@@ -3,7 +3,7 @@
   "main": "bundles/ng2-semantic-ui.umd.min.js",
   "module": "dist/public.js",
   "typings": "dist/public.d.ts",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "description": "Angular 2 Semantic UI Components",
   "repository": {
     "type": "git",
