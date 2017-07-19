@@ -1,12 +1,15 @@
 import {
     Component, Directive, Input, Output, HostListener, HostBinding,
-    EventEmitter, ViewChild, ElementRef
+    EventEmitter, ViewChild, ElementRef, ContentChildren, AfterContentInit, QueryList
 } from "@angular/core";
-import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor } from "../../../misc/util";
+import {
+    ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor,
+    Util
+} from "../../../misc/util";
+import { Subscription } from "rxjs/Subscription";
 
 @Component({
-    selector: "sui-radio-button[ngModel]",
-    exportAs: "suiRadioButton",
+    selector: "sui-radio-button",
     template: `
 <input class="hidden"
        type="checkbox"
@@ -21,7 +24,7 @@ import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccess
 </label>
 `
 })
-export class SuiRadioButton<T> implements ICustomValueAccessorHost<T> {
+export class SuiRadio<T> implements ICustomValueAccessorHost<T> {
     @HostBinding("class.ui")
     @HostBinding("class.radio")
     @HostBinding("class.checkbox")
@@ -113,10 +116,10 @@ export class SuiRadioButton<T> implements ICustomValueAccessorHost<T> {
         "(currentValueChange)": "onChange($event)",
         "(touched)": "onTouched()"
     },
-    providers: [customValueAccessorFactory(SuiRadioButtonValueAccessor)]
+    providers: [customValueAccessorFactory(SuiRadioValueAccessor)]
 })
-export class SuiRadioButtonValueAccessor<T> extends CustomValueAccessor<T, SuiRadioButton<T>> {
-    constructor(host:SuiRadioButton<T>) {
+export class SuiRadioValueAccessor<T> extends CustomValueAccessor<T, SuiRadio<T>> {
+    constructor(host:SuiRadio<T>) {
         super(host);
     }
 }

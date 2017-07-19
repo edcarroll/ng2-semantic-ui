@@ -1,2 +1,2 @@
-export * from "./message/message.module";
-export * from "./pagination/pagination.module";
+export * from "./message";
+export * from "./pagination";
