@@ -13,11 +13,11 @@ import { ISelectRenderedOption } from "./select-option";
        [hidden]="!isSearchable || isSearchExternal">
 
 <!-- Placeholder text -->
-<div *ngIf="!selectedOption" class="default text" [class.filtered]="!!query">{{ placeholder }}</div>
+<div *ngIf="selectedOption == undefined" class="default text" [class.filtered]="query != undefined">{{ placeholder }}</div>
 <!-- Selected item -->
-<div class="text" [class.filtered]="!!query || !selectedOption">
+<div class="text" [class.filtered]="query != undefined || selectedOption == undefined">
     <span #optionTemplateSibling></span>
-    <span *ngIf="!optionTemplate && selectedOption" [innerHTML]="configuredFormatter(selectedOption)"></span>
+    <span *ngIf="!optionTemplate && selectedOption != undefined" [innerHTML]="configuredFormatter(selectedOption)"></span>
 </div>
 <!-- Dropdown icon -->
 <i class="{{ icon }} icon" (click)="onCaretClick($event)"></i>
@@ -29,7 +29,7 @@ import { ISelectRenderedOption } from "./select-option";
      [menuAutoSelectFirst]="isSearchable">
 
     <ng-content></ng-content>
-    <div *ngIf="isSearchable && availableOptions.length == 0" class="message">
+    <div *ngIf="isSearchable && availableOptions.length === 0" class="message">
         {{ localeValues.noResultsMessage }}
     </div>
 </div>
@@ -102,7 +102,7 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValue
 
                 this.drawSelectedOption();
             }
-            if (!this.selectedOption) {
+            if (this.selectedOption == undefined) {
                 if (this.valueField && this.searchService.hasItemLookup) {
                     // If the search service has a selected lookup function, make use of that to load the initial value.
                     this.searchService
