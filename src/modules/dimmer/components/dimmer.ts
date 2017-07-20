@@ -47,11 +47,9 @@ export class SuiDimmer extends SuiTransition {
         if (this._isDimmed !== isDimmed) {
             this._isDimmed = isDimmed;
 
-            if (this._transitionController.isVisible !== isDimmed) {
-                this._transitionController.stopAll();
-                this._transitionController.animate(
-                    new Transition("fade", this.transitionDuration, isDimmed ? TransitionDirection.In : TransitionDirection.Out));
-            }
+            this._transitionController.stopAll();
+            this._transitionController.animate(
+                new Transition("fade", this.transitionDuration, isDimmed ? TransitionDirection.In : TransitionDirection.Out));
         }
     }
 
