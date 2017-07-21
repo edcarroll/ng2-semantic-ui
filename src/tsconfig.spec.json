@@ -13,7 +13,11 @@
         "sourceMap": true,
         "inlineSources": true,
         "target": "es5",
-        "lib": ["es2015", "dom"]
+        "lib": ["es2015", "dom"],
+        "paths": {
+            "ng2-semantic-ui": ["./public"],
+            "ng2-semantic-ui/locales": ["./behaviors/localization/locales"]
+        }
     },
     "include": [
         "test.ts",
