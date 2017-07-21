@@ -14,6 +14,10 @@
     "typeRoots": [
       "../../node_modules/@types"
     ],
+    "paths": {
+      "ng2-semantic-ui": ["../../src/public"],
+      "ng2-semantic-ui/locales": ["../../src/behaviors/localization/locales"]
+    },
     "types": [
       "prismjs"
     ]

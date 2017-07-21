@@ -3,7 +3,7 @@ import { ApiDefinition } from "app/components/api/api.component";
 import {
     SuiModalService, ModalTemplate, TemplateModalConfig, ComponentModalConfig,
     ModalSize, SuiModal
-} from "../../../../../../src/public";
+} from "ng2-semantic-ui";
 import { AlertModal } from "../../../modals/alert.modal";
 
 const exampleTemplateModalTemplate = `
