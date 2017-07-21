@@ -1,6 +1,6 @@
 <!-- Logo -->
 <p align="center">
-  <a href="https://react.semantic-ui.com">
+  <a href="https://edcarroll.github.io/ng2-semantic-ui/">
     <img height="128" width="238" src="https://raw.githubusercontent.com/edcarroll/ng2-semantic-ui/master/demo/src/assets/logo.png">
   </a>
 </p>
