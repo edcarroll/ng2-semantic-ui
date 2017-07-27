@@ -1,13 +1,15 @@
 import { ElementRef } from "@angular/core";
 import Popper from "popper.js";
+// tslint:disable-next-line:no-duplicate-imports
+import * as PopperTypes from "popper.js";
 
-type PopperModifiers = Popper.Modifiers & {
+type PopperModifiers = PopperTypes.Modifiers & {
     computeStyle?:{
         gpuAcceleration:boolean;
     };
 };
 type PopperInstance = Popper & {
-    options:Popper.PopperOptions & {
+    options:PopperTypes.PopperOptions & {
         modifiers:PopperModifiers;
     };
 };
@@ -43,7 +45,7 @@ export interface IPositionBoundingBox {
     right:number;
 }
 
-function placementToPopper(placement:PositioningPlacement):Popper.Placement {
+function placementToPopper(placement:PositioningPlacement):PopperTypes.Placement {
     if (!placement || placement === PositioningPlacement.Auto) {
         return "auto";
     }
@@ -67,7 +69,7 @@ function placementToPopper(placement:PositioningPlacement):Popper.Placement {
     }
 
     // Join with hyphen to create Popper compatible placement.
-    return chosenPlacement.join("-") as Popper.Placement;
+    return chosenPlacement.join("-") as PopperTypes.Placement;
 }
 
 function popperToPlacement(popper:string):PositioningPlacement {
@@ -112,7 +114,7 @@ export class PositioningService {
     public readonly subject:ElementRef;
 
     private _popper:PopperInstance;
-    private _popperState:Popper.Data;
+    private _popperState:PopperTypes.PopperData;
     private _placement:PositioningPlacement;
 
     public get placement():PositioningPlacement {
@@ -133,7 +135,7 @@ export class PositioningService {
         return popperToPlacement(this._popperState.placement);
     }
 
-    public get state():Popper.Data {
+    public get state():PopperTypes.PopperData {
         return this._popperState;
     }
 
