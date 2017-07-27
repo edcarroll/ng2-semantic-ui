@@ -29,7 +29,7 @@
     "lint:demo": "tslint -c tslint.json --type-check --project demo/src/tsconfig.json",
     "lint": "npm run lint:lib & npm run lint:demo",
     "compile:lib": "node ./scripts/clean && tsc -p src/tsconfig.json && ngc -p src/tsconfig.json",
-    "compile:lib:w": "tsc -p src/tsconfig.json && ngc -p src/tsconfig.json -w",
+    "compile:lib:w": "tsc -p src/tsconfig.json -w",
     "compile:demo": "ng build --prod --aot=false --base-href=/ng2-semantic-ui/",
     "compile": "npm run compile:lib && npm run compile:demo",
     "package:lib": "node ./scripts/bundle && node ./scripts/locales",
