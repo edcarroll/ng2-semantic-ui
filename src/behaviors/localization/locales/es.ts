@@ -17,7 +17,7 @@ const es:IPartialLocaleValues = {
             "Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"
         ],
         weekdaysShort: [
-            "Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sáb"
+            "Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"
         ],
         weekdaysNarrow: [
             "D", "L", "M", "M", "J", "V", "S"
