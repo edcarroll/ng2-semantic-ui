@@ -116,6 +116,9 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValue
                     this._writtenOption = value;
                 }
             }
+        } else {
+            this.selectedOption = undefined;
+            this.drawSelectedOption();
         }
     }
 
