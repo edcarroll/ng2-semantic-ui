@@ -40,7 +40,15 @@ const exampleComponentModalTemplate = `
 `;
 
 const exampleComponentTemplate = `
+<div class="ui form">
+<div class="field">
+    <label>Modal Size:</label>
+    <sui-select class="selection" [(ngModel)]="size" [options]="availableSizes" #sizes>
+        <sui-select-option *ngFor="let s of sizes.availableOptions" [value]="s"></sui-select-option>
+    </sui-select>
+</div>
 <button class="ui primary button" (click)="open()">Confirm?</button>
+</div>
 `;
 
 @Component({
@@ -67,7 +75,8 @@ export class ModalPage {
                     name: "size",
                     type: "ModalSize",
                     description: "Sets the modal size. " +
-                                 "Available options are: <code>small</code>, <code>normal</code> & <code>large</code>.",
+                                 "Available options are: <code>mini</code>, <code>tiny</code>, <code>small</code>, " +
+                                 "<code>normal</code> & <code>large</code>.",
                     defaultValue: "normal"
                 },
                 {
@@ -192,22 +201,23 @@ export class ConfirmModalComponent {
 
     public componentHelper:string = `
 export class ConfirmModal extends ComponentModalConfig<IConfirmModalContext, void, void> {
-    constructor(title:string, question:string) {
+    constructor(title:string, question:string, size = ModalSize.Small) {
         super(ConfirmModalComponent, { title, question });
 
         this.isClosable = false;
         this.transitionDuration = 200;
-        this.size = ModalSize.Small;
+        this.size = size;
     }
 }
 `;
 
     public componentOpen:string = `
 this.modalService
-    .open(new ConfirmModal("Are you sure?", "Are you sure about accepting this?"))
+    .open(new ConfirmModal("Are you sure?", "Are you sure about accepting this?", this.modalSize))
     .onApprove(() => alert("User has accepted."))
     .onDeny(() => alert("User has denied."));
 `;
+
 }
 
 @Component({
@@ -253,12 +263,12 @@ export class ConfirmModalComponent {
 }
 
 export class ConfirmModal extends ComponentModalConfig<IConfirmModalContext, void, void> {
-    constructor(title:string, question:string) {
+    constructor(title:string, question:string, size:ModalSize = ModalSize.Small) {
         super(ConfirmModalComponent, { title, question });
 
         this.isClosable = false;
         this.transitionDuration = 200;
-        this.size = ModalSize.Small;
+        this.size = size;
     }
 }
 
@@ -267,11 +277,15 @@ export class ConfirmModal extends ComponentModalConfig<IConfirmModalContext, voi
     template: exampleComponentTemplate
 })
 export class ModalExampleComponent {
+
+    public availableSizes:string[] = ["mini", "tiny", "small", "normal", "large"];
+    public size:ModalSize = ModalSize.Small;
+
     constructor(public modalService:SuiModalService) {}
 
     public open():void {
         this.modalService
-            .open(new ConfirmModal("Are you sure?", "Are you sure about accepting this?"))
+            .open(new ConfirmModal("Are you sure?", "Are you sure about accepting this?", this.size))
             .onApprove(() => this.alert("User has accepted."))
             .onDeny(() => this.alert("User has denied."));
     }
