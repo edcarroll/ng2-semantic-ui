@@ -1,9 +1,11 @@
 import { Type } from "@angular/core";
 import { ModalTemplate } from "./modal-template";
 
-export type ModalSize = "small" | "normal" | "large";
+export type ModalSize = "mini" | "tiny" | "small" | "normal" | "large";
 
 export const ModalSize = {
+    Mini: "mini" as ModalSize,
+    Tiny: "tiny" as ModalSize,
     Small: "small" as ModalSize,
     Normal: "normal" as ModalSize,
     Large: "large" as ModalSize
