@@ -21,7 +21,7 @@ export class SuiTransition {
     @HostBinding("class.visible")
     public get isVisible():boolean {
         if (this._controller) {
-            return this._controller.isVisible;
+            return this._controller.isVisible && !this._controller.isVisibleDisabled;
         }
         return false;
     }

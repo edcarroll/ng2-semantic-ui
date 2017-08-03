@@ -39,6 +39,13 @@ export class TransitionController {
         return this._isHidden;
     }
 
+    // Set when want to disable the visible class being set
+    private _isVisibleDisabled:boolean;
+
+    public get isVisibleDisabled():boolean {
+        return this._isVisibleDisabled;
+    }
+
     // Gets the first transition in the queue.
     private get _queueFirst():Transition {
         return this._queue[0];
@@ -52,10 +59,11 @@ export class TransitionController {
     // Stores the setTimeout pointer for cancelling the animation callback.
     private _animationTimeout:number;
 
-    constructor(isInitiallyVisible:boolean = true, display:string = "block") {
+    constructor(isInitiallyVisible:boolean = true, display:string = "block", isVisibleDisabled:boolean = false) {
         // isInitiallyVisible sets whether the element starts out visible.
         this._isVisible = isInitiallyVisible;
         this._isHidden = !this._isVisible;
+        this._isVisibleDisabled = isVisibleDisabled;
 
         this._display = display;
         this._queue = [];

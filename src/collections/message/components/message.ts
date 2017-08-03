@@ -40,7 +40,7 @@ export class SuiMessage implements IMessage {
 
         this.isDismissed = false;
 
-        this.transitionController = new TransitionController();
+        this.transitionController = new TransitionController(undefined, undefined, true);
         this.transition = "fade";
         this.transitionDuration = 300;
 
