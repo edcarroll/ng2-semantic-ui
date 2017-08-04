@@ -15,7 +15,7 @@ Please read and follow the [Code of Conduct](https://github.com/edcarroll/ng2-se
 
 ## Bug, Question or Problem?
 
-For any usage questions you have, you can join [Gitter](https://gitter.im/ng2-semantic-ui/usage-queries) to ask for help.
+For any usage questions you have, you can join [Gitter](https://gitter.im/ng2-semantic-ui/Lobby) to ask for help.
 
 If you've found a bug, please submit an issue. Even better would be submitting a Pull Request with a fix.
 
