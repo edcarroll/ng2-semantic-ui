@@ -19,8 +19,8 @@ const enGB:ILocaleValues = {
             "S", "M", "T", "W", "T", "F", "S"
         ],
         formats: {
-            time: "HH:mm",
-            datetime: "D MMMM YYYY HH:mm",
+            time: "hh:mm aa",
+            datetime: "D MMMM YYYY hh:mm aa",
             date: "D MMMM YYYY",
             month: "MMMM YYYY",
             year: "YYYY"
