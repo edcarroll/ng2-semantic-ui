@@ -43,7 +43,7 @@ export class CalendarRangeMonthService extends CalendarRangeService {
 })
 export class SuiCalendarMonthView extends CalendarView {
     public get year():string {
-        return new DateParser("YYYY", this.service.localeValues).format(this.currentDate);
+        return new DateParser(this.service.localeValues.formats.year, this.service.localeValues).format(this.currentDate);
     }
 
     constructor() {

@@ -69,7 +69,7 @@ export class DatetimeMappings extends CalendarMappings {
             [CalendarViewType.Month, CalendarViewType.Year],
             [CalendarViewType.Date, CalendarViewType.Month],
             [CalendarViewType.Hour, CalendarViewType.Date],
-            [CalendarViewType.Minute, CalendarViewType.Date]
+            [CalendarViewType.Minute, CalendarViewType.Hour]
         ]);
     }
 }

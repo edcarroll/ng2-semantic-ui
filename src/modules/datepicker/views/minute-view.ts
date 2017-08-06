@@ -18,10 +18,7 @@ export class CalendarRangeMinuteService extends CalendarRangeService {
     }
 
     public configureItem(item:CalendarItem, baseDate:Date):void {
-        const hs = Util.String.padLeft(item.date.getHours().toString(), 2, "0");
-        const ms = Util.String.padLeft(item.date.getMinutes().toString(), 2, "0");
-
-        item.humanReadable = `${hs}:${ms}`;
+        item.humanReadable = new DateParser(this.service.localeValues.formats.time, this.service.localeValues).format(item.date);
         item.isOutsideRange = false;
         item.isToday = false;
     }
@@ -58,15 +55,13 @@ export class CalendarRangeMinuteService extends CalendarRangeService {
 })
 export class SuiCalendarMinuteView extends CalendarView {
     public get date():string {
-        const [time, date] = new DateParser("HH:00|MMMM D, YYYY", this.service.localeValues)
-            .format(this.currentDate)
-            .split("|");
-
         if (this.service.config.mode !== CalendarMode.TimeOnly) {
-            return `${date} ${time}`;
+            const dateTimeFormat:string = this.service.localeValues.formats.datetime.replace(/m/g, "0");
+            return new DateParser(dateTimeFormat, this.service.localeValues).format(this.currentDate);
+        } else {
+            const timeFormat:string = this.service.localeValues.formats.time.replace(/m/g, "0");
+            return new DateParser(timeFormat, this.service.localeValues).format(this.currentDate);
         }
-
-        return time;
     }
 
     constructor() {
