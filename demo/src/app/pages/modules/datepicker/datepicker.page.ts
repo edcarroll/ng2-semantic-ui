@@ -95,6 +95,11 @@ export class DatepickerPage {
                     defaultValue: "datetime"
                 },
                 {
+                    name: "pickerInitialDate",
+                    type: "Date",
+                    description: "Sets the intial date to display (null = today)."
+                },
+                {
                     name: "pickerMaxDate",
                     type: "Date",
                     description: "Sets the maximum date that can be selected by the datepicker."

@@ -1,7 +1,6 @@
-
 import {
     Directive, ElementRef, Renderer2, EventEmitter, Output, Input,
-    HostListener, OnChanges, SimpleChanges
+    HostListener, OnChanges, SimpleChanges, OnInit
 } from "@angular/core";
 import { AbstractControl, ValidationErrors } from "@angular/forms";
 import {
@@ -12,6 +11,7 @@ import { IDatepickerLocaleValues, RecursivePartial, SuiLocalizationService } fro
 import { SuiPopupComponentController, PopupAfterOpen, PopupConfig, PopupTrigger } from "../../popup";
 import { SuiDatepicker, DatepickerMode } from "../components/datepicker";
 import { CalendarConfig, YearConfig, MonthConfig, DatetimeConfig, TimeConfig, DateConfig } from "../classes/calendar-config";
+import { isValid } from "date-fns";
 
 @Directive({
     selector: "[suiDatepicker]",
@@ -19,7 +19,7 @@ import { CalendarConfig, YearConfig, MonthConfig, DatetimeConfig, TimeConfig, Da
 })
 export class SuiDatepickerDirective
        extends SuiPopupComponentController<SuiDatepicker>
-       implements ICustomValueAccessorHost<Date>, ICustomValidatorHost, OnChanges, PopupAfterOpen {
+       implements ICustomValueAccessorHost<Date>, ICustomValidatorHost, OnChanges, PopupAfterOpen, OnInit {
 
     private _selectedDate?:Date;
 
@@ -62,6 +62,9 @@ export class SuiDatepickerDirective
         }
         this.writeValue(this.selectedDate);
     }
+
+    @Input("pickerInitialDate")
+    public initialDate?:Date;
 
     @Input("pickerMaxDate")
     public maxDate?:Date;
@@ -145,6 +148,18 @@ export class SuiDatepickerDirective
                 this.selectedDate = d;
                 this.close();
             });
+        }
+    }
+
+    public ngOnInit():void {
+        if (this.initialDate !== undefined) {
+            // Need to explicitly check for null
+            // tslint:disable-next-line:no-null-keyword
+            if (this.initialDate !== null) {
+                this._selectedDate = isValid(this.initialDate) ? new Date(this.initialDate) : undefined;
+            } else {
+                this._selectedDate = new Date();
+            }
         }
     }
 
