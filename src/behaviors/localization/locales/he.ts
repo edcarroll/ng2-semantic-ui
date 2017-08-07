@@ -44,7 +44,8 @@ const he:ILocaleValues = {
         },
         multi: {
             placeholder: "בחר...",
-            maxSelectedMessage: "מקסימום #{max} אפשרויות"
+            maxSelectedMessage: "מקסימום #{max} אפשרויות",
+            selectedMessage: "#{count} selections"
         }
     }
 };

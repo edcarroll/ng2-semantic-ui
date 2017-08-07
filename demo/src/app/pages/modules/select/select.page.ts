@@ -25,6 +25,7 @@ const exampleStandardTemplate = `
                           labelField="name"
                           [isSearchable]="searchable"
                           [isDisabled]="disabled"
+                          [hasLabelsHidden]="hideLabels"
                           #multiSelect>
             <sui-select-option *ngFor="let option of multiSelect.filteredOptions"
                                [value]="option">
@@ -35,6 +36,9 @@ const exampleStandardTemplate = `
         <sui-checkbox [(ngModel)]="searchable">Searchable?</sui-checkbox>
         <br>
         <sui-checkbox [(ngModel)]="disabled">Disabled?</sui-checkbox>
+        <br>
+        <sui-checkbox [(ngModel)]="hideLabels">Hide labels?</sui-checkbox>
+        
     </div>
     <div class="ui segment">
         <p>Singly selected: {{ selectedOption | json }}</p>
@@ -324,6 +328,12 @@ export class SelectPage {
                     defaultValue: "false"
                 },
                 {
+                    name: "hasLabelsHidden",
+                    type: "boolean",
+                    description: "Sets whether the multi select has labels hidden.",
+                    defaultValue: "false"
+                },
+                {
                     name: "maxSelected",
                     type: "number",
                     description: "Sets the maximum number of values that can be selected at any one time."
@@ -446,6 +456,7 @@ export class SelectExampleStandard {
 
     public searchable:boolean = false;
     public disabled:boolean = false;
+    public hideLabels:boolean = false;
 }
 
 @Component({

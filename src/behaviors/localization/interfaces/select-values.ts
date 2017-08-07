@@ -7,5 +7,6 @@ export interface ISelectLocaleValues {
     single:ISearchTailoredLocaleValues;
     multi:ISearchTailoredLocaleValues & {
         maxSelectedMessage:string; // `max` variable passed
+        selectedMessage:string; // `count` variable passed
     };
 }
