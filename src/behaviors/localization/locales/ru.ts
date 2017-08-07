@@ -45,7 +45,8 @@ const ru:ILocaleValues = {
         },
         multi: {
             placeholder: "Выберите...",
-            maxSelectedMessage: "Не более #{max} значений"
+            maxSelectedMessage: "Не более #{max} значений",
+            selectedMessage: "#{count} selections"
         }
     }
 };

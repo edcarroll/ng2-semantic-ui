@@ -45,7 +45,8 @@ const it:ILocaleValues = {
         },
         multi: {
             placeholder: "Scegli...",
-            maxSelectedMessage: "Puoi effettuare fino a #{max} scelte."
+            maxSelectedMessage: "Puoi effettuare fino a #{max} scelte.",
+            selectedMessage: "#{count} scelte"
         }
     }
 };

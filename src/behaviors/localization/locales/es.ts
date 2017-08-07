@@ -45,7 +45,8 @@ const es:IPartialLocaleValues = {
         },
         multi: {
             placeholder: "Seleccione...",
-            maxSelectedMessage: "Puede elegir hasta #{max}"
+            maxSelectedMessage: "Puede elegir hasta #{max}",
+            selectedMessage: "#{count} selections"
         }
     }
 };
