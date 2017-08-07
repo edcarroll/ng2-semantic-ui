@@ -45,7 +45,8 @@ const de:IPartialLocaleValues = {
         },
         multi: {
             placeholder: "Wählen...",
-            maxSelectedMessage: "Max #{max} Auswähle"
+            maxSelectedMessage: "Max #{max} Auswähle",
+            selectedMessage: "#{count} selections"
         }
     }
 };

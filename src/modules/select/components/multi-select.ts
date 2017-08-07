@@ -2,6 +2,7 @@ import { Component, HostBinding, ElementRef, EventEmitter, Output, Input, Direct
 import { ICustomValueAccessorHost, KeyCode, customValueAccessorFactory, CustomValueAccessor } from "../../../misc/util";
 import { SuiLocalizationService } from "../../../behaviors/localization";
 import { SuiSelectBase } from "../classes/select-base";
+import { ISelectRenderedOption } from "./select-option";
 
 @Component({
     selector: "sui-multi-select",
@@ -9,13 +10,19 @@ import { SuiSelectBase } from "../classes/select-base";
 <!-- Dropdown icon -->
 <i class="{{ icon }} icon" (click)="onCaretClick($event)"></i>
 
+<!-- Summary shown when labels are hidden -->
+<span *ngIf="hasLabelsHidden; else labelsBlock">{{ selectedMessage }}</span>
+
+<ng-template #labelsBlock>
 <!-- Multi-select labels -->
-<sui-multi-select-label *ngFor="let selected of selectedOptions;"
-                        [value]="selected"
-                        [query]="query"
-                        [formatter]="configuredFormatter"
-                        [template]="optionTemplate"
-                        (deselected)="deselectOption($event)"></sui-multi-select-label>
+    <sui-multi-select-label *ngFor="let selected of selectedOptions;"
+                            [value]="selected"
+                            [query]="query"
+                            [formatter]="configuredFormatter"
+                            [template]="optionTemplate"
+                            (deselected)="deselectOption($event)"></sui-multi-select-label>
+</ng-template>
+
 <!-- Query input -->
 <input suiSelectSearch
        type="text"
@@ -56,13 +63,31 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
             // If we have reached the maximum number of selections, then empty the results completely.
             return [];
         }
-        // Returns the search results \ selected options.
-        return this.searchService.results
-            .filter(r => this.selectedOptions.find(o => r === o) == undefined);
+
+        const searchResults:T[] = this.searchService.results;
+
+        if (this.hasLabelsHidden) {
+            return searchResults;
+        } else {
+            // Returns the search results \ selected options.
+            return searchResults
+                .filter(r => this.selectedOptions.find(o => r === o) == undefined);
+        }
     }
 
     public get availableOptions():T[] {
         return this.filteredOptions;
+    }
+
+    private _hasLabelsHidden:boolean;
+
+    @Input()
+    public get hasLabelsHidden():boolean {
+        return this._hasLabelsHidden;
+    }
+
+    public set hasLabelsHidden(hasLabelsHidden:boolean) {
+        this._hasLabelsHidden = hasLabelsHidden;
     }
 
     private _placeholder:string;
@@ -93,6 +118,12 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
             [["max", this.maxSelected.toString()]]);
     }
 
+    public get selectedMessage():string {
+        return this._localizationService.interpolate(
+            this.localeValues.multi.selectedMessage,
+            [["count", this.selectedOptions.length.toString()]]);
+    }
+
     @HostBinding("class.multiple")
     private _multiSelectClasses:boolean;
 
@@ -103,6 +134,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
         this.selectedOptionsChange = new EventEmitter<U[]>();
 
         this._multiSelectClasses = true;
+        this._hasLabelsHidden = false;
     }
 
     protected optionsUpdateHook():void {
@@ -119,7 +151,18 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
         }
     }
 
+    protected initialiseRenderedOption(option:ISelectRenderedOption<T>):void {
+        super.initialiseRenderedOption(option);
+
+        // Boldens the item so it appears selected in the dropdown.
+        option.isActive = this.hasLabelsHidden && this.selectedOptions.indexOf(option.value) !== -1;
+    }
+
     public selectOption(option:T):void {
+        if (this.selectedOptions.indexOf(option) !== -1) {
+            this.deselectOption(option);
+            return;
+        }
         this.selectedOptions.push(option);
         this.selectedOptionsChange.emit(this.selectedOptions.map(o => this.valueGetter(o)));
 
@@ -127,6 +170,10 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
 
         // Automatically refocus the search input for better keyboard accessibility.
         this.focus();
+
+        if (this.hasLabelsHidden) {
+            this.onAvailableOptionsRendered();
+        }
     }
 
     public writeValue(values:U[]):void {
@@ -162,6 +209,10 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
 
         // Automatically refocus the search input for better keyboard accessibility.
         this.focus();
+
+        if (this.hasLabelsHidden) {
+            this.onAvailableOptionsRendered();
+        }
     }
 
     public onQueryInputKeydown(event:KeyboardEvent):void {

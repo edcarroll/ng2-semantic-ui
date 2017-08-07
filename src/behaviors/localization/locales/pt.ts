@@ -45,7 +45,8 @@ const pt:IPartialLocaleValues = {
         },
         multi: {
             placeholder: "Escolher...",
-            maxSelectedMessage: "Max #{max} opçãoes"
+            maxSelectedMessage: "Max #{max} opçãoes",
+            selectedMessage: "#{count} selections"
         }
     }
 };

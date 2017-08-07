@@ -41,7 +41,8 @@ const enGB:ILocaleValues = {
         },
         multi: {
             placeholder: "Select...",
-            maxSelectedMessage: "Max #{max} selections"
+            maxSelectedMessage: "Max #{max} selections",
+            selectedMessage: "#{count} selections"
         }
     }
 };
