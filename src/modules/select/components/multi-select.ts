@@ -29,7 +29,8 @@ import { ISelectRenderedOption } from "./select-option";
        [hidden]="!isSearchable || isSearchExternal">
 
 <!-- Placeholder text -->
-<div class="default text" [class.filtered]="!!query && !isSearchExternal">{{ placeholder }}</div>
+<div class="default text" *ngIf="!(hasLabelsHidden && isSearchable)"
+     [class.filtered]="!!query && !isSearchExternal">{{ placeholder }}</div>
 <!-- Select dropdown menu -->
 <div class="menu"
      suiDropdownMenu
