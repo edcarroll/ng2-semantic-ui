@@ -58,7 +58,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
         }
         // Returns the search results \ selected options.
         return this.searchService.results
-            .filter(r => !this.selectedOptions.find(o => r === o));
+            .filter(r => this.selectedOptions.find(o => r === o) == undefined);
     }
 
     public get availableOptions():T[] {
@@ -136,7 +136,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
                 this.selectedOptions = values
                     // non-null assertion added here because Typescript doesn't recognise the non-null filter.
                     .map(v => this.findOption(this.searchService.options, v)!)
-                    .filter(v => !!v);
+                    .filter(v => v != undefined);
             }
             if (values.length > 0 && this.selectedOptions.length === 0) {
                 if (this.valueField && this.searchService.hasItemLookup) {
@@ -175,7 +175,10 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
 // Value accessor directive for the select to support ngModel.
 @Directive({
     selector: "sui-multi-select",
-    host: { "(selectedOptionsChange)": "onChange($event)" },
+    host: {
+        "(selectedOptionsChange)": "onChange($event)",
+        "(touched)": "onTouched()"
+    },
     providers: [customValueAccessorFactory(SuiMultiSelectValueAccessor)]
 })
 export class SuiMultiSelectValueAccessor<T, U> extends CustomValueAccessor<U[], SuiMultiSelect<T, U>> {

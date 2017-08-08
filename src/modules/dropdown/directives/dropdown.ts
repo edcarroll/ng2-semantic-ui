@@ -118,11 +118,9 @@ export class SuiDropdown implements AfterContentInit {
 
     @HostListener("focusout", ["$event"])
     private onFocusOut(e:FocusEvent):void {
-        setTimeout(() => {
-            if (!this._element.nativeElement.contains(document.activeElement)) {
-                this.externallyClose();
-            }
-        });
+        if (!this._element.nativeElement.contains(e.relatedTarget)) {
+            this.externallyClose();
+        }
     }
 
     @HostListener("keypress", ["$event"])

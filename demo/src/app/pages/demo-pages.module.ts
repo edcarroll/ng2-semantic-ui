@@ -1,8 +1,8 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
-import { SuiModule } from "../../../../src";
+import { SuiModule } from "ng2-semantic-ui";
 import { DemoComponentsModule } from "../components/demo-components.module";
 
 import { GettingStartedPage } from "./getting-started/getting-started.page";
@@ -38,6 +38,7 @@ import { TestPage } from "./development/test/test.page";
     imports: [
         CommonModule,
         FormsModule,
+        ReactiveFormsModule,
         RouterModule,
         SuiModule,
         DemoComponentsModule

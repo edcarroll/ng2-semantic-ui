@@ -10,7 +10,7 @@ export interface IPopup {
     toggle():void;
 }
 
-export abstract class SuiPopupController implements IPopup, OnDestroy, IPopupLifecycle {
+export abstract class SuiPopupController implements IPopup, OnDestroy {
     // Stores reference to generated popup component.
     private _componentRef:ComponentRef<SuiPopup>;
 
@@ -58,8 +58,11 @@ export abstract class SuiPopupController implements IPopup, OnDestroy, IPopupLif
             });
         }
 
-        // Move the generated element to the body to avoid any positioning issues.
+        // Detach & reattach the generated component to the current application.
+        this._componentFactory.detachFromApplication(this._componentRef);
         this._componentFactory.attachToApplication(this._componentRef);
+
+        // Move the generated element to the body to avoid any positioning issues.
         this._componentFactory.moveToDocumentBody(this._componentRef);
 
         // Attach a reference to the anchor element. We do it here because IE11 loves to complain.

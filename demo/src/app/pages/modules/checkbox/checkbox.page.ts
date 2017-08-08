@@ -28,16 +28,16 @@ const exampleRadioButtonTemplate = `
     <div class="grouped fields">
         <label>Radio Button Example</label>
         <div class="field">
-            <sui-radio-button value="hello" [(ngModel)]="eRadio">Value: "hello"</sui-radio-button>
+            <sui-radio-button name="example" value="hello" [(ngModel)]="eRadio">Value: "hello"</sui-radio-button>
         </div>
         <div class="field">
-            <sui-radio-button value="world" [(ngModel)]="eRadio">Value: "world"</sui-radio-button>
+            <sui-radio-button name="example" value="world" [(ngModel)]="eRadio">Value: "world"</sui-radio-button>
         </div>
         <div class="field">
-            <sui-radio-button value="example" [(ngModel)]="eRadio">Value: "example"</sui-radio-button>
+            <sui-radio-button name="example" value="example" [(ngModel)]="eRadio">Value: "example"</sui-radio-button>
         </div>
         <div class="field">
-            <sui-radio-button [value]="{ example: 'object' }" [(ngModel)]="eRadio">
+            <sui-radio-button name="example" [value]="{ example: 'object' }" [(ngModel)]="eRadio">
                 Value: {{ '{' }} example: "object" }
             </sui-radio-button>
         </div>
@@ -62,12 +62,12 @@ const exampleStyledTemplate = `
     <div class="grouped fields">
         <label>Radio Button Style Examples</label>
         <div class="field">
-            <sui-radio-button class="slider" value="a" [(ngModel)]="eStyledRadio">
+            <sui-radio-button class="slider" name="styled" value="a" [(ngModel)]="eStyledRadio">
                 Slider radio button
             </sui-radio-button>
         </div>
         <div class="field">
-            <sui-radio-button class="toggle" value="b" [(ngModel)]="eStyledRadio">
+            <sui-radio-button class="toggle" name="styled" value="b" [(ngModel)]="eStyledRadio">
                 Toggle radio button
             </sui-radio-button>
         </div>
@@ -126,18 +126,19 @@ export class CheckboxPage {
                 {
                     name: "name",
                     type: "string",
-                    description: "Sets the name on the internal <code>&lt;input&gt;</code> component."
+                    description: "Sets the name on the internal <code>&lt;input&gt;</code> component.",
+                    required: true
                 },
                 {
                     name: "value",
                     type: "T",
-                    description: "Sets the value that selecting this radio button returns. Supports binding any object."
+                    description: "Sets the value that selecting this radio button returns. Supports binding any object.",
+                    required: true
                 },
                 {
                     name: "ngModel",
                     type: "T",
-                    description: "Bind the radio button value to the value of the provided variable.",
-                    required: true
+                    description: "Bind the radio button value to the value of the provided variable."
                 },
                 {
                     name: "isDisabled",

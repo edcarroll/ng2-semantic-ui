@@ -42,16 +42,15 @@ export class SuiDimmer extends SuiTransition {
             this._transitionController = new TransitionController(isDimmed, "block");
 
             this.setTransitionController(this._transitionController);
-        }
 
-        if (this._isDimmed !== isDimmed) {
+            this._isDimmed = isDimmed;
+        } else if (this._isDimmed !== isDimmed) {
+
             this._isDimmed = isDimmed;
 
-            if (this._transitionController.isVisible !== isDimmed) {
-                this._transitionController.stopAll();
-                this._transitionController.animate(
-                    new Transition("fade", this.transitionDuration, isDimmed ? TransitionDirection.In : TransitionDirection.Out));
-            }
+            this._transitionController.stopAll();
+            this._transitionController.animate(
+                new Transition("fade", this.transitionDuration, isDimmed ? TransitionDirection.In : TransitionDirection.Out));
         }
     }
 

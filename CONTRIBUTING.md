@@ -15,7 +15,7 @@ Please read and follow the [Code of Conduct](https://github.com/edcarroll/ng2-se
 
 ## Bug, Question or Problem?
 
-For any usage questions you have, you can join [Gitter](https://gitter.im/ng2-semantic-ui/usage-queries) to ask for help.
+For any usage questions you have, you can join [Gitter](https://gitter.im/ng2-semantic-ui/Lobby) to ask for help.
 
 If you've found a bug, please submit an issue. Even better would be submitting a Pull Request with a fix.
 
@@ -37,7 +37,7 @@ and help you to craft the change so that it is successfully accepted into the pr
 
 Before you submit an issue, please search the issue tracker, as an issue for your problem may already exist and the discussion might inform you of readily available workarounds.
 
-Ideally all issues are fixed as soon as possible, but before that can be done the bug must be confirmed. This is done by providing a minimal reproduction scenario using [http://plunkr.co](http://plunkr.co). Having a live, reproducible scenario provides a wealth of important information without needing to go back & forth to you with additional queries such as:
+Ideally all issues are fixed as soon as possible, but before that can be done the bug must be confirmed. This is done by providing a minimal reproduction scenario using [http://plunkr.co](http://plunkr.co). You can fork the [ng2-semantic-ui plunkr starter](http://plnkr.co/edit/SJMMMS8wQkwdX1HeMqiH?p=preview) and use it as a starting point. Having a live, reproducible scenario provides a wealth of important information without needing to go back & forth to you with additional queries such as:
 
 * Angular version used
 * ng2-semantic-ui version used
@@ -53,6 +53,8 @@ You can file new issues by filling out the [issue form](https://github.com/edcar
 Before submitting a Pull Request (PR) consider the following guidelines:
 
 * Search the Github [pull requests](https://github.com/edcarroll/ng2-semantic-ui/pulls) for an open or closed PR relating to your submission (to avoid duplicating effort).
+
+* Fork a copy of the repository to your own Github account - [see Github guide](https://help.github.com/articles/working-with-forks/)
 
 * Make your changes in a new git branch:
 
@@ -72,7 +74,10 @@ Before submitting a Pull Request (PR) consider the following guidelines:
     $ git push origin my-fix-branch
     ```
 
-* In GitHub, send a pull request to `ng2-semantic-ui:master`.
+* In GitHub, send a pull request to `ng2-semantic-ui:master`
+  - Create a new pull request
+  - Select **compare across forks**
+  - Set your repo and fix branch as the head fork to compare.
 
 * If changes are suggested:
   - Make the required updates

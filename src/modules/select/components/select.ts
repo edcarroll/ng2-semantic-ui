@@ -13,11 +13,11 @@ import { ISelectRenderedOption } from "./select-option";
        [hidden]="!isSearchable || isSearchExternal">
 
 <!-- Placeholder text -->
-<div *ngIf="!selectedOption" class="default text" [class.filtered]="!!query">{{ placeholder }}</div>
+<div *ngIf="selectedOption == undefined" class="default text" [class.filtered]="query">{{ placeholder }}</div>
 <!-- Selected item -->
-<div class="text" [class.filtered]="!!query || !selectedOption">
+<div class="text" [class.filtered]="query || selectedOption == undefined">
     <span #optionTemplateSibling></span>
-    <span *ngIf="!optionTemplate && selectedOption" [innerHTML]="configuredFormatter(selectedOption)"></span>
+    <span *ngIf="!optionTemplate && selectedOption != undefined" [innerHTML]="configuredFormatter(selectedOption)"></span>
 </div>
 <!-- Dropdown icon -->
 <i class="{{ icon }} icon" (click)="onCaretClick($event)"></i>
@@ -29,7 +29,7 @@ import { ISelectRenderedOption } from "./select-option";
      [menuAutoSelectFirst]="isSearchable">
 
     <ng-content></ng-content>
-    <div *ngIf="isSearchable && availableOptions.length == 0" class="message">
+    <div *ngIf="isSearchable && availableOptions.length === 0" class="message">
         {{ localeValues.noResultsMessage }}
     </div>
 </div>
@@ -102,7 +102,7 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValue
 
                 this.drawSelectedOption();
             }
-            if (!this.selectedOption) {
+            if (this.selectedOption == undefined) {
                 if (this.valueField && this.searchService.hasItemLookup) {
                     // If the search service has a selected lookup function, make use of that to load the initial value.
                     this.searchService
@@ -116,6 +116,9 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValue
                     this._writtenOption = value;
                 }
             }
+        } else {
+            this.selectedOption = undefined;
+            this.drawSelectedOption();
         }
     }
 
@@ -132,7 +135,7 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValue
             this.onAvailableOptionsRendered();
         }
 
-        if (this.selectedOption && this.optionTemplate) {
+        if (this.selectedOption != undefined && this.optionTemplate) {
             this.drawTemplate(this._optionTemplateSibling, this.selectedOption);
         }
     }
@@ -141,7 +144,10 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValue
 // Value accessor directive for the select to support ngModel.
 @Directive({
     selector: "sui-select",
-    host: { "(selectedOptionChange)": "onChange($event)" },
+    host: {
+        "(selectedOptionChange)": "onChange($event)",
+        "(touched)": "onTouched()"
+    },
     providers: [customValueAccessorFactory(SuiSelectValueAccessor)]
 })
 export class SuiSelectValueAccessor<T, U> extends CustomValueAccessor<U, SuiSelect<T, U>> {

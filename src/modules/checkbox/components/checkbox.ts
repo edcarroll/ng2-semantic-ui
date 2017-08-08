@@ -31,8 +31,11 @@ export class SuiCheckbox implements ICustomValueAccessorHost<boolean> {
     @HostBinding("class.checked")
     public isChecked:boolean;
 
-    @Output()
-    public checkChange:EventEmitter<boolean>;
+    @Output("checkChange")
+    public onCheckChange:EventEmitter<boolean>;
+
+    @Output("touched")
+    public onTouched:EventEmitter<void>;
 
     @Input()
     public isDisabled:boolean;
@@ -54,12 +57,18 @@ export class SuiCheckbox implements ICustomValueAccessorHost<boolean> {
 
     constructor() {
         this.isChecked = false;
-        this.checkChange = new EventEmitter<boolean>();
+        this.onCheckChange = new EventEmitter<boolean>();
+        this.onTouched = new EventEmitter<void>();
 
         this.isDisabled = false;
         this.isReadonly = false;
 
         this._checkboxClasses = true;
+    }
+
+    @HostListener("mousedown", ["$event"])
+    public onMouseDown(e:MouseEvent):void {
+        e.preventDefault();
     }
 
     @HostListener("click")
@@ -70,9 +79,14 @@ export class SuiCheckbox implements ICustomValueAccessorHost<boolean> {
         }
     }
 
+    @HostListener("focusout")
+    public onFocusOut():void {
+        this.onTouched.emit();
+    }
+
     public toggle():void {
         this.isChecked = !this.isChecked;
-        this.checkChange.emit(this.isChecked);
+        this.onCheckChange.emit(this.isChecked);
     }
 
     public writeValue(value:boolean):void {
@@ -86,7 +100,10 @@ export class SuiCheckbox implements ICustomValueAccessorHost<boolean> {
 
 @Directive({
     selector: "sui-checkbox",
-    host: { "(checkChange)": "onChange($event)" },
+    host: {
+        "(checkChange)": "onChange($event)",
+        "(touched)": "onTouched()"
+    },
     providers: [customValueAccessorFactory(SuiCheckboxValueAccessor)]
 })
 export class SuiCheckboxValueAccessor extends CustomValueAccessor<boolean, SuiCheckbox> {

@@ -1,6 +1,6 @@
 import {
     ViewChild, HostBinding, ElementRef, HostListener, Input, ContentChildren, QueryList,
-    AfterContentInit, TemplateRef, ViewContainerRef, ContentChild
+    AfterContentInit, TemplateRef, ViewContainerRef, ContentChild, EventEmitter, Output
 } from "@angular/core";
 import { Subscription } from "rxjs/Subscription";
 import { DropdownService, SuiDropdownMenu } from "../../dropdown";
@@ -169,7 +169,13 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
 
     public get labelGetter():(obj:T) => string {
         // Helper function to retrieve the label from an item.
-        return (obj:T) => Util.Object.readValue<T, string>(obj, this.labelField);
+        return (obj:T) => {
+            const label = Util.Object.readValue<T, string>(obj, this.labelField);
+            if (label != undefined) {
+                return label.toString();
+            }
+            return "";
+        };
     }
 
     @Input()
@@ -187,11 +193,11 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
 
     public get configuredFormatter():(option:T) => string {
         if (this._optionFormatter) {
-            return r => this._optionFormatter!(r, this.isSearchable ? this.query : undefined);
+            return o => this._optionFormatter!(o, this.isSearchable ? this.query : undefined);
         } else if (this.searchService.optionsLookup) {
-            return r => this.labelGetter(r);
+            return o => this.labelGetter(o);
         } else {
-            return r => this.searchService.highlightMatches(this.labelGetter(r), this.query || "");
+            return o => this.searchService.highlightMatches(this.labelGetter(o), this.query || "");
         }
     }
 
@@ -216,6 +222,9 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     @Input()
     public transitionDuration:number;
 
+    @Output("touched")
+    public onTouched:EventEmitter<void>;
+
     constructor(private _element:ElementRef, protected _localizationService:SuiLocalizationService) {
         this.dropdownService = new DropdownService();
         // We do want an empty query to return all results.
@@ -230,6 +239,8 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         this.icon = "dropdown";
         this.transition = "slide down";
         this.transitionDuration = 200;
+
+        this.onTouched = new EventEmitter<void>();
 
         this._selectClasses = true;
     }
@@ -355,11 +366,10 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
 
     @HostListener("focusout", ["$event"])
     private onFocusOut(e:FocusEvent):void {
-        setTimeout(() => {
-            if (!this._element.nativeElement.contains(document.activeElement)) {
-                this.dropdownService.setOpenState(false);
-            }
-        });
+        if (!this._element.nativeElement.contains(e.relatedTarget)) {
+            this.dropdownService.setOpenState(false);
+            this.onTouched.emit();
+        }
     }
 
     @HostListener("keypress", ["$event"])

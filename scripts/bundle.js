@@ -14,15 +14,14 @@ const defaultPlugins = [
     }),
     commonjs({
         namedExports: {
-            "node_modules/bowser/src/bowser.js": ["mobile"],
-            "node_modules/deep-extend/lib/deep-extend.js": ["call"]
+            "node_modules/bowser/src/bowser.js": ["mobile"]
         },
         include: [
             "node_modules/element-closest/**",
             "node_modules/popper.js/**",
             "node_modules/date-fns/**",
             "node_modules/bowser/src/bowser.js",
-            "node_modules/deep-extend/lib/deep-extend.js"
+            "node_modules/extend/**"
         ]
     })
 ]

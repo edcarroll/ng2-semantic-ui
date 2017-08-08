@@ -1,12 +1,15 @@
 import {
     Component, Directive, Input, Output, HostListener, HostBinding,
-    EventEmitter, ViewChild, ElementRef
+    EventEmitter, ViewChild, ElementRef, ContentChildren, AfterContentInit, QueryList
 } from "@angular/core";
-import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor } from "../../../misc/util";
+import {
+    ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor,
+    Util
+} from "../../../misc/util";
+import { Subscription } from "rxjs/Subscription";
 
 @Component({
-    selector: "sui-radio-button[ngModel]",
-    exportAs: "suiRadioButton",
+    selector: "sui-radio-button",
     template: `
 <input class="hidden"
        type="checkbox"
@@ -21,7 +24,7 @@ import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccess
 </label>
 `
 })
-export class SuiRadioButton<T> implements ICustomValueAccessorHost<T> {
+export class SuiRadio<T> implements ICustomValueAccessorHost<T> {
     @HostBinding("class.ui")
     @HostBinding("class.radio")
     @HostBinding("class.checkbox")
@@ -38,8 +41,11 @@ export class SuiRadioButton<T> implements ICustomValueAccessorHost<T> {
 
     public currentValue:T;
 
-    @Output()
-    public currentValueChange:EventEmitter<T>;
+    @Output("currentValueChange")
+    public onCurrentValueChange:EventEmitter<T>;
+
+    @Output("touched")
+    public onTouched:EventEmitter<void>;
 
     @Input()
     public isDisabled:boolean;
@@ -61,7 +67,8 @@ export class SuiRadioButton<T> implements ICustomValueAccessorHost<T> {
 
     constructor() {
         this.isChecked = false;
-        this.currentValueChange = new EventEmitter<T>();
+        this.onCurrentValueChange = new EventEmitter<T>();
+        this.onTouched = new EventEmitter<void>();
 
         this.isDisabled = false;
         this.isReadonly = false;
@@ -69,14 +76,24 @@ export class SuiRadioButton<T> implements ICustomValueAccessorHost<T> {
         this._radioClasses = true;
     }
 
+    @HostListener("mousedown", ["$event"])
+    public onMouseDown(e:MouseEvent):void {
+        e.preventDefault();
+    }
+
     @HostListener("click")
     public onClick():void {
         if (!this.isDisabled && !this.isReadonly) {
             this.currentValue = this.value;
-            this.currentValueChange.emit(this.currentValue);
+            this.onCurrentValueChange.emit(this.currentValue);
             this.update();
             this.focusRadio();
         }
+    }
+
+    @HostListener("focusout")
+    public onFocusOut():void {
+        this.onTouched.emit();
     }
 
     public update():void {
@@ -95,11 +112,14 @@ export class SuiRadioButton<T> implements ICustomValueAccessorHost<T> {
 
 @Directive({
     selector: "sui-radio-button",
-    host: { "(currentValueChange)": "onChange($event)" },
-    providers: [customValueAccessorFactory(SuiRadioButtonValueAccessor)]
+    host: {
+        "(currentValueChange)": "onChange($event)",
+        "(touched)": "onTouched()"
+    },
+    providers: [customValueAccessorFactory(SuiRadioValueAccessor)]
 })
-export class SuiRadioButtonValueAccessor<T> extends CustomValueAccessor<T, SuiRadioButton<T>> {
-    constructor(host:SuiRadioButton<T>) {
+export class SuiRadioValueAccessor<T> extends CustomValueAccessor<T, SuiRadio<T>> {
+    constructor(host:SuiRadio<T>) {
         super(host);
     }
 }

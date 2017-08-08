@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { ApiDefinition } from "../../../components/api/api.component";
-import { SuiModalService } from "../../../../../../src/public";
+import { SuiModalService } from "ng2-semantic-ui";
 import { AlertModal } from "../../../modals/alert.modal";
 
 const exampleStandardTemplate = `

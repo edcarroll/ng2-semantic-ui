@@ -1,15 +1,16 @@
 import { Injectable, EventEmitter } from "@angular/core";
-import { ILocaleValues, IPartialLocaleValues } from "../interfaces/values";
+import { ILocaleValues, IPartialLocaleValues, RecursivePartial } from "../interfaces/values";
 import enGB from "../locales/en-GB";
-import * as extend from "deep-extend";
-import { RecursivePartial } from "../interfaces/partial";
+import * as $extend from "extend";
 
 function deepClone<T>(obj:T):T {
     return JSON.parse(JSON.stringify(obj));
 }
 
 function deepExtend<T, U>(target:T, source:U):T & U {
-    return extend.call(undefined, target, source);
+    // Rollup...
+    const extend = ($extend as any).default || $extend;
+    return extend(true, target, source);
 }
 
 function lang(language:string):string {
