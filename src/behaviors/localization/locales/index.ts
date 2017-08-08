@@ -1,6 +1,7 @@
 import { RecursivePartial, ILocaleValues } from "../interfaces/values";
 
 import de from "./de";
+import enAU from "./en-AU";
 import enGB from "./en-GB";
 import enUS from "./en-US";
 import es from "./es";
@@ -11,6 +12,7 @@ import it from "./it";
 // This file exists for the demo app. Don't use this in real life.
 export default {
     de,
+    enAU,
     enGB,
     enUS,
     es,
