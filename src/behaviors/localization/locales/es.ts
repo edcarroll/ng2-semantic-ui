@@ -46,7 +46,7 @@ const es:IPartialLocaleValues = {
         multi: {
             placeholder: "Seleccione...",
             maxSelectedMessage: "Puede elegir hasta #{max}",
-            selectedMessage: "#{count} selections"
+            selectedMessage: "Seleccionados #{count}"
         }
     }
 };
