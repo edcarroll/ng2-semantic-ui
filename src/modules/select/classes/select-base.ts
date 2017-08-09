@@ -9,6 +9,7 @@ import { Util, ITemplateRefContext, HandledEvent, KeyCode, IFocusEvent } from ".
 import { ISelectLocaleValues, RecursivePartial, SuiLocalizationService } from "../../../behaviors/localization/index";
 import { SuiSelectOption } from "../components/select-option";
 import { SuiSelectSearch } from "../directives/select-search";
+import { SelectTrigger } from "./select-config";
 
 export interface IOptionContext<T> extends ITemplateRefContext<T> {
     query?:string;
@@ -222,6 +223,9 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
     @Input()
     public transitionDuration:number;
 
+    @Input()
+    public trigger:SelectTrigger;
+
     @Output("touched")
     public onTouched:EventEmitter<void>;
 
@@ -243,6 +247,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
         this.onTouched = new EventEmitter<void>();
 
         this._selectClasses = true;
+        this.trigger = SelectTrigger.Click;
     }
 
     public ngAfterContentInit():void {
@@ -346,7 +351,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
 
     @HostListener("click", ["$event"])
     public onClick(e:HandledEvent):void {
-        if (!e.eventHandled && !this.dropdownService.isAnimating) {
+        if (this.trigger === SelectTrigger.Click && !e.eventHandled && !this.dropdownService.isAnimating) {
             e.eventHandled = true;
 
             // If the dropdown is searchable, clicking should keep it open, otherwise we toggle the open state.
@@ -371,6 +376,21 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
         if (!this._element.nativeElement.contains(e.relatedTarget)) {
             this.dropdownService.setOpenState(false);
             this.onTouched.emit();
+        }
+    }
+
+    @HostListener("mouseenter")
+    private onMouseEnter():void {
+       if (this.trigger === SelectTrigger.Hover && !this.dropdownService.isOpen && !this.dropdownService.isAnimating) {
+            this.dropdownService.setOpenState(true);
+            this.focus();
+        }
+    }
+
+    @HostListener("mouseleave")
+    private onMouseLeave():void {
+        if (this.trigger === SelectTrigger.Hover && this.dropdownService.isOpen) {
+            this.dropdownService.setOpenState(false);
         }
     }
 

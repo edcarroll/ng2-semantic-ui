@@ -113,6 +113,17 @@ const exampleInMenuSearchTemplate = `
 </sui-multi-select>
 `;
 
+const exampleHoverTriggerTemplate = `
+<sui-select [(ngModel)]="selectedOption"
+                  [options]="options"
+                  labelField="name"
+                  class="selection"
+                  trigger="hover"
+                  #select>
+    <sui-select-option *ngFor="let o of select.filteredOptions" [value]="o"></sui-select-option>
+</sui-select>
+`;
+
 const exampleTemplateTemplate = `
 <div class="ui segments">
     <div class="ui segment">
@@ -259,6 +270,12 @@ export class SelectPage {
                     name: "localeOverrides",
                     type: "RecursivePartial<ISearchLocaleValues>",
                     description: "Overrides the values from the localization service."
+                },
+                {
+                    name: "trigger",
+                    type: "SelectTrigger",
+                    description: "Specifies the trigger for the select. Options are: <code>click</code> & <code>hover</code>",
+                    defaultValue: "click"
                 }
             ],
             events: [
@@ -376,6 +393,12 @@ export class SelectPage {
                     name: "localeOverrides",
                     type: "Partial<ISearchLocaleValues>",
                     description: "Overrides the values from the localization service."
+                },
+                {
+                    name: "trigger",
+                    type: "SelectTrigger",
+                    description: "Specifies the trigger for the select. Options are: <code>click</code> & <code>hover</code>",
+                    defaultValue: "click"
                 }
             ],
             events: [
@@ -409,6 +432,7 @@ export class SelectPage {
     public exampleStandardTemplate:string = exampleStandardTemplate;
     public exampleVariationsTemplate:string = exampleVariationsTemplate;
     public exampleInMenuSearchTemplate:string = exampleInMenuSearchTemplate;
+    public exampleHoverTriggerTemplate:string = exampleHoverTriggerTemplate;
     public exampleTemplateTemplate:string = exampleTemplateTemplate;
     public formatterCode:string = `
 public formatter(option:IOption, query?:string):string {
@@ -478,6 +502,15 @@ export class SelectExampleInMenuSearch {
 }
 
 @Component({
+    selector: "example-select-hover-trigger",
+    template: exampleHoverTriggerTemplate
+})
+export class SelectExampleHoverTrigger {
+    public options:IOption[] = namedOptions;
+    public selectedOption:IOption;
+}
+
+@Component({
     selector: "example-select-template",
     template: exampleTemplateTemplate
 })
@@ -522,5 +555,6 @@ export const SelectPageComponents = [
     SelectExampleVariations,
     SelectExampleInMenuSearch,
     SelectExampleTemplate,
-    SelectExampleLookupSearch
+    SelectExampleLookupSearch,
+    SelectExampleHoverTrigger
 ];

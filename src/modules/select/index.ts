@@ -1,4 +1,5 @@
 export * from "./classes/select-base";
+export * from "./classes/select-config";
 
 export * from "./components/multi-select-label";
 export * from "./components/multi-select";
