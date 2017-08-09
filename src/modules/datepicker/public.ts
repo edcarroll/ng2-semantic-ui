@@ -1,4 +1,5 @@
 export {
     SuiDatepickerModule,
-    DatepickerMode
+    DatepickerMode,
+    CalendarViewType
 } from "./index";

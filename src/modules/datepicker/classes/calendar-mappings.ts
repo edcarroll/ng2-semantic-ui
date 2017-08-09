@@ -3,17 +3,27 @@ import { CalendarViewType } from "../views/calendar-view";
 export type CalendarMapping<T = CalendarViewType> = Map<CalendarViewType, T>;
 
 export abstract class CalendarMappings {
-    public initialView:CalendarViewType;
     public finalView:CalendarViewType;
     public changed:CalendarMapping;
     public zoom:CalendarMapping;
+
+    protected _initialView:CalendarViewType;
+
+    public get initialView():CalendarViewType {
+        return this._initialView;
+    }
+    public set initialView(view:CalendarViewType) {
+        if (this.changed && this.changed.has(view)) {
+            this._initialView = view;
+        }
+    }
 }
 
 export class DateMappings extends CalendarMappings {
     constructor() {
         super();
 
-        this.initialView = CalendarViewType.Date;
+        this._initialView = CalendarViewType.Date;
         this.finalView = CalendarViewType.Date;
 
         this.changed = new Map<CalendarViewType, CalendarViewType>([
@@ -34,7 +44,7 @@ export class TimeMappings extends CalendarMappings {
     constructor() {
         super();
 
-        this.initialView = CalendarViewType.Hour;
+        this._initialView = CalendarViewType.Hour;
         this.finalView = CalendarViewType.Minute;
 
         this.changed = new Map<CalendarViewType, CalendarViewType>([
@@ -53,7 +63,7 @@ export class DatetimeMappings extends CalendarMappings {
     constructor() {
         super();
 
-        this.initialView = CalendarViewType.Date;
+        this._initialView = CalendarViewType.Date;
         this.finalView = CalendarViewType.Minute;
 
         this.changed = new Map<CalendarViewType, CalendarViewType>([
@@ -78,7 +88,7 @@ export class MonthMappings extends CalendarMappings {
     constructor() {
         super();
 
-        this.initialView = CalendarViewType.Month;
+        this._initialView = CalendarViewType.Month;
         this.finalView = CalendarViewType.Month;
 
         this.changed = new Map<CalendarViewType, CalendarViewType>([
@@ -97,7 +107,7 @@ export class YearMappings extends CalendarMappings {
     constructor() {
         super();
 
-        this.initialView = CalendarViewType.Year;
+        this._initialView = CalendarViewType.Year;
         this.finalView = CalendarViewType.Year;
 
         this.changed = new Map<CalendarViewType, CalendarViewType>([

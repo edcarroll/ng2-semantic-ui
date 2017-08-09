@@ -12,6 +12,7 @@ import { IDatepickerLocaleValues, RecursivePartial, SuiLocalizationService } fro
 import { SuiPopupComponentController, PopupAfterOpen, PopupConfig, PopupTrigger } from "../../popup";
 import { SuiDatepicker, DatepickerMode } from "../components/datepicker";
 import { CalendarConfig, YearConfig, MonthConfig, DatetimeConfig, TimeConfig, DateConfig } from "../classes/calendar-config";
+import { CalendarViewType } from "../views/calendar-view";
 
 @Directive({
     selector: "[suiDatepicker]",
@@ -30,6 +31,19 @@ export class SuiDatepickerDirective
     public set selectedDate(date:Date | undefined) {
         this._selectedDate = date;
         this.onSelectedDateChange.emit(date);
+    }
+
+    private _initialView:CalendarViewType;
+
+    @Input("pickerInitialView")
+    public get initialView():CalendarViewType {
+        return this._initialView;
+    }
+    public set initialView(view:CalendarViewType) {
+        this._initialView = view;
+        if (this.config) {
+            this.config.mappings.initialView = view;
+        }
     }
 
     private _mode:DatepickerMode;
@@ -59,6 +73,9 @@ export class SuiDatepickerDirective
             case DatepickerMode.Time:
                 this.config = new TimeConfig();
                 break;
+        }
+        if (this._initialView != undefined) {
+            this.config.mappings.initialView = this._initialView;
         }
         this.writeValue(this.selectedDate);
     }

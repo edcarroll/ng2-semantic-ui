@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { ApiDefinition } from "../../../components/api/api.component";
-import { DatepickerMode } from "../../../../../../src/public";
+import { DatepickerMode, CalendarViewType } from "../../../../../../src/public";
 
 const exampleStandardTemplate = `
 <div class="ui form">
@@ -11,6 +11,7 @@ const exampleStandardTemplate = `
             <input suiDatepicker
                    [(ngModel)]="date"
                    [pickerMode]="mode"
+                   [pickerInitialView]="initialView"
                    [pickerFirstDayOfWeek]="firstDayOfWeek"
                    [pickerUseNativeOnMobile]="false">
         </div>
@@ -19,6 +20,12 @@ const exampleStandardTemplate = `
         <label>Datepicker Mode</label>
         <sui-select class="selection" [(ngModel)]="mode" [options]="datepickerModes" #modes>
             <sui-select-option *ngFor="let m of modes.availableOptions" [value]="m"></sui-select-option>
+        </sui-select>
+    </div>
+    <div class="field">
+        <label>Initial View</label>
+        <sui-select class="selection" [(ngModel)]="initialView" [options]="calendarViews" labelField="label" valueField="value" #views>
+            <sui-select-option *ngFor="let m of views.availableOptions" [value]="m"></sui-select-option>
         </sui-select>
     </div>
     <div class="field">
@@ -112,6 +119,13 @@ export class DatepickerPage {
                     defaultValue: "0"
                 },
                 {
+                    name: "pickerInitialView",
+                    type: "CalendarViewType",
+                    description: "Specifies the initial view for the datepicker. Options are: <code>CalendarViewType.Year</code>, " +
+                                 "<code>CalendarViewType.Month</code>, <code>CalendarViewType.Date</code>, " +
+                                 "<code>CalendarViewType.Hour</code> & <code>CalendarViewType.Minute</code>."
+                },
+                {
                     name: "pickerPlacement",
                     type: "PopupPlacement",
                     description: "Sets the placement of the datepicker.",
@@ -184,6 +198,15 @@ export class DatepickerExampleStandard {
     public datepickerModes:string[] = ["datetime", "date", "time", "month", "year"];
     public mode:DatepickerMode = DatepickerMode.Datetime;
     public date:Date;
+
+    public calendarViews:{ label:string; value:CalendarViewType }[] = [
+        { label: "year", value: CalendarViewType.Year },
+        { label: "month", value: CalendarViewType.Month },
+        { label: "date", value: CalendarViewType.Date },
+        { label: "hour", value: CalendarViewType.Hour },
+        { label: "minute", value: CalendarViewType.Minute }
+    ];
+    public initialView:CalendarViewType = CalendarViewType.Date;
 }
 
 @Component({
