@@ -16,28 +16,34 @@ import { ModalConfig, ModalSize } from "../classes/modal-config";
             [(isDimmed)]="dimBackground"
             [isClickable]="false"
             [transitionDuration]="transitionDuration"
-            (click)="close()"></sui-dimmer>
+            [wrapContent]="false"
+            (click)="close()">
 
-<!-- Modal component, with transition component attached -->
-<div class="ui modal"
-     [suiTransition]="transitionController"
-     [class.active]="transitionController?.isVisible"
-     [class.fullscreen]="isFullScreen"
-     [class.basic]="isBasic"
-     [class.scroll]="mustScroll"
-     [class.inverted]="isInverted"
-     [ngClass]="dynamicClasses"
-     #modal>
+    <!-- Modal component, with transition component attached -->
+    <div class="ui modal"
+         [suiTransition]="transitionController"
+         [class.active]="transitionController?.isVisible"
+         [class.fullscreen]="isFullScreen"
+         [class.basic]="isBasic"
+         [class.scroll]="mustScroll"
+         [class.inverted]="isInverted"
+         [ngClass]="dynamicClasses"
+         #modal>
 
-    <!-- Configurable close icon -->
-    <i class="close icon" *ngIf="isClosable" (click)="close()"></i>
-    <!-- <ng-content> so that <sui-modal> can be used as a normal component. -->
-    <ng-content></ng-content>
-    <!-- @ViewChild reference so we can insert elements beside this div. -->
-    <div #templateSibling></div>
-</div>
+        <!-- Configurable close icon -->
+        <i class="close icon" *ngIf="isClosable" (click)="close()"></i>
+        <!-- <ng-content> so that <sui-modal> can be used as a normal component. -->
+        <ng-content></ng-content>
+        <!-- @ViewChild reference so we can insert elements beside this div. -->
+        <div #templateSibling></div>
+    </div>
+</sui-dimmer>
 `,
     styles: [`
+.ui.dimmer {
+    overflow-y: auto;
+}
+
 /* avoid .scrolling as Semantic UI adds unwanted styles. */
 .scroll {
     position: absolute !important;
