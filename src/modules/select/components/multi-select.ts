@@ -10,10 +10,7 @@ import { ISelectRenderedOption } from "./select-option";
 <!-- Dropdown icon -->
 <i class="{{ icon }} icon" (click)="onCaretClick($event)"></i>
 
-<!-- Summary shown when labels are hidden -->
-<span *ngIf="hasLabelsHidden; else labelsBlock">{{ selectedMessage }}</span>
-
-<ng-template #labelsBlock>
+<ng-container *ngIf="!hasLabelsHidden">
 <!-- Multi-select labels -->
     <sui-multi-select-label *ngFor="let selected of selectedOptions;"
                             [value]="selected"
@@ -21,16 +18,25 @@ import { ISelectRenderedOption } from "./select-option";
                             [formatter]="configuredFormatter"
                             [template]="optionTemplate"
                             (deselected)="deselectOption($event)"></sui-multi-select-label>
-</ng-template>
+</ng-container>
 
 <!-- Query input -->
 <input suiSelectSearch
        type="text"
        [hidden]="!isSearchable || isSearchExternal">
 
-<!-- Placeholder text -->
-<div class="default text" *ngIf="!(hasLabelsHidden && isSearchable)"
-     [class.filtered]="!!query && !isSearchExternal">{{ placeholder }}</div>
+<!-- Helper text -->
+<div class="text"
+     [class.default]="!hasLabelsHidden"
+     [class.filtered]="!!query && !isSearchExternal">
+    
+    <!-- Summary shown when labels are hidden -->
+    <ng-container *ngIf="hasLabelsHidden; else placeholderBlock">{{ selectedMessage }}</ng-container>
+    
+    <!-- Placeholder text -->
+    <ng-template #placeholderBlock> {{ placeholder }}</ng-template>
+</div>
+
 <!-- Select dropdown menu -->
 <div class="menu"
      suiDropdownMenu
