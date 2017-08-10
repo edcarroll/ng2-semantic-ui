@@ -1,3 +1,4 @@
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Util } from "../../../misc/util";
 import { LookupFn, LookupFnResult, FilterFn } from "../helpers/lookup-fn";
 
@@ -59,6 +60,9 @@ export class SearchService<T, U> {
         return this._results;
     }
 
+    // Results in observable form.
+    public results$:BehaviorSubject<T[]>;
+
     private _query:string;
     // Allows the empty query to produce results.
     public allowEmptyQuery:boolean;
@@ -97,6 +101,8 @@ export class SearchService<T, U> {
             return false;
         };
 
+        this.results$ = new BehaviorSubject<T[]>([]);
+
         // Set default values and reset.
         this.allowEmptyQuery = allowEmptyQuery;
         this.searchDelay = 0;
@@ -128,7 +134,7 @@ export class SearchService<T, U> {
 
         if (this._resultsCache.hasOwnProperty(this._query)) {
             // If the query is already cached, make use of it.
-            this._results = this._resultsCache[this._query];
+            this.updateResults(this._resultsCache[this._query], false);
 
             return callback();
         }
@@ -163,9 +169,12 @@ export class SearchService<T, U> {
     }
 
     // Updates & caches the new set of results.
-    private updateResults(results:T[]):void {
-        this._resultsCache[this._query] = results;
+    private updateResults(results:T[], cache:boolean = true):void {
+        if (cache) {
+            this._resultsCache[this._query] = results;
+        }
         this._results = results;
+        this.results$.next(results);
     }
 
     // tslint:disable-next-line:promise-function-async
@@ -201,6 +210,7 @@ export class SearchService<T, U> {
     // Resets the search back to a pristine state.
     private reset():void {
         this._results = [];
+        this.results$.next([]);
         this._resultsCache = {};
         this._isSearching = false;
         this.updateQuery("");

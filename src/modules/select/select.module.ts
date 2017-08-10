@@ -37,6 +37,9 @@ import { SuiMultiSelectLabel } from "./components/multi-select-label";
         SuiSelectValueAccessor,
         SuiMultiSelect,
         SuiMultiSelectValueAccessor
+    ],
+    entryComponents: [
+        SuiSelectOption
     ]
 })
 export class SuiSelectModule {}

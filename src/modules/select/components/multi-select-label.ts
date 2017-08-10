@@ -36,7 +36,7 @@ export class SuiMultiSelectLabel<T> extends SuiTransition {
     public onDeselected:EventEmitter<T>;
 
     @Input()
-    public formatter:(obj:T) => string;
+    public formatter?:(obj:T) => string;
 
     private _template?:TemplateRef<IOptionContext<T>>;
 

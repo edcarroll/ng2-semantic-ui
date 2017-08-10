@@ -55,7 +55,7 @@
     "element-closest": "^2.0.2",
     "extend": "^3.0.1",
     "popper.js": "~1.10.6",
-    "rxjs": "^5.0.1"
+    "rxjs": "^5.4.2"
   },
   "devDependencies": {
     "@angular/common": "^4.3.1",
