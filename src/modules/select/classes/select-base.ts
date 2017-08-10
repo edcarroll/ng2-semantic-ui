@@ -7,7 +7,7 @@ import { DropdownService, SuiDropdownMenu } from "../../dropdown";
 import { SearchService, LookupFn, FilterFn } from "../../search";
 import { Util, ITemplateRefContext, HandledEvent, KeyCode } from "../../../misc/util";
 import { ISelectLocaleValues, RecursivePartial, SuiLocalizationService } from "../../../behaviors/localization";
-import { SuiSelectOption } from "../components/select-option";
+import { SuiSelectOption, ISelectRenderedOption } from "../components/select-option";
 import { SuiSelectSearch } from "../directives/select-search";
 import { SuiSelectOptions } from "../components/select-options";
 
@@ -332,7 +332,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, AfterView
         }
     }
 
-    protected initialiseRenderedOption(option:any):void {
+    protected initialiseRenderedOption(option:ISelectRenderedOption<T>):void {
         option.usesTemplate = !!this.optionTemplate;
         option.formatter = this.configuredFormatter;
 

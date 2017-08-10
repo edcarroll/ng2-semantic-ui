@@ -2,6 +2,7 @@ import { Component, HostBinding, ElementRef, EventEmitter, Output, Input, Direct
 import { ICustomValueAccessorHost, KeyCode, customValueAccessorFactory, CustomValueAccessor } from "../../../misc/util";
 import { SuiLocalizationService } from "../../../behaviors/localization";
 import { SuiSelectBase } from "../classes/select-base";
+import { ISelectRenderedOption } from "./select-option";
 
 @Component({
     selector: "sui-multi-select",
@@ -11,7 +12,7 @@ import { SuiSelectBase } from "../classes/select-base";
 
 <ng-container *ngIf="hasLabels">
 <!-- Multi-select labels -->
-    <sui-multi-select-label *ngFor="let selected of selectedOptions"
+    <sui-multi-select-label *ngFor="let selected of selectedOptions;"
                             [option]="selected"
                             [query]="query"
                             [formatter]="configuredFormatter"
@@ -45,7 +46,7 @@ import { SuiSelectBase } from "../classes/select-base";
 
     <ng-content></ng-content>
     <sui-select-options></sui-select-options>
-    <ng-container *ngIf="filteredOptions.length == 0 ">
+    <ng-container *ngIf="availableOptions.length == 0 ">
         <div *ngIf="!maxSelectedReached" class="message">{{ localeValues.noResultsMessage }}</div>
         <div *ngIf="maxSelectedReached" class="message">{{ maxSelectedMessage }}</div>
     </ng-container>
@@ -158,7 +159,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
         }
     }
 
-    protected initialiseRenderedOption(rendered:any):void {
+    protected initialiseRenderedOption(rendered:ISelectRenderedOption<T>):void {
         super.initialiseRenderedOption(rendered);
 
         // Boldens the item so it appears selected in the dropdown.
