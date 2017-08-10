@@ -22,6 +22,18 @@ const exampleNoDismissTemplate = `
 </div>
 `;
 
+const exampleIconTemplate = `
+<sui-message class="icon success" [isDismissable]="true">
+    <i class="inbox icon"></i>
+    <div class="content">
+    <div class="header">
+        This is a message with an Icon!
+    </div>
+    <p>This message can be styled (as shown) and dismissed with the close icon in the top right.</p>
+    </div>
+</sui-message>
+`;
+
 @Component({
     selector: "demo-page-message",
     templateUrl: "./message.page.html"
@@ -61,6 +73,7 @@ export class MessagePage {
     ];
     public exampleStandardTemplate:string = exampleStandardTemplate;
     public exampleNoDismissTemplate:string = exampleNoDismissTemplate;
+    public exampleIconTemplate:string = exampleIconTemplate;
 
     public manualDismissMarkup:string = `
 <sui-message #message>
@@ -97,4 +110,10 @@ export class MessageExampleStandard {}
 })
 export class MessageExampleNoDismiss {}
 
-export const MessagePageComponents = [MessagePage, MessageExampleStandard, MessageExampleNoDismiss];
+@Component({
+    selector: "example-message-icon",
+    template: exampleIconTemplate
+})
+export class MessageExampleIcon {}
+
+export const MessagePageComponents = [MessagePage, MessageExampleStandard, MessageExampleNoDismiss, MessageExampleIcon];
