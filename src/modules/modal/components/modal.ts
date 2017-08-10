@@ -151,6 +151,9 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     @ViewChild("templateSibling", { read: ViewContainerRef })
     public templateSibling:ViewContainerRef;
 
+    // Parent element of modal before relocation to document body.
+    private _originalContainer?:Element;
+
     public get dynamicClasses():IDynamicClasses {
         const classes:IDynamicClasses = {};
         if (this.size) {
@@ -188,6 +191,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
 
     public ngAfterViewInit():void {
         // Move the modal to the document body to ensure correct scrolling.
+        this._originalContainer = this._element.nativeElement.parentNode;
         document.querySelector("body")!.appendChild(this._element.nativeElement);
         // Remove the #templateSibling element from the DOM to fix bottom border styles.
         const templateElement = this.templateSibling.element.nativeElement as Element;
@@ -238,7 +242,10 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
             this.transitionController.stopAll();
             this.transitionController.animate(
                 new Transition(this.transition, this.transitionDuration, TransitionDirection.Out, () => {
-                    // When done, emit a dismiss event, and fire the callback.
+                    // When done, move the modal back to its original location, emit a dismiss event, and fire the callback.
+                    if (this._originalContainer) {
+                        this._originalContainer.appendChild(this._element.nativeElement);
+                    }
                     this.onDismiss.emit();
                     callback();
                 }));
