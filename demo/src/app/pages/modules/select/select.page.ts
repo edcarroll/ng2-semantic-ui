@@ -12,9 +12,6 @@ const exampleStandardTemplate = `
                     [isSearchable]="searchable"
                     [isDisabled]="disabled"
                     #select>
-            <sui-select-option *ngFor="let option of select.filteredOptions"
-                               [option]="option">
-            </sui-select-option>
         </sui-select>
     </div>
     <div class="ui segment">
@@ -27,9 +24,6 @@ const exampleStandardTemplate = `
                           [isDisabled]="disabled"
                           [hasLabels]="!hideLabels"
                           #multiSelect>
-            <sui-select-option *ngFor="let option of multiSelect.filteredOptions"
-                               [option]="option">
-            </sui-select-option>
         </sui-multi-select>
         <br><br>
         <sui-checkbox [(ngModel)]="hideLabels">Hide labels?</sui-checkbox>
@@ -85,7 +79,6 @@ const exampleVariationsTemplate = `
                 <i class="tags icon"></i>
                 Filter by tag
             </div>
-            <sui-select-option *ngFor="let o of filterSelect.filteredOptions" [option]="o"></sui-select-option>
         </sui-select>
     </div>
 </div>
@@ -108,7 +101,7 @@ const exampleInMenuSearchTemplate = `
         Options
     </div>
     <div class="scrolling menu">
-        <sui-select-option *ngFor="let o of select.filteredOptions" [option]="o"></sui-select-option>
+        <sui-select-options></sui-select-options>
     </div>
 </sui-multi-select>
 `;
@@ -128,7 +121,6 @@ const exampleTemplateTemplate = `
                     [optionTemplate]="optionTemplate"
                     [isSearchable]="true"
                     #templated>
-            <sui-select-option *ngFor="let o of templated.filteredOptions" [option]="o"></sui-select-option>
         </sui-select>
     </div>
     <div class="ui segment">
@@ -138,7 +130,6 @@ const exampleTemplateTemplate = `
                     [options]="options"
                     [optionFormatter]="formatter"
                     #formatted>
-            <sui-select-option *ngFor="let o of formatted.filteredOptions" [option]="o"></sui-select-option>
         </sui-select>
     </div>
     <div class="ui segment">
@@ -155,7 +146,6 @@ const exampleSearchLookupTemplate = `
             optionField="id"
             [isSearchable]="true"
             #searchSelect>
-    <sui-select-option *ngFor="let o of searchSelect.filteredOptions" [option]="o"></sui-select-option>
 </sui-select>
 <div class="ui segment">
     <p>Currently selected: {{ selectedOption | json }}</p>

@@ -18,7 +18,16 @@ export interface ISelectRenderedOption<T> {
     template: `
 <span #templateSibling></span>
 <span [innerHTML]="renderedText"></span>
-`
+`,
+    styles: [`
+:host {
+    display: none !important;
+}
+
+:host-context(sui-select-options) {
+    display: block;
+}
+`]
 })
 export class SuiSelectOption<T> extends SuiDropdownMenuItem implements ISelectRenderedOption<T> {
     // Sets the Semantic UI classes on the host element.

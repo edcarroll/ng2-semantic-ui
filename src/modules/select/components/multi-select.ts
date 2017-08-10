@@ -45,6 +45,7 @@ import { ISelectRenderedOption } from "./select-option";
      [menuAutoSelectFirst]="true">
 
     <ng-content></ng-content>
+    <sui-select-options></sui-select-options>
     <ng-container *ngIf="availableOptions.length == 0 ">
         <div *ngIf="!maxSelectedReached" class="message">{{ localeValues.noResultsMessage }}</div>
         <div *ngIf="maxSelectedReached" class="message">{{ maxSelectedMessage }}</div>

@@ -29,6 +29,7 @@ import { ISelectRenderedOption } from "./select-option";
      [menuAutoSelectFirst]="isSearchable">
 
     <ng-content></ng-content>
+    <sui-select-options></sui-select-options>
     <div *ngIf="isSearchable && availableOptions.length === 0" class="message">
         {{ localeValues.noResultsMessage }}
     </div>

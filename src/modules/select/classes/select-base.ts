@@ -1,6 +1,6 @@
 import {
-    ViewChild, HostBinding, ElementRef, HostListener, Input, ContentChildren, QueryList,
-    AfterContentInit, TemplateRef, ViewContainerRef, ContentChild, EventEmitter, Output
+    ViewChild, HostBinding, ElementRef, HostListener, Input, ContentChildren, QueryList, AfterViewInit,
+    AfterContentInit, TemplateRef, ViewContainerRef, ContentChild, EventEmitter, Output, ViewChildren
 } from "@angular/core";
 import { Subscription } from "rxjs/Subscription";
 import { DropdownService, SuiDropdownMenu } from "../../dropdown";
@@ -9,6 +9,7 @@ import { Util, ITemplateRefContext, HandledEvent, KeyCode } from "../../../misc/
 import { ISelectLocaleValues, RecursivePartial, SuiLocalizationService } from "../../../behaviors/localization";
 import { SuiSelectOption, ISelectRenderedOption } from "../components/select-option";
 import { SuiSelectSearch } from "../directives/select-search";
+import { SuiSelectOptions } from "../components/select-options";
 
 export interface IOptionContext<T> extends ITemplateRefContext<T> {
     query?:string;
@@ -16,7 +17,7 @@ export interface IOptionContext<T> extends ITemplateRefContext<T> {
 
 // We use generic type T to specify the type of the options we are working with,
 // and U to specify the type of the property of the option used as the value.
-export abstract class SuiSelectBase<T, U> implements AfterContentInit {
+export abstract class SuiSelectBase<T, U> implements AfterContentInit, AfterViewInit {
     public dropdownService:DropdownService;
     public searchService:SearchService<T, U>;
 
@@ -24,11 +25,21 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     protected _menu:SuiDropdownMenu;
 
     // Keep track of all of the rendered select options. (Rendered by the user using *ngFor).
-    @ContentChildren(SuiSelectOption, { descendants: true })
+    @ContentChildren(SuiSelectOption)
     protected _renderedOptions:QueryList<SuiSelectOption<T>>;
 
     // Keep track of all of the subscriptions to the selected events on the rendered options.
     private _renderedSubscriptions:Subscription[];
+
+    @ViewChild(SuiSelectOptions)
+    private _internalOptions?:SuiSelectOptions<T>;
+
+    @ContentChild(SuiSelectOptions)
+    private _manualOptions?:SuiSelectOptions<T>;
+
+    public get optionsContainer():SuiSelectOptions<T> | undefined {
+        return this._manualOptions || this._internalOptions;
+    }
 
     // Sets the Semantic UI classes on the host element.
     @HostBinding("class.ui")
@@ -249,7 +260,9 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         this._menu.service = this.dropdownService;
         // We manually specify the menu items to the menu because the @ContentChildren doesn't pick up our dynamically rendered items.
         this._menu.items = this._renderedOptions;
+    }
 
+    public ngAfterViewInit():void {
         if (this._manualSearch) {
             this.isSearchable = true;
             this.isSearchExternal = true;
@@ -258,6 +271,10 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         if (this.searchInput) {
             this.searchInput.onQueryUpdated.subscribe((q:string) => this.query = q);
             this.searchInput.onQueryKeyDown.subscribe((e:KeyboardEvent) => this.onQueryInputKeydown(e));
+        }
+
+        if (this.optionsContainer) {
+            this.optionsContainer.options = this.availableOptions;
         }
 
         // We must call this immediately as changes doesn't fire when you subscribe.
@@ -297,6 +314,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     }
 
     protected onAvailableOptionsRendered():void {
+        console.log(this._renderedOptions);
         // Unsubscribe from all previous subscriptions to avoid memory leaks on large selects.
         this._renderedSubscriptions.forEach(rs => rs.unsubscribe());
         this._renderedSubscriptions = [];
