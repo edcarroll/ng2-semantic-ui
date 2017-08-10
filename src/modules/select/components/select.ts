@@ -64,6 +64,11 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValue
     }
 
     protected optionsUpdateHook():void {
+        if (!this._writtenOption && this.selectedOption) {
+            // We need to check the option still exists.
+            this.writeValue(this.valueGetter(this.selectedOption));
+        }
+
         if (this._writtenOption && this.searchService.options.length > 0) {
             // If there was an value written by ngModel before the options had been loaded, this runs to fix it.
             this.selectedOption = this.findOption(this.searchService.options, this._writtenOption);
