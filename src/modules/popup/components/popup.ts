@@ -188,7 +188,9 @@ export class SuiPopup implements IPopup {
 
     @HostListener("mousedown", ["$event"])
     public onMouseDown(e:MouseEvent):void {
-        e.preventDefault();
+        if (!this.elementRef.nativeElement.contains(e.target)) {
+            e.preventDefault();
+        }
     }
 
     @HostListener("click", ["$event"])
