@@ -10,7 +10,7 @@ import { ISelectRenderedOption } from "./select-option";
 <!-- Dropdown icon -->
 <i class="{{ icon }} icon" (click)="onCaretClick($event)"></i>
 
-<ng-container *ngIf="!hasLabelsHidden">
+<ng-container *ngIf="hasLabels">
 <!-- Multi-select labels -->
     <sui-multi-select-label *ngFor="let selected of selectedOptions;"
                             [value]="selected"
@@ -27,14 +27,14 @@ import { ISelectRenderedOption } from "./select-option";
 
 <!-- Helper text -->
 <div class="text"
-     [class.default]="!hasLabelsHidden"
+     [class.default]="hasLabels"
      [class.filtered]="!!query && !isSearchExternal">
     
-    <!-- Summary shown when labels are hidden -->
-    <ng-container *ngIf="hasLabelsHidden; else placeholderBlock">{{ selectedMessage }}</ng-container>
-    
     <!-- Placeholder text -->
-    <ng-template #placeholderBlock> {{ placeholder }}</ng-template>
+    <ng-container *ngIf="hasLabels; else selectedBlock">{{ placeholder }}</ng-container>
+    
+    <!-- Summary shown when labels are hidden -->
+    <ng-template #selectedBlock> {{ selectedMessage }}</ng-template>
 </div>
 
 <!-- Select dropdown menu -->
@@ -73,7 +73,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
 
         const searchResults:T[] = this.searchService.results;
 
-        if (this.hasLabelsHidden) {
+        if (!this.hasLabels) {
             return searchResults;
         } else {
             // Returns the search results \ selected options.
@@ -86,15 +86,15 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
         return this.filteredOptions;
     }
 
-    private _hasLabelsHidden:boolean;
+    private _hasLabels:boolean;
 
     @Input()
-    public get hasLabelsHidden():boolean {
-        return this._hasLabelsHidden;
+    public get hasLabels():boolean {
+        return this._hasLabels;
     }
 
-    public set hasLabelsHidden(hasLabelsHidden:boolean) {
-        this._hasLabelsHidden = hasLabelsHidden;
+    public set hasLabels(hasLabels:boolean) {
+        this._hasLabels = hasLabels;
     }
 
     private _placeholder:string;
@@ -140,8 +140,8 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
         this.selectedOptions = [];
         this.selectedOptionsChange = new EventEmitter<U[]>();
 
+        this.hasLabels = true;
         this._multiSelectClasses = true;
-        this._hasLabelsHidden = false;
     }
 
     protected optionsUpdateHook():void {
@@ -162,7 +162,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
         super.initialiseRenderedOption(option);
 
         // Boldens the item so it appears selected in the dropdown.
-        option.isActive = this.hasLabelsHidden && this.selectedOptions.indexOf(option.value) !== -1;
+        option.isActive = !this.hasLabels && this.selectedOptions.indexOf(option.value) !== -1;
     }
 
     public selectOption(option:T):void {
@@ -178,7 +178,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
         // Automatically refocus the search input for better keyboard accessibility.
         this.focus();
 
-        if (this.hasLabelsHidden) {
+        if (!this.hasLabels) {
             this.onAvailableOptionsRendered();
         }
     }
@@ -217,7 +217,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
         // Automatically refocus the search input for better keyboard accessibility.
         this.focus();
 
-        if (this.hasLabelsHidden) {
+        if (!this.hasLabels) {
             this.onAvailableOptionsRendered();
         }
     }
