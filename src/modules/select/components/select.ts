@@ -122,11 +122,11 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValue
         }
     }
 
-    protected initialiseRenderedOption(option:ISelectRenderedOption<T>):void {
-        super.initialiseRenderedOption(option);
+    protected initialiseRenderedOption(rendered:ISelectRenderedOption<T>):void {
+        super.initialiseRenderedOption(rendered);
 
         // Boldens the item so it appears selected in the dropdown.
-        option.isActive = option.value === this.selectedOption;
+        rendered.isActive = rendered.option === this.selectedOption;
     }
 
     private drawSelectedOption():void {

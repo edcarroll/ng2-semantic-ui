@@ -6,7 +6,7 @@ import { SuiDropdownMenuItem } from "../../dropdown";
 import { HandledEvent } from "../../../misc/util";
 
 export interface ISelectRenderedOption<T> {
-    value:T;
+    option:T;
     isActive?:boolean;
     formatter:(o:T) => string;
     usesTemplate:boolean;
@@ -26,7 +26,7 @@ export class SuiSelectOption<T> extends SuiDropdownMenuItem implements ISelectRe
     private _optionClasses:boolean;
 
     @Input()
-    public value:T;
+    public option:T;
 
     // Fires when the option is selected, whether by clicking or by keyboard.
     @Output()
@@ -39,7 +39,7 @@ export class SuiSelectOption<T> extends SuiDropdownMenuItem implements ISelectRe
 
     public set formatter(formatter:(obj:T) => string) {
         if (!this.usesTemplate) {
-            this.renderedText = formatter(this.value);
+            this.renderedText = formatter(this.option);
         } else {
             this.renderedText = undefined;
         }
@@ -70,6 +70,6 @@ export class SuiSelectOption<T> extends SuiDropdownMenuItem implements ISelectRe
     public onClick(e:HandledEvent):void {
         e.eventHandled = true;
 
-        setTimeout(() => this.onSelected.emit(this.value));
+        setTimeout(() => this.onSelected.emit(this.option));
     }
 }

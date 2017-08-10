@@ -7,7 +7,7 @@ const exampleStandardTemplate = `
     <img src="https://goo.gl/VUcnwx" class="ui image" [suiTransition]="transitionController">
 </div>
 <sui-select class="selection" [(ngModel)]="transitionName" [options]="transitions" [isSearchable]="true" #animSelect>
-    <sui-select-option *ngFor="let a of animSelect.availableOptions" [value]="a"></sui-select-option>
+    <sui-select-option *ngFor="let a of animSelect.filteredOptions" [option]="a"></sui-select-option>
 </sui-select>
 <button class="ui button" (click)="animate(transitionName)">Animate</button>
 `;

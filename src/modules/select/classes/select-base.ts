@@ -305,12 +305,12 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
             // Slightly delay initialisation to avoid change after checked errors. TODO - look into avoiding this!
             setTimeout(() => this.initialiseRenderedOption(ro));
 
-            this._renderedSubscriptions.push(ro.onSelected.subscribe(() => this.selectOption(ro.value)));
+            this._renderedSubscriptions.push(ro.onSelected.subscribe(() => this.selectOption(ro.option)));
         });
 
         // If no options have been provided, autogenerate them from the rendered ones.
         if (this.searchService.options.length === 0 && !this.searchService.optionsLookup) {
-            this.options = this._renderedOptions.map(ro => ro.value);
+            this.options = this._renderedOptions.map(ro => ro.option);
         }
     }
 
@@ -319,7 +319,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         option.formatter = this.configuredFormatter;
 
         if (option.usesTemplate) {
-            this.drawTemplate(option.templateSibling, option.value);
+            this.drawTemplate(option.templateSibling, option.option);
         }
     }
 

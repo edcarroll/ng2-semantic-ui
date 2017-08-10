@@ -13,7 +13,7 @@ const templateRef = TemplateRef;
     selector: "sui-multi-select-label",
     template: `
 <span #templateSibling></span>
-<span *ngIf="!template" [innerHTML]="formatter(value)"></span>
+<span *ngIf="!template" [innerHTML]="formatter(option)"></span>
 <i class="delete icon" (click)="deselectOption($event)"></i>
 `
 })
@@ -27,7 +27,7 @@ export class SuiMultiSelectLabel<T> extends SuiTransition {
     private _transitionController:TransitionController;
 
     @Input()
-    public value:T;
+    public option:T;
 
     @Input()
     public query?:string;
@@ -49,7 +49,7 @@ export class SuiMultiSelectLabel<T> extends SuiTransition {
         this._template = template;
         if (this.template) {
             this.componentFactory.createView(this.templateSibling, this.template, {
-                $implicit: this.value,
+                $implicit: this.option,
                 query: this.query
             });
         }
@@ -82,7 +82,7 @@ export class SuiMultiSelectLabel<T> extends SuiTransition {
 
         this._transitionController.animate(
             new Transition("scale", 100, TransitionDirection.Out, () =>
-                this.onDeselected.emit(this.value)));
+                this.onDeselected.emit(this.option)));
     }
 
     @HostListener("click", ["$event"])

@@ -15,7 +15,7 @@ const exampleTemplate = `
                     #lang>
 
             <sui-select-option *ngFor="let l of lang.availableOptions"
-                               [value]="l"></sui-select-option>
+                               [option]="l"></sui-select-option>
         </sui-select>
     </div>
     <div class="ui segment">
@@ -26,9 +26,9 @@ const exampleTemplate = `
     </div>
     <div class="ui segment">
         <sui-select class="fluid selection">
-            <sui-select-option value="Option 1"></sui-select-option>
-            <sui-select-option value="Option 2"></sui-select-option>
-            <sui-select-option value="Option 3"></sui-select-option>
+            <sui-select-option option="Option 1"></sui-select-option>
+            <sui-select-option option="Option 2"></sui-select-option>
+            <sui-select-option option="Option 3"></sui-select-option>
         </sui-select>
     </div>
 </div>

@@ -13,7 +13,7 @@ import { ISelectRenderedOption } from "./select-option";
 <ng-container *ngIf="hasLabels">
 <!-- Multi-select labels -->
     <sui-multi-select-label *ngFor="let selected of selectedOptions;"
-                            [value]="selected"
+                            [option]="selected"
                             [query]="query"
                             [formatter]="configuredFormatter"
                             [template]="optionTemplate"
@@ -158,11 +158,11 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
         }
     }
 
-    protected initialiseRenderedOption(option:ISelectRenderedOption<T>):void {
-        super.initialiseRenderedOption(option);
+    protected initialiseRenderedOption(rendered:ISelectRenderedOption<T>):void {
+        super.initialiseRenderedOption(rendered);
 
         // Boldens the item so it appears selected in the dropdown.
-        option.isActive = !this.hasLabels && this.selectedOptions.indexOf(option.value) !== -1;
+        rendered.isActive = !this.hasLabels && this.selectedOptions.indexOf(rendered.option) !== -1;
     }
 
     public selectOption(option:T):void {
