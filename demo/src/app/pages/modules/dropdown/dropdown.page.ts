@@ -266,7 +266,7 @@ export class DropdownExampleMenu {}
 })
 export class DropdownExampleHoverTrigger {
     public outside:boolean = false;
- }
+}
 
 export const DropdownPageComponents = [
     DropdownPage,

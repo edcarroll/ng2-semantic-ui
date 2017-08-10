@@ -381,7 +381,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
 
     @HostListener("mouseenter")
     private onMouseEnter():void {
-       if (this.trigger === SelectTrigger.Hover && !this.dropdownService.isOpen && !this.dropdownService.isAnimating) {
+        if (this.trigger === SelectTrigger.Hover && !this.dropdownService.isOpen && !this.dropdownService.isAnimating) {
             this.dropdownService.setOpenState(true);
             this.focus();
         }

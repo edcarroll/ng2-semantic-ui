@@ -11,6 +11,7 @@ import { SelectTrigger } from "../../select/classes/select-config";
     selector: "[suiDropdown]"
 })
 export class SuiDropdown implements AfterContentInit {
+    private _hovering:boolean = false;
     public service:DropdownService;
 
     @ContentChild(SuiDropdownMenu)
@@ -144,17 +145,18 @@ export class SuiDropdown implements AfterContentInit {
         }
     }
 
-    private _hovering: boolean = false;
-
     @HostListener("mouseenter")
-    private onMouseEnter(): void {
+    private onMouseEnter():void {
         if (this.trigger === SelectTrigger.Hover) {
             this._hovering = true;
-            setTimeout(() => {
-                if (this._hovering) {
-                    this.service.setOpenState(true);
-                }
-            }, 100);
+            setTimeout(
+                () => {
+                    if (this._hovering) {
+                        this.service.setOpenState(true);
+                    }
+                },
+                100
+            );
         }
     }
 
