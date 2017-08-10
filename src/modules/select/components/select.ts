@@ -2,7 +2,6 @@ import { Component, ViewContainerRef, ViewChild, Output, EventEmitter, ElementRe
 import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor } from "../../../misc/util";
 import { SuiLocalizationService } from "../../../behaviors/localization";
 import { SuiSelectBase } from "../classes/select-base";
-import { ISelectRenderedOption } from "./select-option";
 
 @Component({
     selector: "sui-select",
@@ -29,8 +28,14 @@ import { ISelectRenderedOption } from "./select-option";
      [menuAutoSelectFirst]="isSearchable">
 
     <ng-content></ng-content>
-    <sui-select-options></sui-select-options>
-    <div *ngIf="isSearchable && availableOptions.length === 0" class="message">
+    
+    <sui-select-options [options]="filteredOptions"
+                        [query]="query"
+                        [optionFormatter]="configuredFormatter"
+                        [optionTemplate]="optionTemplate"
+                        (optionSelected)="selectOption($event)"></sui-select-options>
+
+    <div *ngIf="isSearchable && filteredOptions.length === 0" class="message">
         {{ localeValues.noResultsMessage }}
     </div>
 </div>
@@ -123,7 +128,7 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValue
         }
     }
 
-    protected initialiseRenderedOption(rendered:ISelectRenderedOption<T>):void {
+    protected initialiseRenderedOption(rendered:any):void {
         super.initialiseRenderedOption(rendered);
 
         // Boldens the item so it appears selected in the dropdown.
