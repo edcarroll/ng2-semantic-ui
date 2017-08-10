@@ -5,7 +5,7 @@ import {
 import { Subscription } from "rxjs/Subscription";
 import { DropdownService, SuiDropdownMenu } from "../../dropdown";
 import { SearchService, LookupFn, FilterFn } from "../../search";
-import { Util, ITemplateRefContext, HandledEvent, KeyCode } from "../../../misc/util";
+import { Util, ITemplateRefContext, HandledEvent, KeyCode, IFocusEvent } from "../../../misc/util";
 import { ISelectLocaleValues, RecursivePartial, SuiLocalizationService } from "../../../behaviors/localization";
 import { SuiSelectOption, ISelectRenderedOption } from "../components/select-option";
 import { SuiSelectSearch } from "../directives/select-search";
@@ -365,7 +365,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     }
 
     @HostListener("focusout", ["$event"])
-    private onFocusOut(e:FocusEvent):void {
+    private onFocusOut(e:IFocusEvent):void {
         if (!this._element.nativeElement.contains(e.relatedTarget)) {
             this.dropdownService.setOpenState(false);
             this.onTouched.emit();
