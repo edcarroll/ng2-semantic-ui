@@ -1,4 +1,4 @@
-import { ComponentRef, ElementRef, Type } from "@angular/core";
+import { ComponentRef, ElementRef, Type, Renderer2 } from "@angular/core";
 import { SuiComponentFactory } from "../../../misc/util";
 import { SuiPopupController } from "./popup-controller";
 import { PopupConfig } from "./popup-config";
@@ -13,12 +13,13 @@ export class SuiPopupComponentController<T> extends SuiPopupController {
         }
     }
 
-    constructor(element:ElementRef,
+    constructor(renderer:Renderer2,
+                element:ElementRef,
                 componentFactory:SuiComponentFactory,
                 private _component:Type<T>,
                 config:PopupConfig) {
 
-        super(element, componentFactory, config);
+        super(renderer, element, componentFactory, config);
 
         this.popup.onClose.subscribe(() => {
             if (this._contentComponentRef) {
