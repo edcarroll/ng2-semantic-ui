@@ -136,6 +136,28 @@ const exampleMenuTemplate = `
 </div>
 `;
 
+const exampleHoverTriggerTemplate = `
+<p>You can hover to trigger the dropdown.</p>
+<div class="ui primary dropdown button" suiDropdown trigger="hover" [autoClose]="outside ? 'outsideClick' : 'itemClick'">
+    <div class="text">Menu</div>
+    <i class="dropdown icon"></i>
+    <div class="menu" suiDropdownMenu>
+        <div class="item">Item 1</div>
+        <div class="disabled item">Disabled Item</div>
+        <div class="item" suiDropdown>
+            <i class="dropdown icon"></i>
+            Nested
+            <div class="menu" suiDropdownMenu>
+                <div class="item">Sub-item 1</div>
+                <div class="item">Sub-item 2</div>
+            </div>
+        </div>
+        <div class="item">Item 4</div>
+    </div>
+</div>
+<sui-checkbox [(ngModel)]="outside != outside">Auto close on <code>outsideClick</code>?</sui-checkbox>
+`;
+
 @Component({
     selector: "demo-page-dropdown",
     templateUrl: "./dropdown.page.html"
@@ -154,15 +176,21 @@ export class DropdownPage {
                 {
                     name: "isDisabled",
                     type: "boolean",
-                    description: "Sets whether or not the dropdown is disabled",
+                    description: "Sets whether or not the dropdown is disabled.",
                     defaultValue: "false"
                 },
                 {
                     name: "autoClose",
                     type: "DropdownAutoCloseType",
-                    description: "Defines when the dropdown is closed." +
+                    description: "Defines when the dropdown is closed. " +
                                  "Options are: <code>itemClick</code>, <code>outsideClick</code> & <code>disabled</code>.",
                     defaultValue: "itemClick"
+                },
+                {
+                    name: "trigger",
+                    type: "SelectTrigger",
+                    description: "Specifies the trigger for the dropdown. Options are: <code>click</code> & <code>hover</code>.",
+                    defaultValue: "click"
                 }
             ],
             events: [
@@ -202,6 +230,7 @@ export class DropdownPage {
     public exampleStandardTemplate:string = exampleStandardTemplate;
     public exampleStyledTemplate:string = exampleStyledTemplate;
     public exampleMenuTemplate:string = exampleMenuTemplate;
+    public exampleHoverTriggerTemplate:string = exampleHoverTriggerTemplate;
 }
 
 @Component({
@@ -231,11 +260,20 @@ export class DropdownExampleStyled {}
 })
 export class DropdownExampleMenu {}
 
+@Component({
+    selector: "example-dropdown-hover-trigger",
+    template: exampleHoverTriggerTemplate
+})
+export class DropdownExampleHoverTrigger {
+    public outside:boolean = false;
+ }
+
 export const DropdownPageComponents = [
     DropdownPage,
 
     DropdownExampleFileMenu,
     DropdownExampleStandard,
     DropdownExampleStyled,
-    DropdownExampleMenu
+    DropdownExampleMenu,
+    DropdownExampleHoverTrigger
 ];

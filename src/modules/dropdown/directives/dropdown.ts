@@ -5,6 +5,7 @@ import {
 import { HandledEvent, KeyCode, IFocusEvent } from "../../../misc/util/index";
 import { DropdownService, DropdownAutoCloseType } from "../services/dropdown.service";
 import { SuiDropdownMenu } from "./dropdown-menu";
+import { SelectTrigger } from "../../select/classes/select-config";
 
 @Directive({
     selector: "[suiDropdown]"
@@ -57,6 +58,9 @@ export class SuiDropdown implements AfterContentInit {
     @Input("tabindex")
     private _tabIndex?:number;
 
+    @Input()
+    public trigger:SelectTrigger;
+
     @HostBinding("attr.tabindex")
     public get tabIndex():number | undefined {
         if (this.isDisabled || this.service.isNested) {
@@ -87,6 +91,7 @@ export class SuiDropdown implements AfterContentInit {
                 this._element.nativeElement.focus();
             }
         });
+        this.trigger = SelectTrigger.Click;
     }
 
     public ngAfterContentInit():void {
@@ -101,15 +106,18 @@ export class SuiDropdown implements AfterContentInit {
     }
 
     private childrenUpdated():void {
-        // Reregister child dropdowns each time the menu content changes.
+        // Reregister child dropdowns  and propagate parent trigger each time the menu content changes.
         this.children
-            .map(c => c.service)
+            .map(c => {
+                c.trigger = this.trigger;
+                return c.service;
+            })
             .forEach(s => this.service.registerChild(s));
     }
 
     @HostListener("click", ["$event"])
     public onClick(e:HandledEvent):void {
-        if (!e.eventHandled) {
+        if (!e.eventHandled && this.trigger === SelectTrigger.Click) {
             e.eventHandled = true;
 
             this.service.toggleOpenState();
@@ -133,6 +141,28 @@ export class SuiDropdown implements AfterContentInit {
 
                 this.service.setOpenState(true);
             }
+        }
+    }
+
+    private _hovering: boolean = false;
+
+    @HostListener("mouseenter")
+    private onMouseEnter(): void {
+        if (this.trigger === SelectTrigger.Hover) {
+            this._hovering = true;
+            setTimeout(() => {
+                if (this._hovering) {
+                    this.service.setOpenState(true);
+                }
+            }, 100);
+        }
+    }
+
+    @HostListener("mouseleave")
+    private onMouseLeave():void {
+        this._hovering = false;
+        if (this.trigger === SelectTrigger.Hover && this.service.autoCloseMode !== DropdownAutoCloseType.OutsideClick) {
+            this.service.setOpenState(false);
         }
     }
 
