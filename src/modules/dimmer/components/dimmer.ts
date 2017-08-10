@@ -7,8 +7,8 @@ import { TransitionController, SuiTransition, TransitionDirection, Transition } 
 @Component({
     selector: "sui-dimmer",
     template: `
-<div class="content">
-    <div class="center">
+<div [class.content]="wrapContent">
+    <div [class.center]="wrapContent">
         <ng-content></ng-content>
     </div>
 </div>
@@ -66,12 +66,18 @@ export class SuiDimmer extends SuiTransition {
     @Input()
     public transitionDuration:number;
 
+    /* Internal for now */
+    @Input()
+    public wrapContent:boolean;
+
     constructor(renderer:Renderer2, element:ElementRef, changeDetector:ChangeDetectorRef) {
         super(renderer, element, changeDetector);
 
         this._isDimmed = false;
         this.isDimmedChange = new EventEmitter<boolean>();
         this.isClickable = true;
+
+        this.wrapContent = true;
 
         this._dimmerClasses = true;
     }
