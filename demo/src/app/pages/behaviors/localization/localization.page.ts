@@ -46,6 +46,10 @@ const supportedLanguages:ISupportedLanguage[] = [
         name: "English",
         children: [
             {
+                name: "Australian",
+                code: "en-AU"
+            },
+            {
                 name: "UK",
                 code: "en-GB",
                 default: true
