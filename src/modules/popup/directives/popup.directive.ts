@@ -1,4 +1,4 @@
-import { Directive, Input, ElementRef, TemplateRef } from "@angular/core";
+import { Directive, Input, ElementRef, TemplateRef, Renderer2 } from "@angular/core";
 import { ITemplateRefContext, Util, PositioningPlacement, SuiComponentFactory } from "../../../misc/util";
 import { SuiPopup } from "../components/popup";
 import { PopupConfig, PopupTrigger } from "../classes/popup-config";
@@ -69,10 +69,11 @@ export class SuiPopupDirective extends SuiPopupController {
         this.popup.config.batch(config);
     }
 
-    constructor(element:ElementRef,
+    constructor(renderer:Renderer2,
+                element:ElementRef,
                 componentFactory:SuiComponentFactory,
                 popupDefaults:SuiPopupConfig) {
 
-        super(element, componentFactory, new PopupConfig(popupDefaults));
+        super(renderer, element, componentFactory, new PopupConfig(popupDefaults));
     }
 }

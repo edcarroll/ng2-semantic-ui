@@ -1,4 +1,4 @@
-import { ComponentRef, ElementRef, HostListener, OnDestroy } from "@angular/core";
+import { ComponentRef, ElementRef, HostListener, OnDestroy, Renderer2 } from "@angular/core";
 import { SuiComponentFactory } from "../../../misc/util";
 import { PopupConfig, PopupTrigger } from "./popup-config";
 import { SuiPopup } from "../components/popup";
@@ -23,7 +23,11 @@ export abstract class SuiPopupController implements IPopup, OnDestroy {
     // `setTimeout` timer pointer for delayed popup open.
     private _openingTimeout:number;
 
-    constructor(protected _element:ElementRef,
+    // Function to remove the document click handler.
+    private _documentListener:() => void;
+
+    constructor(private _renderer:Renderer2,
+                protected _element:ElementRef,
                 protected _componentFactory:SuiComponentFactory,
                 config:PopupConfig) {
 
@@ -37,6 +41,9 @@ export abstract class SuiPopupController implements IPopup, OnDestroy {
         this.popup.onClose.subscribe(() => {
             this._componentRef.instance.positioningService.destroy();
             this._componentFactory.detachFromApplication(this._componentRef);
+
+            // Remove the document click handler
+            this._documentListener();
         });
     }
 
@@ -67,6 +74,8 @@ export abstract class SuiPopupController implements IPopup, OnDestroy {
 
         // Attach a reference to the anchor element. We do it here because IE11 loves to complain.
         this.popup.anchor = this._element;
+
+        this._documentListener = this._renderer.listen("document", "click", (e:MouseEvent) => this.onDocumentClick(e));
 
         // Start popup open transition.
         this.popup.open();
@@ -142,7 +151,7 @@ export abstract class SuiPopupController implements IPopup, OnDestroy {
         }
     }
 
-    @HostListener("document:click", ["$event"])
+    // @HostListener("document:click", ["$event"])
     public onDocumentClick(e:MouseEvent):void {
         // If the popup trigger is outside click,
         if (this._componentRef && this.popup.config.trigger === PopupTrigger.OutsideClick) {

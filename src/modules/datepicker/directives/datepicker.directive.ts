@@ -102,12 +102,12 @@ export class SuiDatepickerDirective
     @Output("pickerValidatorChange")
     public onValidatorChange:EventEmitter<void>;
 
-    constructor(element:ElementRef,
-                public renderer:Renderer2,
+    constructor(public renderer:Renderer2,
+                element:ElementRef,
                 componentFactory:SuiComponentFactory,
                 public localizationService:SuiLocalizationService) {
 
-        super(element, componentFactory, SuiDatepicker, new PopupConfig({
+        super(renderer, element, componentFactory, SuiDatepicker, new PopupConfig({
             trigger: PopupTrigger.Focus,
             placement: PositioningPlacement.BottomLeft,
             transition: "scale",
