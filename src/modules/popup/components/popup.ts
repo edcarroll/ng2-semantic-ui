@@ -144,7 +144,8 @@ export class SuiPopup implements IPopup {
                     // Focus any element with [autofocus] attribute.
                     const autoFocus = this.elementRef.nativeElement.querySelector("[autofocus]") as HTMLElement | null;
                     if (autoFocus) {
-                        autoFocus.focus();
+                        // Autofocus after the browser has had time to process other event handlers.
+                        setTimeout(() => autoFocus.focus(), 10);
                         // Try to focus again when the modal has opened so that autofocus works in IE11.
                         setTimeout(() => autoFocus.focus(), this.config.transitionDuration);
                     }
