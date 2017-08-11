@@ -2,7 +2,7 @@ import { Component, ViewContainerRef, ViewChild, Output, EventEmitter, ElementRe
 import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor } from "../../../misc/util";
 import { SuiLocalizationService } from "../../../behaviors/localization";
 import { SuiSelectBase } from "../classes/select-base";
-import { ISelectRenderedOption } from "./select-option";
+import { SuiSelectOption } from "./select-option";
 
 @Component({
     selector: "sui-select",
@@ -122,7 +122,7 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValue
         }
     }
 
-    protected initialiseRenderedOption(option:ISelectRenderedOption<T>):void {
+    protected initialiseRenderedOption(option:SuiSelectOption<T>):void {
         super.initialiseRenderedOption(option);
 
         // Boldens the item so it appears selected in the dropdown.
