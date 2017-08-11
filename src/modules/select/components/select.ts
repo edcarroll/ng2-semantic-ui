@@ -2,7 +2,7 @@ import { Component, ViewContainerRef, ViewChild, Output, EventEmitter, ElementRe
 import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor } from "../../../misc/util";
 import { SuiLocalizationService } from "../../../behaviors/localization";
 import { SuiSelectBase } from "../classes/select-base";
-import { ISelectRenderedOption } from "./select-option";
+import { SuiSelectOption } from "./select-option";
 
 @Component({
     selector: "sui-select",
@@ -64,6 +64,11 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValue
     }
 
     protected optionsUpdateHook():void {
+        if (!this._writtenOption && this.selectedOption) {
+            // We need to check the option still exists.
+            this.writeValue(this.valueGetter(this.selectedOption));
+        }
+
         if (this._writtenOption && this.searchService.options.length > 0) {
             // If there was an value written by ngModel before the options had been loaded, this runs to fix it.
             this.selectedOption = this.findOption(this.searchService.options, this._writtenOption);
@@ -122,7 +127,7 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValue
         }
     }
 
-    protected initialiseRenderedOption(option:ISelectRenderedOption<T>):void {
+    protected initialiseRenderedOption(option:SuiSelectOption<T>):void {
         super.initialiseRenderedOption(option);
 
         // Boldens the item so it appears selected in the dropdown.

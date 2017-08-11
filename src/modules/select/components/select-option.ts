@@ -5,14 +5,6 @@ import {
 import { SuiDropdownMenuItem } from "../../dropdown";
 import { HandledEvent } from "../../../misc/util";
 
-export interface ISelectRenderedOption<T> {
-    value:T;
-    isActive?:boolean;
-    formatter:(o:T) => string;
-    usesTemplate:boolean;
-    templateSibling:ViewContainerRef;
-}
-
 @Component({
     selector: "sui-select-option",
     template: `
@@ -20,7 +12,7 @@ export interface ISelectRenderedOption<T> {
 <span [innerHTML]="renderedText"></span>
 `
 })
-export class SuiSelectOption<T> extends SuiDropdownMenuItem implements ISelectRenderedOption<T> {
+export class SuiSelectOption<T> extends SuiDropdownMenuItem {
     // Sets the Semantic UI classes on the host element.
     @HostBinding("class.item")
     private _optionClasses:boolean;
@@ -51,7 +43,7 @@ export class SuiSelectOption<T> extends SuiDropdownMenuItem implements ISelectRe
     @ViewChild("templateSibling", { read: ViewContainerRef })
     public templateSibling:ViewContainerRef;
 
-    constructor(renderer:Renderer2, element:ElementRef) {
+    constructor(renderer:Renderer2, element:ElementRef, public changeDetector:ChangeDetectorRef) {
         // We inherit SuiDropdownMenuItem to automatically gain all keyboard navigation functionality.
         // This is not done via adding the .item class because it isn't supported by Angular.
         super(renderer, element);
@@ -60,8 +52,8 @@ export class SuiSelectOption<T> extends SuiDropdownMenuItem implements ISelectRe
         this.isActive = false;
         this.onSelected = new EventEmitter<T>();
 
-        // By default we make this function return an empty string, for the brief moment when it isn't displaying the correct label.
-        this.formatter = o => "";
+        // By default we make the default text an empty label, for the brief moment when it isn't displaying the correct one.
+        this.renderedText = "";
 
         this.usesTemplate = false;
     }

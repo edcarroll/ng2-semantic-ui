@@ -2,7 +2,7 @@ import { Component, HostBinding, ElementRef, EventEmitter, Output, Input, Direct
 import { ICustomValueAccessorHost, KeyCode, customValueAccessorFactory, CustomValueAccessor } from "../../../misc/util";
 import { SuiLocalizationService } from "../../../behaviors/localization";
 import { SuiSelectBase } from "../classes/select-base";
-import { ISelectRenderedOption } from "./select-option";
+import { SuiSelectOption } from "./select-option";
 
 @Component({
     selector: "sui-multi-select",
@@ -145,11 +145,16 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
     }
 
     protected optionsUpdateHook():void {
+        if (!this._writtenOptions && this.selectedOptions.length > 0) {
+            // We need to check the options still exist.
+            this.writeValue(this.selectedOptions.map(o => this.valueGetter(o)));
+        }
+
         if (this._writtenOptions && this.searchService.options.length > 0) {
             // If there were values written by ngModel before the options had been loaded, this runs to fix it.
             this.selectedOptions = this._writtenOptions
                 // non-null assertion added here because Typescript doesn't recognise the non-null filter.
-                .map(v => this.searchService.options.find(o => v === this.valueGetter(o))!)
+                .map(v => this.findOption(this.searchService.options, v)!)
                 .filter(v => v != undefined);
 
             if (this.selectedOptions.length === this._writtenOptions.length) {
@@ -158,7 +163,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
         }
     }
 
-    protected initialiseRenderedOption(option:ISelectRenderedOption<T>):void {
+    protected initialiseRenderedOption(option:SuiSelectOption<T>):void {
         super.initialiseRenderedOption(option);
 
         // Boldens the item so it appears selected in the dropdown.
@@ -206,6 +211,8 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
             if (values.length === 0) {
                 this.selectedOptions = [];
             }
+        } else {
+            this.selectedOptions = [];
         }
     }
 

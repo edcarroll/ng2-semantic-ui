@@ -62,8 +62,7 @@ export abstract class SuiPopupController implements IPopup, OnDestroy {
     }
 
     public open():void {
-        // Detach & reattach the generated component to the current application.
-        this._componentFactory.detachFromApplication(this._componentRef);
+        // Attach the generated component to the current application.
         this._componentFactory.attachToApplication(this._componentRef);
 
         // Move the generated element to the body to avoid any positioning issues.
@@ -148,7 +147,6 @@ export abstract class SuiPopupController implements IPopup, OnDestroy {
         }
     }
 
-    // @HostListener("document:click", ["$event"])
     public onDocumentClick(e:MouseEvent):void {
         // If the popup trigger is outside click,
         if (this._componentRef && this.popup.config.trigger === PopupTrigger.OutsideClick) {
@@ -175,6 +173,8 @@ export abstract class SuiPopupController implements IPopup, OnDestroy {
     }
 
     public ngOnDestroy():void {
+        clearTimeout(this._openingTimeout);
+        this._componentFactory.detachFromApplication(this._componentRef);
         this._componentRef.destroy();
     }
 }

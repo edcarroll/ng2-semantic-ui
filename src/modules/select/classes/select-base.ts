@@ -5,9 +5,9 @@ import {
 import { Subscription } from "rxjs/Subscription";
 import { DropdownService, SuiDropdownMenu } from "../../dropdown";
 import { SearchService, LookupFn, FilterFn } from "../../search";
-import { Util, ITemplateRefContext, HandledEvent, KeyCode } from "../../../misc/util";
+import { Util, ITemplateRefContext, HandledEvent, KeyCode, IFocusEvent } from "../../../misc/util";
 import { ISelectLocaleValues, RecursivePartial, SuiLocalizationService } from "../../../behaviors/localization";
-import { SuiSelectOption, ISelectRenderedOption } from "../components/select-option";
+import { SuiSelectOption } from "../components/select-option";
 import { SuiSelectSearch } from "../directives/select-search";
 
 export interface IOptionContext<T> extends ITemplateRefContext<T> {
@@ -150,7 +150,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
             this.queryUpdateHook();
             this.updateQuery(query);
             // Update the rendered text as query has changed.
-            this._renderedOptions.forEach(ro => ro.formatter = this.configuredFormatter);
+            this._renderedOptions.forEach(ro => this.initialiseRenderedOption(ro));
 
             if (this.searchInput) {
                 this.searchInput.query = query;
@@ -314,13 +314,15 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         }
     }
 
-    protected initialiseRenderedOption(option:ISelectRenderedOption<T>):void {
+    protected initialiseRenderedOption(option:SuiSelectOption<T>):void {
         option.usesTemplate = !!this.optionTemplate;
         option.formatter = this.configuredFormatter;
 
         if (option.usesTemplate) {
             this.drawTemplate(option.templateSibling, option.value);
         }
+
+        option.changeDetector.detectChanges();
     }
 
     public abstract selectOption(option:T):void;
@@ -365,7 +367,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     }
 
     @HostListener("focusout", ["$event"])
-    private onFocusOut(e:FocusEvent):void {
+    private onFocusOut(e:IFocusEvent):void {
         if (!this._element.nativeElement.contains(e.relatedTarget)) {
             this.dropdownService.setOpenState(false);
             this.onTouched.emit();
