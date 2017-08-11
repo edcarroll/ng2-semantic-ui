@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { Util, DateUtil, DatePrecision } from "../../../misc/util";
+import { Util, DateUtil, DatePrecision } from "../../../misc/util/index";
 import { CalendarView, CalendarViewType } from "./calendar-view";
 import { CalendarItem } from "../directives/calendar-item";
 import { CalendarMode } from "../services/calendar.service";

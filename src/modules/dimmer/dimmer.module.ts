@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { SuiTransitionModule } from "../transition";
+import { SuiTransitionModule } from "../transition/index";
 import { SuiDimmer } from "./components/dimmer";
 
 @NgModule({

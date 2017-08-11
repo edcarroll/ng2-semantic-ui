@@ -1,6 +1,6 @@
 import { EventEmitter } from "@angular/core";
-import { IDatepickerLocaleValues } from "../../../behaviors/localization";
-import { DateUtil } from "../../../misc/util";
+import { IDatepickerLocaleValues } from "../../../behaviors/localization/index";
+import { DateUtil } from "../../../misc/util/index";
 import { CalendarViewType } from "../views/calendar-view";
 import { CalendarConfig } from "../classes/calendar-config";
 

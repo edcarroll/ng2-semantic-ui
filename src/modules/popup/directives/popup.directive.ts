@@ -1,5 +1,5 @@
 import { Directive, Input, ElementRef, TemplateRef, Renderer2 } from "@angular/core";
-import { ITemplateRefContext, Util, PositioningPlacement, SuiComponentFactory } from "../../../misc/util";
+import { ITemplateRefContext, Util, PositioningPlacement, SuiComponentFactory } from "../../../misc/util/index";
 import { SuiPopup } from "../components/popup";
 import { PopupConfig, PopupTrigger } from "../classes/popup-config";
 import { SuiPopupConfig } from "../services/popup.service";

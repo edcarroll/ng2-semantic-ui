@@ -1,6 +1,6 @@
 import { Component, ViewContainerRef, ViewChild, Output, EventEmitter, ElementRef, Directive, Input } from "@angular/core";
-import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor } from "../../../misc/util";
-import { SuiLocalizationService } from "../../../behaviors/localization";
+import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor } from "../../../misc/util/index";
+import { SuiLocalizationService } from "../../../behaviors/localization/index";
 import { SuiSelectBase } from "../classes/select-base";
 import { ISelectRenderedOption } from "./select-option";
 

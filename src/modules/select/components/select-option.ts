@@ -2,8 +2,8 @@ import {
     Component, Input, HostBinding, HostListener, EventEmitter, ViewContainerRef,
     ViewChild, Renderer2, ElementRef, Output, ChangeDetectorRef
 } from "@angular/core";
-import { SuiDropdownMenuItem } from "../../dropdown";
-import { HandledEvent } from "../../../misc/util";
+import { SuiDropdownMenuItem } from "../../dropdown/index";
+import { HandledEvent } from "../../../misc/util/index";
 
 export interface ISelectRenderedOption<T> {
     value:T;
