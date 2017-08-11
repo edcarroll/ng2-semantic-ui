@@ -18,7 +18,8 @@ export interface IOptionContext<T> extends ITemplateRefContext<T> {
 // We use generic type T to specify the type of the options we are working with,
 // and U to specify the type of the property of the option used as the value.
 export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy {
-    public dropdownService:DropdownService;
+    private _hovering:boolean = false;
+    public dropdownService: DropdownService;
     public searchService:SearchService<T, U>;
 
     @ViewChild(SuiDropdownMenu)
@@ -382,13 +383,22 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
     @HostListener("mouseenter")
     private onMouseEnter():void {
         if (this.trigger === SelectTrigger.Hover && !this.dropdownService.isOpen && !this.dropdownService.isAnimating) {
-            this.dropdownService.setOpenState(true);
-            this.focus();
+            this._hovering = true;
+            setTimeout(
+                () => {
+                    if (this._hovering) {
+                        this.dropdownService.setOpenState(true);
+                        this.focus();
+                    }
+                },
+                100
+            );
         }
-    }
+     }
 
     @HostListener("mouseleave")
-    private onMouseLeave():void {
+    private onMouseLeave(): void {
+        this._hovering = false;
         if (this.trigger === SelectTrigger.Hover && this.dropdownService.isOpen) {
             this.dropdownService.setOpenState(false);
         }
