@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewContainerRef, ElementRef, EventEmitter, HostListener } from "@angular/core";
+import { Component, ViewChild, ViewContainerRef, ElementRef, EventEmitter, HostListener, HostBinding } from "@angular/core";
 import { PositioningService, IDynamicClasses } from "../../../misc/util";
 import { TransitionController, TransitionDirection, Transition } from "../../transition";
 import { IPopup } from "../classes/popup-controller";
@@ -122,6 +122,9 @@ export class SuiPopup implements IPopup {
     @ViewChild("templateSibling", { read: ViewContainerRef })
     public templateSibling:ViewContainerRef;
 
+    @HostBinding("attr.tabindex")
+    private _tabindex:number;
+
     constructor(public elementRef:ElementRef) {
         this.transitionController = new TransitionController(false);
 
@@ -129,6 +132,8 @@ export class SuiPopup implements IPopup {
 
         this.onOpen = new EventEmitter<void>();
         this.onClose = new EventEmitter<void>();
+
+        this._tabindex = 0;
     }
 
     public open():void {
@@ -183,13 +188,6 @@ export class SuiPopup implements IPopup {
 
             // Finally, set the popup to be closed.
             this._isOpen = false;
-        }
-    }
-
-    @HostListener("mousedown", ["$event"])
-    public onMouseDown(e:MouseEvent):void {
-        if (!this.elementRef.nativeElement.contains(e.target)) {
-            e.preventDefault();
         }
     }
 
