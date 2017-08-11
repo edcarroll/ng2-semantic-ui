@@ -1,8 +1,11 @@
 import { Component, HostBinding, ElementRef, EventEmitter, Output, Input, Directive } from "@angular/core";
-import { ICustomValueAccessorHost, KeyCode, customValueAccessorFactory, CustomValueAccessor } from "../../../misc/util";
+import {
+    ICustomValueAccessorHost, KeyCode, customValueAccessorFactory,
+    CustomValueAccessor, SuiComponentFactory
+} from "../../../misc/util";
 import { SuiLocalizationService } from "../../../behaviors/localization";
 import { SuiSelectBase } from "../classes/select-base";
-import { ISelectRenderedOption } from "./select-option";
+import { SuiSelectOption } from "./select-option";
 
 @Component({
     selector: "sui-multi-select",
@@ -13,7 +16,7 @@ import { ISelectRenderedOption } from "./select-option";
 <ng-container *ngIf="hasLabels">
 <!-- Multi-select labels -->
     <sui-multi-select-label *ngFor="let selected of selectedOptions;"
-                            [value]="selected"
+                            [option]="selected"
                             [query]="query"
                             [formatter]="configuredFormatter"
                             [template]="optionTemplate"
@@ -45,7 +48,8 @@ import { ISelectRenderedOption } from "./select-option";
      [menuAutoSelectFirst]="true">
 
     <ng-content></ng-content>
-    <ng-container *ngIf="availableOptions.length == 0 ">
+    <sui-select-options></sui-select-options>
+    <ng-container *ngIf="(filteredOptions$ | async).length == 0 ">
         <div *ngIf="!maxSelectedReached" class="message">{{ localeValues.noResultsMessage }}</div>
         <div *ngIf="maxSelectedReached" class="message">{{ maxSelectedMessage }}</div>
     </ng-container>
@@ -134,8 +138,11 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
     @HostBinding("class.multiple")
     private _multiSelectClasses:boolean;
 
-    constructor(element:ElementRef, localizationService:SuiLocalizationService) {
-        super(element, localizationService);
+    constructor(element:ElementRef,
+                componentFactory:SuiComponentFactory,
+                localizationService:SuiLocalizationService) {
+
+        super(element, componentFactory, localizationService);
 
         this.selectedOptions = [];
         this.selectedOptionsChange = new EventEmitter<U[]>();
@@ -158,11 +165,11 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
         }
     }
 
-    protected initialiseRenderedOption(option:ISelectRenderedOption<T>):void {
-        super.initialiseRenderedOption(option);
+    protected updateRenderedOption(rendered:SuiSelectOption<T>):void {
+        super.updateRenderedOption(rendered);
 
         // Boldens the item so it appears selected in the dropdown.
-        option.isActive = !this.hasLabels && this.selectedOptions.indexOf(option.value) !== -1;
+        rendered.isActive = !this.hasLabels && this.selectedOptions.indexOf(rendered.option) !== -1;
     }
 
     public selectOption(option:T):void {
@@ -177,10 +184,6 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
 
         // Automatically refocus the search input for better keyboard accessibility.
         this.focus();
-
-        if (!this.hasLabels) {
-            this.onAvailableOptionsRendered();
-        }
     }
 
     public writeValue(values:U[]):void {
@@ -216,10 +219,6 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
 
         // Automatically refocus the search input for better keyboard accessibility.
         this.focus();
-
-        if (!this.hasLabels) {
-            this.onAvailableOptionsRendered();
-        }
     }
 
     public onQueryInputKeydown(event:KeyboardEvent):void {

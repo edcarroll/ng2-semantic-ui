@@ -1,8 +1,8 @@
 import { Component, ViewContainerRef, ViewChild, Output, EventEmitter, ElementRef, Directive, Input } from "@angular/core";
-import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor } from "../../../misc/util";
+import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor, SuiComponentFactory } from "../../../misc/util";
 import { SuiLocalizationService } from "../../../behaviors/localization";
 import { SuiSelectBase } from "../classes/select-base";
-import { ISelectRenderedOption } from "./select-option";
+import { SuiSelectOption } from "./select-option";
 
 @Component({
     selector: "sui-select",
@@ -29,7 +29,8 @@ import { ISelectRenderedOption } from "./select-option";
      [menuAutoSelectFirst]="isSearchable">
 
     <ng-content></ng-content>
-    <div *ngIf="isSearchable && availableOptions.length === 0" class="message">
+    <sui-select-options></sui-select-options>
+    <div *ngIf="isSearchable && (filteredOptions$ | async).length === 0" class="message">
         {{ localeValues.noResultsMessage }}
     </div>
 </div>
@@ -57,8 +58,11 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValue
         this._placeholder = placeholder;
     }
 
-    constructor(element:ElementRef, localizationService:SuiLocalizationService) {
-        super(element, localizationService);
+    constructor(element:ElementRef,
+                componentFactory:SuiComponentFactory,
+                localizationService:SuiLocalizationService) {
+
+        super(element, componentFactory, localizationService);
 
         this.selectedOptionChange = new EventEmitter<U>();
     }
@@ -122,17 +126,17 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValue
         }
     }
 
-    protected initialiseRenderedOption(option:ISelectRenderedOption<T>):void {
-        super.initialiseRenderedOption(option);
+    protected updateRenderedOption(rendered:SuiSelectOption<T>):void {
+        super.updateRenderedOption(rendered);
 
         // Boldens the item so it appears selected in the dropdown.
-        option.isActive = option.value === this.selectedOption;
+        rendered.isActive = rendered.option === this.selectedOption;
     }
 
     private drawSelectedOption():void {
         // Updates the active class on the newly selected option.
-        if (this._renderedOptions) {
-            this.onAvailableOptionsRendered();
+        if (this._manualOptions) {
+            this.onManualOptionsRendered();
         }
 
         if (this.selectedOption != undefined && this.optionTemplate) {

@@ -1,14 +1,18 @@
 import {
-    ViewChild, HostBinding, ElementRef, HostListener, Input, ContentChildren, QueryList,
-    AfterContentInit, TemplateRef, ViewContainerRef, ContentChild, EventEmitter, Output
+    ViewChild, HostBinding, ElementRef, HostListener, Input, ContentChildren, QueryList, AfterViewInit,
+    AfterContentInit, TemplateRef, ViewContainerRef, ContentChild, EventEmitter, Output, ViewChildren, ComponentRef
 } from "@angular/core";
 import { Subscription } from "rxjs/Subscription";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/observable/merge";
 import { DropdownService, SuiDropdownMenu } from "../../dropdown";
 import { SearchService, LookupFn, FilterFn } from "../../search";
-import { Util, ITemplateRefContext, HandledEvent, KeyCode } from "../../../misc/util";
+import { Util, ITemplateRefContext, HandledEvent, KeyCode, SuiComponentFactory } from "../../../misc/util";
 import { ISelectLocaleValues, RecursivePartial, SuiLocalizationService } from "../../../behaviors/localization";
-import { SuiSelectOption, ISelectRenderedOption } from "../components/select-option";
+import { SuiSelectOption } from "../components/select-option";
 import { SuiSelectSearch } from "../directives/select-search";
+import { SuiSelectOptions } from "../components/select-options";
 
 export interface IOptionContext<T> extends ITemplateRefContext<T> {
     query?:string;
@@ -16,7 +20,7 @@ export interface IOptionContext<T> extends ITemplateRefContext<T> {
 
 // We use generic type T to specify the type of the options we are working with,
 // and U to specify the type of the property of the option used as the value.
-export abstract class SuiSelectBase<T, U> implements AfterContentInit {
+export abstract class SuiSelectBase<T, U> implements AfterContentInit, AfterViewInit {
     public dropdownService:DropdownService;
     public searchService:SearchService<T, U>;
 
@@ -24,11 +28,18 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     protected _menu:SuiDropdownMenu;
 
     // Keep track of all of the rendered select options. (Rendered by the user using *ngFor).
-    @ContentChildren(SuiSelectOption, { descendants: true })
-    protected _renderedOptions:QueryList<SuiSelectOption<T>>;
+    @ContentChildren(SuiSelectOption)
+    protected _manualOptions:QueryList<SuiSelectOption<T>>;
 
-    // Keep track of all of the subscriptions to the selected events on the rendered options.
-    private _renderedSubscriptions:Subscription[];
+    @ViewChild(SuiSelectOptions, { read: ViewContainerRef })
+    private _internalOptionsContainer:ViewContainerRef;
+
+    @ContentChild(SuiSelectOptions, { read: ViewContainerRef })
+    private _manualOptionsContainer?:ViewContainerRef;
+
+    public get optionsContainer():ViewContainerRef {
+        return this._manualOptionsContainer || this._internalOptionsContainer;
+    }
 
     // Sets the Semantic UI classes on the host element.
     @HostBinding("class.ui")
@@ -132,14 +143,12 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         }
     }
 
-    public get filteredOptions():T[] {
-        return this.searchService.results;
+    public get filteredOptions$():BehaviorSubject<T[]> {
+        return this.searchService.results$;
     }
 
-    // Deprecated
-    public get availableOptions():T[] {
-        return this.filteredOptions;
-    }
+    private _renderedOptions:ComponentRef<SuiSelectOption<T>>[];
+    private _renderedSubscription:Subscription;
 
     public get query():string | undefined {
         return this.isSearchable ? this.searchService.query : undefined;
@@ -150,7 +159,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
             this.queryUpdateHook();
             this.updateQuery(query);
             // Update the rendered text as query has changed.
-            this._renderedOptions.forEach(ro => ro.formatter = this.configuredFormatter);
+            this._manualOptions.forEach(ro => ro.formatter = this.configuredFormatter);
 
             if (this.searchInput) {
                 this.searchInput.query = query;
@@ -225,16 +234,22 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     @Output("touched")
     public onTouched:EventEmitter<void>;
 
-    constructor(private _element:ElementRef, protected _localizationService:SuiLocalizationService) {
+    constructor(private _element:ElementRef,
+                private _componentFactory:SuiComponentFactory,
+                protected _localizationService:SuiLocalizationService) {
+
         this.dropdownService = new DropdownService();
         // We do want an empty query to return all results.
         this.searchService = new SearchService<T, U>(true);
+
+        this._renderedOptions = [];
 
         this.isSearchable = false;
 
         this.onLocaleUpdate();
         this._localizationService.onLanguageUpdate.subscribe(() => this.onLocaleUpdate());
-        this._renderedSubscriptions = [];
+
+        this.searchService.results$.subscribe(rs => this.renderOptions(rs));
 
         this.icon = "dropdown";
         this.transition = "slide down";
@@ -248,8 +263,10 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
     public ngAfterContentInit():void {
         this._menu.service = this.dropdownService;
         // We manually specify the menu items to the menu because the @ContentChildren doesn't pick up our dynamically rendered items.
-        this._menu.items = this._renderedOptions;
+        this._menu.items = this._manualOptions;
+    }
 
+    public ngAfterViewInit():void {
         if (this._manualSearch) {
             this.isSearchable = true;
             this.isSearchExternal = true;
@@ -261,8 +278,8 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         }
 
         // We must call this immediately as changes doesn't fire when you subscribe.
-        this.onAvailableOptionsRendered();
-        this._renderedOptions.changes.subscribe(() => this.onAvailableOptionsRendered());
+        this.onManualOptionsRendered();
+        this._manualOptions.changes.subscribe(() => this.onManualOptionsRendered());
     }
 
     private onLocaleUpdate():void {
@@ -296,30 +313,53 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
         }
     }
 
-    protected onAvailableOptionsRendered():void {
-        // Unsubscribe from all previous subscriptions to avoid memory leaks on large selects.
-        this._renderedSubscriptions.forEach(rs => rs.unsubscribe());
-        this._renderedSubscriptions = [];
-
-        this._renderedOptions.forEach(ro => {
-            // Slightly delay initialisation to avoid change after checked errors. TODO - look into avoiding this!
-            setTimeout(() => this.initialiseRenderedOption(ro));
-
-            this._renderedSubscriptions.push(ro.onSelected.subscribe(() => this.selectOption(ro.value)));
-        });
-
-        // If no options have been provided, autogenerate them from the rendered ones.
-        if (this.searchService.options.length === 0 && !this.searchService.optionsLookup) {
-            this.options = this._renderedOptions.map(ro => ro.value);
+    private renderOptions(options:T[]):void {
+        if (this.optionsContainer) {
+            this.optionsContainer.clear();
         }
+
+        if (this._renderedSubscription) {
+            this._renderedSubscription.unsubscribe();
+        }
+
+        this._renderedOptions.forEach(ro => ro.destroy());
+        this._renderedOptions = [];
+
+        options
+            .slice()
+            .reverse()
+            .forEach(option => {
+                const component = this._componentFactory.createComponent(SuiSelectOption);
+                component.instance.option = option;
+
+                this._componentFactory.attachToView(component, this.optionsContainer);
+                this._renderedOptions.push(component);
+            });
+
+        this._renderedSubscription = Observable
+            .merge(...this._renderedOptions.map(ro => ro.instance.onSelected))
+            .subscribe((o:T) => {
+                this.selectOption(o);
+                this.updateRenderedOptions();
+            });
+
+        this.updateRenderedOptions();
     }
 
-    protected initialiseRenderedOption(option:ISelectRenderedOption<T>):void {
-        option.usesTemplate = !!this.optionTemplate;
-        option.formatter = this.configuredFormatter;
+    private updateRenderedOptions():void {
+        this._renderedOptions.forEach(ro => this.updateRenderedOption(ro.instance));
+    }
 
-        if (option.usesTemplate) {
-            this.drawTemplate(option.templateSibling, option.value);
+    protected updateRenderedOption(option:SuiSelectOption<T>):void {
+        option.query = this.query;
+        option.formatter = this.configuredFormatter;
+        option.template = this.optionTemplate;
+    }
+
+    protected onManualOptionsRendered():void {
+        // If no options have been provided, autogenerate them from the rendered ones.
+        if (this.searchService.options.length === 0 && !this.searchService.optionsLookup) {
+            this.options = this._manualOptions.map(ro => ro.option);
         }
     }
 
