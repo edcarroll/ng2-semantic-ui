@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { NgModule, ModuleWithProviders } from "@angular/core";
 
 // Collections
 import {
@@ -35,34 +35,49 @@ import {
     SuiUtilityModule
 } from "./misc";
 
+const suiModules = [
+    // Collections
+    SuiMessageModule,
+    SuiPaginationModule,
+
+    // Modules
+    SuiAccordionModule,
+    SuiCheckboxModule,
+    SuiCollapseModule,
+    SuiDatepickerModule,
+    SuiDimmerModule,
+    SuiDropdownModule,
+    SuiModalModule,
+    SuiPopupModule,
+    SuiProgressModule,
+    SuiRatingModule,
+    SuiSearchModule,
+    SuiSelectModule,
+    SuiSidebarModule,
+    SuiTabsModule,
+    SuiTransitionModule,
+
+    // Behaviors
+    SuiLocalizationModule,
+
+    // Misc
+    SuiUtilityModule
+];
+
 @NgModule({
-    exports: [
-        // Collections
-        SuiMessageModule,
-        SuiPaginationModule,
-
-        // Modules
-        SuiAccordionModule,
-        SuiCheckboxModule,
-        SuiCollapseModule,
-        SuiDatepickerModule,
-        SuiDimmerModule,
-        SuiDropdownModule,
-        SuiModalModule,
-        SuiPopupModule,
-        SuiProgressModule,
-        SuiRatingModule,
-        SuiSearchModule,
-        SuiSelectModule,
-        SuiSidebarModule,
-        SuiTabsModule,
-        SuiTransitionModule,
-
-        // Behaviors
-        SuiLocalizationModule,
-
-        // Misc
-        SuiUtilityModule
-    ]
+    imports: suiModules.map(m => m.forRoot()),
+    exports: suiModules
 })
-export class SuiModule {}
+export class SuiRootModule {}
+
+@NgModule({
+    imports: suiModules,
+    exports: suiModules
+})
+export class SuiModule {
+    public static forRoot():ModuleWithProviders {
+        return {
+            ngModule: SuiRootModule
+        };
+    }
+}

@@ -1,10 +1,31 @@
 
-import { NgModule } from "@angular/core";
+import { NgModule, Optional, SkipSelf, ModuleWithProviders } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { SuiLocalizationService } from "./services/localization.service";
 
+const imports = [
+    CommonModule
+];
+
 @NgModule({
-    imports: [CommonModule],
-    providers: [SuiLocalizationService]
+    imports: [
+        ...imports
+    ],
+    providers: [
+        SuiLocalizationService
+    ]
 })
-export class SuiLocalizationModule {}
+export class SuiLocalizationRootModule {}
+
+@NgModule({
+    imports: [
+        ...imports
+    ]
+})
+export class SuiLocalizationModule {
+    public static forRoot():ModuleWithProviders {
+        return {
+            ngModule: SuiLocalizationRootModule
+        };
+    }
+}
