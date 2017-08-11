@@ -27,7 +27,7 @@ export class SuiSelectOption<T> extends SuiDropdownMenuItem {
     @HostBinding("class.active")
     public isActive:boolean;
 
-    public renderedText:string;
+    public renderedText?:string;
 
     public set formatter(formatter:(obj:T) => string) {
         if (!this.usesTemplate) {
