@@ -3,6 +3,8 @@ export {
     IPopup,
     SuiPopupConfig,
     IPopupConfig,
+    ITemplatePopupConfig,
+    ITemplatePopupContext,
     PopupTrigger
 } from "./index";
 

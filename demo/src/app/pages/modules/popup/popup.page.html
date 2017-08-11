@@ -21,7 +21,9 @@
             <p>You can use a <code>template</code> element for a popup.</p>
             <p>
                 If you need to access a local variable, such as within an <code>*ngFor</code>,
-                place the template within the scope of the repeated elements.
+                either place the template within the scope of the repeated elements, or bind
+                <code>popupTemplateContext</code> to the variable and access it in the template
+                as <code>popup.context</code>.
             </p>
             <p>
                 Adding the <code>autofocus</code> attribute to an element

@@ -4,17 +4,13 @@ import { SuiPopup } from "../components/popup";
 import { PopupConfig, PopupTrigger } from "../classes/popup-config";
 import { SuiPopupConfig } from "../services/popup.service";
 import { SuiPopupController } from "../classes/popup-controller";
+import { SuiPopupTemplateController, ITemplatePopupContext, ITemplatePopupConfig } from "../classes/popup-template-controller";
 
 @Directive({
     selector: "[suiPopup]",
     exportAs: "suiPopup"
 })
-export class SuiPopupDirective extends SuiPopupController {
-    @Input()
-    public set popupTemplate(template:TemplateRef<ITemplateRefContext<SuiPopup>>) {
-        this.popup.config.template = template;
-    }
-
+export class SuiPopupDirective<T> extends SuiPopupTemplateController<T> {
     @Input()
     public set popupHeader(header:string) {
         this.popup.config.header = header;
@@ -65,8 +61,18 @@ export class SuiPopupDirective extends SuiPopupController {
     }
 
     @Input()
-    public set popupConfig(config:PopupConfig) {
-        this.popup.config.batch(config);
+    public set popupTemplate(template:TemplateRef<ITemplatePopupContext<T>> | undefined) {
+        this.template = template;
+    }
+
+    @Input()
+    public set popupTemplateContext(context:T | undefined) {
+        this.context = context;
+    }
+
+    @Input()
+    public set popupConfig(config:ITemplatePopupConfig<T> | undefined) {
+        this.configure(config);
     }
 
     constructor(renderer:Renderer2,

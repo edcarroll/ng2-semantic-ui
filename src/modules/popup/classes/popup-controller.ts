@@ -1,6 +1,6 @@
 import { ComponentRef, ElementRef, HostListener, OnDestroy, Renderer2 } from "@angular/core";
-import { SuiComponentFactory, IFocusEvent } from "../../../misc/util";
-import { PopupConfig, PopupTrigger } from "./popup-config";
+import { SuiComponentFactory } from "../../../misc/util";
+import { PopupConfig, PopupTrigger, IPopupConfig } from "./popup-config";
 import { SuiPopup } from "../components/popup";
 import { IPopupLifecycle } from "./popup-lifecycle";
 
@@ -47,6 +47,12 @@ export abstract class SuiPopupController implements IPopup, OnDestroy {
         });
     }
 
+    public configure(config?:IPopupConfig):void {
+        if (config) {
+            Object.assign(this.popup.config, config);
+        }
+    }
+
     public openDelayed():void {
         // Cancel the opening timer.
         clearTimeout(this._openingTimeout);
@@ -56,17 +62,7 @@ export abstract class SuiPopupController implements IPopup, OnDestroy {
     }
 
     public open():void {
-        // If there is a template, inject it into the view.
-        if (this.popup.config.template) {
-            this.popup.templateSibling.clear();
-
-            this._componentFactory.createView(this.popup.templateSibling, this.popup.config.template, {
-                $implicit: this.popup
-            });
-        }
-
-        // Detach & reattach the generated component to the current application.
-        this._componentFactory.detachFromApplication(this._componentRef);
+        // Attach the generated component to the current application.
         this._componentFactory.attachToApplication(this._componentRef);
 
         // Move the generated element to the body to avoid any positioning issues.
@@ -151,7 +147,6 @@ export abstract class SuiPopupController implements IPopup, OnDestroy {
         }
     }
 
-    // @HostListener("document:click", ["$event"])
     public onDocumentClick(e:MouseEvent):void {
         // If the popup trigger is outside click,
         if (this._componentRef && this.popup.config.trigger === PopupTrigger.OutsideClick) {
@@ -183,6 +178,7 @@ export abstract class SuiPopupController implements IPopup, OnDestroy {
 
     public ngOnDestroy():void {
         clearTimeout(this._openingTimeout);
+        this._componentFactory.detachFromApplication(this._componentRef);
         this._componentRef.destroy();
     }
 }
