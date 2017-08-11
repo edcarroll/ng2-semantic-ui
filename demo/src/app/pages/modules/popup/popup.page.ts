@@ -3,7 +3,7 @@ import { ApiDefinition } from "../../../components/api/api.component";
 import { SuiPopupConfig } from "ng2-semantic-ui";
 
 const exampleStandardTemplate = `
-<button class="ui green icon button" suiPopup popupHeader="Example" popupText="This is an example popup">
+<button class="ui green icon button" suiPopup="This is an example popup" popupHeader="Example">
     <i class="add icon"></i>
 </button>
 `;
@@ -21,7 +21,7 @@ const exampleTemplateTemplate = `
 `;
 
 const examplePlacementTemplate = `
-<div class="ui card" suiPopup popupText="You can customise my placement!" popupInverted [popupPlacement]="position">
+<div class="ui card" suiPopup="You can customise my placement!" popupInverted [popupPlacement]="position">
     <div class="content">
         <div class="header">Positioning</div>
         <div class="description">
@@ -41,7 +41,7 @@ export class PopupPage {
             selector: "[suiPopup]",
             properties: [
                 {
-                    name: "popupText",
+                    name: "suiPopup",
                     type: "string",
                     description: "Sets the text within the popup."
                 },
@@ -130,7 +130,7 @@ export class PopupPage {
     public position:string = "bottom right";
 
     public manualPopupMarkup:string = `
-<div class="ui segment" suiPopup popupText="Manual" popupTrigger="manual" #popup="suiPopup">
+<div class="ui segment" suiPopup="Manual" popupTrigger="manual" #popup="suiPopup">
     <button class="ui button" (click)="popup.open()">Open!</button>
     <button class="ui button" (click)="openPopup(popup)">Conditionally Open!</button>
     <button class="ui button" (click)="popup.toggle()">Toggle!</button>
