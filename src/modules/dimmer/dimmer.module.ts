@@ -1,18 +1,42 @@
-import { NgModule } from "@angular/core";
+import { NgModule, ModuleWithProviders } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { SuiTransitionModule } from "../transition";
 import { SuiDimmer } from "./components/dimmer";
 
+const imports = [
+    CommonModule
+];
+
+const declarations = [
+    SuiDimmer
+];
+
+const exports = [
+    SuiDimmer
+];
+
 @NgModule({
     imports: [
-        CommonModule,
+        ...imports,
+        SuiTransitionModule.forRoot()
+    ],
+    declarations,
+    exports
+})
+export class SuiDimmerRootModule {}
+
+@NgModule({
+    imports: [
+        ...imports,
         SuiTransitionModule
     ],
-    declarations: [
-        SuiDimmer
-    ],
-    exports: [
-        SuiDimmer
-    ]
+    declarations,
+    exports
 })
-export class SuiDimmerModule {}
+export class SuiDimmerModule {
+    public static forRoot():ModuleWithProviders {
+        return {
+            ngModule: SuiDimmerRootModule
+        };
+    }
+}
