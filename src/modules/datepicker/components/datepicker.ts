@@ -1,7 +1,7 @@
 import { Component, HostBinding } from "@angular/core";
 import { CalendarService } from "./../services/calendar.service";
 import { DatetimeConfig } from "../classes/calendar-config";
-import { SuiLocalizationService } from "../../../behaviors/localization";
+import { SuiLocalizationService } from "../../../behaviors/localization/index";
 
 export type DatepickerMode = "year" | "month" | "date" | "datetime" | "time";
 

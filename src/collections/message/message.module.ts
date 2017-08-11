@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { SuiTransitionModule } from "../../modules/transition";
+import { SuiTransitionModule } from "../../modules/transition/index";
 import { SuiMessage } from "./components/message";
 
 @NgModule({

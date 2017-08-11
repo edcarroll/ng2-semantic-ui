@@ -1,5 +1,5 @@
 import { Input, QueryList, ViewChildren, AfterViewInit, HostListener } from "@angular/core";
-import { KeyCode } from "../../../misc/util";
+import { KeyCode } from "../../../misc/util/index";
 import { CalendarItem, SuiCalendarItem } from "../directives/calendar-item";
 import { CalendarService } from "../services/calendar.service";
 import { CalendarRangeService } from "../services/calendar-range.service";
