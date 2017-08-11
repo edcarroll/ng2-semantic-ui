@@ -2,7 +2,7 @@ import { Component, HostBinding, ElementRef, EventEmitter, Output, Input, Direct
 import { ICustomValueAccessorHost, KeyCode, customValueAccessorFactory, CustomValueAccessor } from "../../../misc/util";
 import { SuiLocalizationService } from "../../../behaviors/localization";
 import { SuiSelectBase } from "../classes/select-base";
-import { ISelectRenderedOption } from "./select-option";
+import { SuiSelectOption } from "./select-option";
 
 @Component({
     selector: "sui-multi-select",
@@ -158,7 +158,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
         }
     }
 
-    protected initialiseRenderedOption(option:ISelectRenderedOption<T>):void {
+    protected initialiseRenderedOption(option:SuiSelectOption<T>):void {
         super.initialiseRenderedOption(option);
 
         // Boldens the item so it appears selected in the dropdown.
