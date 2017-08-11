@@ -49,12 +49,11 @@
     "typescript": "~2.3.0"
   },
   "dependencies": {
-    "@types/popper.js": "~1.10.0",
     "bowser": "^1.7.0",
     "date-fns": "2.0.0-alpha.1",
     "element-closest": "^2.0.2",
     "extend": "^3.0.1",
-    "popper.js": "~1.10.6",
+    "popper.js": "^1.11.1",
     "rxjs": "^5.0.1"
   },
   "devDependencies": {

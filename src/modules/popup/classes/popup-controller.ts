@@ -176,6 +176,7 @@ export abstract class SuiPopupController implements IPopup, OnDestroy {
     }
 
     public ngOnDestroy():void {
+        clearTimeout(this._openingTimeout);  
         this._componentFactory.detachFromApplication(this._componentRef);
         this._componentRef.destroy();
     }
