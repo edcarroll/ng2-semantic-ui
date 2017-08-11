@@ -165,9 +165,13 @@ export abstract class SuiPopupController implements IPopup, OnDestroy {
         }
     }
 
-    @HostListener("focusout")
-    private onFocusOut():void {
-        if (this.popup.config.trigger === PopupTrigger.Focus) {
+    @HostListener("focusout", ["$event"])
+    private onFocusOut(e:any):void {
+        console.log(e.relatedTarget);
+        if (!this._element.nativeElement.contains(e.relatedTarget) &&
+            !this.popup.elementRef.nativeElement.contains(e.relatedTarget) &&
+            this.popup.config.trigger === PopupTrigger.Focus) {
+
             this.close();
         }
     }
