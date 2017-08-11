@@ -11,8 +11,8 @@
                     <div class="content">
                         <div class="header">
                             <code>{{ property.name }}</code>&nbsp;
-                            <div class="ui grey medium horizontal label" suiPopup popupText="Data Type">{{ property.type }}</div>
-                            <div class="ui teal medium horizontal label" *ngIf="property.defaultValue" suiPopup popupText="Default Value">{{ property.defaultValue }}</div>
+                            <div class="ui grey medium horizontal label" suiPopup="Data Type">{{ property.type }}</div>
+                            <div class="ui teal medium horizontal label" *ngIf="property.defaultValue" suiPopup="Default Value">{{ property.defaultValue }}</div>
                             <div class="ui red medium horizontal label" *ngIf="property.required">required</div>
                         </div>
                         <div class="description" [innerHTML]="property.description"></div>
@@ -30,7 +30,7 @@
                     <div class="content">
                         <div class="header">
                             <code>{{ event.name }}</code>&nbsp;
-                            <div class="ui grey medium horizontal label" suiPopup popupText="Data Type">{{ event.type }}</div>
+                            <div class="ui grey medium horizontal label" suiPopup="Data Type">{{ event.type }}</div>
                         </div>
                         <div class="description" [innerHTML]="event.description"></div>
                     </div>
