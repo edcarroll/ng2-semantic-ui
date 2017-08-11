@@ -2,7 +2,7 @@ import {
     Component, ViewChild, HostBinding, Input, AfterViewInit, HostListener,
     EventEmitter, Output, Directive, ElementRef, TemplateRef
 } from "@angular/core";
-import { Util, ITemplateRefContext } from "../../../misc/util";
+import { Util, ITemplateRefContext, IFocusEvent } from "../../../misc/util";
 import { DropdownService, SuiDropdownMenu } from "../../dropdown";
 import { ISearchLocaleValues, RecursivePartial, SuiLocalizationService } from "../../../behaviors/localization";
 import { SearchService } from "../services/search.service";
@@ -241,7 +241,7 @@ export class SuiSearch<T> implements AfterViewInit {
     }
 
     @HostListener("focusout", ["$event"])
-    private onFocusOut(e:FocusEvent):void {
+    private onFocusOut(e:IFocusEvent):void {
         if (!this._element.nativeElement.contains(e.relatedTarget)) {
             this.dropdownService.setOpenState(false);
         }

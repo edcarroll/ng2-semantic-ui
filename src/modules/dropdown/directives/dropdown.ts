@@ -2,7 +2,7 @@ import {
     Directive, Input, HostBinding, EventEmitter, Output, AfterContentInit, ContentChild,
     ElementRef, HostListener, QueryList, ContentChildren
 } from "@angular/core";
-import { HandledEvent, KeyCode } from "../../../misc/util";
+import { HandledEvent, KeyCode, IFocusEvent } from "../../../misc/util";
 import { DropdownService, DropdownAutoCloseType } from "../services/dropdown.service";
 import { SuiDropdownMenu } from "./dropdown-menu";
 
@@ -117,7 +117,7 @@ export class SuiDropdown implements AfterContentInit {
     }
 
     @HostListener("focusout", ["$event"])
-    private onFocusOut(e:FocusEvent):void {
+    private onFocusOut(e:IFocusEvent):void {
         if (!this._element.nativeElement.contains(e.relatedTarget)) {
             this.externallyClose();
         }
