@@ -75,6 +75,12 @@ export const Util = {
             }
 
             return value;
+        },
+
+        getDocumentFontSize():number {
+            return parseFloat(window
+                .getComputedStyle(document.documentElement, undefined)
+                .getPropertyValue("font-size"));
         }
     },
 

@@ -91,6 +91,24 @@ export class ProgressPage {
                     type: "boolean",
                     description: "Sets whether or not the progress bar automatically turns green when <code>value == maximum</code>.",
                     defaultValue: "true"
+                },
+                {
+                    name: "transition",
+                    type: "number",
+                    description: "Sets the transition function used when transitioning between values.",
+                    defaultValue: "350"
+                },
+                {
+                    name: "transitionDuration",
+                    type: "number",
+                    description: "Sets the transition duration of the bar between values.",
+                    defaultValue: "350"
+                },
+                {
+                    name: "canCompletelyEmpty",
+                    type: "boolean",
+                    description: "Sets whether the progress bar can empty completely.",
+                    defaultValue: "false"
                 }
             ]
         }

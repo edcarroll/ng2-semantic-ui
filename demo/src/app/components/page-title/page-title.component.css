@@ -26,7 +26,7 @@
     }
 }
 
-@media only screen and (max-width: 425px) {
+@media only screen and (max-width: 480px) {
     :host.ui.masthead.segment {
         margin-bottom: 1em;
         padding: 1em;
