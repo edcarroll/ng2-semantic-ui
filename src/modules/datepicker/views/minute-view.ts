@@ -56,10 +56,12 @@ export class CalendarRangeMinuteService extends CalendarRangeService {
 export class SuiCalendarMinuteView extends CalendarView {
     public get date():string {
         if (this.service.config.mode !== CalendarMode.TimeOnly) {
-            const dateTimeFormat:string = this.service.localeValues.formats.datetime.replace(/m/g, "0");
+            // Set minutes and seconds to 0
+            const dateTimeFormat:string = this.service.localeValues.formats.datetime.replace(/[ms]/g, "0");
             return new DateParser(dateTimeFormat, this.service.localeValues).format(this.currentDate);
         } else {
-            const timeFormat:string = this.service.localeValues.formats.time.replace(/m/g, "0");
+            // Set minutes and seconds to 0
+            const timeFormat:string = this.service.localeValues.formats.time.replace(/[ms]/g, "0");
             return new DateParser(timeFormat, this.service.localeValues).format(this.currentDate);
         }
     }

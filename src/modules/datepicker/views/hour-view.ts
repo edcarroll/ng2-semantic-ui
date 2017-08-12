@@ -7,7 +7,8 @@ import { DateParser } from "../classes/date-parser";
 
 export class CalendarRangeHourService extends CalendarRangeService {
     public configureItem(item:CalendarItem, baseDate:Date):void {
-        const customFormat:string = this.service.localeValues.formats.time.replace(/m/g, "0");
+        // Set minutes and seconds to 0
+        const customFormat:string = this.service.localeValues.formats.time.replace(/[ms]/g, "0");
         item.humanReadable = new DateParser(customFormat, this.service.localeValues).format(item.date);
         item.isOutsideRange = false;
         item.isToday = false;
