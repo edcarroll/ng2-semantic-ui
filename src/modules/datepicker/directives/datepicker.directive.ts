@@ -1,6 +1,6 @@
 import {
     Directive, ElementRef, Renderer2, EventEmitter, Output, Input,
-    HostListener, OnChanges, SimpleChanges, OnInit
+    HostListener, OnChanges, SimpleChanges
 } from "@angular/core";
 import { AbstractControl, ValidationErrors } from "@angular/forms";
 import {
@@ -19,7 +19,7 @@ import { isValid } from "date-fns";
 })
 export class SuiDatepickerDirective
        extends SuiPopupComponentController<SuiDatepicker>
-       implements ICustomValueAccessorHost<Date>, ICustomValidatorHost, OnChanges, PopupAfterOpen, OnInit {
+       implements ICustomValueAccessorHost<Date>, ICustomValidatorHost, OnChanges, PopupAfterOpen {
 
     private _selectedDate?:Date;
 
@@ -134,6 +134,7 @@ export class SuiDatepickerDirective
         if (this.componentInstance) {
             this.componentInstance.service.config = this.config;
             this.componentInstance.service.localeValues = this.localeValues;
+            this.componentInstance.service.currentDate = this.initialDate || new Date();
             this.componentInstance.service.selectedDate = this.selectedDate;
             this.componentInstance.service.maxDate = this.maxDate;
             this.componentInstance.service.minDate = this.minDate;
@@ -148,18 +149,6 @@ export class SuiDatepickerDirective
                 this.selectedDate = d;
                 this.close();
             });
-        }
-    }
-
-    public ngOnInit():void {
-        if (this.initialDate !== undefined) {
-            // Need to explicitly check for null
-            // tslint:disable-next-line:no-null-keyword
-            if (this.initialDate !== null) {
-                this._selectedDate = isValid(this.initialDate) ? new Date(this.initialDate) : undefined;
-            } else {
-                this._selectedDate = new Date();
-            }
         }
     }
 

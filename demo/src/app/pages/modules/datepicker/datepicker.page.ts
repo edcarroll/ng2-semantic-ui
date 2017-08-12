@@ -97,7 +97,8 @@ export class DatepickerPage {
                 {
                     name: "pickerInitialDate",
                     type: "Date",
-                    description: "Sets the intial date to display (null = today)."
+                    description: "Sets the intial date to display when no date is selected.",
+                    defaultValue: "new Date()"
                 },
                 {
                     name: "pickerMaxDate",
