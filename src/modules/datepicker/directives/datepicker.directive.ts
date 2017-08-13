@@ -1,4 +1,3 @@
-
 import {
     Directive, ElementRef, Renderer2, EventEmitter, Output, Input,
     HostListener, OnChanges, SimpleChanges
@@ -62,6 +61,9 @@ export class SuiDatepickerDirective
         }
         this.writeValue(this.selectedDate);
     }
+
+    @Input("pickerInitialDate")
+    public initialDate?:Date;
 
     @Input("pickerMaxDate")
     public maxDate?:Date;
@@ -131,6 +133,7 @@ export class SuiDatepickerDirective
         if (this.componentInstance) {
             this.componentInstance.service.config = this.config;
             this.componentInstance.service.localeValues = this.localeValues;
+            this.componentInstance.service.currentDate = this.initialDate || new Date();
             this.componentInstance.service.selectedDate = this.selectedDate;
             this.componentInstance.service.maxDate = this.maxDate;
             this.componentInstance.service.minDate = this.minDate;

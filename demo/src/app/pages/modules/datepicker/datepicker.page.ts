@@ -95,6 +95,12 @@ export class DatepickerPage {
                     defaultValue: "datetime"
                 },
                 {
+                    name: "pickerInitialDate",
+                    type: "Date",
+                    description: "Sets the intial date to display when no date is selected.",
+                    defaultValue: "new Date()"
+                },
+                {
                     name: "pickerMaxDate",
                     type: "Date",
                     description: "Sets the maximum date that can be selected by the datepicker."
