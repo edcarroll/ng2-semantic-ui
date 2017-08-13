@@ -150,6 +150,9 @@ interface ILocaleValues {
         weekdays:string[], // Full day names
         weekdaysShort:string[], // Short day names (3 letters)
         weekdaysNarrow:string[], // Narrow day names (1/2 letters)
+        timesOfDay:string[]; // Full time of day names (2 values only)
+        timesOfDayUppercase:string[]; // Short uppercase time of day names (2 values only)
+        timesOfDayLowercase:string[]; // Short lowercase time of day names (2 values only)
         formats: {
             time:string, // Date display format for 'time' mode
             datetime:string, // Display format for 'datetime' mode
