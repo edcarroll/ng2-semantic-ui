@@ -11,7 +11,6 @@ import { IDatepickerLocaleValues, RecursivePartial, SuiLocalizationService } fro
 import { SuiPopupComponentController, PopupAfterOpen, PopupConfig, PopupTrigger } from "../../popup";
 import { SuiDatepicker, DatepickerMode } from "../components/datepicker";
 import { CalendarConfig, YearConfig, MonthConfig, DatetimeConfig, TimeConfig, DateConfig } from "../classes/calendar-config";
-import { isValid } from "date-fns";
 
 @Directive({
     selector: "[suiDatepicker]",

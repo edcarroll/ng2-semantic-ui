@@ -88,6 +88,8 @@ export class CalendarService {
     constructor(config:CalendarConfig, public localeValues:IDatepickerLocaleValues) {
         this.config = config;
 
+        this.currentDate = new Date();
+
         this.firstDayOfWeek = this.localeValues.firstDayOfWeek;
 
         this.onDateChange = new EventEmitter<Date>();
@@ -101,7 +103,7 @@ export class CalendarService {
         this.currentView = this.config.mappings.finalView;
 
         if (!this._selectedDate) {
-            let current = this.currentDate ? this.currentDate.getTime() : new Date().getTime();
+            let current = this.currentDate.getTime();
             if (this._minDate) {
                 current = Math.max(current, this._minDate.getTime());
             }
