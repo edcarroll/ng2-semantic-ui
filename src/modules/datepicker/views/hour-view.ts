@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { Util, DatePrecision } from "../../../misc/util";
+import { DatePrecision } from "../../../misc/util";
 import { CalendarView, CalendarViewType } from "./calendar-view";
 import { CalendarItem } from "../directives/calendar-item";
 import { CalendarRangeService } from "../services/calendar-range.service";
@@ -7,7 +7,9 @@ import { DateParser } from "../classes/date-parser";
 
 export class CalendarRangeHourService extends CalendarRangeService {
     public configureItem(item:CalendarItem, baseDate:Date):void {
-        item.humanReadable = `${Util.String.padLeft(item.date.getHours().toString(), 2, "0")}:00`;
+        // Set minutes and seconds to 0
+        const customFormat:string = this.service.localeValues.formats.time.replace(/[ms]/g, "0");
+        item.humanReadable = new DateParser(customFormat, this.service.localeValues).format(item.date);
         item.isOutsideRange = false;
         item.isToday = false;
     }
@@ -43,8 +45,9 @@ export class CalendarRangeHourService extends CalendarRangeService {
 `
 })
 export class SuiCalendarHourView extends CalendarView {
+
     public get date():string {
-        return new DateParser("MMMM D, YYYY", this.service.localeValues).format(this.currentDate);
+        return new DateParser(this.service.localeValues.formats.date, this.service.localeValues).format(this.currentDate);
     }
 
     constructor() {

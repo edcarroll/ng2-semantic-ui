@@ -58,7 +58,7 @@ export class SuiCalendarDateView extends CalendarView {
     }
 
     public get date():string {
-        return new DateParser("MMMM YYYY", this.service.localeValues).format(this.currentDate);
+        return new DateParser(this.service.localeValues.formats.month, this.service.localeValues).format(this.currentDate);
     }
 
     constructor() {
