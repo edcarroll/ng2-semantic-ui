@@ -1,4 +1,3 @@
-
 import { ILocaleValues } from "../interfaces/values";
 
 const enGB:ILocaleValues = {
@@ -17,6 +16,15 @@ const enGB:ILocaleValues = {
         ],
         weekdaysNarrow: [
             "S", "M", "T", "W", "T", "F", "S"
+        ],
+        timesOfDay: [
+            "a.m.", "p.m."
+        ],
+        timesOfDayUppercase: [
+            "AM", "PM"
+        ],
+        timesOfDayLowercase: [
+            "am", "pm"
         ],
         formats: {
             time: "hh:mm aa",

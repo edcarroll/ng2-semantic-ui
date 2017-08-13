@@ -1,5 +1,6 @@
 export type Septuple<T> = [T, T, T, T, T, T, T];
 export type Duodecuple<T> = [T, T, T, T, T, T, T, T, T, T, T, T];
+export type Pair<T> = [T, T];
 
 export interface IDatepickerFormatsLocaleValues {
     year:string;
@@ -15,6 +16,9 @@ export interface IDatepickerLocaleValues {
     weekdays:Septuple<string>;
     weekdaysShort:Septuple<string>;
     weekdaysNarrow:Septuple<string>;
+    timesOfDay:Pair<string>;
+    timesOfDayUppercase:Pair<string>;
+    timesOfDayLowercase:Pair<string>;
     firstDayOfWeek:number;
     formats:IDatepickerFormatsLocaleValues;
 }
