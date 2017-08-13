@@ -1,11 +1,11 @@
-import { ILocaleValues } from "../interfaces/values";
+import { IPartialLocaleValues } from "../interfaces/values";
 
 /**
  * locale : Russian (ru)
  * author : Maksim Moiseikin : https://github.com/maksim-m
  */
 
-const ru:ILocaleValues = {
+const ru:IPartialLocaleValues = {
     datepicker: {
         months: [
             "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
