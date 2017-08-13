@@ -29,8 +29,10 @@ interface IDateFnsCustomLocale {
     };
 }
 
-function buildLocalizeFn(values:IDateFnsLocaleValues, defaultType:string,
+function buildLocalizeFn(values:IDateFnsLocaleValues,
+                         defaultType:string,
                          indexCallback?:(oldIndex:number) => number):DateFnsHelper<number, string> {
+
     return (dirtyIndex:number, { type } = { type: defaultType }) => {
         const index = indexCallback ? indexCallback(dirtyIndex) : dirtyIndex;
         return values[type][index];
