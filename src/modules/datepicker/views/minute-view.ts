@@ -20,7 +20,6 @@ export class CalendarRangeMinuteService extends CalendarRangeService {
     public configureItem(item:CalendarItem, baseDate:Date):void {
         item.humanReadable = new DateParser(this.service.localeValues.formats.time, this.service.localeValues).format(item.date);
         item.isOutsideRange = false;
-        item.isToday = false;
     }
 }
 
@@ -31,13 +30,9 @@ export class CalendarRangeMinuteService extends CalendarRangeService {
 <thead>
     <tr>
         <th colspan="4">
-            <span class="link" (click)="zoomOut()">{{ date }}</span>
-            <span class="prev link" [class.disabled]="!ranges.canMovePrevious" (click)="ranges.movePrevious()">
-                <i class="chevron left icon"></i>
-            </span>
-            <span class="next link" [class.disabled]="!ranges.canMoveNext" (click)="ranges.moveNext()">
-                <i class="chevron right icon"></i>
-            </span>
+            <sui-calendar-view-title [ranges]="ranges" (zoomOut)="zoomOut()">
+                {{ date }}
+            </sui-calendar-view-title>
         </th>
     </tr>
 </thead>
