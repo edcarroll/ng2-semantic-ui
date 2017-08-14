@@ -180,35 +180,39 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
 
             switch (e.keyCode) {
                 // Escape : close the entire dropdown.
-                case KeyCode.Escape:
+                case KeyCode.Escape: {
                     this._service.setOpenState(false);
                     break;
+                }
                 // Down : select the next item below the current one, or the 1st if none selected.
                 case KeyCode.Down:
                 // Up : select the next item above the current one, or the 1st if none selected.
-                case KeyCode.Up:
+                case KeyCode.Up: {
                     this.selectedItems.pop();
                     this.selectedItems.push(selectedContainer.updateSelection(selected, e.keyCode));
                     // Prevent default regardless of whether we are in an input, to stop jumping to the start or end of the query string.
                     e.preventDefault();
                     break;
+                }
                 // Enter : if the item doesn't contain a nested dropdown, 'click' it. Otherwise, fall through to 'Right' action.
-                case KeyCode.Enter:
+                case KeyCode.Enter: {
                     if (selected && !selected.hasChildDropdown) {
                         selected.performClick();
                         break;
                     }
+                }
                     // falls through
                 // Right : if the selected item contains a nested dropdown, open the dropdown & select the 1st item.
-                case KeyCode.Right:
+                case KeyCode.Right: {
                     if (selected && selected.hasChildDropdown) {
                         selected.childDropdownMenu.service.setOpenState(true);
 
                         this.selectedItems.push(selected.childDropdownMenu.updateSelection(selected, e.keyCode));
                     }
                     break;
+                }
                 // Left : if the selected item is in a nested dropdown, close it and select the containing item.
-                case KeyCode.Left:
+                case KeyCode.Left: {
                     if (this.selectedItems.length >= 2) {
                         this.selectedItems.pop();
                         const [selectedParent] = this.selectedItems.slice(-1);
@@ -217,6 +221,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
                         selectedParent.isSelected = true;
                     }
                     break;
+                }
             }
         }
     }
@@ -271,9 +276,10 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
         if (newSelection) {
             // Set the selected status on the newly selected item.
             newSelection.isSelected = true;
-        }
 
-        this.scrollToItem(newSelection);
+            // Set the current scroll position to the location of the newly selected item.
+            this.scrollToItem(newSelection);
+        }
 
         return newSelection;
     }
