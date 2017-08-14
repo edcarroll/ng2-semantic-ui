@@ -1,4 +1,4 @@
-import { Component, HostBinding } from "@angular/core";
+import { Component, HostBinding, HostListener } from "@angular/core";
 import { CalendarService } from "./../services/calendar.service";
 import { DatetimeConfig } from "../classes/calendar-config";
 import { SuiLocalizationService } from "../../../behaviors/localization/index";
@@ -42,5 +42,10 @@ export class SuiDatepicker {
         this.service = new CalendarService(new DatetimeConfig(), localizationService.get().datepicker);
 
         this._calendarClasses = true;
+    }
+
+    @HostListener("mousedown", ["$event"])
+    public onMouseDown(e:MouseEvent):void {
+        e.preventDefault();
     }
 }
