@@ -1,5 +1,5 @@
 import { ComponentRef, ElementRef, HostListener, OnDestroy, Renderer2 } from "@angular/core";
-import { SuiComponentFactory } from "../../../misc/util";
+import { SuiComponentFactory } from "../../../misc/util/index";
 import { PopupConfig, PopupTrigger, IPopupConfig } from "./popup-config";
 import { SuiPopup } from "../components/popup";
 import { IPopupLifecycle } from "./popup-lifecycle";

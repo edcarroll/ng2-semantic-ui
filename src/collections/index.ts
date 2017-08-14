@@ -1,2 +1,2 @@
-export * from "./message";
-export * from "./pagination";
+export * from "./message/index";
+export * from "./pagination/index";

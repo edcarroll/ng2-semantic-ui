@@ -1,7 +1,7 @@
 import { Directive, AfterContentInit, ContentChildren, QueryList, ElementRef } from "@angular/core";
 import { SuiRadio } from "../components/radio";
 import { Subscription } from "rxjs/Subscription";
-import { Util } from "../../../misc/util";
+import { Util } from "../../../misc/util/index";
 
 @Directive({
     selector: "form:not([ngForm]):not([[ngForm]]),ngForm,[ngForm]"
