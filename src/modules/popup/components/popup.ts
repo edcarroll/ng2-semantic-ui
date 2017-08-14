@@ -1,6 +1,6 @@
 import { Component, ViewChild, ViewContainerRef, ElementRef, EventEmitter, HostListener, HostBinding } from "@angular/core";
-import { PositioningService, IDynamicClasses } from "../../../misc/util";
-import { TransitionController, TransitionDirection, Transition } from "../../transition";
+import { PositioningService, IDynamicClasses } from "../../../misc/util/index";
+import { TransitionController, TransitionDirection, Transition } from "../../transition/index";
 import { IPopup } from "../classes/popup-controller";
 import { PopupConfig } from "../classes/popup-config";
 

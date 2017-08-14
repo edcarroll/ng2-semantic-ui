@@ -2,9 +2,9 @@ import {
     Component, ViewChild, HostBinding, Input, AfterViewInit, HostListener,
     EventEmitter, Output, Directive, ElementRef, TemplateRef
 } from "@angular/core";
-import { Util, ITemplateRefContext, IFocusEvent } from "../../../misc/util";
-import { DropdownService, SuiDropdownMenu } from "../../dropdown";
-import { ISearchLocaleValues, RecursivePartial, SuiLocalizationService } from "../../../behaviors/localization";
+import { Util, ITemplateRefContext, IFocusEvent } from "../../../misc/util/index";
+import { DropdownService, SuiDropdownMenu } from "../../dropdown/index";
+import { ISearchLocaleValues, RecursivePartial, SuiLocalizationService } from "../../../behaviors/localization/index";
 import { SearchService } from "../services/search.service";
 import { LookupFn, FilterFn } from "../helpers/lookup-fn";
 

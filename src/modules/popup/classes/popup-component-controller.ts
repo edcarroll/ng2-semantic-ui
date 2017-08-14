@@ -1,5 +1,5 @@
 import { ComponentRef, ElementRef, Type, Renderer2 } from "@angular/core";
-import { SuiComponentFactory } from "../../../misc/util";
+import { SuiComponentFactory } from "../../../misc/util/index";
 import { SuiPopupController } from "./popup-controller";
 import { PopupConfig } from "./popup-config";
 
