@@ -1,9 +1,9 @@
-import { ComponentRef, ElementRef, Type, Renderer2 } from "@angular/core";
+import { ComponentRef, ElementRef, Type, Renderer2, OnDestroy } from "@angular/core";
 import { SuiComponentFactory } from "../../../misc/util/index";
 import { SuiPopupController } from "./popup-controller";
 import { PopupConfig } from "./popup-config";
 
-export class SuiPopupComponentController<T> extends SuiPopupController {
+export class SuiPopupComponentController<T> extends SuiPopupController implements OnDestroy {
     // Stores reference to generated content component.
     private _contentComponentRef?:ComponentRef<T>;
 
@@ -36,5 +36,13 @@ export class SuiPopupComponentController<T> extends SuiPopupController {
         }
 
         super.open();
+    }
+
+    public ngOnDestroy():void {
+        if (this._contentComponentRef) {
+            this._contentComponentRef.destroy();
+        }
+
+        super.ngOnDestroy();
     }
 }
