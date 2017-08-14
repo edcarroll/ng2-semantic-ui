@@ -1,9 +1,9 @@
+import { IPartialLocaleValues } from "../interfaces/values";
+
 /**
  * locale : Italian (it)
  * author : Massimo Costa : https://github.com/mcosta74
  */
-
-import { IPartialLocaleValues } from "../interfaces/values";
 
 const it:IPartialLocaleValues = {
     datepicker: {
