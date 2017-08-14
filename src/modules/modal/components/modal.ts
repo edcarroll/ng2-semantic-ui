@@ -28,6 +28,7 @@ import { ModalConfig, ModalSize } from "../classes/modal-config";
          [class.scroll]="mustScroll"
          [class.inverted]="isInverted"
          [ngClass]="dynamicClasses"
+         (click)="onClick($event)"
          #modal>
 
         <!-- Configurable close icon -->
@@ -280,6 +281,11 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
             // The modal must scroll if the window height is smaller than the modal height + both margins.
             this._mustScroll = window.innerHeight < element.clientHeight + margin * 2;
         }
+    }
+
+    public onClick(e:MouseEvent):void {
+        // Makes sense here, as the modal shouldn't be attached to any DOM element.
+        e.stopPropagation();
     }
 
     @HostListener("document:keyup", ["$event"])
