@@ -1,6 +1,6 @@
 import {
     ViewChild, HostBinding, ElementRef, HostListener, Input, ContentChildren, QueryList,
-    AfterContentInit, TemplateRef, ViewContainerRef, ContentChild, EventEmitter, Output
+    AfterContentInit, TemplateRef, ViewContainerRef, ContentChild, EventEmitter, Output, OnDestroy
 } from "@angular/core";
 import { Subscription } from "rxjs/Subscription";
 import { DropdownService, SuiDropdownMenu } from "../../dropdown";
@@ -16,7 +16,7 @@ export interface IOptionContext<T> extends ITemplateRefContext<T> {
 
 // We use generic type T to specify the type of the options we are working with,
 // and U to specify the type of the property of the option used as the value.
-export abstract class SuiSelectBase<T, U> implements AfterContentInit {
+export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy {
     public dropdownService:DropdownService;
     public searchService:SearchService<T, U>;
 
@@ -322,7 +322,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
             this.drawTemplate(option.templateSibling, option.value);
         }
 
-        option.changeDetector.detectChanges();
+        option.changeDetector.markForCheck();
     }
 
     public abstract selectOption(option:T):void;
@@ -417,5 +417,9 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit {
             $implicit: value,
             query: this.query
         });
+    }
+
+    public ngOnDestroy():void {
+        this._renderedSubscriptions.forEach(s => s.unsubscribe());
     }
 }
