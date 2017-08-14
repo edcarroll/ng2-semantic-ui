@@ -3,7 +3,7 @@ import { SuiComponentFactory } from "../../../misc/util/index";
 import { SuiPopupController } from "./popup-controller";
 import { PopupConfig } from "./popup-config";
 
-export class SuiPopupComponentController<T> extends SuiPopupController implements OnDestroy {
+export class SuiPopupComponentController<T> extends SuiPopupController {
     // Stores reference to generated content component.
     private _contentComponentRef?:ComponentRef<T>;
 
@@ -20,13 +20,6 @@ export class SuiPopupComponentController<T> extends SuiPopupController implement
                 config:PopupConfig) {
 
         super(renderer, element, componentFactory, config);
-
-        this.popup.onClose.subscribe(() => {
-            if (this._contentComponentRef) {
-                this._contentComponentRef.destroy();
-                this._contentComponentRef = undefined;
-            }
-        });
     }
 
     public open():void {
@@ -38,11 +31,12 @@ export class SuiPopupComponentController<T> extends SuiPopupController implement
         super.open();
     }
 
-    public ngOnDestroy():void {
+    protected cleanup():void {
+        super.cleanup();
+
         if (this._contentComponentRef) {
             this._contentComponentRef.destroy();
+            this._contentComponentRef = undefined;
         }
-
-        super.ngOnDestroy();
     }
 }

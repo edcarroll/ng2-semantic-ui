@@ -38,13 +38,7 @@ export abstract class SuiPopupController implements IPopup, OnDestroy {
         this.popup.config = config;
 
         // When the popup is closed (onClose fires on animation complete),
-        this.popup.onClose.subscribe(() => {
-            this._componentRef.instance.positioningService.destroy();
-            this._componentFactory.detachFromApplication(this._componentRef);
-
-            // Remove the document click handler
-            this._documentListener();
-        });
+        this.popup.onClose.subscribe(() => this.cleanup());
     }
 
     public configure(config?:IPopupConfig):void {
@@ -175,9 +169,22 @@ export abstract class SuiPopupController implements IPopup, OnDestroy {
         }
     }
 
-    public ngOnDestroy():void {
+    protected cleanup():void {
         clearTimeout(this._openingTimeout);
+
+        if (this._componentRef.instance && this._componentRef.instance.positioningService) {
+            this._componentRef.instance.positioningService.destroy();
+        }
+
         this._componentFactory.detachFromApplication(this._componentRef);
-        this._componentRef.destroy();
+
+        if (this._documentListener) {
+            // Remove the document click handler
+            this._documentListener();
+        }
+    }
+
+    public ngOnDestroy():void {
+        this.cleanup();
     }
 }

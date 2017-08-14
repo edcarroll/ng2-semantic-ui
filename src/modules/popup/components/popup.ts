@@ -67,7 +67,7 @@ export class SuiPopup implements IPopup {
     // Keeps track of whether the popup is open internally.
     private _isOpen:boolean;
     // `setTimeout` timer pointer for cancelling popup close.
-    private _closingTimeout:number;
+    public closingTimeout:number;
 
     // Fires when the popup opens (and the animation is completed).
     public onOpen:EventEmitter<void>;
@@ -140,7 +140,7 @@ export class SuiPopup implements IPopup {
         // Only attempt to open if currently closed.
         if (!this.isOpen) {
             // Cancel the closing timer.
-            clearTimeout(this._closingTimeout);
+            clearTimeout(this.closingTimeout);
 
             // Cancel all other transitions, and initiate the opening transition.
             this.transitionController.stopAll();
@@ -183,9 +183,9 @@ export class SuiPopup implements IPopup {
                 new Transition(this.config.transition, this.config.transitionDuration, TransitionDirection.Out));
 
             // Cancel the closing timer.
-            clearTimeout(this._closingTimeout);
+            clearTimeout(this.closingTimeout);
             // Start the closing timer, that fires the `onClose` event after the transition duration number of milliseconds.
-            this._closingTimeout = window.setTimeout(() => this.onClose.emit(), this.config.transitionDuration);
+            this.closingTimeout = window.setTimeout(() => this.onClose.emit(), this.config.transitionDuration);
 
             // Finally, set the popup to be closed.
             this._isOpen = false;
