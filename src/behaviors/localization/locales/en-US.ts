@@ -4,8 +4,8 @@ const enUS:IPartialLocaleValues = {
     datepicker: {
         firstDayOfWeek: 0,
         formats: {
-            time: "hh:mm aa",
-            datetime: "MMMM D, YYYY hh:mm aa",
+            time: "h:mm A",
+            datetime: "MMMM D, YYYY h:mm A",
             date: "MMMM D, YYYY",
             month: "MMMM YYYY",
             year: "YYYY"

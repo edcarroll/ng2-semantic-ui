@@ -1,4 +1,3 @@
-
 import { IPartialLocaleValues } from "../interfaces/values";
 
 /**

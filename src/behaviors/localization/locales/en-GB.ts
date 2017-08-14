@@ -27,8 +27,8 @@ const enGB:ILocaleValues = {
             "am", "pm"
         ],
         formats: {
-            time: "hh:mm aa",
-            datetime: "D MMMM YYYY hh:mm aa",
+            time: "h:mm A",
+            datetime: "D MMMM YYYY h:mm A",
             date: "D MMMM YYYY",
             month: "MMMM YYYY",
             year: "YYYY"
