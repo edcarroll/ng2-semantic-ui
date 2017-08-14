@@ -7,6 +7,7 @@ export * from "./dropdown";
 export * from "./modal";
 export * from "./popup";
 export * from "./progress";
+export * from "./range";
 export * from "./rating";
 export * from "./search";
 export * from "./select";
