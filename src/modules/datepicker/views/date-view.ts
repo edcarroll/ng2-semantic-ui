@@ -26,13 +26,9 @@ export class CalendarRangeDateService extends CalendarRangeService {
 <thead>
     <tr>
         <th colspan="7">
-            <span class="link" (click)="zoomOut()">{{ date }}</span>
-            <span class="prev link" [class.disabled]="!ranges.canMovePrevious" (click)="ranges.movePrevious()">
-                <i class="chevron left icon"></i>
-            </span>
-            <span class="next link" [class.disabled]="!ranges.canMoveNext" (click)="ranges.moveNext()">
-                <i class="chevron right icon"></i>
-            </span>
+            <sui-calendar-view-title [ranges]="ranges" (zoomOut)="zoomOut()">
+                {{ date }}
+            </sui-calendar-view-title>
         </th>
     </tr>
     <tr>
