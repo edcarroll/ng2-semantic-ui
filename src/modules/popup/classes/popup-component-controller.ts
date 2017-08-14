@@ -30,8 +30,10 @@ export class SuiPopupComponentController<T> extends SuiPopupController {
     }
 
     public open():void {
-        this._contentComponentRef = this._componentFactory.createComponent(this._component as Type<T>);
-        this._componentFactory.attachToView(this._contentComponentRef, this.popup.templateSibling);
+        if (!this._contentComponentRef) {
+            this._contentComponentRef = this._componentFactory.createComponent(this._component as Type<T>);
+            this._componentFactory.attachToView(this._contentComponentRef, this.popup.templateSibling);
+        }
 
         super.open();
     }
