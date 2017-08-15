@@ -1,9 +1,8 @@
-import { IPartialLocaleValues } from "../interfaces/values";
-
 /**
  * locale : Hebrew (he)
  * author : David limkys : https://github.com/gotenxds
  */
+import { ILocaleValues } from "../interfaces/values";
 
 const he:IPartialLocaleValues = {
     datepicker: {
