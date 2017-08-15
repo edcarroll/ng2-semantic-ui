@@ -1,10 +1,11 @@
+import { ILocaleValues } from "../interfaces/values";
+
 /**
  * locale : Hebrew (he)
  * author : David limkys : https://github.com/gotenxds
  */
-import { ILocaleValues } from "../interfaces/values";
 
-const he:IPartialLocaleValues = {
+const he:ILocaleValues = {
     datepicker: {
         months: [
             "ינואר", "פבואר", "מרץ", "אפריל", "מאי", "יוני", "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"
