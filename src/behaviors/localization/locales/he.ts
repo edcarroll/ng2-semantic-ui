@@ -22,6 +22,15 @@ const he:IPartialLocaleValues = {
         weekdaysNarrow: [
             "ר", "ש", "ש", "ר", "ח", "ש", "ש"
         ],
+        timesOfDay: [
+            "לפנות בוקר", "אחר הצהריים"
+        ],
+        timesOfDayUppercase: [
+            "לפנות בוקר", "אחר הצהריים"
+        ],
+        timesOfDayLowercase: [
+            "לפנות בוקר", "אחר הצהריים"
+        ],
         formats: {
             time: "HH:mm",
             datetime: "D MMMM YYYY HH:mm",
@@ -46,7 +55,7 @@ const he:IPartialLocaleValues = {
         multi: {
             placeholder: "בחר...",
             maxSelectedMessage: "מקסימום #{max} אפשרויות",
-            selectedMessage: "#{count} selections"
+            selectedMessage: "#{count} בחירות"
         }
     }
 };
