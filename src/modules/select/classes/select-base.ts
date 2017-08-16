@@ -18,7 +18,6 @@ export interface IOptionContext<T> extends ITemplateRefContext<T> {
 // We use generic type T to specify the type of the options we are working with,
 // and U to specify the type of the property of the option used as the value.
 export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy {
-    private _hovering:boolean = false;
     public dropdownService: DropdownService;
     public searchService:SearchService<T, U>;
 
@@ -46,6 +45,15 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
     public get isVisible():boolean {
         return this._menu.isVisible;
     }
+
+    private _openingTimeout:any;
+    private _closingTimeout:any;
+
+    @Input()
+    public hoverOpenDelay: number;
+
+    @Input()
+    public hoverCloseDelay: number;
 
     @Input()
     public isSearchable:boolean;
@@ -245,6 +253,9 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
         this.transition = "slide down";
         this.transitionDuration = 200;
 
+        this.hoverOpenDelay = 100;
+        this.hoverCloseDelay = 500;
+
         this.onTouched = new EventEmitter<void>();
 
         this._selectClasses = true;
@@ -382,25 +393,42 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
 
     @HostListener("mouseenter")
     private onMouseEnter():void {
-        if (this.trigger === SelectTrigger.Hover && !this.dropdownService.isOpen && !this.dropdownService.isAnimating) {
-            this._hovering = true;
-            setTimeout(
-                () => {
-                    if (this._hovering) {
+        if (this.trigger === SelectTrigger.Hover) {
+            // Cancel any pending open and close
+            clearTimeout(this._openingTimeout);
+            clearTimeout(this._closingTimeout);
+
+            if (!this.dropdownService.isOpen && !this.dropdownService.isAnimating) {
+                // Start opening after the specified delay interval.
+                this._openingTimeout = setTimeout(
+                    () => {
                         this.dropdownService.setOpenState(true);
                         this.focus();
-                    }
-                },
-                100
-            );
+                    },
+                    this.hoverOpenDelay
+                );
+            }
         }
-     }
+    }
 
     @HostListener("mouseleave")
-    private onMouseLeave(): void {
-        this._hovering = false;
-        if (this.trigger === SelectTrigger.Hover && this.dropdownService.isOpen) {
-            this.dropdownService.setOpenState(false);
+    private onMouseLeave():void {
+        if (this.trigger === SelectTrigger.Hover) {
+            // Cancel any pending open and close
+            clearTimeout(this._closingTimeout);
+            clearTimeout(this._openingTimeout);
+
+            if (this.dropdownService.isOpen || this.dropdownService.isAnimating) {
+                // Start closing after the specified delay interval.
+                this._closingTimeout = setTimeout(
+                    () => {
+                        if (this.dropdownService.isOpen) {
+                            this.dropdownService.setOpenState(false);
+                        }
+                    },
+                    this.hoverCloseDelay
+                );
+            }
         }
     }
 
