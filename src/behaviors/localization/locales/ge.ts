@@ -8,7 +8,7 @@ import { IPartialLocaleValues } from "../interfaces/values";
 const ge:IPartialLocaleValues = {
     datepicker: {
         months: [
-            "იანვარი", "თებერვალი", "მარტი", "აპრილი", "მაისი", "ივნისი", 
+            "იანვარი", "თებერვალი", "მარტი", "აპრილი", "მაისი", "ივნისი",
             "ივლისი", "აგვისტო", "სექტემბერი", "ოქტომბერი", "ნოემბერი", "დეკემბერი"
         ],
         monthsShort: [
