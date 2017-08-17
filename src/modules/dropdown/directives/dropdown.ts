@@ -3,8 +3,9 @@ import {
     ElementRef, HostListener, QueryList, ContentChildren
 } from "@angular/core";
 import { HandledEvent, KeyCode, IFocusEvent } from "../../../misc/util/index";
-import { DropdownService, DropdownAutoCloseType } from "../services/dropdown.service";
+import { DropdownService } from "../services/dropdown.service";
 import { SuiDropdownMenu } from "./dropdown-menu";
+import { DropdownOpenTrigger, DropdownCloseTrigger } from '../classes/dropdown-config';
 
 @Directive({
     selector: "[suiDropdown]"
@@ -18,9 +19,11 @@ export class SuiDropdown implements AfterContentInit {
     @ContentChildren(SuiDropdown, { descendants: true })
     private _children:QueryList<SuiDropdown>;
 
-    public get children():SuiDropdown[] {
+    public get children():SuiDropdown[] | undefined {
         // @ContentChildren includes the current element by default.
-        return this._children.filter(c => c !== this);
+        return this._children
+            ? this._children.filter(c => c !== this)
+            : undefined;
     }
 
     @Output()
@@ -57,6 +60,46 @@ export class SuiDropdown implements AfterContentInit {
     @Input("tabindex")
     private _tabIndex?:number;
 
+    private _openingTimeout:any;
+    private _closingTimeout: any;
+
+    @Input()
+    public get hoverOpenDelay():number {
+        return this.service.hoverOpenDelay;
+    }
+    public set hoverOpenDelay(value:number) {
+        this.service.hoverOpenDelay = value;
+    }
+
+    @Input()
+    public get hoverCloseDelay():number {
+        return this.service.hoverCloseDelay;
+    }
+    public set hoverCloseDelay(value:number) {
+        this.service.hoverCloseDelay = value;
+    }
+
+    @Input()
+    public get openTrigger():DropdownOpenTrigger {
+        return this.service.openTrigger;
+    }
+    public set openTrigger(value:DropdownOpenTrigger) {
+        this.service.openTrigger = value;
+        this.updateChildSettings();
+    }
+
+    @Input()
+    public get closeTriggers():DropdownCloseTrigger | DropdownCloseTrigger[] {
+        return this.service.closeTriggers;
+    }
+    public set closeTriggers(value:DropdownCloseTrigger | DropdownCloseTrigger[]) {
+        if (!(value instanceof Array)) {
+            value = [value];
+        }
+        this.service.closeTriggers = value;
+        this.updateChildSettings();
+    }
+
     @HostBinding("attr.tabindex")
     public get tabIndex():number | undefined {
         if (this.isDisabled || this.service.isNested) {
@@ -69,15 +112,6 @@ export class SuiDropdown implements AfterContentInit {
         }
         // Otherwise, return default of 0.
         return 0;
-    }
-
-    @Input()
-    public get autoClose():DropdownAutoCloseType {
-        return this.service.autoCloseMode;
-    }
-
-    public set autoClose(value:DropdownAutoCloseType) {
-        this.service.autoCloseMode = value;
     }
 
     constructor(private _element:ElementRef) {
@@ -95,52 +129,56 @@ export class SuiDropdown implements AfterContentInit {
         }
         this._menu.service = this.service;
 
-        this.childrenUpdated();
+        this.updateChildren();
         this._children.changes
-            .subscribe(() => this.childrenUpdated());
+            .subscribe(() => this.updateChildren());
     }
 
-    private childrenUpdated():void {
-        // Reregister child dropdowns each time the menu content changes.
-        this.children
-            .map(c => c.service)
-            .forEach(s => this.service.registerChild(s));
+    private updateChildren():void {
+        // Reregister child dropdowns and propagate parent settings each time the menu content changes.
+        if (this.children) {
+            this.children
+                .map(c => c.service)
+                .forEach(s => this.service.registerChild(s));
+            this.updateChildSettings();
+        }
+    }
+
+    private updateChildSettings() {
+        if (this.children) {
+            this.children.forEach(c => {
+                c.openTrigger = this.openTrigger;
+                c.closeTriggers = this.closeTriggers;
+                c.hoverOpenDelay = this.hoverOpenDelay;
+                c.hoverCloseDelay = this.hoverCloseDelay;
+            });
+        }
     }
 
     @HostListener("click", ["$event"])
-    public onClick(e:HandledEvent):void {
-        if (!e.eventHandled) {
-            e.eventHandled = true;
-
-            this.service.toggleOpenState();
-        }
+    public onClick(e: HandledEvent): void {
+        this.service.handleClick(e);
     }
 
     @HostListener("focusout", ["$event"])
     private onFocusOut(e:IFocusEvent):void {
         if (!this._element.nativeElement.contains(e.relatedTarget)) {
-            this.externallyClose();
+            this.service.handleFocusOut();
         }
     }
 
     @HostListener("keypress", ["$event"])
     public onKeypress(e:HandledEvent & KeyboardEvent):void {
-        // Block the keyboard event from being fired on parent dropdowns.
-        if (!e.eventHandled) {
-
-            if (e.keyCode === KeyCode.Enter) {
-                e.eventHandled = true;
-
-                this.service.setOpenState(true);
-            }
-        }
+        this.service.handleKeypress(e);
     }
 
-    private externallyClose():void {
-        if (this.service.autoCloseMode === DropdownAutoCloseType.ItemClick ||
-                this.service.autoCloseMode === DropdownAutoCloseType.OutsideClick) {
-                // No need to reflect in parent since they are also bound to document.
-            this.service.setOpenState(false);
-        }
+    @HostListener("mouseenter")
+    private onMouseEnter(): void {
+        this.service.handleMouseEnter();
+    }
+
+    @HostListener("mouseleave")
+    private onMouseLeave():void {
+        this.service.handleMouseLeave();
     }
 }

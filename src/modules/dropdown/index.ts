@@ -1,3 +1,5 @@
+export * from "./classes/dropdown-config";
+
 export * from "./directives/dropdown-menu";
 export * from "./directives/dropdown";
 
