@@ -10,6 +10,7 @@ import pt from "./pt";
 import it from "./it";
 import ru from "./ru";
 import he from "./he";
+import ge from "./ge";
 
 // This file exists for the demo app. Don't use this in real life.
 export default {
@@ -22,5 +23,6 @@ export default {
     fr,
     pt,
     ru,
-    he
+    he,
+    ge
 };
