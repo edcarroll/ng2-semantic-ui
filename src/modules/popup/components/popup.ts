@@ -2,7 +2,7 @@ import { Component, ViewChild, ViewContainerRef, ElementRef, EventEmitter, HostL
 import { PositioningService, IDynamicClasses } from "../../../misc/util/index";
 import { TransitionController, TransitionDirection, Transition } from "../../transition/index";
 import { IPopup } from "../classes/popup-controller";
-import { PopupConfig } from "../classes/popup-config";
+import { ITemplatePopupConfig } from "../classes/popup-template-controller";
 
 @Component({
     selector: "sui-popup",
@@ -59,7 +59,7 @@ import { PopupConfig } from "../classes/popup-config";
 })
 export class SuiPopup implements IPopup {
     // Config settings for this popup.
-    public config:PopupConfig;
+    public config:ITemplatePopupConfig<any>;
 
     public transitionController:TransitionController;
     public positioningService:PositioningService;
