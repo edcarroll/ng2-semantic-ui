@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { ApiDefinition } from "../../../components/api/api.component";
 import { SuiPopupConfig } from "ng2-semantic-ui";
 
@@ -173,33 +173,22 @@ export class MyComponent {
 
 @Component({
     selector: "example-popup-standard",
-    template: exampleStandardTemplate
+    template: exampleStandardTemplate,
+    providers: [SuiPopupConfig]
 })
-export class PopupExampleStandard implements OnInit {
-    // We only need to do this once.
-    private _config:SuiPopupConfig;
-
-    constructor(public popupConfig:SuiPopupConfig) {
-        this._config = new SuiPopupConfig();
-
-        Object.assign(this._config, popupConfig);
-        Object.assign(this.popupConfig, new SuiPopupConfig());
-    }
-
-    public ngOnInit():void {
-        Object.assign(this.popupConfig, this._config);
-    }
-}
+export class PopupExampleStandard {}
 
 @Component({
     selector: "example-popup-template",
-    template: exampleTemplateTemplate
+    template: exampleTemplateTemplate,
+    providers: [SuiPopupConfig]
 })
 export class PopupExampleTemplate {}
 
 @Component({
     selector: "example-popup-placement",
-    template: examplePlacementTemplate
+    template: examplePlacementTemplate,
+    providers: [SuiPopupConfig]
 })
 export class PopupExamplePlacement {
     @Input()
