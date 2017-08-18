@@ -14,9 +14,13 @@ export interface ITemplatePopupConfig<T> extends IPopupConfig {
     context?:T;
 }
 
+export class TemplatePopupConfig<T> extends PopupConfig {
+    public template?:TemplateRef<ITemplatePopupContext<T>>;
+    public context?:T;
+}
+
 export class SuiPopupTemplateController<T> extends SuiPopupController {
     public template?:TemplateRef<ITemplatePopupContext<T>>;
-
     public context?:T;
 
     constructor(renderer:Renderer2,
