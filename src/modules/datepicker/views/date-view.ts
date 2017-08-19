@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, Renderer2 } from "@angular/core";
 import { DateUtil, DatePrecision } from "../../../misc/util/index";
 import { CalendarItem } from "../directives/calendar-item";
 import { CalendarView, CalendarViewType } from "./calendar-view";
@@ -57,7 +57,7 @@ export class SuiCalendarDateView extends CalendarView {
         return new DateParser(this.service.localeValues.formats.month, this.service.localeValues).format(this.currentDate);
     }
 
-    constructor() {
-        super(CalendarViewType.Date, new CalendarRangeDateService(DatePrecision.Month, 6, 7));
+    constructor(renderer:Renderer2) {
+        super(renderer, CalendarViewType.Date, new CalendarRangeDateService(DatePrecision.Month, 6, 7));
     }
 }

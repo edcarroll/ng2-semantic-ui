@@ -288,8 +288,9 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
         e.stopPropagation();
     }
 
+    // Document listener is fine here because nobody will enough modals open.
     @HostListener("document:keyup", ["$event"])
-    public onDocumentKeyup(e:KeyboardEvent):void {
+    public onDocumentKeyUp(e:KeyboardEvent):void {
         if (e.keyCode === KeyCode.Escape) {
             // Close automatically covers case of `!isClosable`, so check not needed.
             this.close();

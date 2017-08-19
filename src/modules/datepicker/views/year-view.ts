@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, Renderer2 } from "@angular/core";
 import { Util, DateUtil, DatePrecision } from "../../../misc/util/index";
 import { CalendarView, CalendarViewType } from "./calendar-view";
 import { CalendarItem } from "../directives/calendar-item";
@@ -43,8 +43,8 @@ export class SuiCalendarYearView extends CalendarView {
             .getFullYear();
     }
 
-    constructor() {
-        super(CalendarViewType.Year, new CalendarRangeYearService(DatePrecision.Decade, 4, 3));
+    constructor(renderer:Renderer2) {
+        super(renderer, CalendarViewType.Year, new CalendarRangeYearService(DatePrecision.Decade, 4, 3));
     }
 
     public pad(year:number):string {
