@@ -26,5 +26,5 @@ export default {
     ru,
     he,
     ge,
-	nl
+    nl
 };
