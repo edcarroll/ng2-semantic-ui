@@ -14,13 +14,14 @@ const defaultPlugins = [
     }),
     commonjs({
         namedExports: {
-            "node_modules/bowser/src/bowser.js": ["mobile"]
+            "node_modules/bowser/src/bowser.js": ["mobile", "tablet"]
         },
         include: [
             "node_modules/element-closest/**",
             "node_modules/popper.js/**",
             "node_modules/date-fns/**",
             "node_modules/bowser/src/bowser.js",
+            "node_modules/is-ua-webview/**",
             "node_modules/extend/**"
         ]
     })
