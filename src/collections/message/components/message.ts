@@ -137,6 +137,7 @@ export class SuiMessage implements IMessage {
     }
 
     public dismiss():void {
+        console.log("GELLO");
         this.isDismissing = true;
         this.transitionOutDuration = this.transitionInDuration;
 

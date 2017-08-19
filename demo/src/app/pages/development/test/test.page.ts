@@ -18,7 +18,12 @@ export class TestPage {
     public open():void {
         const message = new MessageConfig(Date.now().toString(), MessageState.Default, "Header");
         message.hasProgress = true;
-        // this.controller.show(message);
+        this.controller.show(message);
         this._messageService.show(message);
+    }
+
+    public dismissAll():void {
+        this.controller.dismissAll();
+        this._messageService.dismissAll();
     }
 }

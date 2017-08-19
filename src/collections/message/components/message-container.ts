@@ -61,6 +61,7 @@ export class SuiMessageContainer {
 
     private open(message:ActiveMessage, showNewestFirst:boolean):void {
         this._messages.push(message);
+        console.log(this._messages);
 
         this._componentFactory.attachToView(message.componentRef, this.containerSibling);
         if (!showNewestFirst) {
@@ -76,6 +77,7 @@ export class SuiMessageContainer {
 
     public dismissAll():void {
         this._queue = [];
+        console.log(this._messages);
         this._messages.forEach(m => m.dismiss());
     }
 
