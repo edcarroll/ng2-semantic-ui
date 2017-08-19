@@ -198,7 +198,7 @@ export class PopupExampleTemplate {}
 })
 export class PopupExamplePlacement {
     @Input()
-    public position:string = "right bottom";
+    public position:string = "top right";
 }
 
 export const PopupPageComponents = [PopupPage, PopupExampleStandard, PopupExampleTemplate, PopupExamplePlacement];

@@ -131,18 +131,29 @@ export class TransitionController {
         }
 
         // Wait the length of the animation before calling the complete callback.
-        this._animationTimeout = window.setTimeout(() => this.finishTransition(transition), transition.duration);
+        this._animationTimeout = window.setTimeout(() => this.finalizeTransition(transition), transition.duration);
     }
 
-    // Called when a transition has completed.
-    private finishTransition(transition:Transition):void {
-        // Unset the Semantic UI classes & styles for transitioning.
+    private completeTransition(transition:Transition):void {
         transition.classes.forEach(c => this._renderer.removeClass(this._element, c));
         this._renderer.removeClass(this._element, `animating`);
         this._renderer.removeClass(this._element, transition.directionClass);
 
         this._renderer.removeStyle(this._element, `animationDuration`);
         this._renderer.removeStyle(this._element, `display`);
+
+        // Delete the transition from the queue.
+        this._queue.shift();
+        this._isAnimating = false;
+
+        this._changeDetector.markForCheck();
+
+        clearTimeout(this._animationTimeout);
+    }
+
+    // Called when a transition has completed.
+    private finalizeTransition(transition:Transition):void {
+        this.completeTransition(transition);
 
         if (transition.direction === TransitionDirection.In) {
             // If we have just animated in, we are now visible.
@@ -158,12 +169,6 @@ export class TransitionController {
             transition.onComplete();
         }
 
-        // Delete the transition from the queue.
-        this._queue.shift();
-        this._isAnimating = false;
-
-        this._changeDetector.markForCheck();
-
         // Immediately attempt to perform another transition.
         this.performTransition();
     }
@@ -174,14 +179,32 @@ export class TransitionController {
             return;
         }
 
-        clearTimeout(this._animationTimeout);
-        this.finishTransition(transition);
+        this.finalizeTransition(transition);
+    }
+
+    // Cancels the current transition, leaves the rest of the queue intact.
+    public cancel(transition:Transition = this._queueFirst):void {
+        if (!transition || !this._isAnimating) {
+            return;
+        }
+
+        this.completeTransition(transition);
+
+        if (transition.direction === TransitionDirection.In) {
+            // Return hidden class if we were originally transitioning in.
+            this._isHidden = true;
+        }
     }
 
     // Stops the current transition, and empties the queue.
     public stopAll():void {
         this.clearQueue();
         this.stop();
+    }
+
+    public cancelAll():void {
+        this.clearQueue();
+        this.cancel();
     }
 
     // Empties the transition queue but carries on with the current transition.
