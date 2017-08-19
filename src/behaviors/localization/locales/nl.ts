@@ -1,11 +1,11 @@
-import { ILocaleValues } from "../interfaces/values";
+import { IPartialLocaleValues } from "../interfaces/values";
 
 /**
  * locale : Dutch (nl)
  * author : Martijn Melchers : https://github.com/martijnmelchers
  */
  
-const nl:ILocaleValues = {
+const nl:IPartialLocaleValues = {
     datepicker: {
         months: [
             "Januari", "Februari", "Maart", "April", "Mei", "Juni", "Juli", "Augustus", "September", "Oktober", "November", "December"
