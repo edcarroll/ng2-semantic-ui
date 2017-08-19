@@ -83,7 +83,7 @@ export class SuiMessageContainer {
         this._messages = this._messages.filter(m => m !== message);
 
         if (this._queue.length > 0) {
-            const queued = this._queue.shift();
+            const [queued] = this._queue.slice(0, 1);
 
             this.open(queued, showNewestFirst);
         }
