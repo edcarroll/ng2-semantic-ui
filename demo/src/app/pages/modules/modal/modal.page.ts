@@ -1,5 +1,5 @@
 import { Component, ViewChild } from "@angular/core";
-import { ApiDefinition } from "app/components/api/api.component";
+import { ApiDefinition } from "../../../components/api/api.component";
 import {
     SuiModalService, ModalTemplate, TemplateModalConfig, ComponentModalConfig,
     ModalSize, SuiModal

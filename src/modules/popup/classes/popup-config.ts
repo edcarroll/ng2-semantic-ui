@@ -25,8 +25,8 @@ export interface IPopupConfig {
 }
 
 export class PopupConfig implements IPopupConfig {
-    public header:string;
-    public text:string;
+    public header?:string;
+    public text?:string;
     public placement:PositioningPlacement;
     public trigger:PopupTrigger;
     public isInverted:boolean;

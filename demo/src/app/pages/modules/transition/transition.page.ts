@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { SuiTransition, Transition, TransitionDirection, TransitionController } from "ng2-semantic-ui";
-import { ApiDefinition } from "app/components/api/api.component";
+import { ApiDefinition } from "../../../components/api/api.component";
 
 const exampleStandardTemplate = `
 <div class="ui segment">
