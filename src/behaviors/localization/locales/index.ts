@@ -1,3 +1,5 @@
+import { RecursivePartial, ILocaleValues } from "../interfaces/values";
+
 import de from "./de";
 import enAU from "./en-AU";
 import enGB from "./en-GB";
@@ -24,5 +26,5 @@ export default {
     ru,
     he,
     ge,
-    nl
+	nl
 };
