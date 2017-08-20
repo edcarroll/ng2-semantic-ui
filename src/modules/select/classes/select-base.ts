@@ -1,6 +1,6 @@
 import {
     ViewChild, HostBinding, ElementRef, HostListener, Input, ContentChildren, QueryList,
-    AfterContentInit, TemplateRef, ViewContainerRef, ContentChild, EventEmitter, Output, OnDestroy
+    AfterContentInit, TemplateRef, ViewContainerRef, ContentChild, EventEmitter, Output, OnDestroy, Renderer2
 } from "@angular/core";
 import { Subscription } from "rxjs/Subscription";
 import { DropdownService, SuiDropdownMenu } from "../../dropdown/index";
@@ -225,7 +225,9 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
     @Output("touched")
     public onTouched:EventEmitter<void>;
 
-    constructor(private _element:ElementRef, protected _localizationService:SuiLocalizationService) {
+    private _documentKeyDownListener:() => void;
+
+    constructor(private _element:ElementRef, renderer:Renderer2, protected _localizationService:SuiLocalizationService) {
         this.dropdownService = new DropdownService();
         // We do want an empty query to return all results.
         this.searchService = new SearchService<T, U>(true);
@@ -241,6 +243,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
         this.transitionDuration = 200;
 
         this.onTouched = new EventEmitter<void>();
+        this._documentKeyDownListener = renderer.listen("document", "keydown", (e:KeyboardEvent) => this.onDocumentKeyDown(e));
 
         this._selectClasses = true;
     }
@@ -383,7 +386,6 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
         }
     }
 
-    @HostListener("document:keydown", ["$event"])
     public onDocumentKeyDown(e:KeyboardEvent):void {
         if (this._element.nativeElement.contains(e.target) &&
             !this.dropdownService.isOpen &&
@@ -421,5 +423,6 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
 
     public ngOnDestroy():void {
         this._renderedSubscriptions.forEach(s => s.unsubscribe());
+        this._documentKeyDownListener();
     }
 }

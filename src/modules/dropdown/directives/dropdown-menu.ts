@@ -1,6 +1,6 @@
 import {
     Directive, ContentChild, forwardRef, Renderer2, ElementRef, AfterContentInit,
-    ContentChildren, QueryList, Input, HostListener, ChangeDetectorRef
+    ContentChildren, QueryList, Input, HostListener, ChangeDetectorRef, OnDestroy
 } from "@angular/core";
 import { Transition, SuiTransition, TransitionController, TransitionDirection } from "../../transition/index";
 import { HandledEvent, IAugmentedElement, KeyCode } from "../../../misc/util/index";
@@ -59,7 +59,7 @@ export class SuiDropdownMenuItem {
 @Directive({
     selector: "[suiDropdownMenu]"
 })
-export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
+export class SuiDropdownMenu extends SuiTransition implements AfterContentInit, OnDestroy {
     private _service:DropdownService;
     private _transitionController:TransitionController;
 
@@ -129,6 +129,8 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
     @Input()
     public menuSelectedItemClass:string;
 
+    private _documentKeyDownListener:() => void;
+
     constructor(renderer:Renderer2, public element:ElementRef, changeDetector:ChangeDetectorRef) {
         super(renderer, element, changeDetector);
 
@@ -141,6 +143,8 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
 
         this.menuAutoSelectFirst = false;
         this.menuSelectedItemClass = "selected";
+
+        this._documentKeyDownListener = renderer.listen("document", "keydown", (e:KeyboardEvent) => this.onDocumentKeyDown(e));
     }
 
     @HostListener("click", ["$event"])
@@ -158,8 +162,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
         }
     }
 
-    @HostListener("document:keydown", ["$event"])
-    public onDocumentKeydown(e:KeyboardEvent):void {
+    public onDocumentKeyDown(e:KeyboardEvent):void {
         // Only the root dropdown (i.e. not nested dropdowns) is responsible for keeping track of the currently selected item.
         if (this._service.isOpen && !this._service.isNested) {
             // Stop document events like scrolling while open.
@@ -311,5 +314,9 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit {
     private onItemsChanged():void {
         // We use `_items` rather than `items` in case one or more have become disabled.
         this.resetSelection();
+    }
+
+    public ngOnDestroy():void {
+        this._documentKeyDownListener();
     }
 }

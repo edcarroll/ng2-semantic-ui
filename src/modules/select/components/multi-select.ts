@@ -1,4 +1,4 @@
-import { Component, HostBinding, ElementRef, EventEmitter, Output, Input, Directive } from "@angular/core";
+import { Component, HostBinding, ElementRef, EventEmitter, Output, Input, Directive, Renderer2 } from "@angular/core";
 import { ICustomValueAccessorHost, KeyCode, customValueAccessorFactory, CustomValueAccessor } from "../../../misc/util/index";
 import { SuiLocalizationService } from "../../../behaviors/localization/index";
 import { SuiSelectBase } from "../classes/select-base";
@@ -134,8 +134,8 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
     @HostBinding("class.multiple")
     private _multiSelectClasses:boolean;
 
-    constructor(element:ElementRef, localizationService:SuiLocalizationService) {
-        super(element, localizationService);
+    constructor(element:ElementRef, renderer:Renderer2, localizationService:SuiLocalizationService) {
+        super(element, renderer, localizationService);
 
         this.selectedOptions = [];
         this.selectedOptionsChange = new EventEmitter<U[]>();

@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, Renderer2 } from "@angular/core";
 import { Util, DateUtil, DatePrecision } from "../../../misc/util/index";
 import { CalendarView, CalendarViewType } from "./calendar-view";
 import { CalendarItem } from "../directives/calendar-item";
@@ -61,7 +61,7 @@ export class SuiCalendarMinuteView extends CalendarView {
         }
     }
 
-    constructor() {
-        super(CalendarViewType.Minute, new CalendarRangeMinuteService(DatePrecision.Hour, 4, 3));
+    constructor(renderer:Renderer2) {
+        super(renderer, CalendarViewType.Minute, new CalendarRangeMinuteService(DatePrecision.Hour, 4, 3));
     }
 }

@@ -1,6 +1,6 @@
 import {
     Component, ViewChild, HostBinding, Input, AfterViewInit, HostListener,
-    EventEmitter, Output, Directive, ElementRef, TemplateRef
+    EventEmitter, Output, Directive, ElementRef, TemplateRef, Renderer2, OnDestroy
 } from "@angular/core";
 import { Util, ITemplateRefContext, IFocusEvent } from "../../../misc/util/index";
 import { DropdownService, SuiDropdownMenu } from "../../dropdown/index";
@@ -51,7 +51,7 @@ export interface IResultContext<T> extends ITemplateRefContext<T> {
 }
 `]
 })
-export class SuiSearch<T> implements AfterViewInit {
+export class SuiSearch<T> implements AfterViewInit, OnDestroy {
     public dropdownService:DropdownService;
     public searchService:SearchService<T, T>;
 
@@ -182,7 +182,9 @@ export class SuiSearch<T> implements AfterViewInit {
     @Input()
     public transitionDuration:number;
 
-    constructor(private _element:ElementRef, private _localizationService:SuiLocalizationService) {
+    private _documentClickListener:() => void;
+
+    constructor(private _element:ElementRef, renderer:Renderer2, private _localizationService:SuiLocalizationService) {
         this.dropdownService = new DropdownService();
         this.searchService = new SearchService<T, T>();
 
@@ -199,6 +201,8 @@ export class SuiSearch<T> implements AfterViewInit {
 
         this.transition = "scale";
         this.transitionDuration = 200;
+
+        this._documentClickListener = renderer.listen("document", "click", (e:MouseEvent) => this.onDocumentClick(e));
     }
 
     public ngAfterViewInit():void {
@@ -247,7 +251,6 @@ export class SuiSearch<T> implements AfterViewInit {
         }
     }
 
-    @HostListener("document:click", ["$event"])
     public onDocumentClick(e:MouseEvent):void {
         if (!this._element.nativeElement.contains(e.target)) {
             this.dropdownService.setOpenState(false);
@@ -257,5 +260,9 @@ export class SuiSearch<T> implements AfterViewInit {
     // Reads the specified field from an item.
     public readValue(object:T):string {
         return Util.Object.readValue<T, string>(object, this.searchService.optionsField);
+    }
+
+    public ngOnDestroy():void {
+        this._documentClickListener();
     }
 }

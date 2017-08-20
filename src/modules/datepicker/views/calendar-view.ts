@@ -1,4 +1,4 @@
-import { Input, QueryList, ViewChildren, AfterViewInit, HostListener } from "@angular/core";
+import { Input, QueryList, ViewChildren, AfterViewInit, HostListener, Renderer2, OnDestroy } from "@angular/core";
 import { KeyCode } from "../../../misc/util/index";
 import { CalendarItem, SuiCalendarItem } from "../directives/calendar-item";
 import { CalendarService } from "../services/calendar.service";
@@ -13,7 +13,7 @@ export enum CalendarViewType {
 }
 export type CalendarViewResult = [Date, CalendarViewType];
 
-export abstract class CalendarView implements AfterViewInit {
+export abstract class CalendarView implements AfterViewInit, OnDestroy {
     private _type:CalendarViewType;
     private _service:CalendarService;
 
@@ -48,9 +48,13 @@ export abstract class CalendarView implements AfterViewInit {
         return this.service.selectedDate;
     }
 
-    constructor(viewType:CalendarViewType, ranges:CalendarRangeService) {
+    private _documentKeyDownListener:() => void;
+
+    constructor(renderer:Renderer2, viewType:CalendarViewType, ranges:CalendarRangeService) {
         this._type = viewType;
         this.ranges = ranges;
+
+        this._documentKeyDownListener = renderer.listen("document", "keydown", (e:KeyboardEvent) => this.onDocumentKeyDown(e));
     }
 
     // Template Methods
@@ -107,8 +111,7 @@ export abstract class CalendarView implements AfterViewInit {
         }
     }
 
-    @HostListener("document:keydown", ["$event"])
-    private onDocumentKeydown(e:KeyboardEvent):void {
+    private onDocumentKeyDown(e:KeyboardEvent):void {
         if (this._highlightedItem && e.keyCode === KeyCode.Enter) {
             this.setDate(this._highlightedItem);
             return;
@@ -180,5 +183,9 @@ export abstract class CalendarView implements AfterViewInit {
 
         this.ranges.move(isMovingForward);
         this._highlightedItem = this.ranges.current.find(nextItem);
+    }
+
+    public ngOnDestroy():void {
+        this._documentKeyDownListener();
     }
 }
