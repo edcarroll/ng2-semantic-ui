@@ -4,7 +4,7 @@ import { Component, Input, HostBinding } from "@angular/core";
     selector: "sui-progress-circular",
     template: `
 <div class="circle">
-    <span>{{percentage}}%</span>
+    <span *ngIf="showProgress">{{percentage}}%</span>
     <div class="slice" [class.rect50]="_value<=_maximum/2" [class.rect100]="_value>_maximum/2">
         <div class="bar" [style.transform]="'rotate('+degree+'deg)'"></div>
         <div class="fill"></div>
@@ -112,14 +112,8 @@ import { Component, Input, HostBinding } from "@angular/core";
 export class SuiProgressCircular {
     private _value:number;
     private _maximum:number;
-    private _precision:number;
     private degree:number;
     private percentage:string;
-
-    private _overrideSuccess:boolean;
-
-    @Input()
-    public autoSuccess:boolean;
 
     @Input()
     public showProgress:boolean;
@@ -161,29 +155,9 @@ export class SuiProgressCircular {
         this._maximum = converted;
     }
 
-    @Input()
-    public get precision():number {
-        return this._precision;
-    }
-
-    public set precision(value:number) {
-        // Convert value from string to number where necessary.
-        const converted = +value;
-
-        if (Number.isNaN(converted)) {
-            return;
-        }
-
-        this._precision = Math.min(Math.max(converted, 0), 20);
-    }
-
     constructor() {
         this.value = 0;
         this.maximum = 100;
-        this.precision = 0;
-
-        this._overrideSuccess = false;
-        this.autoSuccess = true;
         this.showProgress = true;
         this.degree = 0;
         this.percentage = '0';
