@@ -6,5 +6,11 @@ import { FormControl, Validators } from "@angular/forms";
     templateUrl: "./test.page.html"
 })
 export class TestPage {
-    constructor() {}
+    progress: number;
+    constructor() {
+        this.progress = 0;
+        setInterval(() => {
+            this.progress = this.progress == 100 ? 0 : this.progress + 1;
+        }, 100);
+    }
 }
