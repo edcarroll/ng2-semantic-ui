@@ -27,30 +27,23 @@ import { Component, Input, HostBinding } from "@angular/core";
 }
 .circle:after {
     position: absolute;
+    width: 0.84em;
+    height: 0.84em;
     top: 0.08em;
     left: 0.08em;
     display: block;
+    background-color: #FFFFFF;
     content: " ";
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     -ms-border-radius: 50%;
     -o-border-radius: 50%;
     border-radius: 50%;
-    background-color: #FFFFFF;
-    width: 0.84em;
-    height: 0.84em;
-    -webkit-transition-property: all;
-    -moz-transition-property: all;
-    -o-transition-property: all;
-    transition-property: all;
-    -webkit-transition-duration: 0.2s;
-    -moz-transition-duration: 0.2s;
-    -o-transition-duration: 0.2s;
-    transition-duration: 0.2s;
-    -webkit-transition-timing-function: ease-in;
-    -moz-transition-timing-function: ease-in;
-    -o-transition-timing-function: ease-in;
-    transition-timing-function: ease-in;
+    -webkit-transition: all 0.2s ease-in;
+    -moz-transition: all 0.2s ease-in;
+    -ms-transition: all 0.2s ease-in;
+    -o-transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in;
 }
 .slice {
     position: absolute;
@@ -94,18 +87,11 @@ import { Component, Input, HostBinding } from "@angular/core";
     display: block;
     text-align: center;
     white-space: nowrap;
-    -webkit-transition-property: all;
-    -moz-transition-property: all;
-    -o-transition-property: all;
-    transition-property: all;
-    -webkit-transition-duration: 0.2s;
-    -moz-transition-duration: 0.2s;
-    -o-transition-duration: 0.2s;
-    transition-duration: 0.2s;
-    -webkit-transition-timing-function: ease-out;
-    -moz-transition-timing-function: ease-out;
-    -o-transition-timing-function: ease-out;
-    transition-timing-function: ease-out;
+    -webkit-transition: all 0.2s ease-in;
+    -moz-transition: all 0.2s ease-in;
+    -ms-transition: all 0.2s ease-in;
+    -o-transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in;
 }
 `]
 })
@@ -136,7 +122,7 @@ export class SuiProgressCircular {
         this._value = Math.min(Math.max(this._value, 0), this._maximum);
         this.degree = 360/(this._maximum/this._value);
         const percentage = (this._value / this.maximum) * 100;
-        this.percentage = percentage.toFixed(this.precision);
+        this.percentage = percentage.toFixed();
     }
 
     @Input()
