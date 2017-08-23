@@ -18,7 +18,6 @@ import { Component, Input, HostBinding } from "@angular/core";
 :host.small .circle {
     font-size: 48px;
 }
-
 :host.red .bar,:host.red .fill {
     border-color: #db2828;
 }
@@ -213,18 +212,17 @@ export class SuiProgressCircular {
 
     @HostBinding("attr.data-percent")
     public get percentage():string {
-        const boundedValue = Math.min(Math.max(this.value, 0), this.maximum);
 
-        const percentage = (boundedValue / this.maximum) * 100;
+        const percentage = (this.value / this.maximum) * 100;
 
         return percentage.toFixed(this.precision);
     }
 
-    public get isHalf() {
+    public get isHalf():boolean {
         return +this.percentage <= 51;
     }
 
-    public get degree() {
+    public get degree():number {
         return 360 / (this._maximum / this._value);
     }
 
