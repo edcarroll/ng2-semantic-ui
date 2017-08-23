@@ -9,8 +9,11 @@ export class TestPage {
     progress: number;
     constructor() {
         this.progress = 0;
-        setInterval(() => {
-            this.progress = this.progress == 100 ? 0 : this.progress + 1;
+        let interval = setInterval(() => {
+            this.progress = this.progress + 1;
+            if (this.progress === 100) {
+                clearInterval(interval);
+            }
         }, 100);
     }
 }
