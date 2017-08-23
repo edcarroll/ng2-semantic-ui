@@ -187,9 +187,9 @@ export class SuiProgressCircular {
     private _value:number;
     private _maximum:number;
     private _precision:number;
-    private degree:number;
-    private percentage:string;
-    private isHalf: boolean;
+    private _degree:number;
+    private _percentage:string;
+    private _isHalf:boolean;
 
     @Input()
     public showProgress:boolean;
@@ -208,12 +208,24 @@ export class SuiProgressCircular {
         }
 
         this._value = converted;
-
         this._value = Math.min(Math.max(this._value, 0), this._maximum);
-        this.degree = 360/(this._maximum/this._value);
-        const percentage = (this._value / this.maximum) * 100;
-        this.percentage = percentage.toFixed(this.precision);
-        this.isHalf = percentage <= 51;
+    }
+
+    @HostBinding("attr.data-percent")
+    public get percentage():string {
+        const boundedValue = Math.min(Math.max(this.value, 0), this.maximum);
+
+        const percentage = (boundedValue / this.maximum) * 100;
+
+        return percentage.toFixed(this.precision);
+    }
+
+    public get isHalf() {
+        return +this.percentage <= 51;
+    }
+
+    public get degree() {
+        return 360 / (this._maximum / this._value);
     }
 
     @Input()
@@ -260,9 +272,9 @@ export class SuiProgressCircular {
         this.value = 0;
         this.maximum = 100;
         this.showProgress = true;
-        this.degree = 0;
-        this.percentage = '0';
-        this.isHalf = false;
+        this._degree = 0;
+        this._percentage = "0";
+        this._isHalf = false;
         this.autoSuccess = true;
     }
 }
