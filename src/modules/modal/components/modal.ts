@@ -32,7 +32,7 @@ import { ModalConfig, ModalSize } from "../classes/modal-config";
          #modal>
 
         <!-- Configurable close icon -->
-        <i class="close icon" *ngIf="isClosable" (click)="close()"></i>
+        <i class="close icon" [hidden]="!isClosable" (click)="close()"></i>
         <!-- <ng-content> so that <sui-modal> can be used as a normal component. -->
         <ng-content></ng-content>
         <!-- @ViewChild reference so we can insert elements beside this div. -->
@@ -270,27 +270,29 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
 
     // Decides whether the modal needs to reposition to allow scrolling.
     private updateScroll():void {
-        // Semantic UI modal margin is 3.5rem, which is relative to the global font size, so for compatibility:
-        const fontSize = parseFloat(window.getComputedStyle(document.documentElement).getPropertyValue("font-size"));
-        const margin = fontSize * 3.5;
+        if (window) {
+            // Semantic UI modal margin is 3.5rem, which is relative to the global font size, so for compatibility:
+            const fontSize = parseFloat(window.getComputedStyle(document.documentElement).getPropertyValue("font-size"));
+            const margin = fontSize * 3.5;
 
-        // _mustAlwaysScroll works by stopping _mustScroll from being automatically updated, so it stays `true`.
-        if (!this._mustAlwaysScroll && this._modalElement) {
-            const element = this._modalElement.nativeElement as Element;
+            // _mustAlwaysScroll works by stopping _mustScroll from being automatically updated, so it stays `true`.
+            if (!this._mustAlwaysScroll && this._modalElement) {
+                const element = this._modalElement.nativeElement as Element;
 
-            // The modal must scroll if the window height is smaller than the modal height + both margins.
-            this._mustScroll = window.innerHeight < element.clientHeight + margin * 2;
+                // The modal must scroll if the window height is smaller than the modal height + both margins.
+                this._mustScroll = window.innerHeight < element.clientHeight + margin * 2;
+            }
         }
     }
 
-    public onClick(e:MouseEvent):void {
+    public onClick(e:any):void {
         // Makes sense here, as the modal shouldn't be attached to any DOM element.
         e.stopPropagation();
     }
 
     // Document listener is fine here because nobody will enough modals open.
     @HostListener("document:keyup", ["$event"])
-    public onDocumentKeyUp(e:KeyboardEvent):void {
+    public onDocumentKeyup(e:any):void {
         if (e.keyCode === KeyCode.Escape) {
             // Close automatically covers case of `!isClosable`, so check not needed.
             this.close();

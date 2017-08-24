@@ -54,7 +54,7 @@ export abstract class CalendarView implements AfterViewInit, OnDestroy {
         this._type = viewType;
         this.ranges = ranges;
 
-        this._documentKeyDownListener = renderer.listen("document", "keydown", (e:KeyboardEvent) => this.onDocumentKeyDown(e));
+        this._documentKeyDownListener = renderer.listen("document", "keydown", (e:any) => this.onDocumentKeyDown(e));
     }
 
     // Template Methods
@@ -111,7 +111,7 @@ export abstract class CalendarView implements AfterViewInit, OnDestroy {
         }
     }
 
-    private onDocumentKeyDown(e:KeyboardEvent):void {
+    private onDocumentKeyDown(e:any):void {
         if (this._highlightedItem && e.keyCode === KeyCode.Enter) {
             this.setDate(this._highlightedItem);
             return;

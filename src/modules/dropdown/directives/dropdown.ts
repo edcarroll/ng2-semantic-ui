@@ -124,7 +124,7 @@ export class SuiDropdown implements AfterContentInit {
     }
 
     @HostListener("keypress", ["$event"])
-    public onKeypress(e:HandledEvent & KeyboardEvent):void {
+    public onKeypress(e:HandledEvent & any):void {
         // Block the keyboard event from being fired on parent dropdowns.
         if (!e.eventHandled) {
 

@@ -93,7 +93,9 @@ export class SidebarService {
 
             setTimeout(() => this.wasJustOpened = false);
             clearTimeout(this._isAnimatingTimeout);
-            this._isAnimatingTimeout = window.setTimeout(() => this.isAnimating = false, 500);
+            if (window) {
+                this._isAnimatingTimeout = window.setTimeout(() => this.isAnimating = false, 500);
+            }
         }
     }
 

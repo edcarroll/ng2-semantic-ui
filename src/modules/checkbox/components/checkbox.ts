@@ -67,7 +67,7 @@ export class SuiCheckbox implements ICustomValueAccessorHost<boolean> {
     }
 
     @HostListener("mousedown", ["$event"])
-    public onMouseDown(e:MouseEvent):void {
+    public onMouseDown(e:any):void {
         e.preventDefault();
     }
 

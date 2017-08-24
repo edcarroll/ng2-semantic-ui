@@ -189,7 +189,7 @@ export class SuiDatepickerDirective
     }
 
     @HostListener("keydown", ["$event"])
-    public onKeyDown(e:KeyboardEvent):void {
+    public onKeyDown(e:any):void {
         if (e.keyCode === KeyCode.Escape) {
             this.close();
         }

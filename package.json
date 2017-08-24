@@ -51,7 +51,6 @@
   "dependencies": {
     "bowser": "^1.7.2",
     "date-fns": "2.0.0-alpha.1",
-    "element-closest": "^2.0.2",
     "extend": "^3.0.1",
     "is-ua-webview": "^1.0.0",
     "popper.js": "^1.11.1",

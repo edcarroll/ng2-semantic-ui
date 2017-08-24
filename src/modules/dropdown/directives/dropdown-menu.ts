@@ -6,7 +6,7 @@ import { Transition, SuiTransition, TransitionController, TransitionDirection } 
 import { HandledEvent, IAugmentedElement, KeyCode } from "../../../misc/util/index";
 import { DropdownService, DropdownAutoCloseType } from "../services/dropdown.service";
 // Polyfill for IE
-import "element-closest";
+import "../../../misc/util/helpers/closest";
 
 @Directive({
     // We must attach to every '.item' as Angular doesn't support > selectors.
@@ -144,11 +144,11 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit, 
         this.menuAutoSelectFirst = false;
         this.menuSelectedItemClass = "selected";
 
-        this._documentKeyDownListener = renderer.listen("document", "keydown", (e:KeyboardEvent) => this.onDocumentKeyDown(e));
+        this._documentKeyDownListener = renderer.listen("document", "keydown", (e:any) => this.onDocumentKeyDown(e));
     }
 
     @HostListener("click", ["$event"])
-    public onClick(e:HandledEvent & MouseEvent):void {
+    public onClick(e:HandledEvent & any):void {
         if (!e.eventHandled) {
             e.eventHandled = true;
 
@@ -162,7 +162,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit, 
         }
     }
 
-    public onDocumentKeyDown(e:KeyboardEvent):void {
+    public onDocumentKeyDown(e:any):void {
         // Only the root dropdown (i.e. not nested dropdowns) is responsible for keeping track of the currently selected item.
         if (this._service.isOpen && !this._service.isNested) {
             // Stop document events like scrolling while open.

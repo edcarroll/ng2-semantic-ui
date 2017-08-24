@@ -176,7 +176,7 @@ export class SuiPopup implements IPopup {
 
     public close():void {
         // Only attempt to close if currently open.
-        if (this.isOpen) {
+        if (this.isOpen && window) {
             // Cancel all other transitions, and initiate the closing transition.
             this.transitionController.stopAll();
             this.transitionController.animate(
@@ -193,7 +193,7 @@ export class SuiPopup implements IPopup {
     }
 
     @HostListener("click", ["$event"])
-    public onClick(event:MouseEvent):void {
+    public onClick(event:any):void {
         // Makes sense here, as the popup shouldn't be attached to any DOM element.
         event.stopPropagation();
     }

@@ -40,7 +40,7 @@ export abstract class SuiPopupController implements IPopup, OnDestroy {
         // When the popup is closed (onClose fires on animation complete),
         this.popup.onClose.subscribe(() => this.cleanup());
 
-        this._documentListener = renderer.listen("document", "click", (e:MouseEvent) => this.onDocumentClick(e));
+        this._documentListener = renderer.listen("document", "click", (e:any) => this.onDocumentClick(e));
     }
 
     public configure(config?:IPopupConfig):void {
@@ -53,8 +53,10 @@ export abstract class SuiPopupController implements IPopup, OnDestroy {
         // Cancel the opening timer.
         clearTimeout(this._openingTimeout);
 
-        // Start the popup opening after the specified delay interval.
-        this._openingTimeout = window.setTimeout(() => this.open(), this.popup.config.delay);
+        if (window) {
+            // Start the popup opening after the specified delay interval.
+            this._openingTimeout = window.setTimeout(() => this.open(), this.popup.config.delay);
+        }
     }
 
     public open():void {
@@ -141,7 +143,7 @@ export abstract class SuiPopupController implements IPopup, OnDestroy {
         }
     }
 
-    public onDocumentClick(e:MouseEvent):void {
+    public onDocumentClick(e:any):void {
         // If the popup trigger is outside click,
         if (this._componentRef && this.popup.config.trigger === PopupTrigger.OutsideClick) {
             const target = e.target as Element;
