@@ -162,6 +162,20 @@ const exampleSearchLookupTemplate = `
 </div>
 `;
 
+const exampleSelectObjectLookupTemplate = `
+<sui-select class="selection"
+            [(ngModel)]="selectedOption"
+            [optionsLookup]="optionsLookup"
+            labelField="name"
+            [isSearchable]="true"
+            #searchSelect>
+    <sui-select-option *ngFor="let o of searchSelect.filteredOptions" [value]="o"></sui-select-option>
+</sui-select>
+<div class="ui segment">
+    <p>Currently selected: {{ selectedOption | json }}</p>
+</div>
+`;
+
 @Component({
     selector: "demo-page-select",
     templateUrl: "./select.page.html"
@@ -515,6 +529,25 @@ export class SelectExampleLookupSearch {
     }
 }
 
+@Component({
+    selector:'example-select-object-lookup',
+    template: exampleSelectObjectLookupTemplate
+})
+export class SelectObjectLookupComponent {
+    public selectedOption =  {id: 2,  name: "two"};
+    private _options = [{id: 1,  name: "one"}, {id: 2,  name: "two"}, {id: 3,  name: "three"}];
+
+     public optionsLookup = async (query:string, initial:IOption) => {
+        if (initial != undefined) {
+            return new Promise<IOption>(resolve =>
+                setTimeout(() => resolve(this._options.find(item => item.id === initial.id)), 500));
+        }
+ 
+        return new Promise<IOption[]>(resolve =>
+            setTimeout(() => resolve(this._options), 500));
+    }
+}
+
 export const SelectPageComponents = [
     SelectPage,
 
@@ -522,5 +555,6 @@ export const SelectPageComponents = [
     SelectExampleVariations,
     SelectExampleInMenuSearch,
     SelectExampleTemplate,
-    SelectExampleLookupSearch
+    SelectExampleLookupSearch,
+    SelectObjectLookupComponent
 ];
