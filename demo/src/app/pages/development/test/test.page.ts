@@ -6,8 +6,8 @@ import { FormControl, Validators } from "@angular/forms";
     templateUrl: "./test.page.html"
 })
 export class TestPage implements OnInit {
-    private _interval: any;
-    public progress: number;
+    private _interval:any;
+    public progress:number;
 
     constructor() {
         this.progress = 0;
