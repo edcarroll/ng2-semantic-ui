@@ -447,6 +447,7 @@ let lookupFn:LookupFn<IOption, number> = (query, initial?) => {
     // Return a promise that resolves with a list of query results.
 }
 `;
+    public exampleSelectObjectLookupTemplate:string = exampleSelectObjectLookupTemplate;
 
 }
 
@@ -530,19 +531,19 @@ export class SelectExampleLookupSearch {
 }
 
 @Component({
-    selector:'example-select-object-lookup',
+    selector:"example-select-object-lookup",
     template: exampleSelectObjectLookupTemplate
 })
 export class SelectObjectLookupComponent {
-    public selectedOption =  {id: 2,  name: "two"};
-    private _options = [{id: 1,  name: "one"}, {id: 2,  name: "two"}, {id: 3,  name: "three"}];
+    public selectedOption:IOption =  { id: 2,  name: "two" };
+    private _options:IOption[] = [{ id: 1,  name: "one" }, { id: 2,  name: "two" }, { id: 3,  name: "three" }];
 
-     public optionsLookup = async (query:string, initial:IOption) => {
+    public optionsLookup = async (query:string, initial:IOption) => {
         if (initial != undefined) {
             return new Promise<IOption>(resolve =>
                 setTimeout(() => resolve(this._options.find(item => item.id === initial.id)), 500));
         }
- 
+
         return new Promise<IOption[]>(resolve =>
             setTimeout(() => resolve(this._options), 500));
     }
