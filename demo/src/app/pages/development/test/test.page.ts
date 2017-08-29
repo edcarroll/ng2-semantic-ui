@@ -7,16 +7,17 @@ import { FormControl, Validators } from "@angular/forms";
 })
 export class TestPage implements OnInit {
     private _interval: any;
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this._interval = setInterval(() => {
-        this.progress = this.progress + 1;
-        if (this.progress === 100) {
-            clearInterval(this._interval);
-        }
-    }, 100);
+            this._progress = this._progress + 1;
+            if (this._progress === 100) {
+                clearInterval(this._interval);
+            }
+        },
+            100);
     }
-    public progress: number;
+    private _progress: number;
     constructor() {
-        this.progress = 0;
+        this._progress = 0;
     }
 }
