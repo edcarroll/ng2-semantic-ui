@@ -196,4 +196,14 @@ describe("Pagination", () => {
         expect(pagination.pages.length).toBe(5);
         expect(pagination.hasNavigationLinks).toBe(true);
     });
+    it("should keep the start page number", () => {
+        comp.collectionSize = 100;
+        comp.pageSize = 10;
+        comp.maxSize = 5;
+        comp.currentPage = 5;
+
+        fixture.detectChanges();
+        expect(comp.currentPage).toBe(5);
+        expect(pagination.page).toBe(5);
+    });
 });

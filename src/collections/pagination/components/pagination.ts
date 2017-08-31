@@ -134,6 +134,7 @@ export class SuiPagination implements OnChanges {
     }
 
     public setPage(newPage:number):void {
+        this.pageCount = Math.max(1, Math.ceil(this._collectionSize / this.pageSize));
         const value:number = (Number.isInteger(newPage)) ? Math.min(Math.max(newPage, 1), this.pageCount) : 1;
         if (value !== this._page) {
             this._page = value;
