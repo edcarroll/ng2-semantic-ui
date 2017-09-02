@@ -164,7 +164,7 @@ export class PaginationExampleStandard implements OnInit {
     constructor() { }
 
     public ngOnInit():void {
-        this.selectedPage = 1;
+        this.selectedPage = 5;
         this.navigation = true;
         this.boundary = false;
     }
