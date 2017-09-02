@@ -69,7 +69,6 @@ export class SuiPagination implements OnChanges {
     @Input()
     public pageSize:number;
 
-    
     @Input()
     public get collectionSize():number {
         return this._collectionSize;
