@@ -65,7 +65,10 @@ export class SuiPagination implements OnChanges {
     public set maxSize(value:number | undefined) {
         this._maxSize = (value != undefined) ? Math.max(value, 1) : undefined;
     }
-
+    
+    @Input()
+    public pageSize:number;
+    
     @Input()
     public get collectionSize():number {
         return this._collectionSize;
@@ -75,9 +78,6 @@ export class SuiPagination implements OnChanges {
         this._collectionSize = Math.max(value, 0);
         this.pageCount = Math.max(1, Math.ceil(this._collectionSize / this.pageSize));
     }
-
-    @Input()
-    public pageSize:number;
 
     @Input()
     public get hasNavigationLinks():boolean {
