@@ -15,7 +15,7 @@ export interface IResultContext<T> extends ITemplateRefContext<T> {
 @Component({
     selector: "sui-search",
     template: `
-<div class="ui input" [class.icon]="hasIcon" (click)="onClick($event)">
+<div class="ui fluid input" [class.icon]="hasIcon" (click)="onClick($event)">
     <input class="prompt" type="text" [attr.placeholder]="placeholder" autocomplete="off" [(ngModel)]="query">
     <i *ngIf="hasIcon" class="search icon"></i>
 </div>
