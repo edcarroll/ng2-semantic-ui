@@ -29,6 +29,7 @@ export class SuiDatepickerDirective
     public set selectedDate(date:Date | undefined) {
         this._selectedDate = date;
         this.onSelectedDateChange.emit(date);
+        this.onViewValueChange.emit(date);
     }
 
     private _mode:DatepickerMode;
@@ -104,6 +105,8 @@ export class SuiDatepickerDirective
     @Output("pickerValidatorChange")
     public onValidatorChange:EventEmitter<void>;
 
+    public onViewValueChange:EventEmitter<Date>;
+
     constructor(public renderer:Renderer2,
                 element:ElementRef,
                 componentFactory:SuiComponentFactory,
@@ -125,6 +128,7 @@ export class SuiDatepickerDirective
 
         this.onSelectedDateChange = new EventEmitter<Date>();
         this.onValidatorChange = new EventEmitter<void>();
+        this.onViewValueChange = new EventEmitter<Date>();
 
         this.mode = DatepickerMode.Datetime;
     }
@@ -181,11 +185,8 @@ export class SuiDatepickerDirective
     }
 
     public writeValue(value:Date | undefined):void {
-        this.selectedDate = value;
-
-        if (this.componentInstance) {
-            this.componentInstance.service.selectedDate = value;
-        }
+        this._selectedDate = value;
+        this.onViewValueChange.emit(value);
     }
 
     @HostListener("keydown", ["$event"])

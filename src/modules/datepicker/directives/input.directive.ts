@@ -96,7 +96,7 @@ export class SuiDatepickerInputDirective {
         this.fallbackActive = false;
 
         // Whenever the datepicker value updates, update the input text alongside it.
-        this.datepicker.onSelectedDateChange.subscribe(() =>
+        this.datepicker.onViewValueChange.subscribe(() =>
             this.updateValue(this.selectedDateString));
 
         localizationService.onLanguageUpdate.subscribe(() =>
@@ -120,14 +120,18 @@ export class SuiDatepickerInputDirective {
 
         if (!value) {
             // Delete the selected date if no date was entered manually.
-            return this.datepicker.writeValue(undefined);
+            this.datepicker.selectedDate = undefined;
+            return;
         }
 
-        const parsed = this.parser.parse(value, this.datepicker.selectedDate);
+        const parsed:Date = this.parser.parse(value, this.datepicker.selectedDate);
+
         if (!isNaN(parsed.getTime()) && value === this.parser.format(parsed)) {
-            return this.datepicker.writeValue(parsed);
+            this.datepicker.selectedDate = parsed;
+            return;
         }
-        return this.datepicker.writeValue(undefined);
+
+        this.datepicker.selectedDate = undefined;
     }
 
     @HostListener("focusout")
