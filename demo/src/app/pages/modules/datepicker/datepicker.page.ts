@@ -206,6 +206,7 @@ export class DatepickerExampleButton {}
 export class DatepickerExampleMinMax {
     public min:Date;
     public max:Date;
+    public date:Date;
 
     constructor() {
         const today = new Date();
