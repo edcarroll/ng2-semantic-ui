@@ -41,12 +41,12 @@ const de:IPartialLocaleValues = {
     select: {
         noResultsMessage: "Keine Ergebnisse",
         single: {
-            placeholder: "Wählen Sie eins"
+            placeholder: "Eintrag auswählen..."
         },
         multi: {
-            placeholder: "Wählen...",
-            maxSelectedMessage: "Max #{max} Auswähle",
-            selectedMessage: "#{count} selections"
+            placeholder: "Einträge auswählen...",
+            maxSelectedMessage: "Höchstens #{max} Einträge",
+            selectedMessage: "#{count} Einträge ausgewählt"
         }
     }
 };
