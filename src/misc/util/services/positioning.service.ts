@@ -114,6 +114,7 @@ export class PositioningService {
     private _popper:PopperInstance;
     private _popperState:Popper.Data;
     private _placement:PositioningPlacement;
+    private _hasArrow:boolean;
 
     public get placement():PositioningPlacement {
         return this._placement;
@@ -122,7 +123,10 @@ export class PositioningService {
     public set placement(placement:PositioningPlacement) {
         this._placement = placement;
         this._popper.options.placement = placementToPopper(placement);
-        this.update();
+    }
+
+    public set hasArrow(hasArrow:boolean) {
+        this._hasArrow = hasArrow;
     }
 
     public get actualPlacement():PositioningPlacement {
@@ -152,6 +156,16 @@ export class PositioningService {
             },
             arrow: {
                 element: arrowSelector
+            },
+            offset: {
+                fn: (data:Popper.Data) => {
+                    if (this._hasArrow) {
+                        const offsets = this.calculateOffsets();
+                        data.offsets.popper.left += offsets.left;
+                        data.offsets.popper.top += offsets.top;
+                    }
+                    return data;
+                }
             }
         };
 
@@ -168,6 +182,36 @@ export class PositioningService {
                 onCreate: initial => this._popperState = initial,
                 onUpdate: update => this._popperState = update
             }) as PopperInstance;
+    }
+
+    private calculateOffsets():Popper.Offset {
+        let left = 0; let top = 0;
+
+        // To support correct positioning for all popup sizes we should calculate offset using em
+        const fontSize = parseFloat(window.getComputedStyle(this.subject.nativeElement).getPropertyValue("font-size"));
+        // The Semantic UI popup arrow width and height are 0.71428571em and the margin from the popup edge is 1em
+        const arrowCenter = (0.71428571 / 2 + 1) * fontSize;
+
+        if (this.anchor.nativeElement.offsetWidth <= arrowCenter * 2) {
+            const anchorCenterWidth = this.anchor.nativeElement.offsetWidth / 2;
+            if (this._placement === PositioningPlacement.TopLeft || this._placement === PositioningPlacement.BottomLeft) {
+                left = anchorCenterWidth - arrowCenter;
+            }
+            if (this._placement === PositioningPlacement.TopRight || this._placement === PositioningPlacement.BottomRight) {
+                left = arrowCenter - anchorCenterWidth;
+            }
+        }
+
+        if (this.anchor.nativeElement.offsetHeight <= arrowCenter * 2) {
+            const anchorCenterHeight = this.anchor.nativeElement.offsetHeight / 2;
+            if (this._placement === PositioningPlacement.LeftTop || this._placement === PositioningPlacement.RightTop) {
+                top = anchorCenterHeight - arrowCenter;
+            }
+            if (this._placement === PositioningPlacement.LeftBottom || this._placement === PositioningPlacement.RightBottom) {
+                top = arrowCenter - anchorCenterHeight;
+            }
+        }
+        return { top, left, width: 0, height: 0 };
     }
 
     public update():void {

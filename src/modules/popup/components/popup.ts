@@ -28,6 +28,7 @@ import { TemplatePopupConfig } from "../classes/popup-template-controller";
 .ui.popup {
     /* Autofit popup to the contents. */
     right: auto;
+    margin: 0;
 }
 
 .ui.animating.popup {
@@ -164,6 +165,7 @@ export class SuiPopup implements IPopup {
 
             // Refresh the popup position after a brief delay to allow for browser processing time.
             this.positioningService.placement = this.config.placement;
+            this.positioningService.hasArrow = !this.config.isBasic;
             setTimeout(() => this.positioningService.update());
 
             // Finally, set the popup to be open.
