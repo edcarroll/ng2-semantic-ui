@@ -6,7 +6,7 @@
 </demo-page-title>
 <demo-page-content>
     <h2 class="ui dividing header">Examples</h2>
-    
+
     <demo-example [code]="exampleStandardTemplate">
         <div info>
             <h4 class="ui header">Popup</h4>
@@ -32,7 +32,7 @@
         </div>
         <example-popup-template result></example-popup-template>
     </demo-example>
-    
+
     <demo-example [code]="examplePlacementTemplate">
         <div info>
             <h4 class="ui header">Placement</h4>
@@ -45,6 +45,23 @@
                 <sui-select-option *ngFor="let p of placementSelect.availableOptions" [value]="p"></sui-select-option>
             </sui-select>
         </div>
+    </demo-example>
+
+    <demo-example [code]="exampleSizeTemplate">
+        <div info>
+            <h4 class="ui header">Size</h4>
+            <p>A popup can vary in size.</p>
+        </div>
+        <example-popup-size result></example-popup-size>
+    </demo-example>
+
+    <demo-example [code]="exampleWidthTemplate">
+        <div info>
+            <h4 class="ui header">Width</h4>
+            <p>A popup can be extra wide to allow for longer content</p>
+            <p>A <code>flowing</code> popup have no maximum width and continue to flow to fit its content</p>
+        </div>
+        <example-popup-width result></example-popup-width>
     </demo-example>
 
     <h4 class="ui header">Manual Popup Trigger</h4>

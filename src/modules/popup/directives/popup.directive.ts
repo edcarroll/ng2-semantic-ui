@@ -5,6 +5,7 @@ import { PopupConfig, PopupTrigger } from "../classes/popup-config";
 import { SuiPopupConfig } from "../services/popup.service";
 import { SuiPopupController } from "../classes/popup-controller";
 import { SuiPopupTemplateController, ITemplatePopupContext, ITemplatePopupConfig } from "../classes/popup-template-controller";
+import { PopupSize, PopupWidth } from "../";
 
 const templateRef = TemplateRef;
 
@@ -46,6 +47,16 @@ export class SuiPopupDirective<T> extends SuiPopupTemplateController<T> {
     @Input()
     public set popupPlacement(placement:PositioningPlacement) {
         this.popup.config.placement = placement;
+    }
+
+    @Input()
+    public set popupWidth(width:PopupWidth) {
+        this.popup.config.width = width;
+    }
+
+    @Input()
+    public set popupSize(size:PopupSize) {
+        this.popup.config.size = size;
     }
 
     @Input()

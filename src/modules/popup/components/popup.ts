@@ -115,6 +115,12 @@ export class SuiPopup implements IPopup {
         if (this.config.isBasic) {
             classes.basic = true;
         }
+        if (this.config.size) {
+            classes[this.config.size] = true;
+        }
+        if (this.config.width) {
+            classes[this.config.width] = true;
+        }
         return classes;
     }
 

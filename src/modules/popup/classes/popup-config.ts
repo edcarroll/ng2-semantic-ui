@@ -3,6 +3,8 @@ import { ITemplateRefContext, PositioningPlacement } from "../../../misc/util/in
 import { IPopup } from "./popup-controller";
 
 export type PopupTrigger = "hover" | "click" | "outsideClick" | "focus" | "manual";
+export type PopupSize = "mini" | "tiny" | "small" | "large" | "huge";
+export type PopupWidth = "wide" | "very wide"  | "flowing";
 
 export const PopupTrigger = {
     Hover: "hover" as PopupTrigger,
@@ -33,6 +35,8 @@ export class PopupConfig implements IPopupConfig {
     public delay:number;
     public isBasic:boolean;
     public transition:string;
+    public size:PopupSize;
+    public width:PopupWidth;
     public transitionDuration:number;
 
     constructor(defaults:IPopupConfig = {}) {
