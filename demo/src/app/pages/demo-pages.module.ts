@@ -31,6 +31,9 @@ import { TransitionPageComponents } from "./modules/transition/transition.page";
 // Behaviors
 import { LocalizationPageComponents } from "./behaviors/localization/localization.page";
 
+// Elements
+import { LoaderPageComponents } from "./elements/loader/loader.page";
+
 // Development
 import { TestPage } from "./development/test/test.page";
 
@@ -69,6 +72,10 @@ import { TestPage } from "./development/test/test.page";
 
         // Behaviors
         LocalizationPageComponents,
+        TransitionPageComponents,
+
+        // Element
+        LoaderPageComponents,
 
         // Development
         TestPage
