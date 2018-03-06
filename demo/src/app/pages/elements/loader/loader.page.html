@@ -1,0 +1,41 @@
+<demo-page-title>
+    <div header>Loader</div>
+    <div sub-header>
+        <p>A loader provides UI overlay that indicates a section is loading</p>
+    </div>
+</demo-page-title>
+<demo-page-content>
+    <h2 class="ui dividing header">Examples</h2>
+
+    <demo-example [code]="exampleStandardTemplate">
+        <div info>
+            <h4 class="ui header">Standard Loader</h4>
+            <p>A basic loader</p>
+        </div>
+        <example-loader-standard result></example-loader-standard>
+    </demo-example>
+
+    <demo-example [code]="exampleInvertedTemplate">
+        <div info>
+            <h4 class="ui header">Inverted Loader</h4>
+            <p>An inverted loader</p>
+        </div>
+        <example-inverted-loader result></example-inverted-loader>
+    </demo-example>
+
+    <demo-example [code]="exampleTextTemplate">
+        <div info>
+            <h4 class="ui header">Loader with Text</h4>
+            <p>A loader with text</p>
+        </div>
+        <example-loader-text result></example-loader-text>
+    </demo-example>
+
+    <demo-example [code]="exampleLargeTemplate">
+        <div info>
+            <h4 class="ui header">Loader with different sizes</h4>
+            <p>A large loader</p>
+        </div>
+        <example-large-loader result></example-large-loader>
+    </demo-example>
+</demo-page-content>

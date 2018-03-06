@@ -1,3 +1,3 @@
 export {
     SuiLoadingElement
-} from './index';
+} from "./index";
