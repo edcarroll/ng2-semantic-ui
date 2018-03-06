@@ -30,6 +30,11 @@ import {
     SuiLocalizationModule
 } from "./behaviors";
 
+// Elements
+import {
+    SuiLoadingElement
+} from "./elements";
+
 // Misc
 import {
     SuiUtilityModule
@@ -57,6 +62,9 @@ import {
         SuiSidebarModule,
         SuiTabsModule,
         SuiTransitionModule,
+
+        // Elements
+        SuiLoadingElement,
 
         // Behaviors
         SuiLocalizationModule,
