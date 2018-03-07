@@ -8,14 +8,13 @@ import { TransitionController, SuiTransition, TransitionDirection, Transition } 
     selector: "sui-dimmer",
     template: `
 <div [class.content]="wrapContent">
-    <div [class.center]="wrapContent">
-        <ng-content></ng-content>
-    </div>
+    <ng-content></ng-content>
 </div>
 `,
     styles: [`
-:host.dimmer {
+:host.dimmer:not(.hidden) {
     transition: none;
+    display: flex !important;
 }
 `]
 })
