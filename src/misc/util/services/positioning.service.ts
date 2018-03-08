@@ -115,6 +115,7 @@ export class PositioningService {
     private _popperState:Popper.Data;
     private _placement:PositioningPlacement;
     private _hasArrow:boolean;
+    private _arrowSelector:string | undefined;
 
     public get placement():PositioningPlacement {
         return this._placement;
@@ -122,7 +123,9 @@ export class PositioningService {
 
     public set placement(placement:PositioningPlacement) {
         this._placement = placement;
-        this._popper.options.placement = placementToPopper(placement);
+        if (this._popper) {
+            this._popper.options.placement = placementToPopper(placement);
+        }
     }
 
     public set hasArrow(hasArrow:boolean) {
@@ -145,7 +148,11 @@ export class PositioningService {
         this.anchor = anchor;
         this.subject = subject;
         this._placement = placement;
+        this._arrowSelector = arrowSelector;
+        this.init();
+    }
 
+    public init():void {
         const modifiers:PopperModifiers = {
             computeStyle: {
                 gpuAcceleration: false
@@ -155,7 +162,7 @@ export class PositioningService {
                 boundariesElement: document.body
             },
             arrow: {
-                element: arrowSelector
+                element: this._arrowSelector
             },
             offset: {
                 fn: (data:Popper.Data) => {
@@ -169,19 +176,27 @@ export class PositioningService {
             }
         };
 
-        if (!arrowSelector) {
+        if (!this._arrowSelector) {
             delete modifiers.arrow;
         }
 
         this._popper = new Popper(
-            anchor.nativeElement,
-            subject.nativeElement,
+            this.anchor.nativeElement,
+            this.subject.nativeElement,
             {
-                placement: placementToPopper(placement),
+                placement: placementToPopper(this._placement),
                 modifiers,
                 onCreate: initial => this._popperState = initial,
                 onUpdate: update => this._popperState = update
             }) as PopperInstance;
+    }
+
+    public update():void {
+        this._popper.update();
+    }
+
+    public destroy():void {
+        this._popper.destroy();
     }
 
     private calculateOffsets():Popper.Offset {
@@ -214,11 +229,4 @@ export class PositioningService {
         return { top, left, width: 0, height: 0 };
     }
 
-    public update():void {
-        this._popper.update();
-    }
-
-    public destroy():void {
-        this._popper.destroy();
-    }
 }
