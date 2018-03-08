@@ -20,7 +20,7 @@ import { TemplatePopupConfig } from "../classes/popup-template-controller";
     <div #templateSibling></div>
 
     <sui-popup-arrow *ngIf="!config.isBasic"
-                     [placement]="positioningService?.actualPlacement"
+                     [placement]="config.placement"
                      [inverted]="config.isInverted"></sui-popup-arrow>
 </div>
 `,
@@ -146,14 +146,16 @@ export class SuiPopup implements IPopup {
             // Cancel the closing timer.
             clearTimeout(this.closingTimeout);
 
-            // Create positioning service before transition started
-            this.positioningService = new PositioningService(
-                this._anchor,
-                this._container.element,
-                this.config.placement,
-                ".dynamic.arrow"
-            );
-            this.positioningService.hasArrow = !this.config.isBasic;
+            // Create positioning service after a brief delay.
+            setTimeout(() => {
+                this.positioningService = new PositioningService(
+                    this._anchor,
+                    this._container.element,
+                    this.config.placement,
+                    ".dynamic.arrow"
+                );
+                this.positioningService.hasArrow = !this.config.isBasic;
+            });
 
             // Cancel all other transitions, and initiate the opening transition.
             this.transitionController.stopAll();
