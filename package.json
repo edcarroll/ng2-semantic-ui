@@ -54,7 +54,7 @@
     "element-closest": "^2.0.2",
     "extend": "^3.0.1",
     "is-ua-webview": "^1.0.0",
-    "popper.js": "^1.11.1",
+    "popper.js": "^1.14.0",
     "rxjs": "^5.0.1"
   },
   "devDependencies": {
