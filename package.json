@@ -46,7 +46,7 @@
     "@angular/compiler": "^4.3.1 || >= 5.0.0-beta",
     "@angular/core": "^4.3.1 || >= 5.0.0-beta",
     "@angular/forms": "^4.3.1 || >= 5.0.0-beta",
-    "typescript": "~2.3.0"
+    "typescript": "^2.3.0"
   },
   "dependencies": {
     "bowser": "^1.7.2",
