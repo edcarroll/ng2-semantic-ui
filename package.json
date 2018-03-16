@@ -3,7 +3,7 @@
   "main": "bundles/ng2-semantic-ui.umd.min.js",
   "module": "dist/public.js",
   "typings": "dist/public.d.ts",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "description": "Angular 2 Semantic UI Components",
   "repository": {
     "type": "git",
@@ -42,11 +42,11 @@
     "test:w": "ng test --single-run false --browsers Chrome --reporters kjhtml"
   },
   "peerDependencies": {
-    "@angular/common": "^4.3.1 || >= 5.0.0-beta",
-    "@angular/compiler": "^4.3.1 || >= 5.0.0-beta",
-    "@angular/core": "^4.3.1 || >= 5.0.0-beta",
-    "@angular/forms": "^4.3.1 || >= 5.0.0-beta",
-    "typescript": "~2.3.0"
+    "@angular/common": "^4.3.1 || >= 5.0.0",
+    "@angular/compiler": "^4.3.1 || >= 5.0.0",
+    "@angular/core": "^4.3.1 || >= 5.0.0",
+    "@angular/forms": "^4.3.1 || >= 5.0.0",
+    "typescript": "^2.3.0"
   },
   "dependencies": {
     "bowser": "^1.7.2",
@@ -54,7 +54,7 @@
     "element-closest": "^2.0.2",
     "extend": "^3.0.1",
     "is-ua-webview": "^1.0.0",
-    "popper.js": "^1.11.1",
+    "popper.js": "^1.14.0",
     "rxjs": "^5.0.1"
   },
   "devDependencies": {
