@@ -33,7 +33,7 @@ export class SuiSelectOption<T> extends SuiDropdownMenuItem {
         if (!this.usesTemplate) {
             this.renderedText = formatter(this.value);
         } else {
-            this.renderedText = undefined;
+            this.renderedText = "";
         }
     }
 
