@@ -16,8 +16,8 @@ import { SuiSelectOption } from "./select-option";
 <div *ngIf="selectedOption == undefined" class="default text" [class.filtered]="query">{{ placeholder }}</div>
 <!-- Selected item -->
 <div class="text" [class.filtered]="query || selectedOption == undefined">
-     <span #optionTemplateSibling></span>
-     <span *ngIf="!optionTemplate && selectedOption != undefined" [innerHTML]="configuredFormatter(selectedOption)"></span>
+    <span #optionTemplateSibling></span>
+    <span *ngIf="!optionTemplate && selectedOption != undefined" [innerHTML]="configuredFormatter(selectedOption)"></span>
 </div>
 <!-- Dropdown icon -->
 <i class="{{ icon }} icon" (click)="onCaretClick($event)"></i>
