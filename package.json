@@ -3,7 +3,7 @@
   "main": "bundles/ng2-semantic-ui.umd.min.js",
   "module": "dist/public.js",
   "typings": "dist/public.d.ts",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "description": "Angular 2 Semantic UI Components",
   "repository": {
     "type": "git",
@@ -42,10 +42,10 @@
     "test:w": "ng test --single-run false --browsers Chrome --reporters kjhtml"
   },
   "peerDependencies": {
-    "@angular/common": "^4.3.1 || >= 5.0.0-beta",
-    "@angular/compiler": "^4.3.1 || >= 5.0.0-beta",
-    "@angular/core": "^4.3.1 || >= 5.0.0-beta",
-    "@angular/forms": "^4.3.1 || >= 5.0.0-beta",
+    "@angular/common": "^4.3.1 || >= 5.0.0",
+    "@angular/compiler": "^4.3.1 || >= 5.0.0",
+    "@angular/core": "^4.3.1 || >= 5.0.0",
+    "@angular/forms": "^4.3.1 || >= 5.0.0",
     "typescript": "^2.3.0"
   },
   "dependencies": {
