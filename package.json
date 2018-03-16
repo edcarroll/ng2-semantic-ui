@@ -68,7 +68,7 @@
     "@angular/platform-browser": "^5.2.9",
     "@angular/platform-browser-dynamic": "^5.2.9",
     "@angular/router": "^5.2.9",
-    "@edcarroll/code-style": "^1.0.1",
+    "@edcarroll/code-style": "^2.0.0",
     "@types/extend": "^3.0.0",
     "@types/jasmine": "^2.5.53",
     "@types/prismjs": "~1.4.18",
@@ -91,6 +91,7 @@
     "rollup-plugin-commonjs": "~7.0.0",
     "rollup-plugin-node-resolve": "~2.0.0",
     "rollup-plugin-uglify": "~1.0.1",
+    "ts-node": "^5.0.1",
     "typescript": "^2.6.2",
     "web-animations-js": "^2.3.1",
     "zone.js": "^0.8.20"
