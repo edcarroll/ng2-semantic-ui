@@ -1,4 +1,5 @@
 export {
     SuiDropdownModule,
-    DropdownAutoCloseType
+    DropdownOpenTrigger,
+    DropdownCloseTrigger
 } from "./index";
