@@ -77,7 +77,7 @@ export class SuiRadio<T> implements ICustomValueAccessorHost<T> {
     }
 
     @HostListener("mousedown", ["$event"])
-    public onMouseDown(e:MouseEvent):void {
+    public onMouseDown(e:any):void {
         e.preventDefault();
     }
 

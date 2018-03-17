@@ -6,6 +6,7 @@
       "element",
       ["sui", "demo", "example"],
       "kebab-case"
-    ]
+    ],
+    "no-invalid-this": false
   }
 }

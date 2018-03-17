@@ -15,11 +15,11 @@ export class SuiSelectSearch {
     }
 
     public onQueryUpdated:EventEmitter<string>;
-    public onQueryKeyDown:EventEmitter<KeyboardEvent>;
+    public onQueryKeyDown:EventEmitter<any>;
 
     constructor(private _renderer:Renderer2, private _element:ElementRef) {
         this.onQueryUpdated = new EventEmitter<string>();
-        this.onQueryKeyDown = new EventEmitter<KeyboardEvent>();
+        this.onQueryKeyDown = new EventEmitter<any>();
 
         this._searchClass = true;
         this._autoComplete = "off";
@@ -31,7 +31,7 @@ export class SuiSelectSearch {
     }
 
     @HostListener("keydown", ["$event"])
-    private onKeyDown(e:KeyboardEvent):void {
+    private onKeyDown(e:any):void {
         this.onQueryKeyDown.emit(e);
     }
 

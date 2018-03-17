@@ -35,6 +35,8 @@ import {
     SuiUtilityModule
 } from "./misc";
 
+import "./misc/util/helpers/closest";
+
 @NgModule({
     exports: [
         // Collections

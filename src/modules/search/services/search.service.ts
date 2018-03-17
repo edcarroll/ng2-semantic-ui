@@ -108,12 +108,14 @@ export class SearchService<T, U> {
         this._query = query;
 
         clearTimeout(this._searchDelayTimeout);
-        this._searchDelayTimeout = window.setTimeout(
-            () => {
-                this.updateQuery(query, callback);
-            },
-            this.searchDelay
-        );
+        if (window) {
+            this._searchDelayTimeout = window.setTimeout(
+                () => {
+                    this.updateQuery(query, callback);
+                },
+                this.searchDelay
+            );
+        }
     }
 
     // Updates the current search query.

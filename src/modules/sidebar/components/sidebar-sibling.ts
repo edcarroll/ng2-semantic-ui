@@ -67,7 +67,7 @@ export class SuiSidebarSibling {
     }
 
     @HostListener("click", ["$event"])
-    public onClick(event:MouseEvent):void {
+    public onClick(event:any):void {
         if (this.service.isVisible && !this.service.wasJustOpened) {
             this.service.setVisibleState(false);
         }

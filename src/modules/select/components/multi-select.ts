@@ -229,7 +229,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
         }
     }
 
-    public onQueryInputKeydown(event:KeyboardEvent):void {
+    public onQueryInputKeydown(event:any):void {
         if (event.keyCode === KeyCode.Backspace && this.query === "" && this.selectedOptions.length > 0) {
             // Deselect the rightmost option when the user presses backspace in the search input.
             this.deselectOption(this.selectedOptions[this.selectedOptions.length - 1]);

@@ -202,7 +202,7 @@ export class SuiSearch<T> implements AfterViewInit, OnDestroy {
         this.transition = "scale";
         this.transitionDuration = 200;
 
-        this._documentClickListener = renderer.listen("document", "click", (e:MouseEvent) => this.onDocumentClick(e));
+        this._documentClickListener = renderer.listen("document", "click", (e:any) => this.onDocumentClick(e));
     }
 
     public ngAfterViewInit():void {
@@ -226,7 +226,7 @@ export class SuiSearch<T> implements AfterViewInit, OnDestroy {
         }
     }
 
-    public onClick(e:MouseEvent):void {
+    public onClick(e:any):void {
         this.open();
     }
 
@@ -251,7 +251,7 @@ export class SuiSearch<T> implements AfterViewInit, OnDestroy {
         }
     }
 
-    public onDocumentClick(e:MouseEvent):void {
+    public onDocumentClick(e:any):void {
         if (!this._element.nativeElement.contains(e.target)) {
             this.dropdownService.setOpenState(false);
         }

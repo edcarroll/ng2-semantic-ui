@@ -243,7 +243,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
         this.transitionDuration = 200;
 
         this.onTouched = new EventEmitter<void>();
-        this._documentKeyDownListener = renderer.listen("document", "keydown", (e:KeyboardEvent) => this.onDocumentKeyDown(e));
+        this._documentKeyDownListener = renderer.listen("document", "keydown", (e:any) => this.onDocumentKeyDown(e));
 
         this._selectClasses = true;
     }
@@ -378,7 +378,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
     }
 
     @HostListener("keypress", ["$event"])
-    public onKeyPress(e:KeyboardEvent):void {
+    public onKeyPress(e:any):void {
         if (e.keyCode === KeyCode.Enter) {
             // Enables support for focussing and opening with the keyboard alone.
             // Using directly because Renderer2 doesn't have invokeElementMethod method anymore.
@@ -386,7 +386,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
         }
     }
 
-    public onDocumentKeyDown(e:KeyboardEvent):void {
+    public onDocumentKeyDown(e:any):void {
         if (this._element.nativeElement.contains(e.target) &&
             !this.dropdownService.isOpen &&
             e.keyCode === KeyCode.Down) {
@@ -399,7 +399,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
         }
     }
 
-    public onQueryInputKeydown(event:KeyboardEvent):void {}
+    public onQueryInputKeydown(event:any):void {}
 
     protected focus():void {
         if (this.isSearchable && this.searchInput) {
