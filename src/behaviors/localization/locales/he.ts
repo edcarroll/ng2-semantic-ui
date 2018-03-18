@@ -1,11 +1,11 @@
-import { IPartialLocaleValues } from "../interfaces/values";
+import { ILocaleValues } from "../interfaces/values";
 
 /**
  * locale : Hebrew (he)
  * author : David limkys : https://github.com/gotenxds
  */
 
-const he:IPartialLocaleValues = {
+const he:ILocaleValues = {
     datepicker: {
         months: [
             "ינואר", "פבואר", "מרץ", "אפריל", "מאי", "יוני", "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"
@@ -21,6 +21,15 @@ const he:IPartialLocaleValues = {
         ],
         weekdaysNarrow: [
             "ר", "ש", "ש", "ר", "ח", "ש", "ש"
+        ],
+        timesOfDay: [
+            "לפנות בוקר", "אחר הצהריים"
+        ],
+        timesOfDayUppercase: [
+            "לפנות בוקר", "אחר הצהריים"
+        ],
+        timesOfDayLowercase: [
+            "לפנות בוקר", "אחר הצהריים"
         ],
         formats: {
             time: "HH:mm",
@@ -46,7 +55,7 @@ const he:IPartialLocaleValues = {
         multi: {
             placeholder: "בחר...",
             maxSelectedMessage: "מקסימום #{max} אפשרויות",
-            selectedMessage: "#{count} selections"
+            selectedMessage: "#{count} בחירות"
         }
     }
 };
