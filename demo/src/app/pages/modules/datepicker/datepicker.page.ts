@@ -54,6 +54,7 @@ const exampleMinMaxTemplate = `
         <div class="ui left icon input">
             <i class="calendar icon"></i>
             <input suiDatepicker
+                   [(ngModel)]="date"
                    [pickerMinDate]="min"
                    [pickerMaxDate]="max"
                    [pickerUseNativeOnMobile]="false">
@@ -205,6 +206,7 @@ export class DatepickerExampleButton {}
 export class DatepickerExampleMinMax {
     public min:Date;
     public max:Date;
+    public date:Date;
 
     constructor() {
         const today = new Date();
