@@ -7,6 +7,7 @@ export * from "./dropdown/index";
 export * from "./modal/index";
 export * from "./popup/index";
 export * from "./progress/index";
+export * from "./progress-circular/index";
 export * from "./rating/index";
 export * from "./search/index";
 export * from "./select/index";
