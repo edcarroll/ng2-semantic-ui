@@ -73,6 +73,17 @@ export class SuiSearch<T> implements AfterViewInit, OnDestroy {
     @Input()
     public hasIcon:boolean;
 
+    // Sets whether the search element display result with empty query.
+    @Input()
+    public set allowEmptyQuery(allowEmptyQuery:boolean) {
+        this._allowEmptyQuery = allowEmptyQuery;
+        this.searchService.allowEmptyQuery = allowEmptyQuery;
+    }
+    public get allowEmptyQuery():boolean {
+        return this._allowEmptyQuery;
+    }
+
+    private _allowEmptyQuery:boolean;
     private _placeholder:string;
 
     // Gets & sets the placeholder text displayed inside the text input.
@@ -102,7 +113,7 @@ export class SuiSearch<T> implements AfterViewInit, OnDestroy {
         // Initialise a delayed search.
         this.searchService.updateQueryDelayed(query, () =>
             // Set the results open state depending on whether a query has been entered.
-            this.dropdownService.setOpenState(this.searchService.query.length > 0));
+            this.dropdownService.setOpenState(this.searchService.query.length > 0 || this.allowEmptyQuery));
     }
 
     @Input()
@@ -193,6 +204,7 @@ export class SuiSearch<T> implements AfterViewInit, OnDestroy {
 
         this._searchClasses = true;
         this.hasIcon = true;
+        this.allowEmptyQuery = false;
         this.retainSelectedResult = true;
         this.searchDelay = 200;
         this.maxResults = 7;
@@ -238,7 +250,7 @@ export class SuiSearch<T> implements AfterViewInit, OnDestroy {
     }
 
     private open():void {
-        if (this.searchService.query.length > 0) {
+        if (this.searchService.query.length > 0 || this.allowEmptyQuery) {
             // Only open on click when there is a query entered.
             this.dropdownService.setOpenState(true);
         }
