@@ -15,6 +15,7 @@ var SuiSearch = /** @class */ (function () {
         this._searchClasses = true;
         this.hasIcon = true;
         this.allowEmptyQuery = false;
+        this.resetQueryOnChange = true;
         this.retainSelectedResult = true;
         this.searchDelay = 200;
         this.maxResults = 7;
@@ -26,6 +27,15 @@ var SuiSearch = /** @class */ (function () {
     Object.defineProperty(SuiSearch.prototype, "isActive", {
         get: function () {
             return this.dropdownService.isOpen;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SuiSearch.prototype, "resetQueryOnChange", {
+        set: 
+        // Sets whether the query is reset if options change.
+        function (resetQueryOnChange) {
+            this.searchService.resetQueryOnChange = resetQueryOnChange;
         },
         enumerable: true,
         configurable: true
@@ -225,6 +235,7 @@ var SuiSearch = /** @class */ (function () {
         "_searchClasses": [{ type: HostBinding, args: ["class.ui",] }, { type: HostBinding, args: ["class.search",] },],
         "isActive": [{ type: HostBinding, args: ["class.active",] },],
         "hasIcon": [{ type: Input },],
+        "resetQueryOnChange": [{ type: Input },],
         "allowEmptyQuery": [{ type: Input },],
         "placeholder": [{ type: Input },],
         "options": [{ type: Input },],

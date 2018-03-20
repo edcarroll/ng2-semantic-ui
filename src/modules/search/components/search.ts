@@ -73,6 +73,12 @@ export class SuiSearch<T> implements AfterViewInit, OnDestroy {
     @Input()
     public hasIcon:boolean;
 
+    // Sets whether the query is reset if options change.
+    @Input()
+    public set resetQueryOnChange(resetQueryOnChange:boolean) {
+        this.searchService.resetQueryOnChange = resetQueryOnChange;
+    }
+
     // Sets whether the search element display result with empty query.
     @Input()
     public set allowEmptyQuery(allowEmptyQuery:boolean) {
@@ -205,6 +211,7 @@ export class SuiSearch<T> implements AfterViewInit, OnDestroy {
         this._searchClasses = true;
         this.hasIcon = true;
         this.allowEmptyQuery = false;
+        this.resetQueryOnChange = true;
         this.retainSelectedResult = true;
         this.searchDelay = 200;
         this.maxResults = 7;

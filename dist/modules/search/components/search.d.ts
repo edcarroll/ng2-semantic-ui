@@ -16,6 +16,7 @@ export declare class SuiSearch<T> implements AfterViewInit, OnDestroy {
     private _searchClasses;
     readonly isActive: boolean;
     hasIcon: boolean;
+    resetQueryOnChange: boolean;
     allowEmptyQuery: boolean;
     private _allowEmptyQuery;
     private _placeholder;

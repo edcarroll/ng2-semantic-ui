@@ -196,7 +196,9 @@ var SearchService = /** @class */ (function () {
         this._results = [];
         this._resultsCache = {};
         this._isSearching = false;
-        this.updateQuery("");
+        if (this.resetQueryOnChange) {
+            this.updateQuery("");
+        }
     };
     return SearchService;
 }());

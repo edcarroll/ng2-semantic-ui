@@ -12,6 +12,7 @@ export declare class SearchService<T, U> {
     private _resultsCache;
     readonly results: T[];
     private _query;
+    resetQueryOnChange: boolean;
     allowEmptyQuery: boolean;
     searchDelay: number;
     private _searchDelayTimeout;
