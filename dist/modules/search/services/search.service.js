@@ -22,6 +22,8 @@ var SearchService = /** @class */ (function () {
         };
         // Set default values and reset.
         this.allowEmptyQuery = allowEmptyQuery;
+        this._query = "";
+        this.resetQueryOnChange = true;
         this.searchDelay = 0;
         this.reset();
     }
@@ -196,8 +198,11 @@ var SearchService = /** @class */ (function () {
         this._results = [];
         this._resultsCache = {};
         this._isSearching = false;
-        if (this.resetQueryOnChange) {
+        if (this.resetQueryOnChange || !this.query) {
             this.updateQuery("");
+        }
+        else {
+            this.updateQuery(this.query);
         }
     };
     return SearchService;

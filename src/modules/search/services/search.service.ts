@@ -101,6 +101,8 @@ export class SearchService<T, U> {
 
         // Set default values and reset.
         this.allowEmptyQuery = allowEmptyQuery;
+        this._query = "";
+        this.resetQueryOnChange = true;
         this.searchDelay = 0;
         this.reset();
     }
@@ -205,8 +207,10 @@ export class SearchService<T, U> {
         this._results = [];
         this._resultsCache = {};
         this._isSearching = false;
-        if (this.resetQueryOnChange) {
+        if (this.resetQueryOnChange || !this.query) {
             this.updateQuery("");
+        } else {
+            this.updateQuery(this.query);
         }
     }
 }
