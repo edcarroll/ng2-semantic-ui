@@ -1,1 +1,0 @@
-{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../src/collections/message/index.ts"],"names":[],"mappings":"AAAA,cAAc,sBAAsB,CAAC;AAErC,cAAc,kBAAkB,CAAC","sourcesContent":["export * from \"./components/message\";\n\nexport * from \"./message.module\";\n"]}

@@ -1,1 +1,0 @@
-{"version":3,"file":"partial.js","sourceRoot":"","sources":["../../../../src/behaviors/localization/interfaces/partial.ts"],"names":[],"mappings":"","sourcesContent":["export type RecursivePartial<T> = {\n    [P in keyof T]?:RecursivePartial<T[P]>;\n};\n"]}

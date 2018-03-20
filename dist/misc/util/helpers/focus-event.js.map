@@ -1,1 +1,0 @@
-{"version":3,"file":"focus-event.js","sourceRoot":"","sources":["../../../../src/misc/util/helpers/focus-event.ts"],"names":[],"mappings":"","sourcesContent":["export interface IFocusEvent extends Event {\n    relatedTarget:EventTarget;\n}\n"]}

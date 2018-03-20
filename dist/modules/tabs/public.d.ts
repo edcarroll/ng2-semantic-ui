@@ -1,1 +1,0 @@
-export { SuiTabsModule } from "./index";

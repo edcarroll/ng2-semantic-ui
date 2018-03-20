@@ -1,1 +1,0 @@
-{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../src/collections/pagination/index.ts"],"names":[],"mappings":"AAAA,cAAc,yBAAyB,CAAC;AAExC,cAAc,qBAAqB,CAAC","sourcesContent":["export * from \"./components/pagination\";\n\nexport * from \"./pagination.module\";\n"]}

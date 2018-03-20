@@ -1,1 +1,0 @@
-{"version":3,"file":"search-values.js","sourceRoot":"","sources":["../../../../src/behaviors/localization/interfaces/search-values.ts"],"names":[],"mappings":"","sourcesContent":["export interface ISearchLocaleValues {\n    placeholder:string;\n    noResults:{\n        header:string;\n        message:string;\n    };\n}\n"]}

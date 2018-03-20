@@ -1,1 +1,0 @@
-{"version":3,"file":"public.js","sourceRoot":"","sources":["../../../src/collections/message/public.ts"],"names":[],"mappings":"AAAA,OAAO,EACH,gBAAgB,EAEnB,MAAM,SAAS,CAAC","sourcesContent":["export {\n    SuiMessageModule,\n    IMessage\n} from \"./index\";\n"]}

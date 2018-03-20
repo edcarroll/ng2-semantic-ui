@@ -1,1 +1,0 @@
-{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../src/modules/dimmer/index.ts"],"names":[],"mappings":"AAAA,cAAc,qBAAqB,CAAC;AAEpC,cAAc,iBAAiB,CAAC","sourcesContent":["export * from \"./components/dimmer\";\n\nexport * from \"./dimmer.module\";\n"]}

@@ -1,1 +1,0 @@
-{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../src/modules/rating/index.ts"],"names":[],"mappings":"AAAA,cAAc,qBAAqB,CAAC;AAEpC,cAAc,iBAAiB,CAAC","sourcesContent":["export * from \"./components/rating\";\n\nexport * from \"./rating.module\";\n"]}

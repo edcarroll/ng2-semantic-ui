@@ -1,1 +1,0 @@
-{"version":3,"file":"public.js","sourceRoot":"","sources":["../../src/behaviors/public.ts"],"names":[],"mappings":"AAAA,cAAc,uBAAuB,CAAC","sourcesContent":["export * from \"./localization/public\";\n"]}

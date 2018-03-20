@@ -1,1 +1,0 @@
-[{"__symbolic":"module","version":4,"metadata":{"PopupPlacement":{"__symbolic":"reference","module":"../../misc/util/index","name":"PositioningPlacement","line":11,"character":9}},"exports":[{"from":"./index","export":["SuiPopupModule","IPopup","SuiPopupConfig","IPopupConfig","ITemplatePopupConfig","ITemplatePopupContext","PopupTrigger"]}]}]

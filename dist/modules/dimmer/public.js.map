@@ -1,1 +1,0 @@
-{"version":3,"file":"public.js","sourceRoot":"","sources":["../../../src/modules/dimmer/public.ts"],"names":[],"mappings":"AAAA,OAAO,EACH,eAAe,EAClB,MAAM,SAAS,CAAC","sourcesContent":["export {\n    SuiDimmerModule\n} from \"./index\";\n"]}

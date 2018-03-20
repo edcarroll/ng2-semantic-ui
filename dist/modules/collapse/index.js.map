@@ -1,1 +1,0 @@
-{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../src/modules/collapse/index.ts"],"names":[],"mappings":"AAAA,cAAc,uBAAuB,CAAC;AAEtC,cAAc,mBAAmB,CAAC","sourcesContent":["export * from \"./directives/collapse\";\n\nexport * from \"./collapse.module\";\n"]}

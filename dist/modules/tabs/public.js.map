@@ -1,1 +1,0 @@
-{"version":3,"file":"public.js","sourceRoot":"","sources":["../../../src/modules/tabs/public.ts"],"names":[],"mappings":"AAAA,OAAO,EACH,aAAa,EAChB,MAAM,SAAS,CAAC","sourcesContent":["export {\n    SuiTabsModule\n} from \"./index\";\n"]}

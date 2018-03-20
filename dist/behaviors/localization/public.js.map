@@ -1,1 +1,0 @@
-{"version":3,"file":"public.js","sourceRoot":"","sources":["../../../src/behaviors/localization/public.ts"],"names":[],"mappings":"AACA,OAAO,EACH,qBAAqB,EACrB,sBAAsB,EACzB,MAAM,SAAS,CAAC","sourcesContent":["export * from \"./interfaces/values\";\nexport {\n    SuiLocalizationModule,\n    SuiLocalizationService\n} from \"./index\";\n"]}

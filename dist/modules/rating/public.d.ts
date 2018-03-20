@@ -1,1 +1,0 @@
-export { SuiRatingModule } from "./index";

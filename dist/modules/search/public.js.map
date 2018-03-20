@@ -1,1 +1,0 @@
-{"version":3,"file":"public.js","sourceRoot":"","sources":["../../../src/modules/search/public.ts"],"names":[],"mappings":"AAAA,OAAO,EACH,eAAe,EACf,aAAa,EAIhB,MAAM,SAAS,CAAC","sourcesContent":["export {\n    SuiSearchModule,\n    SearchService,\n    LookupFn,\n    FilterFn,\n    IResultContext\n} from \"./index\";\n"]}

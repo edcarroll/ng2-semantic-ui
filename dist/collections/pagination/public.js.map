@@ -1,1 +1,0 @@
-{"version":3,"file":"public.js","sourceRoot":"","sources":["../../../src/collections/pagination/public.ts"],"names":[],"mappings":"AAAA,OAAO,EACH,mBAAmB,EACtB,MAAM,SAAS,CAAC","sourcesContent":["export {\n    SuiPaginationModule\n} from \"./index\";\n"]}

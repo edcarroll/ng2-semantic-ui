@@ -1,1 +1,0 @@
-[{"__symbolic":"module","version":4,"metadata":{"Tab":{"__symbolic":"class","members":{"__ctor__":[{"__symbolic":"constructor","parameters":[{"__symbolic":"reference","module":"../directives/tab-header","name":"SuiTabHeader","line":9,"character":23},{"__symbolic":"reference","module":"../directives/tab-content","name":"SuiTabContent","line":9,"character":45}]}]}}}}]

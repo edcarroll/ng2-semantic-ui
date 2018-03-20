@@ -1,1 +1,0 @@
-{"version":3,"file":"public.js","sourceRoot":"","sources":["../../../src/modules/rating/public.ts"],"names":[],"mappings":"AAAA,OAAO,EACH,eAAe,EAClB,MAAM,SAAS,CAAC","sourcesContent":["export {\n    SuiRatingModule\n} from \"./index\";\n"]}

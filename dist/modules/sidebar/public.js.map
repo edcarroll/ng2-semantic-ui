@@ -1,1 +1,0 @@
-{"version":3,"file":"public.js","sourceRoot":"","sources":["../../../src/modules/sidebar/public.ts"],"names":[],"mappings":"AAAA,OAAO,EACH,gBAAgB,EAChB,gBAAgB,EAChB,iBAAiB,EACpB,MAAM,SAAS,CAAC","sourcesContent":["export {\n    SuiSidebarModule,\n    SidebarDirection,\n    SidebarTransition\n} from \"./index\";\n"]}

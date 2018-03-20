@@ -1,1 +1,0 @@
-{"version":3,"file":"public.js","sourceRoot":"","sources":["../../../src/modules/collapse/public.ts"],"names":[],"mappings":"AAAA,OAAO,EACH,iBAAiB,EACpB,MAAM,SAAS,CAAC","sourcesContent":["export {\n    SuiCollapseModule\n} from \"./index\";\n"]}
