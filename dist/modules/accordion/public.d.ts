@@ -1,0 +1,1 @@
+export { SuiAccordionModule } from "./index";

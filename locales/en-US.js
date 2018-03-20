@@ -1,0 +1,14 @@
+var enUS = {
+    datepicker: {
+        firstDayOfWeek: 0,
+        formats: {
+            time: "h:mm A",
+            datetime: "MMMM D, YYYY h:mm A",
+            date: "MMMM D, YYYY",
+            month: "MMMM YYYY",
+            year: "YYYY"
+        }
+    }
+};
+export default enUS;
+//# sourceMappingURL=en-US.js.map

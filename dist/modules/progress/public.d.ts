@@ -1,0 +1,1 @@
+export { SuiProgressModule } from "./index";

@@ -1,0 +1,1 @@
+[{"__symbolic":"module","version":4,"metadata":{"PopupTrigger":{"Hover":"hover","Click":"click","OutsideClick":"outsideClick","Focus":"focus","Manual":"manual"},"IPopupConfig":{"__symbolic":"interface"},"PopupConfig":{"__symbolic":"class","members":{"__ctor__":[{"__symbolic":"constructor","parameters":[{"__symbolic":"reference","name":"any"}]}]}}}}]

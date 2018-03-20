@@ -1,0 +1,1 @@
+[{"__symbolic":"module","version":4,"metadata":{},"exports":[{"from":"./classes/tab"},{"from":"./components/tabset"},{"from":"./directives/tab-content"},{"from":"./directives/tab-header"},{"from":"./tab.module"}]}]

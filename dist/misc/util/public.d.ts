@@ -1,0 +1,1 @@
+export { SuiUtilityModule } from "./index";

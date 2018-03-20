@@ -1,0 +1,30 @@
+import { LookupFn, LookupFnResult, FilterFn } from "../helpers/lookup-fn";
+export declare class SearchService<T, U> {
+    private _options;
+    private _optionsLookup?;
+    private _optionsField?;
+    optionsFilter: FilterFn<T>;
+    options: T[];
+    optionsLookup: LookupFn<T, U> | undefined;
+    readonly hasItemLookup: boolean;
+    optionsField: string | undefined;
+    private _results;
+    private _resultsCache;
+    readonly results: T[];
+    private _query;
+    allowEmptyQuery: boolean;
+    searchDelay: number;
+    private _searchDelayTimeout;
+    private _isSearching;
+    readonly query: string;
+    readonly isSearching: boolean;
+    constructor(allowEmptyQuery?: boolean);
+    updateQueryDelayed(query: string, callback?: (err?: Error) => void): void;
+    updateQuery(query: string, callback?: (err?: Error) => void): void;
+    private updateResults(results);
+    initialLookup(initial: U): LookupFnResult<T>;
+    initialLookup(initial: U[]): LookupFnResult<T[]>;
+    private toRegex(query);
+    highlightMatches(text: string, query: string): string;
+    private reset();
+}
