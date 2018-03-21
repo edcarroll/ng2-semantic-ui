@@ -3,7 +3,7 @@
   "main": "bundles/ng2-semantic-ui.umd.min.js",
   "module": "dist/public.js",
   "typings": "dist/public.d.ts",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "description": "Angular 2 Semantic UI Components",
   "repository": {
     "type": "git",
@@ -42,11 +42,11 @@
     "test:w": "ng test --single-run false --browsers Chrome --reporters kjhtml"
   },
   "peerDependencies": {
-    "@angular/common": "^4.3.1 || >= 5.0.0-beta",
-    "@angular/compiler": "^4.3.1 || >= 5.0.0-beta",
-    "@angular/core": "^4.3.1 || >= 5.0.0-beta",
-    "@angular/forms": "^4.3.1 || >= 5.0.0-beta",
-    "typescript": "~2.3.0"
+    "@angular/common": ">= 5.0.0",
+    "@angular/compiler": ">= 5.0.0",
+    "@angular/core": ">= 5.0.0",
+    "@angular/forms": ">= 5.0.0",
+    "typescript": "^2.3.0"
   },
   "dependencies": {
     "bowser": "^1.7.2",
@@ -54,26 +54,26 @@
     "element-closest": "^2.0.2",
     "extend": "^3.0.1",
     "is-ua-webview": "^1.0.0",
-    "popper.js": "^1.11.1",
+    "popper.js": "^1.14.0",
     "rxjs": "^5.0.1"
   },
   "devDependencies": {
-    "@angular/cli": "~1.2.8",
-    "@angular/common": "^4.3.1",
-    "@angular/compiler": "^4.3.1",
-    "@angular/compiler-cli": "^4.3.1",
-    "@angular/core": "^4.3.1",
-    "@angular/forms": "^4.3.1",
-    "@angular/http": "^4.3.1",
-    "@angular/platform-browser": "^4.3.1",
-    "@angular/platform-browser-dynamic": "^4.3.1",
-    "@angular/router": "^4.3.1",
-    "@edcarroll/code-style": "^1.0.1",
-    "@types/extend": "^2.0.30",
+    "@angular/cli": "^1.7.3",
+    "@angular/common": "^5.2.9",
+    "@angular/compiler": "^5.2.9",
+    "@angular/compiler-cli": "^5.2.9",
+    "@angular/core": "^5.2.9",
+    "@angular/forms": "^5.2.9",
+    "@angular/http": "^5.2.9",
+    "@angular/platform-browser": "^5.2.9",
+    "@angular/platform-browser-dynamic": "^5.2.9",
+    "@angular/router": "^5.2.9",
+    "@edcarroll/code-style": "^2.0.0",
+    "@types/extend": "^3.0.0",
     "@types/jasmine": "^2.5.53",
     "@types/prismjs": "~1.4.18",
-    "core-js": "^2.4.1",
-    "fs-extra": "^3.0.1",
+    "core-js": "^2.5.3",
+    "fs-extra": "^5.0.0",
     "jasmine-core": "~2.5.2",
     "jasmine-spec-reporter": "~3.2.0",
     "karma": "~1.4.0",
@@ -91,9 +91,9 @@
     "rollup-plugin-commonjs": "~7.0.0",
     "rollup-plugin-node-resolve": "~2.0.0",
     "rollup-plugin-uglify": "~1.0.1",
-    "ts-node": "~2.0.0",
-    "typescript": "~2.3.4",
-    "web-animations-js": "^2.2.5",
-    "zone.js": "^0.8.4"
+    "ts-node": "^5.0.1",
+    "typescript": "^2.6.2",
+    "web-animations-js": "^2.3.1",
+    "zone.js": "^0.8.20"
   }
 }

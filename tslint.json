@@ -1,5 +1,5 @@
 {
-  "extends": "@edcarroll/code-style/tslint",
+  "extends": ["@edcarroll/code-style/tslint", "@edcarroll/code-style/tslint-angular"],
   "rules": {
     "component-selector": [
       true,
