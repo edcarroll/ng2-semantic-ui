@@ -217,7 +217,6 @@ this.modalService
     .onApprove(() => alert("User has accepted."))
     .onDeny(() => alert("User has denied."));
 `;
-
 }
 
 @Component({
