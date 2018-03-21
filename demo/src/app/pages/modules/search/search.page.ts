@@ -66,6 +66,12 @@ export class SearchPage {
                     defaultValue: "false"
                 },
                 {
+                    name: "resetQueryOnChange",
+                    type: "boolean",
+                    description: "Sets whether the query is reset if options change.",
+                    defaultValue: "true"
+                },
+                {
                     name: "options",
                     type: "T[]",
                     description: "Sets the options available to the search component. " +
