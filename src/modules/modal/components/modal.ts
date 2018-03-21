@@ -11,7 +11,7 @@ import { ModalConfig, ModalSize } from "../classes/modal-config";
     selector: "sui-modal",
     template: `
 <!-- Page dimmer for modal background. -->
-<sui-modal-dimmer [ngClass]="{'top aligned': mustScroll}" 
+<sui-modal-dimmer [ngClass]="{'top aligned': !isCentered}" 
                   [class.inverted]="isInverted"
                   [(isDimmed)]="dimBackground"
                   [transitionDuration]="transitionDuration"
@@ -78,6 +78,9 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     // Size used to display the modal.
     @Input()
     public size:ModalSize;
+
+    @Input()
+    public isCentered:boolean;
 
     // Whether the modal takes up the full width of the screen.
     private _isFullScreen:boolean;
@@ -214,6 +217,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
         this.isFullScreen = config.isFullScreen;
         this.isBasic = config.isBasic;
         this.isInverted = config.isInverted;
+        this.isCentered = config.isCentered;
 
         this.mustScroll = config.mustScroll;
 
