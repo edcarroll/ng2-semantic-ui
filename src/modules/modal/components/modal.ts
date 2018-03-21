@@ -11,7 +11,7 @@ import { ModalConfig, ModalSize } from "../classes/modal-config";
     selector: "sui-modal",
     template: `
 <!-- Page dimmer for modal background. -->
-<sui-dimmer class="page"
+<sui-dimmer class="page modals"
             [class.inverted]="isInverted"
             [(isDimmed)]="dimBackground"
             [isClickable]="false"
@@ -20,7 +20,7 @@ import { ModalConfig, ModalSize } from "../classes/modal-config";
             (click)="close()">
 
     <!-- Modal component, with transition component attached -->
-    <div class="ui modal"
+    <div class="ui standard modal"
          [suiTransition]="transitionController"
          [class.active]="transitionController?.isVisible"
          [class.fullscreen]="isFullScreen"
@@ -31,8 +31,6 @@ import { ModalConfig, ModalSize } from "../classes/modal-config";
          (click)="onClick($event)"
          #modal>
 
-        <!-- Configurable close icon -->
-        <i class="close icon" *ngIf="isClosable" (click)="close()"></i>
         <!-- <ng-content> so that <sui-modal> can be used as a normal component. -->
         <ng-content></ng-content>
         <!-- @ViewChild reference so we can insert elements beside this div. -->
@@ -43,6 +41,9 @@ import { ModalConfig, ModalSize } from "../classes/modal-config";
     styles: [`
 .ui.dimmer {
     overflow-y: auto;
+}
+.ui.dimmer.modals {
+    display: flex !important;
 }
 
 /* avoid .scrolling as Semantic UI adds unwanted styles. */
@@ -206,12 +207,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
             templateElement.parentNode.removeChild(templateElement);
         }
 
-        // Update margin offset to center modal correctly on-screen.
         const element = this._modalElement.nativeElement as Element;
-        setTimeout(() => {
-            this._renderer.setStyle(element, "margin-top", `-${element.clientHeight / 2}px`);
-            this.updateScroll();
-        });
 
         // Focus any element with [autofocus] attribute.
         const autoFocus = element.querySelector("[autofocus]") as HTMLElement | null;
