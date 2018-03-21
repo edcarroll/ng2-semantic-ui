@@ -12,7 +12,7 @@ import { ModalConfig, ModalSize } from "../classes/modal-config";
     template: `
 <!-- Page dimmer for modal background. -->
 <sui-dimmer class="page modals"
-            [class.inverted]="isInverted"
+            [ngClass]="{ 'inverted': isInverted, 'top aligned': !isCentered }"
             [(isDimmed)]="dimBackground"
             [isClickable]="false"
             [transitionDuration]="transitionDuration"
@@ -20,7 +20,7 @@ import { ModalConfig, ModalSize } from "../classes/modal-config";
             (click)="close()">
 
     <!-- Modal component, with transition component attached -->
-    <div class="ui standard modal"
+    <div class="ui modal"
          [suiTransition]="transitionController"
          [class.active]="transitionController?.isVisible"
          [class.fullscreen]="isFullScreen"
@@ -140,6 +140,10 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
         this._isInverted = Util.DOM.parseBooleanAttribute(inverted);
     }
 
+    // Wheter or not the modal should be placed in the center of the page. When `false` it will be aligned to the top of the page
+    @Input()
+    public isCentered:boolean;
+
     public transitionController:TransitionController;
 
     // Transition to display modal with.
@@ -228,6 +232,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
         this.isFullScreen = config.isFullScreen;
         this.isBasic = config.isBasic;
         this.isInverted = config.isInverted;
+        this.isCentered = config.isCentered;
 
         this.mustScroll = config.mustScroll;
 
