@@ -23,6 +23,7 @@ export class SuiRating implements ICustomValueAccessorHost<number> {
     @HostBinding("class.rating")
     private _ratingClasses:boolean;
 
+    @Input()
     public value:number;
 
     @Output()
