@@ -1,12 +1,12 @@
 import {
     Directive, ContentChild, forwardRef, Renderer2, ElementRef, AfterContentInit,
-    ContentChildren, QueryList, Input, HostListener, ChangeDetectorRef, OnDestroy
+    ContentChildren, QueryList, Input, HostListener, ChangeDetectorRef, OnDestroy, Inject
 } from "@angular/core";
 import { Transition, SuiTransition, TransitionController, TransitionDirection } from "../../transition/index";
 import { HandledEvent, IAugmentedElement, KeyCode } from "../../../misc/util/index";
 import { DropdownService, DropdownAutoCloseType } from "../services/dropdown.service";
-// Polyfill for IE
-import "element-closest";
+import { PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 
 @Directive({
     // We must attach to every '.item' as Angular doesn't support > selectors.
@@ -44,7 +44,7 @@ export class SuiDropdownMenuItem {
         return !!this.childDropdownMenu;
     }
 
-    constructor(private _renderer:Renderer2, public element:ElementRef) {
+    constructor(private _renderer:Renderer2, public element:ElementRef, @Inject(PLATFORM_ID) private platformId: Object) {
         this.isSelected = false;
 
         this.selectedClass = "selected";
@@ -154,6 +154,12 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit, 
 
             if (this._service.autoCloseMode === DropdownAutoCloseType.ItemClick) {
                 const target = e.target as IAugmentedElement;
+                
+                if (isPlatformBrowser(this.platformId)) {
+                    // Polyfill for IE
+                    import "element-closest";
+                }
+
                 if (this.element.nativeElement.contains(target.closest(".item")) && !/input|textarea/i.test(target.tagName)) {
                     // Once an item is selected, we can close the entire dropdown.
                     this._service.setOpenState(false, true);
