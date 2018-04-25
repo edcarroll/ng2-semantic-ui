@@ -88,6 +88,12 @@ export class SidebarPage {
             selector: "<sui-sidebar-sibling>",
             properties: [
                 {
+                    name: "canCloseSidebar",
+                    type: "boolean",
+                    description: "Sets whether the click on page content can close the sidebar.",
+                    defaultValue: "true"
+                },
+                {
                     name: "isDimmedWhenVisible",
                     type: "boolean",
                     description: "Sets whether the page content beside the sidebar is dimmed when the sidebar is visible.",
