@@ -10,7 +10,7 @@ import { SuiSelectOption } from "./select-option";
 <!-- Dropdown icon -->
 <i class="{{ icon }} icon" (click)="onCaretClick($event)"></i>
 
-<ng-container *ngIf="hasLabels">
+<ng-container *ngIf="!hasLabels">
 <!-- Multi-select labels -->
     <sui-multi-select-label *ngFor="let selected of selectedOptions;"
                             [value]="selected"
@@ -126,9 +126,14 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
     }
 
     public get selectedMessage():string {
-        return this._localizationService.interpolate(
+        const message = this._localizationService.interpolate(
             this.localeValues.multi.selectedMessage,
             [["count", this.selectedOptions.length.toString()]]);
+        if (!this._placeholder) {
+            return message;
+        } else {
+            return message.replace(/selections/gi, this._placeholder);
+        }
     }
 
     @HostBinding("class.multiple")
