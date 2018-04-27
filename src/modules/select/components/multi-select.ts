@@ -10,7 +10,7 @@ import { SuiSelectOption } from "./select-option";
 <!-- Dropdown icon -->
 <i class="{{ icon }} icon" (click)="onCaretClick($event)"></i>
 
-<ng-container *ngIf="!hasLabels">
+<ng-container *ngIf="hasLabels">
 <!-- Multi-select labels -->
     <sui-multi-select-label *ngFor="let selected of selectedOptions;"
                             [value]="selected"
