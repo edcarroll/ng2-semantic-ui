@@ -98,7 +98,7 @@ export class ModalPage {
                     defaultValue: "false"
                 },
                 {
-                    name: "iCentered",
+                    name: "isCentered",
                     type: "boolean",
                     description: "Whether or not the modal should be placed in the center of the page",
                     defaultValue: "true"
