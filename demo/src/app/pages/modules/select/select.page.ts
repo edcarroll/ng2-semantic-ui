@@ -33,6 +33,25 @@ const exampleStandardTemplate = `
         </sui-multi-select>
         <br><br>
         <sui-checkbox [(ngModel)]="hideLabels">Hide labels?</sui-checkbox>
+        <sui-checkbox [(ngModel)]="placeholder">placeholder?</sui-checkbox>
+    </div>
+    <div class="ui segment">
+        <p>Multi Select (with <code>selection</code> class and <code>placeholder</code> applied)</p>
+        <sui-multi-select class="selection"
+                          [(ngModel)]="selectedOptions"
+                          [options]="options"
+                          placeholder = "placeholder"
+                          labelField="name"
+                          [isSearchable]="searchable"
+                          [isDisabled]="disabled"
+                          [hasLabels]="!hideLabels"
+                          #multiSelect>
+            <sui-select-option *ngFor="let option of multiSelect.filteredOptions"
+                               [value]="option">
+            </sui-select-option>
+        </sui-multi-select>
+        <br><br>
+        <sui-checkbox [(ngModel)]="hideLabels">Hide labels?</sui-checkbox>
     </div>
     <div class="ui segment">
         <sui-checkbox [(ngModel)]="searchable">Searchable?</sui-checkbox>
