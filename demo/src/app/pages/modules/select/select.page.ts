@@ -472,7 +472,7 @@ export class SelectExampleStandard {
     public options:IOption[] = namedOptions;
     public selectedOption:IOption;
     public selectedOptions:IOption[];
-
+    public placeholder:string;
     public searchable:boolean = false;
     public disabled:boolean = false;
     public hideLabels:boolean = false;
