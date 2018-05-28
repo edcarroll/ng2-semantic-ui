@@ -1,6 +1,4 @@
 import { Component, HostBinding, Output, EventEmitter, HostListener, isDevMode } from "@angular/core";
-// Polyfill for IE
-import "element-closest";
 
 interface IAugmentedElement extends Element {
     closest(selector:string):IAugmentedElement;

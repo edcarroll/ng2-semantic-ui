@@ -3,7 +3,7 @@ import { format, parse } from "date-fns";
 import * as defaultLocale from "date-fns/locale/en-US";
 
 interface IDateFnsLocaleValues { [name:string]:string[]; }
-interface IDateFnsHelperOptions { type?:string; }
+interface IDateFnsHelperOptions { type:string; }
 type DateFnsHelper<U, T> = (value:U, options:IDateFnsHelperOptions) => T;
 type DateFnsWeekStartsOn = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
