@@ -100,9 +100,10 @@ export class SuiSearch<T> implements AfterViewInit, OnDestroy {
     public set query(query:string) {
         this.selectedResult = undefined;
         // Initialise a delayed search.
-        this.searchService.updateQueryDelayed(query, () =>
+        this.searchService.updateQueryDelayed(query, () => {
             // Set the results open state depending on whether a query has been entered.
-            this.dropdownService.setOpenState(this.searchService.query.length > 0));
+            return this.dropdownService.setOpenState(this.searchService.query.length > 0);
+        });
     }
 
     @Input()
