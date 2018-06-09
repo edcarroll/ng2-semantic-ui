@@ -115,6 +115,9 @@ export class SuiPopup implements IPopup {
         if (this.config.isBasic) {
             classes.basic = true;
         }
+        if (this.config.isFlowing) {
+            classes.flowing = true;
+        }
         return classes;
     }
 
