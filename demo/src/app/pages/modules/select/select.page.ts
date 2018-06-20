@@ -26,6 +26,7 @@ const exampleStandardTemplate = `
                           [isSearchable]="searchable"
                           [isDisabled]="disabled"
                           [hasLabels]="!hideLabels"
+                          [showCountText]="'Select'"
                           #multiSelect>
             <sui-select-option *ngFor="let option of multiSelect.filteredOptions"
                                [value]="option">
@@ -332,6 +333,13 @@ export class SelectPage {
                     type: "boolean",
                     description: "Sets whether the multi select uses labels.",
                     defaultValue: "true"
+                },
+                {
+                    name: "showCountText",
+                    type: "string",
+                    description: "Display text when no value is selected. " +
+                                 "Eg:- If we pass a value 'Select', it will display Select selections instead of " +
+                                 "0 selections"
                 },
                 {
                     name: "maxSelected",
