@@ -1,4 +1,6 @@
 {
   "extends": ["@edcarroll/code-style/tslint", "@edcarroll/code-style/tslint-angular"],
-  "rules": {}
+  "rules": {
+    "import-blacklist": false
+  }
 }

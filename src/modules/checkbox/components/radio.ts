@@ -6,7 +6,6 @@ import {
     ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor,
     Util
 } from "../../../misc/util/index";
-import { Subscription } from "rxjs/Subscription";
 
 @Component({
     selector: "sui-radio-button",

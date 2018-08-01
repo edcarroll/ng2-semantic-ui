@@ -2,7 +2,7 @@ import {
     ViewChild, HostBinding, ElementRef, HostListener, Input, ContentChildren, QueryList,
     AfterContentInit, TemplateRef, ViewContainerRef, ContentChild, EventEmitter, Output, OnDestroy, Renderer2
 } from "@angular/core";
-import { Subscription } from "rxjs/Subscription";
+import { Subscription } from "rxjs";
 import { DropdownService, SuiDropdownMenu } from "../../dropdown/index";
 import { SearchService, LookupFn, FilterFn } from "../../search/index";
 import { Util, ITemplateRefContext, HandledEvent, KeyCode, IFocusEvent } from "../../../misc/util/index";
