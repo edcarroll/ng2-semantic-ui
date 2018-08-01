@@ -132,7 +132,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
     }
 
     @HostBinding("class.multiple")
-    public hasClasses:boolean;
+    public readonly hasClasses:boolean;
 
     constructor(element:ElementRef, renderer:Renderer2, localizationService:SuiLocalizationService) {
         super(element, renderer, localizationService);

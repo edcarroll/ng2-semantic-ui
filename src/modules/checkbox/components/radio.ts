@@ -27,7 +27,7 @@ export class SuiRadio<T> implements ICustomValueAccessorHost<T> {
     @HostBinding("class.ui")
     @HostBinding("class.radio")
     @HostBinding("class.checkbox")
-    public hasClasses:boolean;
+    public readonly hasClasses:boolean;
 
     @Input()
     public name:string;

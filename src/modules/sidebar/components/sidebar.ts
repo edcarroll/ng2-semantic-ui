@@ -11,7 +11,7 @@ export class SuiSidebar {
     @HostBinding("class.ui")
     @HostBinding("class.sidebar")
     @HostBinding("class.menu")
-    public hasClasses:boolean;
+    public readonly hasClasses:boolean;
 
     @Input()
     public get transition():SidebarTransition {

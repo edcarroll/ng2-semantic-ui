@@ -22,7 +22,7 @@ export class SuiMultiSelectLabel<T> extends SuiTransition {
     // Doing it on the host enables use in menus etc.
     @HostBinding("class.ui")
     @HostBinding("class.label")
-    public hasClasses:boolean;
+    public readonly hasClasses:boolean;
 
     private _transitionController:TransitionController;
 

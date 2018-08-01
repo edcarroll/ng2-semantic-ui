@@ -42,7 +42,7 @@ export class SuiPagination implements OnChanges {
     @HostBinding("class.ui")
     @HostBinding("class.pagination")
     @HostBinding("class.menu")
-    public hasClasses:boolean;
+    public readonly hasClasses:boolean;
 
     // Public members
     public pageCount:number;

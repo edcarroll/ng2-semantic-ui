@@ -5,7 +5,7 @@ import { HostBinding, Input, Directive, EventEmitter, HostListener, Output } fro
 })
 export class SuiTabHeader {
     @HostBinding("class.item")
-    public hasClasses:boolean;
+    public readonly hasClasses:boolean;
 
     @Input("suiTabHeader")
     public id:string;

@@ -15,7 +15,7 @@ import { HandledEvent } from "../../../misc/util/index";
 export class SuiSelectOption<T> extends SuiDropdownMenuItem {
     // Sets the Semantic UI classes on the host element.
     @HostBinding("class.item")
-    public hasClasses:boolean;
+    public readonly hasClasses:boolean;
 
     @Input()
     public value:T;

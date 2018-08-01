@@ -18,7 +18,7 @@ const templateRef = TemplateRef;
 export class SuiSearchResult<T> {
     // Sets the Semantic UI classes on the host element.
     @HostBinding("class.result")
-    public hasClasses:boolean;
+    public readonly hasClasses:boolean;
 
     @Input()
     public value:T;

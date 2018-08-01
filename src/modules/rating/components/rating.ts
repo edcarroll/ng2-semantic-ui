@@ -21,7 +21,7 @@ import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccess
 export class SuiRating implements ICustomValueAccessorHost<number> {
     @HostBinding("class.ui")
     @HostBinding("class.rating")
-    public hasClasses:boolean;
+    public readonly hasClasses:boolean;
 
     public value:number;
 

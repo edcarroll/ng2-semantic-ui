@@ -5,18 +5,10 @@ import { Directive, Input, EventEmitter, Renderer2, ElementRef, HostListener, Ho
 })
 export class SuiSelectSearch {
     @HostBinding("class.search")
-    public get searchClass():boolean {
-        return this._searchClass;
-    }
-
-    private _searchClass:boolean;
+    public readonly hasClasses:boolean;
 
     @HostBinding("attr.autocomplete")
-    public get autoComplete():string {
-        return this._autoComplete;
-    }
-
-    private _autoComplete:string;
+    public readonly autoComplete:string;
 
     public set query(query:string) {
         this._renderer.setProperty(this._element.nativeElement, "value", query);
@@ -29,8 +21,8 @@ export class SuiSelectSearch {
         this.onQueryUpdated = new EventEmitter<string>();
         this.onQueryKeyDown = new EventEmitter<KeyboardEvent>();
 
-        this._searchClass = true;
-        this._autoComplete = "off";
+        this.hasClasses = true;
+        this.autoComplete = "off";
     }
 
     @HostListener("input", ["$event.target.value"])

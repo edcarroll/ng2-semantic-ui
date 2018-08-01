@@ -16,7 +16,7 @@ export class SuiSidebarContainer implements AfterContentInit {
     public service:SidebarService;
 
     @HostBinding("class.pushable")
-    public hasClasses:boolean;
+    public readonly hasClasses:boolean;
 
     @ContentChild(SuiSidebar)
     public sidebar:SuiSidebar;

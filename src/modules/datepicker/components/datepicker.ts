@@ -34,7 +34,7 @@ export class SuiDatepicker {
     @HostBinding("class.ui")
     @HostBinding("class.active")
     @HostBinding("class.calendar")
-    public hasClasses:boolean;
+    public readonly hasClasses:boolean;
 
     public service:CalendarService;
 

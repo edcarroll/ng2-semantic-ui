@@ -23,7 +23,7 @@ import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccess
 export class SuiCheckbox implements ICustomValueAccessorHost<boolean> {
     @HostBinding("class.ui")
     @HostBinding("class.checkbox")
-    public hasClasses:boolean;
+    public readonly hasClasses:boolean;
 
     @Input()
     public name:string;

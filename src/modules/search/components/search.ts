@@ -62,7 +62,7 @@ export class SuiSearch<T> implements AfterViewInit, OnDestroy {
     // Doing it on the host enables use in menus etc.
     @HostBinding("class.ui")
     @HostBinding("class.search")
-    public hasClasses:boolean;
+    public readonly hasClasses:boolean;
 
     @HostBinding("class.active")
     public get isActive():boolean {
