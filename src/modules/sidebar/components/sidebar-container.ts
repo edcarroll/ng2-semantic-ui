@@ -16,7 +16,7 @@ export class SuiSidebarContainer implements AfterContentInit {
     public service:SidebarService;
 
     @HostBinding("class.pushable")
-    private _containerClasses:boolean;
+    public readonly hasClasses:boolean;
 
     @ContentChild(SuiSidebar)
     public sidebar:SuiSidebar;
@@ -25,7 +25,7 @@ export class SuiSidebarContainer implements AfterContentInit {
     public sibling:SuiSidebarSibling;
 
     constructor() {
-        this._containerClasses = true;
+        this.hasClasses = true;
     }
 
     public ngAfterContentInit():void {

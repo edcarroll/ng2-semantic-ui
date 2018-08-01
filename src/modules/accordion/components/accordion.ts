@@ -22,7 +22,7 @@ import { SuiAccordionService } from "../services/accordion.service";
 export class SuiAccordion implements AfterContentInit {
     @HostBinding("class.ui")
     @HostBinding("class.accordion")
-    public accordionClasses:boolean;
+    public readonly hasClasses:boolean;
 
     @Input()
     public get closeOthers():boolean {
@@ -52,7 +52,7 @@ export class SuiAccordion implements AfterContentInit {
         // Accordion service is unique to each set of panels.
         this._service = new SuiAccordionService();
 
-        this.accordionClasses = true;
+        this.hasClasses = true;
     }
 
     public ngAfterContentInit():void {

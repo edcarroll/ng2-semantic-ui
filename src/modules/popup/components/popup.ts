@@ -123,7 +123,7 @@ export class SuiPopup implements IPopup {
     public templateSibling:ViewContainerRef;
 
     @HostBinding("attr.tabindex")
-    private _tabindex:number;
+    public readonly tabindex:number;
 
     constructor(public elementRef:ElementRef) {
         this.transitionController = new TransitionController(false);
@@ -133,7 +133,7 @@ export class SuiPopup implements IPopup {
         this.onOpen = new EventEmitter<void>();
         this.onClose = new EventEmitter<void>();
 
-        this._tabindex = 0;
+        this.tabindex = 0;
     }
 
     public open():void {

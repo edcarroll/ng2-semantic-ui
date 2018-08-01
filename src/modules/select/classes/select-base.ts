@@ -2,7 +2,7 @@ import {
     ViewChild, HostBinding, ElementRef, HostListener, Input, ContentChildren, QueryList,
     AfterContentInit, TemplateRef, ViewContainerRef, ContentChild, EventEmitter, Output, OnDestroy, Renderer2
 } from "@angular/core";
-import { Subscription } from "rxjs/Subscription";
+import { Subscription } from "rxjs";
 import { DropdownService, SuiDropdownMenu } from "../../dropdown/index";
 import { SearchService, LookupFn, FilterFn } from "../../search/index";
 import { Util, ITemplateRefContext, HandledEvent, KeyCode, IFocusEvent } from "../../../misc/util/index";
@@ -33,7 +33,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
     // Sets the Semantic UI classes on the host element.
     @HostBinding("class.ui")
     @HostBinding("class.dropdown")
-    private _selectClasses:boolean;
+    public readonly hasClasses:boolean;
 
     @HostBinding("class.active")
     public get isActive():boolean {
@@ -51,7 +51,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
     public isSearchExternal:boolean;
 
     @HostBinding("class.search")
-    private get _searchClass():boolean {
+    public get hasSearchClass():boolean {
         return this.isSearchable && !this.isSearchExternal;
     }
 
@@ -74,7 +74,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
     private _tabIndex?:number;
 
     @HostBinding("attr.tabindex")
-    public get tabIndex():number {
+    public get tabindex():number {
         if (this.isDisabled) {
             // If disabled, remove from tabindex.
             return -1;
@@ -87,7 +87,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
             // If custom tabindex, default to that.
             return this._tabIndex;
         }
-        if (this._searchClass) {
+        if (this.hasSearchClass) {
             // If search input enabled, tab goes to input.
             return -1;
         }
@@ -245,7 +245,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
         this.onTouched = new EventEmitter<void>();
         this._documentKeyDownListener = renderer.listen("document", "keydown", (e:KeyboardEvent) => this.onDocumentKeyDown(e));
 
-        this._selectClasses = true;
+        this.hasClasses = true;
     }
 
     public ngAfterContentInit():void {
@@ -361,7 +361,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
     }
 
     @HostListener("focusin")
-    private onFocusIn():void {
+    public onFocusIn():void {
         if (!this.dropdownService.isOpen && !this.dropdownService.isAnimating) {
             this.dropdownService.setOpenState(true);
 
@@ -370,7 +370,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
     }
 
     @HostListener("focusout", ["$event"])
-    private onFocusOut(e:IFocusEvent):void {
+    public onFocusOut(e:IFocusEvent):void {
         if (!this._element.nativeElement.contains(e.relatedTarget)) {
             this.dropdownService.setOpenState(false);
             this.onTouched.emit();

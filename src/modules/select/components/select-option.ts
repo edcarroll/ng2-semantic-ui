@@ -15,7 +15,7 @@ import { HandledEvent } from "../../../misc/util/index";
 export class SuiSelectOption<T> extends SuiDropdownMenuItem {
     // Sets the Semantic UI classes on the host element.
     @HostBinding("class.item")
-    private _optionClasses:boolean;
+    public readonly hasClasses:boolean;
 
     @Input()
     public value:T;
@@ -48,7 +48,7 @@ export class SuiSelectOption<T> extends SuiDropdownMenuItem {
         // This is not done via adding the .item class because it isn't supported by Angular.
         super(renderer, element);
 
-        this._optionClasses = true;
+        this.hasClasses = true;
         this.isActive = false;
         this.onSelected = new EventEmitter<T>();
 

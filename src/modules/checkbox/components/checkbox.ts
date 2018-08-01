@@ -23,7 +23,7 @@ import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccess
 export class SuiCheckbox implements ICustomValueAccessorHost<boolean> {
     @HostBinding("class.ui")
     @HostBinding("class.checkbox")
-    private _checkboxClasses:boolean;
+    public readonly hasClasses:boolean;
 
     @Input()
     public name:string;
@@ -63,7 +63,7 @@ export class SuiCheckbox implements ICustomValueAccessorHost<boolean> {
         this.isDisabled = false;
         this.isReadonly = false;
 
-        this._checkboxClasses = true;
+        this.hasClasses = true;
     }
 
     @HostListener("mousedown", ["$event"])

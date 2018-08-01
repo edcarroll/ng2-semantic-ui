@@ -37,6 +37,7 @@ Thumbs.db
 *.metadata.json
 *.js
 *.js.map
+!*.conf.js
 
 # build scripts
 !scripts/**/*

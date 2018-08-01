@@ -114,21 +114,21 @@ export abstract class SuiPopupController implements IPopup, OnDestroy {
     }
 
     @HostListener("mouseenter")
-    private onMouseEnter():void {
+    public onMouseEnter():void {
         if (this.popup.config.trigger === PopupTrigger.Hover) {
             this.openDelayed();
         }
     }
 
     @HostListener("mouseleave")
-    private onMouseLeave():void {
+    public onMouseLeave():void {
         if (this.popup.config.trigger === PopupTrigger.Hover) {
             this.close();
         }
     }
 
     @HostListener("click")
-    private onClick():void {
+    public onClick():void {
         if (this.popup.config.trigger === PopupTrigger.Click ||
             this.popup.config.trigger === PopupTrigger.OutsideClick) {
 
@@ -153,14 +153,14 @@ export abstract class SuiPopupController implements IPopup, OnDestroy {
     }
 
     @HostListener("focusin")
-    private onFocusIn():void {
+    public onFocusIn():void {
         if (this.popup.config.trigger === PopupTrigger.Focus) {
             this.openDelayed();
         }
     }
 
     @HostListener("focusout", ["$event"])
-    private onFocusOut(e:any):void {
+    public onFocusOut(e:any):void {
         if (!this._element.nativeElement.contains(e.relatedTarget) &&
             !this.popup.elementRef.nativeElement.contains(e.relatedTarget) &&
             this.popup.config.trigger === PopupTrigger.Focus) {

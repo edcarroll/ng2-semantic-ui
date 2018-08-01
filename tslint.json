@@ -1,11 +1,7 @@
 {
   "extends": ["@edcarroll/code-style/tslint", "@edcarroll/code-style/tslint-angular"],
   "rules": {
-    "component-selector": [
-      true,
-      "element",
-      ["sui", "demo", "example"],
-      "kebab-case"
-    ]
+    "import-blacklist": false,
+    "typeof-compare": false
   }
 }

@@ -1,6 +1,6 @@
 import { Directive, AfterContentInit, ContentChildren, QueryList, ElementRef } from "@angular/core";
 import { SuiRadio } from "../components/radio";
-import { Subscription } from "rxjs/Subscription";
+import { Subscription } from "rxjs";
 import { Util } from "../../../misc/util/index";
 
 @Directive({

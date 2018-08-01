@@ -1,31 +1,17 @@
 {
-    "compilerOptions": {
-        "baseUrl": ".",
-        "declaration": true,
-        "stripInternal": true,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "strictNullChecks": true,
-        "noEmitOnError": true,
-        "noImplicitAny": true,
-        "moduleResolution": "node",
-        "outDir": "../dist",
-        "sourceMap": true,
-        "inlineSources": true,
-        "target": "es5",
-        "lib": ["es2015", "dom"],
-        "paths": {
-            "ng2-semantic-ui": ["./public"],
-            "ng2-semantic-ui/locales": ["./behaviors/localization/locales"]
-        }
-    },
-    "include": [
-        "test.ts",
-        "**/*.ts"
-    ],
-    "angularCompilerOptions": {
-        "genDir": "../dist",
-        "skipTemplateCodegen": true,
-        "strictMetadataEmit": true
-    }
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../temp",
+    "types": [
+      "jasmine",
+      "node"
+    ]
+  },
+  "files": [
+    "test.ts"
+  ],
+  "include": [
+    "**/*.spec.ts",
+    "**/*.d.ts"
+  ]
 }
