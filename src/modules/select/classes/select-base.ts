@@ -33,7 +33,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
     // Sets the Semantic UI classes on the host element.
     @HostBinding("class.ui")
     @HostBinding("class.dropdown")
-    private _selectClasses:boolean;
+    public hasClasses:boolean;
 
     @HostBinding("class.active")
     public get isActive():boolean {
@@ -51,7 +51,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
     public isSearchExternal:boolean;
 
     @HostBinding("class.search")
-    private get _searchClass():boolean {
+    public get hasSearchClass():boolean {
         return this.isSearchable && !this.isSearchExternal;
     }
 
@@ -87,7 +87,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
             // If custom tabindex, default to that.
             return this._tabIndex;
         }
-        if (this._searchClass) {
+        if (this.hasSearchClass) {
             // If search input enabled, tab goes to input.
             return -1;
         }
@@ -245,7 +245,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
         this.onTouched = new EventEmitter<void>();
         this._documentKeyDownListener = renderer.listen("document", "keydown", (e:KeyboardEvent) => this.onDocumentKeyDown(e));
 
-        this._selectClasses = true;
+        this.hasClasses = true;
     }
 
     public ngAfterContentInit():void {

@@ -22,7 +22,7 @@ import { TransitionController, SuiTransition, TransitionDirection, Transition } 
 export class SuiDimmer extends SuiTransition {
     @HostBinding("class.ui")
     @HostBinding("class.dimmer")
-    private _dimmerClasses:boolean;
+    public hasClasses:boolean;
 
     private _transitionController:TransitionController;
 
@@ -79,7 +79,7 @@ export class SuiDimmer extends SuiTransition {
 
         this.wrapContent = true;
 
-        this._dimmerClasses = true;
+        this.hasClasses = true;
     }
 
     @HostListener("click")

@@ -20,7 +20,7 @@ import { Component, Input, HostBinding } from "@angular/core";
 export class SuiProgress {
     @HostBinding("class.ui")
     @HostBinding("class.progress")
-    private _popupClasses:boolean = true;
+    public hasClasses:boolean;
 
     private _value:number;
     private _maximum:number;
@@ -115,6 +115,6 @@ export class SuiProgress {
         this.autoSuccess = true;
         this.showProgress = true;
 
-        this._popupClasses = true;
+        this.hasClasses = true;
     }
 }
