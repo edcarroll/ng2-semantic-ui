@@ -62,7 +62,11 @@ export class SuiSearch<T> implements AfterViewInit, OnDestroy {
     // Doing it on the host enables use in menus etc.
     @HostBinding("class.ui")
     @HostBinding("class.search")
-    public hasClasses:boolean;
+    public get hasClasses():boolean {
+        return this._hasClasses;
+    }
+
+    private _hasClasses:boolean;
 
     @HostBinding("class.active")
     public get isActive():boolean {
@@ -191,7 +195,7 @@ export class SuiSearch<T> implements AfterViewInit, OnDestroy {
         this.onLocaleUpdate();
         this._localizationService.onLanguageUpdate.subscribe(() => this.onLocaleUpdate());
 
-        this.hasClasses = true;
+        this._hasClasses = true;
         this.hasIcon = true;
         this.retainSelectedResult = true;
         this.searchDelay = 200;

@@ -5,7 +5,11 @@ import { HostBinding, Directive, Input } from "@angular/core";
 })
 export class SuiTabContent {
     @HostBinding("class.tab")
-    public hasClasses:boolean;
+    public get hasClasses():boolean {
+        return this._hasClasses;
+    }
+
+    private _hasClasses:boolean;
 
     @Input("suiTabContent")
     public id:string;
@@ -16,6 +20,6 @@ export class SuiTabContent {
     constructor() {
         this.isActive = false;
 
-        this.hasClasses = true;
+        this._hasClasses = true;
     }
 }

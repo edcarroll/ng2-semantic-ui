@@ -132,7 +132,11 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
     }
 
     @HostBinding("class.multiple")
-    public hasClasses:boolean;
+    public get hasClasses():boolean {
+        return this._hasClasses;
+    }
+
+    private _hasClasses:boolean;
 
     constructor(element:ElementRef, renderer:Renderer2, localizationService:SuiLocalizationService) {
         super(element, renderer, localizationService);
@@ -141,7 +145,7 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
         this.selectedOptionsChange = new EventEmitter<U[]>();
 
         this.hasLabels = true;
-        this.hasClasses = true;
+        this._hasClasses = true;
     }
 
     protected optionsUpdateHook():void {

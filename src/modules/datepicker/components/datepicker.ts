@@ -34,14 +34,18 @@ export class SuiDatepicker {
     @HostBinding("class.ui")
     @HostBinding("class.active")
     @HostBinding("class.calendar")
-    public hasClasses:boolean;
+    public get hasClasses():boolean {
+        return this._hasClasses;
+    }
+
+    private _hasClasses:boolean;
 
     public service:CalendarService;
 
     constructor(localizationService:SuiLocalizationService) {
         this.service = new CalendarService(new DatetimeConfig(), localizationService.get().datepicker);
 
-        this.hasClasses = true;
+        this._hasClasses = true;
     }
 
     @HostListener("mousedown", ["$event"])

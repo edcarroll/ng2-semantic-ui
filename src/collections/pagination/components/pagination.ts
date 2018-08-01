@@ -42,7 +42,11 @@ export class SuiPagination implements OnChanges {
     @HostBinding("class.ui")
     @HostBinding("class.pagination")
     @HostBinding("class.menu")
-    public hasClasses:boolean;
+    public get hasClasses():boolean {
+        return this._hasClasses;
+    }
+
+    private _hasClasses:boolean;
 
     // Public members
     public pageCount:number;
@@ -112,7 +116,7 @@ export class SuiPagination implements OnChanges {
     }
 
     constructor() {
-        this.hasClasses = true;
+        this._hasClasses = true;
         this.pageChange = new EventEmitter<number>();
 
         this.pageSize = 10;

@@ -5,7 +5,11 @@ import { HostBinding, Input, Directive, EventEmitter, HostListener, Output } fro
 })
 export class SuiTabHeader {
     @HostBinding("class.item")
-    public hasClasses:boolean;
+    public get hasClasses():boolean {
+        return this._hasClasses;
+    }
+
+    private _hasClasses:boolean;
 
     @Input("suiTabHeader")
     public id:string;
@@ -79,7 +83,7 @@ export class SuiTabHeader {
 
         this.isDisabled = false;
 
-        this.hasClasses = true;
+        this._hasClasses = true;
     }
 
     // Internally update active state.

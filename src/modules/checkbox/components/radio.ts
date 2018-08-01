@@ -27,7 +27,11 @@ export class SuiRadio<T> implements ICustomValueAccessorHost<T> {
     @HostBinding("class.ui")
     @HostBinding("class.radio")
     @HostBinding("class.checkbox")
-    public hasClasses:boolean;
+    public get hasClasses():boolean {
+        return this._hasClasses;
+    }
+
+    private _hasClasses:boolean;
 
     @Input()
     public name:string;
@@ -72,7 +76,7 @@ export class SuiRadio<T> implements ICustomValueAccessorHost<T> {
         this.isDisabled = false;
         this.isReadonly = false;
 
-        this.hasClasses = true;
+        this._hasClasses = true;
     }
 
     @HostListener("mousedown", ["$event"])

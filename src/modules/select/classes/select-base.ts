@@ -33,7 +33,11 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
     // Sets the Semantic UI classes on the host element.
     @HostBinding("class.ui")
     @HostBinding("class.dropdown")
-    public hasClasses:boolean;
+    public get hasClasses():boolean {
+        return this._hasClasses;
+    }
+
+    private _hasClasses:boolean;
 
     @HostBinding("class.active")
     public get isActive():boolean {
@@ -245,7 +249,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
         this.onTouched = new EventEmitter<void>();
         this._documentKeyDownListener = renderer.listen("document", "keydown", (e:KeyboardEvent) => this.onDocumentKeyDown(e));
 
-        this.hasClasses = true;
+        this._hasClasses = true;
     }
 
     public ngAfterContentInit():void {

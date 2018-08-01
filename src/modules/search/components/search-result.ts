@@ -18,7 +18,11 @@ const templateRef = TemplateRef;
 export class SuiSearchResult<T> {
     // Sets the Semantic UI classes on the host element.
     @HostBinding("class.result")
-    public hasClasses:boolean;
+    public get hasClasses():boolean {
+        return this._hasClasses;
+    }
+
+    private _hasClasses:boolean;
 
     @Input()
     public value:T;
@@ -52,7 +56,7 @@ export class SuiSearchResult<T> {
     public templateSibling:ViewContainerRef;
 
     constructor(public componentFactory:SuiComponentFactory) {
-        this.hasClasses = true;
+        this._hasClasses = true;
 
         // By default we make this function return an empty string, for the brief moment when it isn't displaying the correct label.
         this.formatter = value => "";
