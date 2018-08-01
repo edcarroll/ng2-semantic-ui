@@ -19,17 +19,19 @@
     "typescript"
   ],
   "license": "MIT",
-  "peerDependencies": {
-    "@angular/common": ">= 6.0.0",
-    "@angular/compiler": ">= 6.0.0",
-    "@angular/core": ">= 6.0.0",
-    "@angular/forms": ">= 6.0.0",
+  "dependencies": {
     "bowser": "^1.7.2",
     "date-fns": "2.0.0-alpha.1",
     "element-closest": "^2.0.2",
     "extend": "^3.0.1",
     "is-ua-webview": "^1.0.0",
-    "popper.js": "^1.14.0",
-    "rxjs": "^5.0.1"
+    "popper.js": "^1.14.0"
+  },
+  "peerDependencies": {
+    "@angular/common": ">= 6.0.0",
+    "@angular/compiler": ">= 6.0.0",
+    "@angular/core": ">= 6.0.0",
+    "@angular/forms": ">= 6.0.0",
+    "rxjs": "^6.0.0"
   }
 }
