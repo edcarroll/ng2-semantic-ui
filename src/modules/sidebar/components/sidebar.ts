@@ -11,11 +11,7 @@ export class SuiSidebar {
     @HostBinding("class.ui")
     @HostBinding("class.sidebar")
     @HostBinding("class.menu")
-    public get hasClasses():boolean {
-        return this._hasClasses;
-    }
-
-    private _hasClasses:boolean;
+    public hasClasses:boolean;
 
     @Input()
     public get transition():SidebarTransition {
@@ -72,7 +68,7 @@ export class SuiSidebar {
         setTimeout(() => this.updateDimensions());
         this.service.isVisibleChange.subscribe(() => this.updateDimensions());
 
-        this._hasClasses = true;
+        this.hasClasses = true;
     }
 
     private updateDimensions():void {

@@ -22,11 +22,7 @@ export class SuiMultiSelectLabel<T> extends SuiTransition {
     // Doing it on the host enables use in menus etc.
     @HostBinding("class.ui")
     @HostBinding("class.label")
-    public get hasClasses():boolean {
-        return this._hasClasses;
-    }
-
-    private _hasClasses:boolean;
+    public hasClasses:boolean;
 
     private _transitionController:TransitionController;
 
@@ -76,7 +72,7 @@ export class SuiMultiSelectLabel<T> extends SuiTransition {
 
         this.onDeselected = new EventEmitter<T>();
 
-        this._hasClasses = true;
+        this.hasClasses = true;
 
         this._transitionController.animate(new Transition("scale", 100, TransitionDirection.In));
     }

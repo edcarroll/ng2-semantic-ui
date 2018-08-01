@@ -21,11 +21,7 @@ import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccess
 export class SuiRating implements ICustomValueAccessorHost<number> {
     @HostBinding("class.ui")
     @HostBinding("class.rating")
-    public get hasClasses():boolean {
-        return this._hasClasses;
-    }
-
-    private _hasClasses:boolean;
+    public hasClasses:boolean;
 
     public value:number;
 
@@ -61,7 +57,7 @@ export class SuiRating implements ICustomValueAccessorHost<number> {
         this.maximum = 5;
         this.isReadonly = false;
 
-        this._hasClasses = true;
+        this.hasClasses = true;
     }
 
     public onClick(i:number):void {
