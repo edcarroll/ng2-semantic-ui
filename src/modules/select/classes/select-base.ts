@@ -361,7 +361,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
     }
 
     @HostListener("focusin")
-    private onFocusIn():void {
+    public onFocusIn():void {
         if (!this.dropdownService.isOpen && !this.dropdownService.isAnimating) {
             this.dropdownService.setOpenState(true);
 
@@ -370,7 +370,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
     }
 
     @HostListener("focusout", ["$event"])
-    private onFocusOut(e:IFocusEvent):void {
+    public onFocusOut(e:IFocusEvent):void {
         if (!this._element.nativeElement.contains(e.relatedTarget)) {
             this.dropdownService.setOpenState(false);
             this.onTouched.emit();

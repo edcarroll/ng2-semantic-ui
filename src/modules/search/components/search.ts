@@ -231,7 +231,7 @@ export class SuiSearch<T> implements AfterViewInit, OnDestroy {
     }
 
     @HostListener("focusin")
-    private onFocusIn():void {
+    public onFocusIn():void {
         if (!this.dropdownService.isAnimating) {
             this.open();
         }
@@ -245,7 +245,7 @@ export class SuiSearch<T> implements AfterViewInit, OnDestroy {
     }
 
     @HostListener("focusout", ["$event"])
-    private onFocusOut(e:IFocusEvent):void {
+    public onFocusOut(e:IFocusEvent):void {
         if (!this._element.nativeElement.contains(e.relatedTarget)) {
             this.dropdownService.setOpenState(false);
         }

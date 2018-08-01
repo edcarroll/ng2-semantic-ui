@@ -83,7 +83,7 @@ export class SuiDimmer extends SuiTransition {
     }
 
     @HostListener("click")
-    private onClick():void {
+    public onClick():void {
         if (this.isClickable) {
             this.isDimmed = false;
             this.isDimmedChange.emit(this.isDimmed);

@@ -26,12 +26,12 @@ export class SuiSelectSearch {
     }
 
     @HostListener("input", ["$event.target.value"])
-    private updateQuery(query:string):void {
+    public updateQuery(query:string):void {
         this.onQueryUpdated.emit(query);
     }
 
     @HostListener("keydown", ["$event"])
-    private onKeyDown(e:KeyboardEvent):void {
+    public onKeyDown(e:KeyboardEvent):void {
         this.onQueryKeyDown.emit(e);
     }
 

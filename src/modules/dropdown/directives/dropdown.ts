@@ -117,7 +117,7 @@ export class SuiDropdown implements AfterContentInit {
     }
 
     @HostListener("focusout", ["$event"])
-    private onFocusOut(e:IFocusEvent):void {
+    public onFocusOut(e:IFocusEvent):void {
         if (!this._element.nativeElement.contains(e.relatedTarget)) {
             this.externallyClose();
         }

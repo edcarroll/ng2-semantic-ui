@@ -102,7 +102,7 @@ export class SuiTabHeader {
     }
 
     @HostListener("click")
-    private onClick():void {
+    public onClick():void {
         if (!this.isDisabled) {
             // Activate the tab when clicked, so long as it isn't disabled.
             this.isActive = true;
