@@ -22,7 +22,7 @@
   "scripts": {
     "lib:lint": "ng lint lib",
     "lib:test": "ng test lib --code-coverage --source-map false --progress false --watch false",
-    "lib:compile:locales": "node ./scripts/locales",
+    "lib:compile:locales": "tsc --project src/behaviors/localization/tsconfig.locales.json && node ./scripts/locales",
     "lib:compile": "ng build lib && npm run lib:compile:locales",
     "lib:compile:w": "ng build lib --watch",
     "lib:compile:prod": "ng build lib --prod && npm run lib:compile:locales",

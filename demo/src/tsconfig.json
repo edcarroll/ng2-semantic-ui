@@ -2,6 +2,8 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../temp",
-    "types": []
+    "types": [
+      "prismjs"
+    ]
   }
 }

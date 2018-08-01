@@ -5,8 +5,7 @@ const path = require("path");
 const localesSrc = path.resolve("./dist/behaviors/localization/locales");
 const localesDest = path.resolve("./dist/locales");
 
-// Copy locales
-fs.copySync(localesSrc, localesDest);
+// Update locale references
 fs
     .readdirSync(localesDest)
     .filter(f => f.includes(".d.ts"))
@@ -15,7 +14,7 @@ fs
         const rewritten = fs
             .readFileSync(`${localesDest}/${f}`)
             .toString()
-            .replace("../interfaces/values", "../dist")
+            .replace("./interfaces/values", "../index")
 
         fs.writeFileSync(`${localesDest}/${f}`, rewritten)
     });

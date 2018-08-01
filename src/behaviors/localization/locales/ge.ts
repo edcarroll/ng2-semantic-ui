@@ -1,4 +1,4 @@
-import { IPartialLocaleValues } from "../interfaces/values";
+import { IPartialLocaleValues } from "./interfaces/values";
 
 /**
  * locale : Georgian (ge)
