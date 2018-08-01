@@ -14,7 +14,7 @@ export class SuiCollapse {
 
     // Set when the collapse is closed, and not animating.
     @HostBinding("class.collapsed")
-    private get _isCollapsed():boolean {
+    public get isCollapsed():boolean {
         return !this.isExpanded && !this.isCollapsing;
     }
 
