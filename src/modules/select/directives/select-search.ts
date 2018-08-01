@@ -5,9 +5,17 @@ import { Directive, Input, EventEmitter, Renderer2, ElementRef, HostListener, Ho
 })
 export class SuiSelectSearch {
     @HostBinding("class.search")
+    public get searchClass():boolean {
+        return this._searchClass;
+    }
+
     private _searchClass:boolean;
 
     @HostBinding("attr.autocomplete")
+    public get autoComplete():string {
+        return this._autoComplete;
+    }
+
     private _autoComplete:string;
 
     public set query(query:string) {

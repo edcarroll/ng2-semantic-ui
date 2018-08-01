@@ -83,7 +83,7 @@ export class SuiProgress {
     }
 
     @HostBinding("class.success")
-    private get _reachedMaximum():boolean {
+    public get reachedMaximum():boolean {
         return this._overrideSuccess || ((this.value >= this.maximum) && this.autoSuccess);
     }
 

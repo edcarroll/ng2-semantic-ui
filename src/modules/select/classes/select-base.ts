@@ -74,7 +74,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
     private _tabIndex?:number;
 
     @HostBinding("attr.tabindex")
-    public get tabIndex():number {
+    public get tabindex():number {
         if (this.isDisabled) {
             // If disabled, remove from tabindex.
             return -1;

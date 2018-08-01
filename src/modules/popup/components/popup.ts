@@ -123,6 +123,10 @@ export class SuiPopup implements IPopup {
     public templateSibling:ViewContainerRef;
 
     @HostBinding("attr.tabindex")
+    public get tabindex():number {
+        return this._tabindex;
+    }
+
     private _tabindex:number;
 
     constructor(public elementRef:ElementRef) {
