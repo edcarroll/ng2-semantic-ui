@@ -1,0 +1,8 @@
+{
+  "$schema": "../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../dist",
+  "deleteDestPath": false,
+  "lib": {
+    "entryFile": "public.ts"
+  }
+}
