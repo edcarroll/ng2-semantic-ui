@@ -3,7 +3,7 @@ node_js:
   - "8"
 
 before_install:
-  - if [[ `npm -v` != 6* ]]; then npm i -g npm@6; fi
+  - if [[ `npm -v` != 5* ]]; then npm i -g npm@5; fi
 
 script:
   - npm run build:prod
