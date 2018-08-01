@@ -86,7 +86,7 @@ $ npm run lib:compile
 # use lib:compile:w to watch for changes
 ```
 
-To run the demo app (you must compule the library beforehand):
+To run the demo app:
 ```bash
 $ npm run demo:serve
 ```

@@ -76,6 +76,7 @@
     "karma-coverage-istanbul-reporter": "~2.0.0",
     "karma-jasmine": "~1.1.1",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "karma-min-reporter": "^0.1.0",
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-remap-istanbul": "~0.4.0",
     "ng-packagr": "^3.0.0",
