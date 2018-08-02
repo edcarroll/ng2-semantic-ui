@@ -1,3 +1,3 @@
 export {
     SuiCollapseModule
-} from "./index";
+} from "./internal";

@@ -6,9 +6,9 @@ import { AbstractControl, ValidationErrors } from "@angular/forms";
 import {
     ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor,
     ICustomValidatorHost, customValidatorFactory, CustomValidator, PositioningPlacement, SuiComponentFactory, KeyCode
-} from "../../../misc/util/index";
-import { IDatepickerLocaleValues, RecursivePartial, SuiLocalizationService } from "../../../behaviors/localization/index";
-import { SuiPopupComponentController, PopupAfterOpen, PopupConfig, PopupTrigger } from "../../popup/index";
+} from "../../../misc/util/internal";
+import { IDatepickerLocaleValues, RecursivePartial, SuiLocalizationService } from "../../../behaviors/localization/internal";
+import { SuiPopupComponentController, PopupAfterOpen, PopupConfig, PopupTrigger } from "../../popup/internal";
 import { SuiDatepicker, DatepickerMode } from "../components/datepicker";
 import { CalendarConfig, YearConfig, MonthConfig, DatetimeConfig, TimeConfig, DateConfig } from "../classes/calendar-config";
 

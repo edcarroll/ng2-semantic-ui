@@ -1,5 +1,5 @@
 import { TemplateRef } from "@angular/core";
-import { ITemplateRefContext, PositioningPlacement } from "../../../misc/util/index";
+import { ITemplateRefContext, PositioningPlacement } from "../../../misc/util/internal";
 import { IPopup } from "./popup-controller";
 
 export type PopupTrigger = "hover" | "click" | "outsideClick" | "focus" | "manual";

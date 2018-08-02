@@ -3,10 +3,10 @@ import {
     AfterContentInit, TemplateRef, ViewContainerRef, ContentChild, EventEmitter, Output, OnDestroy, Renderer2
 } from "@angular/core";
 import { Subscription } from "rxjs";
-import { DropdownService, SuiDropdownMenu } from "../../dropdown/index";
-import { SearchService, LookupFn, FilterFn } from "../../search/index";
-import { Util, ITemplateRefContext, HandledEvent, KeyCode, IFocusEvent } from "../../../misc/util/index";
-import { ISelectLocaleValues, RecursivePartial, SuiLocalizationService } from "../../../behaviors/localization/index";
+import { DropdownService, SuiDropdownMenu } from "../../dropdown/internal";
+import { SearchService, LookupFn, FilterFn } from "../../search/internal";
+import { Util, ITemplateRefContext, HandledEvent, KeyCode, IFocusEvent } from "../../../misc/util/internal";
+import { ISelectLocaleValues, RecursivePartial, SuiLocalizationService } from "../../../behaviors/localization/internal";
 import { SuiSelectOption } from "../components/select-option";
 import { SuiSelectSearch } from "../directives/select-search";
 

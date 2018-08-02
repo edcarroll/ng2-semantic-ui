@@ -2,8 +2,8 @@ import {
     Component, Input, HostBinding, HostListener, EventEmitter, ViewContainerRef,
     ViewChild, Renderer2, ElementRef, Output, ChangeDetectorRef, TemplateRef
 } from "@angular/core";
-import { SuiTransition, TransitionController, Transition, TransitionDirection } from "../../transition/index";
-import { HandledEvent, SuiComponentFactory } from "../../../misc/util/index";
+import { SuiTransition, TransitionController, Transition, TransitionDirection } from "../../transition/internal";
+import { HandledEvent, SuiComponentFactory } from "../../../misc/util/internal";
 import { IOptionContext } from "../classes/select-base";
 
 // See https://github.com/Microsoft/TypeScript/issues/13449.
