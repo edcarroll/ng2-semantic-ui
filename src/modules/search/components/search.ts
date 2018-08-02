@@ -1,6 +1,6 @@
 import {
     Component, ViewChild, HostBinding, Input, AfterViewInit, HostListener,
-    EventEmitter, Output, Directive, ElementRef, TemplateRef, Renderer2, OnDestroy
+    EventEmitter, Output, Directive, ElementRef, TemplateRef, Renderer2
 } from "@angular/core";
 import { Util, ITemplateRefContext, IFocusEvent } from "../../../misc/util/internal";
 import { DropdownService, SuiDropdownMenu } from "../../dropdown/internal";
@@ -43,6 +43,7 @@ export interface IResultContext<T> extends ITemplateRefContext<T> {
 /* Ensures results div has margin. */
 :host {
     display: inline-block;
+    outline: 0;
 }
 
 /* Fixes positioning when results are pushed above the search. */
@@ -51,7 +52,7 @@ export interface IResultContext<T> extends ITemplateRefContext<T> {
 }
 `]
 })
-export class SuiSearch<T> implements AfterViewInit, OnDestroy {
+export class SuiSearch<T> implements AfterViewInit {
     public dropdownService:DropdownService;
     public searchService:SearchService<T, T>;
 
@@ -63,6 +64,9 @@ export class SuiSearch<T> implements AfterViewInit, OnDestroy {
     @HostBinding("class.ui")
     @HostBinding("class.search")
     public readonly hasClasses:boolean;
+
+    @HostBinding("attr.tabindex")
+    public readonly tabindex:number;
 
     @HostBinding("class.active")
     public get isActive():boolean {
@@ -182,8 +186,6 @@ export class SuiSearch<T> implements AfterViewInit, OnDestroy {
     @Input()
     public transitionDuration:number;
 
-    private _documentClickListener:() => void;
-
     constructor(private _element:ElementRef, renderer:Renderer2, private _localizationService:SuiLocalizationService) {
         this.dropdownService = new DropdownService();
         this.searchService = new SearchService<T, T>();
@@ -192,6 +194,7 @@ export class SuiSearch<T> implements AfterViewInit, OnDestroy {
         this._localizationService.onLanguageUpdate.subscribe(() => this.onLocaleUpdate());
 
         this.hasClasses = true;
+        this.tabindex = 0;
         this.hasIcon = true;
         this.retainSelectedResult = true;
         this.searchDelay = 200;
@@ -201,8 +204,6 @@ export class SuiSearch<T> implements AfterViewInit, OnDestroy {
 
         this.transition = "scale";
         this.transitionDuration = 200;
-
-        this._documentClickListener = renderer.listen("document", "click", (e:MouseEvent) => this.onDocumentClick(e));
     }
 
     public ngAfterViewInit():void {
@@ -246,13 +247,8 @@ export class SuiSearch<T> implements AfterViewInit, OnDestroy {
 
     @HostListener("focusout", ["$event"])
     public onFocusOut(e:IFocusEvent):void {
+        console.log(e);
         if (!this._element.nativeElement.contains(e.relatedTarget)) {
-            this.dropdownService.setOpenState(false);
-        }
-    }
-
-    public onDocumentClick(e:MouseEvent):void {
-        if (!this._element.nativeElement.contains(e.target)) {
             this.dropdownService.setOpenState(false);
         }
     }
@@ -260,9 +256,5 @@ export class SuiSearch<T> implements AfterViewInit, OnDestroy {
     // Reads the specified field from an item.
     public readValue(object:T):string {
         return Util.Object.readValue<T, string>(object, this.searchService.optionsField);
-    }
-
-    public ngOnDestroy():void {
-        this._documentClickListener();
     }
 }

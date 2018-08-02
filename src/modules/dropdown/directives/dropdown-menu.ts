@@ -100,6 +100,9 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit, 
         });
     }
 
+    // Reference to the encapsulating suiDropdown directive.
+    public parentElement:ElementRef;
+
     @ContentChildren(SuiDropdownMenuItem)
     private _itemsQueryInternal:QueryList<SuiDropdownMenuItem>;
 
@@ -144,7 +147,9 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit, 
         this.menuAutoSelectFirst = false;
         this.menuSelectedItemClass = "selected";
 
-        this._documentKeyDownListener = renderer.listen("document", "keydown", (e:KeyboardEvent) => this.onDocumentKeyDown(e));
+        this._documentKeyDownListener = renderer
+            .listen(this.parentElement.nativeElement, "keydown", (e:KeyboardEvent) =>
+                this.onParentKeyDown(e));
     }
 
     @HostListener("click", ["$event"])
@@ -162,7 +167,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit, 
         }
     }
 
-    public onDocumentKeyDown(e:KeyboardEvent):void {
+    public onParentKeyDown(e:KeyboardEvent):void {
         // Only the root dropdown (i.e. not nested dropdowns) is responsible for keeping track of the currently selected item.
         if (this._service.isOpen && !this._service.isNested) {
             // Stop document events like scrolling while open.

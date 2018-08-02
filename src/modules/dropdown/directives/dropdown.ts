@@ -94,6 +94,7 @@ export class SuiDropdown implements AfterContentInit {
             throw new Error("You must set [suiDropdownMenu] on the menu element.");
         }
         this._menu.service = this.service;
+        this._menu.parentElement = this._element;
 
         this.childrenUpdated();
         this._children.changes
