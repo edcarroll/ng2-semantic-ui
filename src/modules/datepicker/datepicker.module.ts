@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
-import { SuiPopupModule } from "../../modules/popup/internal";
+import { SuiPopupModule } from "../popup/internal";
 import { SuiLocalizationModule } from "../../behaviors/localization/internal";
 import { SuiUtilityModule } from "../../misc/util/internal";
 import { SuiCalendarViewTitle } from "./components/calendar-view-title";

@@ -3,4 +3,4 @@ export * from "./collections/public";
 export * from "./modules/public";
 
 export * from "./misc/public";
-export { SuiModule } from "./sui.module";
+export { SuiModule } from "./index";
