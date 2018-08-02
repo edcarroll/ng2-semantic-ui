@@ -24,7 +24,7 @@ export abstract class SuiPopupController implements IPopup, OnDestroy {
     private _openingTimeout:number;
 
     // Function to remove the document click handler.
-    private _documentListener:() => void;
+    private _documentListener:(() => void) | undefined;
 
     constructor(protected _renderer:Renderer2,
                 protected _element:ElementRef,
@@ -66,7 +66,9 @@ export abstract class SuiPopupController implements IPopup, OnDestroy {
         this.popup.anchor = this._element;
 
         // Add a listener to the document body to handle closing.
-        this._documentListener = this._renderer.listen("document", "click", (e:MouseEvent) => this.onDocumentClick(e));
+        this._documentListener = this._renderer
+            .listen("document", "click", (e:MouseEvent) =>
+                this.onDocumentClick(e));
 
         // Start popup open transition.
         this.popup.open();
@@ -178,7 +180,10 @@ export abstract class SuiPopupController implements IPopup, OnDestroy {
         }
 
         this._componentFactory.detachFromApplication(this._componentRef);
-        this._documentListener();
+
+        if (this._documentListener) {
+            this._documentListener();
+        }
     }
 
     public ngOnDestroy():void {
