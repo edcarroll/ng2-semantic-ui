@@ -1,3 +1,3 @@
 export {
     SuiAccordionModule
-} from "./index";
+} from "./internal";

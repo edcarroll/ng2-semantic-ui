@@ -1,6 +1,6 @@
 import { TemplateRef, Renderer2, ElementRef } from "@angular/core";
 import { SuiPopupController, IPopup } from "./popup-controller";
-import { ITemplateRefContext, SuiComponentFactory, IImplicitContext } from "../../../misc/util";
+import { ITemplateRefContext, SuiComponentFactory, IImplicitContext } from "../../../misc/util/internal";
 import { PopupConfig, IPopupConfig } from "./popup-config";
 
 const templateRef = TemplateRef;

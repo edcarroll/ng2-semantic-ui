@@ -1,3 +1,3 @@
 export {
     SuiUtilityModule
-} from "./index";
+} from "./internal";

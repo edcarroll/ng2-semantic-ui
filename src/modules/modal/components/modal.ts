@@ -2,8 +2,8 @@ import {
     Component, Input, OnInit, ViewChild, ElementRef, Renderer2,
     EventEmitter, Output, HostListener, ViewContainerRef, AfterViewInit
 } from "@angular/core";
-import { Util, IDynamicClasses, KeyCode, SuiComponentFactory } from "../../../misc/util/index";
-import { TransitionController, Transition, TransitionDirection } from "../../transition/index";
+import { Util, IDynamicClasses, KeyCode, SuiComponentFactory } from "../../../misc/util/internal";
+import { TransitionController, Transition, TransitionDirection } from "../../transition/internal";
 import { ModalControls, ModalResult } from "../classes/modal-controls";
 import { ModalConfig, ModalSize } from "../classes/modal-config";
 

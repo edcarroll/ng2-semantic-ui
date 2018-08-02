@@ -1,3 +1,3 @@
 export {
     SuiDimmerModule
-} from "./index";
+} from "./internal";

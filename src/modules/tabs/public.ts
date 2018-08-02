@@ -1,3 +1,3 @@
 export {
     SuiTabsModule
-} from "./index";
+} from "./internal";

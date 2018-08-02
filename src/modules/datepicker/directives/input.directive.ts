@@ -1,8 +1,8 @@
 
-import { Directive, Host, Input, ElementRef, HostBinding, HostListener, Renderer2 } from "@angular/core";
-import { DateUtil, DatePrecision } from "../../../misc/util/index";
-import { SuiLocalizationService } from "../../../behaviors/localization/index";
-import { PopupTrigger } from "../../popup/index";
+import { Directive, Host, Input, ElementRef, HostBinding, HostListener } from "@angular/core";
+import { DateUtil, DatePrecision } from "../../../misc/util/internal";
+import { SuiLocalizationService } from "../../../behaviors/localization/internal";
+import { PopupTrigger } from "../../popup/internal";
 import { SuiDatepickerDirective, SuiDatepickerDirectiveValueAccessor } from "./datepicker.directive";
 import { InternalDateParser, DateParser } from "../classes/date-parser";
 import * as bowser from "bowser";

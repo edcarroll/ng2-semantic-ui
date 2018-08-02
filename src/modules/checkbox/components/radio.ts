@@ -5,7 +5,7 @@ import {
 import {
     ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor,
     Util
-} from "../../../misc/util/index";
+} from "../../../misc/util/internal";
 
 @Component({
     selector: "sui-radio-button",

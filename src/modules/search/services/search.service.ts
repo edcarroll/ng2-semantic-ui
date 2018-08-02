@@ -1,4 +1,4 @@
-import { Util } from "../../../misc/util/index";
+import { Util } from "../../../misc/util/internal";
 import { LookupFn, LookupFnResult, FilterFn } from "../helpers/lookup-fn";
 
 interface ICachedArray<T> { [query:string]:T[]; }
