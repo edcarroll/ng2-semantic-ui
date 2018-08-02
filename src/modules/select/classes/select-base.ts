@@ -387,9 +387,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
     }
 
     public onDocumentKeyDown(e:KeyboardEvent):void {
-        if (this._element.nativeElement.contains(e.target) &&
-            !this.dropdownService.isOpen &&
-            e.keyCode === KeyCode.Down) {
+        if (!this.dropdownService.isOpen && e.keyCode === KeyCode.Down) {
 
             // Enables support for focussing and opening with the keyboard alone.
             // Using directly because Renderer2 doesn't have invokeElementMethod method anymore.
