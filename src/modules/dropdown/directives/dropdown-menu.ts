@@ -100,8 +100,11 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit, 
         });
     }
 
-    // Reference to the encapsulating suiDropdown directive.
-    public parentElement:ElementRef;
+    public set parentElement(value:ElementRef) {
+        this._parentKeyDownListener = this._renderer
+            .listen(value.nativeElement, "keydown", (e:KeyboardEvent) =>
+                this.onParentKeyDown(e));
+    }
 
     @ContentChildren(SuiDropdownMenuItem)
     private _itemsQueryInternal:QueryList<SuiDropdownMenuItem>;
@@ -132,9 +135,9 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit, 
     @Input()
     public menuSelectedItemClass:string;
 
-    private _documentKeyDownListener:() => void;
+    private _parentKeyDownListener:() => void;
 
-    constructor(renderer:Renderer2, public element:ElementRef, changeDetector:ChangeDetectorRef) {
+    constructor(renderer:Renderer2, element:ElementRef, changeDetector:ChangeDetectorRef) {
         super(renderer, element, changeDetector);
 
         // Initialise transition functionality.
@@ -147,9 +150,8 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit, 
         this.menuAutoSelectFirst = false;
         this.menuSelectedItemClass = "selected";
 
-        this._documentKeyDownListener = renderer
-            .listen(this.parentElement.nativeElement, "keydown", (e:KeyboardEvent) =>
-                this.onParentKeyDown(e));
+        // In case the dropdown menu is destroyed before it has a chance to be fully initialised.
+        this._parentKeyDownListener = () => {};
     }
 
     @HostListener("click", ["$event"])
@@ -159,7 +161,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit, 
 
             if (this._service.autoCloseMode === DropdownAutoCloseType.ItemClick) {
                 const target = e.target as IAugmentedElement;
-                if (this.element.nativeElement.contains(target.closest(".item")) && !/input|textarea/i.test(target.tagName)) {
+                if (this._element.nativeElement.contains(target.closest(".item")) && !/input|textarea/i.test(target.tagName)) {
                     // Once an item is selected, we can close the entire dropdown.
                     this._service.setOpenState(false, true);
                 }
@@ -293,7 +295,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit, 
     }
 
     public scrollToItem(item:SuiDropdownMenuItem):void {
-        const menu:Element = this.element.nativeElement;
+        const menu:Element = this._element.nativeElement;
         const selectedRect:ClientRect = item.element.nativeElement.getBoundingClientRect();
 
         const menuRect = menu.getBoundingClientRect();
@@ -322,6 +324,6 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit, 
     }
 
     public ngOnDestroy():void {
-        this._documentKeyDownListener();
+        this._parentKeyDownListener();
     }
 }
