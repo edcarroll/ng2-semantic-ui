@@ -1,5 +1,5 @@
 
-import { Directive, Host, Input, ElementRef, HostBinding, HostListener } from "@angular/core";
+import { Directive, Host, Input, ElementRef, HostBinding, HostListener, Renderer2 } from "@angular/core";
 import { DateUtil, DatePrecision } from "../../../misc/util/internal";
 import { SuiLocalizationService } from "../../../behaviors/localization/internal";
 import { PopupTrigger } from "../../popup/internal";
