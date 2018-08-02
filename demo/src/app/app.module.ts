@@ -2,7 +2,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
-import { SuiSidebarModule } from "ng2-semantic-ui";
+import { SuiSidebarModule, SuiPopupModule } from "ng2-semantic-ui";
 
 import { DemoRoutingModule } from "./app.routing";
 import { DemoComponentsModule } from "./components/demo-components.module";
@@ -17,6 +17,7 @@ import { AppComponent } from "./app.component";
         CommonModule,
 
         SuiSidebarModule,
+        SuiPopupModule,
 
         DemoRoutingModule,
         DemoComponentsModule,

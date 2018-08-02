@@ -4,4 +4,4 @@ export {
     LookupFn,
     FilterFn,
     IResultContext
-} from "./index";
+} from "./internal";

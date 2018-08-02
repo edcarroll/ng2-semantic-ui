@@ -2,7 +2,7 @@ import {
     Directive, Input, HostBinding, EventEmitter, Output, AfterContentInit, ContentChild,
     ElementRef, HostListener, QueryList, ContentChildren
 } from "@angular/core";
-import { HandledEvent, KeyCode, IFocusEvent } from "../../../misc/util/index";
+import { HandledEvent, KeyCode, IFocusEvent } from "../../../misc/util/internal";
 import { DropdownService, DropdownAutoCloseType } from "../services/dropdown.service";
 import { SuiDropdownMenu } from "./dropdown-menu";
 

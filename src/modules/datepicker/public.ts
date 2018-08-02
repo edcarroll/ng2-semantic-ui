@@ -1,4 +1,4 @@
 export {
     SuiDatepickerModule,
     DatepickerMode
-} from "./index";
+} from "./internal";

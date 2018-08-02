@@ -18,8 +18,9 @@
       "dom"
     ],
     "paths": {
-      "ng2-semantic-ui": ["src/public"],
-      "ng2-semantic-ui/locales": ["src/behaviors/localization/locales"]
+      "ng2-semantic-ui": ["dist"],
+      "ng2-semantic-ui/locales": ["dist/locales"],
+      "ng2-semantic-ui/*": ["dist/*"],
     }
   }
 }

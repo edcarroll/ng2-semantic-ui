@@ -1,6 +1,9 @@
-export * from "./behaviors/index";
-export * from "./collections/index";
-export * from "./modules/index";
+import { NgModule } from "@angular/core";
 
-export * from "./misc/index";
-export * from "./sui.module";
+export * from "./behaviors/internal";
+export * from "./collections/internal";
+export * from "./modules/internal";
+
+export * from "./misc/internal";
+
+export { SuiModule } from "./sui.module";

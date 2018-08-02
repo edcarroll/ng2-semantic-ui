@@ -6,7 +6,7 @@ export {
     ITemplatePopupConfig,
     ITemplatePopupContext,
     PopupTrigger
-} from "./index";
+} from "./internal";
 
-import { PositioningPlacement } from "../../misc/util/index";
+import { PositioningPlacement } from "../../misc/util/internal";
 export { PositioningPlacement as PopupPlacement };
