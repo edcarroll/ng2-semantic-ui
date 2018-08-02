@@ -144,7 +144,8 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit, 
         this.menuAutoSelectFirst = false;
         this.menuSelectedItemClass = "selected";
 
-        this._documentKeyDownListener = renderer.listen("document", "keydown", (e:KeyboardEvent) => this.onDocumentKeyDown(e));
+        this._documentKeyDownListener =
+            renderer.listen(element.nativeElement.parentElement, "keydown", (e:KeyboardEvent) => this.onDocumentKeyDown(e));
     }
 
     @HostListener("click", ["$event"])

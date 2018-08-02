@@ -243,7 +243,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
         this.transitionDuration = 200;
 
         this.onTouched = new EventEmitter<void>();
-        this._documentKeyDownListener = renderer.listen("document", "keydown", (e:KeyboardEvent) => this.onDocumentKeyDown(e));
+        this._documentKeyDownListener = renderer.listen(_element.nativeElement, "keydown", (e:KeyboardEvent) => this.onDocumentKeyDown(e));
 
         this.hasClasses = true;
     }
