@@ -249,6 +249,7 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
         this._menu.service = this.dropdownService;
         // We manually specify the menu items to the menu because the @ContentChildren doesn't pick up our dynamically rendered items.
         this._menu.items = this._renderedOptions;
+        this._menu.parentElement = this._element;
 
         if (this._manualSearch) {
             this.isSearchable = true;
