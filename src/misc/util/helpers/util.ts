@@ -84,10 +84,10 @@ export const Util = {
                 return object as any as U;
             }
 
-            let recursed:IRecursiveObject | undefined;
+            let recursed = object as any as IRecursiveObject;
 
             for (let i = 0, p = path.split("."), len = p.length; i < len; i++) {
-                recursed = (object as any as IRecursiveObject)[p[i]];
+                recursed = (recursed as any as IRecursiveObject)[p[i]];
             }
 
             return recursed as any as U;
