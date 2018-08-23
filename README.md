@@ -40,8 +40,8 @@ See the [Documentation](https://edcarroll.github.io/ng2-semantic-ui) for install
 
 ## Dependencies
 
-* [Angular](https://angular.io) (^4.3.1)
-* [Semantic UI CSS](http://semantic-ui.com/) (^2.2.13) (jQuery is **not** required)
+* [Angular](https://angular.io) (^6.0.0)
+* [Semantic UI CSS](http://semantic-ui.com/) (^2.3.1) (jQuery is **not** required)
 
 ## Component Support
 
