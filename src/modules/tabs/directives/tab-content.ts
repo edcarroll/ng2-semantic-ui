@@ -5,7 +5,7 @@ import { HostBinding, Directive, Input } from "@angular/core";
 })
 export class SuiTabContent {
     @HostBinding("class.tab")
-    private _contentClasses:boolean;
+    public readonly hasClasses:boolean;
 
     @Input("suiTabContent")
     public id:string;
@@ -16,6 +16,6 @@ export class SuiTabContent {
     constructor() {
         this.isActive = false;
 
-        this._contentClasses = true;
+        this.hasClasses = true;
     }
 }

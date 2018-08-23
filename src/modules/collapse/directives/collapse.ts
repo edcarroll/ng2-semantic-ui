@@ -6,16 +6,24 @@ import { Directive, ElementRef, Input, HostBinding, Renderer2 } from "@angular/c
 export class SuiCollapse {
     // Set when the collapse is open, and not animating.
     @HostBinding("class.expanded")
+    public get isExpanded():boolean {
+        return this._isExpanded;
+    }
+
     private _isExpanded:boolean;
 
     // Set when the collapse is closed, and not animating.
     @HostBinding("class.collapsed")
-    private get _isCollapsed():boolean {
-        return !this._isExpanded && !this._isCollapsing;
+    public get isCollapsed():boolean {
+        return !this.isExpanded && !this.isCollapsing;
     }
 
     // Set when the collapse is animating.
     @HostBinding("class.collapsing")
+    public get isCollapsing():boolean {
+        return this._isCollapsing;
+    }
+
     private _isCollapsing:boolean;
 
     // Flag that is initially true, to make the 1st animation instantaneous.

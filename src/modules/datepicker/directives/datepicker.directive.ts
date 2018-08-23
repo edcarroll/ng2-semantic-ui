@@ -6,9 +6,9 @@ import { AbstractControl, ValidationErrors } from "@angular/forms";
 import {
     ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor,
     ICustomValidatorHost, customValidatorFactory, CustomValidator, PositioningPlacement, SuiComponentFactory, KeyCode
-} from "../../../misc/util/index";
-import { IDatepickerLocaleValues, RecursivePartial, SuiLocalizationService } from "../../../behaviors/localization/index";
-import { SuiPopupComponentController, PopupAfterOpen, PopupConfig, PopupTrigger } from "../../popup/index";
+} from "../../../misc/util/internal";
+import { IDatepickerLocaleValues, RecursivePartial, SuiLocalizationService } from "../../../behaviors/localization/internal";
+import { SuiPopupComponentController, PopupAfterOpen, PopupConfig, PopupTrigger } from "../../popup/internal";
 import { SuiDatepicker, DatepickerMode } from "../components/datepicker";
 import { CalendarConfig, YearConfig, MonthConfig, DatetimeConfig, TimeConfig, DateConfig } from "../classes/calendar-config";
 
@@ -104,7 +104,7 @@ export class SuiDatepickerDirective
     @Output("pickerValidatorChange")
     public onValidatorChange:EventEmitter<void>;
 
-    constructor(public renderer:Renderer2,
+    constructor(renderer:Renderer2,
                 element:ElementRef,
                 componentFactory:SuiComponentFactory,
                 public localizationService:SuiLocalizationService) {
@@ -117,8 +117,8 @@ export class SuiDatepickerDirective
         }));
 
         // This ensures the popup is drawn correctly (i.e. no border).
-        this.renderer.addClass(this.popup.elementRef.nativeElement, "ui");
-        this.renderer.addClass(this.popup.elementRef.nativeElement, "calendar");
+        this._renderer.addClass(this.popup.elementRef.nativeElement, "ui");
+        this._renderer.addClass(this.popup.elementRef.nativeElement, "calendar");
 
         this.onLocaleUpdate();
         this.localizationService.onLanguageUpdate.subscribe(() => this.onLocaleUpdate());

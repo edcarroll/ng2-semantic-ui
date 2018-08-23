@@ -2,8 +2,8 @@ import {
     Directive, ContentChild, forwardRef, Renderer2, ElementRef, AfterContentInit,
     ContentChildren, QueryList, Input, HostListener, ChangeDetectorRef, OnDestroy
 } from "@angular/core";
-import { Transition, SuiTransition, TransitionController, TransitionDirection } from "../../transition/index";
-import { HandledEvent, IAugmentedElement, KeyCode } from "../../../misc/util/index";
+import { Transition, SuiTransition, TransitionController, TransitionDirection } from "../../transition/internal";
+import { HandledEvent, IAugmentedElement, KeyCode } from "../../../misc/util/internal";
 import { DropdownService, DropdownAutoCloseType } from "../services/dropdown.service";
 // Polyfill for IE
 import "element-closest";
@@ -100,6 +100,12 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit, 
         });
     }
 
+    public set parentElement(value:ElementRef) {
+        this._parentKeyDownListener = this._renderer
+            .listen(value.nativeElement, "keydown", (e:KeyboardEvent) =>
+                this.onParentKeyDown(e));
+    }
+
     @ContentChildren(SuiDropdownMenuItem)
     private _itemsQueryInternal:QueryList<SuiDropdownMenuItem>;
 
@@ -129,9 +135,9 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit, 
     @Input()
     public menuSelectedItemClass:string;
 
-    private _documentKeyDownListener:() => void;
+    private _parentKeyDownListener:() => void;
 
-    constructor(renderer:Renderer2, public element:ElementRef, changeDetector:ChangeDetectorRef) {
+    constructor(renderer:Renderer2, element:ElementRef, changeDetector:ChangeDetectorRef) {
         super(renderer, element, changeDetector);
 
         // Initialise transition functionality.
@@ -144,7 +150,8 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit, 
         this.menuAutoSelectFirst = false;
         this.menuSelectedItemClass = "selected";
 
-        this._documentKeyDownListener = renderer.listen("document", "keydown", (e:KeyboardEvent) => this.onDocumentKeyDown(e));
+        // In case the dropdown menu is destroyed before it has a chance to be fully initialised.
+        this._parentKeyDownListener = () => {};
     }
 
     @HostListener("click", ["$event"])
@@ -154,7 +161,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit, 
 
             if (this._service.autoCloseMode === DropdownAutoCloseType.ItemClick) {
                 const target = e.target as IAugmentedElement;
-                if (this.element.nativeElement.contains(target.closest(".item")) && !/input|textarea/i.test(target.tagName)) {
+                if (this._element.nativeElement.contains(target.closest(".item")) && !/input|textarea/i.test(target.tagName)) {
                     // Once an item is selected, we can close the entire dropdown.
                     this._service.setOpenState(false, true);
                 }
@@ -162,9 +169,9 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit, 
         }
     }
 
-    public onDocumentKeyDown(e:KeyboardEvent):void {
+    public onParentKeyDown(e:KeyboardEvent):void {
         // Only the root dropdown (i.e. not nested dropdowns) is responsible for keeping track of the currently selected item.
-        if (this._service.isOpen && !this._service.isNested) {
+        if (this._service && this._service.isOpen && !this._service.isNested) {
             // Stop document events like scrolling while open.
             const target = e.target as Element;
             if (!/input/i.test(target.tagName) &&
@@ -288,7 +295,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit, 
     }
 
     public scrollToItem(item:SuiDropdownMenuItem):void {
-        const menu:Element = this.element.nativeElement;
+        const menu:Element = this._element.nativeElement;
         const selectedRect:ClientRect = item.element.nativeElement.getBoundingClientRect();
 
         const menuRect = menu.getBoundingClientRect();
@@ -317,6 +324,6 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit, 
     }
 
     public ngOnDestroy():void {
-        this._documentKeyDownListener();
+        this._parentKeyDownListener();
     }
 }

@@ -10,4 +10,4 @@ export {
     ComponentModalConfig,
     ModalTemplate,
     ModalSize
-} from "./index";
+} from "./internal";

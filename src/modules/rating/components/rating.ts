@@ -1,5 +1,5 @@
 import { Component, Directive, Input, Output, EventEmitter, HostBinding, HostListener } from "@angular/core";
-import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor } from "../../../misc/util/index";
+import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor } from "../../../misc/util/internal";
 
 @Component({
     selector: "sui-rating",
@@ -21,7 +21,7 @@ import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccess
 export class SuiRating implements ICustomValueAccessorHost<number> {
     @HostBinding("class.ui")
     @HostBinding("class.rating")
-    private _ratingClasses:boolean;
+    public readonly hasClasses:boolean;
 
     public value:number;
 
@@ -57,7 +57,7 @@ export class SuiRating implements ICustomValueAccessorHost<number> {
         this.maximum = 5;
         this.isReadonly = false;
 
-        this._ratingClasses = true;
+        this.hasClasses = true;
     }
 
     public onClick(i:number):void {

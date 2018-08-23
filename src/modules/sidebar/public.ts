@@ -2,4 +2,4 @@ export {
     SuiSidebarModule,
     SidebarDirection,
     SidebarTransition
-} from "./index";
+} from "./internal";

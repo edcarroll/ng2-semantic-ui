@@ -4,4 +4,4 @@ export {
     Transition,
     TransitionDirection,
     TransitionController
-} from "./index";
+} from "./internal";

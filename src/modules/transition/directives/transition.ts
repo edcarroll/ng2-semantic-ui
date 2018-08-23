@@ -34,7 +34,7 @@ export class SuiTransition {
         return false;
     }
 
-    constructor(private _renderer:Renderer2, private _element:ElementRef, private _changeDetector:ChangeDetectorRef) {}
+    constructor(protected _renderer:Renderer2, protected _element:ElementRef, private _changeDetector:ChangeDetectorRef) {}
 
     // Initialises the controller with the injected renderer and elementRef.
     public setTransitionController(transitionController:TransitionController):void {

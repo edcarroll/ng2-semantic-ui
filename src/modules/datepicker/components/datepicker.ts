@@ -1,7 +1,7 @@
 import { Component, HostBinding, HostListener } from "@angular/core";
 import { CalendarService } from "./../services/calendar.service";
 import { DatetimeConfig } from "../classes/calendar-config";
-import { SuiLocalizationService } from "../../../behaviors/localization/index";
+import { SuiLocalizationService } from "../../../behaviors/localization/internal";
 
 export type DatepickerMode = "year" | "month" | "date" | "datetime" | "time";
 
@@ -34,14 +34,14 @@ export class SuiDatepicker {
     @HostBinding("class.ui")
     @HostBinding("class.active")
     @HostBinding("class.calendar")
-    private _calendarClasses:boolean;
+    public readonly hasClasses:boolean;
 
     public service:CalendarService;
 
     constructor(localizationService:SuiLocalizationService) {
         this.service = new CalendarService(new DatetimeConfig(), localizationService.get().datepicker);
 
-        this._calendarClasses = true;
+        this.hasClasses = true;
     }
 
     @HostListener("mousedown", ["$event"])

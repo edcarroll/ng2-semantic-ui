@@ -1,4 +1,4 @@
 export {
     SuiMessageModule,
     IMessage
-} from "./index";
+} from "./internal";

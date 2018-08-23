@@ -1,8 +1,8 @@
 
-import { Directive, Host, Input, ElementRef, HostBinding, HostListener } from "@angular/core";
-import { DateUtil, DatePrecision } from "../../../misc/util/index";
-import { SuiLocalizationService } from "../../../behaviors/localization/index";
-import { PopupTrigger } from "../../popup/index";
+import { Directive, Host, Input, ElementRef, HostBinding, HostListener, Renderer2 } from "@angular/core";
+import { DateUtil, DatePrecision } from "../../../misc/util/internal";
+import { SuiLocalizationService } from "../../../behaviors/localization/internal";
+import { PopupTrigger } from "../../popup/internal";
 import { SuiDatepickerDirective, SuiDatepickerDirectiveValueAccessor } from "./datepicker.directive";
 import { InternalDateParser, DateParser } from "../classes/date-parser";
 import * as bowser from "bowser";
@@ -90,8 +90,10 @@ export class SuiDatepickerInputDirective {
 
     constructor(@Host() public datepicker:SuiDatepickerDirective,
                 @Host() public valueAccessor:SuiDatepickerDirectiveValueAccessor,
-                public element:ElementRef,
+                private _renderer:Renderer2,
+                private _element:ElementRef,
                 localizationService:SuiLocalizationService) {
+
         this.useNativeOnMobile = true;
         this.fallbackActive = false;
 
@@ -107,7 +109,7 @@ export class SuiDatepickerInputDirective {
         // Only update the current value if it is different to what it's being updated to.
         // This is so that the editing position isn't changed when manually typing the date.
         if (!this._lastUpdateTyped) {
-            this.datepicker.renderer.setProperty(this.element.nativeElement, "value", value || "");
+            this._renderer.setProperty(this._element.nativeElement, "value", value || "");
         }
 
         this._lastUpdateTyped = false;

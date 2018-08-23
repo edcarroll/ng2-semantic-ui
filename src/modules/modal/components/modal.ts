@@ -2,8 +2,8 @@ import {
     Component, Input, OnInit, ViewChild, ElementRef, Renderer2,
     EventEmitter, Output, HostListener, ViewContainerRef, AfterViewInit
 } from "@angular/core";
-import { Util, IDynamicClasses, KeyCode, SuiComponentFactory } from "../../../misc/util/index";
-import { TransitionController, Transition, TransitionDirection } from "../../transition/index";
+import { Util, IDynamicClasses, KeyCode, SuiComponentFactory } from "../../../misc/util/internal";
+import { TransitionController, Transition, TransitionDirection } from "../../transition/internal";
 import { ModalControls, ModalResult } from "../classes/modal-controls";
 import { ModalConfig, ModalSize } from "../classes/modal-config";
 
@@ -275,7 +275,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
         e.stopPropagation();
     }
 
-    // Document listener is fine here because nobody will enough modals open.
+    // Document listener is fine here because nobody will have enough modals open.
     @HostListener("document:keyup", ["$event"])
     public onDocumentKeyUp(e:KeyboardEvent):void {
         if (e.keyCode === KeyCode.Escape) {
