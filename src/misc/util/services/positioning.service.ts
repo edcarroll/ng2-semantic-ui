@@ -114,6 +114,8 @@ export class PositioningService {
     private _popper:PopperInstance;
     private _popperState:Data;
     private _placement:PositioningPlacement;
+    private _hasArrow:boolean;
+    private _arrowSelector:string | undefined;
 
     public get placement():PositioningPlacement {
         return this._placement;
@@ -121,8 +123,13 @@ export class PositioningService {
 
     public set placement(placement:PositioningPlacement) {
         this._placement = placement;
-        this._popper.options.placement = placementToPopper(placement);
-        this.update();
+        if (this._popper) {
+            this._popper.options.placement = placementToPopper(placement);
+        }
+    }
+
+    public set hasArrow(hasArrow:boolean) {
+        this._hasArrow = hasArrow;
     }
 
     public get actualPlacement():PositioningPlacement {
@@ -141,7 +148,11 @@ export class PositioningService {
         this.anchor = anchor;
         this.subject = subject;
         this._placement = placement;
+        this._arrowSelector = arrowSelector;
+        this.init();
+    }
 
+    public init():void {
         const modifiers:PopperModifiers = {
             computeStyle: {
                 gpuAcceleration: false
@@ -151,19 +162,29 @@ export class PositioningService {
                 boundariesElement: document.body
             },
             arrow: {
-                element: arrowSelector
+                element: this._arrowSelector
+            },
+            offset: {
+                fn: (data:Popper.Data) => {
+                    if (this._hasArrow) {
+                        const offsets = this.calculateOffsets();
+                        data.offsets.popper.left += offsets.left;
+                        data.offsets.popper.top += offsets.top;
+                    }
+                    return data;
+                }
             }
         };
 
-        if (!arrowSelector) {
+        if (!this._arrowSelector) {
             delete modifiers.arrow;
         }
 
         this._popper = new Popper(
-            anchor.nativeElement,
-            subject.nativeElement,
+            this.anchor.nativeElement,
+            this.subject.nativeElement,
             {
-                placement: placementToPopper(placement),
+                placement: placementToPopper(this._placement),
                 modifiers,
                 onCreate: initial => this._popperState = initial,
                 onUpdate: update => this._popperState = update
@@ -177,4 +198,35 @@ export class PositioningService {
     public destroy():void {
         this._popper.destroy();
     }
+
+    private calculateOffsets():Popper.Offset {
+        let left = 0; let top = 0;
+
+        // To support correct positioning for all popup sizes we should calculate offset using em
+        const fontSize = parseFloat(window.getComputedStyle(this.subject.nativeElement).getPropertyValue("font-size"));
+        // The Semantic UI popup arrow width and height are 0.71428571em and the margin from the popup edge is 1em
+        const arrowCenter = (0.71428571 / 2 + 1) * fontSize;
+
+        if (this.anchor.nativeElement.offsetWidth <= arrowCenter * 2) {
+            const anchorCenterWidth = this.anchor.nativeElement.offsetWidth / 2;
+            if (this._placement === PositioningPlacement.TopLeft || this._placement === PositioningPlacement.BottomLeft) {
+                left = anchorCenterWidth - arrowCenter;
+            }
+            if (this._placement === PositioningPlacement.TopRight || this._placement === PositioningPlacement.BottomRight) {
+                left = arrowCenter - anchorCenterWidth;
+            }
+        }
+
+        if (this.anchor.nativeElement.offsetHeight <= arrowCenter * 2) {
+            const anchorCenterHeight = this.anchor.nativeElement.offsetHeight / 2;
+            if (this._placement === PositioningPlacement.LeftTop || this._placement === PositioningPlacement.RightTop) {
+                top = anchorCenterHeight - arrowCenter;
+            }
+            if (this._placement === PositioningPlacement.LeftBottom || this._placement === PositioningPlacement.RightBottom) {
+                top = arrowCenter - anchorCenterHeight;
+            }
+        }
+        return { top, left, width: 0, height: 0 };
+    }
+
 }

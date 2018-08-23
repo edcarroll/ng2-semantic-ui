@@ -31,6 +31,52 @@ const examplePlacementTemplate = `
 </div>
 `;
 
+const exampleWidthTemplate = `
+<ng-template let-popup #popupTemplate>
+<div class="content">
+  <div class="ui three column divided center aligned grid">
+    <div class="column">
+      <h4 class="ui header">Basic Plan</h4>
+      <p><b>2</b> projects, $10 a month</p>
+      <div class="ui button">Choose</div>
+    </div>
+    <div class="column">
+      <h4 class="ui header">Business Plan</h4>
+      <p><b>5</b> projects, $20 a month</p>
+      <div class="ui button">Choose</div>
+    </div>
+    <div class="column">
+      <h4 class="ui header">Premium Plan</h4>
+      <p><b>8</b> projects, $25 a month</p>
+      <div class="ui button">Choose</div>
+    </div>
+  </div>
+</div>
+</ng-template>
+
+<i class="circular heart icon link" suiPopup popupWidth="wide" 
+popupText="Hello. This is a wide pop-up which allows for lots of content with additional space. 
+You can fit a lot of words here and the paragraphs will be pretty wide."></i>
+<i class="circular heart icon link" suiPopup popupWidth="very wide" 
+popupText="Hello. This is a very wide pop-up which allows for lots of content with additional space. 
+You can fit a lot of words here and the paragraphs will be pretty wide."></i>
+<br/>
+<br/>
+<button class="ui icon button" suiPopup popupWidth="flowing" [popupTemplate]="popupTemplate" popupTrigger="outsideClick">
+    Show flowing popup
+</button>
+
+`;
+
+const exampleSizeTemplate = `
+<i class="circular star icon link" suiPopup popupSize="mini" popupText="Hello, this is a mini popup"></i>
+<i class="circular star icon link" suiPopup popupSize="tiny" popupText="Hello, this is a tiny popup"></i>
+<i class="circular star icon link" suiPopup popupSize="small" popupText="Hello, this is a small popup"></i>
+<i class="circular star icon link" suiPopup popupText="Hello, this is a standard popup"></i>
+<i class="circular star icon link" suiPopup popupSize="large" popupText="Hello, this is a large popup"></i>
+<i class="circular star icon link" suiPopup popupSize="huge" popupText="Hello, this is a huge popup"></i>
+`;
+
 @Component({
     selector: "demo-page-popup",
     templateUrl: "./popup.page.html"
@@ -55,6 +101,18 @@ export class PopupPage {
                     type: "PopupPlacement",
                     description: "Sets the placement of the popup relative to the anchor.",
                     defaultValue: "top left"
+                },
+                {
+                    name: "popupSize",
+                    type: "PopupSize",
+                    description: "Sets the size of the popup. Available options are: <code>mini</code>, " +
+                    "<code>tiny</code>, <code>small</code>, <code>large</code> & <code>huge</code>"
+                },
+                {
+                    name: "popupWidth",
+                    type: "PopupWidth",
+                    description: "Sets the width of the popup. Available options are: <code>wide</code>, " +
+                    "<code>very wide</code>, <code>flowing</code>"
                 },
                 {
                     name: "popupInverted",
@@ -128,6 +186,8 @@ export class PopupPage {
     public exampleStandardTemplate:string = exampleStandardTemplate;
     public exampleTemplateTemplate:string = exampleTemplateTemplate;
     public examplePlacementTemplate:string = examplePlacementTemplate;
+    public exampleSizeTemplate:string = exampleSizeTemplate;
+    public exampleWidthTemplate:string = exampleWidthTemplate;
 
     public placements:string[] = [
         "top left",
@@ -207,4 +267,25 @@ export class PopupExamplePlacement {
     public position:string = "right bottom";
 }
 
-export const PopupPageComponents = [PopupPage, PopupExampleStandard, PopupExampleTemplate, PopupExamplePlacement];
+@Component({
+    selector: "example-popup-size",
+    template: exampleSizeTemplate,
+    providers: [SuiPopupConfig]
+})
+export class PopupExampleSize {}
+
+@Component({
+    selector: "example-popup-width",
+    template: exampleWidthTemplate,
+    providers: [SuiPopupConfig]
+})
+export class PopupExampleWidth {}
+
+export const PopupPageComponents = [
+    PopupPage,
+    PopupExampleStandard,
+    PopupExampleTemplate,
+    PopupExamplePlacement,
+    PopupExampleSize,
+    PopupExampleWidth
+];
