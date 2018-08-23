@@ -34,6 +34,16 @@ export class SuiPopupDirective<T> extends SuiPopupTemplateController<T> {
     }
 
     @Input()
+    public set popupInline(inline:boolean) {
+        this.popup.config.isInline = Util.DOM.parseBooleanAttribute(inline);
+    }
+
+    @Input()
+    public set popupFlowing(flowing:boolean) {
+        this.popup.config.isFlowing = Util.DOM.parseBooleanAttribute(flowing);
+    }
+
+    @Input()
     public set popupTransition(transition:string) {
         this.popup.config.transition = transition;
     }
