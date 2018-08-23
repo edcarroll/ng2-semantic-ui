@@ -1,5 +1,5 @@
 import { Component, HostBinding, Renderer2, ElementRef, ChangeDetectorRef } from "@angular/core";
-import { SuiDimmer } from "../../dimmer";
+import { SuiDimmer } from "../../dimmer/internal";
 
 @Component({
     selector: "sui-modal-dimmer",
@@ -16,11 +16,11 @@ export class SuiModalDimmer extends SuiDimmer {
 
     @HostBinding("class.page")
     @HostBinding("class.modals")
-    private _modalsDimmerClasses:boolean;
+    public readonly hasClasses:boolean;
 
     constructor(renderer:Renderer2, element:ElementRef, changeDetector:ChangeDetectorRef) {
         super(renderer, element, changeDetector);
-        this._modalsDimmerClasses = true;
+        this.hasClasses = true;
         this.isClickable = false;
     }
 }
