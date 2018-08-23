@@ -171,7 +171,7 @@ export class SuiDropdownMenu extends SuiTransition implements AfterContentInit, 
 
     public onParentKeyDown(e:KeyboardEvent):void {
         // Only the root dropdown (i.e. not nested dropdowns) is responsible for keeping track of the currently selected item.
-        if (this._service.isOpen && !this._service.isNested) {
+        if (this._service && this._service.isOpen && !this._service.isNested) {
             // Stop document events like scrolling while open.
             const target = e.target as Element;
             if (!/input/i.test(target.tagName) &&
