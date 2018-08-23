@@ -44,12 +44,12 @@ export class SuiSidebarSibling {
     }
 
     @HostBinding("class.pusher")
-    private _siblingClasses:boolean;
+    public readonly hasClasses:boolean;
 
     constructor(private _renderer:Renderer2, private _element:ElementRef) {
         this.isDimmedWhenVisible = false;
 
-        this._siblingClasses = true;
+        this.hasClasses = true;
     }
 
     private updateTransform():void {

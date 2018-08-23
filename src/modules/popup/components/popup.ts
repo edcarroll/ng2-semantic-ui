@@ -1,6 +1,6 @@
 import { Component, ViewChild, ViewContainerRef, ElementRef, EventEmitter, HostListener, HostBinding } from "@angular/core";
-import { PositioningService, IDynamicClasses } from "../../../misc/util/index";
-import { TransitionController, TransitionDirection, Transition } from "../../transition/index";
+import { PositioningService, IDynamicClasses } from "../../../misc/util/internal";
+import { TransitionController, TransitionDirection, Transition } from "../../transition/internal";
 import { IPopup } from "../classes/popup-controller";
 import { TemplatePopupConfig } from "../classes/popup-template-controller";
 
@@ -113,6 +113,9 @@ export class SuiPopup implements IPopup {
         if (this.config.isBasic) {
             classes.basic = true;
         }
+        if (this.config.isFlowing) {
+            classes.flowing = true;
+        }
         if (this.config.size) {
             classes[this.config.size] = true;
         }
@@ -127,7 +130,7 @@ export class SuiPopup implements IPopup {
     public templateSibling:ViewContainerRef;
 
     @HostBinding("attr.tabindex")
-    private _tabindex:number;
+    public readonly tabindex:number;
 
     constructor(public elementRef:ElementRef) {
         this.transitionController = new TransitionController(false);
@@ -137,7 +140,7 @@ export class SuiPopup implements IPopup {
         this.onOpen = new EventEmitter<void>();
         this.onClose = new EventEmitter<void>();
 
-        this._tabindex = 0;
+        this.tabindex = 0;
     }
 
     public open():void {

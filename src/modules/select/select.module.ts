@@ -1,9 +1,9 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
-import { SuiDropdownModule } from "../dropdown/index";
-import { SuiUtilityModule } from "../../misc/util/index";
-import { SuiLocalizationModule } from "../../behaviors/localization/index";
+import { SuiDropdownModule } from "../dropdown/internal";
+import { SuiUtilityModule } from "../../misc/util/internal";
+import { SuiLocalizationModule } from "../../behaviors/localization/internal";
 import { SuiSelect, SuiSelectValueAccessor } from "./components/select";
 import { SuiSelectOption } from "./components/select-option";
 import { SuiSelectSearch } from "./directives/select-search";

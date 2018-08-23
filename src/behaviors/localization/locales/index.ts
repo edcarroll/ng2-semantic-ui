@@ -1,4 +1,4 @@
-import { RecursivePartial, ILocaleValues } from "../interfaces/values";
+import { RecursivePartial, ILocaleValues } from "./interfaces/values";
 
 import de from "./de";
 import enAU from "./en-AU";
@@ -28,3 +28,24 @@ export default {
     ge,
     nl
 };
+
+/*
+
+// Potentially cleaner format:
+
+export default [
+    ["de", de],
+    ["enAU", enAU],
+    ["enGB", enGB],
+    ["enUS", enUS],
+    ["es", es],
+    ["it", it],
+    ["fr", fr],
+    ["pt", pt],
+    ["ru", ru],
+    ["he", he],
+    ["ge", ge],
+    ["nl", nl]
+];
+
+*/

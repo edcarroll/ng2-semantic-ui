@@ -1,0 +1,16 @@
+{
+  "$schema": "../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../dist",
+  "deleteDestPath": false,
+  "whitelistedNonPeerDependencies": [
+    "bowser",
+    "date-fns",
+    "element-closest",
+    "extend",
+    "is-ua-webview",
+    "popper.js"
+  ],
+  "lib": {
+    "entryFile": "public.ts"
+  }
+}

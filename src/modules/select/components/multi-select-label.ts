@@ -2,8 +2,8 @@ import {
     Component, Input, HostBinding, HostListener, EventEmitter, ViewContainerRef,
     ViewChild, Renderer2, ElementRef, Output, ChangeDetectorRef, TemplateRef
 } from "@angular/core";
-import { SuiTransition, TransitionController, Transition, TransitionDirection } from "../../transition/index";
-import { HandledEvent, SuiComponentFactory } from "../../../misc/util/index";
+import { SuiTransition, TransitionController, Transition, TransitionDirection } from "../../transition/internal";
+import { HandledEvent, SuiComponentFactory } from "../../../misc/util/internal";
 import { IOptionContext } from "../classes/select-base";
 
 // See https://github.com/Microsoft/TypeScript/issues/13449.
@@ -22,7 +22,7 @@ export class SuiMultiSelectLabel<T> extends SuiTransition {
     // Doing it on the host enables use in menus etc.
     @HostBinding("class.ui")
     @HostBinding("class.label")
-    private _labelClasses:boolean;
+    public readonly hasClasses:boolean;
 
     private _transitionController:TransitionController;
 
@@ -72,7 +72,7 @@ export class SuiMultiSelectLabel<T> extends SuiTransition {
 
         this.onDeselected = new EventEmitter<T>();
 
-        this._labelClasses = true;
+        this.hasClasses = true;
 
         this._transitionController.animate(new Transition("scale", 100, TransitionDirection.In));
     }

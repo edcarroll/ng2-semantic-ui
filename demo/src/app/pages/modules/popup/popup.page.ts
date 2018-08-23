@@ -150,6 +150,18 @@ export class PopupPage {
                     defaultValue: "false"
                 },
                 {
+                    name: "popupFlowing",
+                    type: "boolean",
+                    description: "When <code>true</code> have no maximum width and continue to flow to fit its content.",
+                    defaultValue: "false"
+                },
+                {
+                    name: "popupInline",
+                    type: "boolean",
+                    description: "When <code>true</code> popup will be appended as a sibling of the popup trigger element.",
+                    defaultValue: "false"
+                },
+                {
                     name: "popupTransition",
                     type: "string",
                     description: "Sets the transition to use when displaying the popup.",

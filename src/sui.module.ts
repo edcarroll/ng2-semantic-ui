@@ -4,7 +4,7 @@ import { NgModule } from "@angular/core";
 import {
     SuiMessageModule,
     SuiPaginationModule
-} from "./collections";
+} from "./collections/internal";
 
 // Modules
 import {
@@ -23,17 +23,17 @@ import {
     SuiTabsModule,
     SuiSelectModule,
     SuiTransitionModule
-} from "./modules";
+} from "./modules/internal";
 
 // Behaviors
 import {
     SuiLocalizationModule
-} from "./behaviors";
+} from "./behaviors/internal";
 
 // Misc
 import {
     SuiUtilityModule
-} from "./misc";
+} from "./misc/internal";
 
 @NgModule({
     exports: [

@@ -1,5 +1,5 @@
 import { Directive, Input, ElementRef, TemplateRef, Renderer2 } from "@angular/core";
-import { ITemplateRefContext, Util, PositioningPlacement, SuiComponentFactory } from "../../../misc/util/index";
+import { ITemplateRefContext, Util, PositioningPlacement, SuiComponentFactory } from "../../../misc/util/internal";
 import { SuiPopup } from "../components/popup";
 import { PopupConfig, PopupTrigger } from "../classes/popup-config";
 import { SuiPopupConfig } from "../services/popup.service";
@@ -32,6 +32,16 @@ export class SuiPopupDirective<T> extends SuiPopupTemplateController<T> {
     @Input()
     public set popupBasic(basic:boolean) {
         this.popup.config.isBasic = Util.DOM.parseBooleanAttribute(basic);
+    }
+
+    @Input()
+    public set popupInline(inline:boolean) {
+        this.popup.config.isInline = Util.DOM.parseBooleanAttribute(inline);
+    }
+
+    @Input()
+    public set popupFlowing(flowing:boolean) {
+        this.popup.config.isFlowing = Util.DOM.parseBooleanAttribute(flowing);
     }
 
     @Input()

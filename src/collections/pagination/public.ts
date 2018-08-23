@@ -1,3 +1,3 @@
 export {
     SuiPaginationModule
-} from "./index";
+} from "./internal";

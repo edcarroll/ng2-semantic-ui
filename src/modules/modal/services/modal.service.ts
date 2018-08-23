@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { SuiComponentFactory } from "../../../misc/util/index";
+import { SuiComponentFactory } from "../../../misc/util/internal";
 import { ModalConfig, TemplateModalConfig, ComponentModalConfig } from "../classes/modal-config";
 import { SuiModal } from "../components/modal";
 import { Modal } from "../classes/modal-controls";

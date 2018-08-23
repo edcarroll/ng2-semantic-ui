@@ -16,11 +16,11 @@ export interface IApiEvent {
 
 export interface IApi {
     selector:string;
-    properties?:[IApiProperty];
-    events?:[IApiEvent];
+    properties?:IApiProperty[];
+    events?:IApiEvent[];
 }
 
-export type ApiDefinition = [IApi];
+export type ApiDefinition = IApi[];
 
 @Component({
     selector: "demo-api",
