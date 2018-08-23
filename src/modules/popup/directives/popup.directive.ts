@@ -5,7 +5,7 @@ import { PopupConfig, PopupTrigger } from "../classes/popup-config";
 import { SuiPopupConfig } from "../services/popup.service";
 import { SuiPopupController } from "../classes/popup-controller";
 import { SuiPopupTemplateController, ITemplatePopupContext, ITemplatePopupConfig } from "../classes/popup-template-controller";
-import { PopupSize, PopupWidth } from "../classes/popup-config.ts";
+import { PopupSize, PopupWidth } from "../classes/popup-config";
 
 const templateRef = TemplateRef;
 
