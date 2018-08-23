@@ -11,13 +11,11 @@ import { ModalConfig, ModalSize } from "../classes/modal-config";
     selector: "sui-modal",
     template: `
 <!-- Page dimmer for modal background. -->
-<sui-dimmer class="page"
-            [class.inverted]="isInverted"
-            [(isDimmed)]="dimBackground"
-            [isClickable]="false"
-            [transitionDuration]="transitionDuration"
-            [wrapContent]="false"
-            (click)="close()">
+<sui-modal-dimmer [ngClass]="{'top aligned': !isCentered}" 
+                  [class.inverted]="isInverted"
+                  [(isDimmed)]="dimBackground"
+                  [transitionDuration]="transitionDuration"
+                  (click)="close()">
 
     <!-- Modal component, with transition component attached -->
     <div class="ui modal"
@@ -25,7 +23,7 @@ import { ModalConfig, ModalSize } from "../classes/modal-config";
          [class.active]="transitionController?.isVisible"
          [class.fullscreen]="isFullScreen"
          [class.basic]="isBasic"
-         [class.scroll]="mustScroll"
+         [class.scrolling]="mustScroll"
          [class.inverted]="isInverted"
          [ngClass]="dynamicClasses"
          (click)="onClick($event)"
@@ -38,21 +36,9 @@ import { ModalConfig, ModalSize } from "../classes/modal-config";
         <!-- @ViewChild reference so we can insert elements beside this div. -->
         <div #templateSibling></div>
     </div>
-</sui-dimmer>
+</sui-modal-dimmer>
 `,
-    styles: [`
-.ui.dimmer {
-    overflow-y: auto;
-}
-
-/* avoid .scrolling as Semantic UI adds unwanted styles. */
-.scroll {
-    position: absolute !important;
-    margin-top: 3.5rem !important;
-    margin-bottom: 3.5rem !important;
-    top: 0;
-}
-`]
+    styles: [``]
 })
 export class SuiModal<T, U> implements OnInit, AfterViewInit {
     @Input()
@@ -92,6 +78,9 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     // Size used to display the modal.
     @Input()
     public size:ModalSize;
+
+    @Input()
+    public isCentered:boolean;
 
     // Whether the modal takes up the full width of the screen.
     private _isFullScreen:boolean;
@@ -206,12 +195,8 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
             templateElement.parentNode.removeChild(templateElement);
         }
 
-        // Update margin offset to center modal correctly on-screen.
         const element = this._modalElement.nativeElement as Element;
-        setTimeout(() => {
-            this._renderer.setStyle(element, "margin-top", `-${element.clientHeight / 2}px`);
-            this.updateScroll();
-        });
+        setTimeout(() => this.updateScroll());
 
         // Focus any element with [autofocus] attribute.
         const autoFocus = element.querySelector("[autofocus]") as HTMLElement | null;
@@ -232,6 +217,7 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
         this.isFullScreen = config.isFullScreen;
         this.isBasic = config.isBasic;
         this.isInverted = config.isInverted;
+        this.isCentered = config.isCentered;
 
         this.mustScroll = config.mustScroll;
 
@@ -270,12 +256,13 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
 
     // Decides whether the modal needs to reposition to allow scrolling.
     private updateScroll():void {
-        // Semantic UI modal margin is 3.5rem, which is relative to the global font size, so for compatibility:
-        const fontSize = parseFloat(window.getComputedStyle(document.documentElement).getPropertyValue("font-size"));
-        const margin = fontSize * 3.5;
 
         // _mustAlwaysScroll works by stopping _mustScroll from being automatically updated, so it stays `true`.
         if (!this._mustAlwaysScroll && this._modalElement) {
+
+            // Semantic UI modal margin and dimmer padding are 1rem, which is relative to the global font size, so for compatibility:
+            const fontSize = parseFloat(window.getComputedStyle(document.documentElement).getPropertyValue("font-size"));
+            const margin = fontSize * 2;
             const element = this._modalElement.nativeElement as Element;
 
             // The modal must scroll if the window height is smaller than the modal height + both margins.

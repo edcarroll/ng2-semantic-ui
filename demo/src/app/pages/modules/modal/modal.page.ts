@@ -98,9 +98,16 @@ export class ModalPage {
                     defaultValue: "false"
                 },
                 {
+                    name: "isCentered",
+                    type: "boolean",
+                    description: "Whether or not the modal should be placed in the center of the page",
+                    defaultValue: "true"
+                },
+                {
                     name: "mustScroll",
                     type: "boolean",
-                    description: "Whether or not the modal should always display a scrollbar.",
+                    description: "Whether or not the modal should be always scrolling. " +
+                    "Should be used when the modal content is dynamic and can exceed the height of the browser",
                     defaultValue: "false"
                 },
                 {
