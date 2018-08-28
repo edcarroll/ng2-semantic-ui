@@ -42,7 +42,7 @@ export interface IResultContext<T> extends ITemplateRefContext<T> {
     styles: [`
 /* Ensures results div has margin. */
 :host {
-    display: inline-block;
+    display: block;
     outline: 0;
 }
 
