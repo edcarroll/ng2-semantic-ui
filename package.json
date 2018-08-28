@@ -39,7 +39,6 @@
     "build": "npm run lib:build && npm run demo:build",
     "build:prod": "npm run lib:build:prod && npm run demo:build:prod"
   },
-  "private": true,
   "dependencies": {},
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.7.0",
