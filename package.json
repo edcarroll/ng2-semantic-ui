@@ -1,6 +1,6 @@
 {
   "name": "ng2-semantic-ui",
-  "version": "0.10.0-alpha.4",
+  "version": "0.10.0-alpha.5",
   "description": "Angular Semantic UI Components",
   "repository": {
     "type": "git",
@@ -37,7 +37,8 @@
     "lint": "npm run lib:lint && npm run demo:lint",
     "test": "npm run lib:test",
     "build": "npm run lib:build && npm run demo:build",
-    "build:prod": "npm run lib:build:prod && npm run demo:build:prod"
+    "build:prod": "npm run lib:build:prod && npm run demo:build:prod",
+    "prepublishOnly": "npm run test && npm run lint && npm run build:prod"
   },
   "dependencies": {},
   "devDependencies": {
