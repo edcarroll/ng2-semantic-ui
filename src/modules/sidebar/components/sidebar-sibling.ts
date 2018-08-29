@@ -25,6 +25,9 @@ export class SuiSidebarSibling {
     }
 
     @Input()
+    public canCloseSidebar:boolean = true;
+
+    @Input()
     public isDimmedWhenVisible:boolean;
 
     @HostBinding("class.visible")
@@ -68,7 +71,7 @@ export class SuiSidebarSibling {
 
     @HostListener("click", ["$event"])
     public onClick(event:MouseEvent):void {
-        if (this.service.isVisible && !this.service.wasJustOpened) {
+        if (this.canCloseSidebar && this.service.isVisible && !this.service.wasJustOpened) {
             this.service.setVisibleState(false);
         }
     }
