@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { ApiDefinition } from "../../../components/api/api.component";
-import { SuiPopupConfig } from "ng2-semantic-ui";
+import { SuiPopupConfig } from "../../../../../../src";
 
 const exampleStandardTemplate = `
 <button class="ui green icon button" suiPopup popupHeader="Example" popupText="This is an example popup">

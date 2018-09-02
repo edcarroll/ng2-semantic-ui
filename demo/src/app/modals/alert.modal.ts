@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { SuiModal, ComponentModalConfig, ModalSize } from "ng2-semantic-ui";
+import { Modal, ComponentModalConfig, ModalSize } from "../../../../src";
 
 interface IAlertModalContext {
     message:string;
@@ -19,7 +19,7 @@ interface IAlertModalContext {
 `
 })
 export class AlertModalComponent {
-    constructor(public modal:SuiModal<IAlertModalContext, void, void>) {}
+    constructor(public modal:Modal<IAlertModalContext, void, void>) {}
 }
 
 export class AlertModal extends ComponentModalConfig<IAlertModalContext, void, void> {
