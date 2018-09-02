@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from "@angular/core";
-import { SuiLocalizationService } from "ng2-semantic-ui";
-import locales from "ng2-semantic-ui/locales";
+import { SuiLocalizationService } from "../../../../../../src";
+import locales from "../../../../../../src/behaviors/localization/locales";
 
 const exampleTemplate = `
 <div class="ui segments">

@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { SuiTransition, Transition, TransitionDirection, TransitionController } from "ng2-semantic-ui";
+import { SuiTransition, Transition, TransitionDirection, TransitionController } from "../../../../../../src";
 import { ApiDefinition } from "../../../components/api/api.component";
 
 const exampleStandardTemplate = `
