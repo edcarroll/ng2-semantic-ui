@@ -91,6 +91,18 @@ const exampleVariationsTemplate = `
 </div>
 `;
 
+const exampleClearableTemplate = `
+<sui-select class="selection"
+            [(ngModel)]="selectedOption"
+            [options]="filters"
+            [isClearable]="true"
+            #select>
+    <sui-select-option *ngFor="let option of select.filteredOptions"
+                       [value]="option">
+    </sui-select-option>
+</sui-select>
+`;
+
 const exampleInMenuSearchTemplate = `
 <sui-multi-select [(ngModel)]="selected"
                   [options]="options"
@@ -219,6 +231,12 @@ export class SelectPage {
                     name: "isSearchable",
                     type: "boolean",
                     description: "Sets whether the multi select is searchable.",
+                    defaultValue: "false"
+                },
+                {
+                    name: "isСlearable",
+                    type: "boolean",
+                    description: "Sets whether the select is clearable.",
                     defaultValue: "false"
                 },
                 {
@@ -408,6 +426,7 @@ export class SelectPage {
     ];
     public exampleStandardTemplate:string = exampleStandardTemplate;
     public exampleVariationsTemplate:string = exampleVariationsTemplate;
+    public exampleClearableTemplate:string = exampleClearableTemplate;
     public exampleInMenuSearchTemplate:string = exampleInMenuSearchTemplate;
     public exampleTemplateTemplate:string = exampleTemplateTemplate;
     public formatterCode:string = `
@@ -469,6 +488,15 @@ export class SelectExampleVariations {
 }
 
 @Component({
+    selector: "example-clearable-select",
+    template: exampleClearableTemplate
+})
+export class SelectClearableExample {
+    public selectedOption:string;
+    public filters:string[] = ["Important", "Announcement", "Discussion"];
+}
+
+@Component({
     selector: "example-select-in-menu-search",
     template: exampleInMenuSearchTemplate
 })
@@ -520,6 +548,7 @@ export const SelectPageComponents = [
 
     SelectExampleStandard,
     SelectExampleVariations,
+    SelectClearableExample,
     SelectExampleInMenuSearch,
     SelectExampleTemplate,
     SelectExampleLookupSearch

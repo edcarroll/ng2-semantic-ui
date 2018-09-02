@@ -1,5 +1,5 @@
 import { Component, ViewContainerRef, ViewChild, Output, EventEmitter, ElementRef, Directive, Input } from "@angular/core";
-import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor } from "../../../misc/util/internal";
+import { ICustomValueAccessorHost, customValueAccessorFactory, CustomValueAccessor, HandledEvent } from "../../../misc/util/internal";
 import { SuiLocalizationService } from "../../../behaviors/localization/internal";
 import { SuiSelectBase } from "../classes/select-base";
 import { SuiSelectOption } from "./select-option";
@@ -20,7 +20,8 @@ import { SuiSelectOption } from "./select-option";
     <span *ngIf="!optionTemplate && selectedOption != undefined" [innerHTML]="configuredFormatter(selectedOption)"></span>
 </div>
 <!-- Dropdown icon -->
-<i class="{{ icon }} icon" (click)="onCaretClick($event)"></i>
+<i *ngIf="selectedOption && !isSearching && isClearable" class="remove icon deselect" (click)="onRemoveClick($event)"></i>
+<i *ngIf="!selectedOption || !isClearable" class="{{ icon }} icon" (click)="onCaretClick($event)"></i>
 <!-- Select dropdown menu -->
 <div class="menu"
      suiDropdownMenu
@@ -33,7 +34,31 @@ import { SuiSelectOption } from "./select-option";
         {{ localeValues.noResultsMessage }}
     </div>
 </div>
-`
+`,
+    styles: [`
+        :host .remove.icon.deselect {
+            position: absolute;
+            width: auto;
+            height: auto;
+            line-height: 1.21428571em;
+            top: .78571429em;
+            right: 1em;
+            margin: -.78571429em;
+            opacity: .6;
+            font-size: 1.07142857em;
+            padding: .6em;
+            -webkit-transition: opacity .1s ease;
+            transition: opacity .1s ease;
+            z-index: 3;
+        }
+        :host .remove.icon.deselect.larger {
+            padding: .91666667em;
+            font-size: .85714286em;
+        }
+        :host .remove.icon.deselect:hover {
+            opacity: 1;
+        }
+    `]
 })
 export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValueAccessorHost<U> {
     public selectedOption?:T;
@@ -57,10 +82,23 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValue
         this._placeholder = placeholder;
     }
 
+    @Input()
+    public isClearable:boolean;
+
     constructor(element:ElementRef, localizationService:SuiLocalizationService) {
         super(element, localizationService);
 
+        this.isClearable = false;
         this.selectedOptionChange = new EventEmitter<U>();
+    }
+
+    public onRemoveClick(e:HandledEvent):void {
+        if (!e.eventHandled) {
+            e.eventHandled = true;
+            this.selectedOption = undefined;
+            this.selectedOptionChange.emit(undefined);
+            this._renderedOptions.forEach(o => o.isActive = false);
+        }
     }
 
     protected optionsUpdateHook():void {
