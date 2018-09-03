@@ -60,6 +60,8 @@ export class SearchService<T, U> {
     }
 
     private _query:string;
+    // Allows the query to be empty when the options change.
+    public resetQueryOnChange:boolean;
     // Allows the empty query to produce results.
     public allowEmptyQuery:boolean;
     // How long to delay the search for when using updateQueryDelayed. Stored in ms.
@@ -99,6 +101,8 @@ export class SearchService<T, U> {
 
         // Set default values and reset.
         this.allowEmptyQuery = allowEmptyQuery;
+        this._query = "";
+        this.resetQueryOnChange = true;
         this.searchDelay = 0;
         this.reset();
     }
@@ -203,6 +207,10 @@ export class SearchService<T, U> {
         this._results = [];
         this._resultsCache = {};
         this._isSearching = false;
-        this.updateQuery("");
+        if (this.resetQueryOnChange || !this.query) {
+            this.updateQuery("");
+        } else {
+            this.updateQuery(this.query);
+        }
     }
 }

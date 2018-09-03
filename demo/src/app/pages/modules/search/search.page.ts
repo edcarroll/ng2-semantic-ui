@@ -6,12 +6,14 @@ import { AlertModal } from "../../../modals/alert.modal";
 const exampleStandardTemplate = `
 <sui-search placeholder="Example Search..."
             [hasIcon]="hasIcon"
+            [allowEmptyQuery]="allowEmptyQuery"
             [options]="options"
             [searchDelay]="0"
             (resultSelected)="alertSelected($event)"></sui-search>
 
 <div class="ui segment">
     <sui-checkbox [(ngModel)]="hasIcon">Has icon?</sui-checkbox>
+    <sui-checkbox [(ngModel)]="allowEmptyQuery">Allow empty query?</sui-checkbox>
 </div>
 `;
 
@@ -55,6 +57,18 @@ export class SearchPage {
                     name: "hasIcon",
                     type: "boolean",
                     description: "Sets whether or not the search displays an icon.",
+                    defaultValue: "true"
+                },
+                {
+                    name: "allowEmptyQuery",
+                    type: "boolean",
+                    description: "Sets whether the search element display result with empty query.",
+                    defaultValue: "false"
+                },
+                {
+                    name: "resetQueryOnChange",
+                    type: "boolean",
+                    description: "Sets whether the query is reset if options change.",
                     defaultValue: "true"
                 },
                 {
@@ -165,6 +179,7 @@ export class SearchExampleStandard {
         "Yellow", "Zebra"];
 
     public hasIcon:boolean = true;
+    public allowEmptyQuery:boolean = true;
 
     public get options():string[] {
         return SearchExampleStandard.standardOptions;
