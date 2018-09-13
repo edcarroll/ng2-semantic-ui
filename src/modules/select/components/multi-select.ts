@@ -97,6 +97,17 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
         this._hasLabels = hasLabels;
     }
 
+    private _showCountText:string;
+
+    @Input()
+    public get showCountText():string {
+        return this._showCountText;
+    }
+
+    public set showCountText(showCountText:string) {
+        this._showCountText = showCountText;
+    }
+
     private _placeholder:string;
 
     @Input()
@@ -128,7 +139,8 @@ export class SuiMultiSelect<T, U> extends SuiSelectBase<T, U> implements ICustom
     public get selectedMessage():string {
         return this._localizationService.interpolate(
             this.localeValues.multi.selectedMessage,
-            [["count", this.selectedOptions.length.toString()]]);
+            [["count", this.selectedOptions.length.toString() === "0" && this._showCountText ?
+            this._showCountText : this.selectedOptions.length.toString()]]);
     }
 
     @HostBinding("class.multiple")
