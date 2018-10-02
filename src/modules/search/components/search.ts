@@ -55,6 +55,7 @@ export interface IResultContext<T> extends ITemplateRefContext<T> {
 export class SuiSearch<T> implements AfterViewInit {
     public dropdownService:DropdownService;
     public searchService:SearchService<T, T>;
+    private _inputValue:any = false;
 
     @ViewChild(SuiDropdownMenu)
     private _menu:SuiDropdownMenu;
@@ -89,6 +90,12 @@ export class SuiSearch<T> implements AfterViewInit {
         this._placeholder = placeholder;
     }
 
+    // Sets the input value text without triggering a search.
+    @Input()
+    public set inputValue(query:string) {
+        this._inputValue = (query == '' || query == null)?false:query;
+    }
+
     private _localeValues:ISearchLocaleValues;
 
     public localeOverrides:RecursivePartial<ISearchLocaleValues>;
@@ -98,10 +105,16 @@ export class SuiSearch<T> implements AfterViewInit {
     }
 
     public get query():string {
-        return this.searchService.query;
+        if(this._inputValue){
+          return this._inputValue;
+        }
+        else{
+          return this.searchService.query;
+        }
     }
 
     public set query(query:string) {
+        this._inputValue = false;
         this.selectedResult = undefined;
         // Initialise a delayed search.
         this.searchService.updateQueryDelayed(query, () =>
