@@ -108,7 +108,7 @@ export class SuiSelect<T, U> extends SuiSelectBase<T, U> implements ICustomValue
                 this.drawSelectedOption();
             }
             if (this.selectedOption == undefined) {
-                if (this.valueField && this.searchService.hasItemLookup) {
+                if (this.searchService.hasItemLookup) {
                     // If the search service has a selected lookup function, make use of that to load the initial value.
                     this.searchService
                         .initialLookup(value)
