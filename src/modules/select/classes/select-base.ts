@@ -30,6 +30,9 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
     // Keep track of all of the subscriptions to the selected events on the rendered options.
     private _renderedSubscriptions:Subscription[];
 
+    // Method used to compare the type of property of the option used as the value.
+    private _compareWith:(o1:U, o2:U) => boolean;
+
     // Sets the Semantic UI classes on the host element.
     @HostBinding("class.ui")
     @HostBinding("class.dropdown")
@@ -129,6 +132,13 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
             this.searchService.optionsLookup = lookup;
 
             this.optionsUpdateHook();
+        }
+    }
+
+    @Input()
+    public set compareWith(fn:(o1:U, o2:U) => boolean) {
+        if (fn) {
+            this._compareWith = fn;
         }
     }
 
@@ -329,6 +339,9 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
     public abstract selectOption(option:T):void;
 
     protected findOption(options:T[], value:U):T | undefined {
+        if (this._compareWith) {
+            return options.find(o => this._compareWith(value, this.valueGetter(o)));
+        }
         // Tries to find an option in options array
         return options.find(o => value === this.valueGetter(o));
     }

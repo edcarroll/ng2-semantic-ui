@@ -198,6 +198,11 @@ export class SelectPage {
                                  "This must be defined as an arrow function in your class."
                 },
                 {
+                    name: "compareWith",
+                    type: "(o1:U, o2:U) => boolean",
+                    description: "A function to compare two value types, it will be called when searching for values in the options."
+                },
+                {
                     name: "labelField",
                     type: "string",
                     description: "Sets the property name that is used as a label for each option. " +
