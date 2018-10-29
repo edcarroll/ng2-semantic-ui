@@ -55,9 +55,11 @@ export abstract class SuiSelectBase<T, U> implements AfterContentInit, OnDestroy
         return this.isSearchable && !this.isSearchExternal;
     }
 
+    @Input()
+    public isLoading: boolean;
     @HostBinding("class.loading")
     public get isSearching():boolean {
-        return this.searchService.isSearching;
+        return this.isLoading || this.searchService.isSearching;
     }
 
     @ViewChild(SuiSelectSearch)
