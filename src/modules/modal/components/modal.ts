@@ -150,12 +150,9 @@ export class SuiModal<T, U> implements OnInit, AfterViewInit {
     // Parent element of modal before relocation to document body.
     private _originalContainer?:Element;
 
-    public get dynamicClasses():IDynamicClasses {
-        const classes:IDynamicClasses = {};
-        if (this.size) {
-            classes[this.size] = true;
-        }
-        return classes;
+    // Fix DOM slow motion 'recalculates styles' when types inside SuiModal
+    public get dynamicClasses():string {
+        return this.size || "";
     }
 
     constructor(private _renderer:Renderer2, private _element:ElementRef, private _componentFactory:SuiComponentFactory) {
