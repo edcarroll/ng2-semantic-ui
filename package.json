@@ -39,7 +39,14 @@
     "build": "npm run lib:build && npm run demo:build",
     "build:prod": "npm run lib:build:prod && npm run demo:build:prod"
   },
-  "dependencies": {},
+  "dependencies": {
+    "bowser": "^1.7.2",
+    "date-fns": "2.0.0-alpha.1",
+    "element-closest": "^2.0.2",
+    "extend": "^3.0.1",
+    "is-ua-webview": "^1.0.0",
+    "popper.js": "^1.14.0"
+  },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.7.0",
     "@angular-devkit/build-ng-packagr": "~0.7.0",
