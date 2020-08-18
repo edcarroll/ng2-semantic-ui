@@ -1,3 +1,4 @@
 export {
-    SuiProgressModule
+    SuiProgressModule,
+    SuiProgress
 } from "./internal";

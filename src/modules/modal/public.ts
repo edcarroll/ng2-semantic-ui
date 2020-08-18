@@ -9,5 +9,6 @@ export {
     TemplateModalConfig,
     ComponentModalConfig,
     ModalTemplate,
-    ModalSize
+    ModalSize,
+    SuiModal as SuiModalComponent
 } from "./internal";

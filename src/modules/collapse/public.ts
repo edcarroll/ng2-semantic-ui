@@ -1,3 +1,4 @@
 export {
-    SuiCollapseModule
+    SuiCollapseModule,
+    SuiCollapse
 } from "./internal";

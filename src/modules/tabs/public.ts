@@ -1,3 +1,6 @@
 export {
-    SuiTabsModule
+    SuiTabsModule,
+    SuiTabset,
+    SuiTabHeader,
+    SuiTabContent
 } from "./internal";

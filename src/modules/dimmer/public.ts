@@ -1,3 +1,4 @@
 export {
-    SuiDimmerModule
+    SuiDimmerModule,
+    SuiDimmer
 } from "./internal";

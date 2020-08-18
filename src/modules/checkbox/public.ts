@@ -1,3 +1,8 @@
 export {
-    SuiCheckboxModule
+    SuiCheckboxModule,
+    SuiCheckbox,
+    SuiCheckboxValueAccessor,
+    SuiRadio,
+    SuiRadioValueAccessor,
+    SuiRadioManager
 } from "./internal";

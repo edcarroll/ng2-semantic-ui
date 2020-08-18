@@ -1,3 +1,5 @@
 export {
-    SuiRatingModule
+    SuiRatingModule,
+    SuiRating,
+    SuiRatingValueAccessor
 } from "./internal";
