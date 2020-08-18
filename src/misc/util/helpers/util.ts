@@ -45,7 +45,7 @@ export const Util = {
         groupBy<T>(items:T[], field:keyof T):{ [name:string]:T[] } {
             return items.reduce<{ [name:string]:T[] }>(
                 (groups, i) => {
-                    const fieldValue = i[field].toString();
+                    const fieldValue = Object.prototype.toString.call(i[field]);
                     groups[fieldValue] = groups[fieldValue] || [];
                     groups[fieldValue].push(i);
                     return groups;

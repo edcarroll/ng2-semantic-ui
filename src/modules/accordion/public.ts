@@ -1,3 +1,5 @@
 export {
-    SuiAccordionModule
+    SuiAccordionModule,
+    SuiAccordion,
+    SuiAccordionPanel
 } from "./internal";

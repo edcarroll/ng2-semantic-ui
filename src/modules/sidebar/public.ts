@@ -1,5 +1,8 @@
 export {
     SuiSidebarModule,
     SidebarDirection,
-    SidebarTransition
+    SidebarTransition,
+    SuiSidebar,
+    SuiSidebarContainer,
+    SuiSidebarSibling
 } from "./internal";

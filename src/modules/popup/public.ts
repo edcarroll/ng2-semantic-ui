@@ -5,7 +5,11 @@ export {
     IPopupConfig,
     ITemplatePopupConfig,
     ITemplatePopupContext,
-    PopupTrigger
+    PopupTrigger,
+    SuiPopup,
+    SuiPopupController,
+    SuiPopupTemplateController,
+    SuiPopupDirective
 } from "./internal";
 
 import { PositioningPlacement } from "../../misc/util/internal";
