@@ -54,11 +54,11 @@ const exampleWidthTemplate = `
 </div>
 </ng-template>
 
-<i class="circular heart icon link" suiPopup popupWidth="wide" 
-popupText="Hello. This is a wide pop-up which allows for lots of content with additional space. 
+<i class="circular heart icon link" suiPopup popupWidth="wide"
+popupText="Hello. This is a wide pop-up which allows for lots of content with additional space.
 You can fit a lot of words here and the paragraphs will be pretty wide."></i>
-<i class="circular heart icon link" suiPopup popupWidth="very wide" 
-popupText="Hello. This is a very wide pop-up which allows for lots of content with additional space. 
+<i class="circular heart icon link" suiPopup popupWidth="very wide"
+popupText="Hello. This is a very wide pop-up which allows for lots of content with additional space.
 You can fit a lot of words here and the paragraphs will be pretty wide."></i>
 <br/>
 <br/>
@@ -243,6 +243,36 @@ export class MyComponent {
 `;
 }
 
+const exampleStandardNewTemplate = `
+<ng-template let-popup #popupTemplate>
+<div class="content">
+  <div class="ui three column divided center aligned grid">
+    <div class="column">
+      <h4 class="ui header">Basic Plan</h4>
+      <p><b>2</b> projects, $10 a month</p>
+      <div class="ui button">Choose</div>
+    </div>
+    <div class="column">
+      <h4 class="ui header">Basic Plan</h4>
+      <p><b>2</b> projects, $10 a month</p>
+      <div class="ui button">Choose</div>
+    </div>
+  </div>
+</div>
+</ng-template>
+
+<button class="ui green icon button" suiPopup popupHeader="Example" popupPlacement="top left" [popupAllowFlip]="true" [popupTemplate]="popupTemplate">
+    <i class="add icon"></i>
+</button>
+`;
+
+@Component({
+    selector: "example-popup-standard-new",
+    template: exampleStandardNewTemplate,
+    providers: [SuiPopupConfig]
+})
+export class PopupExampleStandardNew {}
+
 @Component({
     selector: "example-popup-standard",
     template: exampleStandardTemplate,
@@ -284,6 +314,7 @@ export class PopupExampleWidth {}
 export const PopupPageComponents = [
     PopupPage,
     PopupExampleStandard,
+    PopupExampleStandardNew,
     PopupExampleTemplate,
     PopupExamplePlacement,
     PopupExampleSize,

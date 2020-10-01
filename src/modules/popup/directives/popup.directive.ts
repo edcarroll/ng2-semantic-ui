@@ -74,6 +74,11 @@ export class SuiPopupDirective<T> extends SuiPopupTemplateController<T> {
     }
 
     @Input()
+    public set popupAllowFlip(allow:boolean) {
+        this.popup.config.allowFlip = allow;
+    }
+
+    @Input()
     public get popupTrigger():PopupTrigger {
         return this.popup.config.trigger;
     }

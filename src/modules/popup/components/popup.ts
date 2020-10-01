@@ -20,6 +20,7 @@ import { TemplatePopupConfig } from "../classes/popup-template-controller";
     <div #templateSibling></div>
 
     <sui-popup-arrow *ngIf="!config.isBasic"
+                     [dynamic]="config.allowFlip"
                      [placement]="config.placement"
                      [inverted]="config.isInverted"></sui-popup-arrow>
 </div>
@@ -155,7 +156,8 @@ export class SuiPopup implements IPopup {
                     this._anchor,
                     this._container.element,
                     this.config.placement,
-                    ".dynamic.arrow"
+                    ".dynamic.arrow",
+                    this.config.allowFlip
                 );
                 this.positioningService.hasArrow = !this.config.isBasic;
             });

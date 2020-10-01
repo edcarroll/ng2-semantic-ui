@@ -4,8 +4,8 @@ import { PositioningPlacement } from "../../../misc/util/internal";
 @Component({
     selector: "sui-popup-arrow",
     template: `
-<div class="dynamic arrow" [attr.direction]="direction" *ngIf="alignment == 'center'"></div>
-<div class="static arrow" [attr.direction]="direction" [attr.alignment]="alignment" *ngIf="alignment != 'center'"></div>
+<div class="dynamic arrow" [attr.direction]="direction" *ngIf="alignment == 'center' || dynamic"></div>
+<div class="static arrow" [attr.direction]="direction" [attr.alignment]="alignment" *ngIf="alignment != 'center' && !dynamic"></div>
 `,
     styles: [`
 .arrow {
@@ -75,6 +75,9 @@ export class SuiPopupArrow {
     @HostBinding("class.inverted")
     @Input()
     public inverted:boolean;
+
+    @Input()
+    public dynamic:boolean;
 
     public get direction():string | undefined {
         if (this.placement) {

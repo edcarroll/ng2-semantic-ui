@@ -116,6 +116,7 @@ export class PositioningService {
     private _placement:PositioningPlacement;
     private _hasArrow:boolean;
     private _arrowSelector:string | undefined;
+    private _allowFlip:boolean;
 
     public get placement():PositioningPlacement {
         return this._placement;
@@ -144,16 +145,17 @@ export class PositioningService {
         return this._popperState;
     }
 
-    constructor(anchor:ElementRef, subject:ElementRef, placement:PositioningPlacement, arrowSelector?:string) {
+    constructor(anchor:ElementRef, subject:ElementRef, placement:PositioningPlacement, arrowSelector?:string, allowFlip:boolean = false) {
         this.anchor = anchor;
         this.subject = subject;
         this._placement = placement;
         this._arrowSelector = arrowSelector;
+        this._allowFlip = allowFlip;
         this.init();
     }
 
     public init():void {
-        const modifiers:PopperModifiers = {
+        let modifiers:PopperModifiers = {
             computeStyle: {
                 gpuAcceleration: false
             },
@@ -175,6 +177,18 @@ export class PositioningService {
                 }
             }
         };
+
+        if (this._allowFlip) {
+            modifiers = {
+                ...modifiers,
+                preventOverflow: {
+                    boundariesElement: 'window'
+                },
+                flip: {
+                    boundariesElement: 'window',
+                }
+            };
+        }
 
         if (!this._arrowSelector) {
             delete modifiers.arrow;

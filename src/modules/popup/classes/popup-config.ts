@@ -26,6 +26,7 @@ export interface IPopupConfig {
     transitionDuration?:number;
     isFlowing?:boolean;
     isInline?:boolean;
+    allowFlip?:boolean;
 }
 
 export class PopupConfig implements IPopupConfig {
@@ -42,6 +43,7 @@ export class PopupConfig implements IPopupConfig {
     public transitionDuration:number;
     public isFlowing:boolean;
     public isInline:boolean;
+    public allowFlip:boolean;
 
     constructor(defaults:IPopupConfig = {}) {
         this.placement = PositioningPlacement.TopLeft;
@@ -53,6 +55,7 @@ export class PopupConfig implements IPopupConfig {
         this.transitionDuration = 200;
         this.isFlowing = false;
         this.isInline = false;
+        this.allowFlip = false;
         Object.assign(this, defaults);
     }
 }
