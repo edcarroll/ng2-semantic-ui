@@ -176,6 +176,8 @@ export const DateUtil = {
     },
 
     clone(date:Date):Date {
-        return new Date(date.getTime());
+        let parsedDate = date;
+        if (typeof parsedDate === "string") parsedDate = new Date(Date.parse(parsedDate));
+        return new Date(parsedDate.getTime());
     }
 };
